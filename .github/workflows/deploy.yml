@@ -1,0 +1,33 @@
+name: Deploy Study Guide to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # Adjust this if your default branch is named 'master'
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true # Ensures fast subsequent builds
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: "pyproject.toml"
+
+      - name: Install dependencies
+        run: uv sync --frozen # Uses the lockfile to reproduce the exact env
+
+      - name: Build and Deploy
+        run: |
+          uv run mkdocs gh-deploy --force
