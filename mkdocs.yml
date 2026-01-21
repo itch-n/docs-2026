@@ -1,1 +1,68 @@
-site_name: My Docs
+site_name: Staff Engineering Study Guide
+site_description: A framework for algorithms, systems design, and infrastructure.
+site_author: Richard
+
+theme:
+  name: material
+  palette:
+    # Light mode/Dark mode toggle
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs        # Top-level navigation
+    - navigation.sections    # Grouping in the sidebar
+    - navigation.expand      # Start with sections expanded
+    - search.suggest         # Search term completion
+    - search.highlight       # Highlight search results
+    - content.code.copy      # Copy button for code blocks
+
+markdown_extensions:
+  - admonition               # For "Note" and "Warning" boxes
+  - pymdownx.details         # Collapsible "Check Answer" sections
+  - pymdownx.superfences     # Nested code blocks
+  - pymdownx.arithmatex:     # For LaTeX math formulas
+      generic: true
+
+nav:
+  - Home: index.md
+  - Pillar 1 (System Design):
+      - "Overview": pillar-1/index.md
+      - "1.1 Foundations (Senior)":
+          - "Web & API Fundamentals": pillar-1/foundations/web-api.md
+          - "Database Basics": pillar-1/foundations/db-basics.md
+      - "1.2 Distributed Systems (Staff)":
+          - "Consistency & CAP": pillar-1/staff/consistency.md
+          - "Message Queues & Eventual Consistency": pillar-1/staff/messaging.md
+          - "Fault Tolerance Patterns": pillar-1/staff/fault-tolerance.md
+  - Pillar 2 (DSA):
+      - "Overview": pillar-2/index.md
+      - "2.1 Core Structures (Senior)":
+          - "Linear Structures": pillar-2/core/linear.md
+          - "Trees & Graphs": pillar-2/core/trees-graphs.md
+      - "2.2 Algorithmic Patterns":
+          - "Dynamic Programming": pillar-2/patterns/dp.md
+          - "Sliding Window & Pointers": pillar-2/patterns/sliding-window.md
+      - "2.3 System Algorithms (Staff)":
+          - "Bloom Filters & Probabilistic": pillar-2/staff/probabilistic.md
+          - "Search & Indexing (B+ Trees)": pillar-2/staff/indexing.md
+  - Pillar 3 (Infra & Ops):
+      - "Overview": pillar-3/index.md
+      - "3.1 Concurrency (Senior)":
+          - "Threads & Synchronization": pillar-3/concurrency/threads.md
+      - "3.2 Data Internals (Staff)":
+          - "Replication & Sharding": pillar-3/staff/replication.md
+          - "Storage Engines (LSM vs B-Tree)": pillar-3/staff/storage.md
+      - "3.3 Observability":
+          - "Metrics, Logs, & Tracing": pillar-3/staff/observability.md
