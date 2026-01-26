@@ -222,7 +222,7 @@ uv run mkdocs serve --verbose
 The project uses these key dependencies:
 
 - **[MkDocs](https://www.mkdocs.org/)**: Static site generator
-- **[Material for MkDocs](https://squidfunk.github.io/mkdocs-material/)**: Material Design theme
+- **[MkDocs Cinder](https://github.com/chrissimpkins/cinder)**: Clean, responsive theme
 - **[MkDocs Roam Links](https://github.com/Jackiexiao/mkdocs-roamlinks-plugin)**: Wiki-style linking
 
 All dependencies are managed with UV for fast, reliable builds.
