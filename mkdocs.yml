@@ -3,5 +3,53 @@ site_description: A framework for algorithms, systems design, and infrastructure
 site_author: Richard
 
 theme:
-  name: cinder # Change this from 'material'
+  name: cinder
+  highlightjs: true
+  hljs_languages:
+    - java
+    - python
 
+nav:
+  - Home: index.md
+
+  - Systems Design:
+      - "01. Storage Engines": systems/01-storage-engines.md
+      - "02. Indexing Strategies": systems/02-indexing.md
+      - "03. Caching Patterns": systems/03-caching-patterns.md
+      - "04. API Design": systems/04-api-design.md
+      - "05. Security Patterns": systems/05-security-patterns.md
+      - "06. Rate Limiting": systems/06-rate-limiting.md
+      - "07. Load Balancing": systems/07-load-balancing.md
+      - "08. Concurrency Patterns": systems/08-concurrency-patterns.md
+      - "09. Database Scaling": systems/09-database-scaling.md
+      - "10. Message Queues": systems/10-message-queues.md
+      - "11. Stream Processing": systems/11-stream-processing.md
+      - "12. Observability": systems/12-observability.md
+      - "13. Distributed Transactions": systems/13-distributed-transactions.md
+      - "14. Consensus Patterns": systems/14-consensus-patterns.md
+      - "15. Full System Designs": systems/15-full-system-designs.md
+
+  - DSA:
+      - "01. Two Pointers": dsa/01-two-pointers.md
+      - "02. Sliding Window": dsa/02-sliding-window.md
+      - "03. Hash Tables": dsa/03-hash-tables.md
+      - "04. Linked Lists": dsa/04-linked-lists.md
+      - "05. Stacks & Queues": dsa/05-stacks--queues.md
+      - "06. Trees - Traversals": dsa/06-trees-traversals.md
+      - "07. Trees - Recursion": dsa/07-trees-recursion.md
+      - "08. Binary Search": dsa/08-binary-search.md
+      - "09. Union-Find": dsa/09-union-find.md
+      - "10. Graphs": dsa/10-graphs.md
+      - "11. Heaps": dsa/11-heaps.md
+      - "12. Backtracking": dsa/12-backtracking.md
+      - "13. Dynamic Programming 1D": dsa/13-dynamic-programming-1d.md
+      - "14. Dynamic Programming 2D": dsa/14-dynamic-programming-2d.md
+      - "15. Tries": dsa/15-tries.md
+      - "16. Advanced Topics": dsa/16-advanced-topics.md
+
+markdown_extensions:
+  - codehilite
+  - fenced_code
+  - tables
+  - toc:
+      permalink: true

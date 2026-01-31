@@ -1,248 +1,226 @@
-# Staff Engineering Preparation Guide
+# Staff Engineering Study Guide
 
-A comprehensive technical study guide for staff engineer interviews, covering systems design, data structures & algorithms, and infrastructure & operations.
+Your hands-on, fill-in-as-you-learn framework for mastering systems design and algorithms.
 
-## Overview
+## What You Have
 
-This guide follows a **Three Pillars** approach to staff engineering preparation:
+✅ **Complete structure** - 31 numbered topics ready to learn (15 Systems + 16 DSA)
+✅ **FAANG-ready coverage** - All critical topics for Staff Backend Engineer interviews
+✅ **Code stubs** - Method signatures and TODOs for every implementation
+✅ **Runnable examples** - Client code to test with real data
+✅ **Fill-in templates** - ELI5, decision trees, and practice sections
 
-- **Pillar 1: Systems Design & Architecture** - From API design to distributed systems
-- **Pillar 2: Data Structures & Algorithms** - From core patterns to system-level algorithms  
-- **Pillar 3: Infrastructure & Operations** - From concurrency to observability at scale
+### 🆕 Recently Added (Staff Engineer Essentials)
 
-Each pillar is structured with progressive difficulty: **Foundations** → **Advanced** → **Practice**
+Five critical topics identified for FAANG Staff Backend Engineer interviews:
 
-## Prerequisites
+1. **Security Patterns** (05) - JWT authentication, RBAC authorization, API keys, secrets management
+2. **Concurrency Patterns** (08) - Locks, producer-consumer, thread-safe data structures, thread pools
+3. **Stream Processing** (11) - Windowing, watermarks, stateful processing, exactly-once semantics
+4. **Observability** (12) - Metrics (RED/USE), structured logging, distributed tracing, SLOs
+5. **Consensus Patterns** (14) - Raft consensus, leader election, distributed locks, quorums
 
-- **Python 3.13+** - Required for MkDocs
-- **UV** - Modern Python package manager (recommended)
-
-### Install UV
-
-```bash
-# macOS/Linux
-curl -LsSf https://astral.sh/uv/install.sh | sh
-
-# Windows
-powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
-
-# Or via pip
-pip install uv
-```
+**Plus:** Union-Find moved to position 09 (before Graphs) for better pedagogical flow with MST algorithms.
 
 ## Quick Start
 
-### 1. Clone and Setup
+### 1. View the Site
 
 ```bash
-git clone <repository-url>
-cd staff-eng-prep
-
-# Install dependencies with UV
-uv sync
-```
-
-### 2. Local Development
-
-```bash
-# Serve documentation locally with live reload
 uv run mkdocs serve
-
-# Open http://127.0.0.1:8000 in your browser
 ```
 
-### 3. Build Static Site
+Open: http://127.0.0.1:8000
 
-```bash
-# Build static site to site/ directory
-uv run mkdocs build
+### 2. Choose Your Path
 
-# Clean previous build
-uv run mkdocs build --clean
+**Systems Design** → Start at [01-storage-engines.md](docs/systems/01-storage-engines.md)
+- Implement B+Tree and LSM Tree from scratch
+- Run client code with test data
+- Fill in ELI5 explanations
+- Build decision frameworks
+- Complete practice scenarios
+
+**DSA** → Start at [01-two-pointers.md](docs/dsa/01-two-pointers.md)
+- Implement three two-pointer patterns
+- Run client code with examples
+- Solve LeetCode problems
+- Build pattern recognition
+
+### 3. Learn → Fill In → Move On
+
+For each topic:
+1. **Try implementing first** (don't peek at solutions!)
+2. **Run the client code** to verify it works
+3. **Fill in ELI5 section** (if you can't explain it simply, you don't understand it)
+4. **Build decision trees** (when to use, when NOT to use)
+5. **Complete practice** problems/scenarios
+6. **Check off review list** before moving to next topic
+
+## File Structure
+
+```
+docs/
+├── index.md                           # Start here
+│
+├── systems/                           # 15 topics
+│   ├── 01-storage-engines.md         # B+Trees & LSM Trees
+│   ├── 02-indexing.md                # Primary, secondary, composite indexes
+│   ├── 03-caching-patterns.md        # LRU, LFU, write policies
+│   ├── 04-api-design.md              # REST, RPC, versioning
+│   ├── 05-security-patterns.md       # 🆕 JWT, RBAC, secrets management
+│   ├── 06-rate-limiting.md           # Token bucket, sliding window
+│   ├── 07-load-balancing.md          # Consistent hashing, health checks
+│   ├── 08-concurrency-patterns.md    # 🆕 Locks, thread safety, thread pools
+│   ├── 09-database-scaling.md        # Replication, sharding, partitioning
+│   ├── 10-message-queues.md          # Queue vs pub/sub, delivery guarantees
+│   ├── 11-stream-processing.md       # 🆕 Windowing, watermarks, exactly-once
+│   ├── 12-observability.md           # 🆕 Metrics, logging, tracing, SLOs
+│   ├── 13-distributed-transactions.md # Saga pattern, idempotency
+│   ├── 14-consensus-patterns.md      # 🆕 Raft, leader election, quorums
+│   └── 15-full-system-designs.md     # Apply everything
+│
+└── dsa/                               # 16 topics
+    ├── 01-two-pointers.md            # Three pointer patterns
+    ├── 02-sliding-window.md          # Fixed & variable window
+    ├── 03-hash-tables.md             # HashMap operations, grouping
+    ├── 04-linked-lists.md            # Reverse, cycle detection
+    ├── 05-stacks--queues.md          # Stack, monotonic stack, deque
+    ├── 06-trees-traversals.md        # Inorder, preorder, postorder, level-order
+    ├── 07-trees-recursion.md         # Height, diameter, LCA
+    ├── 08-binary-search.md           # Classic BS, rotated array, 2D matrix
+    ├── 09-union-find.md              # Disjoint sets (moved before Graphs)
+    ├── 10-graphs.md                  # DFS, BFS, Dijkstra, MST
+    ├── 11-heaps.md                   # Min/max heap, top K problems
+    ├── 12-backtracking.md            # Permutations, combinations, subsets
+    ├── 13-dynamic-programming-1d.md  # Fibonacci, coin change, LIS
+    ├── 14-dynamic-programming-2d.md  # Knapsack, LCS, edit distance
+    ├── 15-tries.md                   # Prefix trees, autocomplete
+    └── 16-advanced-topics.md         # Bit manipulation, intervals
 ```
 
-## Development Workflow
+## Every Topic Has
 
-### Adding Content
+### 1. ELI5 Section
+Prompts to help you explain concepts simply. If you can't fill this in, you need to study more.
 
-1. **Create new content** in the appropriate pillar directory:
-   ```
-   docs/
-   ├── pillar-1/          # Systems Design
-   │   ├── foundations/   # Senior engineer level
-   │   ├── advanced/      # Staff engineer level
-   │   └── practice/      # Problems & case studies
-   ├── pillar-2/          # DSA
-   └── pillar-3/          # Infrastructure
-   ```
+### 2. Implementation Section
+- Java code stubs with TODO comments
+- Method signatures provided
+- Runnable client code with test data
+- You fill in the logic
 
-2. **Update navigation** in [`mkdocs.yml`](mkdocs.yml) if adding new pages
+### 3. Decision Framework Section
+- Questions to answer
+- Decision trees to build
+- "Kill switch" - when NOT to use
+- "Rule of Three" - alternative approaches
 
-3. **Live preview** your changes with `uv run mkdocs serve`
+### 4. Practice Section
+- Systems: Real design scenarios
+- DSA: LeetCode problems with links
+- Space to document your solutions
 
-### Writing Guidelines
+### 5. Review Checklist
+Don't move on until all boxes checked!
 
-- Use **clear headings** with consistent structure
-- Include **code examples** in Java for implementation details
-- Add **learning objectives** at the start of each topic
-- Focus on **trade-offs and decisions** rather than just implementation
-- Link to **external resources** for deeper learning
+## Example: How to Use Topic 01 (Storage Engines)
 
-### Content Template
+**Day 1-2:**
+```java
+// Open: docs/systems/01-storage-engines.md
+// Find: BPlusTree class with TODOs
+// Implement: insert(), search(), rangeQuery()
+// Run: BPlusTreeClient.main()
+// Verify: All tests pass
+```
 
+**Day 3:**
+```java
+// Implement: LSMTree class
+// Implement: put(), get(), flush(), compact()
+// Run: LSMTreeClient.main()
+// Verify: Flushes and compaction work
+```
+
+**Day 4:**
+```java
+// Run: StorageBenchmark.main()
+// Record results in markdown
+// Understand WHY LSM faster for writes
+// Understand WHY B+Tree faster for reads
+```
+
+**Day 5:**
 ```markdown
-# Topic Name
+// Fill in ELI5 section:
+- Explain B+Tree like a filing cabinet
+- Explain LSM Tree like a notebook
+- Answer all prompts
 
-## Learning Objectives
-- Specific, actionable learning goals
+// Build decision tree:
+- When write-heavy? → LSM
+- When read-heavy? → B+Tree
+- When range queries? → B+Tree
 
-## Core Concepts
-- Key ideas and principles
-
-## Advanced Topics  
-- Staff-level depth and complexity
-
-## Resources
-- Links to further reading
+// Complete practice scenarios:
+- Design storage for Posts table
+- Design storage for Metrics
+- Design storage for Inventory
 ```
 
-## Deployment Options
+**Day 6:**
+```markdown
+// Review checklist - check ALL boxes
+// Verify you can implement from memory
+// Verify you can explain trade-offs
+// Move to Topic 02 when ready!
+```
 
-### GitHub Pages (Recommended)
+## Principles
+
+**"Focus on the Kill Switch"**
+- For every tech, document why you should NOT use it
+- Understanding failures > understanding features
+
+**"The Rule of Three"**
+- For every decision, identify 3 alternatives
+- No "right" answer, only trade-offs
+
+**"Implement Before Reading"**
+- True learning happens through struggle
+- Code stubs guide you, but YOU must fill them in
+
+## Setup
+
+### Prerequisites
+
+- Python 3.13+
+- UV package manager
+
+### Install
 
 ```bash
-# Setup GitHub Pages deployment
-uv run mkdocs gh-deploy
+# Install UV
+curl -LsSf https://astral.sh/uv/install.sh | sh
 
-# This will:
-# 1. Build the site
-# 2. Push to gh-pages branch
-# 3. Enable GitHub Pages automatically
-```
-
-### Manual Deployment
-
-```bash
-# Build static site
-uv run mkdocs build
-
-# Deploy the site/ directory to any static hosting:
-# - Netlify: drag & drop the site/ folder
-# - Vercel: connect to repository
-# - AWS S3: sync with aws s3 sync site/ s3://bucket-name
-# - Any web server: copy site/ contents to document root
-```
-
-### Continuous Deployment
-
-Create `.github/workflows/deploy.yml`:
-
-```yaml
-name: Deploy MkDocs
-on:
-  push:
-    branches: [main]
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v3
-        with:
-          enable-cache: true
-      - run: uv sync
-      - run: uv run mkdocs gh-deploy --force
-```
-
-## Project Structure
-
-```
-staff-eng-prep/
-├── docs/                    # Documentation source
-│   ├── index.md            # Homepage
-│   ├── pillar-1/           # Systems Design
-│   ├── pillar-2/           # Data Structures & Algorithms
-│   └── pillar-3/           # Infrastructure & Operations
-├── mkdocs.yml              # MkDocs configuration
-├── pyproject.toml          # Python project metadata
-├── uv.lock                 # Locked dependencies
-├── main.py                 # Optional Python entry point
-└── README.md               # This file
-```
-
-## Configuration
-
-### MkDocs Features
-
-- **Material Theme**: Modern, responsive design with dark/light mode
-- **Navigation**: Hierarchical sidebar with tabs
-- **Search**: Full-text search with suggestions
-- **Code Highlighting**: Syntax highlighting with copy buttons
-- **Roam Links**: Wiki-style linking between pages
-- **Math Support**: LaTeX formula rendering
-
-### Customization
-
-Edit [`mkdocs.yml`](mkdocs.yml) to:
-- Modify theme colors and fonts
-- Add/remove navigation sections
-- Configure plugins and extensions
-- Update site metadata
-
-## Development Commands
-
-```bash
 # Install dependencies
 uv sync
 
-# Serve locally with live reload
+# Serve locally
 uv run mkdocs serve
-
-# Serve on custom port
-uv run mkdocs serve --dev-addr localhost:8080
-
-# Build static site
-uv run mkdocs build
-
-# Clean and rebuild
-uv run mkdocs build --clean
-
-# Deploy to GitHub Pages
-uv run mkdocs gh-deploy
-
-# Check for broken links (if plugin installed)
-uv run mkdocs build --strict
-
-# Run with verbose output
-uv run mkdocs serve --verbose
 ```
 
-## Dependencies
+## Next Steps
 
-The project uses these key dependencies:
+1. **Open the site**: `uv run mkdocs serve`
+2. **Pick a path**: Systems or DSA (or both!)
+3. **Start with Topic 01** (the complete examples)
+4. **Learn by doing**: Fill in the stubs as you go
+5. **Don't rush**: Master each topic before moving on
 
-- **[MkDocs](https://www.mkdocs.org/)**: Static site generator
-- **[MkDocs Cinder](https://github.com/chrissimpkins/cinder)**: Clean, responsive theme
-- **[MkDocs Roam Links](https://github.com/Jackiexiao/mkdocs-roamlinks-plugin)**: Wiki-style linking
+---
 
-All dependencies are managed with UV for fast, reliable builds.
+**No timelines. No pressure. Just learn → implement → understand → move on.**
 
-### Content Priorities
-
-- **Real-world examples** from production systems
-- **Trade-off analysis** for different approaches
-- **Hands-on exercises** and practice problems
-- **Case studies** from major tech companies
-- **Interview-focused** scenarios and questions
-
-## Resources
-
-### Essential Reading
-- **"Designing Data-Intensive Applications"** - Martin Kleppmann
-- **"Staff Engineer"** - Will Larson  
-- **"Building Microservices"** - Sam Newman
-
-### Tech Blogs
-- [Netflix Tech Blog](https://netflixtechblog.com/) - Resilience and scalability
-- [Uber Engineering](https://eng.uber.com/) - Distributed systems
-- [High Scalability](http://highscalability.com/) - Architecture case studies
+Ready? → [Open the guide](http://127.0.0.1:8000) and start with Topic 01!
