@@ -232,6 +232,7 @@ Collections.binarySearch(nums, 6);  // Returns: -4
 ```
 
 **Why negative encoding?**
+
 - Distinguishes "not found" from "found at index 0"
 - Encodes where to insert to maintain sorted order
 
