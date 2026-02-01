@@ -11,20 +11,174 @@
 **Prompts to guide you:**
 
 1. **What is the two pointers pattern in one sentence?**
-   - Your answer: _[Fill in after implementation]_
+    - Your answer: _[Fill in after implementation]_
 
 2. **Why is it faster than nested loops?**
-   - Your answer: _[Fill in after implementation]_
+    - Your answer: _[Fill in after implementation]_
 
 3. **Real-world analogy:**
-   - Example: "Two pointers is like two people searching..."
-   - Your analogy: _[Fill in]_
+    - Example: "Two pointers is like two people searching..."
+    - Your analogy: _[Fill in]_
 
 4. **When does this pattern work?**
-   - Your answer: _[Fill in after solving problems]_
+    - Your answer: _[Fill in after solving problems]_
 
 5. **When does this pattern fail?**
-   - Your answer: _[Fill in after trying unsorted arrays]_
+    - Your answer: _[Fill in after trying unsorted arrays]_
+
+---
+
+## Quick Quiz (Do BEFORE implementing)
+
+**Your task:** Test your intuition without looking at code. Answer these, then verify after implementation.
+
+### Complexity Predictions
+
+1. **Two nested loops searching for a pair:**
+    - Time complexity: _[Your guess: O(?)]_
+    - Verified after learning: _[Actual: O(?)]_
+
+2. **Two pointers searching for a pair in sorted array:**
+    - Time complexity: _[Your guess: O(?)]_
+    - Space complexity: _[Your guess: O(?)]_
+    - Verified: _[Actual]_
+
+3. **Speedup calculation:**
+    - If n = 1,000, nested loops = n² = _____ operations
+    - Two pointers = n = _____ operations
+    - Speedup factor: _____ times faster
+
+### Scenario Predictions
+
+**Scenario 1:** Find pair that sums to 10 in `[1, 3, 5, 7, 9]`
+
+- **Can you use two pointers?** _[Yes/No - Why?]_
+- **Starting positions:** left = ___, right = ___
+- **If sum = 8 (too small), which pointer moves?** _[Left/Right - Why?]_
+- **If sum = 12 (too big), which pointer moves?** _[Left/Right - Why?]_
+
+**Scenario 2:** Find pair that sums to 10 in `[9, 3, 1, 7, 5]` (unsorted)
+
+- **Can you use two pointers directly?** _[Yes/No - Why?]_
+- **What must you do first?** _[Fill in]_
+
+**Scenario 3:** Remove duplicates from `[1, 1, 2, 2, 3]`
+
+- **Which pattern applies?** _[Opposite/Same/Different speed]_
+- **Why that pattern?** _[Fill in your reasoning]_
+
+### Trade-off Quiz
+
+**Question:** When would HashSet be BETTER than two pointers for finding pairs?
+
+- Your answer: _[Fill in before implementation]_
+- Verified answer: _[Fill in after learning]_
+
+**Question:** What's the MAIN requirement for opposite-direction two pointers?
+
+- [ ] Array must be sorted
+- [ ] Array must have even length
+- [ ] Array must contain unique elements
+- [ ] Array must be positive integers
+
+Verify after implementation: _[Which one(s)?]_
+
+---
+
+## Before/After: Why This Pattern Matters
+
+**Your task:** Compare naive vs optimized approaches to understand the impact.
+
+### Example: Find Pair Sum
+
+**Problem:** Find two numbers in a sorted array that sum to a target.
+
+#### Approach 1: Brute Force (Nested Loops)
+
+```java
+// Naive approach - Check all possible pairs
+public static boolean hasPairSum_BruteForce(int[] nums, int target) {
+    for (int i = 0; i < nums.length; i++) {
+        for (int j = i + 1; j < nums.length; j++) {
+            if (nums[i] + nums[j] == target) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+```
+
+**Analysis:**
+
+- Time: O(n²) - For each element, check all remaining elements
+- Space: O(1) - No extra space
+- For n = 10,000: ~100,000,000 operations
+
+#### Approach 2: Two Pointers (Optimized)
+
+```java
+// Optimized approach - Use two pointers from opposite ends
+public static boolean hasPairSum_TwoPointers(int[] nums, int target) {
+    int left = 0;
+    int right = nums.length - 1;
+
+    while (left < right) {
+        int sum = nums[left] + nums[right];
+        if (sum == target) return true;
+        if (sum < target) left++;    // Need larger sum
+        else right--;                 // Need smaller sum
+    }
+
+    return false;
+}
+```
+
+**Analysis:**
+
+- Time: O(n) - Each pointer moves at most n/2 steps
+- Space: O(1) - No extra space
+- For n = 10,000: ~10,000 operations
+
+#### Performance Comparison
+
+| Array Size | Brute Force (O(n²)) | Two Pointers (O(n)) | Speedup |
+|------------|---------------------|---------------------|---------|
+| n = 100    | 10,000 ops         | 100 ops             | 100x    |
+| n = 1,000  | 1,000,000 ops      | 1,000 ops           | 1,000x  |
+| n = 10,000 | 100,000,000 ops    | 10,000 ops          | 10,000x |
+
+**Your calculation:** For n = 5,000, the speedup is approximately _____ times faster.
+
+#### Why Does Two Pointers Work?
+
+**Key insight to understand:**
+
+In a sorted array `[1, 3, 5, 7, 9]` looking for sum = 10:
+
+```
+Step 1: left=0 (val=1), right=4 (val=9), sum=10 → FOUND!
+```
+
+If we were looking for sum = 12:
+
+```
+Step 1: left=0 (val=1), right=4 (val=9), sum=10 (too small)
+        → Move left++ because we need a LARGER sum
+
+Step 2: left=1 (val=3), right=4 (val=9), sum=12 → FOUND!
+```
+
+**Why can we skip pairs?**
+
+- When sum is too small, moving `right--` makes it even smaller (not helpful)
+- When sum is too large, moving `left++` makes it even larger (not helpful)
+- So each move eliminates multiple pairs in one step!
+
+**After implementing, explain in your own words:**
+
+- _[Why does sorted order matter?]_
+- _[What pairs do we skip and why is it safe?]_
 
 ---
 
@@ -413,6 +567,238 @@ public class DifferentSpeedClient {
 
 ---
 
+## Debugging Challenges
+
+**Your task:** Find and fix bugs in broken implementations. This tests your understanding.
+
+### Challenge 1: Broken Palindrome Checker
+
+```java
+/**
+ * This code is supposed to check if a string is a palindrome.
+ * It has 2 BUGS. Find them!
+ */
+public static boolean isPalindrome_Buggy(String s) {
+    int left = 0;
+    int right = s.length();  // BUG 1: What's wrong here?
+
+    while (left < right) {
+        if (s.charAt(left) != s.charAt(right)) {
+            return false;
+        }
+        left++;
+        right--;
+    }
+
+    return true;  // BUG 2: Logic seems fine, but test with "racecar" - what happens?
+}
+```
+
+**Your debugging:**
+
+- **Bug 1 location:** _[Which line?]_
+- **Bug 1 explanation:** _[What's wrong?]_
+- **Bug 1 fix:** _[What should it be?]_
+
+- **Bug 2 location:** _[Which line?]_
+- **Bug 2 explanation:** _[What error will occur?]_
+- **Bug 2 fix:** _[How to fix?]_
+
+<details markdown>
+<summary>Click to verify your answers</summary>
+
+**Bug 1 (Line 7):** `right` should be `s.length() - 1`, not `s.length()`. Array indices are 0-based.
+
+**Bug 2 (Line 7 again):** Even after fixing Bug 1, there's an off-by-one error. When accessing `s.charAt(right)` in the first iteration with right = s.length() - 1, it works. But the real issue is that we're not properly checking the condition.
+
+**Actually, after fixing Bug 1, the code works!** The second "bug" was a trick - once you fix the index, it's correct.
+</details>
+
+---
+
+### Challenge 2: Broken Remove Duplicates
+
+```java
+/**
+ * Remove duplicates from sorted array.
+ * This has 1 CRITICAL BUG and 1 EDGE CASE BUG.
+ */
+public static int removeDuplicates_Buggy(int[] nums) {
+    int slow = 0;
+    int fast = 1;
+
+    while (fast < nums.length) {
+        if (nums[fast] != nums[slow]) {
+            nums[slow] = nums[fast];  // BUG 1: What's wrong with this line?
+            slow++;
+        }
+        fast++;
+    }
+
+    return slow;  // BUG 2: Off by one? Test with [1,2,3]
+}
+```
+
+**Your debugging:**
+
+- **Bug 1:** _[What's the problem? What gets overwritten incorrectly?]_
+- **Bug 1 fix:** _[Correct the order of operations]_
+
+- **Bug 2:** _[What should the return value be?]_
+- **Bug 2 fix:** _[Fill in]_
+
+**Test case to expose the bug:**
+
+- Input: `[1, 1, 2, 2, 3]`
+- Expected output: `[1, 2, 3, ?, ?]` and return length = 3
+- Actual output with buggy code: _[Trace through manually]_
+
+<details markdown>
+<summary>Click to verify your answers</summary>
+
+**Bug 1:** Should be `slow++` BEFORE `nums[slow] = nums[fast]`. Current code overwrites the unique element before advancing.
+
+**Correct:**
+```java
+if (nums[fast] != nums[slow]) {
+    slow++;
+    nums[slow] = nums[fast];
+}
+```
+
+**Bug 2:** Should return `slow + 1`, not `slow`. The length is one more than the index.
+</details>
+
+---
+
+### Challenge 3: Broken Cycle Detection
+
+```java
+/**
+ * Detect cycle in linked list.
+ * This has 1 SUBTLE BUG that causes infinite loop.
+ */
+public static boolean hasCycle_Buggy(ListNode head) {
+    if (head == null) return false;
+
+    ListNode slow = head;
+    ListNode fast = head;
+
+    while (fast != null && fast.next != null) {
+        slow = slow.next;
+        fast = fast.next.next;
+    }  // BUG: Missing something in the loop!
+
+    if (slow == fast) return true;
+    return false;
+}
+```
+
+**Your debugging:**
+
+- **Bug location:** _[What's missing in the while loop?]_
+- **Bug explanation:** _[Why does this cause incorrect results?]_
+- **Bug fix:** _[What code should be in the loop?]_
+
+**Trace through example:**
+
+- List with cycle: 1 → 2 → 3 → 4 → 2 (cycle back to 2)
+- Expected: `true`
+- Actual: _[What happens?]_
+
+<details markdown>
+<summary>Click to verify your answer</summary>
+
+**Bug:** The check `if (slow == fast)` should be INSIDE the while loop, not after!
+
+**Correct:**
+```java
+while (fast != null && fast.next != null) {
+    slow = slow.next;
+    fast = fast.next.next;
+
+    if (slow == fast) return true;  // Check inside loop!
+}
+return false;  // No cycle found
+```
+
+**Why:** If there's a cycle, slow and fast will meet inside the loop. Checking after means we exit the loop (which only happens when there's NO cycle), so we'd never detect the cycle.
+</details>
+
+---
+
+### Challenge 4: Move Zeroes Logic Error
+
+```java
+/**
+ * Move all zeros to the end while maintaining order of non-zeros.
+ * This code compiles but produces WRONG output.
+ */
+public static void moveZeroes_Buggy(int[] nums) {
+    int slow = 0;
+
+    for (int fast = 0; fast < nums.length; fast++) {
+        if (nums[fast] != 0) {
+            nums[slow] = nums[fast];  // BUG: What if slow == fast?
+            slow++;
+        }
+    }
+}
+```
+
+**Your debugging:**
+
+- **Bug:** _[What's the logic error?]_
+- **Example:** Input `[0, 1, 0, 3, 12]`, output is _[Fill in - trace manually]_
+- **Expected:** `[1, 3, 12, 0, 0]`
+- **Actual:** _[What do you get?]_
+- **Fix:** _[How to correct it?]_
+
+<details markdown>
+<summary>Click to verify your answer</summary>
+
+**Bug:** When `slow == fast`, we're copying a number onto itself. Then we increment slow, leaving the original position unchanged. We need to ZERO OUT the original position OR use a swap.
+
+**Fix Option 1 - Use swap:**
+```java
+if (nums[fast] != 0) {
+    // Swap nums[slow] and nums[fast]
+    int temp = nums[slow];
+    nums[slow] = nums[fast];
+    nums[fast] = temp;
+    slow++;
+}
+```
+
+**Fix Option 2 - Zero out after first pass:**
+```java
+// ... existing code ...
+// After the loop, fill remaining with zeros
+for (int i = slow; i < nums.length; i++) {
+    nums[i] = 0;
+}
+```
+</details>
+
+---
+
+### Your Debugging Scorecard
+
+After finding and fixing all bugs:
+
+- [ ] Found all 6+ bugs across 4 challenges
+- [ ] Understood WHY each bug causes incorrect behavior
+- [ ] Could explain the fix to someone else
+- [ ] Learned common two-pointer mistakes to avoid
+
+**Common mistakes you discovered:**
+
+1. _[List the patterns you noticed]_
+2. _[Fill in]_
+3. _[Fill in]_
+
+---
+
 ## Decision Framework
 
 **Your task:** Build decision trees for when to use two pointers.
@@ -420,6 +806,7 @@ public class DifferentSpeedClient {
 ### Question 1: Is the data sorted?
 
 Answer after solving problems:
+
 - **Why does sorting matter?** _[Fill in]_
 - **Can two pointers work on unsorted arrays?** _[Yes/No - when?]_
 - **Your observation:** _[Fill in based on testing]_
@@ -429,16 +816,19 @@ Answer after solving problems:
 Answer for each pattern:
 
 **Opposite direction when:**
+
 - Looking for: _[Pairs? Palindromes? What else?]_
 - Movement rule: _[How do pointers move?]_
 - Example problems: _[List problems you solved]_
 
 **Same direction when:**
+
 - Looking for: _[Duplicates? Partitioning? What else?]_
 - Movement rule: _[How do slow/fast pointers move?]_
 - Example problems: _[List problems you solved]_
 
 **Different speed when:**
+
 - Looking for: _[Cycles? Middle? What else?]_
 - Movement rule: _[How do pointers move at different speeds?]_
 - Example problems: _[List problems you solved]_
@@ -472,6 +862,7 @@ Two Pointers Pattern Selection
 ### The "Kill Switch" - When NOT to use Two Pointers
 
 **Don't use two pointers when:**
+
 1. _[Fill in - what kind of problems?]_
 2. _[Fill in - what data structures?]_
 3. _[Fill in - what requirements break it?]_
@@ -479,16 +870,19 @@ Two Pointers Pattern Selection
 ### The Rule of Three: Alternatives
 
 **Option 1: Two Pointers**
+
 - Pros: _[Fill in]_
 - Cons: _[Fill in]_
 - Use when: _[Fill in]_
 
 **Option 2: Hash Table**
+
 - Pros: _[Fill in]_
 - Cons: _[Fill in]_
 - Use when: _[Fill in]_
 
 **Option 3: Brute Force (Nested Loops)**
+
 - Pros: _[Fill in]_
 - Cons: _[Fill in]_
 - Use when: _[Fill in]_
@@ -500,75 +894,45 @@ Two Pointers Pattern Selection
 ### LeetCode Problems
 
 **Easy (Complete all 3):**
+
 - [ ] [125. Valid Palindrome](https://leetcode.com/problems/valid-palindrome/)
-  - Pattern: _[Which one?]_
-  - Your solution time: ___
-  - Key insight: _[Fill in after solving]_
+    - Pattern: _[Which one?]_
+    - Your solution time: ___
+    - Key insight: _[Fill in after solving]_
 
 - [ ] [26. Remove Duplicates from Sorted Array](https://leetcode.com/problems/remove-duplicates-from-sorted-array/)
-  - Pattern: _[Which one?]_
-  - Your solution time: ___
-  - Key insight: _[Fill in]_
+    - Pattern: _[Which one?]_
+    - Your solution time: ___
+    - Key insight: _[Fill in]_
 
 - [ ] [283. Move Zeroes](https://leetcode.com/problems/move-zeroes/)
-  - Pattern: _[Which one?]_
-  - Your solution time: ___
-  - Key insight: _[Fill in]_
+    - Pattern: _[Which one?]_
+    - Your solution time: ___
+    - Key insight: _[Fill in]_
 
 **Medium (Complete 2-3):**
+
 - [ ] [15. 3Sum](https://leetcode.com/problems/3sum/)
-  - Pattern: _[Extension of which pattern?]_
-  - Difficulty: _[Rate 1-10]_
-  - Key insight: _[Fill in]_
-  - Mistake made: _[Fill in if any]_
+    - Pattern: _[Extension of which pattern?]_
+    - Difficulty: _[Rate 1-10]_
+    - Key insight: _[Fill in]_
+    - Mistake made: _[Fill in if any]_
 
 - [ ] [11. Container With Most Water](https://leetcode.com/problems/container-with-most-water/)
-  - Pattern: _[Which one?]_
-  - Difficulty: _[Rate 1-10]_
-  - Key insight: _[Fill in]_
+    - Pattern: _[Which one?]_
+    - Difficulty: _[Rate 1-10]_
+    - Key insight: _[Fill in]_
 
 - [ ] [167. Two Sum II](https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/)
-  - Pattern: _[Which one?]_
-  - Comparison to Two Sum I: _[How is it different?]_
+    - Pattern: _[Which one?]_
+    - Comparison to Two Sum I: _[How is it different?]_
 
 **Hard (Optional):**
+
 - [ ] [42. Trapping Rain Water](https://leetcode.com/problems/trapping-rain-water/)
-  - Pattern: _[Which variant?]_
-  - Key insight: _[Fill in after solving]_
+    - Pattern: _[Which variant?]_
+    - Key insight: _[Fill in after solving]_
 
-### Problem-Solving Template
-
-For each problem:
-
-```markdown
-## Problem: [Name]
-
-**Pattern identified:** _[Which two-pointer variant?]_
-
-**Why two pointers?** _[What makes this a two-pointer problem?]_
-
-**Approach:**
-1. _[Step 1]_
-2. _[Step 2]_
-3. _[Step 3]_
-
-**Code:**
-```java
-// Your solution
-```
-
-**Complexity:**
-- Time: _[Fill in]_
-- Space: _[Fill in]_
-
-**Edge cases tested:**
-1. _[Fill in]_
-2. _[Fill in]_
-
-**Mistakes made:**
-- _[What went wrong initially?]_
-- _[How did you fix it?]_
-```
 
 ---
 
@@ -577,34 +941,215 @@ For each problem:
 Before moving to the next topic:
 
 - [ ] **Implementation**
-  - [ ] Opposite direction: palindrome, two sum, reverse all work
-  - [ ] Same direction: remove duplicates, move zeros, partition all work
-  - [ ] Different speed: cycle detection, find middle, kth from end all work
-  - [ ] All client code runs successfully
+    - [ ] Opposite direction: palindrome, two sum, reverse all work
+    - [ ] Same direction: remove duplicates, move zeros, partition all work
+    - [ ] Different speed: cycle detection, find middle, kth from end all work
+    - [ ] All client code runs successfully
 
 - [ ] **Pattern Recognition**
-  - [ ] Can identify which pattern to use for new problems
-  - [ ] Understand when each pattern applies
-  - [ ] Know the movement rules for each variant
+    - [ ] Can identify which pattern to use for new problems
+    - [ ] Understand when each pattern applies
+    - [ ] Know the movement rules for each variant
 
 - [ ] **Problem Solving**
-  - [ ] Solved 3 easy problems
-  - [ ] Solved 2-3 medium problems
-  - [ ] Analyzed time/space complexity
+    - [ ] Solved 3 easy problems
+    - [ ] Solved 2-3 medium problems
+    - [ ] Analyzed time/space complexity
 
 - [ ] **Understanding**
-  - [ ] Filled in all ELI5 explanations
-  - [ ] Built decision tree
-  - [ ] Identified when NOT to use two pointers
-  - [ ] Can explain trade-offs vs other approaches
+    - [ ] Filled in all ELI5 explanations
+    - [ ] Built decision tree
+    - [ ] Identified when NOT to use two pointers
+    - [ ] Can explain trade-offs vs other approaches
 
 - [ ] **Mastery Check**
-  - [ ] Could implement all patterns from memory
-  - [ ] Could recognize pattern in new problem
-  - [ ] Could explain to someone else
+    - [ ] Could implement all patterns from memory
+    - [ ] Could recognize pattern in new problem
+    - [ ] Could explain to someone else
 
 ---
 
-**Next Topic:** [02. Sliding Window →](02-sliding-window.md)
+## Understanding Gate (Must Pass Before Continuing)
 
-**Back to:** [Home](../index.md)
+**Your task:** Prove mastery through explanation and application. You cannot move forward until you can confidently complete this section.
+
+### Gate 1: Explain to a Junior Developer
+
+**Scenario:** A junior developer asks you about two pointers.
+
+**Your explanation (write it out):**
+
+> "Two pointers is a pattern where..."
+>
+> _[Fill in your explanation in plain English - 3-4 sentences max]_
+
+**Self-assessment:**
+
+- Clarity score (1-10): ___
+- Could your explanation be understood by a non-technical person? _[Yes/No]_
+- Did you use analogies or real-world examples? _[Yes/No]_
+
+If you scored below 7 or answered "No" to either question, revise your explanation.
+
+---
+
+### Gate 2: Whiteboard Exercise
+
+**Task:** Draw the two-pointer approach for finding a pair sum, without looking at code.
+
+**Draw the array and pointer movements:**
+
+```
+Array: [1, 3, 5, 7, 9]
+Target: 12
+
+Step 1: [Your drawing - show left, right positions]
+        _________________________________
+
+Step 2: [Your drawing - after pointer movement]
+        _________________________________
+
+Step 3: [Continue until found or exhausted]
+        _________________________________
+```
+
+**Verification:**
+
+- [ ] Drew initial state correctly
+- [ ] Showed pointer movements accurately
+- [ ] Explained why each pointer moved
+- [ ] Identified the termination condition
+
+---
+
+### Gate 3: Pattern Recognition Test
+
+**Without looking at your notes, classify these problems:**
+
+| Problem | Pattern (Opposite/Same/Different Speed) | Why? |
+|---------|----------------------------------------|------|
+| Find if array is palindrome | _[Fill in]_ | _[Explain]_ |
+| Remove all instances of value | _[Fill in]_ | _[Explain]_ |
+| Find middle of linked list | _[Fill in]_ | _[Explain]_ |
+| Partition array around pivot | _[Fill in]_ | _[Explain]_ |
+| Detect cycle in linked list | _[Fill in]_ | _[Explain]_ |
+| Find pair with given difference | _[Fill in]_ | _[Explain]_ |
+
+**Score:** ___/6 correct
+
+If you scored below 5/6, review the patterns and try again.
+
+---
+
+### Gate 4: Complexity Analysis
+
+**Complete this table from memory:**
+
+| Pattern | Time Complexity | Space Complexity | Why? |
+|---------|----------------|------------------|------|
+| Opposite Direction | O(?) | O(?) | _[Explain]_ |
+| Same Direction | O(?) | O(?) | _[Explain]_ |
+| Different Speed | O(?) | O(?) | _[Explain]_ |
+
+**Deep question:** Why is two pointers O(n) while nested loops are O(n²)?
+
+Your answer: _[Fill in - explain the fundamental difference]_
+
+---
+
+### Gate 5: Trade-off Decision
+
+**Scenario:** You need to find a pair sum in an unsorted array of 1 million elements.
+
+**Option A:** Sort first (O(n log n)), then use two pointers (O(n))
+
+- Total complexity: _[Fill in]_
+- Pros: _[Fill in]_
+- Cons: _[Fill in]_
+
+**Option B:** Use HashSet (O(n) to build, O(n) to check)
+
+- Total complexity: _[Fill in]_
+- Pros: _[Fill in]_
+- Cons: _[Fill in]_
+
+**Your decision:** I would choose _[A/B]_ because...
+
+_[Fill in your reasoning - consider time, space, and constraints]_
+
+**What would make you change your decision?**
+
+- _[Fill in - what constraints would flip your choice?]_
+
+---
+
+### Gate 6: Code from Memory (Final Test)
+
+**Set a 10-minute timer. Implement without looking at notes:**
+
+```java
+/**
+ * Implement: Remove duplicates from sorted array
+ * Return new length
+ */
+public static int removeDuplicates(int[] nums) {
+    // Your implementation here
+
+
+
+
+    return 0; // Replace
+}
+```
+
+**After implementing, test with:**
+
+- Input: `[1, 1, 2, 2, 3]`
+- Expected: `3` (array becomes `[1, 2, 3, ?, ?]`)
+
+**Verification:**
+  
+- [ ] Implemented correctly without looking
+- [ ] Handles edge cases (empty array, single element)
+- [ ] Time complexity is O(n)
+- [ ] Space complexity is O(1)
+
+---
+
+### Gate 7: Teaching Check
+
+**The ultimate test of understanding is teaching.**
+
+**Task:** Explain to an imaginary person when NOT to use two pointers.
+
+Your explanation:
+
+> "You should NOT use two pointers when..."
+>
+> _[Fill in - list 3-4 scenarios and explain why]_
+
+**Examples of when it fails:**
+
+1. _[Scenario where two pointers doesn't work]_
+2. _[Scenario where another approach is better]_
+3. _[Fill in]_
+
+---
+
+### Mastery Certification
+
+**I certify that I can:**
+
+- [ ] Implement all three two-pointer patterns from memory
+- [ ] Explain when and why to use each pattern
+- [ ] Identify the correct pattern for new problems
+- [ ] Analyze time and space complexity
+- [ ] Compare trade-offs with alternative approaches
+- [ ] Debug common two-pointer mistakes
+- [ ] Teach this concept to someone else
+
+**Self-assessment score:** ___/10
+
+**If score < 8:** Review the sections where you struggled, then retry this gate.
+
+**If score ≥ 8:** Congratulations! You've mastered two pointers. Proceed to the next topic.

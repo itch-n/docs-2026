@@ -11,30 +11,236 @@
 **Prompts to guide you:**
 
 1. **What is a URL shortener in one sentence?**
-   - Your answer: _[Fill in after implementation]_
+    - Your answer: _[Fill in after implementation]_
 
 2. **Why do we need URL shorteners?**
-   - Your answer: _[Fill in after implementation]_
+    - Your answer: _[Fill in after implementation]_
 
 3. **Real-world analogy for URL shortening:**
-   - Example: "URL shortening is like giving your house a nickname instead of..."
-   - Your analogy: _[Fill in]_
+    - Example: "URL shortening is like giving your house a nickname instead of..."
+    - Your analogy: _[Fill in]_
 
 4. **What is a Twitter feed in one sentence?**
-   - Your answer: _[Fill in after implementation]_
+    - Your answer: _[Fill in after implementation]_
 
 5. **How does Twitter handle millions of tweets?**
-   - Your answer: _[Fill in after implementation]_
+    - Your answer: _[Fill in after implementation]_
 
 6. **Real-world analogy for news feed:**
-   - Example: "A news feed is like a personalized newspaper where..."
-   - Your analogy: _[Fill in]_
+    - Example: "A news feed is like a personalized newspaper where..."
+    - Your analogy: _[Fill in]_
 
 7. **What is Pastebin in one sentence?**
-   - Your answer: _[Fill in after implementation]_
+    - Your answer: _[Fill in after implementation]_
 
 8. **When would you use Pastebin instead of email?**
-   - Your answer: _[Fill in after implementation]_
+    - Your answer: _[Fill in after implementation]_
+
+---
+
+## Quick Quiz (Do BEFORE implementing)
+
+**Your task:** Test your system design intuition without looking at implementation details. Answer these, then verify after building the systems.
+
+### Capacity Planning Predictions
+
+1. **URL Shortener with 100M URLs:**
+    - Storage per URL (approx): _[Your guess: __ bytes]_
+    - Total storage needed: _[Your guess: __ GB]_
+    - Verified after implementation: _[Actual: __]_
+
+2. **Twitter with 100M daily active users:**
+    - Tweets per second (avg): _[Your guess: __]_
+    - Peak load multiplier: _[Your guess: __x average]_
+    - Read/Write ratio: _[Your guess: __ reads per write]_
+    - Verified: _[Actual]_
+
+3. **Cache hit ratio calculation:**
+    - If 80% cache hit rate, how many database queries per 1000 requests?
+    - Your answer: _[Fill in]_
+    - Verified: _[Fill in after implementation]_
+
+### Architecture Predictions
+
+**Scenario 1:** URL Shortener design
+
+- **Database: SQL or NoSQL?** _[Your choice and why]_
+- **Sharding key:** _[What would you shard by?]_
+- **Cache strategy:** _[Write-through/Write-back/Cache-aside - which one?]_
+- **Bottleneck prediction:** _[Where will the bottleneck be?]_
+
+**Scenario 2:** Twitter Feed generation
+
+- **Fan-out approach for regular user (100 followers):** _[Push/Pull/Hybrid?]_
+- **Fan-out approach for celebrity (10M followers):** _[Push/Pull/Hybrid?]_
+- **Why different?** _[Fill in your reasoning]_
+
+**Scenario 3:** Pastebin storage
+
+- **Store in database or object storage?** _[Your choice]_
+- **Why?** _[Fill in reasoning]_
+- **How to handle 10MB paste vs 100 byte paste?** _[Different strategies?]_
+
+### Trade-off Quiz
+
+**Question:** Which is more important for URL shortener: availability or consistency?
+
+- Your answer: _[Fill in before implementation]_
+- Reasoning: _[Why?]_
+- Verified answer: _[Fill in after learning]_
+
+**Question:** For Twitter feed, what happens if you choose fan-out on write (push)?
+
+- Advantage: _[Fill in]_
+- Disadvantage: _[Fill in]_
+- When it breaks down: _[Fill in]_
+
+**Question:** What's the main bottleneck in each system?
+
+| System | Bottleneck (CPU/Memory/Disk/Network) | Why? |
+|--------|--------------------------------------|------|
+| URL Shortener | _[Your guess]_ | _[Explain]_ |
+| Twitter Feed | _[Your guess]_ | _[Explain]_ |
+| Pastebin | _[Your guess]_ | _[Explain]_ |
+
+Verify after implementation: _[Were you correct?]_
+
+---
+
+## Before/After: Monolithic vs Distributed Design
+
+**Your task:** Compare monolithic and well-designed distributed approaches to understand system design principles.
+
+### Example: Twitter Feed System
+
+#### Approach 1: Monolithic Design (Doesn't Scale)
+
+```
+┌─────────────────────────────┐
+│   Single Application Server │
+│                              │
+│  ┌────────────────────┐     │
+│  │ Web Server         │     │
+│  │ Tweet Handler      │     │
+│  │ Timeline Generator │     │
+│  │ User Management    │     │
+│  └────────────────────┘     │
+└──────────┬──────────────────┘
+           │
+           v
+   ┌───────────────┐
+   │ Single MySQL  │
+   │   Database    │
+   └───────────────┘
+```
+
+**Problems:**
+
+- Single point of failure - Server crashes → entire system down
+- No scalability - Can't handle 100M users
+- Blocking operations - Timeline generation blocks tweet posting
+- Database bottleneck - All operations hit single database
+- No caching - Every request queries database
+- No geographic distribution - High latency for global users
+
+**Performance:**
+
+- Max concurrent users: ~10,000
+- Timeline generation: 2-3 seconds (queries all followed users)
+- Downtime risk: High (single failure point)
+- Deployment: Requires full system restart
+
+#### Approach 2: Distributed Design (Production-Ready)
+
+```
+┌──────────────┐
+│ Load Balancer│
+└──────┬───────┘
+       │
+       ├───────────────┬────────────────┐
+       │               │                │
+       v               v                v
+┌──────────┐    ┌──────────┐    ┌──────────┐
+│  Write   │    │   Read   │    │ Timeline │
+│ Service  │    │  Service │    │ Service  │
+└────┬─────┘    └─────┬────┘    └────┬─────┘
+     │                │              │
+     v                v              v
+┌────────────────────────────────────────┐
+│        Message Queue (Kafka)            │
+└────────────────────────────────────────┘
+     │                │              │
+     v                v              v
+┌──────────┐    ┌──────────┐    ┌──────────┐
+│ Tweet DB │    │ User DB  │    │ Timeline │
+│(sharded) │    │(sharded) │    │  Cache   │
+└──────────┘    └──────────┘    └──────────┘
+```
+
+**Solutions:**
+
+- Separation of concerns - Write/Read services scaled independently
+- Database sharding - Distributes data across multiple servers
+- Caching layer - Timeline cache reduces database queries by 80%
+- Async processing - Message queue decouples operations
+- Geographic distribution - CDN and regional data centers
+- Multiple replicas - High availability and fault tolerance
+
+**Performance:**
+
+- Max concurrent users: Millions (horizontal scaling)
+- Timeline generation: 50-100ms (pre-computed cache)
+- Downtime risk: Very low (redundancy at every layer)
+- Deployment: Rolling updates, zero downtime
+
+#### Performance Comparison
+
+| Metric | Monolithic | Distributed | Improvement |
+|--------|-----------|-------------|-------------|
+| Concurrent Users | 10K | 10M+ | 1000x |
+| Timeline Load Time | 2-3 sec | 50-100ms | 20-30x |
+| Database Load | 100% | 20% (cache) | 5x reduction |
+| Availability | 95% (1 failure point) | 99.99% | 52x less downtime |
+| Deployment Risk | Full outage | Zero downtime | Risk eliminated |
+| Cost per User | High (over-provision) | Low (scale on demand) | 10x reduction |
+
+### Key System Design Principles Illustrated
+
+**1. Separation of Concerns**
+
+- Monolithic: All logic in one place
+- Distributed: Write/Read/Timeline services independent
+- **Why it matters:** Scale bottlenecks independently
+
+**2. Asynchronous Processing**
+
+- Monolithic: Blocking operations (wait for fanout)
+- Distributed: Message queue for async fanout
+- **Why it matters:** User doesn't wait for expensive operations
+
+**3. Caching Strategy**
+
+- Monolithic: No cache (query DB every time)
+- Distributed: Multi-layer cache (Redis for timelines)
+- **Why it matters:** 80% reduction in database load
+
+**4. Database Sharding**
+
+- Monolithic: Single database (vertical scaling limit)
+- Distributed: Sharded by user ID (horizontal scaling)
+- **Why it matters:** Distribute load across many servers
+
+**5. Load Balancing**
+
+- Monolithic: Single server (traffic limit)
+- Distributed: Load balancer + multiple API servers
+- **Why it matters:** Handle traffic spikes and failures
+
+**After implementing, answer:**
+
+- _[Which principle had the biggest impact on performance?]_
+- _[Which principle was most complex to implement?]_
+- _[What trade-offs did distributed design introduce?]_
 
 ---
 
@@ -1054,6 +1260,563 @@ public class Pastebin {
 
 ---
 
+## Debugging Challenges
+
+**Your task:** Find and fix system-wide bugs that span multiple components. These are the hardest bugs to debug because they involve interactions between services.
+
+### Challenge 1: Cascading Failure in URL Shortener
+
+```java
+/**
+ * BUG: System crashes under load
+ *
+ * Symptoms:
+ * - Works fine with 100 concurrent users
+ * - Crashes with 10,000 concurrent users
+ * - Cache memory grows until OutOfMemoryError
+ * - Database connections exhausted
+ *
+ * Current architecture:
+ * - No connection pooling
+ * - Unbounded cache size
+ * - No rate limiting
+ */
+
+// Buggy cache implementation
+static class Cache {
+    private final Map<String, String> cache = new ConcurrentHashMap<>();
+    // BUG: No size limit!
+
+    public String get(String key) {
+        return cache.get(key);
+    }
+
+    public void put(String key, String value) {
+        cache.put(key, value);  // BUG: Grows forever
+    }
+}
+
+// Buggy database access
+static class DatabaseShards {
+    public String get(String shortCode) {
+        // BUG: Creates new connection every time
+        Connection conn = DriverManager.getConnection(url);
+        // ... query database
+        conn.close();
+        return result;
+    }
+}
+```
+
+**Your debugging:**
+
+1. **What causes the cascade?**
+    - Root cause: _[Fill in]_
+    - Why it works at low load: _[Fill in]_
+    - Why it fails at high load: _[Fill in]_
+
+2. **Identify all failure points:**
+    - Failure point 1: _[Fill in]_
+    - Failure point 2: _[Fill in]_
+    - Failure point 3: _[Fill in]_
+
+3. **Fix the cascade:**
+   ```java
+   // TODO: Add connection pooling
+   // TODO: Add cache size limit with LRU eviction
+   // TODO: Add rate limiting
+   // TODO: Add circuit breaker pattern
+   ```
+
+4. **Verification:**
+    - How to test the fix: _[Fill in]_
+    - Load test scenario: _[Fill in]_
+    - Expected behavior under load: _[Fill in]_
+
+<details markdown>
+<summary>Click to see the solution</summary>
+
+**Root cause:** No resource limits cause cascading failure:
+1. Unbounded cache → OutOfMemoryError
+2. No connection pooling → connection exhaustion
+3. No rate limiting → traffic overwhelms system
+
+**Fixes:**
+```java
+// Fix 1: Bounded LRU cache
+static class Cache {
+    private final LinkedHashMap<String, String> cache;
+    private final int capacity;
+
+    public Cache(int capacity) {
+        this.capacity = capacity;
+        this.cache = new LinkedHashMap<>(capacity, 0.75f, true) {
+            protected boolean removeEldestEntry(Map.Entry eldest) {
+                return size() > capacity;
+            }
+        };
+    }
+}
+
+// Fix 2: Connection pool
+static class DatabaseShards {
+    private final HikariDataSource connectionPool;
+
+    public DatabaseShards() {
+        HikariConfig config = new HikariConfig();
+        config.setMaximumPoolSize(20);
+        this.connectionPool = new HikariDataSource(config);
+    }
+}
+
+// Fix 3: Rate limiter
+static class RateLimiter {
+    private final int maxRequestsPerSecond = 1000;
+    // Use token bucket or sliding window
+}
+```
+</details>
+
+---
+
+### Challenge 2: Data Inconsistency in Twitter Feed
+
+```java
+/**
+ * BUG: Users see tweets out of order and miss tweets
+ *
+ * Symptoms:
+ * - Alice follows Bob
+ * - Bob posts tweet at T1
+ * - Alice sees empty timeline
+ * - 5 seconds later, Bob's tweet appears
+ * - Sometimes Bob's tweets never appear
+ *
+ * Root cause: Race condition in fan-out
+ */
+
+public class TwitterFeed {
+
+    // Buggy follow implementation
+    public void followUser(long followerId, long followeeId) {
+        userGraph.addFollow(followerId, followeeId);
+
+        // BUG: Backfill happens AFTER follow is recorded
+        // If followee posts tweet between addFollow and backfill,
+        // tweet is missed!
+        List<Tweet> recentTweets = tweetStore.getUserTweets(followeeId, 100);
+        timelineCache.addTweets(followerId, recentTweets);
+    }
+
+    // Buggy fan-out implementation
+    public void fanoutTweet(Tweet tweet) {
+        List<Long> followers = userGraph.getFollowers(tweet.userId);
+
+        // BUG: Fan-out is slow and synchronous
+        // If user posts 2 tweets quickly, second tweet might
+        // fan out before first one completes
+        for (Long followerId : followers) {
+            timelineCache.addTweet(followerId, tweet);
+            // What if this fails halfway through?
+        }
+    }
+}
+```
+
+**Your debugging:**
+
+1. **Identify the race conditions:**
+    - Race 1: _[Between follow and backfill]_
+    - Race 2: _[Between fanout operations]_
+    - Race 3: _[Fill in if you find more]_
+
+2. **Timeline consistency issues:**
+    - What order should tweets appear: _[Fill in]_
+    - Why are tweets missing: _[Fill in]_
+    - Why are tweets out of order: _[Fill in]_
+
+3. **Design fixes:**
+   ```java
+   // TODO: Use transactional follow with backfill
+   // TODO: Use message queue for ordered fanout
+   // TODO: Add timestamps for ordering
+   // TODO: Handle partial fanout failures
+   ```
+
+4. **Trade-off analysis:**
+    - Strong consistency cost: _[Fill in]_
+    - Eventual consistency risk: _[Fill in]_
+    - Your choice: _[Strong/Eventual - why?]_
+
+<details markdown>
+<summary>Click to see the solution</summary>
+
+**Root causes:**
+
+1. **Follow race:** Tweet posted between addFollow and backfill is missed
+2. **Fanout race:** No ordering guarantee for concurrent fanouts
+3. **Partial failure:** Fanout fails halfway, some followers see tweet, others don't
+
+**Fixes:**
+
+```java
+// Fix 1: Transactional follow with timestamp
+public void followUser(long followerId, long followeeId) {
+    long followTimestamp = System.currentTimeMillis();
+
+    // Record follow with timestamp
+    userGraph.addFollow(followerId, followeeId, followTimestamp);
+
+    // Backfill tweets posted BEFORE follow time
+    List<Tweet> recentTweets = tweetStore.getUserTweets(
+        followeeId, 100, beforeTimestamp: followTimestamp
+    );
+    timelineCache.addTweets(followerId, recentTweets);
+}
+
+// Fix 2: Message queue for ordered fanout
+public void fanoutTweet(Tweet tweet) {
+    // Publish to message queue with ordering key (userId)
+    messageQueue.publish(
+        topic: "tweet-fanout",
+        key: tweet.userId,  // Guarantees order per user
+        value: tweet
+    );
+}
+
+// Fix 3: Idempotent consumer with retry
+class FanoutConsumer {
+    public void processTweet(Tweet tweet) {
+        List<Long> followers = userGraph.getFollowers(tweet.userId);
+
+        for (Long followerId : followers) {
+            try {
+                // Idempotent: won't duplicate if retry
+                timelineCache.addTweetIfNotExists(followerId, tweet);
+            } catch (Exception e) {
+                // Retry with exponential backoff
+                retryQueue.add(followerId, tweet);
+            }
+        }
+    }
+}
+```
+
+**Trade-off chosen:** Eventual consistency with ordering guarantees
+- Accept slight delay (100-200ms)
+- Guarantee eventual delivery
+- Guarantee ordering per user
+</details>
+
+---
+
+### Challenge 3: Bottleneck in Pastebin
+
+```java
+/**
+ * BUG: System slows down under load
+ *
+ * Symptoms:
+ * - Small pastes (< 1KB): Fast
+ * - Large pastes (> 1MB): Very slow
+ * - Database grows to 500GB
+ * - Most queries timeout
+ *
+ * Observation: Only 5% of pastes are > 100KB
+ * But they consume 90% of database storage
+ */
+
+public class Pastebin {
+
+    public String createPaste(String content, PasteOptions options) {
+        String key = generateKey();
+
+        // BUG: Storing large content in SQL database
+        // SQL is optimized for small rows, not BLOBs
+        metadataStore.save(new PasteMetadata(key, content, options));
+
+        return key;
+    }
+
+    public Paste getPaste(String key) {
+        // BUG: Every request loads full content from DB
+        // Even for 10MB pastes
+        PasteMetadata metadata = metadataStore.get(key);
+
+        // BUG: Cache stores large pastes in memory
+        // 100 * 10MB pastes = 1GB memory
+        if (!metadata.isPrivate) {
+            cache.put(key, metadata.content);
+        }
+
+        return new Paste(metadata, metadata.content);
+    }
+}
+```
+
+**Your debugging:**
+
+1. **Identify the bottleneck:**
+    - Primary bottleneck: _[Database/Memory/Network?]_
+    - Why small pastes are fast: _[Fill in]_
+    - Why large pastes are slow: _[Fill in]_
+
+2. **Calculate the impact:**
+    - If 1M pastes, avg size 100KB, total storage: _[__ GB]_
+    - If 5% are 5MB, storage for large pastes: _[__ GB]_
+    - Database query time for 5MB row: _[Estimate]_
+
+3. **Design the fix:**
+    - Where should large pastes go: _[Object storage/CDN/Other?]_
+    - Threshold for "large": _[Fill in]_
+    - Architecture change needed: _[Draw/describe]_
+
+4. **Implementation:**
+   ```java
+   // TODO: Store metadata in SQL, content in object storage
+   // TODO: Different strategies for small vs large pastes
+   // TODO: Cache only metadata, not content
+   // TODO: Stream large pastes instead of loading fully
+   ```
+
+<details markdown>
+<summary>Click to see the solution</summary>
+
+**Bottleneck analysis:**
+
+- **Primary:** SQL database storing large BLOBs (wrong tool)
+- **Secondary:** Memory exhaustion from caching large content
+- **Tertiary:** Network bandwidth loading full content every time
+
+**Solution: Hybrid storage architecture**
+
+```java
+public class Pastebin {
+    private static final int LARGE_PASTE_THRESHOLD = 100_000; // 100KB
+
+    public String createPaste(String content, PasteOptions options) {
+        String key = generateKey();
+        int size = content.length();
+
+        PasteMetadata metadata;
+
+        if (size > LARGE_PASTE_THRESHOLD) {
+            // Store large content in object storage (S3)
+            String s3Key = objectStorage.store(key, content);
+            metadata = new PasteMetadata(key, size, s3Key, options);
+        } else {
+            // Store small content in database
+            metadata = new PasteMetadata(key, size, content, options);
+        }
+
+        metadataStore.save(metadata);
+
+        // Cache only metadata, not content
+        if (!options.isPrivate) {
+            cache.putMetadata(key, metadata);
+        }
+
+        return key;
+    }
+
+    public Paste getPaste(String key) {
+        // Get metadata from cache or DB
+        PasteMetadata metadata = cache.getMetadata(key);
+        if (metadata == null) {
+            metadata = metadataStore.get(key);
+            cache.putMetadata(key, metadata);
+        }
+
+        // Load content based on size
+        String content;
+        if (metadata.isLarge()) {
+            // Stream from S3, don't cache
+            content = objectStorage.load(metadata.s3Key);
+        } else {
+            // Load from DB, can cache
+            content = metadata.content;
+        }
+
+        return new Paste(metadata, content);
+    }
+}
+```
+
+**Results:**
+
+- Database size: 500GB → 50GB (10x reduction)
+- Query time for large pastes: 2s → 100ms (20x faster)
+- Memory usage: 1GB → 50MB (20x reduction)
+- Cost: 1x (SQL) → 0.2x (hybrid SQL + S3)
+</details>
+
+---
+
+### Challenge 4: Cross-Service Data Inconsistency
+
+```java
+/**
+ * BUG: Analytics show wrong click counts
+ *
+ * Symptoms:
+ * - URL shortener shows 100 clicks
+ * - Analytics service shows 95 clicks
+ * - Numbers diverge over time
+ * - After system restart, analytics reset to 0
+ *
+ * Architecture:
+ * - URL shortener increments local counter
+ * - Analytics service polls for updates
+ * - No transaction coordination
+ */
+
+// URL Shortener Service
+public String getOriginalURL(String shortCode) {
+    String url = cache.get(shortCode);
+    if (url == null) {
+        url = database.get(shortCode);
+    }
+
+    // BUG: Async analytics call can fail silently
+    analytics.trackClick(shortCode);  // Fire and forget
+
+    return url;
+}
+
+// Analytics Service
+public void trackClick(String shortCode) {
+    // BUG: In-memory counter lost on restart
+    stats.computeIfAbsent(shortCode, k -> new URLAnalytics())
+         .incrementClicks();
+
+    // BUG: Persists to DB every 5 minutes
+    // Crashes between saves lose data
+    if (shouldFlush()) {
+        persistToDB();
+    }
+}
+```
+
+**Your debugging:**
+
+1. **Identify data loss scenarios:**
+    - Loss scenario 1: _[Fill in]_
+    - Loss scenario 2: _[Fill in]_
+    - Loss scenario 3: _[Fill in]_
+
+2. **Why counts diverge:**
+    - Root cause: _[Fill in]_
+    - Race condition: _[Fill in]_
+    - Network failure impact: _[Fill in]_
+
+3. **Design a reliable solution:**
+    - Guarantee delivery: _[How?]_
+    - Exactly-once semantics: _[How?]_
+    - Durability: _[How?]_
+
+**Implementation choices:**
+
+-   [ ] Message queue with acknowledgments
+-   [ ] Synchronous DB writes (slow but safe)
+-   [ ] Write-ahead log
+-   [ ] Distributed transactions
+-   Your choice: _[Fill in and explain why]_
+
+<details markdown>
+<summary>Click to see the solution</summary>
+
+**Data loss scenarios:**
+
+1. Analytics service crash → in-memory counters lost
+2. Network failure → trackClick() call drops
+3. Async fire-and-forget → no retry on failure
+
+**Solution: Event-driven architecture with durability**
+
+```java
+// URL Shortener: Publish event instead of direct call
+public String getOriginalURL(String shortCode) {
+    String url = cache.get(shortCode);
+    if (url == null) {
+        url = database.get(shortCode);
+    }
+
+    // Publish to durable message queue
+    ClickEvent event = new ClickEvent(shortCode, System.currentTimeMillis());
+    messageQueue.publish("click-events", event);
+
+    return url;
+}
+
+// Analytics: Consume events with acknowledgment
+class AnalyticsConsumer {
+    public void processClickEvent(ClickEvent event) {
+        try {
+            // Write directly to database (no in-memory only)
+            analyticsDB.incrementClick(event.shortCode, event.timestamp);
+
+            // Acknowledge only after successful write
+            messageQueue.ack(event);
+
+        } catch (Exception e) {
+            // Don't ack - message will be retried
+            log.error("Failed to process click event", e);
+            throw e;
+        }
+    }
+}
+
+// Message Queue guarantees:
+// 1. At-least-once delivery (with retry)
+// 2. Durability (persisted to disk)
+// 3. Ordering per partition
+
+// Database handles idempotency:
+// UPDATE analytics SET clicks = clicks + 1, last_seen = ?
+// WHERE short_code = ? AND (last_seen IS NULL OR last_seen < ?)
+```
+
+**Trade-offs:**
+
+- **Latency:** Slight increase (10-20ms for message publish)
+- **Complexity:** Higher (need message queue infrastructure)
+- **Consistency:** Eventual (analytics lag by 100-200ms)
+- **Reliability:** Much higher (no data loss)
+
+**Alternative:** Synchronous writes (simpler but slower)
+```java
+public String getOriginalURL(String shortCode) {
+    String url = database.get(shortCode);
+
+    // Synchronous write to analytics DB
+    analyticsDB.incrementClick(shortCode);  // Blocks 10-20ms
+
+    return url;
+}
+```
+</details>
+
+---
+
+### Your Debugging Scorecard
+
+After working through these challenges:
+
+-   [ ] Identified cascading failure patterns
+-   [ ] Fixed race conditions in distributed systems
+-   [ ] Resolved performance bottlenecks
+-   [ ] Designed for data consistency across services
+-   [ ] Understood trade-offs in each solution
+
+**System design lessons learned:**
+
+1. _[Most important lesson from Challenge 1]_
+2. _[Most important lesson from Challenge 2]_
+3. _[Most important lesson from Challenge 3]_
+4. _[Most important lesson from Challenge 4]_
+
+---
+
 ## Client Code
 
 ```java
@@ -1204,16 +1967,19 @@ public class FullSystemDesignsClient {
 ### 1. System Requirements Analysis
 
 **URL Shortener:**
+
 - Scale: _[How many URLs? Reads vs writes?]_
 - Latency: _[What's acceptable?]_
 - Consistency: _[Strong or eventual?]_
 
 **Twitter Feed:**
+
 - Scale: _[Users, tweets per day?]_
 - Fan-out strategy: _[Push, pull, or hybrid?]_
 - Consistency: _[Can timeline have slight delay?]_
 
 **Pastebin:**
+
 - Storage: _[How to store large pastes?]_
 - Expiration: _[How to clean up?]_
 - Access patterns: _[Read-heavy or write-heavy?]_
@@ -1223,14 +1989,17 @@ public class FullSystemDesignsClient {
 **When to use each approach:**
 
 **Sharding:**
+
 - Your scenario: _[Fill in]_
 - Shard key: _[Fill in]_
 
 **Caching:**
+
 - Your scenario: _[Fill in]_
 - Cache strategy: _[Fill in]_
 
 **Message Queue:**
+
 - Your scenario: _[Fill in]_
 - Queue type: _[Fill in]_
 
@@ -1247,14 +2016,17 @@ What are you building?
 ### 4. Scaling Considerations
 
 **Database:**
+
 - When to shard? _[Fill in]_
 - Shard key selection: _[Fill in]_
 
 **Cache:**
+
 - What to cache? _[Fill in]_
 - Eviction policy: _[Fill in]_
 
 **Load Balancing:**
+
 - Algorithm: _[Fill in]_
 - Session handling: _[Fill in]_
 
@@ -1265,6 +2037,7 @@ What are you building?
 ### Scenario 1: Design Instagram
 
 **Requirements:**
+
 - Upload photos
 - Follow users
 - View photo feed
@@ -1272,6 +2045,7 @@ What are you building?
 - Handle 500M users
 
 **Your design:**
+
 - Architecture: _[Draw components]_
 - Storage strategy: _[Fill in]_
 - Feed generation: _[Fill in]_
@@ -1280,6 +2054,7 @@ What are you building?
 ### Scenario 2: Design Dropbox
 
 **Requirements:**
+
 - Upload/download files
 - File synchronization
 - Sharing and permissions
@@ -1287,6 +2062,7 @@ What are you building?
 - Offline support
 
 **Your design:**
+
 - Architecture: _[Draw components]_
 - File storage: _[Fill in]_
 - Sync strategy: _[Fill in]_
@@ -1295,6 +2071,7 @@ What are you building?
 ### Scenario 3: Design Netflix
 
 **Requirements:**
+
 - Stream videos
 - Recommendations
 - Handle millions of concurrent users
@@ -1302,6 +2079,7 @@ What are you building?
 - Different video qualities
 
 **Your design:**
+
 - Architecture: _[Draw components]_
 - CDN strategy: _[Fill in]_
 - Video encoding: _[Fill in]_
@@ -1311,14 +2089,431 @@ What are you building?
 
 ## Review Checklist
 
-- [ ] URL shortener implemented with ID generation and sharding
-- [ ] Twitter feed implemented with fan-out strategy
-- [ ] Pastebin implemented with object storage
-- [ ] Understand architectural patterns used
-- [ ] Can explain scaling strategies for each system
-- [ ] Can identify bottlenecks and solutions
-- [ ] Completed practice system designs
+-   [ ] URL shortener implemented with ID generation and sharding
+-   [ ] Twitter feed implemented with fan-out strategy
+-   [ ] Pastebin implemented with object storage
+-   [ ] Understand architectural patterns used
+-   [ ] Can explain scaling strategies for each system
+-   [ ] Can identify bottlenecks and solutions
+-   [ ] Completed practice system designs
 
 ---
 
-**Back:** [14. Consensus Patterns ←](14-consensus-patterns.md)
+## Understanding Gate (Must Pass Before Continuing)
+
+**Your task:** Prove mastery of full system design by demonstrating integration of all concepts. You cannot move forward until you can confidently complete this section.
+
+### Gate 1: Explain System Trade-offs
+
+**Scenario:** A product manager asks you to design a system similar to Twitter but optimized for 1 billion users.
+
+**Your explanation (write it out):**
+
+> "For a system at this scale, the key trade-offs are..."
+>
+> _[Fill in - discuss consistency vs availability, latency vs throughput, cost vs performance - 4-5 sentences]_
+
+**Self-assessment:**
+
+- Trade-off clarity score (1-10): ___
+- Did you mention specific technologies (Redis, Kafka, etc.)? _[Yes/No]_
+- Did you quantify the trade-offs (e.g., "100ms latency increase for 99.99% availability")? _[Yes/No]_
+
+If you scored below 8 or answered "No" to either question, revise your explanation.
+
+---
+
+### Gate 2: Capacity Planning Exercise
+
+**Task:** Calculate infrastructure requirements for a URL shortener without looking at notes.
+
+**Given:**
+
+- 100 million URLs per month
+- Average URL length: 2000 characters
+- Read/write ratio: 100:1
+- 7-day retention in cache
+- Peak traffic: 3x average
+
+**Calculate:**
+
+1. **Writes per second:**
+    - Average: _[Fill in calculation]_
+    - Peak: _[Fill in]_
+
+2. **Reads per second:**
+    - Average: _[Fill in calculation]_
+    - Peak: _[Fill in]_
+
+3. **Storage requirements:**
+    - Total per year: _[Fill in GB/TB]_
+    - With metadata (2x): _[Fill in]_
+
+4. **Cache memory:**
+    - URLs to cache: _[Fill in calculation]_
+    - Memory needed: _[Fill in GB]_
+
+5. **Database shards:**
+    - Assuming 10M URLs per shard: _[How many shards?]_
+
+**Verification checklist:**
+
+-   [ ] Converted months to seconds correctly
+-   [ ] Applied read/write ratio correctly
+-   [ ] Accounted for peak traffic
+-   [ ] Calculated storage with overhead
+-   [ ] Sized cache appropriately
+
+---
+
+### Gate 3: Architecture Design Test
+
+**Without looking at your notes, design a complete system for Instagram:**
+
+**Requirements:**
+
+- 500M users
+- 100M photos uploaded per day
+- Average photo size: 2MB
+- Feed shows last 100 photos from followed users
+- 300 follows per user on average
+
+**Draw your architecture (on paper or in ASCII):**
+
+```
+[Your architecture diagram here]
+- Include all major components
+- Show data flow
+- Label databases, caches, message queues
+- Indicate what's sharded and how
+
+
+
+```
+
+**Answer these about your design:**
+
+1. **Photo storage strategy:**
+    - Where: _[S3/CDN/Database?]_
+    - Why: _[Fill in]_
+    - Cost estimate: _[Rough calculation]_
+
+2. **Feed generation approach:**
+    - Strategy: _[Push/Pull/Hybrid?]_
+    - Why: _[Explain your choice]_
+    - Bottleneck: _[What will fail first?]_
+
+3. **Sharding strategy:**
+    - What to shard: _[Users/Photos/Both?]_
+    - Shard key: _[Fill in]_
+    - Number of shards: _[Estimate]_
+
+4. **Caching layers:**
+    - Layer 1: _[What and why]_
+    - Layer 2: _[What and why]_
+    - Eviction policy: _[Fill in]_
+
+---
+
+### Gate 4: Bottleneck Identification
+
+**Scenario:** Your URL shortener is deployed and working. After 6 months:
+- Database is at 80% CPU usage
+- Cache hit rate dropped from 90% to 40%
+- P99 latency increased from 50ms to 800ms
+- Users complain about slow redirects
+
+**Diagnose the problem:**
+
+1. **What's the root cause?**
+    - Your diagnosis: _[Fill in]_
+    - Why cache hit rate dropped: _[Fill in]_
+    - Why database is overloaded: _[Fill in]_
+
+2. **Order of operations to fix (prioritize):**
+    - Step 1: _[What to fix first?]_
+    - Step 2: _[What to fix second?]_
+    - Step 3: _[What to fix third?]_
+
+3. **Long-term solutions:**
+    - Architecture change 1: _[Fill in]_
+    - Architecture change 2: _[Fill in]_
+    - Monitoring to add: _[Fill in]_
+
+4. **Validation plan:**
+    - Metric to track: _[Fill in]_
+    - Success criteria: _[Fill in]_
+    - Rollback plan: _[Fill in]_
+
+---
+
+### Gate 5: Pattern Integration Test
+
+**Classify these system design challenges (without looking at notes):**
+
+| Challenge | Primary Pattern(s) | Why? |
+|-----------|-------------------|------|
+| News feed with 1M posts/day | _[Fill in]_ | _[Explain]_ |
+| Distributed rate limiter | _[Fill in]_ | _[Explain]_ |
+| Global leaderboard (real-time) | _[Fill in]_ | _[Explain]_ |
+| File sync across devices | _[Fill in]_ | _[Explain]_ |
+| Chat system with 100M users | _[Fill in]_ | _[Explain]_ |
+| Search autocomplete | _[Fill in]_ | _[Explain]_ |
+
+**Score:** ___/6 correct
+
+**For each, also identify:**
+
+- Main bottleneck: _[Fill in]_
+- Database choice: _[SQL/NoSQL/Both]_
+- Caching strategy: _[Yes/No, what to cache?]_
+
+---
+
+### Gate 6: Live Design Interview Simulation
+
+**Set a 45-minute timer. Design this system as if in a real interview:**
+
+**Problem:** Design a ride-sharing service like Uber
+
+**Requirements:**
+
+- 100M riders, 10M drivers
+- Real-time location tracking
+- Match riders with nearby drivers
+- Calculate ETAs and routes
+- Handle payments
+- Track ride history
+
+**Your design process (document each step):**
+
+**Step 1: Requirements Clarification (5 min)**
+
+- Questions you would ask: _[List 5-7 questions]_
+
+**Step 2: Capacity Estimation (5 min)**
+
+- Requests per second: _[Calculate]_
+- Storage requirements: _[Calculate]_
+- Bandwidth: _[Calculate]_
+
+**Step 3: High-Level Design (10 min)**
+```
+[Draw your architecture]
+
+
+
+
+```
+
+**Step 4: Deep Dive - Location Tracking (10 min)**
+
+- How to store driver locations: _[Data structure?]_
+- How to find nearby drivers: _[Algorithm?]_
+- Update frequency: _[How often?]_
+- Database choice: _[What and why?]_
+
+**Step 5: Deep Dive - Matching Algorithm (10 min)**
+
+- Matching criteria: _[List factors]_
+- Real-time updates: _[How?]_
+- Fairness: _[How to ensure?]_
+- Failure handling: _[What if driver rejects?]_
+
+**Step 6: Bottlenecks and Scaling (5 min)**
+
+- Bottleneck 1: _[What and how to fix]_
+- Bottleneck 2: _[What and how to fix]_
+- Bottleneck 3: _[What and how to fix]_
+
+**Self-grading rubric:**
+
+-   [ ] Clarified requirements before designing
+-   [ ] Calculated capacity accurately
+-   [ ] Designed complete architecture (not just pieces)
+-   [ ] Identified and explained trade-offs
+-   [ ] Discussed failure scenarios
+-   [ ] Proposed monitoring and metrics
+-   [ ] Stayed within time limits
+-   [ ] Design would actually work at scale
+
+**Score:** ___/8 passed
+
+If score < 6, review weak areas and retry.
+
+---
+
+### Gate 7: Teaching Check
+
+**The ultimate test of understanding is teaching.**
+
+**Task:** Explain to an imaginary junior engineer when to use push vs pull for feed generation.
+
+Your explanation:
+
+> "Push vs pull is a fundamental trade-off in system design..."
+>
+> _[Fill in - explain both approaches, when to use each, with concrete examples - 6-8 sentences]_
+
+**Include in your explanation:**
+
+- What push means: _[Fill in]_
+- What pull means: _[Fill in]_
+- Push advantage: _[Fill in]_
+- Push disadvantage: _[Fill in]_
+- Pull advantage: _[Fill in]_
+- Pull disadvantage: _[Fill in]_
+- When to use hybrid: _[Fill in]_
+
+**Real-world examples:**
+
+- Twitter uses _[Push/Pull/Hybrid]_ because _[Fill in]_
+- Instagram uses _[Push/Pull/Hybrid]_ because _[Fill in]_
+- LinkedIn uses _[Push/Pull/Hybrid]_ because _[Fill in]_
+
+---
+
+### Gate 8: Trade-off Decision Matrix
+
+**Complete this matrix from memory:**
+
+| System Requirement | Consistency | Availability | Partition Tolerance | Your Choice | Why? |
+|-------------------|-------------|--------------|---------------------|-------------|------|
+| Bank transactions | _[Priority 1-3]_ | _[Priority 1-3]_ | _[Priority 1-3]_ | _[Fill in]_ | _[Explain]_ |
+| Social media feed | _[Priority 1-3]_ | _[Priority 1-3]_ | _[Priority 1-3]_ | _[Fill in]_ | _[Explain]_ |
+| URL shortener | _[Priority 1-3]_ | _[Priority 1-3]_ | _[Priority 1-3]_ | _[Fill in]_ | _[Explain]_ |
+| Chat messages | _[Priority 1-3]_ | _[Priority 1-3]_ | _[Priority 1-3]_ | _[Fill in]_ | _[Explain]_ |
+| E-commerce inventory | _[Priority 1-3]_ | _[Priority 1-3]_ | _[Priority 1-3]_ | _[Fill in]_ | _[Explain]_ |
+
+**Deep question:** Given the CAP theorem, explain why you can't have perfect C, A, and P simultaneously.
+
+Your answer: _[Fill in - explain in plain English with an example]_
+
+---
+
+### Gate 9: Failure Scenario Planning
+
+**For each scenario, describe what happens and how to mitigate:**
+
+**Scenario 1:** Your primary database in the URL shortener crashes.
+- Immediate impact: _[Fill in]_
+- User experience: _[Fill in]_
+- Detection method: _[Fill in]_
+- Mitigation: _[Fill in]_
+- Prevention: _[Fill in]_
+
+**Scenario 2:** Cache servers lose all data (Redis cluster restart).
+- Immediate impact: _[Fill in]_
+- Database load spike: _[Estimate: __x normal]_
+- Mitigation: _[Fill in]_
+- Cache warming strategy: _[Fill in]_
+
+**Scenario 3:** Message queue (Kafka) has 2-hour delay due to traffic spike.
+- Affected systems: _[Fill in]_
+- Data consistency issues: _[Fill in]_
+- User-visible impact: _[Fill in]_
+- Mitigation: _[Fill in]_
+
+**Scenario 4:** CDN goes down in US region.
+- Affected users: _[Fill in]_
+- Fallback mechanism: _[Fill in]_
+- Performance degradation: _[Fill in]_
+- Mitigation: _[Fill in]_
+
+---
+
+### Gate 10: Code to Architecture (Final Integration Test)
+
+**Given this code, identify all the architectural problems:**
+
+```java
+public class TwitterFeed {
+    // Single global cache
+    private static Map<Long, List<Tweet>> cache = new HashMap<>();
+
+    public List<Tweet> getTimeline(long userId) {
+        // Problem 1: What's wrong here?
+        List<Tweet> timeline = cache.get(userId);
+        if (timeline != null) {
+            return timeline;
+        }
+
+        // Problem 2: What's wrong here?
+        List<Long> following = database.getFollowing(userId);
+        timeline = new ArrayList<>();
+        for (Long followedUser : following) {
+            timeline.addAll(database.getUserTweets(followedUser));
+        }
+
+        // Problem 3: What's wrong here?
+        Collections.sort(timeline, (a, b) ->
+            Long.compare(b.timestamp, a.timestamp)
+        );
+
+        // Problem 4: What's wrong here?
+        cache.put(userId, timeline);
+
+        return timeline;
+    }
+}
+```
+
+**Identify problems:**
+
+1. **Problem 1 (Cache):**
+    - Issue: _[Fill in]_
+    - Impact at scale: _[Fill in]_
+    - Fix: _[Fill in]_
+
+2. **Problem 2 (Database queries):**
+    - Issue: _[Fill in]_
+    - Impact at scale: _[Fill in]_
+    - Fix: _[Fill in]_
+
+3. **Problem 3 (Sorting):**
+    - Issue: _[Fill in]_
+    - Impact at scale: _[Fill in]_
+    - Fix: _[Fill in]_
+
+4. **Problem 4 (Cache update):**
+    - Issue: _[Fill in]_
+    - Impact at scale: _[Fill in]_
+    - Fix: _[Fill in]_
+
+**Additional problems you spotted:**
+5. _[Fill in if you found more]_
+6. _[Fill in if you found more]_
+
+**Your production-ready rewrite:**
+```java
+// TODO: Rewrite this class to be production-ready
+// - Use distributed cache
+// - Use pre-computed timelines
+// - Handle failures gracefully
+// - Add monitoring
+```
+
+---
+
+### Mastery Certification
+
+**I certify that I can:**
+
+-   [ ] Design complete systems integrating all patterns learned
+-   [ ] Perform accurate capacity planning calculations
+-   [ ] Identify and resolve bottlenecks
+-   [ ] Make and justify architecture trade-offs
+-   [ ] Handle failure scenarios gracefully
+-   [ ] Explain designs clearly to technical and non-technical audiences
+-   [ ] Debug distributed system issues
+-   [ ] Choose appropriate technologies for requirements
+-   [ ] Scale systems from prototype to production
+-   [ ] Complete a live system design interview
+
+**Self-assessment score:** ___/10
+
+**Time to complete all gates:** ___ hours
+
+**If score < 8:** Review the sections where you struggled, revisit the implementations, then retry the gates.
+
+**If score ≥ 8:** Congratulations! You've mastered full system design. You're ready for system design interviews and real-world distributed systems work.

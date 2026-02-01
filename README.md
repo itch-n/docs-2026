@@ -1,26 +1,14 @@
-# Staff Engineering Study Guide
+# Backend Engineering Study Guide
 
 Your hands-on, fill-in-as-you-learn framework for mastering systems design and algorithms.
 
 ## What You Have
 
-✅ **Complete structure** - 31 numbered topics ready to learn (15 Systems + 16 DSA)
-✅ **FAANG-ready coverage** - All critical topics for Staff Backend Engineer interviews
-✅ **Code stubs** - Method signatures and TODOs for every implementation
-✅ **Runnable examples** - Client code to test with real data
-✅ **Fill-in templates** - ELI5, decision trees, and practice sections
-
-### 🆕 Recently Added (Staff Engineer Essentials)
-
-Five critical topics identified for FAANG Staff Backend Engineer interviews:
-
-1. **Security Patterns** (05) - JWT authentication, RBAC authorization, API keys, secrets management
-2. **Concurrency Patterns** (08) - Locks, producer-consumer, thread-safe data structures, thread pools
-3. **Stream Processing** (11) - Windowing, watermarks, stateful processing, exactly-once semantics
-4. **Observability** (12) - Metrics (RED/USE), structured logging, distributed tracing, SLOs
-5. **Consensus Patterns** (14) - Raft consensus, leader election, distributed locks, quorums
-
-**Plus:** Union-Find moved to position 09 (before Graphs) for better pedagogical flow with MST algorithms.
+✅ **Complete structure** - 31 numbered topics ready to learn (15 Systems + 16 DSA)  
+✅ **Interview-ready coverage** - All critical topics for Backend Engineer interviews  
+✅ **Code stubs** - Method signatures and TODOs for every implementation  
+✅ **Runnable examples** - Client code to test with real data  
+✅ **Fill-in templates** - ELI5, decision trees, and practice sections  
 
 ## Quick Start
 
@@ -68,16 +56,16 @@ docs/
 │   ├── 02-indexing.md                # Primary, secondary, composite indexes
 │   ├── 03-caching-patterns.md        # LRU, LFU, write policies
 │   ├── 04-api-design.md              # REST, RPC, versioning
-│   ├── 05-security-patterns.md       # 🆕 JWT, RBAC, secrets management
+│   ├── 05-security-patterns.md       # JWT, RBAC, secrets management
 │   ├── 06-rate-limiting.md           # Token bucket, sliding window
 │   ├── 07-load-balancing.md          # Consistent hashing, health checks
-│   ├── 08-concurrency-patterns.md    # 🆕 Locks, thread safety, thread pools
+│   ├── 08-concurrency-patterns.md    # Locks, thread safety, thread pools
 │   ├── 09-database-scaling.md        # Replication, sharding, partitioning
 │   ├── 10-message-queues.md          # Queue vs pub/sub, delivery guarantees
-│   ├── 11-stream-processing.md       # 🆕 Windowing, watermarks, exactly-once
-│   ├── 12-observability.md           # 🆕 Metrics, logging, tracing, SLOs
+│   ├── 11-stream-processing.md       # Windowing, watermarks, exactly-once
+│   ├── 12-observability.md           # Metrics, logging, tracing, SLOs
 │   ├── 13-distributed-transactions.md # Saga pattern, idempotency
-│   ├── 14-consensus-patterns.md      # 🆕 Raft, leader election, quorums
+│   ├── 14-consensus-patterns.md      # Raft, leader election, quorums
 │   └── 15-full-system-designs.md     # Apply everything
 │
 └── dsa/                               # 16 topics
@@ -180,14 +168,17 @@ Don't move on until all boxes checked!
 ## Principles
 
 **"Focus on the Kill Switch"**
+
 - For every tech, document why you should NOT use it
 - Understanding failures > understanding features
 
 **"The Rule of Three"**
+
 - For every decision, identify 3 alternatives
 - No "right" answer, only trade-offs
 
 **"Implement Before Reading"**
+
 - True learning happens through struggle
 - Code stubs guide you, but YOU must fill them in
 

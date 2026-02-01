@@ -11,20 +11,289 @@
 **Prompts to guide you:**
 
 1. **What is dynamic programming in one sentence?**
-   - Your answer: _[Fill in after implementation]_
+    - Your answer: _[Fill in after implementation]_
 
 2. **How is DP different from regular recursion?**
-   - Your answer: _[Fill in after implementation]_
+    - Your answer: _[Fill in after implementation]_
 
 3. **Real-world analogy:**
-   - Example: "DP is like saving your homework answers so you don't have to recalculate the same problems..."
-   - Your analogy: _[Fill in]_
+    - Example: "DP is like saving your homework answers so you don't have to recalculate the same problems..."
+    - Your analogy: _[Fill in]_
 
 4. **When does this pattern work?**
-   - Your answer: _[Fill in after solving problems]_
+    - Your answer: _[Fill in after solving problems]_
 
 5. **What's the difference between top-down and bottom-up?**
-   - Your answer: _[Fill in after learning both approaches]_
+    - Your answer: _[Fill in after learning both approaches]_
+
+---
+
+## Quick Quiz (Do BEFORE implementing)
+
+**Your task:** Test your intuition without looking at code. Answer these, then verify after implementation.
+
+### Complexity Predictions
+
+1. **Pure recursive Fibonacci (no memoization):**
+    - Time complexity: _[Your guess: O(?)]_
+    - Verified after learning: _[Actual: O(?)]_
+
+2. **Fibonacci with memoization (top-down DP):**
+    - Time complexity: _[Your guess: O(?)]_
+    - Space complexity: _[Your guess: O(?)]_
+    - Verified: _[Actual]_
+
+3. **Fibonacci with bottom-up DP:**
+    - Time complexity: _[Your guess: O(?)]_
+    - Space complexity with array: _[Your guess: O(?)]_
+    - Space complexity optimized: _[Your guess: O(?)]_
+    - Verified: _[Actual]_
+
+4. **Speedup calculation for Fibonacci(40):**
+    - Recursive (no memo) = 2^40 = _____ operations
+    - With memoization = 40 = _____ operations
+    - Speedup factor: _____ times faster
+
+### Scenario Predictions
+
+**Scenario 1:** Climbing stairs - 1 or 2 steps at a time to reach step 5
+
+- **How many ways without computing?** _[Your guess: ____]_
+- **Can you see the Fibonacci pattern?** _[Yes/No - Why?]_
+- **Recurrence relation:** ways(n) = _[Fill in formula]_
+- **Why does memoization help here?** _[Fill in]_
+
+**Scenario 2:** Coin change - coins [1, 2, 5], amount = 11
+
+- **Minimum coins needed:** _[Your guess: ____]_
+- **What makes this a DP problem?** _[Fill in]_
+- **What are the overlapping subproblems?** _[Fill in]_
+
+**Scenario 3:** House robber - houses [2, 7, 9, 3, 1]
+
+- **Maximum money without adjacents:** _[Your guess: ____]_
+- **Which pattern applies?** _[Fibonacci-style/Decision/String/Stock]_
+- **Recurrence relation:** rob(i) = _[Fill in formula]_
+
+### Trade-off Quiz
+
+**Question:** When would recursive with memoization be BETTER than bottom-up DP?
+
+- Your answer: _[Fill in before implementation]_
+- Verified answer: _[Fill in after learning]_
+
+**Question:** What's the MAIN requirement for dynamic programming to work?
+
+- [ ] Problem must involve arrays
+- [ ] Must have optimal substructure
+- [ ] Must have overlapping subproblems
+- [ ] Both optimal substructure AND overlapping subproblems
+- [ ] Must be solvable recursively
+
+Verify after implementation: _[Which one(s)?]_
+
+**Question:** Space optimization - when can you reduce O(n) to O(1)?
+
+- Your answer: _[Fill in - what's the pattern?]_
+- Verified: _[Fill in after learning Fibonacci-style problems]_
+
+---
+
+## Before/After: Why This Pattern Matters
+
+**Your task:** Compare naive vs optimized approaches to understand exponential to polynomial transformation.
+
+### Example: Fibonacci Number
+
+**Problem:** Calculate the nth Fibonacci number where F(n) = F(n-1) + F(n-2).
+
+#### Approach 1: Pure Recursion (Exponential)
+
+```java
+// Naive approach - Recalculates same values many times
+public static int fib_Recursive(int n) {
+    if (n <= 1) return n;
+    return fib_Recursive(n - 1) + fib_Recursive(n - 2);
+}
+```
+
+**Analysis:**
+
+- Time: O(2^n) - Each call branches into two more calls
+- Space: O(n) - Recursion stack depth
+- For n = 40: ~2,000,000,000 operations (takes several seconds)
+- For n = 50: Would take hours or days
+
+**Why so slow?** Tree of recursive calls:
+```
+fib(5)
+├── fib(4)
+│   ├── fib(3)
+│   │   ├── fib(2)
+│   │   │   ├── fib(1)
+│   │   │   └── fib(0)
+│   │   └── fib(1)
+│   └── fib(2)
+│       ├── fib(1)
+│       └── fib(0)
+└── fib(3)  ← RECALCULATING same subtree!
+    ├── fib(2)
+    │   ├── fib(1)
+    │   └── fib(0)
+    └── fib(1)
+```
+
+fib(3) is calculated TWICE, fib(2) THREE times, fib(1) FIVE times!
+
+#### Approach 2: Memoization - Top-Down DP (Polynomial)
+
+```java
+// Optimized - Cache results to avoid recalculation
+public static int fib_Memoization(int n, int[] memo) {
+    if (n <= 1) return n;
+    if (memo[n] != 0) return memo[n];  // Already calculated!
+
+    memo[n] = fib_Memoization(n - 1, memo) + fib_Memoization(n - 2, memo);
+    return memo[n];
+}
+
+// Wrapper
+public static int fib(int n) {
+    return fib_Memoization(n, new int[n + 1]);
+}
+```
+
+**Analysis:**
+
+- Time: O(n) - Each fib(i) computed exactly once
+- Space: O(n) - Memoization array + recursion stack
+- For n = 40: ~40 operations (instant)
+- For n = 50: ~50 operations (instant)
+
+#### Approach 3: Bottom-Up DP (Best Space Optimization)
+
+```java
+// Iterative - Build from bottom, optimize space
+public static int fib_BottomUp(int n) {
+    if (n <= 1) return n;
+
+    int prev2 = 0;  // F(0)
+    int prev1 = 1;  // F(1)
+
+    for (int i = 2; i <= n; i++) {
+        int current = prev1 + prev2;
+        prev2 = prev1;
+        prev1 = current;
+    }
+
+    return prev1;
+}
+```
+
+**Analysis:**
+
+- Time: O(n) - Single pass
+- Space: O(1) - Only 3 variables (optimized from O(n) array)
+- For n = 40: ~40 operations, minimal memory
+- No recursion stack overhead
+
+#### Performance Comparison
+
+| Approach | n=10 | n=20 | n=30 | n=40 | Space |
+|----------|------|------|------|------|-------|
+| Recursive | 0.001ms | 2ms | 200ms | 2000ms | O(n) stack |
+| Memoization | 0.001ms | 0.001ms | 0.001ms | 0.001ms | O(n) array |
+| Bottom-Up | 0.001ms | 0.001ms | 0.001ms | 0.001ms | O(1) |
+
+**Speedup for n=40:** Memoization is ~2,000,000x faster than pure recursion!
+
+#### Why Does DP Work Here?
+
+**Key properties that enable DP:**
+
+1. **Optimal Substructure:** Solution to F(n) can be built from solutions to F(n-1) and F(n-2)
+
+2. **Overlapping Subproblems:** Same values calculated repeatedly in naive recursion
+
+**Visualization of overlapping subproblems:**
+```
+Computing fib(6):
+fib(5): needs fib(4) + fib(3)
+fib(4): needs fib(3) + fib(2)
+fib(3): needs fib(2) + fib(1)
+              ↑         ↑
+      These repeat!   These repeat!
+```
+
+**Without DP:** Recalculate everything (exponential waste)
+**With DP:** Calculate once, reuse (polynomial efficiency)
+
+---
+
+### Example 2: Coin Change (Decision Problem)
+
+**Problem:** Minimum coins needed to make amount = 11 with coins [1, 2, 5].
+
+#### Approach 1: Brute Force Recursion
+
+```java
+// Try all combinations - exponential time
+public static int coinChange_Recursive(int[] coins, int amount) {
+    if (amount == 0) return 0;
+    if (amount < 0) return -1;
+
+    int min = Integer.MAX_VALUE;
+    for (int coin : coins) {
+        int result = coinChange_Recursive(coins, amount - coin);
+        if (result >= 0 && result < min) {
+            min = result + 1;
+        }
+    }
+
+    return min == Integer.MAX_VALUE ? -1 : min;
+}
+```
+
+**Analysis:**
+
+- Time: O(amount^coins) - Exponential branching
+- Space: O(amount) - Recursion depth
+- For amount = 100, coins = [1, 2, 5]: billions of operations
+
+#### Approach 2: Bottom-Up DP
+
+```java
+// Build table of minimum coins for each amount
+public static int coinChange_DP(int[] coins, int amount) {
+    int[] dp = new int[amount + 1];
+    Arrays.fill(dp, amount + 1);  // Initialize with "infinity"
+    dp[0] = 0;  // Base case
+
+    for (int i = 1; i <= amount; i++) {
+        for (int coin : coins) {
+            if (i >= coin) {
+                dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+            }
+        }
+    }
+
+    return dp[amount] > amount ? -1 : dp[amount];
+}
+```
+
+**Analysis:**
+
+- Time: O(amount × coins) - Polynomial
+- Space: O(amount) - DP array
+- For amount = 100, coins = [1, 2, 5]: ~300 operations
+
+**Speedup:** From exponential to polynomial!
+
+**After implementing, explain in your own words:**
+
+- _[Why does caching subproblem results help?]_
+- _[What's the difference between top-down and bottom-up?]_
+- _[When would you choose one approach over the other?]_
 
 ---
 
@@ -537,6 +806,433 @@ public class StockProblemsClient {
 
 ---
 
+## Debugging Challenges
+
+**Your task:** Find and fix bugs in broken DP implementations. This tests your understanding of recurrence relations, base cases, and iteration order.
+
+### Challenge 1: Broken Climbing Stairs
+
+```java
+/**
+ * This code is supposed to count ways to climb n stairs.
+ * It has 2 BUGS. Find them!
+ */
+public static int climbStairs_Buggy(int n) {
+    if (n == 1) return 1;
+    if (n == 2) return 2;
+
+    int[] dp = new int[n];  // BUG 1: Array size issue?
+    dp[0] = 1;
+    dp[1] = 2;
+
+    for (int i = 2; i <= n; i++) {  // BUG 2: Array bounds?
+        dp[i] = dp[i - 1] + dp[i - 2];
+    }
+
+    return dp[n];
+}
+```
+
+**Your debugging:**
+
+- **Bug 1 location:** _[Which line?]_
+- **Bug 1 explanation:** _[What's wrong with array size?]_
+- **Bug 1 fix:** _[What should it be?]_
+
+- **Bug 2 location:** _[Which line?]_
+- **Bug 2 explanation:** _[What error will occur?]_
+- **Bug 2 fix:** _[How to fix loop or return?]_
+
+**Test case to expose:**
+
+- Input: `n = 5`
+- Expected: `8` ways
+- What happens: _[Trace through - where does it crash?]_
+
+<details markdown>
+<summary>Click to verify your answers</summary>
+
+**Bug 1 (Line 6):** Array size should be `n + 1`, not `n`. We need indices from 0 to n inclusive, or adjust indexing.
+
+**Bug 2 (Line 9):** Loop condition `i <= n` will cause ArrayIndexOutOfBoundsException. Either use `i < n` or fix array size to `n + 1`.
+
+**Correct version:**
+```java
+public static int climbStairs(int n) {
+    if (n == 1) return 1;
+    if (n == 2) return 2;
+
+    int[] dp = new int[n + 1];  // Fix 1: n + 1 size
+    dp[1] = 1;
+    dp[2] = 2;
+
+    for (int i = 3; i <= n; i++) {  // Fix 2: start at 3, or use i < n
+        dp[i] = dp[i - 1] + dp[i - 2];
+    }
+
+    return dp[n];
+}
+```
+
+**Alternative fix with O(1) space:**
+```java
+public static int climbStairs(int n) {
+    if (n <= 2) return n;
+
+    int prev2 = 1, prev1 = 2;
+    for (int i = 3; i <= n; i++) {
+        int current = prev1 + prev2;
+        prev2 = prev1;
+        prev1 = current;
+    }
+    return prev1;
+}
+```
+</details>
+
+---
+
+### Challenge 2: Broken Coin Change
+
+```java
+/**
+ * Minimum coins to make amount.
+ * This has 2 CRITICAL BUGS - wrong recurrence and wrong base case.
+ */
+public static int coinChange_Buggy(int[] coins, int amount) {
+    int[] dp = new int[amount + 1];
+    Arrays.fill(dp, Integer.MAX_VALUE);
+    dp[0] = 0;  // Base case: 0 coins for amount 0
+
+    for (int i = 0; i < amount; i++) {  // BUG 1: Wrong iteration range?
+        for (int coin : coins) {
+            if (i + coin <= amount) {
+                dp[i + coin] = Math.min(dp[i + coin], dp[i] + 1);  // BUG 2: Correct logic?
+            }
+        }
+    }
+
+    return dp[amount] == Integer.MAX_VALUE ? -1 : dp[amount];
+}
+```
+
+**Your debugging:**
+
+- **Bug 1:** _[Loop should be `i < amount` or `i <= amount`? Why?]_
+- **Bug 2:** _[Is the recurrence relation correct? What if dp[i] is MAX_VALUE?]_
+
+**Test case:**
+
+- coins = `[2]`, amount = `3`
+- Expected: `-1` (impossible)
+- With buggy code: _[What do you get?]_
+
+**Trace through manually:**
+
+- i=0: dp[0]=0, trying coin=2 → dp[2] = min(MAX, 0+1) = 1
+- i=1: dp[1]=MAX, trying coin=2 → _[What happens here?]_
+
+<details markdown>
+<summary>Click to verify your answers</summary>
+
+**Bug 1:** Loop is actually okay but can be clearer. Better approach is `for (int i = 1; i <= amount; i++)` and check `i - coin >= 0`.
+
+**Bug 2:** The logic has a subtle bug: if `dp[i]` is MAX_VALUE, then `dp[i] + 1` overflows to negative! Need to check before adding.
+
+**Correct version:**
+```java
+public static int coinChange(int[] coins, int amount) {
+    int[] dp = new int[amount + 1];
+    Arrays.fill(dp, amount + 1);  // Use amount + 1 as "infinity" (safer)
+    dp[0] = 0;
+
+    for (int i = 1; i <= amount; i++) {
+        for (int coin : coins) {
+            if (i >= coin) {
+                dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+            }
+        }
+    }
+
+    return dp[amount] > amount ? -1 : dp[amount];
+}
+```
+
+**Key insight:** Use `amount + 1` instead of `Integer.MAX_VALUE` as infinity to avoid overflow. It's impossible to need more than `amount` coins if you have coin value 1.
+</details>
+
+---
+
+### Challenge 3: Broken House Robber
+
+```java
+/**
+ * Maximum money robbing houses without adjacent.
+ * This has 1 SUBTLE BUG in recurrence relation.
+ */
+public static int rob_Buggy(int[] nums) {
+    if (nums.length == 0) return 0;
+    if (nums.length == 1) return nums[0];
+
+    int[] dp = new int[nums.length];
+    dp[0] = nums[0];
+    dp[1] = nums[1];  // BUG: Is this the correct base case?
+
+    for (int i = 2; i < nums.length; i++) {
+        dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i]);
+    }
+
+    return dp[nums.length - 1];
+}
+```
+
+**Your debugging:**
+
+- **Bug location:** _[Which line has the wrong base case?]_
+- **Bug explanation:** _[Why is dp[1] = nums[1] wrong?]_
+- **Bug fix:** _[What should dp[1] be?]_
+
+**Test case to expose the bug:**
+
+- Input: `[2, 1, 1, 2]`
+- Expected: `4` (rob houses 0 and 3)
+- Buggy output: _[Trace through - what do you get?]_
+
+**Manual trace with buggy code:**
+
+- dp[0] = 2
+- dp[1] = 1 (BUG: should this compare something?)
+- dp[2] = max(dp[1], dp[0] + nums[2]) = max(1, 2+1) = 3
+- dp[3] = max(dp[2], dp[1] + nums[3]) = max(3, 1+2) = 3
+- Returns 3, but correct answer is 4!
+
+<details markdown>
+<summary>Click to verify your answer</summary>
+
+**Bug (Line 7):** `dp[1]` should be `Math.max(nums[0], nums[1])`, not just `nums[1]`.
+
+**Why:** At house 1, you have a choice: rob house 0 OR rob house 1. You should take the maximum of the two, not automatically rob house 1.
+
+**Correct version:**
+```java
+public static int rob(int[] nums) {
+    if (nums.length == 0) return 0;
+    if (nums.length == 1) return nums[0];
+
+    int[] dp = new int[nums.length];
+    dp[0] = nums[0];
+    dp[1] = Math.max(nums[0], nums[1]);  // Fix: choose better of first two
+
+    for (int i = 2; i < nums.length; i++) {
+        dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i]);
+    }
+
+    return dp[nums.length - 1];
+}
+```
+
+**Space-optimized version:**
+```java
+public static int rob(int[] nums) {
+    if (nums.length == 0) return 0;
+    if (nums.length == 1) return nums[0];
+
+    int prev2 = nums[0];
+    int prev1 = Math.max(nums[0], nums[1]);
+
+    for (int i = 2; i < nums.length; i++) {
+        int current = Math.max(prev1, prev2 + nums[i]);
+        prev2 = prev1;
+        prev1 = current;
+    }
+
+    return prev1;
+}
+```
+</details>
+
+---
+
+### Challenge 4: Broken Word Break
+
+```java
+/**
+ * Check if string can be segmented into dictionary words.
+ * This has 2 BUGS - wrong iteration order and wrong base case check.
+ */
+public static boolean wordBreak_Buggy(String s, List<String> wordDict) {
+    Set<String> dict = new HashSet<>(wordDict);
+    boolean[] dp = new boolean[s.length() + 1];
+    dp[0] = true;
+
+    for (int i = 1; i <= s.length(); i++) {
+        for (int j = i; j >= 0; j--) {  // BUG 1: Should j start at i or 0?
+            if (dp[j] && dict.contains(s.substring(j, i))) {
+                dp[i] = true;
+                break;  // BUG 2: Is breaking early always safe?
+            }
+        }
+    }
+
+    return dp[s.length()];
+}
+```
+
+**Your debugging:**
+
+- **Bug 1:** _[Is the inner loop direction correct?]_
+- **Bug 2:** _[Is the break statement causing missed solutions?]_
+
+**Test case:**
+
+- s = `"leetcode"`, dict = `["leet", "code"]`
+- Expected: `true`
+- Trace manually: _[Does it find the solution?]_
+
+**Actually... is this code correct?**
+
+- _[Carefully trace through the logic]_
+- _[Check: does it explore all possible segmentations?]_
+
+<details markdown>
+<summary>Click to verify your answer</summary>
+
+**Surprise:** The code is actually CORRECT! This was a trick question to test your careful analysis.
+
+**Why it works:**
+
+- Inner loop `j` from `i` down to `0` checks all possible last words ending at position `i`
+- If `dp[j]` is true (substring 0..j can be segmented) AND substring j..i is in dictionary, then substring 0..i can be segmented
+- The `break` is an optimization - once we find one valid segmentation, we don't need to find more
+
+**Common misconception:** Students often think the break causes problems, but we only need to know IF segmentation is possible, not find ALL ways.
+
+**The real learning:** Not all complex-looking DP code has bugs! Sometimes the challenge is understanding WHY it's correct.
+
+**Alternative version without break (slightly less efficient):**
+```java
+public static boolean wordBreak(String s, List<String> wordDict) {
+    Set<String> dict = new HashSet<>(wordDict);
+    boolean[] dp = new boolean[s.length() + 1];
+    dp[0] = true;
+
+    for (int i = 1; i <= s.length(); i++) {
+        for (int j = 0; j < i; j++) {
+            if (dp[j] && dict.contains(s.substring(j, i))) {
+                dp[i] = true;
+                // No break - checks all j values
+            }
+        }
+    }
+
+    return dp[s.length()];
+}
+```
+
+Both versions are correct; the first is slightly faster due to early exit.
+</details>
+
+---
+
+### Challenge 5: Wrong Iteration Order
+
+```java
+/**
+ * Coin change II - count ways to make amount.
+ * This has 1 CRITICAL BUG that causes wrong answer.
+ */
+public static int change_Buggy(int amount, int[] coins) {
+    int[] dp = new int[amount + 1];
+    dp[0] = 1;  // One way to make 0: use no coins
+
+    // BUG: Wrong loop order!
+    for (int i = 1; i <= amount; i++) {
+        for (int coin : coins) {
+            if (i >= coin) {
+                dp[i] += dp[i - coin];
+            }
+        }
+    }
+
+    return dp[amount];
+}
+```
+
+**Your debugging:**
+
+- **Bug:** _[Why does loop order matter here?]_
+- **What does this code actually count?** _[Permutations or combinations?]_
+- **How to fix:** _[Swap loop order? Why?]_
+
+**Test case:**
+
+- amount = `4`, coins = `[1, 2]`
+- Expected: `3` ways (1+1+1+1, 1+1+2, 2+2)
+- Buggy output: _[What do you get? Why?]_
+
+**Think:** This buggy version counts `[1,1,2]` and `[1,2,1]` and `[2,1,1]` as different. Should they be?
+
+<details markdown>
+<summary>Click to verify your answer</summary>
+
+**Bug:** Loop order causes counting permutations instead of combinations!
+
+**Buggy version counts:** {1,1,2}, {1,2,1}, {2,1,1}, {2,2}, {1,1,1,1} = 5 ways
+**Correct should count:** {1,1,2}, {2,2}, {1,1,1,1} = 3 ways
+
+**Fix - swap loop order:**
+```java
+public static int change(int amount, int[] coins) {
+    int[] dp = new int[amount + 1];
+    dp[0] = 1;
+
+    // Correct: iterate coins in outer loop
+    for (int coin : coins) {
+        for (int i = coin; i <= amount; i++) {
+            dp[i] += dp[i - coin];
+        }
+    }
+
+    return dp[amount];
+}
+```
+
+**Why this works:**
+
+- Outer loop on coins ensures we consider coins in order
+- For each coin, we update all amounts that can use it
+- This prevents counting different orders of the same coin set
+
+**Key insight:** In combination problems (Coin Change II, Subset Sum), loop over items in outer loop. In minimum/maximum problems (Coin Change I), loop order doesn't matter.
+</details>
+
+---
+
+### Your Debugging Scorecard
+
+After finding and fixing all bugs:
+
+- [ ] Found all 7+ bugs across 5 challenges
+- [ ] Understood WHY each bug causes incorrect behavior
+- [ ] Could explain the difference between combinations and permutations
+- [ ] Learned to check: array bounds, base cases, recurrence relations, loop order
+
+**Common DP mistakes you discovered:**
+
+1. **Off-by-one errors:** _[Array size, loop bounds]_
+2. **Wrong base cases:** _[Initial dp values affect everything]_
+3. **Overflow issues:** _[Using Integer.MAX_VALUE in arithmetic]_
+4. **Wrong recurrence relation:** _[Not considering all choices correctly]_
+5. **Wrong iteration order:** _[Matters for combination vs permutation counting]_
+
+**Your key learnings:**
+
+- _[What was the most surprising bug?]_
+- _[Which bug was hardest to spot?]_
+- _[What will you always check now when writing DP code?]_
+
+---
+
 ## Decision Framework
 
 **Your task:** Build decision trees for 1D DP problems.
@@ -552,11 +1248,13 @@ Answer after solving problems:
 ### Question 2: Top-down or bottom-up?
 
 **Top-down (Memoization):**
+
 - Pros: _[Natural recursion, only compute needed states]_
 - Cons: _[Stack space, slightly slower]_
 - Use when: _[Complex recurrence, not all states needed]_
 
 **Bottom-up (Tabulation):**
+
 - Pros: _[No stack, often faster, space optimization]_
 - Cons: _[Must compute all states]_
 - Use when: _[Simple iteration order, need all states]_
@@ -587,6 +1285,7 @@ Answer after solving problems:
 ### The "Kill Switch" - When NOT to use 1D DP
 
 **Don't use when:**
+
 1. _[Need 2D state - use 2D DP]_
 2. _[Greedy works - simpler and faster]_
 3. _[Can use math formula - O(1)]_
@@ -595,16 +1294,19 @@ Answer after solving problems:
 ### The Rule of Three: Alternatives
 
 **Option 1: Dynamic Programming**
+
 - Pros: _[Optimal solution, polynomial time]_
 - Cons: _[Need optimal substructure]_
 - Use when: _[Overlapping subproblems]_
 
 **Option 2: Greedy**
+
 - Pros: _[Simpler, faster]_
 - Cons: _[Doesn't always work]_
 - Use when: _[Greedy choice property holds]_
 
 **Option 3: Recursion with Memoization**
+
 - Pros: _[More intuitive]_
 - Cons: _[Stack overhead]_
 - Use when: _[Complex recurrence]_
@@ -616,55 +1318,58 @@ Answer after solving problems:
 ### LeetCode Problems
 
 **Easy (Complete all 3):**
+
 - [ ] [70. Climbing Stairs](https://leetcode.com/problems/climbing-stairs/)
-  - Pattern: _[Fibonacci-style]_
-  - Your solution time: ___
-  - Key insight: _[Fill in after solving]_
+    - Pattern: _[Fibonacci-style]_
+    - Your solution time: ___
+    - Key insight: _[Fill in after solving]_
 
 - [ ] [746. Min Cost Climbing Stairs](https://leetcode.com/problems/min-cost-climbing-stairs/)
-  - Pattern: _[Fibonacci with cost]_
-  - Your solution time: ___
-  - Key insight: _[Fill in]_
+    - Pattern: _[Fibonacci with cost]_
+    - Your solution time: ___
+    - Key insight: _[Fill in]_
 
 - [ ] [121. Best Time to Buy and Sell Stock](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/)
-  - Pattern: _[Single transaction]_
-  - Your solution time: ___
-  - Key insight: _[Fill in]_
+    - Pattern: _[Single transaction]_
+    - Your solution time: ___
+    - Key insight: _[Fill in]_
 
 **Medium (Complete 4-5):**
+
 - [ ] [198. House Robber](https://leetcode.com/problems/house-robber/)
-  - Pattern: _[Fibonacci-style decision]_
-  - Difficulty: _[Rate 1-10]_
-  - Key insight: _[Fill in]_
+    - Pattern: _[Fibonacci-style decision]_
+    - Difficulty: _[Rate 1-10]_
+    - Key insight: _[Fill in]_
 
 - [ ] [322. Coin Change](https://leetcode.com/problems/coin-change/)
-  - Pattern: _[Decision DP]_
-  - Difficulty: _[Rate 1-10]_
-  - Key insight: _[Fill in]_
+    - Pattern: _[Decision DP]_
+    - Difficulty: _[Rate 1-10]_
+    - Key insight: _[Fill in]_
 
 - [ ] [139. Word Break](https://leetcode.com/problems/word-break/)
-  - Pattern: _[String DP]_
-  - Difficulty: _[Rate 1-10]_
-  - Key insight: _[Fill in]_
+    - Pattern: _[String DP]_
+    - Difficulty: _[Rate 1-10]_
+    - Key insight: _[Fill in]_
 
 - [ ] [300. Longest Increasing Subsequence](https://leetcode.com/problems/longest-increasing-subsequence/)
-  - Pattern: _[Sequence DP]_
-  - Difficulty: _[Rate 1-10]_
-  - Key insight: _[Fill in]_
+    - Pattern: _[Sequence DP]_
+    - Difficulty: _[Rate 1-10]_
+    - Key insight: _[Fill in]_
 
 - [ ] [91. Decode Ways](https://leetcode.com/problems/decode-ways/)
-  - Pattern: _[String DP]_
-  - Difficulty: _[Rate 1-10]_
-  - Key insight: _[Fill in]_
+    - Pattern: _[String DP]_
+    - Difficulty: _[Rate 1-10]_
+    - Key insight: _[Fill in]_
 
 **Hard (Optional):**
+
 - [ ] [152. Maximum Product Subarray](https://leetcode.com/problems/maximum-product-subarray/)
-  - Pattern: _[Track min and max]_
-  - Key insight: _[Fill in after solving]_
+    - Pattern: _[Track min and max]_
+    - Key insight: _[Fill in after solving]_
 
 - [ ] [132. Palindrome Partitioning II](https://leetcode.com/problems/palindrome-partitioning-ii/)
-  - Pattern: _[String DP with cut optimization]_
-  - Key insight: _[Fill in after solving]_
+    - Pattern: _[String DP with cut optimization]_
+    - Key insight: _[Fill in after solving]_
 
 ---
 
@@ -673,38 +1378,446 @@ Answer after solving problems:
 Before moving to the next topic:
 
 - [ ] **Implementation**
-  - [ ] Fibonacci-style: stairs, robber, min cost all work
-  - [ ] Decision: coin change, partition all work
-  - [ ] String: decode ways, word break, LIS all work
-  - [ ] Stock: single, unlimited, cooldown, fee all work
-  - [ ] All client code runs successfully
+    - [ ] Fibonacci-style: stairs, robber, min cost all work
+    - [ ] Decision: coin change, partition all work
+    - [ ] String: decode ways, word break, LIS all work
+    - [ ] Stock: single, unlimited, cooldown, fee all work
+    - [ ] All client code runs successfully
 
 - [ ] **Pattern Recognition**
-  - [ ] Can identify overlapping subproblems
-  - [ ] Understand recurrence relations
-  - [ ] Know when to use top-down vs bottom-up
-  - [ ] Can optimize space complexity
+    - [ ] Can identify overlapping subproblems
+    - [ ] Understand recurrence relations
+    - [ ] Know when to use top-down vs bottom-up
+    - [ ] Can optimize space complexity
 
 - [ ] **Problem Solving**
-  - [ ] Solved 3 easy problems
-  - [ ] Solved 4-5 medium problems
-  - [ ] Analyzed time/space complexity
-  - [ ] Understood state transitions
+    - [ ] Solved 3 easy problems
+    - [ ] Solved 4-5 medium problems
+    - [ ] Analyzed time/space complexity
+    - [ ] Understood state transitions
 
 - [ ] **Understanding**
-  - [ ] Filled in all ELI5 explanations
-  - [ ] Built decision tree
-  - [ ] Identified when NOT to use DP
-  - [ ] Can explain memoization vs tabulation
+    - [ ] Filled in all ELI5 explanations
+    - [ ] Built decision tree
+    - [ ] Identified when NOT to use DP
+    - [ ] Can explain memoization vs tabulation
 
 - [ ] **Mastery Check**
-  - [ ] Could implement all patterns from memory
-  - [ ] Could recognize pattern in new problem
-  - [ ] Could explain to someone else
-  - [ ] Understand how to derive recurrence
+    - [ ] Could implement all patterns from memory
+    - [ ] Could recognize pattern in new problem
+    - [ ] Could explain to someone else
+    - [ ] Understand how to derive recurrence
 
 ---
 
-**Next Topic:** [14. Dynamic Programming (2D) →](14-dynamic-programming-2d.md)
+## Understanding Gate (Must Pass Before Continuing)
 
-**Back to:** [12. Backtracking ←](12-backtracking.md)
+**Your task:** Prove mastery through explanation and application. You cannot move forward until you can confidently complete this section.
+
+### Gate 1: Explain to a Junior Developer
+
+**Scenario:** A junior developer asks: "What's the difference between recursion and dynamic programming?"
+
+**Your explanation (write it out):**
+
+> "Dynamic programming is..."
+>
+> _[Fill in your explanation in plain English - 3-4 sentences max]_
+
+**Self-assessment:**
+
+- Clarity score (1-10): ___
+- Could your explanation be understood by a non-technical person? _[Yes/No]_
+- Did you explain both optimal substructure AND overlapping subproblems? _[Yes/No]_
+
+If you scored below 7 or answered "No" to either question, revise your explanation.
+
+---
+
+### Gate 2: Whiteboard Exercise
+
+**Task:** Draw the DP table/memoization for climbing stairs (n=5), without looking at code.
+
+**Draw the computation:**
+
+```
+Problem: climbStairs(5) - ways to climb 5 stairs (1 or 2 steps at a time)
+
+Recurrence: ways(n) = ___________________
+
+Base cases:
+- ways(1) = ___
+- ways(2) = ___
+
+Fill in the table:
+n    | 0 | 1 | 2 | 3 | 4 | 5 |
+-----|---|---|---|---|---|---|
+ways |   |   |   |   |   |   |
+
+Show your work for ways(3):
+_________________________________
+
+Show your work for ways(4):
+_________________________________
+
+Show your work for ways(5):
+_________________________________
+
+Final answer: ways(5) = ___
+```
+
+**Verification:**
+
+- [ ] Wrote correct recurrence relation
+- [ ] Identified correct base cases
+- [ ] Filled table correctly from bottom-up
+- [ ] Got final answer of 8
+
+---
+
+### Gate 3: Pattern Recognition Test
+
+**Without looking at your notes, classify these problems:**
+
+| Problem | Pattern | Recurrence Relation | Base Case |
+|---------|---------|---------------------|-----------|
+| Fibonacci(n) | _[Fill in]_ | F(n) = _[Fill in]_ | F(0)=___, F(1)=___ |
+| Climbing stairs (1 or 2 steps) | _[Fill in]_ | ways(n) = _[Fill in]_ | _[Fill in]_ |
+| House robber | _[Fill in]_ | rob(i) = _[Fill in]_ | _[Fill in]_ |
+| Coin change (min coins) | _[Fill in]_ | dp[i] = _[Fill in]_ | dp[0] = ___ |
+| Word break | _[Fill in]_ | dp[i] = _[Fill in]_ | dp[0] = ___ |
+| Longest increasing subsequence | _[Fill in]_ | dp[i] = _[Fill in]_ | dp[i] = ___ |
+
+**Score:** ___/6 correct
+
+If you scored below 5/6, review the patterns and try again.
+
+---
+
+### Gate 4: Complexity Analysis Deep Dive
+
+**Complete from memory:**
+
+**Question 1:** Why is recursive Fibonacci O(2^n)?
+
+Your answer: _[Explain the branching factor]_
+
+**Question 2:** Why does memoization make it O(n)?
+
+Your answer: _[Explain what changes]_
+
+**Question 3:** Coin change with amount=100, coins=[1,2,5]
+
+- Recursive (no memo): O(_____) time
+- With memoization: O(_____) time, O(_____) space
+- Bottom-up DP: O(_____) time, O(_____) space
+- Space-optimized: O(_____) time, O(_____) space (if possible)
+
+**Question 4:** When can you optimize from O(n) space to O(1)?
+
+Your answer: _[Explain the pattern and why]_
+
+---
+
+### Gate 5: Identify the DP Properties
+
+**For each problem, identify if it has the required DP properties:**
+
+**Problem: Maximum sum subarray (contiguous elements)**
+
+- Has optimal substructure? _[Yes/No - explain]_
+- Has overlapping subproblems? _[Yes/No - explain]_
+- Can use DP? _[Yes/No - which approach?]_
+- OR use Greedy? _[Would Kadane's algorithm work better?]_
+
+**Problem: Traveling salesman (visit all cities, minimum distance)**
+
+- Has optimal substructure? _[Yes/No - explain]_
+- Has overlapping subproblems? _[Yes/No - explain]_
+- Can use 1D DP? _[Yes/No - why or why not?]_
+- What's needed? _[2D DP? Bitmask DP? Other?]_
+
+**Problem: Finding maximum element in array**
+
+- Has optimal substructure? _[Yes/No - explain]_
+- Has overlapping subproblems? _[Yes/No - explain]_
+- Can use DP? _[Yes/No - is it overkill?]_
+- Better approach? _[Fill in]_
+
+**Your key insight:** _[When should you NOT use DP?]_
+
+---
+
+### Gate 6: Trace Through Execution
+
+**Set a 5-minute timer. Manually trace this code with input [2, 7, 9, 3, 1]:**
+
+```java
+public static int rob(int[] nums) {
+    if (nums.length == 0) return 0;
+    if (nums.length == 1) return nums[0];
+
+    int prev2 = nums[0];
+    int prev1 = Math.max(nums[0], nums[1]);
+
+    for (int i = 2; i < nums.length; i++) {
+        int current = Math.max(prev1, prev2 + nums[i]);
+        prev2 = prev1;
+        prev1 = current;
+    }
+
+    return prev1;
+}
+```
+
+**Your trace:**
+
+```
+Input: [2, 7, 9, 3, 1]
+
+Initial:
+prev2 = ___
+prev1 = ___
+
+Iteration i=2 (nums[i]=9):
+current = max(___, ___ + ___) = ___
+prev2 = ___
+prev1 = ___
+
+Iteration i=3 (nums[i]=3):
+current = max(___, ___ + ___) = ___
+prev2 = ___
+prev1 = ___
+
+Iteration i=4 (nums[i]=1):
+current = max(___, ___ + ___) = ___
+prev2 = ___
+prev1 = ___
+
+Final return: ___
+
+Explanation of result:
+_[Which houses were robbed and why?]_
+```
+
+**Verification:**
+
+- [ ] Traced all iterations correctly
+- [ ] Got final answer of 12
+- [ ] Can explain which houses were "robbed" (indices 0, 2, 4 → values 2, 9, 1)
+
+---
+
+### Gate 7: Top-Down vs Bottom-Up Decision
+
+**For each scenario, choose the better approach and explain why:**
+
+**Scenario 1:** Computing Fibonacci(50)
+
+- **Top-down (memoization):** Pros _[Fill in]_, Cons _[Fill in]_
+- **Bottom-up (tabulation):** Pros _[Fill in]_, Cons _[Fill in]_
+- **Your choice:** _[Which and why?]_
+
+**Scenario 2:** Word break with large dictionary and short string
+
+- **Top-down (memoization):** Pros _[Fill in]_, Cons _[Fill in]_
+- **Bottom-up (tabulation):** Pros _[Fill in]_, Cons _[Fill in]_
+- **Your choice:** _[Which and why?]_
+
+**Scenario 3:** House robber with 1 million houses
+
+- **Top-down (memoization):** Pros _[Fill in]_, Cons _[Fill in]_
+- **Bottom-up (tabulation):** Pros _[Fill in]_, Cons _[Fill in]_
+- **Space-optimized bottom-up:** Pros _[Fill in]_
+- **Your choice:** _[Which and why?]_
+
+**General rule you learned:**
+
+- _[When to prefer top-down?]_
+- _[When to prefer bottom-up?]_
+- _[When to space-optimize?]_
+
+---
+
+### Gate 8: Code from Memory (Final Test)
+
+**Set a 15-minute timer. Implement WITHOUT looking at notes:**
+
+```java
+/**
+ * Problem 1: Climbing stairs
+ * You can climb 1 or 2 steps at a time.
+ * How many distinct ways to climb n stairs?
+ *
+ * Implement with space optimization O(1)
+ */
+public static int climbStairs(int n) {
+    // Your implementation here
+
+
+
+
+    return 0; // Replace
+}
+
+/**
+ * Problem 2: Coin change
+ * Minimum coins to make amount with given coin denominations.
+ * Return -1 if impossible.
+ *
+ * coins = [1, 2, 5], amount = 11 → return 3 (5 + 5 + 1)
+ */
+public static int coinChange(int[] coins, int amount) {
+    // Your implementation here
+
+
+
+
+    return -1; // Replace
+}
+
+/**
+ * Problem 3: House robber
+ * Rob houses to maximize money, can't rob adjacent houses.
+ *
+ * Implement with space optimization O(1)
+ */
+public static int rob(int[] nums) {
+    // Your implementation here
+
+
+
+
+    return 0; // Replace
+}
+```
+
+**After implementing, test with:**
+
+Test 1: climbStairs(5)
+- Expected: `8`
+- Your output: ___
+
+Test 2: coinChange([1,2,5], 11)
+- Expected: `3`
+- Your output: ___
+
+Test 3: rob([2,7,9,3,1])
+- Expected: `12`
+- Your output: ___
+
+**Verification:**
+
+- [ ] All three implementations work correctly
+- [ ] climbStairs and rob use O(1) space
+- [ ] coinChange uses O(amount) space
+- [ ] Handles edge cases (n=0, n=1, empty array, etc.)
+
+---
+
+### Gate 9: Debug Without Running
+
+**Find the bugs by READING only - no IDE, no compiler:**
+
+```java
+// Bug hunt: Find 3 bugs in this coin change implementation
+public static int coinChange(int[] coins, int amount) {
+    int[] dp = new int[amount];
+    Arrays.fill(dp, amount + 1);
+    dp[0] = 0;
+
+    for (int i = 1; i < amount; i++) {
+        for (int coin : coins) {
+            if (i >= coin) {
+                dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+            }
+        }
+    }
+
+    return dp[amount] > amount ? -1 : dp[amount];
+}
+```
+
+**Your bug findings:**
+
+1. **Bug 1:** _[Line ___, Issue: ___, Fix: ___]_
+2. **Bug 2:** _[Line ___, Issue: ___, Fix: ___]_
+3. **Bug 3:** _[Line ___, Issue: ___, Fix: ___]_
+
+<details markdown>
+<summary>Click to verify your answers</summary>
+
+**Bug 1 (Line 2):** Array size should be `amount + 1`, not `amount` (need index 0 to amount).
+
+**Bug 2 (Line 5):** Loop should be `i <= amount` not `i < amount` (or fix with proper array size).
+
+**Bug 3 (Line 12):** Accessing `dp[amount]` will throw ArrayIndexOutOfBoundsException due to Bug 1.
+
+All three bugs are related to the array bounds issue!
+</details>
+
+---
+
+### Gate 10: Teaching Check
+
+**The ultimate test of understanding is teaching.**
+
+**Task:** Write a 1-paragraph explanation for each question as if teaching a beginner:
+
+**Question 1:** "Why is plain recursion so slow for Fibonacci?"
+
+Your teaching explanation:
+> _[Write your explanation - use analogies, be clear, 3-4 sentences]_
+
+**Question 2:** "How does memoization make it fast?"
+
+Your teaching explanation:
+> _[Write your explanation - contrast with recursion, 3-4 sentences]_
+
+**Question 3:** "When should I use DP instead of greedy or divide-and-conquer?"
+
+Your teaching explanation:
+> _[Write your explanation - give clear criteria, 3-4 sentences]_
+
+**Self-assessment:**
+
+- Would a beginner understand your explanations? _[Yes/No]_
+- Did you avoid jargon or explain technical terms? _[Yes/No]_
+- Could you draw pictures to support your explanations? _[Yes/No]_
+
+---
+
+### Mastery Certification
+
+**I certify that I can:**
+
+- [ ] Identify when a problem needs DP (optimal substructure + overlapping subproblems)
+- [ ] Write correct recurrence relations for all 4 pattern types
+- [ ] Implement both top-down (memoization) and bottom-up (tabulation) approaches
+- [ ] Optimize space complexity when only previous states are needed
+- [ ] Debug common DP bugs (base cases, array bounds, recurrence errors, loop order)
+- [ ] Analyze time and space complexity accurately
+- [ ] Choose between DP approaches based on problem constraints
+- [ ] Explain DP concepts clearly to others
+
+**Self-assessment score:** ___/10
+
+**If score < 8:** Review the sections where you struggled, then retry this gate.
+
+**If score ≥ 8:** Congratulations! You've mastered 1D Dynamic Programming. Proceed to 2D DP.
+
+---
+
+**Final Reflection Questions:**
+
+1. **What was your biggest "aha!" moment with DP?**
+    - _[Fill in]_
+
+2. **Which problem was hardest and why?**
+    - _[Fill in]_
+
+3. **What's the #1 thing you'll remember about DP?**
+    - _[Fill in]_
+
+4. **How would you explain DP in ONE sentence?**
+    - _[Fill in - this is your elevator pitch]_

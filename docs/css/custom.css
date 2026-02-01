@@ -1,0 +1,42 @@
+/* Style for the container */
+details {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    padding: 10px 15px;
+    background-color: #f9f9f9;
+}
+
+/* Style for the clickable summary */
+details summary {
+    font-weight: bold;
+    cursor: pointer;
+    color: #337ab7; /* Cinder's default link blue */
+    outline: none;
+}
+
+details summary:hover {
+    color: #23527c;
+    text-decoration: underline;
+}
+
+/* Content spacing when expanded */
+details[open] summary {
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+/* Remove default marker (optional) */
+details summary::-webkit-details-marker {
+    display: none;
+}
+
+details summary::before {
+    content: "▶ ";
+    font-size: 0.8em;
+}
+
+details[open] summary::before {
+    content: "▼ ";
+}

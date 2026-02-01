@@ -1,4 +1,4 @@
-site_name: Staff Engineering Study Guide
+site_name: Software Engineering Study Guide
 site_description: A framework for algorithms, systems design, and infrastructure.
 site_author: Richard
 
@@ -8,6 +8,12 @@ theme:
   hljs_languages:
     - java
     - python
+
+extra_css:
+  - css/custom.css
+
+plugins:
+    - search
 
 nav:
   - Home: index.md
@@ -53,3 +59,8 @@ markdown_extensions:
   - tables
   - toc:
       permalink: true
+  - pymdownx.tasklist:
+      custom_checkbox: true  # Recommended for better styling
+  - pymdownx.details
+  - pymdownx.superfences
+  - md_in_html

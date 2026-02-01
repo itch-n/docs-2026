@@ -11,24 +11,248 @@
 **Prompts to guide you:**
 
 1. **What is a B+Tree in one sentence?**
-   - Your answer: _[Fill in after implementation]_
+    - Your answer: _[Fill in after implementation]_
 
 2. **Why do databases use B+Trees?**
-   - Your answer: _[Fill in after implementation]_
+    - Your answer: _[Fill in after implementation]_
 
 3. **Real-world analogy for B+Tree:**
-   - Example: "A B+Tree is like a filing cabinet where..."
-   - Your analogy: _[Fill in]_
+    - Example: "A B+Tree is like a filing cabinet where..."
+    - Your analogy: _[Fill in]_
 
 4. **What is an LSM Tree in one sentence?**
-   - Your answer: _[Fill in after implementation]_
+    - Your answer: _[Fill in after implementation]_
 
 5. **Why do write-heavy databases use LSM Trees?**
-   - Your answer: _[Fill in after implementation]_
+    - Your answer: _[Fill in after implementation]_
 
 6. **Real-world analogy for LSM Tree:**
-   - Example: "An LSM Tree is like a notebook where..."
-   - Your analogy: _[Fill in]_
+    - Example: "An LSM Tree is like a notebook where..."
+    - Your analogy: _[Fill in]_
+
+---
+
+## Quick Quiz (Do BEFORE implementing)
+
+**Your task:** Test your intuition without looking at code. Answer these, then verify after implementation.
+
+### Complexity Predictions
+
+1. **B+Tree insert operation:**
+    - Time complexity: _[Your guess: O(?)]_
+    - Verified after implementation: _[Actual: O(?)]_
+
+2. **LSM Tree write operation (to MemTable):**
+    - Time complexity: _[Your guess: O(?)]_
+    - Space complexity: _[Your guess: O(?)]_
+    - Verified: _[Actual]_
+
+3. **Performance calculation:**
+    - For 100,000 writes, B+Tree = _____ operations (if log base is 10)
+    - For 100,000 writes, LSM Tree = _____ operations (before flush)
+    - Speedup factor for writes: LSM is approximately _____ times faster
+
+### Scenario Predictions
+
+**Scenario 1:** Time-series metrics database (1M writes/second, rare reads)
+
+- **Best storage engine?** _[B+Tree/LSM Tree - Why?]_
+- **Key consideration:** _[Write amplification/Read speed/Range queries?]_
+- **Why this choice?** _[Fill in your reasoning]_
+
+**Scenario 2:** E-commerce inventory system (100k reads/sec, 5k writes/sec)
+
+- **Best storage engine?** _[B+Tree/LSM Tree - Why?]_
+- **What pattern benefits most?** _[Point lookups/Range scans/Random writes?]_
+
+**Scenario 3:** Social media analytics (read historical posts by date range)
+
+- **Which handles range queries better?** _[B+Tree/LSM Tree - Why?]_
+- **Key data structure feature:** _[Linked leaves/Sorted SSTables?]_
+
+### Trade-off Quiz
+
+**Question:** When would B+Tree be BETTER than LSM Tree despite slower writes?
+
+- Your answer: _[Fill in before implementation]_
+- Verified answer: _[Fill in after benchmarking]_
+
+**Question:** What's the MAIN advantage of LSM Trees for writes?
+
+- [ ] No tree balancing required on each write
+- [ ] Better space efficiency
+- [ ] Faster range queries
+- [ ] Lower read amplification
+
+Verify after implementation: _[Which one(s)?]_
+
+**Question:** What happens if you never compact an LSM Tree?
+
+- Your prediction: _[What problem occurs?]_
+- Verified: _[Fill in after testing]_
+
+---
+
+## Before/After: Why This Pattern Matters
+
+**Your task:** Compare naive vs optimized storage approaches to understand the trade-offs.
+
+### Example: Write-Heavy Workload
+
+**Problem:** Insert 10,000 key-value pairs as quickly as possible.
+
+#### Approach 1: B+Tree (Immediate Persistence)
+
+```java
+// Every write requires tree traversal and potential rebalancing
+BPlusTree<Integer, String> btree = new BPlusTree<>(128);
+
+long start = System.nanoTime();
+for (int i = 0; i < 10000; i++) {
+    btree.insert(i, "Value" + i);  // Each insert: O(log N)
+    // Must traverse tree from root to leaf
+    // May trigger node splits (expensive)
+    // Must maintain tree balance property
+}
+long duration = System.nanoTime() - start;
+```
+
+**Analysis:**
+
+- Time: O(N log N) - Each insert is O(log N)
+- Space: O(N) - Tree structure overhead
+- For 10,000 inserts: ~10,000 * log(10,000) = ~130,000 operations
+- Write amplification: High (each insert may split nodes, update parent pointers)
+
+#### Approach 2: LSM Tree (Buffered Writes)
+
+```java
+// Writes go to in-memory MemTable (just a TreeMap insert)
+LSMTree<Integer, String> lsm = new LSMTree<>(100);
+
+long start = System.nanoTime();
+for (int i = 0; i < 10000; i++) {
+    lsm.put(i, "Value" + i);  // Each put: O(log M), M = memTable size
+    // Only updates in-memory TreeMap
+    // Occasional flush to disk (batched)
+}
+long duration = System.nanoTime() - start;
+```
+
+**Analysis:**
+
+- Time: O(N log M) where M << N (M = MemTable size)
+- Space: O(N) - Eventually flushes to SSTables
+- For 10,000 inserts: ~10,000 * log(100) = ~20,000 operations
+- Write amplification: Lower (batch writes to disk)
+
+#### Performance Comparison
+
+| Operation Count | B+Tree (O(N log N)) | LSM Tree (O(N log M)) | LSM Advantage |
+|----------------|---------------------|----------------------|---------------|
+| N = 1,000      | ~10,000 ops         | ~2,000 ops           | 5x faster     |
+| N = 10,000     | ~130,000 ops        | ~20,000 ops          | 6.5x faster   |
+| N = 100,000    | ~1,700,000 ops      | ~200,000 ops         | 8.5x faster   |
+
+**Your calculation:** For N = 50,000 writes, LSM Tree is approximately _____ times faster.
+
+#### Why Does LSM Win for Writes?
+
+**Key insight to understand:**
+
+B+Tree: Every insert = tree traversal + potential split
+```
+Insert key=50:
+1. Traverse root → internal → leaf (3 disk seeks)
+2. Insert in leaf (sorted position)
+3. If leaf full, split node (expensive)
+4. Update parent pointers (more writes)
+Result: 1 logical write = 4-5 physical writes (write amplification!)
+```
+
+LSM Tree: Batched sequential writes
+```
+Insert key=50:
+1. Insert into MemTable (in-memory TreeMap)
+2. When MemTable full, flush entire batch to SSTable
+3. Sequential write to disk (very fast)
+Result: 1 logical write = 1 in-memory write (occasionally batched to disk)
+```
+
+**After implementing, explain in your own words:**
+
+- _[Why does B+Tree require more writes per operation?]_
+- _[How does LSM Tree achieve better write throughput?]_
+- _[What's the trade-off for read performance?]_
+
+---
+
+### Example: Read-Heavy Workload
+
+**Problem:** Perform 1,000 random lookups after loading 10,000 records.
+
+#### Approach 1: B+Tree (Single Location Read)
+
+```java
+BPlusTree<Integer, String> btree = new BPlusTree<>(128);
+// Load data...
+
+long start = System.nanoTime();
+for (int i = 0; i < 1000; i++) {
+    int key = random.nextInt(10000);
+    String value = btree.search(key);  // Single tree traversal: O(log N)
+    // Root → Internal → Leaf (3-4 hops)
+}
+long duration = System.nanoTime() - start;
+```
+
+**Analysis:**
+
+- Time: O(log N) per read
+- For 1,000 reads: ~1,000 * log(10,000) = ~13,000 operations
+- Read amplification: Low (single path through tree)
+
+#### Approach 2: LSM Tree (Multiple Location Read)
+
+```java
+LSMTree<Integer, String> lsm = new LSMTree<>(100);
+// Load data... (creates multiple SSTables)
+
+long start = System.nanoTime();
+for (int i = 0; i < 1000; i++) {
+    int key = random.nextInt(10000);
+    String value = lsm.get(key);  // Check MemTable + all SSTables
+    // Must check MemTable (O(log M))
+    // Then check SSTable-5 (O(log S))
+    // Then check SSTable-4 (O(log S))
+    // ... continue until found
+}
+long duration = System.nanoTime() - start;
+```
+
+**Analysis:**
+
+- Time: O(log M + K * log S) where K = number of SSTables
+- For 1,000 reads with 10 SSTables: ~1,000 * (10 * log(1000)) = ~100,000 operations
+- Read amplification: High (must check multiple locations)
+
+#### Performance Comparison
+
+| SSTable Count | B+Tree (O(log N)) | LSM Tree (O(K * log S)) | B+Tree Advantage |
+|---------------|-------------------|------------------------|------------------|
+| K = 1         | ~13 ops/read      | ~13 ops/read           | ~1x (equal)      |
+| K = 5         | ~13 ops/read      | ~65 ops/read           | 5x faster        |
+| K = 10        | ~13 ops/read      | ~130 ops/read          | 10x faster       |
+
+**Your calculation:** With 20 SSTables, B+Tree is approximately _____ times faster for reads.
+
+**Key insight:** This is why LSM Trees need **compaction** - to reduce SSTable count!
+
+**After benchmarking, fill in:**
+
+- _[What happens to LSM read performance as SSTables accumulate?]_
+- _[Why doesn't B+Tree have this problem?]_
+- _[How does compaction help LSM Trees?]_
 
 ---
 
@@ -598,6 +822,7 @@ public class StorageBenchmark {
 ```
 
 **Must complete:**
+
 - [ ] Implement B+Tree insert, search, rangeQuery
 - [ ] Implement LSM Tree put, get, flush, compact
 - [ ] Run both client programs successfully
@@ -618,6 +843,412 @@ Winner: ___
 
 Key insight: ___ [Fill in why this difference exists]
 ```
+
+---
+
+## Debugging Challenges
+
+**Your task:** Find and fix bugs in broken storage engine implementations. This tests your deep understanding.
+
+### Challenge 1: Broken B+Tree Leaf Split
+
+```java
+/**
+ * This splitLeaf method is supposed to split a full leaf node.
+ * It has 3 CRITICAL BUGS. Find them!
+ */
+private void splitLeaf(LeafNode leaf) {
+    LeafNode newLeaf = new LeafNode();
+    int midpoint = leaf.keys.size() / 2;
+
+    // Move half the keys/values to new leaf
+    for (int i = midpoint; i < leaf.keys.size(); i++) {
+        newLeaf.keys.add(leaf.keys.get(i));
+        newLeaf.values.add(leaf.values.get(i));
+    }
+
+    // BUG 1: What's wrong with how we remove keys from old leaf?
+    for (int i = midpoint; i < leaf.keys.size(); i++) {
+        leaf.keys.remove(i);
+        leaf.values.remove(i);
+    }
+
+    // BUG 2: Missing critical pointer update!
+    // newLeaf.next = ???
+
+    // BUG 3: What if leaf is the root?
+    InternalNode parent = (InternalNode) leaf.parent;
+    parent.keys.add(newLeaf.keys.get(0));
+    parent.children.add(newLeaf);
+}
+```
+
+**Your debugging:**
+
+- **Bug 1 location:** _[Which lines?]_
+- **Bug 1 explanation:** _[What happens when you remove while iterating?]_
+- **Bug 1 fix:** _[How to correctly remove elements?]_
+
+- **Bug 2 location:** _[What's missing?]_
+- **Bug 2 explanation:** _[Why must leaf nodes be linked?]_
+- **Bug 2 fix:** _[Write the correct code]_
+
+- **Bug 3 location:** _[Which line?]_
+- **Bug 3 explanation:** _[What if leaf.parent is null?]_
+- **Bug 3 fix:** _[How to handle root split?]_
+
+<details markdown>
+<summary>Click to verify your answers</summary>
+
+**Bug 1 (Lines 13-16):** Removing elements while iterating forward breaks indices. Each removal shifts remaining elements left.
+
+**Fix:**
+```java
+// Remove from end to avoid index shifting
+for (int i = leaf.keys.size() - 1; i >= midpoint; i--) {
+    leaf.keys.remove(i);
+    leaf.values.remove(i);
+}
+// OR use subList:
+leaf.keys.subList(midpoint, leaf.keys.size()).clear();
+leaf.values.subList(midpoint, leaf.values.size()).clear();
+```
+
+**Bug 2 (After line 11):** Must link new leaf into the leaf chain for range queries!
+
+**Fix:**
+```java
+newLeaf.next = leaf.next;  // New leaf points to old leaf's next
+leaf.next = newLeaf;       // Old leaf points to new leaf
+```
+
+**Bug 3 (Lines 22-23):** If leaf is root, parent is null - NullPointerException!
+
+**Fix:**
+```java
+if (leaf.parent == null) {
+    // Create new root
+    InternalNode newRoot = new InternalNode();
+    newRoot.keys.add(newLeaf.keys.get(0));
+    newRoot.children.add(leaf);
+    newRoot.children.add(newLeaf);
+    leaf.parent = newRoot;
+    newLeaf.parent = newRoot;
+    root = newRoot;
+} else {
+    InternalNode parent = (InternalNode) leaf.parent;
+    // Insert key in sorted position (not just add!)
+    // Insert newLeaf in corresponding position
+}
+```
+</details>
+
+---
+
+### Challenge 2: Broken LSM Tree Compaction
+
+```java
+/**
+ * Compact all SSTables into one.
+ * This has 2 LOGIC BUGS that cause data loss and incorrect ordering.
+ */
+public void compact() {
+    if (sstables.size() <= 1) return;
+
+    TreeMap<K, V> merged = new TreeMap<>();
+
+    // BUG 1: Wrong iteration order!
+    for (int i = sstables.size() - 1; i >= 0; i--) {
+        SSTable<K, V> table = sstables.get(i);
+        for (Map.Entry<K, V> entry : table.entrySet()) {
+            merged.put(entry.getKey(), entry.getValue());
+        }
+    }
+
+    // Create compacted SSTable
+    SSTable<K, V> compacted = new SSTable<>(merged);
+
+    // BUG 2: What about the sstables list?
+    sstables.add(compacted);
+
+    System.out.println("Compacted into 1 SSTable");
+}
+```
+
+**Your debugging:**
+
+- **Bug 1:** _[What's wrong with iterating newest to oldest?]_
+- **Bug 1 explanation:** _[Which value should win for duplicate keys?]_
+- **Bug 1 test case:** Insert key=5 with "Old", then update to "New". After compaction, what do you get?
+- **Bug 1 fix:** _[Correct the iteration order]_
+
+- **Bug 2:** _[What's wrong with line 18?]_
+- **Bug 2 explanation:** _[What happens to old SSTables?]_
+- **Bug 2 fix:** _[Write the correct code]_
+
+<details markdown>
+<summary>Click to verify your answers</summary>
+
+**Bug 1 (Line 9):** Iterating from newest to oldest means older values overwrite newer ones!
+
+LSM Trees must keep the NEWEST value for each key. By iterating newest-to-oldest and using `put()`, when we encounter the key again in an older SSTable, it overwrites the newer value.
+
+**Fix:**
+```java
+// Iterate from OLDEST to NEWEST
+for (int i = 0; i < sstables.size(); i++) {
+    SSTable<K, V> table = sstables.get(i);
+    for (Map.Entry<K, V> entry : table.entrySet()) {
+        merged.put(entry.getKey(), entry.getValue());  // Later puts overwrite earlier
+    }
+}
+```
+
+**Bug 2 (Line 18):** We add the compacted SSTable but never remove the old ones! Memory leak!
+
+**Fix:**
+```java
+sstables.clear();          // Remove all old SSTables
+sstables.add(compacted);   // Add compacted one
+```
+</details>
+
+---
+
+### Challenge 3: B+Tree Search with Wrong Child Selection
+
+```java
+/**
+ * Find the leaf node where key should be located.
+ * This has 1 SUBTLE BUG in binary search logic.
+ */
+private LeafNode findLeaf(K key) {
+    Node current = root;
+
+    while (!current.isLeaf()) {
+        InternalNode internal = (InternalNode) current;
+
+        // BUG: Wrong child selection logic!
+        int i = 0;
+        while (i < internal.keys.size() && key.compareTo(internal.keys.get(i)) > 0) {
+            i++;
+        }
+
+        current = internal.children.get(i);
+    }
+
+    return (LeafNode) current;
+}
+```
+
+**Your debugging:**
+
+- **Bug location:** _[Which lines?]_
+- **Bug explanation:** _[What happens with keys equal to internal node keys?]_
+- **Test case:** Tree has keys [10, 20, 30]. Search for key=20. Which child do you visit?
+- **Bug fix:** _[Should comparison be >= or >?]_
+
+**Trace through manually:**
+```
+Internal node: keys=[20], children=[ChildA, ChildB]
+ChildA contains: [10, 15]
+ChildB contains: [20, 25, 30]
+
+Search key=20:
+- Line 12: i=0, key(20) > keys[0](20)? NO
+- i stays 0
+- Visit children[0] = ChildA
+- BUG: Key 20 is actually in ChildB!
+```
+
+<details markdown>
+<summary>Click to verify your answer</summary>
+
+**Bug (Line 12):** Using `>` instead of `>=` causes keys equal to split points to go left when they should go right.
+
+**B+Tree invariant:** Internal node key K means "left child < K, right child >= K"
+
+**Fix:**
+```java
+while (i < internal.keys.size() && key.compareTo(internal.keys.get(i)) >= 0) {
+    i++;
+}
+```
+
+OR be more explicit:
+```java
+int i;
+for (i = 0; i < internal.keys.size(); i++) {
+    if (key.compareTo(internal.keys.get(i)) < 0) {
+        break;
+    }
+}
+current = internal.children.get(i);
+```
+</details>
+
+---
+
+### Challenge 4: LSM Tree Missing Flush
+
+```java
+/**
+ * This LSM Tree mysteriously loses data after many inserts.
+ * Find the CRITICAL MISSING OPERATION.
+ */
+public class LSMTree<K extends Comparable<K>, V> {
+    private TreeMap<K, V> memTable;
+    private List<SSTable<K, V>> sstables;
+    private final int memTableSize = 100;
+
+    public void put(K key, V value) {
+        memTable.put(key, value);
+
+        // BUG: What's missing here?
+        if (memTable.size() >= memTableSize) {
+            flush();
+        }
+    }
+
+    private void flush() {
+        SSTable<K, V> newTable = new SSTable<>(memTable);
+        sstables.add(newTable);
+        // BUG: Missing critical step!
+        System.out.println("Flushed to SSTable");
+    }
+}
+```
+
+**Your debugging:**
+
+- **Bug location:** _[What's missing in flush()?]_
+- **Bug explanation:** _[What happens to MemTable after flush?]_
+- **Test case:** Insert 250 items. How many times does flush() run? How many items in memTable?
+- **Expected:** MemTable has 50 items after 250 inserts (flushed 200)
+- **Actual:** _[What really happens?]_
+- **Bug fix:** _[Write the missing code]_
+
+<details markdown>
+<summary>Click to verify your answer</summary>
+
+**Bug (After line 20):** We never clear the MemTable after flushing!
+
+**Result:** MemTable keeps growing forever. After first flush, memTable has 100 items. After second flush, it has 200. Eventually OutOfMemoryError.
+
+**Also:** Data gets duplicated across SSTables because we keep the same data in memory and keep flushing it again.
+
+**Fix:**
+```java
+private void flush() {
+    SSTable<K, V> newTable = new SSTable<>(memTable);
+    sstables.add(newTable);
+    memTable.clear();  // CRITICAL: Clear for new writes!
+    System.out.println("Flushed to SSTable");
+}
+```
+
+OR initialize a new MemTable:
+```java
+memTable = new TreeMap<>();
+```
+</details>
+
+---
+
+### Challenge 5: Range Query Doesn't Stop
+
+```java
+/**
+ * B+Tree range query implementation.
+ * This has 1 CRITICAL BUG causing incorrect results.
+ */
+public List<V> rangeQuery(K startKey, K endKey) {
+    List<V> results = new ArrayList<>();
+
+    LeafNode leaf = findLeaf(startKey);
+
+    // Traverse leaves until we exceed endKey
+    while (leaf != null) {
+        for (int i = 0; i < leaf.keys.size(); i++) {
+            K key = leaf.keys.get(i);
+
+            // BUG: Wrong range check!
+            if (key.compareTo(startKey) >= 0) {
+                results.add(leaf.values.get(i));
+            }
+        }
+
+        leaf = leaf.next;
+    }
+
+    return results;
+}
+```
+
+**Your debugging:**
+
+- **Bug location:** _[Which line?]_
+- **Bug explanation:** _[What's missing from the range check?]_
+- **Test case:** Tree has keys [1,3,5,7,9,11,13,15]. rangeQuery(5, 10). Expected: [5,7,9]. Actual: _[What?]_
+- **Bug fix:** _[Add missing condition]_
+
+<details markdown>
+<summary>Click to verify your answer</summary>
+
+**Bug (Lines 11-17):** We check if key >= startKey but never check if key > endKey!
+
+**Result:** Range query returns ALL keys from startKey to the end of the tree, ignoring endKey.
+
+**Fix:**
+```java
+while (leaf != null) {
+    for (int i = 0; i < leaf.keys.size(); i++) {
+        K key = leaf.keys.get(i);
+
+        if (key.compareTo(endKey) > 0) {
+            return results;  // Stop when we exceed endKey
+        }
+
+        if (key.compareTo(startKey) >= 0) {
+            results.add(leaf.values.get(i));
+        }
+    }
+
+    leaf = leaf.next;
+}
+```
+
+**Optimization:** Can also break out of outer loop:
+```java
+if (key.compareTo(endKey) > 0) {
+    break;  // Exit inner loop
+}
+// After inner loop:
+if (leaf.keys.size() > 0 &&
+    leaf.keys.get(leaf.keys.size()-1).compareTo(endKey) > 0) {
+    break;  // Exit outer loop
+}
+```
+</details>
+
+---
+
+### Your Debugging Scorecard
+
+After finding and fixing all bugs:
+
+- [ ] Found all 9+ bugs across 5 challenges
+- [ ] Understood WHY each bug causes data corruption or incorrect results
+- [ ] Could explain the fix to someone else
+- [ ] Learned common storage engine mistakes to avoid
+
+**Common mistakes you discovered:**
+
+1. _[Index manipulation while iterating]_
+2. _[Missing pointer updates in tree structures]_
+3. _[Wrong iteration order in merge operations]_
+4. _[Forgetting to clear/reset data structures]_
+5. _[Incomplete boundary checks in range queries]_
 
 ---
 
@@ -670,11 +1301,13 @@ Storage Engine Selection
 ### The "Kill Switch" - When NOT to use each
 
 **Don't use B+Tree when:**
+
 1. _[Fill in]_
 2. _[Fill in]_
 3. _[Fill in]_
 
 **Don't use LSM Tree when:**
+
 1. _[Fill in]_
 2. _[Fill in]_
 3. _[Fill in]_
@@ -684,11 +1317,13 @@ Storage Engine Selection
 For any storage decision, consider:
 
 **Option 1: B+Tree**
+
 - Pros: _[Fill in]_
 - Cons: _[Fill in]_
 - Use when: _[Fill in]_
 
 **Option 2: LSM Tree**
+
 - Pros: _[Fill in]_
 - Cons: _[Fill in]_
 - Use when: _[Fill in]_
@@ -717,6 +1352,7 @@ CREATE TABLE posts (
 ```
 
 **Queries:**
+
 - Q1: Get recent posts by user (sorted by created_at)
 - Q2: Get top posts by likes in last 24 hours
 - Q3: Insert new posts (10,000 posts/sec)
@@ -749,6 +1385,7 @@ CREATE TABLE metrics (
 ```
 
 **Access patterns:**
+
 - Writes: 1M data points/second
 - Reads: Recent data (last 1 hour) queried frequently
 - Older data rarely accessed
@@ -775,6 +1412,7 @@ CREATE TABLE inventory (
 ```
 
 **Access patterns:**
+
 - Reads: Very frequent (1M reads/sec)
 - Writes: Updates when orders placed (10k writes/sec)
 - Consistency: Critical (no overselling)
@@ -795,30 +1433,323 @@ Trade-offs you considered:
 Before moving to the next topic:
 
 - [ ] **Implementation**
-  - [ ] B+Tree insert, search, range query work correctly
-  - [ ] LSM Tree put, get, flush, compact work correctly
-  - [ ] All client code runs without errors
-  - [ ] Benchmarks completed and results recorded
+    - [ ] B+Tree insert, search, range query work correctly
+    - [ ] LSM Tree put, get, flush, compact work correctly
+    - [ ] All client code runs without errors
+    - [ ] Benchmarks completed and results recorded
 
 - [ ] **Understanding**
-  - [ ] Can explain B+Tree in simple terms (filled ELI5)
-  - [ ] Can explain LSM Tree in simple terms (filled ELI5)
-  - [ ] Understand why writes are different speeds
-  - [ ] Understand why reads are different speeds
+    - [ ] Can explain B+Tree in simple terms (filled ELI5)
+    - [ ] Can explain LSM Tree in simple terms (filled ELI5)
+    - [ ] Understand why writes are different speeds
+    - [ ] Understand why reads are different speeds
 
 - [ ] **Decision Making**
-  - [ ] Built complete decision tree
-  - [ ] Identified "kill switch" for each
-  - [ ] Solved all 3 practice scenarios
-  - [ ] Can justify each design choice
+    - [ ] Built complete decision tree
+    - [ ] Identified "kill switch" for each
+    - [ ] Solved all 3 practice scenarios
+    - [ ] Can justify each design choice
 
 - [ ] **Mastery Check**
-  - [ ] Could implement both from memory
-  - [ ] Could explain trade-offs in an interview
-  - [ ] Know when to use each without looking at notes
+    - [ ] Could implement both from memory
+    - [ ] Could explain trade-offs in an interview
+    - [ ] Know when to use each without looking at notes
 
 ---
 
-**Next Topic:** [02. Indexing Strategies →](02-indexing.md)
+## Understanding Gate (Must Pass Before Continuing)
 
-**Back to:** [Home](../index.md)
+**Your task:** Prove mastery through explanation and application. You cannot move forward until you can confidently complete this section.
+
+### Gate 1: Explain to a Database Engineer
+
+**Scenario:** A database engineer asks you about storage engines for a new service.
+
+**Your explanation (write it out):**
+
+> "B+Trees and LSM Trees are two fundamental storage engine architectures..."
+>
+> _[Fill in your explanation in plain English - 4-5 sentences max]_
+
+**Self-assessment:**
+
+- Clarity score (1-10): ___
+- Could your explanation help someone make a real architectural decision? _[Yes/No]_
+- Did you explain the fundamental trade-off (write vs read performance)? _[Yes/No]_
+
+If you scored below 7 or answered "No" to either question, revise your explanation.
+
+---
+
+### Gate 2: Whiteboard Exercise
+
+**Task:** Draw how B+Tree and LSM Tree handle the same write operation, showing the structural differences.
+
+**Draw both approaches for inserting key=42:**
+
+```
+B+Tree Insert (key=42):
+Step 1: [Your drawing - show tree structure]
+        _________________________________
+
+Step 2: [Show traversal from root to leaf]
+        _________________________________
+
+Step 3: [Show potential node split if needed]
+        _________________________________
+
+
+LSM Tree Insert (key=42):
+Step 1: [Your drawing - show MemTable]
+        _________________________________
+
+Step 2: [Show what happens at flush threshold]
+        _________________________________
+
+Step 3: [Show SSTable creation]
+        _________________________________
+```
+
+**Verification:**
+
+- [ ] Drew B+Tree structure correctly (internal nodes vs leaf nodes)
+- [ ] Showed leaf linking in B+Tree
+- [ ] Drew LSM architecture (MemTable + SSTables)
+- [ ] Explained why LSM is faster for this operation
+
+---
+
+### Gate 3: Pattern Recognition Test
+
+**Without looking at your notes, classify these workloads:**
+
+| Workload | Best Engine (B+Tree/LSM) | Why? |
+|----------|-------------------------|------|
+| Time-series sensor data (high write rate) | _[Fill in]_ | _[Explain]_ |
+| Banking transactions (needs consistency) | _[Fill in]_ | _[Explain]_ |
+| Analytics with date range queries | _[Fill in]_ | _[Explain]_ |
+| Social media feeds (mostly recent reads) | _[Fill in]_ | _[Explain]_ |
+| Key-value cache (50/50 read/write) | _[Fill in]_ | _[Explain]_ |
+| Inventory system (read-heavy, occasional updates) | _[Fill in]_ | _[Explain]_ |
+
+**Score:** ___/6 correct
+
+If you scored below 5/6, review the decision framework and try again.
+
+---
+
+### Gate 4: Complexity Analysis
+
+**Complete this table from memory:**
+
+| Operation | B+Tree | LSM Tree | Why Different? |
+|-----------|--------|----------|----------------|
+| Insert (single) | O(?) | O(?) | _[Explain]_ |
+| Search (single) | O(?) | O(?) | _[Explain]_ |
+| Range query | O(?) | O(?) | _[Explain]_ |
+| Compaction | N/A | O(?) | _[Explain why B+Tree doesn't need this]_ |
+
+**Deep questions:**
+
+1. **Why is LSM Tree write O(log M) instead of O(log N)?**
+    - Your answer: _[Fill in - explain M vs N]_
+
+2. **What is "write amplification" and which engine has more?**
+    - Your answer: _[Fill in - define and compare]_
+
+3. **What is "read amplification" and which engine has more?**
+    - Your answer: _[Fill in - define and compare]_
+
+---
+
+### Gate 5: Trade-off Decision
+
+**Scenario:** You're designing storage for a monitoring system that collects 1M metrics/second. Reads are infrequent (only for dashboards and alerts).
+
+**Option A:** B+Tree
+- Write cost: _[Fill in - operations per insert]_
+- Read cost: _[Fill in]_
+- Pros: _[Fill in]_
+- Cons: _[Fill in]_
+
+**Option B:** LSM Tree
+- Write cost: _[Fill in - operations per insert]_
+- Read cost: _[Fill in]_
+- Pros: _[Fill in]_
+- Cons: _[Fill in]_
+
+**Your decision:** I would choose _[A/B]_ because...
+
+_[Fill in your reasoning - consider write volume, read patterns, and compaction strategy]_
+
+**What would make you change your decision?**
+
+- Scenario change 1: _[Fill in - what if reads increased 100x?]_
+- Scenario change 2: _[Fill in - what if range queries became critical?]_
+
+---
+
+### Gate 6: Implementation from Memory (Final Test)
+
+**Set a 15-minute timer. Implement the core operations without looking at notes:**
+
+```java
+/**
+ * Implement: LSM Tree put and get operations
+ */
+public class LSMTree<K extends Comparable<K>, V> {
+    private TreeMap<K, V> memTable;
+    private List<SSTable<K, V>> sstables;
+    private final int memTableSize;
+
+    // Your implementation here:
+
+    public void put(K key, V value) {
+        // TODO: Implement
+
+
+
+
+    }
+
+    public V get(K key) {
+        // TODO: Implement
+
+
+
+
+        return null;
+    }
+
+    private void flush() {
+        // TODO: Implement
+
+
+
+    }
+}
+```
+
+**After implementing, test with:**
+
+- Insert 150 keys with memTableSize=50
+- Expected: 3 SSTables created
+- Read key that exists in MemTable
+- Read key that exists in oldest SSTable
+
+**Verification:**
+
+- [ ] Implemented put() correctly with flush logic
+- [ ] Implemented get() to check MemTable then SSTables
+- [ ] Handles flush threshold correctly
+- [ ] Returns correct values after flush
+
+---
+
+### Gate 7: Architectural Reasoning
+
+**The ultimate test: Design a hybrid approach.**
+
+**Task:** Design a storage engine that combines B+Tree and LSM Tree advantages.
+
+Your design:
+
+```
+Hybrid Storage Engine:
+
+Component 1: _[What would you use for writes?]_
+    - Structure: _[Describe]_
+    - Purpose: _[Why this choice?]_
+
+Component 2: _[What would you use for reads?]_
+    - Structure: _[Describe]_
+    - Purpose: _[Why this choice?]_
+
+Background Process: _[What maintains the system?]_
+    - Frequency: _[How often?]_
+    - Operation: _[What does it do?]_
+
+Trade-offs: _[What did you sacrifice? What did you gain?]_
+```
+
+**Real-world comparison:**
+
+- Does your design resemble any real database? _[Research: RocksDB, WiredTiger, LevelDB]_
+- What did you discover? _[Fill in after researching]_
+
+---
+
+### Gate 8: Bug Prevention Checklist
+
+**From your debugging experience, create a checklist for code reviews:**
+
+**B+Tree Implementation Checklist:**
+
+- [ ] _[Fill in - node split edge cases]_
+- [ ] _[Fill in - leaf linking]_
+- [ ] _[Fill in - boundary conditions in search]_
+- [ ] _[Fill in]_
+
+**LSM Tree Implementation Checklist:**
+
+- [ ] _[Fill in - MemTable clearing after flush]_
+- [ ] _[Fill in - SSTable iteration order in compaction]_
+- [ ] _[Fill in - read amplification mitigation]_
+- [ ] _[Fill in]_
+
+**General Storage Engine Checklist:**
+
+- [ ] _[Fill in]_
+- [ ] _[Fill in]_
+
+---
+
+### Gate 9: Teaching Check
+
+**The ultimate test of understanding is teaching.**
+
+**Task:** Explain write amplification to someone who has never heard of it.
+
+Your explanation:
+
+> "Write amplification happens when..."
+>
+> _[Fill in - use an analogy, then explain the technical concept]_
+
+**Examples you would use:**
+
+1. _[Real-world analogy]_
+2. _[B+Tree example with numbers]_
+3. _[LSM Tree example with numbers]_
+
+**Why it matters:**
+
+- Impact on SSD lifetime: _[Explain]_
+- Impact on performance: _[Explain]_
+
+---
+
+### Mastery Certification
+
+**I certify that I can:**
+
+- [ ] Implement B+Tree insert, search, and range query from memory
+- [ ] Implement LSM Tree put, get, flush, and compact from memory
+- [ ] Explain when and why to use each storage engine
+- [ ] Identify the correct engine for new workloads without hesitation
+- [ ] Analyze write and read amplification
+- [ ] Debug common storage engine bugs
+- [ ] Design compaction strategies for LSM Trees
+- [ ] Teach these concepts to someone else
+
+**Self-assessment score:** ___/10
+
+**Benchmark results completed:**
+
+- Write performance ratio (LSM vs B+Tree): ___x faster
+- Read performance ratio (B+Tree vs LSM): ___x faster
+- Understood why: _[Yes/No]_
+
+**If score < 8:** Review the sections where you struggled, then retry this gate.
+
+**If score ≥ 8:** Congratulations! You've mastered storage engines. Proceed to the next topic.

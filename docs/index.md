@@ -1,4 +1,4 @@
-# Staff Engineer Study Guide
+# Backend Engineer Study Guide
 
 > A hands-on, fill-in-as-you-learn framework for systems design and algorithms
 
@@ -7,6 +7,7 @@
 This guide is organized as **numbered sequences** - no timelines, just ordered topics you work through at your own pace.
 
 Each topic has the same structure:
+
 1. **ELI5** - Explain it simply (you fill this in after learning)
 2. **Implementation** - Code stubs to complete + runnable examples
 3. **Decision Framework** - Build your own flowcharts for when to use what
@@ -75,14 +76,17 @@ For each topic:
 ## Key Principles
 
 **"Focus on the Kill Switch"**
+
 - For every technology, document why you should NOT use it
 - Trade-offs matter more than features
 
 **"The Rule of Three"**
+
 - For every decision, identify three alternative approaches
 - No "right" answer, only trade-offs
 
 **"Trace the Request"**
+
 - Follow data from user → logic → disk
 - Understand the full stack
 

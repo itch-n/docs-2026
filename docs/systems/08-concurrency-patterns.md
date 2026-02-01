@@ -11,24 +11,249 @@
 **Prompts to guide you:**
 
 1. **What is a lock in one sentence?**
-   - Your answer: _[Fill in after implementation]_
+    - Your answer: _[Fill in after implementation]_
 
 2. **Why do we need locks in concurrent programs?**
-   - Your answer: _[Fill in after implementation]_
+    - Your answer: _[Fill in after implementation]_
 
 3. **Real-world analogy for ReentrantLock:**
-   - Example: "A ReentrantLock is like a bathroom key that you can use multiple times..."
-   - Your analogy: _[Fill in]_
+    - Example: "A ReentrantLock is like a bathroom key that you can use multiple times..."
+    - Your analogy: _[Fill in]_
 
 4. **What is a thread pool in one sentence?**
-   - Your answer: _[Fill in after implementation]_
+    - Your answer: _[Fill in after implementation]_
 
 5. **Why use a thread pool instead of creating threads directly?**
-   - Your answer: _[Fill in after implementation]_
+    - Your answer: _[Fill in after implementation]_
 
 6. **Real-world analogy for BlockingQueue:**
-   - Example: "A BlockingQueue is like a conveyor belt in a factory..."
-   - Your analogy: _[Fill in]_
+    - Example: "A BlockingQueue is like a conveyor belt in a factory..."
+    - Your analogy: _[Fill in]_
+
+---
+
+## Quick Quiz (Do BEFORE implementing)
+
+**Your task:** Test your intuition about concurrency without looking at code. Answer these, then verify after implementation.
+
+### Complexity Predictions
+
+1. **Synchronized vs Lock-Free counter with 10 threads, 1M increments each:**
+    - Synchronized time: _[Your guess: faster/slower than lock-free?]_
+    - Lock-free time: _[Your guess]_
+    - Verified after learning: _[Actual results]_
+
+2. **Producer-Consumer with bounded queue (size 10), 1 producer, 1 consumer:**
+    - What happens when queue is full? _[Your guess]_
+    - What happens when queue is empty? _[Your guess]_
+    - Verified: _[Actual behavior]_
+
+3. **Thread pool sizing calculation:**
+    - For 8 CPU cores, 100ms CPU work, 0ms I/O per task:
+     - Optimal pool size: _[Your guess: O(?)]_
+    - For 8 CPU cores, 50ms CPU work, 200ms I/O per task:
+     - Optimal pool size: _[Your guess: O(?)]_
+    - Verified: _[Actual formula and results]_
+
+### Scenario Predictions
+
+**Scenario 1:** Two threads incrementing shared counter without synchronization
+
+```java
+int counter = 0;
+Thread t1 = new Thread(() -> { for(int i=0; i<1000; i++) counter++; });
+Thread t2 = new Thread(() -> { for(int i=0; i<1000; i++) counter++; });
+```
+
+- **Expected counter value:** _[2000, right?]_
+- **Actual typical value:** _[Will it be 2000? Why or why not?]_
+- **This bug is called:** _[Fill in after learning]_
+
+**Scenario 2:** Bank transfer with incorrect locking
+
+```java
+// Thread 1: transfer(account1, account2, $100)
+// Thread 2: transfer(account2, account1, $50)
+// Each thread locks: lock(from), lock(to), then transfers
+```
+
+- **Can deadlock occur?** _[Yes/No - Why?]_
+- **How to prevent it?** _[Fill in your guess]_
+- **Verified solution:** _[Fill in after implementation]_
+
+**Scenario 3:** ConcurrentHashMap vs Hashtable (synchronized)
+
+- **Which is faster for 100 threads reading?** _[Your guess]_
+- **Why?** _[Reason]_
+- **What's the key difference?** _[Fill in after learning about lock striping]_
+
+### Trade-off Quiz
+
+**Question:** When would synchronized be BETTER than ReentrantLock?
+
+- Your answer: _[Fill in before implementation]_
+- Verified answer: _[Fill in after learning]_
+
+**Question:** When would lock-free (Atomic) be WORSE than locks?
+
+- Your answer: _[Fill in before implementation]_
+- Verified answer: _[Fill in after learning about contention and CAS retries]_
+
+**Question:** What's the MAIN risk of unbounded thread pools?
+
+- [ ] Slow performance
+- [ ] Deadlocks
+- [ ] OutOfMemoryError
+- [ ] Race conditions
+
+Verify after implementation: _[Which one(s)?]_
+
+---
+
+## Before/After: Why These Patterns Matter
+
+**Your task:** Compare unsafe vs synchronized vs lock-free approaches to understand the impact.
+
+### Example: Thread-Safe Counter
+
+**Problem:** Multiple threads incrementing a shared counter.
+
+#### Approach 1: Unsafe (No Synchronization)
+
+```java
+// BROKEN - Race condition!
+public class UnsafeCounter {
+    private int count = 0;
+
+    public void increment() {
+        count++;  // NOT atomic! Actually: read, add, write
+    }
+
+    public int getCount() {
+        return count;
+    }
+}
+```
+
+**Analysis:**
+
+- Time: O(1) per operation
+- Space: O(1)
+- **BUG:** Race condition - lost updates
+- For 10 threads × 100,000 increments = 1,000,000 expected
+- Actual result: ~650,000 (varies each run!)
+- **Lost updates:** ~350,000 increments lost
+
+**Why it fails:**
+```
+Thread 1: read count=5
+Thread 2: read count=5
+Thread 1: add 1, write count=6
+Thread 2: add 1, write count=6  ← Should be 7!
+```
+
+#### Approach 2: Synchronized (Lock-Based)
+
+```java
+// CORRECT - Using synchronized
+public class SynchronizedCounter {
+    private int count = 0;
+
+    public synchronized void increment() {
+        count++;  // Protected by lock
+    }
+
+    public synchronized int getCount() {
+        return count;
+    }
+}
+```
+
+**Analysis:**
+
+- Time: O(1) per operation (with lock overhead ~50-100ns)
+- Space: O(1)
+- **CORRECT:** Mutual exclusion guarantees atomicity
+- For 10 threads × 100,000 increments = 1,000,000 expected
+- Actual result: 1,000,000 ✓
+
+**Lock overhead:**
+
+- Low contention: ~50ns per lock
+- High contention: ~500-1000ns (threads wait in queue)
+
+#### Approach 3: Lock-Free (Atomic with CAS)
+
+```java
+// CORRECT - Using Compare-And-Swap
+import java.util.concurrent.atomic.AtomicInteger;
+
+public class LockFreeCounter {
+    private final AtomicInteger count = new AtomicInteger(0);
+
+    public void increment() {
+        count.getAndIncrement();  // Uses CAS internally
+    }
+
+    public int getCount() {
+        return count.get();
+    }
+}
+```
+
+**Analysis:**
+
+- Time: O(1) expected per operation (CAS ~5-10ns when successful)
+- Space: O(1)
+- **CORRECT:** CAS ensures atomicity without locks
+- For 10 threads × 100,000 increments = 1,000,000 expected
+- Actual result: 1,000,000 ✓
+
+**CAS behavior:**
+```
+do {
+    current = read count
+    next = current + 1
+} while (!compareAndSet(current, next))  // Retry if changed
+```
+
+#### Performance Comparison
+
+| Threads | Unsafe (BROKEN) | Synchronized | Lock-Free (Atomic) | Winner |
+|---------|-----------------|--------------|-------------------|--------|
+| 1       | 100% (5ms)     | 100% (5ms)   | 100% (5ms)       | Tie    |
+| 2       | 75% lost       | 100% (12ms)  | 100% (8ms)       | Lock-free 1.5x |
+| 10      | 35% lost       | 100% (150ms) | 100% (50ms)      | Lock-free 3x   |
+| 100     | 5% lost        | 100% (2000ms)| 100% (500ms)     | Lock-free 4x   |
+
+**Your calculation:** For 50 threads, synchronized takes 800ms. Lock-free should take approximately _____ ms.
+
+#### Why Does Lock-Free Win Under Contention?
+
+**Synchronized (Lock):**
+
+- Thread 1 acquires lock → others BLOCK and wait in queue
+- Context switches, scheduler overhead
+- Serialized execution under high contention
+
+**Lock-Free (CAS):**
+
+- All threads attempt CAS simultaneously
+- Failed CAS retries immediately (no blocking)
+- Better CPU utilization, no context switches
+- Scales better with more threads
+
+**When locks win:**
+
+- Complex operations (need to hold lock for multiple steps)
+- Low contention (lock overhead minimal)
+- Need fairness guarantees (lock provides FIFO)
+
+**After implementing, explain in your own words:**
+
+- _[Why does unsynchronized code lose updates?]_
+- _[When would you choose synchronized over lock-free?]_
+- _[What is the "ABA problem" in lock-free algorithms?]_
 
 ---
 
@@ -1594,6 +1819,528 @@ public class ThreadPoolPatternsClient {
 
 ---
 
+## Debugging Challenges
+
+**Your task:** Find and fix concurrency bugs in broken implementations. This tests your understanding of thread safety.
+
+### Challenge 1: Lost Updates (Race Condition)
+
+```java
+/**
+ * This bank account has a race condition.
+ * Two threads transferring money simultaneously can cause lost updates.
+ */
+public class BrokenBankAccount {
+    private int balance = 1000;
+
+    public boolean withdraw(int amount) {
+        // BUG: Check-then-act race condition!
+        if (balance >= amount) {
+            // What if another thread withdraws here?
+            balance -= amount;
+            return true;
+        }
+        return false;
+    }
+
+    public int getBalance() {
+        return balance;
+    }
+}
+```
+
+**Your debugging:**
+
+- **Bug location:** _[Which lines?]_
+- **Bug explanation:** _[What can go wrong?]_
+- **Scenario:** Thread A and B both call withdraw(600) when balance=1000
+    - Expected: One succeeds, one fails, final balance = 400
+    - Actual: _[What happens?]_
+    - Final balance could be: _[Fill in]_
+- **Bug fix:** _[How to make it thread-safe?]_
+
+<details markdown>
+<summary>Click to verify your answer</summary>
+
+**Bug:** Check-then-act race condition. The check `balance >= amount` and the action `balance -= amount` are not atomic.
+
+**Scenario trace:**
+```
+Thread A: check balance (1000) >= 600 ✓
+Thread B: check balance (1000) >= 600 ✓
+Thread A: balance = 1000 - 600 = 400
+Thread B: balance = 400 - 600 = -200  ← OVERDRAFT!
+```
+
+**Fix Option 1 - Synchronized:**
+```java
+public synchronized boolean withdraw(int amount) {
+    if (balance >= amount) {
+        balance -= amount;
+        return true;
+    }
+    return false;
+}
+```
+
+**Fix Option 2 - ReentrantLock:**
+```java
+private final ReentrantLock lock = new ReentrantLock();
+
+public boolean withdraw(int amount) {
+    lock.lock();
+    try {
+        if (balance >= amount) {
+            balance -= amount;
+            return true;
+        }
+        return false;
+    } finally {
+        lock.unlock();
+    }
+}
+```
+</details>
+
+---
+
+### Challenge 2: Deadlock (Lock Ordering)
+
+```java
+/**
+ * This code can deadlock!
+ * Thread 1: transfer(acc1, acc2, 100)
+ * Thread 2: transfer(acc2, acc1, 50)
+ */
+public class DeadlockTransfer {
+    static class Account {
+        int balance;
+        final ReentrantLock lock = new ReentrantLock();
+    }
+
+    // BUG: No consistent lock ordering!
+    public static boolean transfer(Account from, Account to, int amount) {
+        from.lock.lock();  // Thread 1 locks acc1
+        try {
+            to.lock.lock();  // Thread 1 tries to lock acc2
+                            // BUT Thread 2 already locked acc2!
+            try {
+                if (from.balance >= amount) {
+                    from.balance -= amount;
+                    to.balance += amount;
+                    return true;
+                }
+                return false;
+            } finally {
+                to.lock.unlock();
+            }
+        } finally {
+            from.lock.unlock();
+        }
+    }
+}
+```
+
+**Your debugging:**
+
+- **Bug explanation:** _[Why does deadlock occur?]_
+- **Deadlock scenario:**
+    - Thread 1: Holds lock on ___, waiting for lock on ___
+    - Thread 2: Holds lock on ___, waiting for lock on ___
+    - Result: _[Both threads stuck forever]_
+- **Bug fix:** _[What's the solution?]_
+
+<details markdown>
+<summary>Click to verify your answer</summary>
+
+**Bug:** Circular lock dependency causes deadlock.
+
+**Deadlock scenario:**
+```
+Thread 1: transfer(acc1, acc2, 100)
+    - Locks acc1 ✓
+    - Tries to lock acc2... WAITS
+
+Thread 2: transfer(acc2, acc1, 50)
+    - Locks acc2 ✓
+    - Tries to lock acc1... WAITS
+
+DEADLOCK! Both threads waiting for each other.
+```
+
+**Fix - Consistent lock ordering:**
+```java
+public static boolean transfer(Account from, Account to, int amount) {
+    // Always lock in consistent order (e.g., by account ID)
+    Account first = from.id < to.id ? from : to;
+    Account second = from.id < to.id ? to : from;
+
+    first.lock.lock();
+    try {
+        second.lock.lock();
+        try {
+            if (from.balance >= amount) {
+                from.balance -= amount;
+                to.balance += amount;
+                return true;
+            }
+            return false;
+        } finally {
+            second.lock.unlock();
+        }
+    } finally {
+        first.lock.unlock();
+    }
+}
+```
+
+**Why it works:** All threads acquire locks in the same order (by ID), preventing circular wait.
+</details>
+
+---
+
+### Challenge 3: Visibility Problem (Missing volatile)
+
+```java
+/**
+ * This shutdown mechanism might not work!
+ * Worker thread may never see the updated flag.
+ */
+public class BrokenShutdown {
+    private boolean stopRequested = false;  // BUG: Not volatile!
+
+    // Background worker thread
+    public void backgroundWork() {
+        long count = 0;
+        while (!stopRequested) {  // May never see true!
+            count++;
+            // CPU might cache stopRequested = false forever
+        }
+        System.out.println("Stopped after " + count + " iterations");
+    }
+
+    // Main thread
+    public void requestStop() {
+        stopRequested = true;  // Write might not be visible!
+    }
+}
+```
+
+**Your debugging:**
+
+- **Bug location:** _[Which line?]_
+- **Bug explanation:** _[What's the visibility problem?]_
+- **Why does it fail?** _[CPU caching? Compiler optimization?]_
+- **Symptoms:**
+    - Expected: Worker stops immediately when requestStop() is called
+    - Actual: _[What happens?]_
+- **Bug fix:** _[How to ensure visibility?]_
+
+<details markdown>
+<summary>Click to verify your answer</summary>
+
+**Bug:** Missing `volatile` keyword causes visibility problem.
+
+**Why it fails:**
+
+- Each CPU core has its own cache
+- Worker thread caches `stopRequested = false`
+- Main thread writes `stopRequested = true` to its cache
+- Worker thread never sees the update (reads from its stale cache)
+- Loop runs forever!
+
+**Fix Option 1 - volatile:**
+```java
+private volatile boolean stopRequested = false;
+```
+- `volatile` ensures writes are visible to all threads
+- Prevents CPU caching
+- Adds memory barrier (flush to main memory)
+
+**Fix Option 2 - synchronized:**
+```java
+private boolean stopRequested = false;
+
+public synchronized void requestStop() {
+    stopRequested = true;
+}
+
+public synchronized boolean isStopRequested() {
+    return stopRequested;
+}
+
+public void backgroundWork() {
+    long count = 0;
+    while (!isStopRequested()) {
+        count++;
+    }
+}
+```
+
+**Fix Option 3 - AtomicBoolean:**
+```java
+private final AtomicBoolean stopRequested = new AtomicBoolean(false);
+
+public void backgroundWork() {
+    long count = 0;
+    while (!stopRequested.get()) {
+        count++;
+    }
+}
+
+public void requestStop() {
+    stopRequested.set(true);
+}
+```
+</details>
+
+---
+
+### Challenge 4: Thread Pool Starvation
+
+```java
+/**
+ * This code can cause thread pool starvation!
+ * All threads block waiting for tasks that can't execute.
+ */
+public class StarvationExample {
+    private final ExecutorService executor = Executors.newFixedThreadPool(2);
+
+    public void processWithSubtasks() throws Exception {
+        // BUG: Submitting dependent tasks to same pool!
+        executor.submit(() -> {
+            System.out.println("Task 1: Starting");
+
+            // This task submits subtasks and waits for them
+            Future<String> subtask1 = executor.submit(() -> "Subtask 1");
+            Future<String> subtask2 = executor.submit(() -> "Subtask 2");
+
+            try {
+                // BUG: Blocking on subtasks that can't execute!
+                subtask1.get();  // Waits forever if pool is full
+                subtask2.get();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("Task 1: Done");
+        });
+
+        executor.submit(() -> {
+            System.out.println("Task 2: Starting");
+
+            Future<String> subtask3 = executor.submit(() -> "Subtask 3");
+            Future<String> subtask4 = executor.submit(() -> "Subtask 4");
+
+            try {
+                subtask3.get();
+                subtask4.get();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("Task 2: Done");
+        });
+    }
+}
+```
+
+**Your debugging:**
+
+- **Bug explanation:** _[Why does it deadlock?]_
+- **Thread pool state:**
+    - Pool size: 2 threads
+    - Thread 1 executing: ___
+    - Thread 2 executing: ___
+    - Queued subtasks: ___
+    - Why can't subtasks run? _[Fill in]_
+- **Bug fix:** _[How to prevent starvation?]_
+
+<details markdown>
+<summary>Click to verify your answer</summary>
+
+**Bug:** Thread pool starvation - workers block waiting for work that can't execute.
+
+**Deadlock scenario:**
+```
+Pool size: 2 threads
+Thread 1: Executing Task 1, blocked on subtask1.get()
+Thread 2: Executing Task 2, blocked on subtask3.get()
+Queue: [subtask1, subtask2, subtask3, subtask4]
+
+All workers blocked, no thread available to run queued subtasks!
+DEADLOCK!
+```
+
+**Fix Option 1 - Separate thread pools:**
+```java
+private final ExecutorService mainExecutor = Executors.newFixedThreadPool(2);
+private final ExecutorService subtaskExecutor = Executors.newFixedThreadPool(4);
+
+// Submit main tasks to mainExecutor
+// Submit subtasks to subtaskExecutor
+```
+
+**Fix Option 2 - Larger pool:**
+```java
+// Pool must be large enough for all parallel tasks + their subtasks
+private final ExecutorService executor = Executors.newFixedThreadPool(10);
+```
+
+**Fix Option 3 - Don't block on subtasks in worker thread:**
+```java
+// Use callbacks/CompletableFuture instead of blocking get()
+CompletableFuture.supplyAsync(() -> "Subtask 1", executor)
+    .thenCombine(
+        CompletableFuture.supplyAsync(() -> "Subtask 2", executor),
+        (s1, s2) -> s1 + s2
+    )
+    .thenAccept(result -> System.out.println(result));
+```
+</details>
+
+---
+
+### Challenge 5: ABA Problem (Lock-Free Bug)
+
+```java
+/**
+ * This lock-free stack has the ABA problem!
+ * CAS can succeed incorrectly when value cycles back.
+ */
+public class ABAStack<T> {
+    private static class Node<T> {
+        final T value;
+        Node<T> next;
+        Node(T value) { this.value = value; }
+    }
+
+    private final AtomicReference<Node<T>> head = new AtomicReference<>();
+
+    public void push(T value) {
+        Node<T> newNode = new Node<>(value);
+        while (true) {
+            Node<T> current = head.get();
+            newNode.next = current;
+            if (head.compareAndSet(current, newNode)) {
+                return;
+            }
+        }
+    }
+
+    // BUG: ABA problem can occur here!
+    public T pop() {
+        while (true) {
+            Node<T> current = head.get();  // Read A
+            if (current == null) return null;
+
+            Node<T> next = current.next;
+
+            // Between here and CAS, another thread could:
+            // 1. Pop A (head = B)
+            // 2. Pop B (head = C)
+            // 3. Push A back (head = A again!)
+            // Now CAS succeeds but we're pointing to recycled node!
+
+            if (head.compareAndSet(current, next)) {  // CAS sees A == A ✓
+                return current.value;
+            }
+        }
+    }
+}
+```
+
+**Your debugging:**
+
+- **Bug explanation:** _[What is the ABA problem?]_
+- **ABA scenario:**
+  1. Thread 1 reads head = A
+  2. Thread 2 pops A, pops B, pushes A back
+  3. Thread 1's CAS succeeds (A == A) but...
+  4. Problem: _[What's wrong?]_
+- **When does this cause issues?** _[What if nodes are reused?]_
+- **Bug fix:** _[How to prevent ABA?]_
+
+<details markdown>
+<summary>Click to verify your answer</summary>
+
+**Bug:** ABA problem - CAS succeeds when it shouldn't because value cycled back.
+
+**ABA scenario:**
+```
+Initial: head -> A -> B -> C
+
+Thread 1: Read head = A, next = B
+  (Gets preempted before CAS)
+
+Thread 2:
+    - Pop A (head = B)
+    - Pop B (head = C)
+    - Push A back (head = A, but A.next = C now!)
+
+Thread 1 resumes:
+    - CAS(head, A, B) succeeds! (head was A)
+    - But now head points to B, which was already popped!
+    - B might be reused/freed → CORRUPTION!
+```
+
+**Fix Option 1 - AtomicStampedReference:**
+```java
+// Add version number to prevent ABA
+private final AtomicStampedReference<Node<T>> head =
+    new AtomicStampedReference<>(null, 0);
+
+public void push(T value) {
+    Node<T> newNode = new Node<>(value);
+    int[] stampHolder = new int[1];
+    while (true) {
+        Node<T> current = head.get(stampHolder);
+        int stamp = stampHolder[0];
+        newNode.next = current;
+        if (head.compareAndSet(current, newNode, stamp, stamp + 1)) {
+            return;
+        }
+    }
+}
+```
+
+**Fix Option 2 - Hazard pointers (prevent reuse while in use)**
+
+**Fix Option 3 - Use Java's ConcurrentLinkedStack (already handles this)**
+</details>
+
+---
+
+### Your Debugging Scorecard
+
+After finding and fixing all bugs:
+
+- [ ] Found race condition causing lost updates
+- [ ] Found deadlock due to lock ordering
+- [ ] Found visibility problem (missing volatile)
+- [ ] Found thread pool starvation
+- [ ] Understood ABA problem in lock-free algorithms
+- [ ] Could explain each bug's root cause
+- [ ] Learned how to prevent each type of bug
+
+**Common concurrency bugs you discovered:**
+
+1. _[Race conditions: read-modify-write, check-then-act]_
+2. _[Deadlocks: circular lock dependencies]_
+3. _[Visibility: CPU caching, missing volatile/synchronized]_
+4. _[Starvation: blocking on tasks in same pool]_
+5. _[ABA problem: CAS with recycled values]_
+
+**How to prevent these bugs:**
+
+1. _[Use locks for compound operations]_
+2. _[Always acquire locks in consistent order]_
+3. _[Use volatile for flags, Atomic for counters]_
+4. _[Separate thread pools for dependent tasks]_
+5. _[Use stamped references or hazard pointers]_
+
+---
+
 ## Decision Framework
 
 **Your task:** Build decision trees for when to use each concurrency pattern.
@@ -1603,12 +2350,14 @@ public class ThreadPoolPatternsClient {
 Answer after implementation:
 
 **Use Locks when:**
+
 - Complex operations: _[Multiple steps that must be atomic]_
 - Simple reasoning: _[Lock-based code is easier to understand]_
 - Fairness needed: _[Locks can guarantee FIFO ordering]_
 - Most use cases: _[Locks are sufficient for 90% of scenarios]_
 
 **Use Lock-Free when:**
+
 - High contention: _[Many threads competing for same resource]_
 - Low-latency critical: _[Cannot afford lock overhead]_
 - Progress guarantees: _[At least one thread makes progress]_
@@ -1617,21 +2366,25 @@ Answer after implementation:
 ### Question 2: Which thread pool to use?
 
 **FixedThreadPool when:**
+
 - Known workload: _[Consistent number of tasks]_
 - Resource limiting: _[Don't want unbounded thread creation]_
 - CPU-bound tasks: _[Pool size = CPU cores]_
 
 **CachedThreadPool when:**
+
 - Unpredictable load: _[Varying number of tasks]_
 - I/O-bound tasks: _[Threads spend time waiting]_
 - Short-lived tasks: _[Quick execution, many tasks]_
 
 **ScheduledThreadPool when:**
+
 - Delayed execution: _[Run after delay]_
 - Periodic tasks: _[Cron-like scheduling]_
 - Background jobs: _[Cleanup, monitoring, etc.]_
 
 **ForkJoinPool when:**
+
 - Recursive tasks: _[Divide-and-conquer algorithms]_
 - Parallel algorithms: _[Parallel sort, sum, map-reduce]_
 - Work stealing: _[Balance load across threads]_
@@ -1639,11 +2392,13 @@ Answer after implementation:
 ### Question 3: Synchronized vs ReentrantLock?
 
 **Synchronized when:**
+
 - Simple use case: _[Just need mutual exclusion]_
 - Less code: _[synchronized(this) { ... }]_
 - No advanced features needed: _[Try-lock, interruptible, timeouts not needed]_
 
 **ReentrantLock when:**
+
 - Try-lock needed: _[Attempt lock without blocking]_
 - Timeouts: _[Give up after waiting]_
 - Interruptible: _[Can interrupt waiting thread]_
@@ -1682,6 +2437,7 @@ Concurrency Pattern Selection
 ### The "Kill Switch" - Concurrency Anti-Patterns
 
 **Don't do this:**
+
 1. **Creating threads manually** - _[Use thread pools instead]_
 2. **Synchronized on String literals** - _[Strings are interned, global lock]_
 3. **Nested locks without ordering** - _[Causes deadlocks]_
@@ -1693,16 +2449,19 @@ Concurrency Pattern Selection
 ### The Rule of Three: Alternatives
 
 **Option 1: Locks (ReentrantLock)**
+
 - Pros: _[Simple mental model, guaranteed mutual exclusion, fair ordering]_
 - Cons: _[Performance overhead, can deadlock, blocking]_
 - Use when: _[Complex critical sections, most use cases]_
 
 **Option 2: Lock-Free (Atomic/CAS)**
+
 - Pros: _[No blocking, high performance under contention, progress guarantee]_
 - Cons: _[Complex to implement, limited to simple operations, ABA problem]_
 - Use when: _[High contention, simple operations like counters]_
 
 **Option 3: Immutable + Message Passing**
+
 - Pros: _[No synchronization needed, easy to reason about, functional style]_
 - Cons: _[Memory overhead (copying), not always applicable]_
 - Use when: _[Can afford immutability, actor model, functional programming]_
@@ -1714,6 +2473,7 @@ Concurrency Pattern Selection
 ### Scenario 1: Web Server Request Handler
 
 **Requirements:**
+
 - Handle 10,000 concurrent HTTP requests
 - Each request: parse, validate, database query, response
 - Database pool: 20 connections max
@@ -1738,6 +2498,7 @@ Reasoning:
 ### Scenario 2: Real-Time Analytics Pipeline
 
 **Requirements:**
+
 - Ingest 1M events/second
 - Processing stages: validate → enrich → aggregate → store
 - Each stage is CPU-intensive (10ms per event)
@@ -1759,6 +2520,7 @@ Ordering guarantee:
 ### Scenario 3: Distributed Cache
 
 **Requirements:**
+
 - In-memory cache with 1M entries
 - Operations: get (90%), put (9%), delete (1%)
 - Concurrent access: 1000 threads
@@ -1789,47 +2551,365 @@ Trade-offs:
 Before moving to the next topic:
 
 - [ ] **Implementation**
-  - [ ] ReentrantLock counter works correctly
-  - [ ] ReadWriteLock cache works correctly
-  - [ ] Bank transfer with lock ordering prevents deadlocks
-  - [ ] Producer-consumer with BlockingQueue works
-  - [ ] ConcurrentHashMap cache operations work
-  - [ ] Lock-free counter with CAS works
-  - [ ] Thread pool executors work correctly
-  - [ ] All client code runs successfully
+    - [ ] ReentrantLock counter works correctly
+    - [ ] ReadWriteLock cache works correctly
+    - [ ] Bank transfer with lock ordering prevents deadlocks
+    - [ ] Producer-consumer with BlockingQueue works
+    - [ ] ConcurrentHashMap cache operations work
+    - [ ] Lock-free counter with CAS works
+    - [ ] Thread pool executors work correctly
+    - [ ] All client code runs successfully
 
 - [ ] **Understanding**
-  - [ ] Filled in all ELI5 explanations
-  - [ ] Understand difference between synchronized and ReentrantLock
-  - [ ] Understand read-write lock semantics
-  - [ ] Understand why lock ordering prevents deadlocks
-  - [ ] Understand BlockingQueue blocking behavior
-  - [ ] Understand CAS and ABA problem
-  - [ ] Understand thread pool sizing principles
+    - [ ] Filled in all ELI5 explanations
+    - [ ] Understand difference between synchronized and ReentrantLock
+    - [ ] Understand read-write lock semantics
+    - [ ] Understand why lock ordering prevents deadlocks
+    - [ ] Understand BlockingQueue blocking behavior
+    - [ ] Understand CAS and ABA problem
+    - [ ] Understand thread pool sizing principles
 
 - [ ] **Concurrency Principles**
-  - [ ] Always release locks in finally blocks
-  - [ ] Lock ordering prevents deadlocks
-  - [ ] Use bounded queues to prevent OOM
-  - [ ] Properly handle InterruptedException
-  - [ ] Shutdown thread pools gracefully
-  - [ ] Prefer higher-level abstractions (BlockingQueue, Atomic)
-  - [ ] Measure contention before optimizing
+    - [ ] Always release locks in finally blocks
+    - [ ] Lock ordering prevents deadlocks
+    - [ ] Use bounded queues to prevent OOM
+    - [ ] Properly handle InterruptedException
+    - [ ] Shutdown thread pools gracefully
+    - [ ] Prefer higher-level abstractions (BlockingQueue, Atomic)
+    - [ ] Measure contention before optimizing
 
 - [ ] **Decision Making**
-  - [ ] Know when to use locks vs lock-free
-  - [ ] Know how to size thread pools
-  - [ ] Completed practice scenarios
-  - [ ] Can explain synchronization trade-offs
+    - [ ] Know when to use locks vs lock-free
+    - [ ] Know how to size thread pools
+    - [ ] Completed practice scenarios
+    - [ ] Can explain synchronization trade-offs
 
 - [ ] **Mastery Check**
-  - [ ] Could implement thread-safe cache from memory
-  - [ ] Could design thread pool configuration for given workload
-  - [ ] Understand concurrency bugs (deadlock, race conditions, starvation)
-  - [ ] Know how to debug concurrency issues
+    - [ ] Could implement thread-safe cache from memory
+    - [ ] Could design thread pool configuration for given workload
+    - [ ] Understand concurrency bugs (deadlock, race conditions, starvation)
+    - [ ] Know how to debug concurrency issues
 
 ---
 
-**Next:** [09. Database Scaling →](09-database-scaling.md)
+## Understanding Gate (Must Pass Before Continuing)
 
-**Back:** [07. Load Balancing ←](07-load-balancing.md)
+**Your task:** Prove mastery through explanation and application. You cannot move forward until you can confidently complete this section.
+
+### Gate 1: Explain to a Junior Developer
+
+**Scenario:** A junior developer asks you about thread safety.
+
+**Your explanation (write it out):**
+
+> "Thread safety means..."
+>
+> _[Fill in your explanation in plain English - 3-4 sentences max]_
+
+**Self-assessment:**
+
+- Clarity score (1-10): ___
+- Could your explanation be understood by a non-technical person? _[Yes/No]_
+- Did you use analogies or real-world examples? _[Yes/No]_
+
+If you scored below 7 or answered "No" to either question, revise your explanation.
+
+---
+
+### Gate 2: Whiteboard Exercise
+
+**Task:** Draw the deadlock scenario for bank transfers, without looking at code.
+
+**Draw the timeline:**
+
+```
+Timeline:
+
+T0: Account1 (balance=1000), Account2 (balance=1000)
+
+Thread 1: transfer(acc1, acc2, $500)
+Thread 2: transfer(acc2, acc1, $300)
+
+T1: [Your drawing - show what each thread does]
+    Thread 1: _______________
+    Thread 2: _______________
+
+T2: [Continue - when does deadlock occur?]
+    Thread 1: _______________
+    Thread 2: _______________
+
+T3: [Final state]
+    Thread 1: _______________
+    Thread 2: _______________
+```
+
+**Verification:**
+
+- [ ] Drew initial state correctly
+- [ ] Showed lock acquisitions in order
+- [ ] Identified the exact moment of deadlock
+- [ ] Explained why neither thread can proceed
+
+---
+
+### Gate 3: Pattern Recognition Test
+
+**Without looking at your notes, classify these scenarios:**
+
+| Scenario | Pattern (Lock/Lock-Free/Queue/Pool) | Synchronization Needed? |
+|----------|-----------------------------------|------------------------|
+| Increment shared counter from 100 threads | _[Fill in]_ | _[Yes/No - Why?]_ |
+| Background job processing pipeline | _[Fill in]_ | _[Yes/No - Why?]_ |
+| Cache with 90% reads, 10% writes | _[Fill in]_ | _[Yes/No - Why?]_ |
+| Web server handling HTTP requests | _[Fill in]_ | _[Yes/No - Why?]_ |
+| Bank account transfers | _[Fill in]_ | _[Yes/No - Why?]_ |
+| Shutdown flag for worker thread | _[Fill in]_ | _[Yes/No - Why?]_ |
+
+**Score:** ___/6 correct
+
+If you scored below 5/6, review the patterns and try again.
+
+---
+
+### Gate 4: Complexity Analysis
+
+**Complete this table from memory:**
+
+| Operation | Unsynchronized | Synchronized | Lock-Free (Atomic) | Why Different? |
+|-----------|----------------|--------------|-------------------|----------------|
+| Counter increment | O(?) | O(?) | O(?) | _[Explain]_ |
+| Cache get (no contention) | O(?) | O(?) | O(?) | _[Explain]_ |
+| Cache get (high contention) | O(?) | O(?) | O(?) | _[Explain]_ |
+
+**Deep question:** Why does synchronized counter perform worse than lock-free under high contention?
+
+Your answer: _[Fill in - explain blocking vs retry]_
+
+---
+
+### Gate 5: Debugging Challenge
+
+**Scenario:** This code sometimes prints "Balance = -200". Find the bug and fix it.
+
+```java
+public class BankAccount {
+    private int balance = 1000;
+
+    public void withdraw(int amount) {
+        if (balance >= amount) {
+            balance -= amount;
+        }
+    }
+
+    // Two threads call withdraw(600) simultaneously
+}
+```
+
+**Your analysis:**
+
+- **Bug type:** _[Race condition/Deadlock/Visibility/Starvation?]_
+- **Root cause:** _[Explain in one sentence]_
+- **Timeline of failure:**
+  1. Thread A: ___
+  2. Thread B: ___
+  3. Result: ___
+- **Fix:** _[Write the corrected code]_
+
+**Verification:**
+
+- [ ] Identified the bug correctly
+- [ ] Explained the interleaving that causes the bug
+- [ ] Provided a working fix
+- [ ] Explained why the fix works
+
+---
+
+### Gate 6: Trade-off Decision
+
+**Scenario:** You need to implement a hit counter for a high-traffic website (1M requests/sec).
+
+**Option A:** Synchronized counter
+```java
+private int hits = 0;
+public synchronized void recordHit() { hits++; }
+public synchronized int getHits() { return hits; }
+```
+
+**Option B:** AtomicInteger counter
+```java
+private AtomicInteger hits = new AtomicInteger(0);
+public void recordHit() { hits.incrementAndGet(); }
+public int getHits() { return hits.get(); }
+```
+
+**Option C:** Approximate counter (thread-local + periodic merge)
+```java
+ThreadLocal<Integer> localHits = ThreadLocal.withInitial(() -> 0);
+AtomicInteger globalHits = new AtomicInteger(0);
+// Periodically merge local to global
+```
+
+**Your analysis:**
+
+| Option | Throughput | Accuracy | Complexity | Your Choice? |
+|--------|-----------|----------|------------|--------------|
+| A: Synchronized | _[High/Med/Low]_ | _[Exact/Approx]_ | _[Simple/Complex]_ | _[Yes/No]_ |
+| B: AtomicInteger | _[High/Med/Low]_ | _[Exact/Approx]_ | _[Simple/Complex]_ | _[Yes/No]_ |
+| C: Approximate | _[High/Med/Low]_ | _[Exact/Approx]_ | _[Simple/Complex]_ | _[Yes/No]_ |
+
+**Your decision:** I would choose _[A/B/C]_ because...
+
+_[Fill in your reasoning - consider throughput, accuracy, and complexity trade-offs]_
+
+**What would make you change your decision?**
+
+- _[Fill in - what requirements would flip your choice?]_
+
+---
+
+### Gate 7: Thread Pool Sizing
+
+**Scenario:** Given these requirements, size the thread pool.
+
+**System specs:**
+
+- CPU cores: 8
+- Task profile: 50ms CPU work, 200ms I/O wait (database query)
+- Expected load: 1000 requests/sec
+- Latency target: p99 < 500ms
+
+**Your calculations:**
+
+1. **Utilization:** CPU time / total time = ___ %
+2. **Formula:** Threads = Cores × (1 + Wait time / CPU time) = ___
+3. **Queue size:** Bounded or unbounded? ___ (why?)
+4. **Rejection policy:** What happens when queue is full? ___
+
+**Verification:**
+
+- [ ] Calculated utilization correctly
+- [ ] Applied thread sizing formula
+- [ ] Chose appropriate queue size
+- [ ] Selected reasonable rejection policy
+
+---
+
+### Gate 8: Code from Memory (Final Test)
+
+**Set a 15-minute timer. Implement without looking at notes:**
+
+```java
+/**
+ * Implement: Thread-safe bounded blocking queue
+ * Requirements:
+ * - put() blocks when full
+ * - take() blocks when empty
+ * - Thread-safe for multiple producers and consumers
+ * - Use ReentrantLock and Condition variables
+ */
+public class BoundedBlockingQueue<T> {
+    private final T[] items;
+    private int putIndex = 0;
+    private int takeIndex = 0;
+    private int count = 0;
+    private final int capacity;
+
+    private final ReentrantLock lock = new ReentrantLock();
+    private final Condition notFull = lock.newCondition();
+    private final Condition notEmpty = lock.newCondition();
+
+    @SuppressWarnings("unchecked")
+    public BoundedBlockingQueue(int capacity) {
+        this.capacity = capacity;
+        this.items = (T[]) new Object[capacity];
+    }
+
+    /**
+     * Put element (blocks if full)
+     * TODO: Implement using lock and condition variables
+     */
+    public void put(T item) throws InterruptedException {
+        // Your implementation here
+
+
+
+
+    }
+
+    /**
+     * Take element (blocks if empty)
+     * TODO: Implement using lock and condition variables
+     */
+    public T take() throws InterruptedException {
+        // Your implementation here
+
+
+
+
+        return null; // Replace
+    }
+
+    public int size() {
+        lock.lock();
+        try {
+            return count;
+        } finally {
+            lock.unlock();
+        }
+    }
+}
+```
+
+**After implementing, test with:**
+
+- 1 producer, 1 consumer, queue size 5
+- 5 producers, 5 consumers, queue size 10
+
+**Verification:**
+
+- [ ] Implemented correctly without looking
+- [ ] Handles full queue (blocks producers)
+- [ ] Handles empty queue (blocks consumers)
+- [ ] Thread-safe (no race conditions)
+- [ ] No deadlocks or starvation
+
+---
+
+### Gate 9: Teaching Check
+
+**The ultimate test of understanding is teaching.**
+
+**Task:** Explain to an imaginary person when NOT to use locks.
+
+Your explanation:
+
+> "You should NOT use locks when..."
+>
+> _[Fill in - list 3-4 scenarios and explain why]_
+
+**Examples of when locks are wrong choice:**
+
+1. _[Scenario where lock-free is better]_
+2. _[Scenario where immutability is better]_
+3. _[Scenario where message passing is better]_
+
+---
+
+### Mastery Certification
+
+**I certify that I can:**
+
+- [ ] Implement thread-safe data structures with locks
+- [ ] Implement lock-free algorithms with CAS
+- [ ] Design producer-consumer pipelines with BlockingQueue
+- [ ] Configure and use thread pools appropriately
+- [ ] Debug race conditions, deadlocks, and visibility issues
+- [ ] Size thread pools based on workload characteristics
+- [ ] Compare trade-offs: locks vs lock-free vs immutable
+- [ ] Explain concurrency concepts to others
+
+**Self-assessment score:** ___/10
+
+**If score < 8:** Review the sections where you struggled, then retry this gate.
+
+**If score ≥ 8:** Congratulations! You've mastered concurrency patterns. Proceed to the next topic.

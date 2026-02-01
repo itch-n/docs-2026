@@ -1,11 +1,12 @@
 [project]
-name = "staff-eng-prep"
+name = "backend-eng-prep"
 version = "0.1.0"
-description = "Staff Engineer Interview Study Notes"
+description = "Backend Engineer Interview Study Notes"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "mkdocs>=1.6.1",
     "mkdocs-cinder>=1.2.0",
     "mkdocs-roamlinks-plugin>=0.3.2",
+    "pymdown-extensions>=10.20.1",
 ]
