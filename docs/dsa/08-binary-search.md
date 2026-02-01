@@ -214,6 +214,114 @@ n = 1,048,576 → log₂(1,048,576) = 20 steps
 
 ---
 
+## Aside: Java's Collections.binarySearch
+
+**Quick reference:** Understanding Java's built-in binary search helps with B+Tree implementation.
+
+### Return Value Convention
+
+```java
+List<Integer> nums = Arrays.asList(1, 3, 5, 7, 9);
+
+// Element FOUND → returns index
+Collections.binarySearch(nums, 5);  // Returns: 2
+
+// Element NOT FOUND → returns -(insertion point) - 1
+Collections.binarySearch(nums, 6);  // Returns: -4
+// Decode: insertion point = -(−4) - 1 = 3
+```
+
+**Why negative encoding?**
+- Distinguishes "not found" from "found at index 0"
+- Encodes where to insert to maintain sorted order
+
+### Using with Comparators
+
+```java
+class Person {
+    String name;
+    int age;
+}
+
+// Search by specific field
+Comparator<Person> byAge = (p1, p2) -> Integer.compare(p1.age, p2.age);
+int idx = Collections.binarySearch(people, searchKey, byAge);
+```
+
+**Key insight:** You can search by one field without exact object equality.
+
+### Generic Implementation Pattern
+
+```java
+public static <T extends Comparable<T>> int binarySearch(List<T> list, T key) {
+    int left = 0, right = list.size() - 1;
+
+    while (left <= right) {
+        int mid = left + (right - left) / 2;  // Avoid overflow
+        int cmp = list.get(mid).compareTo(key);
+
+        if (cmp == 0) return mid;              // Found
+        else if (cmp < 0) left = mid + 1;      // Search right
+        else right = mid - 1;                  // Search left
+    }
+
+    return -(left + 1);  // Not found - encode insertion point
+}
+```
+
+### Applying to B+Tree
+
+**Finding child pointer in internal node:**
+
+```java
+class InternalNode<K extends Comparable<K>> {
+    List<K> keys;           // [10, 20, 30]
+    List<Node<K>> children; // [child0, child1, child2, child3]
+}
+
+private int findChildIndex(K searchKey) {
+    int idx = Collections.binarySearch(keys, searchKey);
+
+    if (idx >= 0) {
+        return idx + 1;  // Key found - go to right child
+    } else {
+        return -(idx + 1);  // Not found - decode insertion point
+    }
+}
+```
+
+**Visual:** Given keys `[10, 20, 30]`, searching for `25`:
+```
+Children:  [<10]  [10-20)  [20-30)  [≥30]
+Keys:         10      20       30
+Indices:   0      1       2        3
+```
+Result: child index 2 (between 20 and 30)
+
+### Common Pitfalls
+
+```java
+// ❌ WRONG: Integer overflow
+int mid = (left + right) / 2;
+
+// ✓ CORRECT: Avoids overflow
+int mid = left + (right - left) / 2;
+
+// ❌ WRONG: Misses single element case
+while (left < right) { ... }
+
+// ✓ CORRECT: Handles all cases
+while (left <= right) { ... }
+
+// ❌ WRONG: Forgets to decode
+return Math.abs(idx);
+
+// ✓ CORRECT: Properly decodes insertion point
+return idx >= 0 ? idx : -(idx + 1);
+```
+
+---
+
 ## Core Implementation
 
 ### Pattern 1: Classic Binary Search
