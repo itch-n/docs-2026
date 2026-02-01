@@ -4,6 +4,27 @@
 
 ---
 
+## Important notes
+
+- B+Trees
+    - Leaf nodes have equal keys and values, Internal nodes have one extra value since keys are signposts (or "
+      bouncers"). Their split logic diffs slightly as a result.
+- LSM Trees
+    - Writes are more efficient due to batched sequential writes to SSTables, reducing write amplification ~100x
+      compared to B+Trees (which rewrite entire 4KB pages per insert, even if inserting just 10B)
+
+```java
+// Binary search result is tricky
+// When not found: `result = -insertionPoint - 1`
+// and extraction is: `insertionPoint = -result - 1`
+int result = Collections.binarySearch(List.of("a", "b"), "c");
+if (result > 0) {
+    int foundIndex = result;
+} else {
+    int insertionPoint = -result - 1;
+}
+```
+
 ## ELI5: Explain Like I'm 5
 
 <div class="learner-section" markdown>
@@ -13,24 +34,26 @@
 **Prompts to guide you:**
 
 1. **What is a B+Tree in one sentence?**
-    - Your answer: <span class="fill-in">[Fill in after implementation]</span>
+    - Your answer: <span class="fill-in">A read-optimised data structure enabling fast lookups (N-ary tree) and range
+      queries (linked leaves) by trading off slower writes (random disk access)</span>
 
 2. **Why do databases use B+Trees?**
-    - Your answer: <span class="fill-in">[Fill in after implementation]</span>
+    - Your answer: <span class="fill-in">It enables fast point and range queries</span>
 
 3. **Real-world analogy for B+Tree:**
-    - Example: "A B+Tree is like a filing cabinet where..."
-    - Your analogy: <span class="fill-in">[Fill in]</span>
+    - Your analogy: <span class="fill-in">A B+Tree is like a library - you organise your books into shelves, bays, and
+      stacks. It's fast to find your book but it takes longer to reshelve since you have to randomly walk around</span>
 
 4. **What is an LSM Tree in one sentence?**
-    - Your answer: <span class="fill-in">[Fill in after implementation]</span>
+    - Your answer: <span class="fill-in">A write-optimised data structure enabling fast writes (memtable, sstable merge,
+      sequential disk access) by trading off slow reads (sstable iteration)</span>
 
 5. **Why do write-heavy databases use LSM Trees?**
-    - Your answer: <span class="fill-in">[Fill in after implementation]</span>
+    - Your answer: <span class="fill-in">To avoid B+Trees' random write bottleneck at high volume</span>
 
 6. **Real-world analogy for LSM Tree:**
-    - Example: "An LSM Tree is like a notebook where..."
-    - Your analogy: <span class="fill-in">[Fill in]</span>
+    - Your analogy: <span class="fill-in">An LSM Tree is like a 2nd hand bookstore - you sort a few donations, box them
+      and put them in the back. You can accept lots of books quickly but finding means searching heaps of boxes</span>
 
 </div>
 
@@ -45,57 +68,57 @@
 ### Complexity Predictions
 
 1. **B+Tree insert operation:**
-    - Time complexity: <span class="fill-in">[Your guess: O(?)]</span>
-    - Verified after implementation: <span class="fill-in">[Actual: O(?)]</span>
+    - Time complexity: <span class="fill-in">O(log(n))</span>
+    - Verified after implementation: <span class="fill-in">O(log(n))</span>
 
 2. **LSM Tree write operation (to MemTable):**
-    - Time complexity: <span class="fill-in">[Your guess: O(?)]</span>
-    - Space complexity: <span class="fill-in">[Your guess: O(?)]</span>
-    - Verified: <span class="fill-in">[Actual]</span>
+    - Time complexity: <span class="fill-in">O(log(n))</span>
+    - Space complexity: <span class="fill-in">O(1)</span>
+    - Verified: <span class="fill-in">Time O(1) - technically O(log(memtable_height)) but height is fixed. Space O(levels)</span>
 
 3. **Performance calculation:**
-    - For 100,000 writes, B+Tree = <span class="fill-in">_____</span> operations (if log base is 10)
-    - For 100,000 writes, LSM Tree = <span class="fill-in">_____</span> operations (before flush)
-    - Speedup factor for writes: LSM is approximately <span class="fill-in">_____</span> times faster
+    - For 100,000 writes, B+Tree = <span class="fill-in">1,000,000</span> operations (if log base is 10)
+    - For 100,000 writes, LSM Tree = <span class="fill-in">200,000</span> operations (before flush)
+    - Speedup factor for writes: LSM is approximately <span class="fill-in">5</span> times faster
 
 ### Scenario Predictions
 
 **Scenario 1:** Time-series metrics database (1M writes/second, rare reads)
 
-- **Best storage engine?** <span class="fill-in">[B+Tree/LSM Tree - Why?]</span>
-- **Key consideration:** <span class="fill-in">[Write amplification/Read speed/Range queries?]</span>
-- **Why this choice?** <span class="fill-in">[Fill in your reasoning]</span>
+- **Best storage engine?** <span class="fill-in">LSM Tree</span>
+- **Key consideration:** <span class="fill-in">Write amplification</span>
+- **Why this choice?** <span class="fill-in">LSM's are better at writes I guess</span>
 
 **Scenario 2:** E-commerce inventory system (100k reads/sec, 5k writes/sec)
 
-- **Best storage engine?** <span class="fill-in">[B+Tree/LSM Tree - Why?]</span>
-- **What pattern benefits most?** <span class="fill-in">[Point lookups/Range scans/Random writes?]</span>
+- **Best storage engine?** <span class="fill-in">B+Tree</span>
+- **What pattern benefits most?** <span class="fill-in">Point lookups</span>
 
 **Scenario 3:** Social media analytics (read historical posts by date range)
 
-- **Which handles range queries better?** <span class="fill-in">[B+Tree/LSM Tree - Why?]</span>
-- **Key data structure feature:** <span class="fill-in">[Linked leaves/Sorted SSTables?]</span>
+- **Which handles range queries better?** <span class="fill-in">B+Tree</span>
+- **Key data structure feature:** <span class="fill-in">Linked leaves</span>
 
 ### Trade-off Quiz
 
 **Question:** When would B+Tree be BETTER than LSM Tree despite slower writes?
 
-- Your answer: <span class="fill-in">[Fill in before implementation]</span>
-- Verified answer: <span class="fill-in">[Fill in after benchmarking]</span>
+- Your answer: <span class="fill-in">When you need range queries?</span>
+- Verified answer: <span class="fill-in">High read ratio</span>
 
 **Question:** What's the MAIN advantage of LSM Trees for writes?
 
-- [ ] No tree balancing required on each write
+- [x] No tree balancing required on each write
 - [ ] Better space efficiency
 - [ ] Faster range queries
 - [ ] Lower read amplification
 
-Verify after implementation: <span class="fill-in">[Which one(s)?]</span>
+Verify after implementation: <span class="fill-in">Yes no tree balancing</span>
 
 **Question:** What happens if you never compact an LSM Tree?
 
-- Your prediction: <span class="fill-in">[What problem occurs?]</span>
-- Verified: <span class="fill-in">[Fill in after testing]</span>
+- Your prediction: <span class="fill-in">Fragmentation or something</span>
+- Verified: <span class="fill-in">Reads slow to a crawl</span>
 
 </div>
 
@@ -162,7 +185,7 @@ long duration = System.nanoTime() - start;
 | N = 10,000      | ~130,000 ops        | ~20,000 ops           | 6.5x faster   |
 | N = 100,000     | ~1,700,000 ops      | ~200,000 ops          | 8.5x faster   |
 
-**Your calculation:** For N = 50,000 writes, LSM Tree is approximately _____ times faster.
+**Your calculation:** For N = 50,000 writes, LSM Tree is approximately _7_ times faster.
 
 #### Why Does LSM Win for Writes?
 
@@ -260,7 +283,7 @@ long duration = System.nanoTime() - start;
 | K = 5         | ~13 ops/read      | ~65 ops/read            | 5x faster        |
 | K = 10        | ~13 ops/read      | ~130 ops/read           | 10x faster       |
 
-**Your calculation:** With 20 SSTables, B+Tree is approximately _____ times faster for reads.
+**Your calculation:** With 20 SSTables, B+Tree is approximately _20_ times faster for reads.
 
 **Key insight:** This is why LSM Trees need **compaction** - to reduce SSTable count!
 
@@ -337,45 +360,45 @@ public class BPlusTree<K extends Comparable<K>, V> {
 
     // Base node class
     abstract class Node {
-        List<K> keys;
+        List<K> keys = new ArrayList<>(order);
         Node parent;
-
-        Node() {
-            this.keys = new ArrayList<>();
-        }
-
-        abstract boolean isLeaf();
     }
 
-    // Internal nodes: have children, no values
+    /**
+     * Represents an internal node (hallway) that directs keys to the correct leaf (room).
+     * <h3>The Club Analogy</h3>
+     * Think of this node as a hallway with "Bouncers" (Keys) and "Rooms" (Children).
+     * <ul>
+     * <li><b>Bouncers (keys):</b> Set the age limit for the room to their right.</li>
+     * <li><b>Rooms (children):</b> There is always one more room than there are bouncers.</li>
+     * </ul>
+     * <pre>
+     *         (18)                 (21)             (50)
+     *     [ Bouncer 0 ]       [ Bouncer 1 ]     [ Bouncer 2 ]
+     *    /             \     /           \     /         \
+     * [ Room 0 ]       [ Room 1 ]       [ Room 2 ]       [ Room 3 ]
+     * (Kids)           (18+ Only)       (21+ Only)       (50+ Only)
+     * </pre>
+     * <h3>Navigation via Binary Search</h3>
+     * To find the correct room index, we look for the <b>first bouncer strictly greater</b>
+     * than our search key.
+     * <p>Using {@link java.util.Collections#binarySearch(List, Object)}:</p>
+     * <ul>
+     * <li>If an exact match is found (index {@code i}): You are equal to the bouncer.
+     * Per the "inclusive-right" rule, you move to the room to their right: {@code i + 1}.</li>
+     * <li>If no match is found: The method returns {@code -(insertionPoint + 1)}.
+     * The {@code insertionPoint} is the index of the first bouncer strictly greater
+     * than you. You belong in the room at that same index.</li>
+     * </ul>
+     */
     class InternalNode extends Node {
-        List<Node> children;
-
-        InternalNode() {
-            super();
-            this.children = new ArrayList<>();
-        }
-
-        @Override
-        boolean isLeaf() {
-            return false;
-        }
+        List<Node> children = new ArrayList<>(order);
     }
 
-    // Leaf nodes: have values, no children, linked to next leaf
+    // Leaf nodes: have values, no children, linked to prev and next leaf
     class LeafNode extends Node {
-        List<V> values;
+        List<V> values = new ArrayList<>(order);
         LeafNode next; // For range scans
-
-        LeafNode() {
-            super();
-            this.values = new ArrayList<>();
-        }
-
-        @Override
-        boolean isLeaf() {
-            return true;
-        }
     }
 
     public BPlusTree(int order) {
@@ -387,38 +410,89 @@ public class BPlusTree<K extends Comparable<K>, V> {
      * Insert key-value pair
      * Time: O(log N)
      *
-     * TODO: Implement insertion logic
+     * <pre>
+     * 1. Find correct leaf node
+     * 2. Insert in sorted position
+     * 3. If leaf overflows, split it
+     * 4. Propagate split up the tree
+     * </pre>
      */
     public void insert(K key, V value) {
-        // TODO: Navigate to the appropriate leaf node
-        // Handle node splits when capacity is exceeded
-        // Consider how splits propagate up the tree
+        // Start by finding the leaf
+        LeafNode leaf = findLeaf(key);
+
+        int result = Collections.binarySearch(leaf.keys, key);
+        if (result >= 0) { // key exists, overwrite data
+            int existingKeyIndex = result;
+            leaf.values.set(existingKeyIndex, value);
+            return;
+        }
+
+        int insertionIndex = -result - 1;
+        leaf.keys.add(insertionIndex, key);
+        leaf.values.add(insertionIndex, value);
+
+        // If full, split the leaf, then potentially split up index nodes if they're too full
+        if (leaf.keys.size() > order) {
+            splitLeaf(leaf);
+            if (leaf == root) {
+                root = leaf.parent;
+            }
+
+            // leaf split may have split the parent, so recursively split up
+            InternalNode parent = (InternalNode) leaf.parent;
+            while (parent != null && parent.keys.size() > order) {
+                splitInternal(parent);
+
+                // If you just split the root and created a new root, update this class state
+                if (parent == root) {
+                    root = parent.parent;
+                }
+                parent = (InternalNode) parent.parent;
+            }
+        }
     }
 
     /**
      * Search for a key
      * Time: O(log N)
-     *
-     * TODO: Implement search logic
+     * <p>
+     * 1. Start at root
+     * 2. At each internal node, find correct child
+     * 3. At leaf, search for key
      */
     public V search(K key) {
-        // TODO: Navigate from root to the appropriate leaf
-        // Search for the key in the leaf node
-
-        return null; // Replace with actual implementation
+        LeafNode leaf = findLeaf(key);
+        int result = Collections.binarySearch(leaf.keys, key);
+        if (result < 0) {
+            return null;
+        }
+        return leaf.values.get(result);
     }
 
     /**
      * Range query: all values where startKey <= key <= endKey
      * Time: O(log N + results)
-     *
-     * TODO: Implement range query
+     * <p>
+     * 1. Find leaf containing startKey
+     * 2. Follow leaf.next pointers
+     * 3. Collect values until endKey
      */
     public List<V> rangeQuery(K startKey, K endKey) {
         List<V> results = new ArrayList<>();
+        LeafNode leaf = findLeaf(startKey);
 
-        // TODO: Find starting point and traverse leaf chain
-        // Use the linked structure of leaves for efficiency
+        while (leaf != null) {
+            for (int i = 0; i < leaf.keys.size(); i++) {
+                K key = leaf.keys.get(i);
+
+                if (key.compareTo(endKey) > 0) return results;  // Past end
+                if (key.compareTo(startKey) >= 0) {             // In range
+                    results.add(leaf.values.get(i));
+                }
+            }
+            leaf = leaf.next;
+        }
 
         return results;
     }
@@ -429,13 +503,38 @@ public class BPlusTree<K extends Comparable<K>, V> {
     private LeafNode findLeaf(K key) {
         Node current = root;
 
-        // TODO: Traverse down using binary search at each internal node
-        // Stop at the appropriate leaf
+        // At each internal node, pick the correct child
+        // Stop when you reach a leaf
 
-        while (!current.isLeaf()) {
-            InternalNode internal = (InternalNode) current;
+        while (current instanceof InternalNode internalNode) {
+            int result = Collections.binarySearch(internalNode.keys, key);
 
-            // TODO: Find correct child based on key comparisons
+            // special java binary search return logic
+            int childIndex;
+            if (result < 0) {
+                // Not found - happy case!
+                /*
+                Given [10,100,1000]
+                5 has an insertionIndex of 0
+                50 has an insertionIndex of 1
+                500 has an insertionIndex of 2
+                5000 has an insertionIndex of 3
+
+                Which is the same as the b+tree child index!
+                 */
+                int insertionIndex = -result - 1;
+                childIndex = insertionIndex;
+            } else {
+                // Found - OOBE case
+                /*
+                Given [10,100,1000]
+                100 will be found at key index 1.
+                But because of the way b+trees work,
+                we know this key resides in child index 2
+                 */
+                childIndex = result + 1;
+            }
+            current = internalNode.children.get(childIndex);
         }
 
         return (LeafNode) current;
@@ -443,16 +542,68 @@ public class BPlusTree<K extends Comparable<K>, V> {
 
     /**
      * Helper: Split a full leaf node
+     * and add to the parent (creating a new parent if necessary)
      */
     private void splitLeaf(LeafNode leaf) {
-        // TODO: Distribute keys/values to a new leaf node
+        // Build the new node and update pointers of siblings
+        int splitIndex = leaf.keys.size() / 2;
+        LeafNode newRightLeaf = new LeafNode();
+        newRightLeaf.keys.addAll(leaf.keys.subList(splitIndex, leaf.keys.size()));
+        newRightLeaf.values.addAll(leaf.values.subList(splitIndex, leaf.values.size()));
+        newRightLeaf.next = leaf.next;
+        leaf.next = newRightLeaf;
+
+        // Insert into parent
+        K promotedKey = leaf.keys.get(splitIndex);
+        insertIntoParent(leaf, promotedKey, newRightLeaf);
+
+        // Clean up old node
+        leaf.keys.subList(splitIndex, leaf.keys.size()).clear();
+        leaf.values.subList(splitIndex, leaf.values.size()).clear();
     }
 
     /**
      * Helper: Split a full internal node
+     * and add to the parent (creating a new parent if necessary)
      */
     private void splitInternal(InternalNode node) {
-        // TODO: Distribute keys/children to a new internal node
+        // Build the new node and update pointers of its children
+        int promotedKeyIndex = node.keys.size() / 2;
+        InternalNode newRightNode = new InternalNode();
+        newRightNode.keys.addAll(node.keys.subList(promotedKeyIndex + 1, node.keys.size()));
+        newRightNode.children.addAll(node.children.subList(promotedKeyIndex + 1, node.children.size()));
+        for (Node child : newRightNode.children) {
+            child.parent = newRightNode;
+        }
+
+        // Insert into parent
+        K promotedKey = node.keys.get(promotedKeyIndex);
+        insertIntoParent(node, promotedKey, newRightNode);
+
+        // Clean up old node
+        node.keys.subList(promotedKeyIndex, node.keys.size()).clear();
+        node.children.subList(promotedKeyIndex + 1, node.children.size()).clear();
+    }
+
+    /**
+     * Helper: Insert promoted key and right child into parent node
+     * Creates new parent if necessary
+     */
+    private void insertIntoParent(Node leftNode, K promotedKey, Node rightNode) {
+        InternalNode parent = (InternalNode) leftNode.parent;
+
+        // Ensure parent exists
+        if (parent == null) {
+            parent = new InternalNode();
+            leftNode.parent = parent;
+            parent.children.add(leftNode);
+        }
+
+        // Insert promoted key and new right child
+        rightNode.parent = parent;
+        int keyInsertionPoint = -Collections.binarySearch(parent.keys, promotedKey) - 1;
+        parent.keys.add(keyInsertionPoint, promotedKey);
+        parent.children.add(keyInsertionPoint + 1, rightNode);
     }
 
     /**
@@ -466,8 +617,7 @@ public class BPlusTree<K extends Comparable<K>, V> {
         String indent = "  ".repeat(level);
         System.out.println(indent + "Level " + level + ": " + node.keys);
 
-        if (!node.isLeaf()) {
-            InternalNode internal = (InternalNode) node;
+        if (node instanceof InternalNode internal) {
             for (Node child : internal.children) {
                 printNode(child, level + 1);
             }
@@ -539,9 +689,11 @@ public class BPlusTreeClient {
 ```java
 import java.util.*;
 
+import static java.util.Comparator.comparingLong;
+
 /**
  * LSM Tree: Log-Structured Merge Tree optimized for writes
- *
+ * <p>
  * Architecture:
  * - Writes go to in-memory MemTable (sorted)
  * - When MemTable full, flush to SSTable (immutable file)
@@ -560,11 +712,11 @@ public class LSMTree<K extends Comparable<K>, V> {
      * Here: simplified in-memory representation
      */
     static class SSTable<K extends Comparable<K>, V> {
-        private final TreeMap<K, V> data;
+        private final SortedMap<K, V> data;
         private final long timestamp; // When created (for ordering)
 
-        SSTable(TreeMap<K, V> data) {
-            this.data = new TreeMap<>(data); // Copy
+        SSTable(SortedMap<K, V> data) {
+            this.data = Collections.unmodifiableSortedMap(new TreeMap<>(data));
             this.timestamp = System.currentTimeMillis();
         }
 
@@ -594,22 +746,39 @@ public class LSMTree<K extends Comparable<K>, V> {
     /**
      * Insert/Update key-value pair
      * Time: O(log M) where M = memTable size
-     *
-     * TODO: Implement write logic
+     * <p>
+     * 1. Insert into MemTable
+     * 2. If MemTable full, flush to SSTable
      */
     public void put(K key, V value) {
-        // TODO: Add to in-memory sorted structure
-        // Flush to disk when threshold is reached
+        memTable.put(key, value);
+
+        if (memTable.size() > memTableSize) {
+            flush();
+        }
     }
 
     /**
      * Retrieve value for key
      * Time: O(log M + N*log S) where N = number of SSTables, S = SSTable size
-     *
-     * TODO: Implement read logic
+     * <p>
+     * 1. Check MemTable first (most recent)
+     * 2. Check SSTables in reverse order (newest first)
+     * 3. Return first match
      */
     public V get(K key) {
-        // TODO: Check memory first, then SSTables in order
+        // Check memTable first
+        if (memTable.containsKey(key)) {
+            return memTable.get(key);
+        }
+
+        // Check SSTables from newest to oldest
+        for (int i = sstables.size() - 1; i >= 0; i--) {
+            SSTable<K, V> table = sstables.get(i);
+            if (table.containsKey(key)) {
+                return table.get(key);
+            }
+        }
 
         return null; // Not found
     }
@@ -618,8 +787,8 @@ public class LSMTree<K extends Comparable<K>, V> {
      * Flush MemTable to SSTable (simulate disk write)
      */
     private void flush() {
-        // TODO: Create immutable SSTable from current MemTable
-        // Clear MemTable for new writes
+        sstables.add(new SSTable<>(memTable));
+        memTable.clear();
 
         System.out.println("Flushed MemTable to SSTable. Total SSTables: " + sstables.size());
     }
@@ -627,18 +796,29 @@ public class LSMTree<K extends Comparable<K>, V> {
     /**
      * Compact SSTables: Merge multiple tables, remove duplicates
      * Time: O(N * S * log S) where N = tables, S = size
-     *
-     * TODO: Implement compaction
+     * <p>
+     * 1. Merge all SSTables
+     * 2. For duplicate keys, keep newest value
+     * 3. Create new compacted SSTable
      */
     public void compact() {
-        if (sstables.size() <= 1) {
+        int beforeSize = sstables.size();
+        if (beforeSize <= 1) {
             return; // Nothing to compact
         }
 
-        // TODO: Merge all SSTables, keeping newest values
-        // Replace old SSTables with single compacted one
+        // Iterate through SSTables from oldest to newest
+        // Later values overwrite earlier ones (keep newest)
+        TreeMap<K, V> merged = new TreeMap<>();
+        sstables.stream()
+                .sorted(comparingLong(sst -> sst.timestamp))
+                .forEach(sst -> merged.putAll(sst.data));
 
-        System.out.println("Compacted " + sstables.size() + " SSTables into 1");
+        // Replace old SSTables with compacted one
+        sstables.clear();
+        sstables.add(new SSTable<>(merged));
+
+        System.out.println("Compacted " + beforeSize + " SSTables into 1");
     }
 
     /**
@@ -750,11 +930,11 @@ public class StorageBenchmark {
         long lsmTime = System.nanoTime() - start;
 
         System.out.printf("B+Tree: %.2f ms (%.0f writes/sec)%n",
-            btreeTime/1e6, numWrites/(btreeTime/1e9));
+                btreeTime / 1e6, numWrites / (btreeTime / 1e9));
         System.out.printf("LSM Tree: %.2f ms (%.0f writes/sec)%n",
-            lsmTime/1e6, numWrites/(lsmTime/1e9));
+                lsmTime / 1e6, numWrites / (lsmTime / 1e9));
         System.out.printf("LSM is %.2fx faster for writes%n",
-            (double)btreeTime/lsmTime);
+                (double) btreeTime / lsmTime);
     }
 
     static void benchmarkReads() {
@@ -793,32 +973,60 @@ public class StorageBenchmark {
         long lsmTime = System.nanoTime() - start;
 
         System.out.printf("B+Tree: %.2f ms (%.0f reads/sec)%n",
-            btreeTime/1e6, numReads/(btreeTime/1e9));
+                btreeTime / 1e6, numReads / (btreeTime / 1e9));
         System.out.printf("LSM Tree: %.2f ms (%.0f reads/sec)%n",
-            lsmTime/1e6, numReads/(lsmTime/1e9));
+                lsmTime / 1e6, numReads / (lsmTime / 1e9));
         System.out.printf("B+Tree is %.2fx faster for reads%n",
-            (double)lsmTime/btreeTime);
+                (double) lsmTime / btreeTime);
     }
 
     static void benchmarkMixed() {
         System.out.println("--- Mixed Workload (50% reads, 50% writes) ---");
 
-        // TODO: Implement mixed workload benchmark
-        // Interleave reads and writes
-        // Compare performance
+        int numWrites = 1000;
+        int numReads = 1000;
 
-        System.out.println("TODO: Implement this benchmark");
+        // Benchmark read-writes
+        Random rand = new Random(42);
+
+        BPlusTree<Integer, String> btree = new BPlusTree<>(128);
+        long start = System.nanoTime();
+        for (int i = 0; i < numWrites; i++) {
+            btree.insert(i, "Value" + i);
+        }
+        for (int i = 0; i < numReads; i++) {
+            int key = rand.nextInt(numWrites);
+            btree.search(key);
+        }
+        long btreeTime = System.nanoTime() - start;
+
+        rand = new Random(42); // Same sequence
+        LSMTree<Integer, String> lsm = new LSMTree<>(100);
+        start = System.nanoTime();
+        for (int i = 0; i < numWrites; i++) {
+            lsm.put(i, "Value" + i);
+        }
+        for (int i = 0; i < numReads; i++) {
+            int key = rand.nextInt(numWrites);
+            lsm.get(key);
+        }
+        long lsmTime = System.nanoTime() - start;
+
+        System.out.printf("B+Tree: %.2f ms (%.0f reads/sec, %.0f writes/sec)%n",
+                btreeTime / 1e6, numReads / (btreeTime / 1e9), numWrites / (btreeTime / 1e9));
+        System.out.printf("LSM Tree: %.2f ms (%.0f reads/sec, %.0f writes/sec)%n",
+                lsmTime / 1e6, numReads / (lsmTime / 1e9), numWrites / (lsmTime / 1e9));
     }
 }
 ```
 
 **Must complete:**
 
-- [ ] Implement B+Tree insert, search, rangeQuery
-- [ ] Implement LSM Tree put, get, flush, compact
-- [ ] Run both client programs successfully
-- [ ] Run benchmark and record results
-- [ ] Understand WHY each performs better in different scenarios
+- [x] Implement B+Tree insert, search, rangeQuery
+- [x] Implement LSM Tree put, get, flush, compact
+- [x] Run both client programs successfully
+- [x] Run benchmark and record results
+- [x] Understand WHY each performs better in different scenarios
 
 **Your benchmark results:**
 
@@ -834,34 +1042,37 @@ public class StorageBenchmark {
 <tbody>
   <tr>
     <td>Write Performance (ms)</td>
-    <td class="blank">___ ms</td>
-    <td class="blank">___ ms</td>
-    <td class="blank">___</td>
+    <td class="blank">4180.07 ms</td>
+    <td class="blank">70.15 ms</td>
+    <td class="blank">LSM Tree faster by 59.59x</td>
   </tr>
   <tr>
     <td>Write Throughput (ops/sec)</td>
-    <td class="blank">___ writes/sec</td>
-    <td class="blank">___ writes/sec</td>
-    <td class="blank">___</td>
+    <td class="blank">2392 writes/sec</td>
+    <td class="blank">142560 writes/sec</td>
+    <td class="blank"></td>
   </tr>
   <tr>
     <td>Read Performance (ms)</td>
-    <td class="blank">___ ms</td>
-    <td class="blank">___ ms</td>
-    <td class="blank">___</td>
+    <td class="blank">391.13 ms</td>
+    <td class="blank">6703.97 ms</td>
+    <td class="blank">B+Tree by 17.14x</td>
   </tr>
   <tr>
     <td>Read Throughput (ops/sec)</td>
-    <td class="blank">___ reads/sec</td>
-    <td class="blank">___ reads/sec</td>
-    <td class="blank">___</td>
+    <td class="blank">2557 reads/sec</td>
+    <td class="blank">149 reads/sec</td>
+    <td class="blank"></td>
   </tr>
 </tbody>
 </table>
 
 <div class="learner-section" markdown>
 
-**Key insight:** <span class="fill-in">[Fill in why this difference exists]</span>
+**Key insight:** <span class="fill-in">LSM Tree writes are more efficient due to batched sequential writes to SSTables,
+reducing write amplification ~100x compared to B+Trees (which rewrite entire 4KB pages per insert, even if inserting
+just 10B). B+Tree reads are faster with no read amplification — single location lookup vs
+LSM's MemTable + K SSTables check.</span>
 
 </div>
 
@@ -903,9 +1114,9 @@ private void splitLeaf(LeafNode leaf) {
 
 **Your debugging:**
 
-- Bug 1: <span class="fill-in">[What's the bug?]</span>
-- Bug 2: <span class="fill-in">[What's the bug?]</span>
-- Bug 3: <span class="fill-in">[What's the bug?]</span>
+- Bug 1: <span class="fill-in">Removing elements from the middle causes index issues (should remove from end)</span>
+- Bug 2: <span class="fill-in">Need to connect next pointers correctly</span>
+- Bug 3: <span class="fill-in">parent may not exist, need to create and also insert in specific position in parent (it's ordered)</span>
 
 <details markdown>
 <summary>Click to verify your answers</summary>
@@ -990,8 +1201,8 @@ public void compact() {
 
 **Your debugging:**
 
-- Bug 1: <span class="fill-in">[What's the bug?]</span>
-- Bug 2: <span class="fill-in">[What's the bug?]</span>
+- Bug 1: <span class="fill-in">Should iterate from oldest to newest (using timestamp) to avoid getting old data</span>
+- Bug 2: <span class="fill-in">Need to clear sstables before adding to it</span>
 
 <details markdown>
 <summary>Click to verify your answers</summary>
@@ -1053,7 +1264,8 @@ private LeafNode findLeaf(K key) {
 
 **Your debugging:**
 
-- Bug: <span class="fill-in">[What's the bug?]</span>
+- Bug: <span class="fill-in">Well firstly it's not binary search, it's just linear scan. But also It should be >= (
+  greater than or equal to) because an equal key should move on to the next room</span>
 
 **Trace through manually:**
 
@@ -1131,7 +1343,7 @@ public class LSMTree<K extends Comparable<K>, V> {
 
 **Your debugging:**
 
-- Bug: <span class="fill-in">[What's the bug?]</span>
+- Bug: <span class="fill-in">Memtable is never cleared after flushing to the SSTable</span>
 
 <details markdown>
 <summary>Click to verify your answer</summary>
@@ -1195,7 +1407,7 @@ public List<V> rangeQuery(K startKey, K endKey) {
 
 **Your debugging:**
 
-- Bug: <span class="fill-in">[What's the bug?]</span>
+- Bug: <span class="fill-in">We never check the endkey to start excluding results and end the traversal</span>
 
 <details markdown>
 <summary>Click to verify your answer</summary>
@@ -1245,10 +1457,10 @@ if (leaf.keys.size() > 0 &&
 
 After finding and fixing all bugs:
 
-- [ ] Found all 9+ bugs across 5 challenges
-- [ ] Understood WHY each bug causes data corruption or incorrect results
-- [ ] Could explain the fix to someone else
-- [ ] Learned common storage engine mistakes to avoid
+- [x] Found all 9+ bugs across 5 challenges
+- [x] Understood WHY each bug causes data corruption or incorrect results
+- [x] Could explain the fix to someone else
+- [x] Learned common storage engine mistakes to avoid
 
 **Common mistakes you discovered:**
 
@@ -1268,25 +1480,29 @@ After finding and fixing all bugs:
 
 Answer after implementing and benchmarking:
 
-- **My answer:** <span class="fill-in">[Fill in]</span>
-- **Why does this matter?** <span class="fill-in">[Fill in]</span>
-- **Performance difference I observed:** <span class="fill-in">[Fill in]</span>
+- **My answer:** <span class="fill-in">Write-heavy needs LSM trees</span>
+- **Why does this matter?** <span class="fill-in">B-Trees are slow in this use case due to write amplification</span>
+- **Performance difference I observed:** <span class="fill-in">LSM trees heaps faster</span>
 
 ### Question 2: Need range queries?
 
 Answer:
 
-- **Do B+Trees support range queries?** <span class="fill-in">[Yes/No - explain how]</span>
-- **Do LSM Trees support range queries?** <span class="fill-in">[Yes/No - explain complexity]</span>
-- **Which is faster for range queries?** <span class="fill-in">[Fill in after testing]</span>
+- **Do B+Trees support range queries?** <span class="fill-in">Yes, leaf nodes are linked to each other</span>
+- **Do LSM Trees support range queries?** <span class="fill-in">Yes technically but it's basically needing to go through
+  the memtable and every single SSTable since data is clustered by write time instead of value and there's no linkage
+  between leaf nodes</span>
+- **Which is faster for range queries?** <span class="fill-in">B+Trees for sure</span>
 
 ### Question 3: Sequential or random writes?
 
 Answer:
 
-- **B+Tree with random writes:** <span class="fill-in">[What happens? Why is it slow?]</span>
-- **LSM Tree with random writes:** <span class="fill-in">[What happens? Why is it fast?]</span>
-- **Your observation from implementation:** <span class="fill-in">[Fill in]</span>
+- **B+Tree with random writes:** <span class="fill-in">Writing random data will cause write amplification and needing to
+  seek to different parts of the disk</span>
+- **LSM Tree with random writes:** <span class="fill-in">Best because random data is first stored in the memtable and
+  then sequentially written to disk</span>
+- **Your observation from implementation:** <span class="fill-in">LSM way faster</span>
 
 ### Your Decision Tree
 
@@ -1296,16 +1512,17 @@ Build this after understanding trade-offs:
 flowchart LR
     Start["Storage Engine Selection"]
 
-    Start --> Q1{"Write-heavy workload<br/>(>70% writes)?"}
-    Q1 -->|"YES"| Q2{"Need strong<br/>consistency?"}
-    Q1 -->|"NO"| Q3{"Read-heavy<br/>workload?"}
+    Start --> Q0{"Write volume<br/>extreme (>100K/sec)?"}
+    
+    Q0 -->|"YES"| A0(["LSM Tree ✓<br/>B+Trees won't survive"])
+    Q0 -->|"NO"| Q1{"Write-heavy workload<br/>(>70% writes)?"}
 
-    Q2 -->|"YES"| A1["Consider B+Tree<br/>(but optimize for writes)"]
-    Q2 -->|"NO"| A2(["Use LSM Tree ✓"])
+    Q1 -->|"YES"| Q2{"Read pattern?"}
+    Q2 -->|"Rare reads<br/>(write-dominated)"| A1(["LSM Tree ✓<br/>Write optimization critical"])
+    Q2 -->|"Recent data<br/>(temporal locality)"| A2(["LSM Tree ✓<br/>MemTable serves hot data"])
+    Q2 -->|"Random point<br/>lookups"| A4(["B+Tree likely better<br/>LSM needs SSTable search"])
 
-    Q3 -->|"YES, mostly<br/>point lookups"| A3(["Use B+Tree ✓"])
-    Q3 -->|"YES, many<br/>range scans"| A4(["Use B+Tree ✓"])
-    Q3 -->|"Mixed<br/>workload"| A5["Your decision here<br/>based on testing"]
+    Q1 -->|"NO"| A6(["B+Tree ✓<br/>LSM read penalty not worth"])
 ```
 
 ## Practice
@@ -1332,19 +1549,20 @@ CREATE TABLE posts (
 
 **Your design:**
 
-Storage engine choice: <span class="fill-in">[B+Tree or LSM?]</span>
+Storage engine choice: <span class="fill-in">B-Tree</span>
 
 Reasoning:
 
-- Write volume: <span class="fill-in">[Fill in]</span>
-- Read patterns: <span class="fill-in">[Fill in]</span>
-- Your choice: <span class="fill-in">[Fill in]</span>
+- Write volume: <span class="fill-in">10,000 TPS</span>
+- Read patterns: <span class="fill-in">Read-heavy use case (10:1) and range queries</span>
+- Your choice: <span class="fill-in">B-Tree</span>
 
 Index design:
 
-1. <span class="fill-in">[What indexes would you create?]</span>
-2. <span class="fill-in">[Why these specific indexes?]</span>
-3. <span class="fill-in">[What's the column order and why?]</span>
+1. What indexes would you create? <span class="fill-in">(user_id, created_at) and (created_at, likes_count)</span>
+2. Why these specific indexes? <span class="fill-in">To fulfill the two read patterns</span>
+3. What's the column order and why?<span class="fill-in">Filter columns come first, then sort columns after. More
+   selective filters earlier</span>
 
 ### Scenario 2: Time-Series Metrics
 
@@ -1368,13 +1586,13 @@ CREATE TABLE metrics (
 
 **Your design:**
 
-Storage engine: <span class="fill-in">[Fill in]</span>
+Storage engine: <span class="fill-in">LSM Tree</span>
 
 Why?
 
-1. <span class="fill-in">[Write characteristics]</span>
-2. <span class="fill-in">[Read characteristics]</span>
-3. <span class="fill-in">[Time-series specific considerations]</span>
+1. <span class="fill-in">GT 70% write</span>
+2. <span class="fill-in">Mostly read recent data, more likely to stay in memtable</span>
+3. <span class="fill-in">Metrics are an append-only workload (no/few updates)</span>
 
 ### Scenario 3: E-commerce Inventory
 
@@ -1395,13 +1613,15 @@ CREATE TABLE inventory (
 
 **Your design:**
 
-Storage engine: <span class="fill-in">[Fill in]</span>
+Storage engine: <span class="fill-in">B-Tree</span>
 
 Trade-offs you considered:
 
-1. <span class="fill-in">[Fill in]</span>
-2. <span class="fill-in">[Fill in]</span>
-3. <span class="fill-in">[Fill in]</span>
+1. <span class="fill-in">High read frequency compared to writes</span>
+2. <span class="fill-in">Read patterns -> mostly point lookups (LSM Trees are slower due to checking multiple
+   SSTables. LSM trees could do recent data queries or full table scans faster)</span>
+3. <span class="fill-in">Update-heavy workload ((LSM Trees' write advantage lessens for updates vs inserts, because
+   updates still need to search existing data first)</span>
 
 ---
 
@@ -1409,22 +1629,22 @@ Trade-offs you considered:
 
 Before moving to the next topic:
 
-- [ ] **Implementation**
-    - [ ] B+Tree insert, search, range query work correctly
-    - [ ] LSM Tree put, get, flush, compact work correctly
-    - [ ] All client code runs without errors
-    - [ ] Benchmarks completed and results recorded
+- [x] **Implementation**
+    - [x] B+Tree insert, search, range query work correctly
+    - [x] LSM Tree put, get, flush, compact work correctly
+    - [x] All client code runs without errors
+    - [x] Benchmarks completed and results recorded
 
-- [ ] **Understanding**
-    - [ ] Can explain B+Tree in simple terms (filled ELI5)
-    - [ ] Can explain LSM Tree in simple terms (filled ELI5)
-    - [ ] Understand why writes are different speeds
-    - [ ] Understand why reads are different speeds
+- [x] **Understanding**
+    - [x] Can explain B+Tree in simple terms (filled ELI5)
+    - [x] Can explain LSM Tree in simple terms (filled ELI5)
+    - [x] Understand why writes are different speeds
+    - [x] Understand why reads are different speeds
 
-- [ ] **Decision Making**
-    - [ ] Built complete decision tree
-    - [ ] Solved all 3 practice scenarios
-    - [ ] Can justify each design choice
+- [x] **Decision Making**
+    - [x] Built complete decision tree
+    - [x] Solved all 3 practice scenarios
+    - [x] Can justify each design choice
 
 - [ ] **Mastery Check**
     - [ ] Could implement both from memory
