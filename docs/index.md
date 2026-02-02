@@ -4,21 +4,12 @@
 
 ## How This Works
 
-This guide is organized as **numbered sequences** - no timelines, just ordered topics you work through at your own pace.
+Numbered sequences you work through at your own pace. Each topic follows the same structure:
 
-Each topic has the same structure:
+**ELI5** → **Quiz** → **Implementation** → **Decision Framework** → **Practice** → **Review Checklist**
 
-1. **ELI5** - Answer prompts to explain concepts simply after implementing
-2. **Quick Quiz** - Test your intuition before coding, verify after
-3. **Implementation** - Complete code stubs and run client examples
-4. **Decision Framework** - Build flowcharts for when to use what
-5. **Practice** - Solve scenarios and problems to cement understanding
-6. **Review Checklist** - Verify mastery before moving to the next topic
-
-**Visual Guide:**
-
-- 🟨 **Yellow background** = Sections you fill in as you learn
-- ⬜ **Gray code blocks** = Reference implementations to study
+- 🟨 **Yellow background** = Fill-in sections
+- ⬜ **Gray code blocks** = Reference implementations
 
 ---
 
@@ -69,53 +60,25 @@ Pattern-based approach from easy to advanced:
 
 ## Learning Process
 
-For each topic:
-
-1. **Start with code stubs** - Try implementing before reading solutions
-2. **Run the client examples** - See how it works with real data
-3. **Fill in the ELI5** - If you can't explain it simply, you don't understand it (yellow highlighted sections)
-4. **Build decision trees** - Document when to use (and NOT use) each pattern
-5. **Complete practice problems** - Verify your understanding
-6. **Check off review checklist** - Ensure mastery before moving on
-
-**The styling helps you know what to do:** Yellow sections are prompts for you to answer. Gray code blocks are examples to study and learn from.
+- Implement code stubs → Run examples → Fill in explanations
+- Build decision trees for when to use (and NOT use) each pattern
+- Complete practice problems → Check off review checklist
 
 ---
 
 ## Key Principles
 
-**"Focus on the Kill Switch"**
-
-- For every technology, document why you should NOT use it
-- Trade-offs matter more than features
-
-**"The Rule of Three"**
-
-- For every decision, identify three alternative approaches
-- No "right" answer, only trade-offs
-
-**"Trace the Request"**
-
-- Follow data from user → logic → disk
-- Understand the full stack
+- **The Kill Switch:** Know when NOT to use each pattern or technology
+- **Three Alternatives:** Compare trade-offs, not features
+- **Implement First:** Build it to understand it, then explain it simply
 
 ---
 
 ## Getting Started
 
-**Choose your starting point:**
+**Systems Design:** [01. Storage Engines →](systems/01-storage-engines.md) - Implement B+Tree and LSM Tree, benchmark performance
 
-**For Systems Design:** [01. Storage Engines →](systems/01-storage-engines.md)
-
-- Implement B+Tree and LSM Tree from scratch
-- Benchmark read vs write performance
-- Understand when to use each
-
-**For DSA:** [01. Two Pointers →](dsa/01-two-pointers.md)
-
-- Learn three two-pointer patterns
-- Implement from scratch
-- Solve problems to build pattern recognition
+**DSA:** [01. Two Pointers →](dsa/01-two-pointers.md) - Learn three pointer patterns, build pattern recognition
 
 ---
 
