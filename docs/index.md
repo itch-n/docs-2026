@@ -19,42 +19,42 @@ Numbered sequences you work through at your own pace. Each topic follows the sam
 
 Build real implementations to understand how systems work:
 
-1. **Storage Engines** - Implement B+Trees & LSM Trees ← Start here
-2. **Indexing Strategies** - Primary, secondary, composite indexes
-3. **Caching Patterns** - LRU, LFU, cache-aside, write-through
-4. **API Design** - REST principles, versioning, pagination
-5. **Security Patterns** - JWT, RBAC, API keys, secrets management
-6. **Rate Limiting** - Token bucket, sliding window algorithms
-7. **Load Balancing** - Consistent hashing, health checks
-8. **Concurrency Patterns** - Locks, producer-consumer, thread safety
-9. **Database Scaling** - Replication, sharding, partitioning
-10. **Message Queues** - Queue vs pub/sub, delivery guarantees
-11. **Stream Processing** - Windowing, watermarks, exactly-once semantics
-12. **Observability** - Metrics, logging, tracing, SLOs
-13. **Distributed Transactions** - Saga pattern, idempotency
-14. **Consensus Patterns** - Raft, leader election, distributed locks
-15. **Full System Designs** - Apply everything (Instagram, Uber, etc.)
+- [ ] **Storage Engines** - Implement B+Trees & LSM Trees ← Start here
+- [ ] **Indexing Strategies** - Primary, secondary, composite indexes
+- [ ] **Caching Patterns** - LRU, LFU, cache-aside, write-through
+- [ ] **API Design** - REST principles, versioning, pagination
+- [ ] **Security Patterns** - JWT, RBAC, API keys, secrets management
+- [ ] **Rate Limiting** - Token bucket, sliding window algorithms
+- [ ] **Load Balancing** - Consistent hashing, health checks
+- [ ] **Concurrency Patterns** - Locks, producer-consumer, thread safety
+- [ ] **Database Scaling** - Replication, sharding, partitioning
+- [ ] **Message Queues** - Queue vs pub/sub, delivery guarantees
+- [ ] **Stream Processing** - Windowing, watermarks, exactly-once semantics
+- [ ] **Observability** - Metrics, logging, tracing, SLOs
+- [ ] **Distributed Transactions** - Saga pattern, idempotency
+- [ ] **Consensus Patterns** - Raft, leader election, distributed locks
+- [ ] **Full System Designs** - Apply everything (Instagram, Uber, etc.)
 
 ### [DSA](dsa/01-two-pointers.md) (16 Topics)
 
 Pattern-based approach from easy to advanced:
 
-1. **Two Pointers** - Opposite directions, same direction, different speeds ← Start here
-2. **Sliding Window** - Fixed and variable window sizes for subarray problems
-3. **Hash Tables** - Fast lookups, grouping, frequency counting
-4. **Linked Lists** - Reversal, cycle detection, fast/slow pointers
-5. **Stacks & Queues** - LIFO/FIFO, monotonic stacks, deque operations
-6. **Trees - Traversals** - Inorder, preorder, postorder, level-order (BFS)
-7. **Trees - Recursion** - Height, diameter, LCA, path problems
-8. **Binary Search** - Classic search, rotated arrays, 2D matrices
-9. **Union-Find** - Disjoint sets for connectivity (before Graphs for MST algorithms)
-10. **Graphs (DFS/BFS)** - Traversals, shortest path, MST
-11. **Heaps** - Priority queues, top K problems
-12. **Backtracking** - Permutations, combinations, constraint satisfaction
-13. **Dynamic Programming - 1D** - Fibonacci, house robber, coin change
-14. **Dynamic Programming - 2D** - Knapsack, LCS, edit distance
-15. **Tries** - Prefix trees for string problems
-16. **Advanced Topics** - Bit manipulation, intervals, prefix sums
+- [ ] **Two Pointers** - Opposite directions, same direction, different speeds ← Start here
+- [ ] **Sliding Window** - Fixed and variable window sizes for subarray problems
+- [ ] **Hash Tables** - Fast lookups, grouping, frequency counting
+- [ ] **Linked Lists** - Reversal, cycle detection, fast/slow pointers
+- [ ] **Stacks & Queues** - LIFO/FIFO, monotonic stacks, deque operations
+- [ ] **Trees - Traversals** - Inorder, preorder, postorder, level-order (BFS)
+- [ ] **Trees - Recursion** - Height, diameter, LCA, path problems
+- [ ] **Binary Search** - Classic search, rotated arrays, 2D matrices
+- [ ] **Union-Find** - Disjoint sets for connectivity (before Graphs for MST algorithms)
+- [ ] **Graphs (DFS/BFS)** - Traversals, shortest path, MST
+- [ ] **Heaps** - Priority queues, top K problems
+- [ ] **Backtracking** - Permutations, combinations, constraint satisfaction
+- [ ] **Dynamic Programming - 1D** - Fibonacci, house robber, coin change
+- [ ] **Dynamic Programming - 2D** - Knapsack, LCS, edit distance
+- [ ] **Tries** - Prefix trees for string problems
+- [ ] **Advanced Topics** - Bit manipulation, intervals, prefix sums
 
 ---
 
