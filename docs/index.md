@@ -8,9 +8,6 @@ Numbered sequences you work through at your own pace. Each topic follows the sam
 
 **ELI5** → **Quiz** → **Implementation** → **Decision Framework** → **Practice** → **Review Checklist**
 
-- 🟨 **Yellow background** = Fill-in sections
-- ⬜ **Gray code blocks** = Reference implementations
-
 ---
 
 ## Two Paths
