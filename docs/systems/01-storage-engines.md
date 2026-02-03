@@ -614,17 +614,8 @@ public class LSMTree<K extends Comparable<K>, V> {
      */
     public V get(K key) {
         // TODO: Check memTable first
-        if (memTable.containsKey(key)) {
-            return memTable.get(key);
-        }
 
         // TODO: Check SSTables from newest to oldest
-        for (int i = sstables.size() - 1; i >= 0; i--) {
-            SSTable<K, V> table = sstables.get(i);
-            if (table.containsKey(key)) {
-                return table.get(key);
-            }
-        }
 
         return null; // Not found
     }
