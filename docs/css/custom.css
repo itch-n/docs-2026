@@ -126,3 +126,82 @@ details[open] summary::before {
     border: none;
     padding: 0;
 }
+
+/* ==========================================
+   TASK LIST CHECKBOXES
+   ========================================== */
+
+/* Remove default list styling for task lists */
+.task-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+/* Task list items */
+.task-list-item {
+    list-style: none;
+    margin-bottom: 0.5em;
+}
+
+/* Hide the actual checkbox input */
+.task-list-control input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* Style the custom checkbox indicator */
+.task-list-indicator {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    margin-right: 0.5em;
+    vertical-align: middle;
+    border: 2px solid #666;
+    border-radius: 3px;
+    background-color: #fff;
+    position: relative;
+    top: -0.1em;
+}
+
+/* Checked checkbox - add checkmark */
+.task-list-control input[type="checkbox"]:checked + .task-list-indicator {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.task-list-control input[type="checkbox"]:checked + .task-list-indicator::after {
+    content: "";
+    position: absolute;
+    left: 0.25em;
+    top: 0.05em;
+    width: 0.35em;
+    height: 0.65em;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+/* ====== COMPLETED ITEM STYLING ====== */
+
+.task-list-item:has(input[type="checkbox"]:checked) {
+    background-color: #d4edda;
+    padding: 0.25em 0.5em;
+    margin-left: -0.5em;
+    margin-right: -0.5em;
+    border-radius: 4px;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+.task-list-item:has(input[type="checkbox"]:checked) {
+    color: #155724;
+    text-decoration: line-through;
+}
+
+/* Hover effect for satisfaction */
+.task-list-item:has(input[type="checkbox"]:checked):hover {
+    opacity: 1;
+    background-color: #c3e6cb;
+}
