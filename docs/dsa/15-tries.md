@@ -227,9 +227,9 @@ Found: "app", "apple", "application", "apply"
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[Why is trie better for prefix queries than hash table?]</span>
-- <span class="fill-in">[What's the space-time tradeoff?]</span>
-- <span class="fill-in">[When would hash table still be better?]</span>
+- Why is trie better for prefix queries than hash table? <span class="fill-in">[Your answer]</span>
+- What's the space-time tradeoff? <span class="fill-in">[Your answer]</span>
+- When would hash table still be better? <span class="fill-in">[Your answer]</span>
 
 </div>
 
@@ -310,8 +310,8 @@ public List<String> findWords_Trie(char[][] board, String[] words) {
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[How does trie enable early pruning in DFS?]</span>
-- <span class="fill-in">[Why is single DFS with trie better than multiple DFS?]</span>
+- How does trie enable early pruning in DFS? <span class="fill-in">[Your answer]</span>
+- Why is single DFS with trie better than multiple DFS? <span class="fill-in">[Your answer]</span>
 
 </div>
 

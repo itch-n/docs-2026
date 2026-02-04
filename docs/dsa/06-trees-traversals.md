@@ -272,9 +272,9 @@ For this tree:
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[Why does postorder make sense for tree deletion?]</span>
-- <span class="fill-in">[Why does preorder make sense for copying a tree?]</span>
-- <span class="fill-in">[When would level-order be preferred over depth-first?]</span>
+- Why does postorder make sense for tree deletion? <span class="fill-in">[Your answer]</span>
+- Why does preorder make sense for copying a tree? <span class="fill-in">[Your answer]</span>
+- When would level-order be preferred over depth-first? <span class="fill-in">[Your answer]</span>
 
 </div>
 

@@ -194,8 +194,8 @@ Step 2: num=7, complement=2, map={2→0} → FOUND! Return [0, 1]
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[Why does O(1) lookup matter?]</span>
-- <span class="fill-in">[What's the space/time trade-off?]</span>
+- Why does O(1) lookup matter? <span class="fill-in">[Your answer]</span>
+- What's the space/time trade-off? <span class="fill-in">[Your answer]</span>
 
 </div>
 
@@ -267,8 +267,8 @@ public static boolean containsDuplicate_HashSet(int[] nums) {
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[When is the space trade-off worth it?]</span>
-- <span class="fill-in">[When might you prefer the O(1) space solution?]</span>
+- When is the space trade-off worth it? <span class="fill-in">[Your answer]</span>
+- When might you prefer the O(1) space solution? <span class="fill-in">[Your answer]</span>
 
 </div>
 
@@ -1002,7 +1002,7 @@ public static int[] intersection_Buggy(int[] nums1, int[] nums2) {
 
 **Fixes:**
 
-- <span class="fill-in">[Should you check for null? Return empty array? Throw exception?]</span>
+- Should you check for null? Return empty array? Throw exception? <span class="fill-in">[Your answer]</span>
 - <span class="fill-in">[Your defensive programming strategy]</span>
 
 <details markdown>

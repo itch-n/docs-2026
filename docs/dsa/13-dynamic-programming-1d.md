@@ -303,9 +303,9 @@ public static int coinChange_DP(int[] coins, int amount) {
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[Why does caching subproblem results help?]</span>
-- <span class="fill-in">[What's the difference between top-down and bottom-up?]</span>
-- <span class="fill-in">[When would you choose one approach over the other?]</span>
+- Why does caching subproblem results help? <span class="fill-in">[Your answer]</span>
+- What's the difference between top-down and bottom-up? <span class="fill-in">[Your answer]</span>
+- When would you choose one approach over the other? <span class="fill-in">[Your answer]</span>
 
 </div>
 
@@ -1108,7 +1108,7 @@ public static boolean wordBreak_Buggy(String s, List<String> wordDict) {
 **Actually... is this code correct?**
 
 - <span class="fill-in">[Carefully trace through the logic]</span>
-- <span class="fill-in">[Check: does it explore all possible segmentations?]</span>
+- Check: does it explore all possible segmentations? <span class="fill-in">[Your answer]</span>
 
 <details markdown>
 <summary>Click to verify your answer</summary>
@@ -1248,9 +1248,9 @@ After finding and fixing all bugs:
 
 **Your key learnings:**
 
-- <span class="fill-in">[What was the most surprising bug?]</span>
-- <span class="fill-in">[Which bug was hardest to spot?]</span>
-- <span class="fill-in">[What will you always check now when writing DP code?]</span>
+- What was the most surprising bug? <span class="fill-in">[Your answer]</span>
+- Which bug was hardest to spot? <span class="fill-in">[Your answer]</span>
+- What will you always check now when writing DP code? <span class="fill-in">[Your answer]</span>
 
 ---
 

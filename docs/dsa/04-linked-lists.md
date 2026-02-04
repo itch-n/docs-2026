@@ -287,9 +287,9 @@ Step 3: Continue
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[Why do we need three pointers (prev, curr, next)?]</span>
-- <span class="fill-in">[What happens if we skip saving 'next'?]</span>
-- <span class="fill-in">[Why does prev end up as the new head?]</span>
+- Why do we need three pointers (prev, curr, next)? <span class="fill-in">[Your answer]</span>
+- What happens if we skip saving 'next'? <span class="fill-in">[Your answer]</span>
+- Why does prev end up as the new head? <span class="fill-in">[Your answer]</span>
 
 </div>
 

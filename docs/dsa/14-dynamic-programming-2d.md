@@ -206,7 +206,7 @@ Answer: dp[3][5] = 3 (LCS = "ace")
 
 **Why do we need the extra row/column of zeros?**
 
-- <span class="fill-in">[Fill in after understanding - what do they represent?]</span>
+- Fill in after understanding - what do they represent? <span class="fill-in">[Your answer]</span>
 
 **Why can we skip recomputation?**
 
@@ -299,8 +299,8 @@ Answer: dp[3][5] = 25 (take items 1 and 3)
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[Why does each cell represent "best value using first i items with capacity w"?]</span>
-- <span class="fill-in">[Why do we need to check both "take" and "skip" options?]</span>
+- Why does each cell represent "best value using first i items with capacity w"? <span class="fill-in">[Your answer]</span>
+- Why do we need to check both "take" and "skip" options? <span class="fill-in">[Your answer]</span>
 
 </div>
 

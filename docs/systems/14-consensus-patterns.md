@@ -271,9 +271,9 @@ Term 3: When partition heals, Node 5 sees Node 3 has higher term → steps down
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[Why does majority prevent split-brain?]</span>
-- <span class="fill-in">[What's the trade-off between safety and availability?]</span>
-- <span class="fill-in">[Why can't the minority partition elect a leader?]</span>
+- Why does majority prevent split-brain? <span class="fill-in">[Your answer]</span>
+- What's the trade-off between safety and availability? <span class="fill-in">[Your answer]</span>
+- Why can't the minority partition elect a leader? <span class="fill-in">[Your answer]</span>
 
 </div>
 

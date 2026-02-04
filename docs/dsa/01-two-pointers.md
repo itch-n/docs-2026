@@ -188,8 +188,8 @@ Step 2: left=1 (val=3), right=4 (val=9), sum=12 → FOUND!
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[Why does sorted order matter?]</span>
-- <span class="fill-in">[What pairs do we skip and why is it safe?]</span>
+- Why does sorted order matter? <span class="fill-in">[Your answer]</span>
+- What pairs do we skip and why is it safe? <span class="fill-in">[Your answer]</span>
 
 </div>
 

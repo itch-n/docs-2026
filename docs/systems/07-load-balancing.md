@@ -249,9 +249,9 @@ Result: Same server every time, session maintained
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[When would you choose round robin over least connections?]</span>
-- <span class="fill-in">[Why use consistent hashing for a cache cluster?]</span>
-- <span class="fill-in">[What are the trade-offs of IP hash for session persistence?]</span>
+- When would you choose round robin over least connections? <span class="fill-in">[Your answer]</span>
+- Why use consistent hashing for a cache cluster? <span class="fill-in">[Your answer]</span>
+- What are the trade-offs of IP hash for session persistence? <span class="fill-in">[Your answer]</span>
 
 </div>
 

@@ -249,8 +249,8 @@ DFS might go: A → B → D (found) but doesn't know if A → C → D is shorter
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[Why does level-order exploration matter?]</span>
-- <span class="fill-in">[When would DFS accidentally find shortest path?]</span>
+- Why does level-order exploration matter? <span class="fill-in">[Your answer]</span>
+- When would DFS accidentally find shortest path? <span class="fill-in">[Your answer]</span>
 
 </div>
 
@@ -362,8 +362,8 @@ public class GraphList {
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[Why does sparse vs dense matter?]</span>
-- <span class="fill-in">[What operations are faster with each representation?]</span>
+- Why does sparse vs dense matter? <span class="fill-in">[Your answer]</span>
+- What operations are faster with each representation? <span class="fill-in">[Your answer]</span>
 
 </div>
 
@@ -468,9 +468,9 @@ public static int shortestPath_Dijkstra(Map<Integer, List<int[]>> graph, int sta
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[Why does BFS fail on weighted graphs?]</span>
-- <span class="fill-in">[What does the priority queue do in Dijkstra?]</span>
-- <span class="fill-in">[When is BFS actually better than Dijkstra?]</span>
+- Why does BFS fail on weighted graphs? <span class="fill-in">[Your answer]</span>
+- What does the priority queue do in Dijkstra? <span class="fill-in">[Your answer]</span>
+- When is BFS actually better than Dijkstra? <span class="fill-in">[Your answer]</span>
 
 </div>
 

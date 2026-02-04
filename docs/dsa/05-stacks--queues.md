@@ -255,8 +255,8 @@ i=4, val=3: stack=[3,4], result=[4,2,4,-1,-1]  (3 < 4, just push)
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[Why does monotonic decreasing order help?]</span>
-- <span class="fill-in">[What work are we avoiding compared to brute force?]</span>
+- Why does monotonic decreasing order help? <span class="fill-in">[Your answer]</span>
+- What work are we avoiding compared to brute force? <span class="fill-in">[Your answer]</span>
 
 </div>
 
@@ -340,8 +340,8 @@ public static int[] maxSlidingWindow_Deque(int[] nums, int k) {
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[Why does deque work better than rescanning?]</span>
-- <span class="fill-in">[What invariant does the deque maintain?]</span>
+- Why does deque work better than rescanning? <span class="fill-in">[Your answer]</span>
+- What invariant does the deque maintain? <span class="fill-in">[Your answer]</span>
 
 </div>
 
@@ -1136,15 +1136,15 @@ After finding and fixing all bugs:
 
 **Stack-specific gotchas:**
 
-- <span class="fill-in">[What are the common stack underflow issues?]</span>
-- <span class="fill-in">[When do you check isEmpty()?]</span>
-- <span class="fill-in">[Index vs value in monotonic stack?]</span>
+- What are the common stack underflow issues? <span class="fill-in">[Your answer]</span>
+- When do you check isEmpty()? <span class="fill-in">[Your answer]</span>
+- Index vs value in monotonic stack? <span class="fill-in">[Your answer]</span>
 
 **Queue-specific gotchas:**
 
-- <span class="fill-in">[When to transfer between stacks?]</span>
-- <span class="fill-in">[Off-by-one errors in deque?]</span>
-- <span class="fill-in">[How to maintain invariants?]</span>
+- When to transfer between stacks? <span class="fill-in">[Your answer]</span>
+- Off-by-one errors in deque? <span class="fill-in">[Your answer]</span>
+- How to maintain invariants? <span class="fill-in">[Your answer]</span>
 
 ---
 
@@ -1325,8 +1325,8 @@ Before moving to the next topic:
 
 **What clicked for you?**
 
-- <span class="fill-in">[What insight made it all come together?]</span>
+- What insight made it all come together? <span class="fill-in">[Your answer]</span>
 
 **What would you explain differently to your past self?**
 
-- <span class="fill-in">[How would you teach this more effectively?]</span>
+- How would you teach this more effectively? <span class="fill-in">[Your answer]</span>

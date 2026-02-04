@@ -191,8 +191,8 @@ Answer: heap.peek() = 5 (2nd largest)
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[Why does removing the minimum preserve the K largest elements?]</span>
-- <span class="fill-in">[What would happen with a max-heap instead?]</span>
+- Why does removing the minimum preserve the K largest elements? <span class="fill-in">[Your answer]</span>
+- What would happen with a max-heap instead? <span class="fill-in">[Your answer]</span>
 
 </div>
 
@@ -303,8 +303,8 @@ Add 3:  maxHeap=[5,3,1], minHeap=[15] → rebalance → maxHeap=[5,3], minHeap=[
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[Why do we need both heaps instead of just sorting?]</span>
-- <span class="fill-in">[How does keeping them balanced help find median quickly?]</span>
+- Why do we need both heaps instead of just sorting? <span class="fill-in">[Your answer]</span>
+- How does keeping them balanced help find median quickly? <span class="fill-in">[Your answer]</span>
 
 </div>
 

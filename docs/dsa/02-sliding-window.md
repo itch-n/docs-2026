@@ -212,9 +212,9 @@ Sliding window: Previous sum (7) - 1 + 10 = 16 (2 operations)
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[Why does the window "slide" instead of "jump"?]</span>
-- <span class="fill-in">[What would happen if the window wasn't contiguous?]</span>
-- <span class="fill-in">[How is this different from two pointers?]</span>
+- Why does the window "slide" instead of "jump"? <span class="fill-in">[Your answer]</span>
+- What would happen if the window wasn't contiguous? <span class="fill-in">[Your answer]</span>
+- How is this different from two pointers? <span class="fill-in">[Your answer]</span>
 
 </div>
 

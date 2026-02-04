@@ -205,9 +205,9 @@ public UserV2 getUserV2(String id) {
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[Why is versioning critical for APIs?]</span>
-- <span class="fill-in">[When would you create a new API version?]</span>
-- <span class="fill-in">[How long should you support old versions?]</span>
+- Why is versioning critical for APIs? <span class="fill-in">[Your answer]</span>
+- When would you create a new API version? <span class="fill-in">[Your answer]</span>
+- How long should you support old versions? <span class="fill-in">[Your answer]</span>
 
 </div>
 
@@ -304,9 +304,9 @@ class PaginatedResponse<T> {
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[Why is pagination essential for production APIs?]</span>
-- <span class="fill-in">[What's a good default page size?]</span>
-- <span class="fill-in">[Offset-based vs cursor-based pagination - when to use each?]</span>
+- Why is pagination essential for production APIs? <span class="fill-in">[Your answer]</span>
+- What's a good default page size? <span class="fill-in">[Your answer]</span>
+- Offset-based vs cursor-based pagination - when to use each? <span class="fill-in">[Your answer]</span>
 
 </div>
 
@@ -428,9 +428,9 @@ class ApiError {
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[Why are specific HTTP status codes important?]</span>
-- <span class="fill-in">[What makes a good error message?]</span>
-- <span class="fill-in">[When should you use 400 vs 409 vs 422?]</span>
+- Why are specific HTTP status codes important? <span class="fill-in">[Your answer]</span>
+- What makes a good error message? <span class="fill-in">[Your answer]</span>
+- When should you use 400 vs 409 vs 422? <span class="fill-in">[Your answer]</span>
 
 </div>
 
@@ -535,10 +535,10 @@ Result: User charged $100 only once - correct!
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[What does idempotent mean?]</span>
-- <span class="fill-in">[Why is POST not naturally idempotent?]</span>
-- <span class="fill-in">[How do you make POST idempotent?]</span>
-- <span class="fill-in">[Why is PUT idempotent but POST is not?]</span>
+- What does idempotent mean? <span class="fill-in">[Your answer]</span>
+- Why is POST not naturally idempotent? <span class="fill-in">[Your answer]</span>
+- How do you make POST idempotent? <span class="fill-in">[Your answer]</span>
+- Why is PUT idempotent but POST is not? <span class="fill-in">[Your answer]</span>
 
 </div>
 

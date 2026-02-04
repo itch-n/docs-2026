@@ -266,9 +266,9 @@ Hit Rate | Cache Hits | DB Queries | Total Time | Speedup
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[Why does caching provide such dramatic speedup?]</span>
-- <span class="fill-in">[What happens when hit rate drops below 50%?]</span>
-- <span class="fill-in">[When might caching not be worth it?]</span>
+- Why does caching provide such dramatic speedup? <span class="fill-in">[Your answer]</span>
+- What happens when hit rate drops below 50%? <span class="fill-in">[Your answer]</span>
+- When might caching not be worth it? <span class="fill-in">[Your answer]</span>
 
 </div>
 

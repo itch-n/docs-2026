@@ -205,9 +205,9 @@ n = 1,048,576 → log₂(1,048,576) = 20 steps
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[Why is O(log n) so much faster than O(n)?]</span>
-- <span class="fill-in">[What property of sorted arrays makes this possible?]</span>
-- <span class="fill-in">[What happens at each step that makes it logarithmic?]</span>
+- Why is O(log n) so much faster than O(n)? <span class="fill-in">[Your answer]</span>
+- What property of sorted arrays makes this possible? <span class="fill-in">[Your answer]</span>
+- What happens at each step that makes it logarithmic? <span class="fill-in">[Your answer]</span>
 
 </div>
 

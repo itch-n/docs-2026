@@ -207,9 +207,9 @@ Row 1: Try 4 positions
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[Why is backtracking better than brute force enumeration?]</span>
-- <span class="fill-in">[When does backtracking give the biggest advantage?]</span>
-- <span class="fill-in">[What problems are NOT improved by backtracking?]</span>
+- Why is backtracking better than brute force enumeration? <span class="fill-in">[Your answer]</span>
+- When does backtracking give the biggest advantage? <span class="fill-in">[Your answer]</span>
+- What problems are NOT improved by backtracking? <span class="fill-in">[Your answer]</span>
 
 </div>
 

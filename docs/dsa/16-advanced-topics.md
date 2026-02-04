@@ -194,8 +194,8 @@ Example with `[2, 3, 2, 4, 3]`:
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[Why does XOR cancel out duplicates?]</span>
-- <span class="fill-in">[When would HashSet be better than XOR?]</span>
+- Why does XOR cancel out duplicates? <span class="fill-in">[Your answer]</span>
+- When would HashSet be better than XOR? <span class="fill-in">[Your answer]</span>
 
 </div>
 
@@ -313,8 +313,8 @@ Now you only need to check if `current interval end >= next interval start`:
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[Why can we merge in a single pass after sorting?]</span>
-- <span class="fill-in">[What intervals do we never need to compare?]</span>
+- Why can we merge in a single pass after sorting? <span class="fill-in">[Your answer]</span>
+- What intervals do we never need to compare? <span class="fill-in">[Your answer]</span>
 
 </div>
 
@@ -416,8 +416,8 @@ Result: [4, 2, 4, -1, -1]
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[Why do we maintain a decreasing stack?]</span>
-- <span class="fill-in">[Why is each element processed only twice?]</span>
+- Why do we maintain a decreasing stack? <span class="fill-in">[Your answer]</span>
+- Why is each element processed only twice? <span class="fill-in">[Your answer]</span>
 
 </div>
 

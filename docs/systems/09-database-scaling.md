@@ -301,9 +301,9 @@ All 1000 requests handled, with 2000 req/sec headroom
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[Why does replication not help writes?]</span>
-- <span class="fill-in">[Why does sharding help both reads and writes?]</span>
-- <span class="fill-in">[When would you combine replication + sharding?]</span>
+- Why does replication not help writes? <span class="fill-in">[Your answer]</span>
+- Why does sharding help both reads and writes? <span class="fill-in">[Your answer]</span>
+- When would you combine replication + sharding? <span class="fill-in">[Your answer]</span>
 
 </div>
 

@@ -267,9 +267,9 @@ After find(3):  3 → 0      (directly points to root)
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[Why does union by rank keep trees balanced?]</span>
-- <span class="fill-in">[How does path compression improve future finds?]</span>
-- <span class="fill-in">[What's the inverse Ackermann function and why does it matter?]</span>
+- Why does union by rank keep trees balanced? <span class="fill-in">[Your answer]</span>
+- How does path compression improve future finds? <span class="fill-in">[Your answer]</span>
+- What's the inverse Ackermann function and why does it matter? <span class="fill-in">[Your answer]</span>
 
 </div>
 

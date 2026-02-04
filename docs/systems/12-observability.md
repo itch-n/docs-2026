@@ -263,9 +263,9 @@ With observability:
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[How do the three pillars work together?]</span>
-- <span class="fill-in">[What questions can you answer with each type?]</span>
-- <span class="fill-in">[Why is context propagation (trace_id) important?]</span>
+- How do the three pillars work together? <span class="fill-in">[Your answer]</span>
+- What questions can you answer with each type? <span class="fill-in">[Your answer]</span>
+- Why is context propagation (trace_id) important? <span class="fill-in">[Your answer]</span>
 
 </div>
 
@@ -2396,9 +2396,9 @@ Using metrics:
 
 Root cause:
 
-- <span class="fill-in">[How would you prove your hypothesis?]</span>
-- <span class="fill-in">[What would you change to fix it?]</span>
-- <span class="fill-in">[What observability would you add?]</span>
+- How would you prove your hypothesis? <span class="fill-in">[Your answer]</span>
+- What would you change to fix it? <span class="fill-in">[Your answer]</span>
+- What observability would you add? <span class="fill-in">[Your answer]</span>
 
 ### Scenario 3: Capacity Planning for Growth
 

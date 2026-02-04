@@ -310,9 +310,9 @@ public class RBACBlog {
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[Why is "deny by default" important?]</span>
-- <span class="fill-in">[What happens if you forget one authorization check?]</span>
-- <span class="fill-in">[How does RBAC prevent privilege escalation?]</span>
+- Why is "deny by default" important? <span class="fill-in">[Your answer]</span>
+- What happens if you forget one authorization check? <span class="fill-in">[Your answer]</span>
+- How does RBAC prevent privilege escalation? <span class="fill-in">[Your answer]</span>
 
 </div>
 
@@ -423,9 +423,9 @@ public class SecureSecretsManagement {
 
 **Your reflection after implementation:**
 
-- <span class="fill-in">[How would you rotate a leaked hardcoded password?]</span>
-- <span class="fill-in">[What's the blast radius if secrets manager is breached vs. hardcoded?]</span>
-- <span class="fill-in">[Why is "secrets in environment variables" better than hardcoded but still not ideal?]</span>
+- How would you rotate a leaked hardcoded password? <span class="fill-in">[Your answer]</span>
+- What's the blast radius if secrets manager is breached vs. hardcoded? <span class="fill-in">[Your answer]</span>
+- Why is "secrets in environment variables" better than hardcoded but still not ideal? <span class="fill-in">[Your answer]</span>
 
 ---
 

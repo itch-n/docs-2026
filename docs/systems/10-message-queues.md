@@ -260,9 +260,9 @@ User → [Upload] → Response        (instant)
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[Why does async processing improve user experience?]</span>
-- <span class="fill-in">[What happens if a worker fails?]</span>
-- <span class="fill-in">[When would you NOT use a message queue?]</span>
+- Why does async processing improve user experience? <span class="fill-in">[Your answer]</span>
+- What happens if a worker fails? <span class="fill-in">[Your answer]</span>
+- When would you NOT use a message queue? <span class="fill-in">[Your answer]</span>
 
 </div>
 
@@ -286,9 +286,9 @@ User → [Upload] → Response        (instant)
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[How does message delivery differ?]</span>
-- <span class="fill-in">[Which one for image processing? Why?]</span>
-- <span class="fill-in">[Which one for notifications? Why?]</span>
+- How does message delivery differ? <span class="fill-in">[Your answer]</span>
+- Which one for image processing? Why? <span class="fill-in">[Your answer]</span>
+- Which one for notifications? Why? <span class="fill-in">[Your answer]</span>
 
 </div>
 

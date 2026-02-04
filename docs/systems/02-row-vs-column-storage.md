@@ -228,19 +228,15 @@ public Map<String, Double> avgSalaryByCity() {
 
 ## The Fundamental Trade-off
 
-```
-                Row Storage              Column Storage
-
-Point Lookups   ⚡⚡⚡ (1 read)          🐌 (N reads)
-Full Row Scans  🐌 (wasted I/O)        🐌 (N files)
-Column Scans    🐌 (wasted I/O)        ⚡⚡⚡ (targeted)
-Compression     ⚡ (limited)            ⚡⚡⚡ (excellent)
-Inserts         ⚡⚡⚡ (single write)    🐌 (N writes)
-Updates         ⚡⚡ (single write)     🐌 (N writes)
-
-Best For        OLTP                   OLAP
-                (transactions)         (analytics)
-```
+| Feature            | Row Storage             | Column Storage       |
+|--------------------|-------------------------|----------------------|
+| **Point Lookups**  | ⚡⚡⚡ (1 read)            | 🐌 (N reads)         |
+| **Full Row Scans** | 🐌 (wasted I/O)         | 🐌 (N files)         |
+| **Column Scans**   | 🐌 (wasted I/O)         | ⚡⚡⚡ (targeted)       |
+| **Compression**    | ⚡ (limited)             | ⚡⚡⚡ (excellent)      |
+| **Inserts**        | ⚡⚡⚡ (single write)      | 🐌 (N writes)        |
+| **Updates**        | ⚡⚡ (single write)       | 🐌 (N writes)        |
+| **Best For**       | **OLTP** (Transactions) | **OLAP** (Analytics) |
 
 **Key insight:**
 

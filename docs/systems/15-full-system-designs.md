@@ -250,9 +250,9 @@ Verify after implementation: <span class="fill-in">[Were you correct?]</span>
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[Which principle had the biggest impact on performance?]</span>
-- <span class="fill-in">[Which principle was most complex to implement?]</span>
-- <span class="fill-in">[What trade-offs did distributed design introduce?]</span>
+- Which principle had the biggest impact on performance? <span class="fill-in">[Your answer]</span>
+- Which principle was most complex to implement? <span class="fill-in">[Your answer]</span>
+- What trade-offs did distributed design introduce? <span class="fill-in">[Your answer]</span>
 
 </div>
 

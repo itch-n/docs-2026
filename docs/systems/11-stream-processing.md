@@ -331,9 +331,9 @@ Results:     ↑            ↑
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[Why does stream processing use less memory?]</span>
-- <span class="fill-in">[What's the trade-off between latency and accuracy with watermarks?]</span>
-- <span class="fill-in">[When would you still choose batch processing?]</span>
+- Why does stream processing use less memory? <span class="fill-in">[Your answer]</span>
+- What's the trade-off between latency and accuracy with watermarks? <span class="fill-in">[Your answer]</span>
+- When would you still choose batch processing? <span class="fill-in">[Your answer]</span>
 
 </div>
 

@@ -1466,9 +1466,9 @@ After finding and fixing all bugs:
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[How would you test for race conditions?]</span>
-- <span class="fill-in">[How would you test boundary conditions?]</span>
-- <span class="fill-in">[How would you test time-based calculations?]</span>
+- How would you test for race conditions? <span class="fill-in">[Your answer]</span>
+- How would you test boundary conditions? <span class="fill-in">[Your answer]</span>
+- How would you test time-based calculations? <span class="fill-in">[Your answer]</span>
 
 </div>
 

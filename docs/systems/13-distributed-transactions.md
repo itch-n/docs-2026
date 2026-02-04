@@ -315,9 +315,9 @@ Saga: Reserve → Charge → Ship (if any fails, undo previous)
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[Why is compensation in reverse order critical?]</span>
-- <span class="fill-in">[What makes a good compensation operation?]</span>
-- <span class="fill-in">[When would you need orchestration vs choreography?]</span>
+- Why is compensation in reverse order critical? <span class="fill-in">[Your answer]</span>
+- What makes a good compensation operation? <span class="fill-in">[Your answer]</span>
+- When would you need orchestration vs choreography? <span class="fill-in">[Your answer]</span>
 
 </div>
 

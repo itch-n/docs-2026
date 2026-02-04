@@ -195,9 +195,9 @@ Result: 1 logical write = 1 in-memory write (occasionally batched to disk)
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[Why does B+Tree require more writes per operation?]</span>
-- <span class="fill-in">[How does LSM Tree achieve better write throughput?]</span>
-- <span class="fill-in">[What's the trade-off for read performance?]</span>
+- Why does B+Tree require more writes per operation? <span class="fill-in">[Your answer]</span>
+- How does LSM Tree achieve better write throughput? <span class="fill-in">[Your answer]</span>
+- What's the trade-off for read performance? <span class="fill-in">[Your answer]</span>
 
 </div>
 
@@ -268,9 +268,9 @@ long duration = System.nanoTime() - start;
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[What happens to LSM read performance as SSTables accumulate?]</span>
-- <span class="fill-in">[Why doesn't B+Tree have this problem?]</span>
-- <span class="fill-in">[How does compaction help LSM Trees?]</span>
+- What happens to LSM read performance as SSTables accumulate? <span class="fill-in">[Your answer]</span>
+- Why doesn't B+Tree have this problem? <span class="fill-in">[Your answer]</span>
+- How does compaction help LSM Trees? <span class="fill-in">[Your answer]</span>
 
 </div>
 

@@ -201,8 +201,8 @@ This natural recursion makes problems like height trivial:
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[Why is recursion more natural for trees?]</span>
-- <span class="fill-in">[When would iterative be better?]</span>
+- Why is recursion more natural for trees? <span class="fill-in">[Your answer]</span>
+- When would iterative be better? <span class="fill-in">[Your answer]</span>
 
 </div>
 
@@ -289,8 +289,8 @@ private static int calculateHeight(TreeNode root, int[] maxDiameter) {
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[Why does the optimized version avoid recalculation?]</span>
-- <span class="fill-in">[What pattern do you see in combining calculations?]</span>
+- Why does the optimized version avoid recalculation? <span class="fill-in">[Your answer]</span>
+- What pattern do you see in combining calculations? <span class="fill-in">[Your answer]</span>
 
 </div>
 
@@ -375,8 +375,8 @@ public static boolean hasPathSum_Optimized(TreeNode root, int targetSum) {
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[When should you check conditions during recursion vs after?]</span>
-- <span class="fill-in">[What's the benefit of reducing the target while recursing?]</span>
+- When should you check conditions during recursion vs after? <span class="fill-in">[Your answer]</span>
+- What's the benefit of reducing the target while recursing? <span class="fill-in">[Your answer]</span>
 
 </div>
 

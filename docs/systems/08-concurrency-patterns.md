@@ -265,9 +265,9 @@ do {
 
 <div class="learner-section" markdown>
 
-- <span class="fill-in">[Why does unsynchronized code lose updates?]</span>
-- <span class="fill-in">[When would you choose synchronized over lock-free?]</span>
-- <span class="fill-in">[What is the "ABA problem" in lock-free algorithms?]</span>
+- Why does unsynchronized code lose updates? <span class="fill-in">[Your answer]</span>
+- When would you choose synchronized over lock-free? <span class="fill-in">[Your answer]</span>
+- What is the "ABA problem" in lock-free algorithms? <span class="fill-in">[Your answer]</span>
 
 </div>
 
