@@ -4,6 +4,16 @@
 
 ---
 
+## Important info
+
+- Can be same/different direction/speed
+- Same direction cursor conventions
+    - Write Cursor: Points to the first available space where the next piece of incoming data will be
+      stored
+    - Read Cursor: Points to the first piece of available data that has not been read yet.
+
+---
+
 ## ELI5: Explain Like I'm 5
 
 <div class="learner-section" markdown>
@@ -13,20 +23,29 @@
 **Prompts to guide you:**
 
 1. **What is the two pointers pattern in one sentence?**
-    - Your answer: <span class="fill-in">[Fill in after implementation]</span>
+    - Your answer: <span class="fill-in">Avoiding the need to exhaustively "check every pair" by keeping track of two
+      pointers and exploiting some property of the input</span>
 
 2. **Why is it faster than nested loops?**
-    - Your answer: <span class="fill-in">[Fill in after implementation]</span>
+    - Your answer: <span class="fill-in">You don't need to check all combinations leading to fewer ops</span>
 
 3. **Real-world analogy:**
-    - Example: "Two pointers is like two people searching..."
-    - Your analogy: <span class="fill-in">[Fill in]</span>
+    - Same direction partitioning: <span class="fill-in">Using your left arm to keep the good apples in your sweater and
+      your right arm to sort new ones in or out. When you get a good one, your left arm moves a little to make room for
+      the good apple</span>
+    - Opposite direction matching: <span class="fill-in">You and your brother have 20 chuck-e-cheese tickets for 2
+      prizes. You want to use all 20 tickets and all the prizes are sorted by ticket price.</span>
+    - Different speeds exploring: <span class="fill-in">You're lost and walking along a rushing river. You throw a
+      message in a bottle, wait a bit, then keep walking. If you eventually see the bottle again, you know you're on a
+      circular river. Importantly, this wouldn't work if you started running the same speed as the river current!</span>
 
 4. **When does this pattern work?**
-    - Your answer: <span class="fill-in">[Fill in after solving problems]</span>
+    - Your answer: <span class="fill-in">When you can eliminate multiple possibilities with each pointer
+      movement or when trying to explore paths and you can't store state.</span>
 
 5. **When does this pattern fail?**
-    - Your answer: <span class="fill-in">[Fill in after trying unsorted arrays]</span>
+    - Your answer: <span class="fill-in">when you truly need to check every combination or when the problem requires
+      random access to all elements simultaneously.</span>
 
 </div>
 
@@ -40,49 +59,49 @@
 
 ### Complexity Predictions
 
-1. **Two nested loops searching for a pair:**
-    - Time complexity: <span class="fill-in">[Your guess: O(?)]</span>
+1. **Two nested loops searching for a sum pair:**
+    - Time complexity: <span class="fill-in">O(n^2)</span>
     - Verified after learning: <span class="fill-in">[Actual: O(?)]</span>
 
-2. **Two pointers searching for a pair in sorted array:**
-    - Time complexity: <span class="fill-in">[Your guess: O(?)]</span>
+2. **Two pointers searching for a sum pair in sorted array:**
+    - Time complexity: <span class="fill-in">O(n)</span>
     - Space complexity: <span class="fill-in">[Your guess: O(?)]</span>
     - Verified: <span class="fill-in">[Actual]</span>
 
 3. **Speedup calculation:**
-    - If n = 1,000, nested loops = n² = <span class="fill-in">_____</span> operations
-    - Two pointers = n = <span class="fill-in">_____</span> operations
-    - Speedup factor: <span class="fill-in">_____</span> times faster
+    - If n = 1,000, nested loops = n² = <span class="fill-in">1,000,000</span> operations
+    - Two pointers = n = <span class="fill-in">1000</span> operations
+    - Speedup factor: <span class="fill-in">1,000</span> times faster
 
 ### Scenario Predictions
 
 **Scenario 1:** Find pair that sums to 10 in `[1, 3, 5, 7, 9]`
 
-- **Can you use two pointers?** <span class="fill-in">[Yes/No - Why?]</span>
-- **Starting positions:** left = <span class="fill-in">___</span>, right = <span class="fill-in">___</span>
-- **If sum = 8 (too small), which pointer moves?** <span class="fill-in">[Left/Right - Why?]</span>
-- **If sum = 12 (too big), which pointer moves?** <span class="fill-in">[Left/Right - Why?]</span>
+- **Can you use two pointers?** <span class="fill-in">Yes, input is sorted</span>
+- **Starting positions:** left = <span class="fill-in">0</span>, right = <span class="fill-in">4</span>
+- **If sum = 8 (too small), which pointer moves?** <span class="fill-in">Left, since this makes the sum bigger</span>
+- **If sum = 12 (too big), which pointer moves?** <span class="fill-in">Right, since this makes the sum smaller</span>
 
 **Scenario 2:** Find pair that sums to 10 in `[9, 3, 1, 7, 5]` (unsorted)
 
-- **Can you use two pointers directly?** <span class="fill-in">[Yes/No - Why?]</span>
-- **What must you do first?** <span class="fill-in">[Fill in]</span>
+- **Can you use two pointers directly?** <span class="fill-in">No, input is not sorted</span>
+- **What must you do first?** <span class="fill-in">Sort the input</span>
 
 **Scenario 3:** Remove duplicates from `[1, 1, 2, 2, 3]`
 
-- **Which pattern applies?** <span class="fill-in">[Opposite/Same/Different speed]</span>
+- **Which pattern applies?** <span class="fill-in">Same</span>
 - **Why that pattern?** <span class="fill-in">[Fill in your reasoning]</span>
 
 ### Trade-off Quiz
 
 **Question:** When would HashSet be BETTER than two pointers for finding pairs?
 
-- Your answer: <span class="fill-in">[Fill in before implementation]</span>
+- Your answer: <span class="fill-in">When you don't care about space complexity</span>
 - Verified answer: <span class="fill-in">[Fill in after learning]</span>
 
 **Question:** What's the MAIN requirement for opposite-direction two pointers?
 
-- [ ] Array must be sorted
+- [x] Array must be sorted
 - [ ] Array must have even length
 - [ ] Array must contain unique elements
 - [ ] Array must be positive integers
@@ -157,7 +176,7 @@ public static boolean hasPairSum_TwoPointers(int[] nums, int target) {
 | n = 1,000  | 1,000,000 ops       | 1,000 ops           | 1,000x  |
 | n = 10,000 | 100,000,000 ops     | 10,000 ops          | 10,000x |
 
-**Your calculation:** For n = 5,000, the speedup is approximately _____ times faster.
+**Your calculation:** For n = 5,000, the speedup is approximately _7000_ times faster.
 
 #### Why Does Two Pointers Work?
 
@@ -188,8 +207,10 @@ Step 2: left=1 (val=3), right=4 (val=9), sum=12 → FOUND!
 
 <div class="learner-section" markdown>
 
-- Why does sorted order matter? <span class="fill-in">[Your answer]</span>
-- What pairs do we skip and why is it safe? <span class="fill-in">[Your answer]</span>
+- Why does sorted order matter? <span class="fill-in">It means we know for sure that moving a pointer isn't skipping
+  valid pairs</span>
+- What pairs do we skip and why is it safe? <span class="fill-in">Any pairs whose sum is greater/lesser than the
+  current</span>
 
 </div>
 
@@ -209,38 +230,56 @@ public class OppositeDirectionPointers {
     /**
      * Problem: Check if string is a palindrome
      * Time: O(n), Space: O(1)
-     *
-     * TODO: Implement using two pointers from opposite ends
      */
     public static boolean isPalindrome(String s) {
-        // TODO: Use two pointers moving towards each other
-        // Consider the loop termination condition
-
-        return false; // Replace with implementation
+        int l = 0;
+        int r = s.length() - 1;
+        while (l < r) {
+            if (s.charAt(l) != s.charAt(r)) {
+                return false;
+            }
+            l++;
+            r--;
+        }
+        return true; // Replace with implementation
     }
 
     /**
      * Problem: Find pair in sorted array that sums to target
      * Time: O(n), Space: O(1)
-     *
-     * TODO: Implement two-pointer pair sum
+     * <p>
      */
     public static int[] twoSum(int[] nums, int target) {
-        // TODO: Start pointers at opposite ends
-        // How should pointers move based on current sum vs target?
-
-        return new int[] {-1, -1}; // Replace with implementation
+        int l = 0;
+        int r = nums.length - 1;
+        while (l < r) {
+            int sum = nums[l] + nums[r];
+            if (sum == target) {
+                return new int[]{l, r};
+            } else if (sum < target) {
+                l++;
+            } else {
+                r--;
+            }
+        }
+        throw new IllegalArgumentException("No two sum solution");
     }
 
     /**
      * Problem: Reverse array in-place
      * Time: O(n), Space: O(1)
-     *
-     * TODO: Implement using two pointers
+     * <p>
      */
     public static void reverseArray(int[] arr) {
-        // TODO: Use two pointers to swap elements
-        // What positions should they start at?
+        int l = 0;
+        int r = arr.length - 1;
+        while (l < r) {
+            int tmp = arr[l];
+            arr[l] = arr[r];
+            arr[r] = tmp;
+            l++;
+            r--;
+        }
     }
 }
 ```
@@ -301,40 +340,73 @@ public class SameDirectionPointers {
      * Problem: Remove duplicates from sorted array in-place
      * Return new length
      * Time: O(n), Space: O(1)
-     *
-     * TODO: Implement using slow/fast pointers
+     * <p>
      */
     public static int removeDuplicates(int[] nums) {
         if (nums.length == 0) return 0;
 
-        // TODO: One pointer tracks unique elements, other explores
-        // When should you copy a value? What should be returned?
-
-        return 0; // Replace with implementation
+        int write = 1;
+        for (int read = 1; read < nums.length; read++) {
+            // duplicate, skip this write
+            if (nums[read] == nums[write - 1]) {
+                continue;
+            }
+            nums[write] = nums[read];
+            write++;
+        }
+        return write; // new length
     }
 
     /**
      * Problem: Move all zeros to end, maintain order of non-zeros
      * Time: O(n), Space: O(1)
-     *
-     * TODO: Implement using slow/fast pointers
+     * <p>
      */
     public static void moveZeroes(int[] nums) {
-        // TODO: Track position for non-zero elements
-        // How can swapping help maintain order?
+        int write = 0;
+        for (int read = 0; read < nums.length; read++) {
+            if (nums[read] == 0) {
+                continue;
+            }
+            nums[write] = nums[read];
+            write++;
+        }
+
+        while (write < nums.length) {
+            nums[write] = 0;
+            write++;
+        }
     }
 
     /**
      * Problem: Partition array - all elements < pivot go left
      * Time: O(n), Space: O(1)
-     *
-     * TODO: Implement partition logic
+     * <p>
+     * <pre>
+     *        [  Condition Met  |  Unmet/Mixed  |  Unprocessed  ]
+     *           0           slow-1 slow          fast          n-1
+     *           ↓             ↓     ↓             ↓             ↓
+     * Array: [  2  1  4  3  0  |  9  8  7  6  5  |  ?  ?  ?  ?  ]
+     *           ↑             ↑                 ↑             ↑
+     *           └─────┬───────┘                 └──────┬──────┘
+     *          Elements ≤ Pivot                 Current Element
+     *          (The "Good" Zone)               Being Evaluated
+     * </pre>
      */
     public static int partition(int[] arr, int pivot) {
-        // TODO: Maintain a boundary between partitions
-        // What determines when to swap elements?
+        int wall = 0; // "good zone indices < wall"
+        for (int fast = 0; fast < arr.length; fast++) {
+            if (arr[fast] >= pivot) {
+                continue;
+            }
 
-        return 0; // Replace with implementation
+            int tmp = arr[fast];
+            arr[fast] = arr[wall];
+            arr[wall] = tmp;
+            wall++;
+        }
+
+        return wall; // Replace with implementation
     }
 }
 ```
@@ -402,41 +474,67 @@ public class DifferentSpeedPointers {
     /**
      * Problem: Detect cycle in linked list
      * Time: O(n), Space: O(1)
-     *
-     * TODO: Implement using slow/fast pointers
      */
     public static boolean hasCycle(ListNode head) {
-        // TODO: Move pointers at different speeds
-        // What happens when they meet?
+        if (head == null) return false;
 
-        return false; // Replace with implementation
+        ListNode slow = head;
+        ListNode fast = head;
+
+        while (fast != null) {
+            slow = slow.next;
+            fast = fast.next;
+            if (fast != null) {
+                fast = fast.next;
+            }
+            if (slow == fast) return true;
+        }
+
+        return false;
     }
 
     /**
      * Problem: Find middle of linked list
      * If even length, return second middle node
      * Time: O(n), Space: O(1)
-     *
-     * TODO: Implement using slow/fast pointers
      */
     public static ListNode findMiddle(ListNode head) {
-        // TODO: Use different pointer speeds
-        // Where is the slow pointer when fast reaches the end?
+        // this handles the "rounding up" behavior
+        ListNode sentinel = new ListNode(-1);
+        sentinel.next = head;
 
-        return null; // Replace with implementation
+        ListNode slow = sentinel;
+        ListNode fast = sentinel;
+
+        while (fast != null) {
+            slow = slow.next;
+            fast = fast.next;
+            if (fast != null) {
+                fast = fast.next;
+            }
+        }
+        return slow ;
     }
 
     /**
      * Problem: Find kth node from end
      * Time: O(n), Space: O(1)
-     *
-     * TODO: Implement using two pointers with gap
      */
     public static ListNode findKthFromEnd(ListNode head, int k) {
-        // TODO: Create a fixed gap between pointers
-        // When one reaches the end, where is the other?
+        if (head == null) throw new IllegalArgumentException();
+        if (k <= 0) throw new IllegalArgumentException();
 
-        return null; // Replace with implementation
+        ListNode boat = head;
+        for (int i = 0; i <= k; i++) {
+            boat = boat.next;
+        }
+
+        ListNode waterskiier = head;
+        while (boat != null) {
+            boat = boat.next;
+            waterskiier = waterskiier.next;
+        }
+        return waterskiier;
     }
 
     // Helper: Create linked list from array
@@ -534,7 +632,7 @@ public class DifferentSpeedClient {
 ```java
 /**
  * This code is supposed to check if a string is a palindrome.
- * It has 2 BUGS. Find them!
+ * It has 1 BUG. Find it!
  */
 public static boolean isPalindrome_Buggy(String s) {
     int left = 0;
@@ -547,25 +645,18 @@ public static boolean isPalindrome_Buggy(String s) {
         right--;
     }
 
-    return true;}
+    return true;
+}
 ```
 
 **Your debugging:**
 
-- Bug 1: <span class="fill-in">[What\'s the bug?]</span>
-
-- Bug 2: <span class="fill-in">[What\'s the bug?]</span>
+- Bug 1: <span class="fill-in">`right` needs to start at length-1 or charAt will OOBE</span>
 
 <details markdown>
 <summary>Click to verify your answers</summary>
 
 **Bug 1 (Line 7):** `right` should be `s.length() - 1`, not `s.length()`. Array indices are 0-based.
-
-**Bug 2 (Line 7 again):** Even after fixing Bug 1, there's an off-by-one error. When accessing `s.charAt(right)` in the
-first iteration with right = s.length() - 1, it works. But the real issue is that we're not properly checking the
-condition.
-
-**Actually, after fixing Bug 1, the code works!** The second "bug" was a trick - once you fix the index, it's correct.
 </details>
 
 ---
@@ -583,21 +674,23 @@ public static int removeDuplicates_Buggy(int[] nums) {
 
     while (fast < nums.length) {
         if (nums[fast] != nums[slow]) {
-            nums[slow] = nums[fast];            slow++;
+            nums[slow] = nums[fast];
+            slow++;
         }
         fast++;
     }
 
-    return slow;}
+    return slow;
+}
 ```
 
 **Your debugging:**
 
-- **Bug 1:** <span class="fill-in">[What's the problem? What gets overwritten incorrectly?]</span>
-- **Bug 1 fix:** <span class="fill-in">[Correct the order of operations]</span>
+- **Bug 1:** <span class="fill-in">the 0th index gets overwritten accidentally</span>
+- **Bug 1 fix:** <span class="fill-in">First increment slow pointer then write</span>
 
-- **Bug 2:** <span class="fill-in">[What should the return value be?]</span>
-- **Bug 2 fix:** <span class="fill-in">[Fill in]</span>
+- **Bug 2:** <span class="fill-in">The length of the fixed array</span>
+- **Bug 2 fix:** <span class="fill-in">slow+1</span>
 
 **Test case to expose the bug:**
 
@@ -649,7 +742,7 @@ public static boolean hasCycle_Buggy(ListNode head) {
 
 **Your debugging:**
 
-- Bug: <span class="fill-in">[What\'s the bug?]</span>
+- Bug: <span class="fill-in">slow==fast needs to be inside the loop</span>
 
 **Trace through example:**
 
@@ -692,7 +785,8 @@ public static void moveZeroes_Buggy(int[] nums) {
 
     for (int fast = 0; fast < nums.length; fast++) {
         if (nums[fast] != 0) {
-            nums[slow] = nums[fast];            slow++;
+            nums[slow] = nums[fast];
+            slow++;
         }
     }
 }
@@ -700,11 +794,11 @@ public static void moveZeroes_Buggy(int[] nums) {
 
 **Your debugging:**
 
-- **Bug:** <span class="fill-in">[What's the logic error?]</span>
-- **Example:** Input `[0, 1, 0, 3, 12]`, output is <span class="fill-in">[Fill in - trace manually]</span>
+- **Bug:** <span class="fill-in">We don't wipe the end of the array afterwards</span>
+- **Example:** Input `[0, 1, 0, 3, 12]`, output is <span class="fill-in">[1,3,12,3,12]</span>
 - **Expected:** `[1, 3, 12, 0, 0]`
 - **Actual:** <span class="fill-in">[What do you get?]</span>
-- **Fix:** <span class="fill-in">[How to correct it?]</span>
+- **Fix:** <span class="fill-in">Wipe with zero's at the end</span>
 
 <details markdown>
 <summary>Click to verify your answer</summary>
@@ -742,10 +836,10 @@ for (int i = slow; i < nums.length; i++) {
 
 After finding and fixing all bugs:
 
-- [ ] Found all 6+ bugs across 4 challenges
-- [ ] Understood WHY each bug causes incorrect behavior
-- [ ] Could explain the fix to someone else
-- [ ] Learned common two-pointer mistakes to avoid
+- [x] Found all 6+ bugs across 4 challenges
+- [x] Understood WHY each bug causes incorrect behavior
+- [x] Could explain the fix to someone else
+- [x] Learned common two-pointer mistakes to avoid
 
 **Common mistakes you discovered:**
 
@@ -763,9 +857,11 @@ After finding and fixing all bugs:
 
 Answer after solving problems:
 
-- **Why does sorting matter?** <span class="fill-in">[Fill in]</span>
-- **Can two pointers work on unsorted arrays?** <span class="fill-in">[Yes/No - when?]</span>
-- **Your observation:** <span class="fill-in">[Fill in based on testing]</span>
+- **Why does sorting matter?** <span class="fill-in">Two pointers eliminates possibilities - we can only be sure we're
+  not eliminating valid possibilities with sorted input. Sorting establishes a predictable relationship between elements
+  and their positions.</span>
+- **Can two pointers work on unsorted arrays?** <span class="fill-in">Yes but only when the array value is irrelevant,
+  e.g. you're working with linkedlist pointers</span>
 
 ### Question 2: What are you looking for?
 
@@ -773,41 +869,38 @@ Answer for each pattern:
 
 **Opposite direction when:**
 
-- Looking for: <span class="fill-in">[Pairs? Palindromes? What else?]</span>
-- Movement rule: <span class="fill-in">[How do pointers move?]</span>
-- Example problems: <span class="fill-in">[List problems you solved]</span>
+- Looking for: <span class="fill-in">when you need to consider combinations from both ends of a sorted array</span>
+- Movement rule: <span class="fill-in">Start at ends, conditionally move one of the pointers in each iter</span>
+- Example problems: <span class="fill-in">Two Sum (sorted), Valid Palindrome, Container With Most Water, Trapping Rain Water, 3Sum/4Sum variants</span>
 
 **Same direction when:**
 
-- Looking for: <span class="fill-in">[Duplicates? Partitioning? What else?]</span>
-- Movement rule: <span class="fill-in">[How do slow/fast pointers move?]</span>
-- Example problems: <span class="fill-in">[List problems you solved]</span>
+- Looking for: <span class="fill-in">In-place array modification, partitioning (lomuto)</span>
+- Movement rule: <span class="fill-in">Read and write pointer. ***Do a write each iteration*** but conditionally move pointers</span>
+- Example problems: <span class="fill-in">Remove Duplicates from Sorted Array, Move Zeroes, Remove Element, Partition Array, Sort Colors (Dutch National Flag)</span>
 
 **Different speed when:**
-
-- Looking for: <span class="fill-in">[Cycles? Middle? What else?]</span>
-- Movement rule: <span class="fill-in">[How do pointers move at different speeds?]</span>
-- Example problems: <span class="fill-in">[List problems you solved]</span>
+- Looking for: <span class="fill-in">Linked list structural properties</span>
+- Movement rule: <span class="fill-in">Slow moves 1 step per iteration, fast moves 2 steps</span>
+- Example problems: <span class="fill-in">Linked List Cycle I & II, Find Middle of Linked List, Kth Node From End, Happy Number, Reorder List</span>
 
 ### Your Decision Tree
 
 Build this after solving practice problems:
 ```mermaid
 flowchart LR
-    Start["Two Pointers Pattern Selection"]
+    Start[["Two Pointers?"]]
 
-    Q1{"Is data sorted?"}
-    Start --> Q1
-    N2["Continue"]
-    Q1 -->|"YES"| N2
-    N3["Can you sort? Or use same-direction for partitioning"]
-    Q1 -->|"NO"| N3
-    Q4{"What are you searching for?"}
-    Start --> Q4
-    Q5{"Pair with property<br/>(sum, product)?"}
-    Q6{"Modify array in-place?"}
-    Q7{"Linked list property<br/>(cycle, middle, kth)?"}
-    Q8{"Check palindrome?"}
+    Start --> Q1{Linked List?}
+    Q1 -->|YES| DiffSpeed([Different Speed<br/>cycle, middle, kth])
+
+    Q1 -->|NO| Q2{Goal?}
+
+    Q2 -->|In-place modify<br/>partition, filter| SameDir([Same Direction<br/>slow/fast write/read])
+
+    Q2 -->|Find pairs<br/>palindrome| Q3{Sorted or<br/>sortable?}
+    Q3 -->|YES| OppDir([Opposite Direction<br/>left++, right--])
+    Q3 -->|NO| Other([Use Hash Table])
 ```
 
 
@@ -863,32 +956,32 @@ flowchart LR
 
 Before moving to the next topic:
 
-- [ ] **Implementation**
-    - [ ] Opposite direction: palindrome, two sum, reverse all work
-    - [ ] Same direction: remove duplicates, move zeros, partition all work
-    - [ ] Different speed: cycle detection, find middle, kth from end all work
-    - [ ] All client code runs successfully
+- [x] **Implementation**
+    - [x] Opposite direction: palindrome, two sum, reverse all work
+    - [x] Same direction: remove duplicates, move zeros, partition all work
+    - [x] Different speed: cycle detection, find middle, kth from end all work
+    - [x] All client code runs successfully
 
-- [ ] **Pattern Recognition**
-    - [ ] Can identify which pattern to use for new problems
-    - [ ] Understand when each pattern applies
-    - [ ] Know the movement rules for each variant
+- [x] **Pattern Recognition**
+    - [x] Can identify which pattern to use for new problems
+    - [x] Understand when each pattern applies
+    - [x] Know the movement rules for each variant
 
-- [ ] **Problem Solving**
-    - [ ] Solved 3 easy problems
-    - [ ] Solved 2-3 medium problems
-    - [ ] Analyzed time/space complexity
+- [x] **Problem Solving**
+    - [x] Solved 3 easy problems
+    - [x] Solved 2-3 medium problems
+    - [x] Analyzed time/space complexity
 
-- [ ] **Understanding**
-    - [ ] Filled in all ELI5 explanations
-    - [ ] Built decision tree
-    - [ ] Identified when NOT to use two pointers
-    - [ ] Can explain trade-offs vs other approaches
+- [x] **Understanding**
+    - [x] Filled in all ELI5 explanations
+    - [x] Built decision tree
+    - [x] Identified when NOT to use two pointers
+    - [x] Can explain trade-offs vs other approaches
 
-- [ ] **Mastery Check**
-    - [ ] Could implement all patterns from memory
-    - [ ] Could recognize pattern in new problem
-    - [ ] Could explain to someone else
+- [x] **Mastery Check**
+    - [x] Could implement all patterns from memory
+    - [x] Could recognize pattern in new problem
+    - [x] Could explain to someone else
 
 ---
 
@@ -896,11 +989,11 @@ Before moving to the next topic:
 
 **I certify that I can:**
 
-- [ ] Implement all three two-pointer patterns from memory
-- [ ] Explain when and why to use each pattern
-- [ ] Identify the correct pattern for new problems
-- [ ] Analyze time and space complexity
-- [ ] Compare trade-offs with alternative approaches
-- [ ] Debug common two-pointer mistakes
-- [ ] Teach this concept to someone else
+- [x] Implement all three two-pointer patterns from memory
+- [x] Explain when and why to use each pattern
+- [x] Identify the correct pattern for new problems
+- [x] Analyze time and space complexity
+- [x] Compare trade-offs with alternative approaches
+- [x] Debug common two-pointer mistakes
+- [x] Teach this concept to someone else
 
