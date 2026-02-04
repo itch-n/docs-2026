@@ -17,7 +17,7 @@ Numbered sequences you work through at your own pace. Each topic follows the sam
 Build real implementations to understand how systems work:
 
 - [ ] **Storage Engines** - Implement B+Trees & LSM Trees ← Start here
-- [ ] **Indexing Strategies** - Primary, secondary, composite indexes
+- [ ] **Row vs Column Storage** - OLTP vs OLAP, columnar formats, compression
 - [ ] **Caching Patterns** - LRU, LFU, cache-aside, write-through
 - [ ] **API Design** - REST principles, versioning, pagination
 - [ ] **Security Patterns** - JWT, RBAC, API keys, secrets management

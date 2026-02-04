@@ -20,7 +20,7 @@ nav:
 
   - Systems Design:
       - "01. Storage Engines": systems/01-storage-engines.md
-      - "02. Indexing Strategies": systems/02-indexing.md
+      - "02. Row vs Column Storage": systems/02-row-vs-column-storage.md
       - "03. Caching Patterns": systems/03-caching-patterns.md
       - "04. API Design": systems/04-api-design.md
       - "05. Security Patterns": systems/05-security-patterns.md
