@@ -792,7 +792,6 @@ public class StorageBenchmark {
         for (int i = 0; i < numEntries; i++) {
             lsm.put(i, "Value" + i);
         }
-        lsm.compact(); // Compact first for fair comparison
 
         // Benchmark reads
         Random rand = new Random(42);
