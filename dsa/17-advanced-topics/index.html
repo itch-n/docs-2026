@@ -1,0 +1,1560 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A framework for algorithms, systems design, and infrastructure.">
+    <meta name="author" content="Richard">
+    
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+
+    
+    <title>17. Advanced Topics - Software Engineering Study Guide</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../../css/base.min.css" rel="stylesheet">
+    <link href="../../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css">
+        
+    
+    <link href="../../css/custom.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../..">Home</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Systems Design <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../systems/01-storage-engines/">01. Storage Engines</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/04-search-and-indexing/">04. Search & Indexing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/05-caching-patterns/">05. Caching Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/06-api-design/">06. API Design</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/07-security-patterns/">07. Security Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/08-rate-limiting/">08. Rate Limiting</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/09-load-balancing/">09. Load Balancing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/11-database-scaling/">11. Database Scaling</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/12-message-queues/">12. Message Queues</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/13-stream-processing/">13. Stream Processing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/14-observability/">14. Observability</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/15-distributed-transactions/">15. Distributed Transactions</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/16-consensus-patterns/">16. Consensus Patterns</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">DSA <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../01-two-pointers/">01. Two Pointers</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../02-sliding-window/">02. Sliding Window</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../03-hash-tables/">03. Hash Tables</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../04-linked-lists/">04. Linked Lists</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../05-stacks--queues/">05. Stacks & Queues</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../06-trees-traversals/">06. Trees - Traversals</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../07-trees-recursion/">07. Trees - Recursion</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../08-binary-search/">08. Binary Search</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../09-heaps/">09. Heaps</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../10-graphs/">10. Graphs</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../11-union-find/">11. Union-Find</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../12-advanced-graphs/">12. Advanced Graphs</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../13-backtracking/">13. Backtracking</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../14-dynamic-programming-1d/">14. Dynamic Programming 1D</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../15-dynamic-programming-2d/">15. Dynamic Programming 2D</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../16-tries/">16. Tries</a>
+</li>
+
+                        
+                            
+<li class="active">
+    <a href="./">17. Advanced Topics</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../16-tries/">
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li class="disabled">
+                        <a rel="next" >
+                            Next <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#advanced-topics">Advanced Topics</a></li>
+            <li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+                
+            <li class="second-level"><a href="#quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)</a></li>
+                
+            <li class="second-level"><a href="#beforeafter-why-these-patterns-matter">Before/After: Why These Patterns Matter</a></li>
+                
+            <li class="second-level"><a href="#core-implementation">Core Implementation</a></li>
+                
+            <li class="second-level"><a href="#debugging-challenges">Debugging Challenges</a></li>
+                
+            <li class="second-level"><a href="#decision-framework">Decision Framework</a></li>
+                
+            <li class="second-level"><a href="#review-checklist">Review Checklist</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="advanced-topics">Advanced Topics<a class="headerlink" href="#advanced-topics" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>Master bit manipulation, intervals, and prefix sums</p>
+</blockquote>
+<hr />
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After implementing all patterns, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What are these advanced techniques in one sentence each?</strong></p>
+<ul>
+<li>Bit manipulation: <span class="fill-in">[Fill in after implementation]</span></li>
+<li>Intervals: <span class="fill-in">[Fill in after implementation]</span></li>
+<li>Prefix sum: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogies:</strong></p>
+<ul>
+<li>Bit manipulation: "Like using switches that are either on or off..."</li>
+<li>Intervals: "Like managing calendar appointments..."</li>
+<li>Prefix sum: "Like keeping a running total..."</li>
+<li>Your analogies: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When does each pattern work?</strong></p>
+<ul>
+<li>Your answers: <span class="fill-in">[Fill in after solving problems]</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr />
+<h2 id="quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)<a class="headerlink" href="#quick-quiz-do-before-implementing" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Test your intuition without looking at code. Answer these, then verify after implementation.</p>
+<h3 id="complexity-predictions">Complexity Predictions<a class="headerlink" href="#complexity-predictions" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p><strong>XOR all elements to find single number:</strong></p>
+<ul>
+<li>Time complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Space complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Verified after learning: <span class="fill-in">[Actual: O(?)]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Merge overlapping intervals:</strong></p>
+<ul>
+<li>Time complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Why that complexity? <span class="fill-in">[Fill in your reasoning]</span></li>
+<li>Verified: <span class="fill-in">[Actual]</span></li>
+</ul>
+</li>
+</ol>
+<h3 id="scenario-predictions">Scenario Predictions<a class="headerlink" href="#scenario-predictions" title="Permanent link">&para;</a></h3>
+<p><strong>Scenario 1:</strong> Find single number in <code>[2, 3, 2, 4, 3]</code></p>
+<ul>
+<li><strong>Can you use XOR?</strong> <span class="fill-in">[Yes/No - Why?]</span></li>
+<li><strong>What property of XOR makes this work?</strong> <span class="fill-in">[Fill in]</span></li>
+<li><strong>What is 2 XOR 2?</strong> <span class="fill-in">[Fill in]</span></li>
+<li><strong>What is any number XOR 0?</strong> <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>Scenario 2:</strong> Merge intervals <code>[[1,3], [2,6], [8,10], [15,18]]</code></p>
+<ul>
+<li><strong>Must you sort first?</strong> <span class="fill-in">[Yes/No - Why?]</span></li>
+<li><strong>How do you check if intervals overlap?</strong> <span class="fill-in">[Fill in the condition]</span></li>
+<li>**How many intervals in final result?
+  ** <span class="fill-in">[Your prediction: <span class="fill-in">___</span>]</span></li>
+</ul>
+<h3 id="bit-manipulation-quiz">Bit Manipulation Quiz<a class="headerlink" href="#bit-manipulation-quiz" title="Permanent link">&para;</a></h3>
+<p><strong>Question:</strong> What does <code>n &amp; (n-1)</code> do?</p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in before implementation]</span></li>
+<li>Verified answer: <span class="fill-in">[Fill in after learning]</span></li>
+</ul>
+<p><strong>Question:</strong> How to check if a number is a power of 2?</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <code>n % 2 == 0</code></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <code>n &gt; 0 &amp;&amp; (n &amp; (n-1)) == 0</code></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <code>n == (n | (n-1))</code></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <code>Math.log(n) % 2 == 0</code></li>
+</ul>
+<p>Verify after implementation: <span class="fill-in">[Which one(s)?]</span></p>
+<h3 id="intervals-quiz">Intervals Quiz<a class="headerlink" href="#intervals-quiz" title="Permanent link">&para;</a></h3>
+<p><strong>Question:</strong> For intervals <code>[1,4]</code> and <code>[3,6]</code>, do they overlap?</p>
+<ul>
+<li>Your answer: <span class="fill-in">[Yes/No]</span></li>
+<li>The condition is: <code>start1 &lt;= &lt;span class="fill-in"&gt;_____&lt;/span&gt; &amp;&amp; start2 &lt;= &lt;span class="fill-in"&gt;_____&lt;/span&gt;</code></li>
+<li>Fill in the blanks: <span class="fill-in">[Fill in after learning]</span></li>
+</ul>
+<p><strong>Question:</strong> What's faster: using a heap vs two sorted arrays for finding meeting rooms?</p>
+<ul>
+<li>Your prediction: <span class="fill-in">[Fill in]</span></li>
+<li>Verified: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</div>
+<hr />
+<h2 id="beforeafter-why-these-patterns-matter">Before/After: Why These Patterns Matter<a class="headerlink" href="#beforeafter-why-these-patterns-matter" title="Permanent link">&para;</a></h2>
+<p><strong>Your task:</strong> Compare naive vs optimized approaches to understand the impact.</p>
+<h3 id="example-1-find-single-number">Example 1: Find Single Number<a class="headerlink" href="#example-1-find-single-number" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Find the single number when all others appear twice.</p>
+<h4 id="approach-1-hash-set-naive">Approach 1: Hash Set (Naive)<a class="headerlink" href="#approach-1-hash-set-naive" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Naive approach - Track seen numbers
+public static int findSingle_HashSet(int[] nums) {
+    Set&lt;Integer&gt; seen = new HashSet&lt;&gt;();
+
+    for (int num : nums) {
+        if (seen.contains(num)) {
+            seen.remove(num);  // Seen twice, remove
+        } else {
+            seen.add(num);     // First time seeing
+        }
+    }
+
+    // The remaining element is the single one
+    return seen.iterator().next();
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n) - Iterate through array once</li>
+<li>Space: O(n) - Store up to n/2 elements in set</li>
+<li>For n = 10,000: ~10,000 operations + space for 5,000 integers</li>
+</ul>
+<h4 id="approach-2-xor-bit-manipulation-optimized">Approach 2: XOR Bit Manipulation (Optimized)<a class="headerlink" href="#approach-2-xor-bit-manipulation-optimized" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Optimized approach - Use XOR property
+public static int findSingle_XOR(int[] nums) {
+    int result = 0;
+
+    for (int num : nums) {
+        result ^= num;  // XOR all numbers
+    }
+
+    return result;  // Pairs cancel out, single remains
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n) - Iterate through array once</li>
+<li>Space: O(1) - Only one variable</li>
+<li>For n = 10,000: ~10,000 operations + space for 1 integer</li>
+</ul>
+<h4 id="performance-comparison">Performance Comparison<a class="headerlink" href="#performance-comparison" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Array Size</th>
+<th>HashSet Space</th>
+<th>XOR Space</th>
+<th>Space Saved</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n = 1,000</td>
+<td>~500 integers</td>
+<td>1 integer</td>
+<td>99.8%</td>
+</tr>
+<tr>
+<td>n = 10,000</td>
+<td>~5,000 integers</td>
+<td>1 integer</td>
+<td>99.98%</td>
+</tr>
+<tr>
+<td>n = 1,000,000</td>
+<td>~500,000 integers</td>
+<td>1 integer</td>
+<td>99.9998%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why Does XOR Work?</strong></p>
+<p><strong>Key properties:</strong></p>
+<ul>
+<li><code>a XOR a = 0</code> (any number XOR itself is 0)</li>
+<li><code>a XOR 0 = a</code> (any number XOR 0 is itself)</li>
+<li>XOR is commutative and associative</li>
+</ul>
+<p>Example with <code>[2, 3, 2, 4, 3]</code>:</p>
+<pre class="highlight"><code>2 XOR 3 XOR 2 XOR 4 XOR 3
+= (2 XOR 2) XOR (3 XOR 3) XOR 4  // Rearrange
+= 0 XOR 0 XOR 4                   // Pairs cancel
+= 4                                // Answer!</code></pre>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>Why does XOR cancel out duplicates? <span class="fill-in">[Your answer]</span></li>
+<li>When would HashSet be better than XOR? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr />
+<h3 id="example-2-merge-intervals">Example 2: Merge Intervals<a class="headerlink" href="#example-2-merge-intervals" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Merge all overlapping intervals in <code>[[1,3], [2,6], [8,10], [15,18]]</code>.</p>
+<h4 id="approach-1-nested-loops-naive">Approach 1: Nested Loops (Naive)<a class="headerlink" href="#approach-1-nested-loops-naive" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Naive approach - Compare all pairs repeatedly
+public static int[][] merge_BruteForce(int[][] intervals) {
+    if (intervals.length &lt;= 1) return intervals;
+
+    List&lt;int[]&gt; merged = new ArrayList&lt;&gt;();
+    boolean[] used = new boolean[intervals.length];
+
+    for (int i = 0; i &lt; intervals.length; i++) {
+        if (used[i]) continue;
+
+        int[] current = intervals[i].clone();
+        used[i] = true;
+
+        // Keep merging until no more overlaps found
+        boolean changed = true;
+        while (changed) {
+            changed = false;
+            for (int j = 0; j &lt; intervals.length; j++) {
+                if (used[j]) continue;
+
+                // Check overlap
+                if (current[0] &lt;= intervals[j][1] &amp;&amp; intervals[j][0] &lt;= current[1]) {
+                    current[0] = Math.min(current[0], intervals[j][0]);
+                    current[1] = Math.max(current[1], intervals[j][1]);
+                    used[j] = true;
+                    changed = true;
+                }
+            }
+        }
+
+        merged.add(current);
+    }
+
+    return merged.toArray(new int[0][]);
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n²) or worse - Multiple passes needed</li>
+<li>Space: O(n) - Track used intervals</li>
+<li>For n = 1,000: Up to ~1,000,000 comparisons</li>
+</ul>
+<h4 id="approach-2-sort-single-pass-optimized">Approach 2: Sort + Single Pass (Optimized)<a class="headerlink" href="#approach-2-sort-single-pass-optimized" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Optimized approach - Sort once, merge in one pass
+public static int[][] merge_Optimized(int[][] intervals) {
+    if (intervals.length &lt;= 1) return intervals;
+
+    // Sort by start time
+    Arrays.sort(intervals, (a, b) -&gt; a[0] - b[0]);
+
+    List&lt;int[]&gt; merged = new ArrayList&lt;&gt;();
+    int[] current = intervals[0];
+    merged.add(current);
+
+    for (int i = 1; i &lt; intervals.length; i++) {
+        if (intervals[i][0] &lt;= current[1]) {
+            // Overlap - merge by extending end
+            current[1] = Math.max(current[1], intervals[i][1]);
+        } else {
+            // No overlap - start new interval
+            current = intervals[i];
+            merged.add(current);
+        }
+    }
+
+    return merged.toArray(new int[0][]);
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n log n) - Sorting dominates</li>
+<li>Space: O(n) - Result array</li>
+<li>For n = 1,000: ~10,000 comparisons (sort) + 1,000 (merge)</li>
+</ul>
+<h4 id="performance-comparison_1">Performance Comparison<a class="headerlink" href="#performance-comparison_1" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Array Size</th>
+<th>Brute Force (O(n²))</th>
+<th>Sort + Merge (O(n log n))</th>
+<th>Speedup</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n = 100</td>
+<td>~10,000 ops</td>
+<td>~700 ops</td>
+<td>14x</td>
+</tr>
+<tr>
+<td>n = 1,000</td>
+<td>~1,000,000 ops</td>
+<td>~10,000 ops</td>
+<td>100x</td>
+</tr>
+<tr>
+<td>n = 10,000</td>
+<td>~100,000,000 ops</td>
+<td>~130,000 ops</td>
+<td>770x</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why Does Sorting Help?</strong></p>
+<p>After sorting by start time, intervals are in order:</p>
+<pre class="highlight"><code>Unsorted: [[8,10], [1,3], [15,18], [2,6]]
+Sorted:   [[1,3], [2,6], [8,10], [15,18]]</code></pre>
+<p>Now you only need to check if <code>current interval end &gt;= next interval start</code>:</p>
+<ul>
+<li><code>[1,3]</code> and <code>[2,6]</code>: 3 &gt;= 2 → Merge to <code>[1,6]</code></li>
+<li><code>[1,6]</code> and <code>[8,10]</code>: 6 &lt; 8 → Keep separate</li>
+<li><code>[8,10]</code> and <code>[15,18]</code>: 10 &lt; 15 → Keep separate</li>
+</ul>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>Why can we merge in a single pass after sorting? <span class="fill-in">[Your answer]</span></li>
+<li>What intervals do we never need to compare? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr />
+<h2 id="core-implementation">Core Implementation<a class="headerlink" href="#core-implementation" title="Permanent link">&para;</a></h2>
+<h3 id="pattern-1-bit-manipulation">Pattern 1: Bit Manipulation<a class="headerlink" href="#pattern-1-bit-manipulation" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Use bitwise operations for efficient computations.</p>
+<p><strong>Use case:</strong> XOR tricks, bit masks, counting bits, power of two.</p>
+<pre class="highlight"><code class="language-java">public class BitManipulation {
+
+    /**
+     * Problem: Single number (all appear twice except one)
+     * Time: O(n), Space: O(1)
+     *
+     * TODO: Implement using XOR
+     */
+    public static int singleNumber(int[] nums) {
+        // TODO: XOR all numbers
+        // TODO: a XOR a = 0, a XOR 0 = a
+        // TODO: Duplicates cancel out, single remains
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Number of 1 bits (Hamming weight)
+     * Time: O(1), Space: O(1)
+     *
+     * TODO: Implement bit counting
+     */
+    public static int hammingWeight(int n) {
+        // TODO: Count set bits
+        // TODO: Method 1: Loop and check each bit
+        // TODO: Method 2: n &amp; (n-1) removes rightmost 1
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Reverse bits
+     * Time: O(1), Space: O(1)
+     *
+     * TODO: Implement bit reversal
+     */
+    public static int reverseBits(int n) {
+        // TODO: Process bit by bit
+        // TODO: Extract bit: (n &gt;&gt; i) &amp; 1
+        // TODO: Place bit: result |= (bit &lt;&lt; (31 - i))
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Missing number (0 to n with one missing)
+     * Time: O(n), Space: O(1)
+     *
+     * TODO: Implement using XOR or math
+     */
+    public static int missingNumber(int[] nums) {
+        // TODO: Method 1: XOR all indices and values
+        // TODO: Method 2: Sum formula - sum(0..n) - sum(nums)
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Power of two
+     * Time: O(1), Space: O(1)
+     *
+     * TODO: Implement power of two check
+     */
+    public static boolean isPowerOfTwo(int n) {
+        // TODO: Power of 2 has exactly one bit set
+        // TODO: Check: n &gt; 0 &amp;&amp; (n &amp; (n-1)) == 0
+
+        return false; // Replace with implementation
+    }
+
+    /**
+     * Problem: Counting bits (0 to n)
+     * Time: O(n), Space: O(n)
+     *
+     * TODO: Implement using DP with bit manipulation
+     */
+    public static int[] countBits(int n) {
+        // TODO: dp[i] = dp[i &gt;&gt; 1] + (i &amp; 1)
+        // TODO: Bits in i = bits in i/2 + (1 if i is odd)
+
+        return new int[0]; // Replace with implementation
+    }
+
+    /**
+     * Problem: Sum of two integers without + operator
+     * Time: O(1), Space: O(1)
+     *
+     * TODO: Implement using bit operations
+     */
+    public static int getSum(int a, int b) {
+        // TODO: XOR for sum without carry
+        // TODO: AND and shift for carry
+        // TODO: Repeat until no carry
+
+        return 0; // Replace with implementation
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class BitManipulationClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Bit Manipulation ===\n");
+
+        // Test 1: Single number
+        System.out.println("--- Test 1: Single Number ---");
+        int[] arr1 = {4, 1, 2, 1, 2};
+        System.out.println("Array: " + Arrays.toString(arr1));
+        System.out.println("Single number: " + BitManipulation.singleNumber(arr1));
+
+        // Test 2: Hamming weight
+        System.out.println("\n--- Test 2: Hamming Weight ---");
+        int[] numbers = {11, 128, 255};
+        for (int n : numbers) {
+            int weight = BitManipulation.hammingWeight(n);
+            System.out.printf("%d (binary: %s): %d bits%n",
+                n, Integer.toBinaryString(n), weight);
+        }
+
+        // Test 3: Reverse bits
+        System.out.println("\n--- Test 3: Reverse Bits ---");
+        int n = 43261596;
+        System.out.printf("Original: %d (binary: %s)%n",
+            n, Integer.toBinaryString(n));
+        int reversed = BitManipulation.reverseBits(n);
+        System.out.printf("Reversed: %d (binary: %s)%n",
+            reversed, Integer.toBinaryString(reversed));
+
+        // Test 4: Missing number
+        System.out.println("\n--- Test 4: Missing Number ---");
+        int[] arr2 = {3, 0, 1};
+        System.out.println("Array: " + Arrays.toString(arr2));
+        System.out.println("Missing: " + BitManipulation.missingNumber(arr2));
+
+        // Test 5: Power of two
+        System.out.println("\n--- Test 5: Power of Two ---");
+        int[] testPowers = {1, 2, 3, 4, 16, 18};
+        for (int num : testPowers) {
+            boolean isPower = BitManipulation.isPowerOfTwo(num);
+            System.out.printf("%d: %s%n", num, isPower ? "YES" : "NO");
+        }
+
+        // Test 6: Counting bits
+        System.out.println("\n--- Test 6: Counting Bits ---");
+        int num = 5;
+        int[] bitCounts = BitManipulation.countBits(num);
+        System.out.printf("Bit counts from 0 to %d: %s%n", num, Arrays.toString(bitCounts));
+
+        // Test 7: Sum without + operator
+        System.out.println("\n--- Test 7: Sum Without + ---");
+        int a = 15, b = 27;
+        int sum = BitManipulation.getSum(a, b);
+        System.out.printf("%d + %d = %d%n", a, b, sum);
+    }
+}</code></pre>
+<hr />
+<h3 id="pattern-2-intervals">Pattern 2: Intervals<a class="headerlink" href="#pattern-2-intervals" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Merge, insert, or manipulate intervals efficiently.</p>
+<p><strong>Use case:</strong> Meeting rooms, merge intervals, interval intersection.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class Intervals {
+
+    /**
+     * Problem: Merge overlapping intervals
+     * Time: O(n log n), Space: O(n)
+     *
+     * TODO: Implement merge intervals
+     */
+    public static int[][] merge(int[][] intervals) {
+        // TODO: Sort by start time
+        // TODO: Iterate and merge overlapping intervals
+        // TODO: Implement iteration/conditional logic
+        // TODO: Otherwise, add previous to result
+
+        return new int[0][0]; // Replace with implementation
+    }
+
+    /**
+     * Problem: Insert interval into sorted intervals
+     * Time: O(n), Space: O(n)
+     *
+     * TODO: Implement insert interval
+     */
+    public static int[][] insert(int[][] intervals, int[] newInterval) {
+        // TODO: Add all intervals before newInterval
+        // TODO: Merge all overlapping intervals
+        // TODO: Add all intervals after newInterval
+
+        return new int[0][0]; // Replace with implementation
+    }
+
+    /**
+     * Problem: Interval intersection
+     * Time: O(m + n), Space: O(min(m,n))
+     *
+     * TODO: Implement interval intersection
+     */
+    public static int[][] intervalIntersection(int[][] firstList, int[][] secondList) {
+        // TODO: Two pointers on both lists
+        // TODO: Find intersection: max(start1, start2) to min(end1, end2)
+        // TODO: Move pointer of interval that ends first
+
+        return new int[0][0]; // Replace with implementation
+    }
+
+    /**
+     * Problem: Minimum number of meeting rooms
+     * Time: O(n log n), Space: O(n)
+     *
+     * TODO: Implement meeting rooms II
+     */
+    public static int minMeetingRooms(int[][] intervals) {
+        // TODO: Method 1: Sort start and end times separately
+        // TODO: Method 2: Use min-heap for end times
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Remove covered intervals
+     * Time: O(n log n), Space: O(1)
+     *
+     * TODO: Implement remove covered
+     */
+    public static int removeCoveredIntervals(int[][] intervals) {
+        // TODO: Sort by start (ascending), then end (descending)
+        // TODO: Track current max end
+        // TODO: Implement iteration/conditional logic
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Non-overlapping intervals (min removals)
+     * Time: O(n log n), Space: O(1)
+     *
+     * TODO: Implement min removals
+     */
+    public static int eraseOverlapIntervals(int[][] intervals) {
+        // TODO: Sort by end time (greedy)
+        // TODO: Keep track of last end time
+        // TODO: Implement iteration/conditional logic
+
+        return 0; // Replace with implementation
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class IntervalsClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Intervals ===\n");
+
+        // Test 1: Merge intervals
+        System.out.println("--- Test 1: Merge Intervals ---");
+        int[][] intervals1 = {{1,3}, {2,6}, {8,10}, {15,18}};
+        System.out.println("Input: " + Arrays.deepToString(intervals1));
+        int[][] merged = Intervals.merge(intervals1);
+        System.out.println("Merged: " + Arrays.deepToString(merged));
+
+        // Test 2: Insert interval
+        System.out.println("\n--- Test 2: Insert Interval ---");
+        int[][] intervals2 = {{1,3}, {6,9}};
+        int[] newInterval = {2, 5};
+        System.out.println("Intervals: " + Arrays.deepToString(intervals2));
+        System.out.println("New: " + Arrays.toString(newInterval));
+        int[][] inserted = Intervals.insert(intervals2, newInterval);
+        System.out.println("Result: " + Arrays.deepToString(inserted));
+
+        // Test 3: Interval intersection
+        System.out.println("\n--- Test 3: Interval Intersection ---");
+        int[][] first = {{0,2}, {5,10}, {13,23}, {24,25}};
+        int[][] second = {{1,5}, {8,12}, {15,24}, {25,26}};
+        System.out.println("First: " + Arrays.deepToString(first));
+        System.out.println("Second: " + Arrays.deepToString(second));
+        int[][] intersection = Intervals.intervalIntersection(first, second);
+        System.out.println("Intersection: " + Arrays.deepToString(intersection));
+
+        // Test 4: Meeting rooms
+        System.out.println("\n--- Test 4: Meeting Rooms ---");
+        int[][] meetings = {{0,30}, {5,10}, {15,20}};
+        System.out.println("Meetings: " + Arrays.deepToString(meetings));
+        int rooms = Intervals.minMeetingRooms(meetings);
+        System.out.println("Min rooms needed: " + rooms);
+
+        // Test 5: Remove covered intervals
+        System.out.println("\n--- Test 5: Remove Covered Intervals ---");
+        int[][] intervals3 = {{1,4}, {3,6}, {2,8}};
+        System.out.println("Intervals: " + Arrays.deepToString(intervals3));
+        int remaining = Intervals.removeCoveredIntervals(intervals3);
+        System.out.println("Remaining after removing covered: " + remaining);
+
+        // Test 6: Erase overlap intervals
+        System.out.println("\n--- Test 6: Erase Overlap Intervals ---");
+        int[][] intervals4 = {{1,2}, {2,3}, {3,4}, {1,3}};
+        System.out.println("Intervals: " + Arrays.deepToString(intervals4));
+        int removals = Intervals.eraseOverlapIntervals(intervals4);
+        System.out.println("Min removals to make non-overlapping: " + removals);
+    }
+}</code></pre>
+<hr />
+<h3 id="pattern-3-prefix-sum">Pattern 3: Prefix Sum<a class="headerlink" href="#pattern-3-prefix-sum" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Precompute cumulative sums for fast range queries.</p>
+<p><strong>Use case:</strong> Subarray sum, range sum query, contiguous array.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class PrefixSum {
+
+    /**
+     * Problem: Range sum query (immutable array)
+     * Time: O(1) query after O(n) preprocessing, Space: O(n)
+     *
+     * TODO: Implement range sum query
+     */
+    static class NumArray {
+        private int[] prefixSum;
+
+        public NumArray(int[] nums) {
+            // TODO: Build prefix sum array
+            // TODO: prefixSum[i] = sum of nums[0..i-1]
+        }
+
+        public int sumRange(int left, int right) {
+            // TODO: Return prefixSum[right+1] - prefixSum[left]
+            return 0; // Replace with implementation
+        }
+    }
+
+    /**
+     * Problem: Subarray sum equals K
+     * Time: O(n), Space: O(n)
+     *
+     * TODO: Implement using prefix sum + hashmap
+     */
+    public static int subarraySum(int[] nums, int k) {
+        // TODO: Use HashMap&lt;prefixSum, frequency&gt;
+        // TODO: Implement iteration/conditional logic
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Contiguous array (equal 0s and 1s)
+     * Time: O(n), Space: O(n)
+     *
+     * TODO: Implement using prefix sum
+     */
+    public static int findMaxLength(int[] nums) {
+        // TODO: Convert 0s to -1s
+        // TODO: Problem becomes: longest subarray with sum 0
+        // TODO: Use HashMap&lt;prefixSum, firstIndex&gt;
+        // TODO: Implement iteration/conditional logic
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Product of array except self
+     * Time: O(n), Space: O(1) excluding output
+     *
+     * TODO: Implement using prefix/suffix products
+     */
+    public static int[] productExceptSelf(int[] nums) {
+        // TODO: First pass: compute prefix products
+        // TODO: Second pass: compute suffix products and multiply
+
+        return new int[0]; // Replace with implementation
+    }
+
+    /**
+     * Problem: Range sum query 2D (matrix)
+     * Time: O(1) query after O(m*n) preprocessing, Space: O(m*n)
+     *
+     * TODO: Implement 2D prefix sum
+     */
+    static class NumMatrix {
+        private int[][] prefixSum;
+
+        public NumMatrix(int[][] matrix) {
+            // TODO: Build 2D prefix sum
+            // TODO: prefixSum[i][j] = sum of submatrix (0,0) to (i-1,j-1)
+            // TODO: Use inclusion-exclusion principle
+        }
+
+        public int sumRegion(int row1, int col1, int row2, int col2) {
+            // TODO: Use inclusion-exclusion:
+            return 0; // Replace with implementation
+        }
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class PrefixSumClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Prefix Sum ===\n");
+
+        // Test 1: Range sum query
+        System.out.println("--- Test 1: Range Sum Query ---");
+        int[] arr = {-2, 0, 3, -5, 2, -1};
+        PrefixSum.NumArray numArray = new PrefixSum.NumArray(arr);
+        System.out.println("Array: " + Arrays.toString(arr));
+
+        int[][] queries = {{0, 2}, {2, 5}, {0, 5}};
+        for (int[] query : queries) {
+            int sum = numArray.sumRange(query[0], query[1]);
+            System.out.printf("sumRange(%d, %d) = %d%n", query[0], query[1], sum);
+        }
+
+        // Test 2: Subarray sum equals K
+        System.out.println("\n--- Test 2: Subarray Sum Equals K ---");
+        int[] arr2 = {1, 1, 1};
+        int k = 2;
+        System.out.println("Array: " + Arrays.toString(arr2));
+        System.out.println("k = " + k);
+        int count = PrefixSum.subarraySum(arr2, k);
+        System.out.println("Count of subarrays: " + count);
+
+        // Test 3: Contiguous array
+        System.out.println("\n--- Test 3: Contiguous Array ---");
+        int[] arr3 = {0, 1, 0, 1, 1, 0};
+        System.out.println("Array: " + Arrays.toString(arr3));
+        int maxLen = PrefixSum.findMaxLength(arr3);
+        System.out.println("Max length with equal 0s and 1s: " + maxLen);
+
+        // Test 4: Product except self
+        System.out.println("\n--- Test 4: Product Except Self ---");
+        int[] arr4 = {1, 2, 3, 4};
+        System.out.println("Array: " + Arrays.toString(arr4));
+        int[] products = PrefixSum.productExceptSelf(arr4);
+        System.out.println("Products: " + Arrays.toString(products));
+
+        // Test 5: 2D range sum query
+        System.out.println("\n--- Test 5: 2D Range Sum Query ---");
+        int[][] matrix = {
+            {3, 0, 1, 4, 2},
+            {5, 6, 3, 2, 1},
+            {1, 2, 0, 1, 5},
+            {4, 1, 0, 1, 7},
+            {1, 0, 3, 0, 5}
+        };
+        PrefixSum.NumMatrix numMatrix = new PrefixSum.NumMatrix(matrix);
+
+        System.out.println("Matrix:");
+        for (int[] row : matrix) {
+            System.out.println("  " + Arrays.toString(row));
+        }
+
+        int sum = numMatrix.sumRegion(2, 1, 4, 3);
+        System.out.printf("sumRegion(2, 1, 4, 3) = %d%n", sum);
+    }
+}</code></pre>
+<hr />
+<h2 id="debugging-challenges">Debugging Challenges<a class="headerlink" href="#debugging-challenges" title="Permanent link">&para;</a></h2>
+<p><strong>Your task:</strong> Find and fix bugs in broken implementations. This tests your understanding of advanced patterns.</p>
+<h3 id="challenge-1-broken-hamming-weight">Challenge 1: Broken Hamming Weight<a class="headerlink" href="#challenge-1-broken-hamming-weight" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Count number of 1 bits in an integer.
+ * This has 1 CRITICAL BUG.
+ */
+public static int hammingWeight_Buggy(int n) {
+    int count = 0;
+
+    while (n &gt; 0) {
+        if ((n &amp; 1) == 1) {
+            count++;
+        }
+        n = n &gt;&gt; 1;    }
+
+    return count;
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>Bug: <span class="fill-in">[What\'s the bug?]</span></li>
+</ul>
+<p><strong>Test case to expose the bug:</strong></p>
+<ul>
+<li>Input: <code>n = -1</code> (all 32 bits are 1)</li>
+<li>Expected output: <code>32</code></li>
+<li>Actual output with buggy code: <span class="fill-in">[Trace through - what happens?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug:</strong> Using <code>n &gt; 0</code> stops too early for negative numbers. Signed right shift (<code>&gt;&gt;</code>) preserves the sign bit, so
+negative numbers never become 0.</p>
+<p><strong>Better fix:</strong> Use unsigned right shift (<code>&gt;&gt;&gt;</code>) or check all 32 bits explicitly:</p>
+<pre class="highlight"><code class="language-java">while (n != 0) {  // Check n != 0, not n &gt; 0
+    if ((n &amp; 1) == 1) {
+        count++;
+    }
+    n = n &gt;&gt;&gt; 1;  // Unsigned shift
+}</code></pre>
+<p><strong>Alternative:</strong> Use <code>n &amp; (n-1)</code> trick that works for any integer:</p>
+<pre class="highlight"><code class="language-java">while (n != 0) {
+    count++;
+    n = n &amp; (n - 1);  // Remove rightmost 1 bit
+}</code></pre>
+</details>
+<hr />
+<h3 id="challenge-2-broken-interval-merge">Challenge 2: Broken Interval Merge<a class="headerlink" href="#challenge-2-broken-interval-merge" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Merge overlapping intervals.
+ * This has 2 BUGS.
+ */
+public static int[][] merge_Buggy(int[][] intervals) {
+    if (intervals.length &lt;= 1) return intervals;
+
+    // Sort by start time
+    Arrays.sort(intervals, (a, b) -&gt; a[0] - b[0]);
+
+    List&lt;int[]&gt; merged = new ArrayList&lt;&gt;();
+    int[] current = intervals[0];
+
+    for (int i = 1; i &lt; intervals.length; i++) {
+        if (intervals[i][0] &lt;= current[1]) {            current[1] = intervals[i][1];        } else {
+            merged.add(current);
+            current = intervals[i];
+        }
+    }
+
+    return merged.toArray(new int[0][]);}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug 1:</strong> <span class="fill-in">[Overlap check is correct, but what about the merge?]</span></li>
+<li><strong>Bug 2:</strong> <span class="fill-in">[Should use Math.max - why?]</span></li>
+<li><strong>Bug 3:</strong> <span class="fill-in">[What's missing at the end?]</span></li>
+</ul>
+<p><strong>Test case to expose bugs:</strong></p>
+<ul>
+<li>Input: <code>[[1,3], [2,6], [8,10]]</code></li>
+<li>Expected: <code>[[1,6], [8,10]]</code></li>
+<li>Actual with Bug 1-2: <span class="fill-in">[What do you get?]</span></li>
+<li>Actual with Bug 3: <span class="fill-in">[What's missing?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug 1:</strong> Overlap check is actually correct (<code>intervals[i][0] &lt;= current[1]</code>).</p>
+<p><strong>Bug 2:</strong> Should be <code>current[1] = Math.max(current[1], intervals[i][1])</code>. Without max, if the new interval ends before
+current ends, we'd shrink current incorrectly.</p>
+<p>Example: <code>[[1,4], [2,3]]</code> should merge to <code>[1,4]</code>, not <code>[1,3]</code>.</p>
+<p><strong>Bug 3:</strong> The last interval (<code>current</code>) is never added to the result! Need to add it after the loop:</p>
+<pre class="highlight"><code class="language-java">merged.add(current);  // Add this line before return
+return merged.toArray(new int[0][]);</code></pre>
+</details>
+<hr />
+<h3 id="challenge-3-broken-prefix-sum">Challenge 3: Broken Prefix Sum<a class="headerlink" href="#challenge-3-broken-prefix-sum" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Count subarrays with sum equals K.
+ * This has 1 SUBTLE BUG.
+ */
+public static int subarraySum_Buggy(int[] nums, int k) {
+    Map&lt;Integer, Integer&gt; prefixSumCount = new HashMap&lt;&gt;();
+    int currentSum = 0;
+    int count = 0;
+
+    for (int num : nums) {
+        currentSum += num;
+
+        // Check if currentSum - k exists
+        if (prefixSumCount.containsKey(currentSum - k)) {
+            count += prefixSumCount.get(currentSum - k);
+        }
+
+
+        // Update map with current prefix sum
+        prefixSumCount.put(currentSum,
+            prefixSumCount.getOrDefault(currentSum, 0) + 1);
+    }
+
+    return count;
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>Bug: <span class="fill-in">[What\'s the bug?]</span></li>
+</ul>
+<p><strong>Test case to expose the bug:</strong></p>
+<ul>
+<li>Input: <code>nums = [1, 2, 3], k = 3</code></li>
+<li>Expected: <code>2</code> (subarrays: [1,2] and [3])</li>
+<li>Actual: <span class="fill-in">[Trace through - what do you get?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> Missing the check for when <code>currentSum == k</code>. This checks if the entire subarray from index 0 to current equals
+k.</p>
+<p><strong>Correct:</strong></p>
+<pre class="highlight"><code class="language-java">for (int num : nums) {
+    currentSum += num;
+
+    // Check if entire subarray from 0 to current equals k
+    if (currentSum == k) {
+        count++;
+    }
+
+    // Check if currentSum - k exists
+    if (prefixSumCount.containsKey(currentSum - k)) {
+        count += prefixSumCount.get(currentSum - k);
+    }
+
+    // Update map
+    prefixSumCount.put(currentSum,
+        prefixSumCount.getOrDefault(currentSum, 0) + 1);
+}</code></pre>
+<p><strong>Alternative (better):</strong> Initialize the map with <code>prefixSumCount.put(0, 1)</code> before the loop. This handles the case
+where the entire prefix equals k.</p>
+</details>
+<hr />
+<h3 id="challenge-5-broken-power-of-two-check">Challenge 5: Broken Power of Two Check<a class="headerlink" href="#challenge-5-broken-power-of-two-check" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Check if n is a power of 2.
+ * This has 1 EDGE CASE BUG.
+ */
+public static boolean isPowerOfTwo_Buggy(int n) {
+    return (n &amp; (n - 1)) == 0;}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug:</strong> <span class="fill-in">[What edge case is missed?]</span></li>
+<li><strong>Example:</strong> Try with <code>n = 0</code>, expected <code>false</code>, actual <span class="fill-in">[what?]</span></li>
+<li><strong>Example:</strong> Try with <code>n = -16</code>, expected <code>false</code>, actual <span class="fill-in">[what?]</span></li>
+<li><strong>Fix:</strong> <span class="fill-in">[Add what condition?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> Missing check for <code>n &gt; 0</code>. The expression <code>n &amp; (n-1) == 0</code> is true for:</p>
+<ul>
+<li><code>n = 0</code>: <code>0 &amp; -1 = 0</code> → returns <code>true</code> (wrong!)</li>
+<li><code>n = -16</code>: Negative powers of 2 also pass (wrong!)</li>
+</ul>
+<p><strong>Correct:</strong></p>
+<pre class="highlight"><code class="language-java">return n &gt; 0 &amp;&amp; (n &amp; (n - 1)) == 0;</code></pre>
+<p><strong>Why it works:</strong></p>
+<ul>
+<li>Power of 2 has exactly one bit set: 8 = <code>1000</code>, 16 = <code>10000</code></li>
+<li><code>n - 1</code> flips all bits after the rightmost 1: 8-1 = <code>0111</code>, 16-1 = <code>01111</code></li>
+<li><code>n &amp; (n-1)</code> turns off the rightmost 1 bit, resulting in 0 for powers of 2</li>
+</ul>
+</details>
+<hr />
+<h3 id="challenge-6-interval-intersection-edge-case">Challenge 6: Interval Intersection Edge Case<a class="headerlink" href="#challenge-6-interval-intersection-edge-case" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Find intersection of two interval lists.
+ * This has 1 BOUNDARY BUG.
+ */
+public static int[][] intervalIntersection_Buggy(
+    int[][] firstList, int[][] secondList) {
+
+    List&lt;int[]&gt; result = new ArrayList&lt;&gt;();
+    int i = 0, j = 0;
+
+    while (i &lt; firstList.length &amp;&amp; j &lt; secondList.length) {
+        int start = Math.max(firstList[i][0], secondList[j][0]);
+        int end = Math.min(firstList[i][1], secondList[j][1]);
+
+        result.add(new int[]{start, end});
+
+        // Move pointer of interval that ends first
+        if (firstList[i][1] &lt; secondList[j][1]) {
+            i++;
+        } else {
+            j++;
+        }
+    }
+
+    return result.toArray(new int[0][]);
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug:</strong> <span class="fill-in">[What check is missing?]</span></li>
+<li><strong>Example:</strong> <code>firstList = [[0,2]]</code>, <code>secondList = [[4,6]]</code> (no overlap)</li>
+<li><strong>Expected:</strong> <code>[]</code> (empty)</li>
+<li><strong>Actual:</strong> <span class="fill-in">[What do you get?]</span></li>
+<li><strong>Fix:</strong> <span class="fill-in">[Add what condition?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> Need to check if <code>start &lt;= end</code> before adding the interval. If there's no overlap, <code>start &gt; end</code>, which is
+invalid.</p>
+<p><strong>Correct:</strong></p>
+<pre class="highlight"><code class="language-java">int start = Math.max(firstList[i][0], secondList[j][0]);
+int end = Math.min(firstList[i][1], secondList[j][1]);
+
+if (start &lt;= end) {  // Only add if valid intersection
+    result.add(new int[]{start, end});
+}</code></pre>
+<p><strong>Why:</strong> When intervals don't overlap, <code>start</code> will be greater than <code>end</code>, creating an invalid interval like <code>[4, 2]</code>.</p>
+</details>
+<hr />
+<h3 id="your-debugging-scorecard">Your Debugging Scorecard<a class="headerlink" href="#your-debugging-scorecard" title="Permanent link">&para;</a></h3>
+<p>After finding and fixing all bugs:</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Found all 8+ bugs across 6 challenges</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Understood WHY each bug causes incorrect behavior</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Could explain the fix to someone else</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Learned common mistakes in bit manipulation, intervals, prefix sums, and monotonic stacks</li>
+</ul>
+<p><strong>Common mistakes you discovered:</strong></p>
+<ol>
+<li><strong>Bit manipulation:</strong> <span class="fill-in">[Sign handling, shift operators]</span></li>
+<li><strong>Intervals:</strong> <span class="fill-in">[Forgetting final interval, not using Math.max in merge]</span></li>
+<li><strong>Prefix sum:</strong> <span class="fill-in">[Missing zero-sum check, initial map state]</span></li>
+<li><strong>Monotonic stack:</strong> <span class="fill-in">[Wrong result index, maintaining stack invariant]</span></li>
+<li><strong>Edge cases:</strong> <span class="fill-in">[Zero, negatives, empty arrays, non-overlapping intervals]</span></li>
+</ol>
+<hr />
+<h2 id="decision-framework">Decision Framework<a class="headerlink" href="#decision-framework" title="Permanent link">&para;</a></h2>
+<p><strong>Your task:</strong> Build decision trees for advanced patterns.</p>
+<h3 id="question-1-which-pattern-to-use">Question 1: Which pattern to use?<a class="headerlink" href="#question-1-which-pattern-to-use" title="Permanent link">&para;</a></h3>
+<p><strong>Bit manipulation when:</strong></p>
+<ul>
+<li>Need: <span class="fill-in">[Constant space for flags/subsets]</span></li>
+<li>Operations: <span class="fill-in">[XOR, AND, OR, shifts]</span></li>
+<li>Examples: <span class="fill-in">[Single number, power of 2]</span></li>
+</ul>
+<p><strong>Intervals when:</strong></p>
+<ul>
+<li>Need: <span class="fill-in">[Merge, insert, find overlaps]</span></li>
+<li>Input: <em>[Array of [start, end] pairs]</em></li>
+<li>Examples: <span class="fill-in">[Meeting rooms, merge intervals]</span></li>
+</ul>
+<p><strong>Prefix sum when:</strong></p>
+<ul>
+<li>Need: <span class="fill-in">[Fast range sum queries]</span></li>
+<li>Trade-off: <span class="fill-in">[O(n) space for O(1) queries]</span></li>
+<li>Examples: <span class="fill-in">[Subarray sum, range query]</span></li>
+</ul>
+<hr />
+<h2 id="review-checklist">Review Checklist<a class="headerlink" href="#review-checklist" title="Permanent link">&para;</a></h2>
+<p>Before moving on:</p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Implementation</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Bit manipulation: XOR, counting bits, power of 2 all work</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Intervals: merge, insert, intersection all work</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Prefix sum: range query, subarray sum, 2D all work</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Monotonic stack: next greater, histogram, temperatures all work</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> All client code runs successfully</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Pattern Recognition</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Can identify when to use bit manipulation</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Recognize interval problems</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Know when prefix sum helps</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Identify monotonic stack opportunities</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Problem Solving</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Solved 4 easy problems</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Solved 6-8 medium problems</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Analyzed time/space complexity</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Understood when each pattern is optimal</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Understanding</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Filled in all ELI5 explanations</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Built decision trees for each pattern</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Identified when NOT to use each pattern</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Can explain trade-offs</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Mastery Check</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Could implement all patterns from memory</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Could recognize pattern in new problem</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Could explain to someone else</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Understand why these techniques are "advanced"</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h3 id="mastery-certification">Mastery Certification<a class="headerlink" href="#mastery-certification" title="Permanent link">&para;</a></h3>
+<p><strong>I certify that I can:</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Implement all four advanced patterns from memory</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Explain when and why to use each pattern</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Identify the correct pattern for new problems</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Analyze time and space complexity</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Compare trade-offs with alternative approaches</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Debug common mistakes in bit operations, intervals, prefix sums, and stacks</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Teach these concepts to someone else</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Recognize when NOT to use each pattern</li>
+</ul></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = "../.."</script>
+    
+    <script src="../../js/base.js"></script>
+    <script src="../../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

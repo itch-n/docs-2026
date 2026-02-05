@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="A framework for algorithms, systems design, and infrastructure." name="description"/>
+<meta content="Richard" name="author"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>06. Trees - Traversals - Software Engineering Study Guide</title>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" rel="stylesheet"/>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css" rel="stylesheet"/>
+<link href="//rsms.me/inter/inter.css" rel="stylesheet" type="text/css"/>
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&amp;subset=latin-ext,latin" rel="stylesheet" type="text/css"/>
+<link href="../../css/bootstrap-custom.min.css" rel="stylesheet"/>
+<link href="../../css/base.min.css" rel="stylesheet"/>
+<link href="../../css/cinder.min.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css" rel="stylesheet"/>
+<link href="../../css/custom.css" rel="stylesheet"/>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="container">
+<!-- Collapsed navigation -->
+<div class="navbar-header">
+<!-- Expander button -->
+<button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<!-- Main title -->
+<a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+</div>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li>
+<a href="../..">Home</a>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Systems Design <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../systems/01-storage-engines/">01. Storage Engines</a>
+</li>
+<li>
+<a href="../../systems/02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+<li>
+<a href="../../systems/03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+<li>
+<a href="../../systems/04-search-and-indexing/">04. Search &amp; Indexing</a>
+</li>
+<li>
+<a href="../../systems/05-caching-patterns/">05. Caching Patterns</a>
+</li>
+<li>
+<a href="../../systems/06-api-design/">06. API Design</a>
+</li>
+<li>
+<a href="../../systems/07-security-patterns/">07. Security Patterns</a>
+</li>
+<li>
+<a href="../../systems/08-rate-limiting/">08. Rate Limiting</a>
+</li>
+<li>
+<a href="../../systems/09-load-balancing/">09. Load Balancing</a>
+</li>
+<li>
+<a href="../../systems/10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+<li>
+<a href="../../systems/11-database-scaling/">11. Database Scaling</a>
+</li>
+<li>
+<a href="../../systems/12-message-queues/">12. Message Queues</a>
+</li>
+<li>
+<a href="../../systems/13-stream-processing/">13. Stream Processing</a>
+</li>
+<li>
+<a href="../../systems/14-observability/">14. Observability</a>
+</li>
+<li>
+<a href="../../systems/15-distributed-transactions/">15. Distributed Transactions</a>
+</li>
+<li>
+<a href="../../systems/16-consensus-patterns/">16. Consensus Patterns</a>
+</li>
+</ul>
+</li>
+<li class="dropdown active">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">DSA <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../01-two-pointers/">01. Two Pointers</a>
+</li>
+<li>
+<a href="../02-sliding-window/">02. Sliding Window</a>
+</li>
+<li>
+<a href="../03-hash-tables/">03. Hash Tables</a>
+</li>
+<li>
+<a href="../04-linked-lists/">04. Linked Lists</a>
+</li>
+<li>
+<a href="../05-stacks--queues/">05. Stacks &amp; Queues</a>
+</li>
+<li class="active">
+<a href="./">06. Trees - Traversals</a>
+</li>
+<li>
+<a href="../07-trees-recursion/">07. Trees - Recursion</a>
+</li>
+<li>
+<a href="../08-binary-search/">08. Binary Search</a>
+</li>
+<li>
+<a href="../09-heaps/">09. Heaps</a>
+</li>
+<li>
+<a href="../10-graphs/">10. Graphs</a>
+</li>
+<li>
+<a href="../11-union-find/">11. Union-Find</a>
+</li>
+<li>
+<a href="../12-advanced-graphs/">12. Advanced Graphs</a>
+</li>
+<li>
+<a href="../13-backtracking/">13. Backtracking</a>
+</li>
+<li>
+<a href="../14-dynamic-programming-1d/">14. Dynamic Programming 1D</a>
+</li>
+<li>
+<a href="../15-dynamic-programming-2d/">15. Dynamic Programming 2D</a>
+</li>
+<li>
+<a href="../16-tries/">16. Tries</a>
+</li>
+<li>
+<a href="../17-advanced-topics/">17. Advanced Topics</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+<a data-target="#mkdocs_search_modal" data-toggle="modal" href="#">
+<i class="fas fa-search"></i> Search
+                        </a>
+</li>
+<li>
+<a href="../05-stacks--queues/" rel="prev">
+<i class="fas fa-arrow-left"></i> Previous
+                        </a>
+</li>
+<li>
+<a href="../07-trees-recursion/" rel="next">
+                            Next <i class="fas fa-arrow-right"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+<ul class="nav bs-sidenav">
+<li class="first-level active"><a href="#trees-traversals">Trees - Traversals</a></li>
+<li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+<li class="second-level"><a href="#quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)</a></li>
+<li class="second-level"><a href="#beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters</a></li>
+<li class="second-level"><a href="#core-implementation">Core Implementation</a></li>
+<li class="second-level"><a href="#debugging-challenges">Debugging Challenges</a></li>
+<li class="second-level"><a href="#decision-framework">Decision Framework</a></li>
+<li class="second-level"><a href="#practice">Practice</a></li>
+<li class="second-level"><a href="#review-checklist">Review Checklist</a></li>
+</ul>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="trees-traversals">Trees - Traversals<a class="headerlink" href="#trees-traversals" title="Permanent link">¶</a></h1>
+<blockquote>
+<p>Visit every node in a tree using Inorder, Preorder, Postorder, or Level-Order</p>
+</blockquote>
+<hr/>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After implementing all patterns, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What are tree traversals in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Why do we need different traversal orders?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy:</strong></p>
+<ul>
+<li>Example: "Tree traversals are like different ways to read a family tree..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When does each traversal order matter?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after solving problems]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What's the difference between iterative and recursive?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr/>
+<h2 id="quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)<a class="headerlink" href="#quick-quiz-do-before-implementing" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Test your intuition without looking at code. Answer these, then verify after implementation.</p>
+<h3 id="complexity-predictions">Complexity Predictions<a class="headerlink" href="#complexity-predictions" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p><strong>Visiting every node in a tree:</strong></p>
+<ul>
+<li>Time complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Verified after learning: <span class="fill-in">[Actual: O(?)]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Recursive inorder traversal:</strong></p>
+<ul>
+<li>Time complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Space complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Verified: <span class="fill-in">[Actual]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Iterative vs Recursive space:</strong></p>
+<ul>
+<li>Recursive space usage: <span class="fill-in">[O(?) - what uses the space?]</span></li>
+<li>Iterative space usage: <span class="fill-in">[O(?) - what data structure?]</span></li>
+<li>Morris traversal space: <span class="fill-in">[O(?)]</span></li>
+</ul>
+</li>
+</ol>
+<h3 id="scenario-predictions">Scenario Predictions<a class="headerlink" href="#scenario-predictions" title="Permanent link">¶</a></h3>
+<p><strong>Scenario 1:</strong> Traverse this BST and predict output for each traversal</p>
+<pre class="highlight"><code>Tree:     4
+         / \
+        2   6
+       / \
+      1   3</code></pre>
+<ul>
+<li><strong>Inorder (Left, Root, Right):</strong> <span class="fill-in">[Predict: ?, ?, ?, ?, ?]</span></li>
+<li><strong>Preorder (Root, Left, Right):</strong> <span class="fill-in">[Predict: ?, ?, ?, ?, ?]</span></li>
+<li><strong>Postorder (Left, Right, Root):</strong> <span class="fill-in">[Predict: ?, ?, ?, ?, ?]</span></li>
+<li><strong>Level-order (BFS):</strong> <em>[Predict: [[?], [?, ?], [?, ?]]]</em></li>
+</ul>
+<p><strong>Verify after implementation:</strong> Were your predictions correct? <span class="fill-in">[Yes/No]</span></p>
+<p><strong>Scenario 2:</strong> Why does inorder give sorted output for BST?</p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in before implementation]</span></li>
+<li>Verified answer: <span class="fill-in">[Fill in after learning]</span></li>
+</ul>
+<p><strong>Scenario 3:</strong> Which traversal to use for deleting a tree?</p>
+<ul>
+<li>Your guess: <span class="fill-in">[Inorder/Preorder/Postorder/Level-order - Why?]</span></li>
+<li>Reasoning: <span class="fill-in">[Fill in your logic]</span></li>
+<li>Verified: <span class="fill-in">[After implementation]</span></li>
+</ul>
+<h3 id="trade-off-quiz">Trade-off Quiz<a class="headerlink" href="#trade-off-quiz" title="Permanent link">¶</a></h3>
+<p><strong>Question:</strong> When would iterative traversal be BETTER than recursive?</p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in before implementation]</span></li>
+<li>Verified answer: <span class="fill-in">[Fill in after learning]</span></li>
+</ul>
+<p><strong>Question:</strong> What's the MAIN advantage of Morris traversal?</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Faster than recursive</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> O(1) space complexity</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Easier to implement</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Works for all tree types</li>
+</ul>
+<p>Verify after implementation: <span class="fill-in">[Which one(s)?]</span></p>
+<p><strong>Question:</strong> Which traversal order matters for expression trees?</p>
+<ul>
+<li>Infix notation uses: <span class="fill-in">[Which traversal?]</span></li>
+<li>Prefix notation uses: <span class="fill-in">[Which traversal?]</span></li>
+<li>Postfix notation uses: <span class="fill-in">[Which traversal?]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters<a class="headerlink" href="#beforeafter-why-this-pattern-matters" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Compare naive vs optimized approaches to understand the impact.</p>
+<h3 id="example-collecting-tree-values">Example: Collecting Tree Values<a class="headerlink" href="#example-collecting-tree-values" title="Permanent link">¶</a></h3>
+<p><strong>Problem:</strong> Get all values from a tree in sorted order (BST).</p>
+<h4 id="approach-1-collect-all-then-sort">Approach 1: Collect All, Then Sort<a class="headerlink" href="#approach-1-collect-all-then-sort" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Naive approach - Collect values in any order, then sort
+public static List&lt;Integer&gt; getTreeValues_BruteForce(TreeNode root) {
+    List&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+
+    // Collect values using preorder (any order)
+    collectValues(root, result);
+
+    // Sort the collected values
+    Collections.sort(result);
+
+    return result;
+}
+
+private static void collectValues(TreeNode node, List&lt;Integer&gt; result) {
+    if (node == null) return;
+    result.add(node.val);
+    collectValues(node.left, result);
+    collectValues(node.right, result);
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n log n) - O(n) to collect + O(n log n) to sort</li>
+<li>Space: O(n) for list + O(log n) for recursion stack</li>
+<li>For n = 10,000: ~140,000 operations</li>
+</ul>
+<h4 id="approach-2-inorder-traversal-optimized">Approach 2: Inorder Traversal (Optimized)<a class="headerlink" href="#approach-2-inorder-traversal-optimized" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Optimized approach - Use inorder traversal for BST
+public static List&lt;Integer&gt; getTreeValues_Inorder(TreeNode root) {
+    List&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+
+    inorderHelper(root, result);
+
+    return result; // Already sorted!
+}
+
+private static void inorderHelper(TreeNode node, List&lt;Integer&gt; result) {
+    if (node == null) return;
+
+    inorderHelper(node.left, result);   // Visit left subtree
+    result.add(node.val);                // Visit root
+    inorderHelper(node.right, result);   // Visit right subtree
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n) - Visit each node exactly once</li>
+<li>Space: O(n) for list + O(h) for recursion stack (h = height)</li>
+<li>For n = 10,000: ~10,000 operations</li>
+</ul>
+<h4 id="performance-comparison">Performance Comparison<a class="headerlink" href="#performance-comparison" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>Tree Size</th>
+<th>Collect + Sort (O(n log n))</th>
+<th>Inorder (O(n))</th>
+<th>Speedup</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n = 100</td>
+<td>~664 ops</td>
+<td>100 ops</td>
+<td>6.6x</td>
+</tr>
+<tr>
+<td>n = 1,000</td>
+<td>~9,966 ops</td>
+<td>1,000 ops</td>
+<td>10x</td>
+</tr>
+<tr>
+<td>n = 10,000</td>
+<td>~132,877 ops</td>
+<td>10,000 ops</td>
+<td>13x</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Your calculation:</strong> For n = 5,000, the speedup is approximately _____ times faster.</p>
+<h4 id="recursive-vs-iterative-stack-space">Recursive vs Iterative: Stack Space<a class="headerlink" href="#recursive-vs-iterative-stack-space" title="Permanent link">¶</a></h4>
+<p><strong>Problem:</strong> Inorder traversal of a deeply nested tree.</p>
+<p><strong>Approach 1: Recursive</strong></p>
+<pre class="highlight"><code class="language-java">public static void inorderRecursive(TreeNode root) {
+    if (root == null) return;
+
+    inorderRecursive(root.left);
+    System.out.print(root.val + " ");
+    inorderRecursive(root.right);
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Space: O(h) where h = tree height</li>
+<li>For balanced tree: h = log n (good!)</li>
+<li>For skewed tree: h = n (danger of stack overflow!)</li>
+<li>Example: Tree with 100,000 nodes in a line = 100,000 recursive calls</li>
+</ul>
+<p><strong>Approach 2: Iterative with Explicit Stack</strong></p>
+<pre class="highlight"><code class="language-java">public static void inorderIterative(TreeNode root) {
+    Stack&lt;TreeNode&gt; stack = new Stack&lt;&gt;();
+    TreeNode curr = root;
+
+    while (curr != null || !stack.isEmpty()) {
+        while (curr != null) {
+            stack.push(curr);
+            curr = curr.left;
+        }
+        curr = stack.pop();
+        System.out.print(curr.val + " ");
+        curr = curr.right;
+    }
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Space: O(h) - same as recursive, but explicit stack</li>
+<li>No stack overflow risk - heap memory is larger</li>
+<li>More control over the process</li>
+<li>Production-safe for deep trees</li>
+</ul>
+<h4 id="why-does-traversal-order-matter">Why Does Traversal Order Matter?<a class="headerlink" href="#why-does-traversal-order-matter" title="Permanent link">¶</a></h4>
+<p><strong>Key insight to understand:</strong></p>
+<p>For this tree:</p>
+<pre class="highlight"><code>       4
+      / \
+     2   6
+    / \
+   1   3</code></pre>
+<p><strong>Inorder (Left, Root, Right):</strong> 1, 2, 3, 4, 6</p>
+<ul>
+<li>Visits left child before parent</li>
+<li><strong>Use case:</strong> Get sorted values from BST</li>
+</ul>
+<p><strong>Preorder (Root, Left, Right):</strong> 4, 2, 1, 3, 6</p>
+<ul>
+<li>Visits parent before children</li>
+<li><strong>Use case:</strong> Copy tree structure, serialize tree</li>
+</ul>
+<p><strong>Postorder (Left, Right, Root):</strong> 1, 3, 2, 6, 4</p>
+<ul>
+<li>Visits children before parent</li>
+<li><strong>Use case:</strong> Delete tree (delete children first!)</li>
+</ul>
+<p><strong>Level-order (BFS):</strong> [[4], [2, 6], [1, 3]]</p>
+<ul>
+<li>Visits level by level</li>
+<li><strong>Use case:</strong> Find shortest path, level-wise processing</li>
+</ul>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>Why does postorder make sense for tree deletion? <span class="fill-in">[Your answer]</span></li>
+<li>Why does preorder make sense for copying a tree? <span class="fill-in">[Your answer]</span></li>
+<li>When would level-order be preferred over depth-first? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="core-implementation">Core Implementation<a class="headerlink" href="#core-implementation" title="Permanent link">¶</a></h2>
+<h3 id="pattern-1-inorder-traversal-left-root-right">Pattern 1: Inorder Traversal (Left, Root, Right)<a class="headerlink" href="#pattern-1-inorder-traversal-left-root-right" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Visit left subtree, then root, then right subtree.</p>
+<p><strong>Use case:</strong> Get sorted order from BST, expression evaluation.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class InorderTraversal {
+
+    static class TreeNode {
+        int val;
+        TreeNode left, right;
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+    }
+
+    /**
+     * Problem: Inorder traversal recursively
+     * Time: O(n), Space: O(h) where h = height for recursion stack
+     *
+     * TODO: Implement recursive inorder
+     */
+    public static List&lt;Integer&gt; inorderRecursive(TreeNode root) {
+        List&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+
+        // TODO: Handle base case
+
+        // TODO: Recursively traverse left subtree
+        // TODO: Visit root (add to result)
+        // TODO: Recursively traverse right subtree
+
+        return result; // Replace with implementation
+    }
+
+    /**
+     * Problem: Inorder traversal iteratively using stack
+     * Time: O(n), Space: O(h)
+     *
+     * TODO: Implement iterative inorder
+     */
+    public static List&lt;Integer&gt; inorderIterative(TreeNode root) {
+        List&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+        // TODO: Create Stack&lt;TreeNode&gt;
+
+        // TODO: curr = root
+        // TODO: Implement iteration/conditional logic
+
+        return result; // Replace with implementation
+    }
+
+    /**
+     * Problem: Inorder traversal with Morris (no extra space)
+     * Time: O(n), Space: O(1)
+     *
+     * TODO: Implement Morris traversal
+     */
+    public static List&lt;Integer&gt; inorderMorris(TreeNode root) {
+        List&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+
+        // TODO: curr = root
+        // TODO: Implement iteration/conditional logic
+
+        return result; // Replace with implementation
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class InorderTraversalClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Inorder Traversal ===\n");
+
+        // Create tree:
+        //       4
+        //      / \
+        //     2   6
+        //    / \ / \
+        //   1  3 5  7
+        TreeNode root = new TreeNode(4);
+        root.left = new TreeNode(2);
+        root.right = new TreeNode(6);
+        root.left.left = new TreeNode(1);
+        root.left.right = new TreeNode(3);
+        root.right.left = new TreeNode(5);
+        root.right.right = new TreeNode(7);
+
+        System.out.println("Tree structure:");
+        System.out.println("       4");
+        System.out.println("      / \\");
+        System.out.println("     2   6");
+        System.out.println("    / \\ / \\");
+        System.out.println("   1  3 5  7");
+        System.out.println();
+
+        // Test 1: Recursive inorder
+        System.out.println("--- Test 1: Recursive Inorder ---");
+        List&lt;Integer&gt; recursive = InorderTraversal.inorderRecursive(root);
+        System.out.println("Result: " + recursive);
+        System.out.println("(Should be: [1, 2, 3, 4, 5, 6, 7])");
+
+        // Test 2: Iterative inorder
+        System.out.println("\n--- Test 2: Iterative Inorder ---");
+        List&lt;Integer&gt; iterative = InorderTraversal.inorderIterative(root);
+        System.out.println("Result: " + iterative);
+
+        // Test 3: Morris inorder
+        System.out.println("\n--- Test 3: Morris Inorder (O(1) space) ---");
+        List&lt;Integer&gt; morris = InorderTraversal.inorderMorris(root);
+        System.out.println("Result: " + morris);
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-2-preorder-traversal-root-left-right">Pattern 2: Preorder Traversal (Root, Left, Right)<a class="headerlink" href="#pattern-2-preorder-traversal-root-left-right" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Visit root first, then left subtree, then right subtree.</p>
+<p><strong>Use case:</strong> Create copy of tree, prefix expression, serialize tree.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class PreorderTraversal {
+
+    static class TreeNode {
+        int val;
+        TreeNode left, right;
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+    }
+
+    /**
+     * Problem: Preorder traversal recursively
+     * Time: O(n), Space: O(h)
+     *
+     * TODO: Implement recursive preorder
+     */
+    public static List&lt;Integer&gt; preorderRecursive(TreeNode root) {
+        List&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+
+        // TODO: Handle base case
+
+        // TODO: Visit root (add to result)
+        // TODO: Recursively traverse left subtree
+        // TODO: Recursively traverse right subtree
+
+        return result; // Replace with implementation
+    }
+
+    /**
+     * Problem: Preorder traversal iteratively using stack
+     * Time: O(n), Space: O(h)
+     *
+     * TODO: Implement iterative preorder
+     */
+    public static List&lt;Integer&gt; preorderIterative(TreeNode root) {
+        List&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+
+        // TODO: Implement iteration/conditional logic
+        // TODO: Create Stack&lt;TreeNode&gt;, push root
+
+        // TODO: Implement iteration/conditional logic
+
+        return result; // Replace with implementation
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class PreorderTraversalClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Preorder Traversal ===\n");
+
+        // Create tree:
+        //       4
+        //      / \
+        //     2   6
+        //    / \ / \
+        //   1  3 5  7
+        TreeNode root = new TreeNode(4);
+        root.left = new TreeNode(2);
+        root.right = new TreeNode(6);
+        root.left.left = new TreeNode(1);
+        root.left.right = new TreeNode(3);
+        root.right.left = new TreeNode(5);
+        root.right.right = new TreeNode(7);
+
+        System.out.println("Tree structure:");
+        System.out.println("       4");
+        System.out.println("      / \\");
+        System.out.println("     2   6");
+        System.out.println("    / \\ / \\");
+        System.out.println("   1  3 5  7");
+        System.out.println();
+
+        // Test 1: Recursive preorder
+        System.out.println("--- Test 1: Recursive Preorder ---");
+        List&lt;Integer&gt; recursive = PreorderTraversal.preorderRecursive(root);
+        System.out.println("Result: " + recursive);
+        System.out.println("(Should be: [4, 2, 1, 3, 6, 5, 7])");
+
+        // Test 2: Iterative preorder
+        System.out.println("\n--- Test 2: Iterative Preorder ---");
+        List&lt;Integer&gt; iterative = PreorderTraversal.preorderIterative(root);
+        System.out.println("Result: " + iterative);
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-3-postorder-traversal-left-right-root">Pattern 3: Postorder Traversal (Left, Right, Root)<a class="headerlink" href="#pattern-3-postorder-traversal-left-right-root" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Visit left subtree, then right subtree, then root.</p>
+<p><strong>Use case:</strong> Delete tree, calculate directory size, postfix expression.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class PostorderTraversal {
+
+    static class TreeNode {
+        int val;
+        TreeNode left, right;
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+    }
+
+    /**
+     * Problem: Postorder traversal recursively
+     * Time: O(n), Space: O(h)
+     *
+     * TODO: Implement recursive postorder
+     */
+    public static List&lt;Integer&gt; postorderRecursive(TreeNode root) {
+        List&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+
+        // TODO: Handle base case
+
+        // TODO: Recursively traverse left subtree
+        // TODO: Recursively traverse right subtree
+        // TODO: Visit root (add to result)
+
+        return result; // Replace with implementation
+    }
+
+    /**
+     * Problem: Postorder traversal iteratively using two stacks
+     * Time: O(n), Space: O(h)
+     *
+     * TODO: Implement iterative postorder
+     */
+    public static List&lt;Integer&gt; postorderIterative(TreeNode root) {
+        List&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+
+        // TODO: Implement iteration/conditional logic
+        // TODO: Create two stacks: stack1 and stack2
+        // TODO: Push root to stack1
+
+        // TODO: Implement iteration/conditional logic
+
+        // TODO: Pop all from stack2 to result
+
+        return result; // Replace with implementation
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class PostorderTraversalClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Postorder Traversal ===\n");
+
+        // Create tree:
+        //       4
+        //      / \
+        //     2   6
+        //    / \ / \
+        //   1  3 5  7
+        TreeNode root = new TreeNode(4);
+        root.left = new TreeNode(2);
+        root.right = new TreeNode(6);
+        root.left.left = new TreeNode(1);
+        root.left.right = new TreeNode(3);
+        root.right.left = new TreeNode(5);
+        root.right.right = new TreeNode(7);
+
+        System.out.println("Tree structure:");
+        System.out.println("       4");
+        System.out.println("      / \\");
+        System.out.println("     2   6");
+        System.out.println("    / \\ / \\");
+        System.out.println("   1  3 5  7");
+        System.out.println();
+
+        // Test 1: Recursive postorder
+        System.out.println("--- Test 1: Recursive Postorder ---");
+        List&lt;Integer&gt; recursive = PostorderTraversal.postorderRecursive(root);
+        System.out.println("Result: " + recursive);
+        System.out.println("(Should be: [1, 3, 2, 5, 7, 6, 4])");
+
+        // Test 2: Iterative postorder
+        System.out.println("\n--- Test 2: Iterative Postorder ---");
+        List&lt;Integer&gt; iterative = PostorderTraversal.postorderIterative(root);
+        System.out.println("Result: " + iterative);
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-4-level-order-traversal-bfs">Pattern 4: Level-Order Traversal (BFS)<a class="headerlink" href="#pattern-4-level-order-traversal-bfs" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Visit nodes level by level, left to right.</p>
+<p><strong>Use case:</strong> Find shortest path, serialize by level, level-wise processing.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class LevelOrderTraversal {
+
+    static class TreeNode {
+        int val;
+        TreeNode left, right;
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+    }
+
+    /**
+     * Problem: Level-order traversal using queue
+     * Time: O(n), Space: O(w) where w = max width
+     *
+     * TODO: Implement BFS using queue
+     */
+    public static List&lt;List&lt;Integer&gt;&gt; levelOrder(TreeNode root) {
+        List&lt;List&lt;Integer&gt;&gt; result = new ArrayList&lt;&gt;();
+
+        // TODO: Implement iteration/conditional logic
+        // TODO: Create Queue&lt;TreeNode&gt;, add root
+
+        // TODO: Implement iteration/conditional logic
+
+        return result; // Replace with implementation
+    }
+
+    /**
+     * Problem: Level-order traversal in zigzag pattern
+     * Time: O(n), Space: O(w)
+     *
+     * TODO: Implement zigzag traversal
+     */
+    public static List&lt;List&lt;Integer&gt;&gt; zigzagLevelOrder(TreeNode root) {
+        List&lt;List&lt;Integer&gt;&gt; result = new ArrayList&lt;&gt;();
+
+        // TODO: Similar to levelOrder but alternate direction
+        // TODO: Use boolean flag to track left-to-right vs right-to-left
+        // TODO: Reverse level list when going right-to-left
+
+        return result; // Replace with implementation
+    }
+
+    /**
+     * Problem: Right side view of tree
+     * Time: O(n), Space: O(w)
+     *
+     * TODO: Implement right side view
+     */
+    public static List&lt;Integer&gt; rightSideView(TreeNode root) {
+        List&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+
+        // TODO: Use level-order traversal
+        // TODO: Add last node of each level to result
+
+        return result; // Replace with implementation
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class LevelOrderTraversalClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Level-Order Traversal ===\n");
+
+        // Create tree:
+        //       4
+        //      / \
+        //     2   6
+        //    / \ / \
+        //   1  3 5  7
+        TreeNode root = new TreeNode(4);
+        root.left = new TreeNode(2);
+        root.right = new TreeNode(6);
+        root.left.left = new TreeNode(1);
+        root.left.right = new TreeNode(3);
+        root.right.left = new TreeNode(5);
+        root.right.right = new TreeNode(7);
+
+        System.out.println("Tree structure:");
+        System.out.println("       4");
+        System.out.println("      / \\");
+        System.out.println("     2   6");
+        System.out.println("    / \\ / \\");
+        System.out.println("   1  3 5  7");
+        System.out.println();
+
+        // Test 1: Level-order
+        System.out.println("--- Test 1: Level-Order Traversal ---");
+        List&lt;List&lt;Integer&gt;&gt; levels = LevelOrderTraversal.levelOrder(root);
+        System.out.println("Result: " + levels);
+        System.out.println("(Should be: [[4], [2, 6], [1, 3, 5, 7]])");
+
+        // Test 2: Zigzag level-order
+        System.out.println("\n--- Test 2: Zigzag Level-Order ---");
+        List&lt;List&lt;Integer&gt;&gt; zigzag = LevelOrderTraversal.zigzagLevelOrder(root);
+        System.out.println("Result: " + zigzag);
+        System.out.println("(Should be: [[4], [6, 2], [1, 3, 5, 7]])");
+
+        // Test 3: Right side view
+        System.out.println("\n--- Test 3: Right Side View ---");
+        List&lt;Integer&gt; rightView = LevelOrderTraversal.rightSideView(root);
+        System.out.println("Result: " + rightView);
+        System.out.println("(Should be: [4, 6, 7])");
+    }
+}</code></pre>
+<hr/>
+<h2 id="debugging-challenges">Debugging Challenges<a class="headerlink" href="#debugging-challenges" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Find and fix bugs in broken implementations. This tests your understanding of traversal mechanics.</p>
+<h3 id="challenge-1-broken-inorder-traversal">Challenge 1: Broken Inorder Traversal<a class="headerlink" href="#challenge-1-broken-inorder-traversal" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * This recursive inorder is supposed to return [1, 2, 3, 4, 5]
+ * for a BST, but it has 2 BUGS. Find them!
+ */
+public static List&lt;Integer&gt; inorderRecursive_Buggy(TreeNode root) {
+    List&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+
+    if (root != null) {  // Base case check
+        inorderRecursive_Buggy(root.left);        result.add(root.val);
+        inorderRecursive_Buggy(root.right);
+    }
+
+    return result;}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>
+<p>Bug 1: <span class="fill-in">[What\'s the bug?]</span></p>
+</li>
+<li>
+<p>Bug 2: <span class="fill-in">[What\'s the bug?]</span></p>
+</li>
+</ul>
+<p><strong>Test case:</strong></p>
+<ul>
+<li>Input: Tree with values 1, 2, 3</li>
+<li>Expected: [1, 2, 3]</li>
+<li>Actual with buggy code: <span class="fill-in">[What do you get?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug 1:</strong> The recursive calls don't use the returned result! Each recursive call creates a new empty list.</p>
+<p><strong>Bug 2:</strong> We're creating a new <code>result</code> list in each call, so left and right subtree results are lost.</p>
+<p><strong>Fix - Need to pass result as parameter:</strong></p>
+<pre class="highlight"><code class="language-java">public static List&lt;Integer&gt; inorderRecursive(TreeNode root) {
+    List&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+    inorderHelper(root, result);
+    return result;
+}
+
+private static void inorderHelper(TreeNode root, List&lt;Integer&gt; result) {
+    if (root == null) return;
+
+    inorderHelper(root.left, result);
+    result.add(root.val);
+    inorderHelper(root.right, result);
+}</code></pre>
+</details>
+<hr/>
+<h3 id="challenge-2-broken-iterative-inorder">Challenge 2: Broken Iterative Inorder<a class="headerlink" href="#challenge-2-broken-iterative-inorder" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Iterative inorder with stack.
+ * This has 2 CRITICAL BUGS with stack logic.
+ */
+public static List&lt;Integer&gt; inorderIterative_Buggy(TreeNode root) {
+    List&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+    Stack&lt;TreeNode&gt; stack = new Stack&lt;&gt;();
+    TreeNode curr = root;
+
+    while (!stack.isEmpty()) {        while (curr != null) {
+            stack.push(curr);
+            curr = curr.left;
+        }
+
+        TreeNode node = stack.pop();
+        result.add(node.val);
+        curr = curr.left;    }
+
+    return result;
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug 1:</strong> <span class="fill-in">[What's wrong with the while condition?]</span></li>
+<li><strong>Bug 1 effect:</strong> <span class="fill-in">[What happens? When does loop start/stop?]</span></li>
+<li>
+<p><strong>Bug 1 fix:</strong> <span class="fill-in">[Correct condition]</span></p>
+</li>
+<li>
+<p><strong>Bug 2:</strong> <span class="fill-in">[Which direction should curr move?]</span></p>
+</li>
+<li><strong>Bug 2 effect:</strong> <span class="fill-in">[What happens? Infinite loop? Wrong order?]</span></li>
+<li><strong>Bug 2 fix:</strong> <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>Trace through example:</strong></p>
+<ul>
+<li>Input: Tree with values 1, 2, 3</li>
+<li>Expected: [1, 2, 3]</li>
+<li>With Bug 1: <span class="fill-in">[What happens?]</span></li>
+<li>With Bug 2: <span class="fill-in">[What happens?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug 1:</strong> Loop condition should be <code>while (curr != null || !stack.isEmpty())</code>. Current code won't even start if root is
+not null.</p>
+<p><strong>Bug 2:</strong> Should be <code>curr = node.right</code>, not <code>curr = curr.left</code>. After visiting a node, we need to go to its right
+subtree.</p>
+<p><strong>Correct code:</strong></p>
+<pre class="highlight"><code class="language-java">while (curr != null || !stack.isEmpty()) {
+    while (curr != null) {
+        stack.push(curr);
+        curr = curr.left;
+    }
+    TreeNode node = stack.pop();
+    result.add(node.val);
+    curr = node.right;  // Go right after visiting
+}</code></pre>
+</details>
+<hr/>
+<h3 id="challenge-3-broken-postorder-traversal">Challenge 3: Broken Postorder Traversal<a class="headerlink" href="#challenge-3-broken-postorder-traversal" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Postorder using two stacks.
+ * This has 1 LOGIC BUG in the order of operations.
+ */
+public static List&lt;Integer&gt; postorderIterative_Buggy(TreeNode root) {
+    List&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+    if (root == null) return result;
+
+    Stack&lt;TreeNode&gt; stack1 = new Stack&lt;&gt;();
+    Stack&lt;TreeNode&gt; stack2 = new Stack&lt;&gt;();
+    stack1.push(root);
+
+    while (!stack1.isEmpty()) {
+        TreeNode node = stack1.pop();
+        stack2.push(node);
+
+        if (node.right != null) stack1.push(node.right);
+        if (node.left != null) stack1.push(node.left);
+    }
+
+    while (!stack2.isEmpty()) {
+        result.add(stack2.pop().val);
+    }
+
+    return result;
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug location:</strong> <span class="fill-in">[Which lines push to stack1?]</span></li>
+<li><strong>Bug explanation:</strong> <span class="fill-in">[Why does order matter here?]</span></li>
+<li><strong>Expected order:</strong> <span class="fill-in">[Postorder is Left, Right, Root - so what should we push first?]</span></li>
+</ul>
+<p><strong>Think through it:</strong></p>
+<ul>
+<li>Postorder visits: Left, Right, Root</li>
+<li>Stack2 reverses the order</li>
+<li>So stack1 should create what order? <span class="fill-in">[Fill in your reasoning]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Actually, this code is CORRECT!</strong> It's a trick question.</p>
+<p><strong>Why it works:</strong></p>
+<ul>
+<li>We want postorder: Left, Right, Root</li>
+<li>Stack2 reverses the order we put in</li>
+<li>So we create: Root, Right, Left (which reverses to Left, Right, Root)</li>
+<li>To create Root, Right, Left in stack2, we push Right then Left to stack1</li>
+</ul>
+<p><strong>The code is fine as-is.</strong> This tests if you understand the two-stack technique!</p>
+</details>
+<hr/>
+<h3 id="challenge-4-broken-level-order-traversal">Challenge 4: Broken Level-Order Traversal<a class="headerlink" href="#challenge-4-broken-level-order-traversal" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Level-order traversal using queue.
+ * This has 2 BUGS with level tracking.
+ */
+public static List&lt;List&lt;Integer&gt;&gt; levelOrder_Buggy(TreeNode root) {
+    List&lt;List&lt;Integer&gt;&gt; result = new ArrayList&lt;&gt;();
+    if (root == null) return result;
+
+    Queue&lt;TreeNode&gt; queue = new LinkedList&lt;&gt;();
+    queue.offer(root);
+
+    while (!queue.isEmpty()) {
+        List&lt;Integer&gt; level = new ArrayList&lt;&gt;();
+
+        while (!queue.isEmpty()) {  // Wrong loop!
+            TreeNode node = queue.poll();
+            level.add(node.val);
+
+            if (node.left != null) queue.offer(node.left);
+            if (node.right != null) queue.offer(node.right);
+        }
+
+        result.add(level);
+    }
+
+    return result;
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>Bug: <span class="fill-in">[What\'s the bug?]</span></li>
+</ul>
+<p><strong>Test case:</strong></p>
+<pre class="highlight"><code>Tree:     4
+         / \
+        2   6
+       /
+      1</code></pre>
+<ul>
+<li>Expected: [[4], [2, 6], [1]]</li>
+<li>Actual with buggy code: <span class="fill-in">[Trace through - what do you get?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> The inner while loop processes until the queue is empty, which means it processes ALL levels at once, not one
+level at a time.</p>
+<p><strong>Fix - Capture level size before inner loop:</strong></p>
+<pre class="highlight"><code class="language-java">while (!queue.isEmpty()) {
+    int levelSize = queue.size();  // Capture current level size
+    List&lt;Integer&gt; level = new ArrayList&lt;&gt;();
+
+    for (int i = 0; i &lt; levelSize; i++) {  // Only process current level
+        TreeNode node = queue.poll();
+        level.add(node.val);
+
+        if (node.left != null) queue.offer(node.left);
+        if (node.right != null) queue.offer(node.right);
+    }
+
+    result.add(level);
+}</code></pre>
+<p><strong>Why:</strong> By capturing <code>queue.size()</code> before the loop, we know exactly how many nodes are in the current level. New nodes
+added during the loop belong to the NEXT level.</p>
+</details>
+<hr/>
+<h3 id="challenge-5-stack-vs-queue-confusion">Challenge 5: Stack vs Queue Confusion<a class="headerlink" href="#challenge-5-stack-vs-queue-confusion" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * This is supposed to do level-order traversal.
+ * But someone used the WRONG data structure!
+ */
+public static List&lt;Integer&gt; traversal_Buggy(TreeNode root) {
+    List&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+    if (root == null) return result;
+
+    Stack&lt;TreeNode&gt; stack = new Stack&lt;&gt;();    stack.push(root);
+
+    while (!stack.isEmpty()) {
+        TreeNode node = stack.pop();
+        result.add(node.val);
+
+        if (node.left != null) stack.push(node.left);
+        if (node.right != null) stack.push(node.right);
+    }
+
+    return result;
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>What traversal does this actually perform?</strong> <span class="fill-in">[Hint: Stack = DFS, Queue = BFS]</span></li>
+<li><strong>What would the output be for a simple tree?</strong> <span class="fill-in">[Trace through]</span></li>
+<li><strong>If we want level-order, what should we use?</strong> <span class="fill-in">[Stack/Queue/Other?]</span></li>
+</ul>
+<p><strong>Key insight to understand:</strong></p>
+<ul>
+<li>Stack (LIFO) gives you: <span class="fill-in">[BFS/DFS - which one?]</span></li>
+<li>Queue (FIFO) gives you: <span class="fill-in">[BFS/DFS - which one?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>This performs PREORDER (DFS), not LEVEL-ORDER (BFS)!</strong></p>
+<p><strong>Why:</strong></p>
+<ul>
+<li>Stack is LIFO (Last In, First Out) - goes deep first</li>
+<li>Queue is FIFO (First In, First Out) - goes wide first</li>
+</ul>
+<p><strong>Fix:</strong></p>
+<pre class="highlight"><code class="language-java">Queue&lt;TreeNode&gt; queue = new LinkedList&lt;&gt;();  // Use Queue!
+queue.offer(root);
+
+while (!queue.isEmpty()) {
+    TreeNode node = queue.poll();
+    result.add(node.val);
+
+    if (node.left != null) queue.offer(node.left);
+    if (node.right != null) queue.offer(node.right);
+}</code></pre>
+</details>
+<hr/>
+<h3 id="challenge-6-null-pointer-trap">Challenge 6: Null Pointer Trap<a class="headerlink" href="#challenge-6-null-pointer-trap" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Morris traversal attempt.
+ * This has a CRITICAL null pointer bug!
+ */
+public static List&lt;Integer&gt; morrisTraversal_Buggy(TreeNode root) {
+    List&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+    TreeNode curr = root;
+
+    while (curr != null) {
+        if (curr.left == null) {
+            result.add(curr.val);
+            curr = curr.right;
+        } else {
+            // Find predecessor
+            TreeNode pred = curr.left;
+            while (pred.right != null) {                pred = pred.right;
+            }
+
+            // Create thread
+            pred.right = curr;
+            curr = curr.left;
+        }
+    }
+
+    return result;
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug:</strong> <span class="fill-in">[What causes infinite loop?]</span></li>
+<li><strong>When does it happen?</strong> <span class="fill-in">[When we revisit a threaded node]</span></li>
+<li><strong>Fix:</strong> <span class="fill-in">[What condition should we check in the while loop?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> The while loop <code>while (pred.right != null)</code> will loop forever once we create a thread (pred.right = curr),
+because we never check if pred.right == curr.</p>
+<p><strong>Fix - Check for existing thread:</strong></p>
+<pre class="highlight"><code class="language-java">TreeNode pred = curr.left;
+while (pred.right != null &amp;&amp; pred.right != curr) {  // Check for thread!
+    pred = pred.right;
+}
+
+if (pred.right == null) {
+    // No thread yet - create it
+    pred.right = curr;
+    curr = curr.left;
+} else {
+    // Thread exists - remove it, visit node, go right
+    pred.right = null;
+    result.add(curr.val);
+    curr = curr.right;
+}</code></pre>
+</details>
+<hr/>
+<h3 id="your-debugging-scorecard">Your Debugging Scorecard<a class="headerlink" href="#your-debugging-scorecard" title="Permanent link">¶</a></h3>
+<p>After finding and fixing all bugs:</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Found all 8+ bugs across 6 challenges</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understood WHY each bug causes incorrect behavior</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could explain the fix to someone else</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Learned common traversal mistakes to avoid</li>
+</ul>
+<p><strong>Common mistakes you discovered:</strong></p>
+<ol>
+<li><span class="fill-in">[List the patterns you noticed]</span></li>
+<li><span class="fill-in">[Fill in]</span></li>
+<li><span class="fill-in">[Fill in]</span></li>
+</ol>
+<p><strong>Key insights:</strong></p>
+<ul>
+<li>Recursive traversals need: <span class="fill-in">[What pattern for combining results?]</span></li>
+<li>Iterative inorder needs: <span class="fill-in">[What loop condition?]</span></li>
+<li>Level-order needs: <span class="fill-in">[Stack or Queue?]</span></li>
+<li>Morris traversal needs: <span class="fill-in">[What check to avoid infinite loops?]</span></li>
+</ul>
+<hr/>
+<h2 id="decision-framework">Decision Framework<a class="headerlink" href="#decision-framework" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Build decision trees for tree traversal selection.</p>
+<h3 id="question-1-which-traversal-order-do-you-need">Question 1: Which traversal order do you need?<a class="headerlink" href="#question-1-which-traversal-order-do-you-need" title="Permanent link">¶</a></h3>
+<p>Answer after solving problems:</p>
+<ul>
+<li><strong>Need sorted order from BST?</strong> <span class="fill-in">[Use inorder]</span></li>
+<li><strong>Need to copy tree structure?</strong> <span class="fill-in">[Use preorder]</span></li>
+<li><strong>Need to delete tree safely?</strong> <span class="fill-in">[Use postorder]</span></li>
+<li><strong>Need level-by-level processing?</strong> <span class="fill-in">[Use level-order]</span></li>
+</ul>
+<h3 id="question-2-recursive-vs-iterative">Question 2: Recursive vs Iterative?<a class="headerlink" href="#question-2-recursive-vs-iterative" title="Permanent link">¶</a></h3>
+<p><strong>Recursive approach:</strong></p>
+<ul>
+<li>Pros: <span class="fill-in">[Simpler code, cleaner logic]</span></li>
+<li>Cons: <span class="fill-in">[O(h) stack space, risk of stack overflow]</span></li>
+<li>Use when: <span class="fill-in">[Tree depth is reasonable]</span></li>
+</ul>
+<p><strong>Iterative approach:</strong></p>
+<ul>
+<li>Pros: <span class="fill-in">[Explicit control, no stack overflow]</span></li>
+<li>Cons: <span class="fill-in">[More complex code, need explicit stack/queue]</span></li>
+<li>Use when: <span class="fill-in">[Deep trees, production code]</span></li>
+</ul>
+<h3 id="your-decision-tree">Your Decision Tree<a class="headerlink" href="#your-decision-tree" title="Permanent link">¶</a></h3>
+<div class="mermaid">flowchart LR
+    Start["Tree Traversal Selection"]
+
+    Q1{"What order do you need?"}
+    Start --&gt; Q1
+    Q2{"Left, Root, Right&lt;br/&gt;(sorted in BST)?"}
+    Q3{"Root, Left, Right&lt;br/&gt;(copy/serialize)?"}
+    Q4{"Left, Right, Root&lt;br/&gt;(delete/cleanup)?"}
+    Q5{"Level by level&lt;br/&gt;(BFS)?"}
+    Q6{"Implementation choice?"}
+    Start --&gt; Q6
+    N7["Simpler, but O(h) space"]
+    Q6 --&gt;|"Recursive"| N7
+    N8["More code, but safer"]
+    Q6 --&gt;|"Iterative"| N8</div>
+<hr/>
+<h2 id="practice">Practice<a class="headerlink" href="#practice" title="Permanent link">¶</a></h2>
+<h3 id="leetcode-problems">LeetCode Problems<a class="headerlink" href="#leetcode-problems" title="Permanent link">¶</a></h3>
+<p><strong>Easy (Complete all 4):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/binary-tree-inorder-traversal/">94. Binary Tree Inorder Traversal</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Inorder - recursive/iterative/Morris]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/binary-tree-preorder-traversal/">144. Binary Tree Preorder Traversal</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Preorder]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/binary-tree-postorder-traversal/">145. Binary Tree Postorder Traversal</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Postorder]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/binary-tree-level-order-traversal/">102. Binary Tree Level Order Traversal</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Level-order BFS]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Medium (Complete 3-4):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/">103. Binary Tree Zigzag Level Order Traversal</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Level-order with direction alternation]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/binary-tree-right-side-view/">199. Binary Tree Right Side View</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Level-order, track rightmost]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/binary-tree-level-order-traversal-ii/">107. Binary Tree Level Order Traversal II</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Level-order bottom-up]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/kth-smallest-element-in-a-bst/">230. Kth Smallest Element in a BST</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Inorder with counter]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Hard (Optional):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/serialize-and-deserialize-binary-tree/">297. Serialize and Deserialize Binary Tree</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Preorder or level-order]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree/">987. Vertical Order Traversal of a Binary Tree</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Custom traversal with coordinates]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+</ul>
+<hr/>
+<h2 id="review-checklist">Review Checklist<a class="headerlink" href="#review-checklist" title="Permanent link">¶</a></h2>
+<p>Before moving to the next topic:</p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Implementation</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Inorder: recursive, iterative, Morris all work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Preorder: recursive and iterative both work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Postorder: recursive and iterative both work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Level-order: standard, zigzag, right view all work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> All client code runs successfully</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Pattern Recognition</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can identify which traversal order to use</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand when to use recursive vs iterative</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Know BFS vs DFS trade-offs</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Recognize when Morris traversal helps</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Problem Solving</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Solved 4 easy problems</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Solved 3-4 medium problems</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Analyzed time/space complexity</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Handled edge cases (null, single node)</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Understanding</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Filled in all ELI5 explanations</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Built decision tree</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Identified when NOT to use traversals</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can explain each traversal order's purpose</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Mastery Check</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could implement all patterns from memory</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could recognize pattern in new problem</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could explain to someone else</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand stack space vs heap space trade-offs</li>
+</ul>
+</li>
+</ul>
+<hr/>
+<h3 id="mastery-certification">Mastery Certification<a class="headerlink" href="#mastery-certification" title="Permanent link">¶</a></h3>
+<p><strong>I certify that I can:</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Implement all four traversal patterns (inorder, preorder, postorder, level-order) from memory</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Implement both recursive and iterative versions</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Explain when and why to use each traversal order</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Identify the correct traversal for new problems</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Analyze time and space complexity for each approach</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Debug common traversal mistakes (stack/queue confusion, wrong loop conditions)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Choose between recursive, iterative, and Morris based on constraints</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Teach this concept to someone else</li>
+</ul></div>
+</div>
+<footer class="col-md-12 text-center">
+<hr/>
+<p>
+<small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+</p>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../../js/bootstrap-3.0.3.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>var base_url = "../.."</script>
+<script src="../../js/base.js"></script>
+<script src="../../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<button class="close" data-dismiss="modal" type="button">
+<span aria-hidden="true">×</span>
+<span class="sr-only">Close</span>
+</button>
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+</div>
+<div class="modal-body">
+<p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="text"/>
+</div>
+</form>
+<div id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@10.4.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>

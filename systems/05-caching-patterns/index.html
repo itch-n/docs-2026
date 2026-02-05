@@ -1,0 +1,1740 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="A framework for algorithms, systems design, and infrastructure." name="description"/>
+<meta content="Richard" name="author"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>05. Caching Patterns - Software Engineering Study Guide</title>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" rel="stylesheet"/>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css" rel="stylesheet"/>
+<link href="//rsms.me/inter/inter.css" rel="stylesheet" type="text/css"/>
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&amp;subset=latin-ext,latin" rel="stylesheet" type="text/css"/>
+<link href="../../css/bootstrap-custom.min.css" rel="stylesheet"/>
+<link href="../../css/base.min.css" rel="stylesheet"/>
+<link href="../../css/cinder.min.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css" rel="stylesheet"/>
+<link href="../../css/custom.css" rel="stylesheet"/>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="container">
+<!-- Collapsed navigation -->
+<div class="navbar-header">
+<!-- Expander button -->
+<button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<!-- Main title -->
+<a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+</div>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li>
+<a href="../..">Home</a>
+</li>
+<li class="dropdown active">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Systems Design <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../01-storage-engines/">01. Storage Engines</a>
+</li>
+<li>
+<a href="../02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+<li>
+<a href="../03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+<li>
+<a href="../04-search-and-indexing/">04. Search &amp; Indexing</a>
+</li>
+<li class="active">
+<a href="./">05. Caching Patterns</a>
+</li>
+<li>
+<a href="../06-api-design/">06. API Design</a>
+</li>
+<li>
+<a href="../07-security-patterns/">07. Security Patterns</a>
+</li>
+<li>
+<a href="../08-rate-limiting/">08. Rate Limiting</a>
+</li>
+<li>
+<a href="../09-load-balancing/">09. Load Balancing</a>
+</li>
+<li>
+<a href="../10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+<li>
+<a href="../11-database-scaling/">11. Database Scaling</a>
+</li>
+<li>
+<a href="../12-message-queues/">12. Message Queues</a>
+</li>
+<li>
+<a href="../13-stream-processing/">13. Stream Processing</a>
+</li>
+<li>
+<a href="../14-observability/">14. Observability</a>
+</li>
+<li>
+<a href="../15-distributed-transactions/">15. Distributed Transactions</a>
+</li>
+<li>
+<a href="../16-consensus-patterns/">16. Consensus Patterns</a>
+</li>
+</ul>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">DSA <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../dsa/01-two-pointers/">01. Two Pointers</a>
+</li>
+<li>
+<a href="../../dsa/02-sliding-window/">02. Sliding Window</a>
+</li>
+<li>
+<a href="../../dsa/03-hash-tables/">03. Hash Tables</a>
+</li>
+<li>
+<a href="../../dsa/04-linked-lists/">04. Linked Lists</a>
+</li>
+<li>
+<a href="../../dsa/05-stacks--queues/">05. Stacks &amp; Queues</a>
+</li>
+<li>
+<a href="../../dsa/06-trees-traversals/">06. Trees - Traversals</a>
+</li>
+<li>
+<a href="../../dsa/07-trees-recursion/">07. Trees - Recursion</a>
+</li>
+<li>
+<a href="../../dsa/08-binary-search/">08. Binary Search</a>
+</li>
+<li>
+<a href="../../dsa/09-heaps/">09. Heaps</a>
+</li>
+<li>
+<a href="../../dsa/10-graphs/">10. Graphs</a>
+</li>
+<li>
+<a href="../../dsa/11-union-find/">11. Union-Find</a>
+</li>
+<li>
+<a href="../../dsa/12-advanced-graphs/">12. Advanced Graphs</a>
+</li>
+<li>
+<a href="../../dsa/13-backtracking/">13. Backtracking</a>
+</li>
+<li>
+<a href="../../dsa/14-dynamic-programming-1d/">14. Dynamic Programming 1D</a>
+</li>
+<li>
+<a href="../../dsa/15-dynamic-programming-2d/">15. Dynamic Programming 2D</a>
+</li>
+<li>
+<a href="../../dsa/16-tries/">16. Tries</a>
+</li>
+<li>
+<a href="../../dsa/17-advanced-topics/">17. Advanced Topics</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+<a data-target="#mkdocs_search_modal" data-toggle="modal" href="#">
+<i class="fas fa-search"></i> Search
+                        </a>
+</li>
+<li>
+<a href="../04-search-and-indexing/" rel="prev">
+<i class="fas fa-arrow-left"></i> Previous
+                        </a>
+</li>
+<li>
+<a href="../06-api-design/" rel="next">
+                            Next <i class="fas fa-arrow-right"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+<ul class="nav bs-sidenav">
+<li class="first-level active"><a href="#caching-patterns">Caching Patterns</a></li>
+<li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+<li class="second-level"><a href="#quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)</a></li>
+<li class="second-level"><a href="#beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters</a></li>
+<li class="second-level"><a href="#case-studies-caching-in-the-wild">Case Studies: Caching in the Wild</a></li>
+<li class="second-level"><a href="#core-implementation">Core Implementation</a></li>
+<li class="second-level"><a href="#client-code">Client Code</a></li>
+<li class="second-level"><a href="#debugging-challenges">Debugging Challenges</a></li>
+<li class="second-level"><a href="#decision-framework">Decision Framework</a></li>
+<li class="second-level"><a href="#practice">Practice</a></li>
+<li class="second-level"><a href="#review-checklist">Review Checklist</a></li>
+</ul>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="caching-patterns">Caching Patterns<a class="headerlink" href="#caching-patterns" title="Permanent link">¶</a></h1>
+<blockquote>
+<p>Master LRU, LFU, and write policies for high-performance systems</p>
+</blockquote>
+<hr/>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After implementing all patterns, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What is caching in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Why/when do we use caching?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy:</strong></p>
+<ul>
+<li>Example: "A cache is like keeping your favorite books on your desk instead of walking to the library..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What's the difference between LRU and LFU?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after solving problems]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When should you use Write-Through vs Write-Back?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after practice]</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr/>
+<h2 id="quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)<a class="headerlink" href="#quick-quiz-do-before-implementing" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Test your intuition without looking at code. Answer these, then verify after implementation.</p>
+<h3 id="complexity-predictions">Complexity Predictions<a class="headerlink" href="#complexity-predictions" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p><strong>Direct database query for each request:</strong></p>
+<ul>
+<li>Time per request: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>If DB query takes 50ms, how many requests/sec can you handle? _____</li>
+<li>Verified after learning: <span class="fill-in">[Actual]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Cache lookup + occasional DB query:</strong></p>
+<ul>
+<li>Cache hit time: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Cache miss time: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>If 90% cache hit rate, average latency: <span class="fill-in">_____</span>ms</li>
+<li>Verified: <span class="fill-in">[Actual]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Hit rate calculation:</strong></p>
+<ul>
+<li>1000 requests, 900 cache hits, 100 misses</li>
+<li>Hit rate: <span class="fill-in">_____</span>%</li>
+<li>If cache saves 45ms per hit, total time saved: <span class="fill-in">_____</span>ms</li>
+</ul>
+</li>
+</ol>
+<h3 id="scenario-predictions">Scenario Predictions<a class="headerlink" href="#scenario-predictions" title="Permanent link">¶</a></h3>
+<p><strong>Scenario 1:</strong> E-commerce product catalog with access pattern:</p>
+<pre class="highlight"><code>Product A: accessed 5 times
+Product B: accessed 10 times
+Product C: accessed 3 times
+Product D: accessed 8 times
+Cache capacity: 2 items</code></pre>
+<ul>
+<li><strong>With LRU, which items remain after all accesses?</strong> <span class="fill-in">[Fill in - trace manually]</span></li>
+<li><strong>With LFU, which items remain?</strong> <span class="fill-in">[Fill in - trace manually]</span></li>
+<li><strong>Which is better for this pattern?</strong> <span class="fill-in">[LRU/LFU - Why?]</span></li>
+</ul>
+<p><strong>Scenario 2:</strong> User session cache (last access time matters)</p>
+<pre class="highlight"><code>Session A: last accessed 10 min ago
+Session B: last accessed 2 min ago
+Session C: last accessed 5 min ago
+Cache full, new session arrives</code></pre>
+<ul>
+<li><strong>Which eviction policy makes sense?</strong> <span class="fill-in">[LRU/LFU - Why?]</span></li>
+<li><strong>Which session gets evicted?</strong> <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>Scenario 3:</strong> Write policies</p>
+<pre class="highlight"><code>Request: Update user profile
+Write-Through: Cache + DB both take 5ms each
+Write-Back: Cache takes 1ms, DB flush happens later</code></pre>
+<ul>
+<li><strong>Write-Through total latency:</strong> _____ms</li>
+<li><strong>Write-Back perceived latency:</strong> _____ms</li>
+<li><strong>If DB fails during Write-Back flush, what happens?</strong> <span class="fill-in">[Fill in]</span></li>
+<li><strong>Which is safer?</strong> <span class="fill-in">[Fill in - Why?]</span></li>
+</ul>
+<h3 id="trade-off-quiz">Trade-off Quiz<a class="headerlink" href="#trade-off-quiz" title="Permanent link">¶</a></h3>
+<p><strong>Question 1:</strong> When would direct database queries be BETTER than caching?</p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in before implementation]</span></li>
+<li>Verified answer: <span class="fill-in">[Fill in after learning]</span></li>
+</ul>
+<p><strong>Question 2:</strong> What's the MAIN benefit of caching?</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Reduces database load</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Reduces latency</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Saves money</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> All of the above</li>
+</ul>
+<p>Verify after implementation: <span class="fill-in">[Which one(s)?]</span></p>
+<p><strong>Question 3:</strong> Cache hit rate drops from 90% to 50%. How does this affect performance?</p>
+<ul>
+<li>Your calculation: <span class="fill-in">[Fill in]</span></li>
+<li>Verified impact: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters<a class="headerlink" href="#beforeafter-why-this-pattern-matters" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Compare direct database access vs caching to understand the impact.</p>
+<h3 id="example-product-lookup-api">Example: Product Lookup API<a class="headerlink" href="#example-product-lookup-api" title="Permanent link">¶</a></h3>
+<p><strong>Problem:</strong> Fetch product details for 1000 concurrent users.</p>
+<h4 id="approach-1-direct-database-query-no-cache">Approach 1: Direct Database Query (No Cache)<a class="headerlink" href="#approach-1-direct-database-query-no-cache" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Naive approach - Query database for every request
+public class DirectDatabaseLookup {
+
+    private final Database database;
+
+    public Product getProduct(String productId) {
+        // Direct database query every time
+        return database.query("SELECT * FROM products WHERE id = ?", productId);
+    }
+}
+
+// Performance test
+public static void benchmarkDirectDB() {
+    DirectDatabaseLookup service = new DirectDatabaseLookup(database);
+
+    long start = System.currentTimeMillis();
+    for (int i = 0; i &lt; 1000; i++) {
+        service.getProduct("prod-123"); // Same product queried 1000 times
+    }
+    long end = System.currentTimeMillis();
+
+    System.out.println("Total time: " + (end - start) + "ms");
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time per DB query: ~50ms</li>
+<li>
+<p>For 1000 requests: 1000 × 50ms = <strong>50,000ms (50 seconds)</strong></p>
+</li>
+<li>
+<p>Database load: 1000 queries/sec</p>
+</li>
+<li>Cost: High (database compute, network latency)</li>
+<li>Throughput: ~20 requests/sec per thread</li>
+</ul>
+<h4 id="approach-2-lru-cache-optimized">Approach 2: LRU Cache (Optimized)<a class="headerlink" href="#approach-2-lru-cache-optimized" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Optimized approach - Cache frequent lookups
+public class CachedProductLookup {
+
+    private final LRUCache&lt;String, Product&gt; cache;
+    private final Database database;
+
+    public CachedProductLookup(int cacheSize, Database database) {
+        this.cache = new LRUCache&lt;&gt;(cacheSize);
+        this.database = database;
+    }
+
+    public Product getProduct(String productId) {
+        // Try cache first (O(1), ~1ms)
+        Product product = cache.get(productId);
+
+        if (product != null) {
+            return product; // Cache hit - fast!
+        }
+
+        // Cache miss - query database (~50ms)
+        product = database.query("SELECT * FROM products WHERE id = ?", productId);
+
+        if (product != null) {
+            cache.put(productId, product); // Populate cache
+        }
+
+        return product;
+    }
+}
+
+// Performance test
+public static void benchmarkCached() {
+    CachedProductLookup service = new CachedProductLookup(100, database);
+
+    long start = System.currentTimeMillis();
+    for (int i = 0; i &lt; 1000; i++) {
+        service.getProduct("prod-123"); // Same product queried 1000 times
+    }
+    long end = System.currentTimeMillis();
+
+    System.out.println("Total time: " + (end - start) + "ms");
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>First request (cache miss): ~50ms</li>
+<li>Subsequent requests (cache hits): ~1ms each</li>
+<li>
+<p>For 1000 requests: 50ms + (999 × 1ms) = <strong>1,049ms (~1 second)</strong></p>
+</li>
+<li>
+<p>Database load: 1 query for 1000 requests</p>
+</li>
+<li>Cache hit rate: 99.9%</li>
+<li>Throughput: ~950 requests/sec per thread</li>
+</ul>
+<h4 id="performance-comparison">Performance Comparison<a class="headerlink" href="#performance-comparison" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Direct DB</th>
+<th>With Cache</th>
+<th>Improvement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Total time (1000 requests)</strong></td>
+<td>50,000ms</td>
+<td>1,049ms</td>
+<td><strong>47.6x faster</strong></td>
+</tr>
+<tr>
+<td><strong>Average latency</strong></td>
+<td>50ms</td>
+<td>1.05ms</td>
+<td><strong>47.6x faster</strong></td>
+</tr>
+<tr>
+<td><strong>Database queries</strong></td>
+<td>1000</td>
+<td>1</td>
+<td><strong>99.9% reduction</strong></td>
+</tr>
+<tr>
+<td><strong>Throughput</strong></td>
+<td>20 req/sec</td>
+<td>950 req/sec</td>
+<td><strong>47.5x higher</strong></td>
+</tr>
+<tr>
+<td><strong>DB cost (estimate)</strong></td>
+<td>$100/day</td>
+<td>$2/day</td>
+<td><strong>$98/day savings</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Your calculation:</strong> For 10,000 requests with 90% cache hit rate:</p>
+<ul>
+<li>Cache hits: 10,000 × 0.9 = <span class="fill-in"><strong><em>_</em></strong></span> requests × 1ms = <span class="fill-in">___</span>ms</li>
+<li>Cache misses: 10,000 × 0.1 = <span class="fill-in"><strong><em>_</em></strong></span> requests × 50ms = <span class="fill-in">___</span>ms</li>
+<li>Total time: <span class="fill-in"><strong><em>_</em></strong></span> + <strong><em> = <span class="fill-in"></span></em></strong>__ms</li>
+<li>Speedup vs direct DB: <span class="fill-in">_____</span> times faster</li>
+</ul>
+<h4 id="hit-rate-analysis">Hit Rate Analysis<a class="headerlink" href="#hit-rate-analysis" title="Permanent link">¶</a></h4>
+<p><strong>How hit rate affects performance:</strong></p>
+<pre class="highlight"><code>Cache Hit Rate Analysis (1000 requests)
+
+Hit Rate | Cache Hits | DB Queries | Total Time | Speedup
+
+---------|------------|------------|------------|--------
+   0%    |     0      |    1000    |  50,000ms  |   1x
+  50%    |   500      |     500    |  25,500ms  |   2x
+  75%    |   750      |     250    |  13,250ms  |   3.8x
+  90%    |   900      |     100    |   5,900ms  |   8.5x
+  95%    |   950      |      50    |   3,450ms  |  14.5x
+  99%    |   990      |      10    |   1,490ms  |  33.6x
+ 99.9%   |   999      |      1     |   1,049ms  |  47.7x</code></pre>
+<p><strong>Key insight:</strong> Even a modest 75% hit rate gives 3.8x speedup!</p>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>Why does caching provide such dramatic speedup? <span class="fill-in">[Your answer]</span></li>
+<li>What happens when hit rate drops below 50%? <span class="fill-in">[Your answer]</span></li>
+<li>When might caching not be worth it? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<h4 id="write-policy-comparison">Write Policy Comparison<a class="headerlink" href="#write-policy-comparison" title="Permanent link">¶</a></h4>
+<p><strong>Scenario:</strong> Update user profile (name change)</p>
+<pre class="highlight"><code class="language-java">// Write-Through Example
+public void updateUserProfile_WriteThrough(String userId, String newName) {
+    long start = System.currentTimeMillis();
+
+    // Write to cache (1ms)
+    cache.put(userId, newName);
+
+    // Write to database (50ms) - BLOCKS until complete
+    database.update(userId, newName);
+
+    long end = System.currentTimeMillis();
+    System.out.println("Write-Through latency: " + (end - start) + "ms");
+    // Output: ~51ms
+}
+
+// Write-Back Example
+public void updateUserProfile_WriteBack(String userId, String newName) {
+    long start = System.currentTimeMillis();
+
+    // Write to cache (1ms) - IMMEDIATE RETURN
+    cache.put(userId, newName);
+
+    // Mark as dirty for async flush
+    dirtyEntries.put(userId, newName);
+
+    long end = System.currentTimeMillis();
+    System.out.println("Write-Back latency: " + (end - start) + "ms");
+    // Output: ~1ms
+
+    // Database write happens later asynchronously
+}</code></pre>
+<p><strong>Write Policy Performance:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Policy</th>
+<th>User Latency</th>
+<th>DB Write</th>
+<th>Consistency</th>
+<th>Data Loss Risk</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Write-Through</td>
+<td>51ms</td>
+<td>Synchronous</td>
+<td>Immediate</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Write-Back</td>
+<td>1ms</td>
+<td>Asynchronous</td>
+<td>Eventual</td>
+<td>If crash before flush</td>
+</tr>
+<tr>
+<td><strong>Speedup</strong></td>
+<td><strong>51x faster</strong></td>
+<td>-</td>
+<td>Trade-off</td>
+<td>Trade-off</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Your analysis:</strong> When would you choose each?</p>
+<ul>
+<li>Write-Through: <span class="fill-in">[Fill in scenarios]</span></li>
+<li>Write-Back: <span class="fill-in">[Fill in scenarios]</span></li>
+</ul>
+<hr/>
+<h2 id="case-studies-caching-in-the-wild">Case Studies: Caching in the Wild<a class="headerlink" href="#case-studies-caching-in-the-wild" title="Permanent link">¶</a></h2>
+<h3 id="facebooks-social-graph-tao-and-memcached">Facebook's Social Graph: TAO and Memcached<a class="headerlink" href="#facebooks-social-graph-tao-and-memcached" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> Cache-Aside with a custom distributed caching layer (TAO).</li>
+<li><strong>How it works:</strong> Facebook's social graph (friends, posts, comments) is too large and interconnected to query from a
+  database for every request. They built TAO, a geographically distributed caching system on top of Memcached. When a
+  user requests their feed, the application first queries TAO. If the data is present (cache hit), it's returned
+  instantly. If not (cache miss), TAO fetches the data from the master database (MySQL), populates the cache, and then
+  returns it.</li>
+<li><strong>Key Takeaway:</strong> At massive scale, a simple cache isn't enough. Facebook needed to build a custom caching <em>service</em>
+  that handles eventual consistency, replication across data centers, and the "thundering herd" problem. It showcases
+  the cache-aside pattern on a global scale.</li>
+</ul>
+<h3 id="twitters-timeline-cache-redis-for-real-time-feeds">Twitter's Timeline Cache: Redis for Real-Time Feeds<a class="headerlink" href="#twitters-timeline-cache-redis-for-real-time-feeds" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> Pre-computed timelines with a Cache-Aside strategy.</li>
+<li><strong>How it works:</strong> A user's home timeline is one of the most frequently read pieces of data. Generating it on-the-fly
+  for every request is too slow. Instead, Twitter pre-computes user timelines and stores them in a massive Redis
+  cluster. When you open Twitter, your app fetches this pre-computed list directly from the cache. When a user you
+  follow tweets, a background "fan-out" service pushes that tweet into the timeline caches of all their followers.</li>
+<li><strong>Key Takeaway:</strong> For read-heavy workloads with complex data generation, it's often better to do the work ahead of
+  time and cache the <em>results</em>. Redis is a perfect fit for this due to its high performance and versatile data
+  structures (like sorted lists for timelines).</li>
+</ul>
+<h3 id="content-delivery-networks-cdns-caching-at-the-edge">Content Delivery Networks (CDNs): Caching at the Edge<a class="headerlink" href="#content-delivery-networks-cdns-caching-at-the-edge" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> Multi-layered caching with LRU/LFU eviction.</li>
+<li><strong>How it works:</strong> A Content Delivery Network (CDN) like Cloudflare or Akamai acts as a massive, distributed cache for
+  a website's static assets (images, CSS, JS). When a user in London requests an image, it's served from the CDN's
+  London edge server, not from the origin server in California. The first request might be slow, but subsequent requests
+  from that region are served from the local cache.</li>
+<li><strong>Key Takeaway:</strong> Caching isn't just for databases; it's for any data that can be served closer to the user. CDNs
+  demonstrate how layered caching and intelligent eviction policies (like LRU to keep popular assets hot) can
+  dramatically improve website performance and reduce bandwidth costs for the origin server.</li>
+</ul>
+<hr/>
+<h2 id="core-implementation">Core Implementation<a class="headerlink" href="#core-implementation" title="Permanent link">¶</a></h2>
+<h3 id="pattern-1-lru-cache-least-recently-used">Pattern 1: LRU Cache (Least Recently Used)<a class="headerlink" href="#pattern-1-lru-cache-least-recently-used" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement LRU cache with O(1) get and put operations.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+/**
+ * LRU Cache - Evicts least recently used items when full
+ * Time: O(1) for get/put
+ * Space: O(capacity)
+ *
+ * Key insight: Combine HashMap for O(1) lookup + Doubly Linked List for O(1) move/remove
+ */
+public class LRUCache&lt;K, V&gt; {
+
+    private final int capacity;
+    private final Map&lt;K, Node&lt;K, V&gt;&gt; cache;
+    private final DoublyLinkedList&lt;K, V&gt; list;
+
+    static class Node&lt;K, V&gt; {
+        K key;
+        V value;
+        Node&lt;K, V&gt; prev, next;
+
+        Node(K key, V value) {
+            this.key = key;
+            this.value = value;
+        }
+    }
+
+    static class DoublyLinkedList&lt;K, V&gt; {
+        Node&lt;K, V&gt; head, tail;
+
+        DoublyLinkedList() {
+            // TODO: Initialize sentinel nodes for cleaner edge case handling
+        }
+
+        /**
+         * Add node to front (most recently used position)
+         *
+         * TODO: Implement addToFront
+         */
+        void addToFront(Node&lt;K, V&gt; node) {
+            // TODO: Insert node right after head
+        }
+
+        /**
+         * Remove node from list
+         *
+         * TODO: Implement remove
+         */
+        void remove(Node&lt;K, V&gt; node) {
+            // TODO: Update prev/next pointers to bypass this node
+        }
+
+        /**
+         * Remove and return least recently used (node before tail)
+         *
+         * TODO: Implement removeLast
+         */
+        Node&lt;K, V&gt; removeLast() {
+            // TODO: Remove the node closest to tail
+            // Handle empty list case
+
+            return null; // Replace
+        }
+
+        /**
+         * Move existing node to front
+         *
+         * TODO: Implement moveToFront
+         */
+        void moveToFront(Node&lt;K, V&gt; node) {
+            // TODO: Reposition node to mark it as most recently used
+        }
+    }
+
+    public LRUCache(int capacity) {
+        this.capacity = capacity;
+        this.cache = new HashMap&lt;&gt;();
+        this.list = new DoublyLinkedList&lt;&gt;();
+    }
+
+    /**
+     * Get value for key
+     * Time: O(1)
+     *
+     * TODO: Implement get
+     */
+    public V get(K key) {
+        // TODO: Lookup and update recency
+
+        return null; // Replace
+    }
+
+    /**
+     * Put key-value pair
+     * Time: O(1)
+     *
+     * TODO: Implement put
+     */
+    public void put(K key, V value) {
+        // TODO: Handle updates to existing keys
+        // Handle eviction when at capacity
+        // Add new entries appropriately
+    }
+
+    public int size() {
+        return cache.size();
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-2-lfu-cache-least-frequently-used">Pattern 2: LFU Cache (Least Frequently Used)<a class="headerlink" href="#pattern-2-lfu-cache-least-frequently-used" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement LFU cache with O(1) get and put operations.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+/**
+ * LFU Cache - Evicts least frequently used items when full
+ * Time: O(1) for get/put
+ * Space: O(capacity)
+ *
+ * Key insight: Track frequency for each node, maintain lists per frequency level
+ */
+public class LFUCache&lt;K, V&gt; {
+
+    private final int capacity;
+    private int minFreq;
+    private final Map&lt;K, Node&lt;K, V&gt;&gt; cache;
+    private final Map&lt;Integer, DoublyLinkedList&lt;K, V&gt;&gt; freqMap; // freq -&gt; list of nodes
+
+    static class Node&lt;K, V&gt; {
+        K key;
+        V value;
+        int freq;
+        Node&lt;K, V&gt; prev, next;
+
+        Node(K key, V value) {
+            this.key = key;
+            this.value = value;
+            this.freq = 1;
+        }
+    }
+
+    static class DoublyLinkedList&lt;K, V&gt; {
+        Node&lt;K, V&gt; head, tail;
+
+        DoublyLinkedList() {
+            // TODO: Initialize sentinel nodes
+        }
+
+        void addToFront(Node&lt;K, V&gt; node) {
+            // TODO: Add to front of list
+        }
+
+        void remove(Node&lt;K, V&gt; node) {
+            // TODO: Remove from list
+        }
+
+        Node&lt;K, V&gt; removeLast() {
+            // TODO: Remove least frequently used
+            return null;
+        }
+
+        boolean isEmpty() {
+            // TODO: Check if list has any nodes
+            return true;
+        }
+    }
+
+    public LFUCache(int capacity) {
+        this.capacity = capacity;
+        this.minFreq = 0;
+        this.cache = new HashMap&lt;&gt;();
+        this.freqMap = new HashMap&lt;&gt;();
+    }
+
+    /**
+     * Get value for key
+     * Time: O(1)
+     *
+     * TODO: Implement get
+     */
+    public V get(K key) {
+        // TODO: Lookup and update frequency tracking
+
+        return null; // Replace
+    }
+
+    /**
+     * Put key-value pair
+     * Time: O(1)
+     *
+     * TODO: Implement put
+     */
+    public void put(K key, V value) {
+        if (capacity &lt;= 0) return;
+
+        // TODO: Handle updates and new insertions
+        // Evict least frequently used when at capacity
+        // Manage frequency tracking structures
+    }
+
+    /**
+     * Update frequency of node
+     *
+     * TODO: Implement updateFrequency
+     */
+    private void updateFrequency(Node&lt;K, V&gt; node) {
+        // TODO: Move node from current frequency list to next
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-3-write-through-cache">Pattern 3: Write-Through Cache<a class="headerlink" href="#pattern-3-write-through-cache" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement write-through cache pattern.</p>
+<pre class="highlight"><code class="language-java">/**
+ * Write-Through Cache - Writes go to cache AND database synchronously
+ *
+ * Pros: Data consistency, simple
+ * Cons: Higher write latency
+ */
+public class WriteThroughCache&lt;K, V&gt; {
+
+    private final LRUCache&lt;K, V&gt; cache;
+    private final Database&lt;K, V&gt; database;
+
+    interface Database&lt;K, V&gt; {
+        V read(K key);
+        void write(K key, V value);
+    }
+
+    public WriteThroughCache(int capacity, Database&lt;K, V&gt; database) {
+        this.cache = new LRUCache&lt;&gt;(capacity);
+        this.database = database;
+    }
+
+    /**
+     * Get value
+     *
+     * TODO: Implement cache-aside pattern
+     */
+    public V get(K key) {
+        // TODO: Check cache first, then fallback to database
+
+        return null; // Replace
+    }
+
+    /**
+     * Put value
+     *
+     * TODO: Implement write-through
+     */
+    public void put(K key, V value) {
+        // TODO: Update both cache and database synchronously
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-4-write-back-write-behind-cache">Pattern 4: Write-Back (Write-Behind) Cache<a class="headerlink" href="#pattern-4-write-back-write-behind-cache" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement write-back cache with async flush.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+import java.util.concurrent.*;
+
+/**
+ * Write-Back Cache - Writes go to cache immediately, database asynchronously
+ *
+ * Pros: Lower write latency
+ * Cons: Risk of data loss, more complex
+ */
+public class WriteBackCache&lt;K, V&gt; {
+
+    private final LRUCache&lt;K, V&gt; cache;
+    private final Database&lt;K, V&gt; database;
+    private final Map&lt;K, V&gt; dirtyEntries;
+    private final ScheduledExecutorService flusher;
+
+    interface Database&lt;K, V&gt; {
+        V read(K key);
+        void write(K key, V value);
+    }
+
+    public WriteBackCache(int capacity, Database&lt;K, V&gt; database, long flushIntervalMs) {
+        this.cache = new LRUCache&lt;&gt;(capacity);
+        this.database = database;
+        this.dirtyEntries = new ConcurrentHashMap&lt;&gt;();
+        this.flusher = Executors.newSingleThreadScheduledExecutor();
+
+        // TODO: Schedule background flush task
+    }
+
+    /**
+     * Get value
+     *
+     * TODO: Implement get
+     */
+    public V get(K key) {
+        // TODO: Check cache, dirty entries, then database
+
+        return null; // Replace
+    }
+
+    /**
+     * Put value
+     *
+     * TODO: Implement write-back
+     */
+    public void put(K key, V value) {
+        // TODO: Update cache immediately
+        // Mark for later database flush
+    }
+
+    /**
+     * Flush dirty entries to database
+     *
+     * TODO: Implement flush
+     */
+    private void flushDirtyEntries() {
+        // TODO: Write all dirty entries to database
+        // Handle failures appropriately
+    }
+
+    public void shutdown() {
+        // TODO: Ensure all data is flushed before shutdown
+    }
+}</code></pre>
+<hr/>
+<h2 id="client-code">Client Code<a class="headerlink" href="#client-code" title="Permanent link">¶</a></h2>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class CachingPatternsClient {
+
+    // Mock database for testing
+    static class MockDatabase&lt;K, V&gt; implements WriteThroughCache.Database&lt;K, V&gt; {
+        private final Map&lt;K, V&gt; storage = new HashMap&lt;&gt;();
+
+        @Override
+        public V read(K key) {
+            System.out.println("  [DB READ] " + key);
+            return storage.get(key);
+        }
+
+        @Override
+        public void write(K key, V value) {
+            System.out.println("  [DB WRITE] " + key + " = " + value);
+            storage.put(key, value);
+        }
+    }
+
+    public static void main(String[] args) {
+        testLRUCache();
+        System.out.println("\n" + "=".repeat(50) + "\n");
+        testLFUCache();
+        System.out.println("\n" + "=".repeat(50) + "\n");
+        testWriteThroughCache();
+    }
+
+    static void testLRUCache() {
+        System.out.println("=== LRU Cache Test ===\n");
+        LRUCache&lt;String, String&gt; cache = new LRUCache&lt;&gt;(3);
+
+        cache.put("user:1", "Alice");
+        cache.put("user:2", "Bob");
+        cache.put("user:3", "Charlie");
+        System.out.println("Cache size: " + cache.size());
+
+        cache.get("user:1"); // Access Alice (makes it most recent)
+
+        cache.put("user:4", "David"); // Should evict Bob (LRU)
+
+        System.out.println("Get user:1: " + cache.get("user:1")); // Should be Alice
+        System.out.println("Get user:2: " + cache.get("user:2")); // Should be null (evicted)
+        System.out.println("Get user:3: " + cache.get("user:3")); // Should be Charlie
+        System.out.println("Get user:4: " + cache.get("user:4")); // Should be David
+    }
+
+    static void testLFUCache() {
+        System.out.println("=== LFU Cache Test ===\n");
+        LFUCache&lt;String, String&gt; cache = new LFUCache&lt;&gt;(2);
+
+        cache.put("key1", "value1");
+        cache.put("key2", "value2");
+        System.out.println("Get key1: " + cache.get("key1")); // freq: key1=2, key2=1
+
+        cache.put("key3", "value3"); // Should evict key2 (LFU)
+
+        System.out.println("Get key2: " + cache.get("key2")); // Should be null (evicted)
+        System.out.println("Get key3: " + cache.get("key3")); // Should be value3
+        System.out.println("Get key1: " + cache.get("key1")); // Should be value1
+    }
+
+    static void testWriteThroughCache() {
+        System.out.println("=== Write-Through Cache Test ===\n");
+        MockDatabase&lt;String, String&gt; db = new MockDatabase&lt;&gt;();
+        WriteThroughCache&lt;String, String&gt; cache = new WriteThroughCache&lt;&gt;(2, db);
+
+        System.out.println("Put user:1");
+        cache.put("user:1", "Alice"); // Writes to both cache and DB
+
+        System.out.println("\nGet user:1");
+        System.out.println("Value: " + cache.get("user:1")); // Cache hit (no DB read)
+
+        System.out.println("\nGet user:2");
+        db.storage.put("user:2", "Bob"); // Add directly to DB
+        System.out.println("Value: " + cache.get("user:2")); // Cache miss, DB hit
+    }
+}</code></pre>
+<hr/>
+<h2 id="debugging-challenges">Debugging Challenges<a class="headerlink" href="#debugging-challenges" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Find and fix bugs in broken caching implementations. This tests your understanding.</p>
+<h3 id="challenge-1-cache-stampede-bug">Challenge 1: Cache Stampede Bug<a class="headerlink" href="#challenge-1-cache-stampede-bug" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * This cache has a CRITICAL BUG during cache misses.
+ * Multiple threads can cause "cache stampede" - all hit DB simultaneously!
+ */
+public class StampedeLRUCache&lt;K, V&gt; {
+
+    private final LRUCache&lt;K, V&gt; cache;
+    private final Database&lt;K, V&gt; database;
+
+    public V get(K key) {
+        V value = cache.get(key);
+
+        if (value == null) {
+            // If 1000 threads miss cache at same time,
+            // all 1000 will query database for same key!
+            value = database.read(key);
+
+            if (value != null) {
+                cache.put(key, value);
+            }
+        }
+
+        return value;
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug location:</strong> <span class="fill-in">[Which lines?]</span></li>
+<li><strong>Bug explanation:</strong> <span class="fill-in">[What happens with concurrent requests?]</span></li>
+</ul>
+<p><strong>Test case to expose the bug:</strong></p>
+<pre class="highlight"><code class="language-java">// Simulate 1000 concurrent requests for same key (cache miss)
+ExecutorService executor = Executors.newFixedThreadPool(1000);
+for (int i = 0; i &lt; 1000; i++) {
+    executor.submit(() -&gt; cache.get("popular-item"));
+}
+// Expected: 1 DB query
+// Actual with bug: &lt;span class="fill-in"&gt;_____&lt;/span&gt; DB queries</code></pre>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> No synchronization during cache miss. Multiple threads can simultaneously detect cache miss and all query the
+database.</p>
+<p><strong>Fix 1 - Simple locking (but blocks all reads):</strong></p>
+<pre class="highlight"><code class="language-java">public synchronized V get(K key) {
+    // ... same logic
+}</code></pre>
+<p><strong>Fix 2 - Better: Per-key locking to avoid thundering herd:</strong></p>
+<pre class="highlight"><code class="language-java">private final ConcurrentHashMap&lt;K, CompletableFuture&lt;V&gt;&gt; inFlightRequests = new ConcurrentHashMap&lt;&gt;();
+
+public V get(K key) {
+    V value = cache.get(key);
+    if (value != null) return value;
+
+    // Only one thread per key will query DB
+    CompletableFuture&lt;V&gt; future = inFlightRequests.computeIfAbsent(key, k -&gt; {
+        return CompletableFuture.supplyAsync(() -&gt; {
+            V dbValue = database.read(k);
+            if (dbValue != null) cache.put(k, dbValue);
+            return dbValue;
+        });
+    });
+
+    try {
+        value = future.get();
+        inFlightRequests.remove(key);
+        return value;
+    } catch (Exception e) {
+        inFlightRequests.remove(key);
+        throw new RuntimeException(e);
+    }
+}</code></pre>
+<p><strong>Key insight:</strong> Cache stampede can overwhelm your database. Always protect cache misses with per-key synchronization.</p>
+</details>
+<hr/>
+<h3 id="challenge-2-stale-data-bug">Challenge 2: Stale Data Bug<a class="headerlink" href="#challenge-2-stale-data-bug" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * This write-back cache has a STALE DATA bug.
+ * Readers can get old data even after a write!
+ */
+public class StaleWriteBackCache&lt;K, V&gt; {
+
+    private final LRUCache&lt;K, V&gt; cache;
+    private final Map&lt;K, V&gt; dirtyEntries;
+    private final Database&lt;K, V&gt; database;
+
+    public V get(K key) {
+        V value = cache.get(key);
+        if (value != null) return value;
+
+        // Check dirty entries
+        value = dirtyEntries.get(key);
+        if (value != null) return value;
+
+        // Read from database
+        return database.read(key);
+    }
+
+    public void put(K key, V value) {
+        cache.put(key, value);
+        dirtyEntries.put(key, value);
+    }
+
+    public void flush() {
+        // Async flush to database
+        for (Map.Entry&lt;K, V&gt; entry : dirtyEntries.entrySet()) {
+            database.write(entry.getKey(), entry.getValue());
+        }
+        dirtyEntries.clear();
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug:</strong> <span class="fill-in">[What's wrong with the get() logic?]</span></li>
+<li><strong>Scenario that breaks:</strong></li>
+</ul>
+<pre class="highlight"><code>
+1. put("key1", "value1") - goes to cache and dirty
+2. cache evicts key1 (capacity full)
+3. get("key1") - what do you get?</code></pre>
+<ul>
+<li><strong>Expected:</strong> "value1" (from dirty entries)</li>
+<li><strong>Actual:</strong> <span class="fill-in">[What happens?]</span></li>
+<li><strong>Fix:</strong> <span class="fill-in">[Correct the order of checks]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> Cache lookup happens before dirty entries check. If cache evicts an item that's in dirtyEntries, we'll miss the
+latest value.</p>
+<p><strong>Correct order:</strong></p>
+<pre class="highlight"><code class="language-java">public V get(K key) {
+    // Check dirty entries FIRST (most recent writes)
+    V value = dirtyEntries.get(key);
+    if (value != null) return value;
+
+    // Then check cache
+    value = cache.get(key);
+    if (value != null) return value;
+
+    // Finally, check database
+    return database.read(key);
+}</code></pre>
+<p><strong>Key insight:</strong> With write-back caching, dirty entries hold the "source of truth" until flushed. Always check them
+first!</p>
+</details>
+<hr/>
+<h3 id="challenge-3-thundering-herd-on-expiration">Challenge 3: Thundering Herd on Expiration<a class="headerlink" href="#challenge-3-thundering-herd-on-expiration" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * This cache has TTL support but causes "thundering herd"
+ * when many items expire at the same time.
+ */
+public class TTLCache&lt;K, V&gt; {
+
+    static class CacheEntry&lt;V&gt; {
+        V value;
+        long expiryTime;
+
+        CacheEntry(V value, long ttlMs) {
+            this.value = value;
+            this.expiryTime = System.currentTimeMillis() + ttlMs;
+        }
+
+        boolean isExpired() {
+            return System.currentTimeMillis() &gt; expiryTime;
+        }
+    }
+
+    private final Map&lt;K, CacheEntry&lt;V&gt;&gt; cache = new ConcurrentHashMap&lt;&gt;();
+    private final Database&lt;K, V&gt; database;
+    private final long ttlMs;
+
+    public TTLCache(Database&lt;K, V&gt; database, long ttlMs) {
+        this.database = database;
+        this.ttlMs = ttlMs;
+    }
+
+    public V get(K key) {
+        CacheEntry&lt;V&gt; entry = cache.get(key);
+
+        // Check expiration
+        if (entry == null || entry.isExpired()) {
+            // All requests hit database simultaneously!
+            V value = database.read(key);
+            if (value != null) {
+                cache.put(key, new CacheEntry&lt;&gt;(value, ttlMs));
+            }
+            return value;
+        }
+
+        return entry.value;
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug:</strong> <span class="fill-in">[What causes thundering herd?]</span></li>
+<li><strong>Scenario:</strong></li>
+</ul>
+<pre class="highlight"><code>
+10:00:00 - Cache is populated with 1000 items, all expire at 10:05:00
+10:05:00 - First request arrives
+What happens?</code></pre>
+<ul>
+<li><strong>Expected:</strong> Smooth database load</li>
+<li><strong>Actual:</strong> <span class="fill-in">[What happens to database?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> All items created at the same time will expire at the same time, causing synchronized cache misses and database
+overload.</p>
+<p><strong>Fix 1 - Add jitter to TTL:</strong></p>
+<pre class="highlight"><code class="language-java">private final Random random = new Random();
+
+public V get(K key) {
+    // ... existing logic ...
+    if (value != null) {
+        // Add ±20% jitter to TTL
+        long jitter = (long) (ttlMs * (0.8 + random.nextDouble() * 0.4));
+        cache.put(key, new CacheEntry&lt;&gt;(value, jitter));
+    }
+    return value;
+}</code></pre>
+<p><strong>Fix 2 - Probabilistic early expiration (XFetch algorithm):</strong></p>
+<pre class="highlight"><code class="language-java">public V get(K key) {
+    CacheEntry&lt;V&gt; entry = cache.get(key);
+
+    if (entry == null) {
+        return refreshFromDB(key);
+    }
+
+    // Probabilistic early expiration
+    // As item gets older, higher chance of refresh
+    long timeLeft = entry.expiryTime - System.currentTimeMillis();
+    double refreshProbability = 1.0 - ((double) timeLeft / ttlMs);
+
+    if (entry.isExpired() || random.nextDouble() &lt; refreshProbability * 0.1) {
+        // Refresh asynchronously
+        CompletableFuture.runAsync(() -&gt; refreshFromDB(key));
+    }
+
+    return entry.value;
+}
+
+private V refreshFromDB(K key) {
+    V value = database.read(key);
+    if (value != null) {
+        long jitter = (long) (ttlMs * (0.8 + random.nextDouble() * 0.4));
+        cache.put(key, new CacheEntry&lt;&gt;(value, jitter));
+    }
+    return value;
+}</code></pre>
+<p><strong>Key insight:</strong> Synchronized expiration creates thundering herd. Add jitter and probabilistic early expiration to
+spread load.</p>
+</details>
+<hr/>
+<h3 id="challenge-4-lfu-frequency-update-bug">Challenge 4: LFU Frequency Update Bug<a class="headerlink" href="#challenge-4-lfu-frequency-update-bug" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * This LFU cache has a subtle frequency update bug.
+ * Can you spot it?
+ */
+public class BuggyLFUCache&lt;K, V&gt; {
+
+    static class Node&lt;K, V&gt; {
+        K key;
+        V value;
+        int freq;
+
+        Node(K key, V value) {
+            this.key = key;
+            this.value = value;
+            this.freq = 1;
+        }
+    }
+
+    private final Map&lt;K, Node&lt;K, V&gt;&gt; cache;
+    private final Map&lt;Integer, LinkedHashSet&lt;K&gt;&gt; freqMap;
+    private int minFreq;
+    private final int capacity;
+
+    public V get(K key) {
+        Node&lt;K, V&gt; node = cache.get(key);
+        if (node == null) return null;
+
+        updateFrequency(node);
+        return node.value;
+    }
+
+    private void updateFrequency(Node&lt;K, V&gt; node) {
+        int freq = node.freq;
+
+        // Remove from current frequency list
+        freqMap.get(freq).remove(node.key);
+
+        // And what if freq == minFreq?
+
+        // Increment frequency
+        node.freq++;
+
+        // Add to new frequency list
+        freqMap.computeIfAbsent(node.freq, k -&gt; new LinkedHashSet&lt;&gt;())
+               .add(node.key);
+    }
+
+    public void put(K key, V value) {
+        // ... implementation
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug 1:</strong> <span class="fill-in">[What happens to minFreq?]</span></li>
+<li><strong>Bug 2:</strong> <span class="fill-in">[What about empty frequency lists?]</span></li>
+</ul>
+<pre class="highlight"><code>Cache capacity = 2
+put("A", 1) - freq=1, minFreq=1
+get("A")    - freq=2
+put("B", 2) - freq=1, minFreq should be?
+// At this point, what is minFreq? What should it be?</code></pre>
+<ul>
+<li><strong>Fix:</strong> <span class="fill-in">[Complete the updateFrequency method]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug 1:</strong> When the last node at minFreq is moved to a higher frequency, we must update minFreq.</p>
+<p><strong>Bug 2:</strong> Empty frequency lists should be removed from freqMap to save memory.</p>
+<p><strong>Correct implementation:</strong></p>
+<pre class="highlight"><code class="language-java">private void updateFrequency(Node&lt;K, V&gt; node) {
+    int freq = node.freq;
+
+    // Remove from current frequency list
+    LinkedHashSet&lt;K&gt; freqList = freqMap.get(freq);
+    freqList.remove(node.key);
+
+    // If this was the last node at minFreq, increment minFreq
+    if (freq == minFreq &amp;&amp; freqList.isEmpty()) {
+        minFreq++;
+    }
+
+    // Remove empty frequency list
+    if (freqList.isEmpty()) {
+        freqMap.remove(freq);
+    }
+
+    // Increment frequency
+    node.freq++;
+
+    // Add to new frequency list
+    freqMap.computeIfAbsent(node.freq, k -&gt; new LinkedHashSet&lt;&gt;())
+           .add(node.key);
+}</code></pre>
+<p><strong>Key insight:</strong> LFU requires careful maintenance of minFreq and frequency lists. Missing updates cause incorrect
+evictions.</p>
+</details>
+<hr/>
+<h3 id="challenge-5-cache-invalidation-race-condition">Challenge 5: Cache Invalidation Race Condition<a class="headerlink" href="#challenge-5-cache-invalidation-race-condition" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * This cache has invalidation logic but contains a race condition.
+ * Data can become inconsistent between cache and database.
+ */
+public class InvalidationCache&lt;K, V&gt; {
+
+    private final LRUCache&lt;K, V&gt; cache;
+    private final Database&lt;K, V&gt; database;
+
+    public V get(K key) {
+        V value = cache.get(key);
+
+        if (value == null) {
+            value = database.read(key);
+            if (value != null) {
+                cache.put(key, value);
+            }
+        }
+
+        return value;
+    }
+
+    public void update(K key, V newValue) {
+
+        // Thread 1: Writes to database
+        database.write(key, newValue);
+
+        // Thread 2: Between these two lines, another thread could:
+        //   1. Read stale value from cache
+        //   2. Not see the invalidation yet
+
+        // Thread 1: Invalidates cache
+        cache.remove(key);
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug:</strong> <span class="fill-in">[What race condition exists?]</span></li>
+<li><strong>Scenario that fails:</strong></li>
+</ul>
+<pre class="highlight"><code>T0: cache contains key="user:1" value="Alice"
+T1: Thread 1 calls update("user:1", "Bob")
+    - Writes "Bob" to database
+T2: Thread 2 calls get("user:1")
+    - Reads "Alice" from cache (stale!)
+T3: Thread 1 invalidates cache
+    - Too late! Thread 2 already returned stale data</code></pre>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> Cache invalidation happens AFTER database write, creating a window where stale data is served.</p>
+<p><strong>Fix 1 - Invalidate before write:</strong></p>
+<pre class="highlight"><code class="language-java">public void update(K key, V newValue) {
+    // Invalidate FIRST
+    cache.remove(key);
+
+    // Then write to database
+    database.write(key, newValue);
+
+    // Small window where cache misses hit DB, but at least no stale data
+}</code></pre>
+<p><strong>Fix 2 - Use versioning:</strong></p>
+<pre class="highlight"><code class="language-java">static class VersionedValue&lt;V&gt; {
+    V value;
+    long version;
+}
+
+public void update(K key, V newValue) {
+    // Increment version
+    long newVersion = getNextVersion(key);
+
+    // Write to DB with version
+    database.write(key, newValue, newVersion);
+
+    // Update cache with version
+    cache.put(key, new VersionedValue&lt;&gt;(newValue, newVersion));
+}
+
+public V get(K key) {
+    VersionedValue&lt;V&gt; cached = cache.get(key);
+    VersionedValue&lt;V&gt; dbValue = database.read(key);
+
+    // Compare versions, use latest
+    if (cached != null &amp;&amp; dbValue != null) {
+        return cached.version &gt;= dbValue.version ? cached.value : dbValue.value;
+    }
+    // ... handle nulls
+}</code></pre>
+<p><strong>Fix 3 - Cache-aside with write-through (best):</strong></p>
+<pre class="highlight"><code class="language-java">public void update(K key, V newValue) {
+    // Write to both atomically (within transaction if possible)
+    cache.put(key, newValue);
+    database.write(key, newValue);
+    // No invalidation needed - cache is always up to date
+}</code></pre>
+<p><strong>Key insight:</strong> Cache invalidation is notoriously hard. Order matters: invalidate before write, or use write-through to
+avoid invalidation entirely.</p>
+</details>
+<hr/>
+<h3 id="your-debugging-scorecard">Your Debugging Scorecard<a class="headerlink" href="#your-debugging-scorecard" title="Permanent link">¶</a></h3>
+<p>After finding and fixing all bugs:</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Found all 5+ critical caching bugs</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understood WHY each bug causes problems</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could explain the fix to someone else</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Learned common caching mistakes to avoid</li>
+</ul>
+<p><strong>Common caching bugs you discovered:</strong></p>
+<ol>
+<li>Cache stampede (no synchronization on miss)</li>
+<li>Stale data (wrong read order in write-back)</li>
+<li>Thundering herd (synchronized expiration)</li>
+<li>Frequency tracking errors (LFU minFreq bug)</li>
+<li>Invalidation race conditions</li>
+</ol>
+<p><strong>Defensive caching patterns to remember:</strong></p>
+<ul>
+<li><span class="fill-in">[Fill in patterns you learned]</span></li>
+<li><span class="fill-in">[Fill in]</span></li>
+<li><span class="fill-in">[Fill in]</span></li>
+</ul>
+<hr/>
+<h2 id="decision-framework">Decision Framework<a class="headerlink" href="#decision-framework" title="Permanent link">¶</a></h2>
+<p><strong>Questions to answer after implementation:</strong></p>
+<h3 id="1-when-to-use-lru-vs-lfu">1. When to use LRU vs LFU?<a class="headerlink" href="#1-when-to-use-lru-vs-lfu" title="Permanent link">¶</a></h3>
+<p><strong>LRU Cache:</strong></p>
+<ul>
+<li>When to use: <span class="fill-in">[Fill in]</span></li>
+<li>Pros: <span class="fill-in">[Fill in]</span></li>
+<li>Cons: <span class="fill-in">[Fill in]</span></li>
+<li>Example scenarios: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>LFU Cache:</strong></p>
+<ul>
+<li>When to use: <span class="fill-in">[Fill in]</span></li>
+<li>Pros: <span class="fill-in">[Fill in]</span></li>
+<li>Cons: <span class="fill-in">[Fill in]</span></li>
+<li>Example scenarios: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="2-when-to-use-write-through-vs-write-back">2. When to use Write-Through vs Write-Back?<a class="headerlink" href="#2-when-to-use-write-through-vs-write-back" title="Permanent link">¶</a></h3>
+<p><strong>Write-Through:</strong></p>
+<ul>
+<li>When to use: <span class="fill-in">[Fill in]</span></li>
+<li>Pros: <span class="fill-in">[Fill in]</span></li>
+<li>Cons: <span class="fill-in">[Fill in]</span></li>
+<li>Example scenarios: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>Write-Back:</strong></p>
+<ul>
+<li>When to use: <span class="fill-in">[Fill in]</span></li>
+<li>Pros: <span class="fill-in">[Fill in]</span></li>
+<li>Cons: <span class="fill-in">[Fill in]</span></li>
+<li>Example scenarios: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="3-your-decision-tree">3. Your Decision Tree<a class="headerlink" href="#3-your-decision-tree" title="Permanent link">¶</a></h3>
+<p>Build this after solving practice scenarios:
+<div class="mermaid">flowchart LR
+    Start["Should I use caching?"]
+
+    Q1{"What's the access pattern?"}
+    Start --&gt; Q1
+    N2["?"]
+    Q1 --&gt;|"Recent items accessed again"| N2
+    N3["?"]
+    Q1 --&gt;|"Popular items accessed frequently"| N3
+    N4["?"]
+    Q1 --&gt;|"Mixed/unknown"| N4
+    Q5{"What's the write pattern?"}
+    Start --&gt; Q5
+    N6["?"]
+    Q5 --&gt;|"Consistency critical"| N6
+    N7["?"]
+    Q5 --&gt;|"Performance critical"| N7
+    N8["?"]
+    Q5 --&gt;|"Mixed"| N8
+    Q9{"Other considerations?"}
+    Start --&gt; Q9
+    N10["?"]
+    Q9 --&gt;|"Memory constraints"| N10
+    N11["?"]
+    Q9 --&gt;|"Data freshness requirements"| N11
+    N12["?"]
+    Q9 --&gt;|"Failure tolerance"| N12</div></p>
+<hr/>
+<h2 id="practice">Practice<a class="headerlink" href="#practice" title="Permanent link">¶</a></h2>
+<h3 id="scenario-1-e-commerce-product-catalog">Scenario 1: E-commerce Product Catalog<a class="headerlink" href="#scenario-1-e-commerce-product-catalog" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>1M products, 100K frequently viewed</li>
+<li>Reads: 10K/sec, Writes: 100/sec</li>
+<li>Users browse recent and popular products</li>
+</ul>
+<p><strong>Your cache design:</strong></p>
+<ul>
+<li>Eviction policy: <span class="fill-in">[LRU or LFU? Why?]</span></li>
+<li>Write policy: <span class="fill-in">[Write-Through or Write-Back? Why?]</span></li>
+<li>Capacity: <span class="fill-in">[How much?]</span></li>
+<li>TTL: <span class="fill-in">[Time-to-live strategy?]</span></li>
+<li>Invalidation: <span class="fill-in">[When to invalidate?]</span></li>
+</ul>
+<h3 id="scenario-2-social-media-feed">Scenario 2: Social Media Feed<a class="headerlink" href="#scenario-2-social-media-feed" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>Each user has 500 followers</li>
+<li>Feed shows recent posts (last 24h)</li>
+<li>High read:write ratio (100:1)</li>
+<li>Eventually consistent is OK</li>
+</ul>
+<p><strong>Your cache design:</strong></p>
+<ul>
+<li>Eviction policy: <span class="fill-in">[Fill in]</span></li>
+<li>Write policy: <span class="fill-in">[Fill in]</span></li>
+<li>Cache key structure: <span class="fill-in">[What to cache?]</span></li>
+<li>Invalidation strategy: <span class="fill-in">[Fill in]</span></li>
+<li>Capacity planning: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="scenario-3-session-store">Scenario 3: Session Store<a class="headerlink" href="#scenario-3-session-store" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>Store user sessions (auth tokens, preferences)</li>
+<li>Sessions expire after 30 minutes of inactivity</li>
+<li>High read frequency</li>
+<li>Consistency required (can't lose session data)</li>
+</ul>
+<p><strong>Your cache design:</strong></p>
+<ul>
+<li>Eviction policy: <span class="fill-in">[Fill in]</span></li>
+<li>Write policy: <span class="fill-in">[Fill in]</span></li>
+<li>TTL strategy: <span class="fill-in">[Fill in]</span></li>
+<li>Persistence: <span class="fill-in">[How to ensure durability?]</span></li>
+</ul>
+<h3 id="leetcode-problem">LeetCode Problem<a class="headerlink" href="#leetcode-problem" title="Permanent link">¶</a></h3>
+<p><strong>Problem:</strong> <a href="https://leetcode.com/problems/lru-cache/">146. LRU Cache</a></p>
+<p>Design and implement a data structure for Least Recently Used (LRU) cache.</p>
+<p><strong>Your approach:</strong></p>
+<ol>
+<li><span class="fill-in">[Data structures needed?]</span></li>
+<li><span class="fill-in">[How to achieve O(1) for both get and put?]</span></li>
+<li><span class="fill-in">[Edge cases to handle?]</span></li>
+</ol>
+<hr/>
+<h2 id="review-checklist">Review Checklist<a class="headerlink" href="#review-checklist" title="Permanent link">¶</a></h2>
+<p>Before moving to the next topic:</p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Implementation</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> LRU Cache works with O(1) operations</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> LFU Cache works with frequency tracking</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Write-Through pattern implemented correctly</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Write-Back pattern with async flush works</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> All client code runs successfully</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Understanding</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Filled in all ELI5 explanations</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand LRU vs LFU trade-offs</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand Write-Through vs Write-Back trade-offs</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Built decision tree</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Decision Making</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Know when to use LRU vs LFU</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Know when to use Write-Through vs Write-Back</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Completed practice scenarios</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can explain trade-offs to someone else</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Mastery Check</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could implement LRU from memory</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could implement LFU from memory</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could design cache for new scenario</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand when NOT to use caching</li>
+</ul>
+</li>
+</ul>
+<hr/>
+<h3 id="mastery-certification">Mastery Certification<a class="headerlink" href="#mastery-certification" title="Permanent link">¶</a></h3>
+<p><strong>I certify that I can:</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Implement LRU cache from memory in under 15 minutes</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Implement LFU cache with correct frequency tracking</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Explain when to use LRU vs LFU with real examples</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Explain when to use Write-Through vs Write-Back</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Calculate cache hit rates and performance impact</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Identify and fix common caching bugs (stampede, stale data, etc.)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Design caching strategy for a new system</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Explain trade-offs to both technical and non-technical audiences</li>
+</ul></div>
+</div>
+<footer class="col-md-12 text-center">
+<hr/>
+<p>
+<small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+</p>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../../js/bootstrap-3.0.3.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>var base_url = "../.."</script>
+<script src="../../js/base.js"></script>
+<script src="../../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<button class="close" data-dismiss="modal" type="button">
+<span aria-hidden="true">×</span>
+<span class="sr-only">Close</span>
+</button>
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+</div>
+<div class="modal-body">
+<p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="text"/>
+</div>
+</form>
+<div id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@10.4.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>

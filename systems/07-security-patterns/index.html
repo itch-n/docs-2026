@@ -1,0 +1,1956 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="A framework for algorithms, systems design, and infrastructure." name="description"/>
+<meta content="Richard" name="author"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>07. Security Patterns - Software Engineering Study Guide</title>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" rel="stylesheet"/>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css" rel="stylesheet"/>
+<link href="//rsms.me/inter/inter.css" rel="stylesheet" type="text/css"/>
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&amp;subset=latin-ext,latin" rel="stylesheet" type="text/css"/>
+<link href="../../css/bootstrap-custom.min.css" rel="stylesheet"/>
+<link href="../../css/base.min.css" rel="stylesheet"/>
+<link href="../../css/cinder.min.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css" rel="stylesheet"/>
+<link href="../../css/custom.css" rel="stylesheet"/>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="container">
+<!-- Collapsed navigation -->
+<div class="navbar-header">
+<!-- Expander button -->
+<button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<!-- Main title -->
+<a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+</div>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li>
+<a href="../..">Home</a>
+</li>
+<li class="dropdown active">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Systems Design <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../01-storage-engines/">01. Storage Engines</a>
+</li>
+<li>
+<a href="../02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+<li>
+<a href="../03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+<li>
+<a href="../04-search-and-indexing/">04. Search &amp; Indexing</a>
+</li>
+<li>
+<a href="../05-caching-patterns/">05. Caching Patterns</a>
+</li>
+<li>
+<a href="../06-api-design/">06. API Design</a>
+</li>
+<li class="active">
+<a href="./">07. Security Patterns</a>
+</li>
+<li>
+<a href="../08-rate-limiting/">08. Rate Limiting</a>
+</li>
+<li>
+<a href="../09-load-balancing/">09. Load Balancing</a>
+</li>
+<li>
+<a href="../10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+<li>
+<a href="../11-database-scaling/">11. Database Scaling</a>
+</li>
+<li>
+<a href="../12-message-queues/">12. Message Queues</a>
+</li>
+<li>
+<a href="../13-stream-processing/">13. Stream Processing</a>
+</li>
+<li>
+<a href="../14-observability/">14. Observability</a>
+</li>
+<li>
+<a href="../15-distributed-transactions/">15. Distributed Transactions</a>
+</li>
+<li>
+<a href="../16-consensus-patterns/">16. Consensus Patterns</a>
+</li>
+</ul>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">DSA <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../dsa/01-two-pointers/">01. Two Pointers</a>
+</li>
+<li>
+<a href="../../dsa/02-sliding-window/">02. Sliding Window</a>
+</li>
+<li>
+<a href="../../dsa/03-hash-tables/">03. Hash Tables</a>
+</li>
+<li>
+<a href="../../dsa/04-linked-lists/">04. Linked Lists</a>
+</li>
+<li>
+<a href="../../dsa/05-stacks--queues/">05. Stacks &amp; Queues</a>
+</li>
+<li>
+<a href="../../dsa/06-trees-traversals/">06. Trees - Traversals</a>
+</li>
+<li>
+<a href="../../dsa/07-trees-recursion/">07. Trees - Recursion</a>
+</li>
+<li>
+<a href="../../dsa/08-binary-search/">08. Binary Search</a>
+</li>
+<li>
+<a href="../../dsa/09-heaps/">09. Heaps</a>
+</li>
+<li>
+<a href="../../dsa/10-graphs/">10. Graphs</a>
+</li>
+<li>
+<a href="../../dsa/11-union-find/">11. Union-Find</a>
+</li>
+<li>
+<a href="../../dsa/12-advanced-graphs/">12. Advanced Graphs</a>
+</li>
+<li>
+<a href="../../dsa/13-backtracking/">13. Backtracking</a>
+</li>
+<li>
+<a href="../../dsa/14-dynamic-programming-1d/">14. Dynamic Programming 1D</a>
+</li>
+<li>
+<a href="../../dsa/15-dynamic-programming-2d/">15. Dynamic Programming 2D</a>
+</li>
+<li>
+<a href="../../dsa/16-tries/">16. Tries</a>
+</li>
+<li>
+<a href="../../dsa/17-advanced-topics/">17. Advanced Topics</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+<a data-target="#mkdocs_search_modal" data-toggle="modal" href="#">
+<i class="fas fa-search"></i> Search
+                        </a>
+</li>
+<li>
+<a href="../06-api-design/" rel="prev">
+<i class="fas fa-arrow-left"></i> Previous
+                        </a>
+</li>
+<li>
+<a href="../08-rate-limiting/" rel="next">
+                            Next <i class="fas fa-arrow-right"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+<ul class="nav bs-sidenav">
+<li class="first-level active"><a href="#security-patterns">Security Patterns</a></li>
+<li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+<li class="second-level"><a href="#quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)</a></li>
+<li class="second-level"><a href="#beforeafter-why-security-patterns-matter">Before/After: Why Security Patterns Matter</a></li>
+<li class="second-level"><a href="#case-studies-security-patterns-in-the-wild">Case Studies: Security Patterns in the Wild</a></li>
+<li class="second-level"><a href="#core-implementation">Core Implementation</a></li>
+<li class="second-level"><a href="#debugging-challenges">Debugging Challenges</a></li>
+<li class="second-level"><a href="#decision-framework">Decision Framework</a></li>
+<li class="second-level"><a href="#practice">Practice</a></li>
+<li class="second-level"><a href="#review-checklist">Review Checklist</a></li>
+</ul>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="security-patterns">Security Patterns<a class="headerlink" href="#security-patterns" title="Permanent link">¶</a></h1>
+<blockquote>
+<p>Authentication, authorization, and securing distributed systems</p>
+</blockquote>
+<hr/>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After implementing security patterns, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What is authentication in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What is authorization in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy for authentication:</strong></p>
+<ul>
+<li>Example: "Authentication is like showing your ID at the door..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy for authorization:</strong></p>
+<ul>
+<li>Example: "Authorization is like having a key to certain rooms..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What is JWT in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When should you use JWT vs sessions?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after practice]</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr/>
+<h2 id="quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)<a class="headerlink" href="#quick-quiz-do-before-implementing" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Test your security intuition without looking at code. Answer these, then verify after implementation.</p>
+<h3 id="security-concept-predictions">Security Concept Predictions<a class="headerlink" href="#security-concept-predictions" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p><strong>Authentication vs Authorization:</strong></p>
+<ul>
+<li>Authentication is: <span class="fill-in">[Your definition]</span></li>
+<li>Authorization is: <span class="fill-in">[Your definition]</span></li>
+<li>Example scenario: <span class="fill-in">[Think of real-world example]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>JWT token structure:</strong></p>
+<ul>
+<li>Three parts: <span class="fill-in">[What are they?]</span></li>
+<li>Why is signature needed?: <span class="fill-in">[Your guess]</span></li>
+<li>Can client modify payload?: <span class="fill-in">[Yes/No - Why?]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>RBAC complexity:</strong></p>
+<ul>
+<li>Checking permission for user with 3 roles: O(?)</li>
+<li>Better than checking each permission individually?: <span class="fill-in">[Yes/No - Why?]</span></li>
+</ul>
+</li>
+</ol>
+<h3 id="scenario-predictions">Scenario Predictions<a class="headerlink" href="#scenario-predictions" title="Permanent link">¶</a></h3>
+<p><strong>Scenario 1:</strong> A user tries to access a protected resource with JWT token</p>
+<ul>
+<li><strong>What gets validated first?</strong> <span class="fill-in">[Signature? Expiration? Claims?]</span></li>
+<li><strong>If signature invalid, what does it mean?</strong> <span class="fill-in">[Token tampered? Expired? Wrong secret?]</span></li>
+<li><strong>What happens if token expired but signature valid?</strong> <span class="fill-in">[Allow? Deny? Refresh?]</span></li>
+</ul>
+<p><strong>Scenario 2:</strong> Implementing RBAC for a blog platform</p>
+<ul>
+<li><strong>Roles needed:</strong> <span class="fill-in">[List them]</span></li>
+<li><strong>VIEWER can:</strong> <span class="fill-in">[What permissions?]</span></li>
+<li><strong>EDITOR can:</strong> <span class="fill-in">[What permissions beyond VIEWER?]</span></li>
+<li><strong>ADMIN can:</strong> <span class="fill-in">[Everything or specific permissions?]</span></li>
+</ul>
+<p><strong>Scenario 3:</strong> API key gets leaked on GitHub</p>
+<ul>
+<li><strong>Immediate action:</strong> <span class="fill-in">[What to do first?]</span></li>
+<li><strong>Why rotation matters:</strong> <span class="fill-in">[Explain]</span></li>
+<li><strong>How to prevent:</strong> <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="security-trade-off-quiz">Security Trade-off Quiz<a class="headerlink" href="#security-trade-off-quiz" title="Permanent link">¶</a></h3>
+<p><strong>Question:</strong> When would Session-based auth be BETTER than JWT?</p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in before implementation]</span></li>
+<li>Verified answer: <span class="fill-in">[Fill in after learning]</span></li>
+</ul>
+<p><strong>Question:</strong> What's the MAIN advantage of JWT over sessions?</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> More secure</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Stateless (no server-side storage)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Easier to implement</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Better performance</li>
+</ul>
+<p>Verify after implementation: <span class="fill-in">[Which one(s)?]</span></p>
+<p><strong>Question:</strong> Why use HMAC for JWT signature instead of just Base64 encoding?</p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in]</span></li>
+<li>Verified: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="beforeafter-why-security-patterns-matter">Before/After: Why Security Patterns Matter<a class="headerlink" href="#beforeafter-why-security-patterns-matter" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Compare insecure vs secure approaches to understand the security impact.</p>
+<h3 id="example-1-authentication-insecure-vs-secure">Example 1: Authentication - Insecure vs Secure<a class="headerlink" href="#example-1-authentication-insecure-vs-secure" title="Permanent link">¶</a></h3>
+<p><strong>Problem:</strong> Implement user authentication for an API.</p>
+<h4 id="approach-1-insecure-usernamepassword-in-every-request">Approach 1: Insecure - Username/Password in Every Request<a class="headerlink" href="#approach-1-insecure-usernamepassword-in-every-request" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// INSECURE: Sending credentials with every request
+public class InsecureAuth {
+
+    public boolean authenticateRequest(String username, String password) {
+        // Problem: Credentials sent with EVERY API call
+        // - Exposed in logs, network traffic
+        // - No expiration mechanism
+        // - Can't revoke access without changing password
+        return checkDatabase(username, password);
+    }
+
+    // Client code
+    public void makeAPICall() {
+        // INSECURE: Username and password in every request
+        String response = httpClient.get("/api/data",
+            "username=john",
+            "password=secret123");  // Exposed!
+    }
+}</code></pre>
+<p><strong>Security Issues:</strong></p>
+<ul>
+<li>Credentials exposed in every request (logs, network, proxy)</li>
+<li>No way to revoke access without password change</li>
+<li>Password transmitted repeatedly (more attack surface)</li>
+<li>Can't implement session timeout</li>
+<li>Difficult to audit (which requests from which session?)</li>
+</ul>
+<h4 id="approach-2-secure-jwt-token-based-auth">Approach 2: Secure - JWT Token-Based Auth<a class="headerlink" href="#approach-2-secure-jwt-token-based-auth" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// SECURE: Token-based authentication
+public class SecureJWTAuth {
+
+    private final String secret = System.getenv("JWT_SECRET");  // From environment
+    private final long expirationMs = 3600000;  // 1 hour
+
+    // Step 1: Login once to get token
+    public String login(String username, String password) {
+        if (!validateCredentials(username, password)) {
+            return null;
+        }
+
+        // Generate short-lived token
+        return generateJWT(username, expirationMs);
+    }
+
+    // Step 2: Use token for subsequent requests
+    public boolean authenticateRequest(String token) {
+        try {
+            String userId = validateJWT(token);
+            // Check expiration
+            if (isExpired(token)) {
+                return false;  // Must re-login
+            }
+            return userId != null;
+        } catch (SecurityException e) {
+            return false;  // Invalid signature
+        }
+    }
+
+    // Client code
+    public void makeAPICall() {
+        // SECURE: Token in Authorization header
+        String token = loginOnce("john", "secret123");
+        String response = httpClient.get("/api/data",
+            headers: {"Authorization": "Bearer " + token});
+        // Password only sent once during login!
+    }
+}</code></pre>
+<p><strong>Security Improvements:</strong></p>
+<ul>
+<li>Credentials only sent once during login</li>
+<li>Token expires automatically (limited exposure window)</li>
+<li>Can revoke tokens without password change</li>
+<li>Signature prevents tampering</li>
+<li>Stateless (scales horizontally)</li>
+<li>Audit-friendly (track token usage)</li>
+</ul>
+<h4 id="performance-security-comparison">Performance &amp; Security Comparison<a class="headerlink" href="#performance-security-comparison" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Insecure (Creds Every Request)</th>
+<th>Secure (JWT)</th>
+<th>Improvement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Credential exposure</td>
+<td>Every request</td>
+<td>Login only</td>
+<td>100x less</td>
+</tr>
+<tr>
+<td>Revocation</td>
+<td>Change password</td>
+<td>Revoke token</td>
+<td>Immediate</td>
+</tr>
+<tr>
+<td>Expiration</td>
+<td>None</td>
+<td>Built-in</td>
+<td>Auto-logout</td>
+</tr>
+<tr>
+<td>Tampering protection</td>
+<td>None</td>
+<td>HMAC signature</td>
+<td>Detectable</td>
+</tr>
+<tr>
+<td>Scalability</td>
+<td>Database hit every request</td>
+<td>No database lookup</td>
+<td>10-100x faster</td>
+</tr>
+<tr>
+<td>Audit trail</td>
+<td>Difficult</td>
+<td>Token ID trackable</td>
+<td>Complete</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Your calculation:</strong> If a user makes 1,000 API calls per day:</p>
+<ul>
+<li>Insecure approach exposes credentials _____ times</li>
+<li>Secure approach exposes credentials _____ time(s)</li>
+<li>Security improvement: <span class="fill-in">_____</span> x safer</li>
+</ul>
+<hr/>
+<h3 id="example-2-authorization-no-checks-vs-rbac">Example 2: Authorization - No Checks vs RBAC<a class="headerlink" href="#example-2-authorization-no-checks-vs-rbac" title="Permanent link">¶</a></h3>
+<p><strong>Problem:</strong> Control who can delete blog posts.</p>
+<h4 id="approach-1-no-authorization-checks">Approach 1: No Authorization Checks<a class="headerlink" href="#approach-1-no-authorization-checks" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// INSECURE: No authorization, anyone can delete
+public class NoAuthzBlog {
+
+    public boolean deletePost(String postId, String userId) {
+        // Any authenticated user can delete any post
+        database.delete("posts", postId);
+        return true;
+    }
+
+    // Security hole: Attacker can delete all posts
+    public void attackExample() {
+        // Even a VIEWER role can do this!
+        deletePost("important-post", "attacker-user-id");
+    }
+}</code></pre>
+<p><strong>Security Issues:</strong></p>
+<ul>
+<li>Any authenticated user can perform any action</li>
+<li>No distinction between roles (viewer, editor, admin)</li>
+<li>Privilege escalation: viewer acts as admin</li>
+<li>No audit trail of who did what</li>
+<li>Cannot implement least privilege principle</li>
+</ul>
+<h4 id="approach-2-rbac-authorization">Approach 2: RBAC Authorization<a class="headerlink" href="#approach-2-rbac-authorization" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// SECURE: Role-Based Access Control
+public class RBACBlog {
+
+    private final RBACAuthorizer rbac;
+
+    public boolean deletePost(String postId, String userId) {
+        // Step 1: Check authorization BEFORE action
+        if (!rbac.hasPermission(userId, Permission.DELETE)) {
+            auditLog.warn("Unauthorized delete attempt", userId, postId);
+            throw new SecurityException("Insufficient permissions");
+        }
+
+        // Step 2: Additional check - can only delete own posts (unless admin)
+        Post post = database.getPost(postId);
+        if (!post.authorId.equals(userId) &amp;&amp;
+            !rbac.hasRole(userId, Role.ADMIN)) {
+            throw new SecurityException("Can only delete own posts");
+        }
+
+        // Step 3: Perform action with audit logging
+        database.delete("posts", postId);
+        auditLog.info("Post deleted", userId, postId);
+        return true;
+    }
+
+    // Secure example: Permission properly checked
+    public void secureExample() {
+        try {
+            deletePost("important-post", "viewer-user-id");
+        } catch (SecurityException e) {
+            // Blocked! Viewer doesn't have DELETE permission
+            System.out.println("Access denied: " + e.getMessage());
+        }
+    }
+}</code></pre>
+<p><strong>Security Improvements:</strong></p>
+<ul>
+<li>Explicit permission check before every sensitive action</li>
+<li>Role-based hierarchy (viewer &lt; editor &lt; admin)</li>
+<li>Audit logging for security events</li>
+<li>Fail-secure (deny by default)</li>
+<li>Least privilege principle enforced</li>
+</ul>
+<h4 id="security-comparison">Security Comparison<a class="headerlink" href="#security-comparison" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>Attack Vector</th>
+<th>No Authorization</th>
+<th>With RBAC</th>
+<th>Prevented?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Viewer deletes posts</td>
+<td>Succeeds</td>
+<td>Blocked</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Editor deletes other's posts</td>
+<td>Succeeds</td>
+<td>Blocked</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>User promotes self to admin</td>
+<td>Succeeds</td>
+<td>Blocked</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Audit trail of actions</td>
+<td>None</td>
+<td>Complete</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Privilege escalation</td>
+<td>Easy</td>
+<td>Impossible</td>
+<td>✓</td>
+</tr>
+</tbody>
+</table>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>Why is "deny by default" important? <span class="fill-in">[Your answer]</span></li>
+<li>What happens if you forget one authorization check? <span class="fill-in">[Your answer]</span></li>
+<li>How does RBAC prevent privilege escalation? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr/>
+<h3 id="example-3-secrets-management-hardcoded-vs-encrypted">Example 3: Secrets Management - Hardcoded vs Encrypted<a class="headerlink" href="#example-3-secrets-management-hardcoded-vs-encrypted" title="Permanent link">¶</a></h3>
+<p><strong>Problem:</strong> Store database password for application use.</p>
+<h4 id="approach-1-hardcoded-credentials">Approach 1: Hardcoded Credentials<a class="headerlink" href="#approach-1-hardcoded-credentials" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// INSECURE: Hardcoded credentials in source code
+public class HardcodedSecrets {
+
+    private static final String DB_PASSWORD = "super-secret-pwd-123";
+
+    public Connection connectToDatabase() {
+        // Problems:
+        // 1. Password in version control (git history)
+        // 2. Visible to anyone with code access
+        // 3. Can't rotate without redeploying
+        // 4. Same password in dev, staging, prod
+        return DriverManager.getConnection(
+            "jdbc:postgresql://db.example.com/mydb",
+            "dbuser",
+            DB_PASSWORD  // EXPOSED!
+        );
+    }
+}</code></pre>
+<p><strong>Security Issues:</strong></p>
+<ul>
+<li>Secret in git history (can't remove)</li>
+<li>Visible in source code reviews</li>
+<li>Leaked in compiled binaries/JAR files</li>
+<li>Can't rotate without code changes + redeployment</li>
+<li>Same secret across all environments</li>
+<li>Exposed in logs, stack traces, debugging</li>
+</ul>
+<h4 id="approach-2-encrypted-secrets-management">Approach 2: Encrypted Secrets Management<a class="headerlink" href="#approach-2-encrypted-secrets-management" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// SECURE: Encrypted secrets with rotation
+public class SecureSecretsManagement {
+
+    private final SecretsManager secretsManager;
+
+    public Connection connectToDatabase() {
+        // Step 1: Retrieve secret from encrypted store
+        // - Master key stored in environment/HSM
+        // - Secrets encrypted at rest
+        // - Access controlled per service
+        String dbPassword = secretsManager.getSecret(
+            "db_password",
+            getCurrentServiceId()
+        );
+
+        // Step 2: Use secret (never log it!)
+        return DriverManager.getConnection(
+            "jdbc:postgresql://db.example.com/mydb",
+            "dbuser",
+            dbPassword  // Retrieved securely
+        );
+        // Step 3: dbPassword cleared from memory after use
+    }
+
+    // Rotation without downtime
+    public void rotatePassword() {
+        // 1. Generate new password
+        String newPassword = generateSecurePassword();
+
+        // 2. Update database with new password
+        database.updateUserPassword("dbuser", newPassword);
+
+        // 3. Store new version in secrets manager
+        secretsManager.rotateSecret("db_password", newPassword);
+
+        // 4. Old version still valid for grace period
+        // 5. After grace period, old version deleted
+    }
+}</code></pre>
+<p><strong>Security Improvements:</strong></p>
+<ul>
+<li>Secrets never in source code or version control</li>
+<li>Encrypted at rest with master key</li>
+<li>Access control (only authorized services can read)</li>
+<li>Audit logging (who accessed what secret when)</li>
+<li>Rotation without code changes or redeployment</li>
+<li>Different secrets per environment (dev/staging/prod)</li>
+<li>Automatic expiration and rotation</li>
+</ul>
+<h4 id="security-impact-analysis">Security Impact Analysis<a class="headerlink" href="#security-impact-analysis" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Hardcoded</th>
+<th>Secrets Manager</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Git leak</td>
+<td>Exposed forever</td>
+<td>Not in git</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Code review leak</td>
+<td>Visible</td>
+<td>Not visible</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Rotation cost</td>
+<td>Redeploy</td>
+<td>API call</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Audit capability</td>
+<td>None</td>
+<td>Full logging</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Blast radius</td>
+<td>All environments</td>
+<td>Isolated</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Post-breach response</td>
+<td>Manual everywhere</td>
+<td>Rotate instantly</td>
+<td>✓</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Real-world impact:</strong> In 2019, 50,000+ hardcoded secrets leaked on GitHub led to major breaches.</p>
+<p><strong>Your reflection after implementation:</strong></p>
+<ul>
+<li>How would you rotate a leaked hardcoded password? <span class="fill-in">[Your answer]</span></li>
+<li>What's the blast radius if secrets manager is breached vs. hardcoded? <span class="fill-in">[Your answer]</span></li>
+<li>Why is "secrets in environment variables" better than hardcoded but still not ideal? <span class="fill-in">[Your answer]</span></li>
+</ul>
+<hr/>
+<h2 id="case-studies-security-patterns-in-the-wild">Case Studies: Security Patterns in the Wild<a class="headerlink" href="#case-studies-security-patterns-in-the-wild" title="Permanent link">¶</a></h2>
+<h3 id="google-facebook-login-oauth-20-and-openid-connect">Google &amp; Facebook Login: OAuth 2.0 and OpenID Connect<a class="headerlink" href="#google-facebook-login-oauth-20-and-openid-connect" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> OAuth 2.0 for delegated authorization and OIDC for authentication.</li>
+<li><strong>How it works:</strong> When you click "Login with Google" on a third-party site (like Stack Overflow), the site (the
+  Client) redirects you to Google (the Authorization Server). You grant permission for Stack Overflow to access your
+  basic profile. Google then redirects you back with an authorization code. Stack Overflow's server exchanges this code
+  for an Access Token (a JWT). It can then use this token to fetch your profile information from Google's API. OIDC
+  provides the identity layer on top of OAuth 2.0, standardizing how profile information is shared.</li>
+<li><strong>Key Takeaway:</strong> OAuth 2.0 is the standard for delegated authorization, allowing users to grant limited access to
+  their data without sharing their passwords. It separates the roles of the user, the client application, and the
+  authorization server.</li>
+</ul>
+<h3 id="aws-google-cloud-apis-api-keys-and-iam">AWS &amp; Google Cloud APIs: API Keys and IAM<a class="headerlink" href="#aws-google-cloud-apis-api-keys-and-iam" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> API Keys for programmatic access and IAM for fine-grained authorization.</li>
+<li><strong>How it works:</strong> When a developer wants to use an AWS S3 or Google Maps API from their server, they generate an API
+  Key. This key is a long, unique string that is passed in an HTTP header with each request. The API gateway validates
+  the key to authenticate the calling service. The key is linked to an <strong>IAM (Identity and Access Management)</strong> role,
+  which defines exactly what actions that key is authorized to perform (e.g., <code>s3:GetObject</code> but not <code>s3:DeleteObject</code>).</li>
+<li><strong>Key Takeaway:</strong> API keys are a simple and effective way to authenticate server-to-server communication. However,
+  authentication alone is not enough; it must be paired with a robust authorization system like IAM to enforce the
+  principle of least privilege.</li>
+</ul>
+<h3 id="netflix-microservices-jwt-propagation-for-internal-authorization">Netflix Microservices: JWT Propagation for Internal Authorization<a class="headerlink" href="#netflix-microservices-jwt-propagation-for-internal-authorization" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> Passing JWTs between internal services for user context.</li>
+<li><strong>How it works:</strong> When a user streams a movie, their initial request to the Netflix API Gateway includes a JWT that
+  identifies them. As that request fans out to internal microservices (e.g., the Bookmarks service, the Recommendations
+  service, the Playback service), that JWT is passed along with each internal call. Each microservice can independently
+  validate the JWT's signature (using a shared public key) and check its claims (like <code>userId</code> and <code>scopes</code>) to
+  authorize the action without needing to call an external authentication service.</li>
+<li><strong>Key Takeaway:</strong> JWTs are stateless and portable, making them ideal for microservice architectures. Propagating the
+  user's identity allows for decentralized authorization decisions and helps maintain user context for logging and
+  auditing throughout a distributed system.</li>
+</ul>
+<hr/>
+<h2 id="core-implementation">Core Implementation<a class="headerlink" href="#core-implementation" title="Permanent link">¶</a></h2>
+<h3 id="pattern-1-jwt-based-authentication">Pattern 1: JWT-Based Authentication<a class="headerlink" href="#pattern-1-jwt-based-authentication" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Stateless authentication using JSON Web Tokens.</p>
+<p><strong>Use case:</strong> Microservices, API authentication, mobile apps.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+
+/**
+ * JWT Authentication: Stateless token-based auth
+ *
+ * Token structure: header.payload.signature
+ * - Header: algorithm and token type
+ * - Payload: claims (user data, expiration)
+ * - Signature: HMAC of header+payload with secret
+ */
+public class JWTAuthenticator {
+
+    private final String secret;
+    private final long expirationMs;
+
+    public JWTAuthenticator(String secret, long expirationMs) {
+        this.secret = secret;
+        this.expirationMs = expirationMs;
+    }
+
+    /**
+     * Generate JWT token for user
+     * Time: O(1), Space: O(1)
+     *
+     * TODO: Implement JWT generation
+     * 1. Create header: {"alg": "HS256", "typ": "JWT"}
+     * 2. Create payload: {"sub": userId, "exp": expiration, "iat": issuedAt}
+     * 3. Base64 encode header and payload
+     * 4. Sign with HMAC-SHA256
+     * 5. Return header.payload.signature
+     */
+    public String generateToken(String userId) {
+        // TODO: Create header
+
+        // TODO: Create payload with expiration
+
+        // TODO: Create signature
+
+        // TODO: Return JWT
+
+        return null; // Replace
+    }
+
+    /**
+     * Validate and extract user from JWT
+     * Time: O(1), Space: O(1)
+     *
+     * TODO: Implement JWT validation
+     * 1. Split token into parts
+     * 2. Verify signature
+     * 3. Check expiration
+     * 4. Extract and return user ID
+     */
+    public String validateToken(String token) {
+        // TODO: Split token
+
+        // TODO: Verify signature
+
+        // TODO: Decode and check expiration
+
+        // TODO: Return userId from payload
+        return null; // Replace
+    }
+
+    /**
+     * Helper: Base64 URL-safe encoding
+     *
+     * TODO: Implement base64 URL encoding
+     */
+    private String base64UrlEncode(String input) {
+        // TODO: Encode and make URL-safe
+        return null; // Replace
+    }
+
+    /**
+     * Helper: HMAC-SHA256 signature
+     *
+     * TODO: Implement HMAC signing
+     */
+    private String hmacSha256(String data, String key) {
+        // TODO: Use Mac with HmacSHA256
+        return null; // Replace
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">public class JWTClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== JWT Authentication ===\n");
+
+        String secret = "your-256-bit-secret";
+        long expirationMs = 3600000; // 1 hour
+
+        JWTAuthenticator auth = new JWTAuthenticator(secret, expirationMs);
+
+        // Test 1: Generate token
+        System.out.println("--- Test 1: Generate Token ---");
+        String token = auth.generateToken("user123");
+        System.out.println("Generated token: " + token);
+
+        // Test 2: Validate token
+        System.out.println("\n--- Test 2: Validate Token ---");
+        String userId = auth.validateToken(token);
+        System.out.println("Extracted user: " + userId);
+
+        // Test 3: Invalid token
+        System.out.println("\n--- Test 3: Invalid Token ---");
+        String invalidToken = "invalid.token.here";
+        String result = auth.validateToken(invalidToken);
+        System.out.println("Validation result: " + result);
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-2-role-based-access-control-rbac">Pattern 2: Role-Based Access Control (RBAC)<a class="headerlink" href="#pattern-2-role-based-access-control-rbac" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Authorization based on user roles and permissions.</p>
+<p><strong>Use case:</strong> Multi-tenant systems, enterprise applications, admin panels.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+/**
+ * RBAC: Role-Based Access Control
+ *
+ * Concepts:
+ * - Users have roles (admin, editor, viewer)
+ * - Roles have permissions (read, write, delete)
+ * - Check permission before allowing action
+ */
+public class RBACAuthorizer {
+
+    // Role definitions
+    enum Role {
+        ADMIN, EDITOR, VIEWER
+    }
+
+    enum Permission {
+        READ, WRITE, DELETE, MANAGE_USERS
+    }
+
+    // Role -&gt; Permissions mapping
+    private final Map&lt;Role, Set&lt;Permission&gt;&gt; rolePermissions;
+    // User -&gt; Roles mapping
+    private final Map&lt;String, Set&lt;Role&gt;&gt; userRoles;
+
+    public RBACAuthorizer() {
+        this.rolePermissions = new HashMap&lt;&gt;();
+        this.userRoles = new HashMap&lt;&gt;();
+        initializeRolePermissions();
+    }
+
+    /**
+     * Initialize default role permissions
+     *
+     * TODO: Set up role hierarchies
+     * - ADMIN: all permissions
+     * - EDITOR: read, write
+     * - VIEWER: read only
+     */
+    private void initializeRolePermissions() {
+        // TODO: Define ADMIN permissions
+
+        // TODO: Define EDITOR permissions
+
+        // TODO: Define VIEWER permissions
+    }
+
+    /**
+     * Assign role to user
+     * Time: O(1), Space: O(1)
+     *
+     * TODO: Implement role assignment
+     */
+    public void assignRole(String userId, Role role) {
+        // TODO: Add role to user's role set
+    }
+
+    /**
+     * Check if user has permission
+     * Time: O(R) where R = number of roles, Space: O(1)
+     *
+     * TODO: Implement permission check
+     * 1. Get user's roles
+     * 2. For each role, check if it has the permission
+     * 3. Return true if any role grants permission
+     */
+    public boolean hasPermission(String userId, Permission permission) {
+        // TODO: Get user roles
+
+        // TODO: Check each role's permissions
+
+        return false; // Replace
+    }
+
+    /**
+     * Get all permissions for user
+     * Time: O(R*P), Space: O(P)
+     *
+     * TODO: Implement permission aggregation
+     */
+    public Set&lt;Permission&gt; getUserPermissions(String userId) {
+        Set&lt;Permission&gt; allPermissions = new HashSet&lt;&gt;();
+
+        // TODO: Aggregate permissions from all roles
+
+        return allPermissions; // Replace
+    }
+
+    /**
+     * Remove role from user
+     * Time: O(1), Space: O(1)
+     *
+     * TODO: Implement role revocation
+     */
+    public void revokeRole(String userId, Role role) {
+        // TODO: Remove role from user
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import static RBACAuthorizer.*;
+
+public class RBACClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== RBAC Authorization ===\n");
+
+        RBACAuthorizer rbac = new RBACAuthorizer();
+
+        // Test 1: Assign roles
+        System.out.println("--- Test 1: Role Assignment ---");
+        rbac.assignRole("alice", Role.ADMIN);
+        rbac.assignRole("bob", Role.EDITOR);
+        rbac.assignRole("charlie", Role.VIEWER);
+        System.out.println("Roles assigned");
+
+        // Test 2: Check permissions
+        System.out.println("\n--- Test 2: Permission Checks ---");
+        System.out.println("Alice (ADMIN) can DELETE: " +
+            rbac.hasPermission("alice", Permission.DELETE));
+        System.out.println("Bob (EDITOR) can WRITE: " +
+            rbac.hasPermission("bob", Permission.WRITE));
+        System.out.println("Charlie (VIEWER) can DELETE: " +
+            rbac.hasPermission("charlie", Permission.DELETE));
+
+        // Test 3: Get all permissions
+        System.out.println("\n--- Test 3: All Permissions ---");
+        System.out.println("Alice permissions: " + rbac.getUserPermissions("alice"));
+        System.out.println("Bob permissions: " + rbac.getUserPermissions("bob"));
+        System.out.println("Charlie permissions: " + rbac.getUserPermissions("charlie"));
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-3-api-key-authentication">Pattern 3: API Key Authentication<a class="headerlink" href="#pattern-3-api-key-authentication" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Long-lived tokens for service-to-service authentication.</p>
+<p><strong>Use case:</strong> REST APIs, webhooks, third-party integrations.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+import java.security.SecureRandom;
+
+/**
+ * API Key Authentication
+ *
+ * Key properties:
+ * - Long-lived credentials
+ * - Scoped to specific resources
+ * - Can be rate-limited per key
+ * - Easy to rotate and revoke
+ */
+public class APIKeyAuth {
+
+    static class APIKey {
+        String key;
+        String userId;
+        Set&lt;String&gt; scopes;
+        long createdAt;
+        long lastUsedAt;
+        int usageCount;
+
+        APIKey(String key, String userId, Set&lt;String&gt; scopes) {
+            this.key = key;
+            this.userId = userId;
+            this.scopes = scopes;
+            this.createdAt = System.currentTimeMillis();
+            this.lastUsedAt = createdAt;
+            this.usageCount = 0;
+        }
+    }
+
+    private final Map&lt;String, APIKey&gt; keys;
+    private final SecureRandom random;
+
+    public APIKeyAuth() {
+        this.keys = new HashMap&lt;&gt;();
+        this.random = new SecureRandom();
+    }
+
+    /**
+     * Generate new API key
+     * Time: O(1), Space: O(1)
+     *
+     * TODO: Implement key generation
+     * 1. Generate random key (32-byte hex)
+     * 2. Store with user ID and scopes
+     * 3. Return key
+     */
+    public String generateKey(String userId, Set&lt;String&gt; scopes) {
+        // TODO: Generate secure random key
+
+        // TODO: Store key
+
+        return null; // Replace
+    }
+
+    /**
+     * Validate API key and check scope
+     * Time: O(1), Space: O(1)
+     *
+     * TODO: Implement key validation
+     * 1. Lookup key
+     * 2. Check if scope is allowed
+     * 3. Update usage metrics
+     * 4. Return user ID or null
+     */
+    public String validateKey(String key, String requiredScope) {
+        // TODO: Lookup key
+
+        // TODO: Check scope
+
+        // TODO: Update usage
+
+        return null; // Replace
+    }
+
+    /**
+     * Revoke API key
+     * Time: O(1), Space: O(1)
+     *
+     * TODO: Implement key revocation
+     */
+    public boolean revokeKey(String key) {
+        // TODO: Remove key from storage
+        return false; // Replace
+    }
+
+    /**
+     * Get usage statistics for key
+     * Time: O(1), Space: O(1)
+     *
+     * TODO: Implement usage tracking
+     */
+    public Map&lt;String, Object&gt; getKeyStats(String key) {
+        Map&lt;String, Object&gt; stats = new HashMap&lt;&gt;();
+
+        // TODO: Return key statistics
+
+        return stats; // Replace
+    }
+
+    private String bytesToHex(byte[] bytes) {
+        StringBuilder sb = new StringBuilder();
+        for (byte b : bytes) {
+            sb.append(String.format("%02x", b));
+        }
+        return sb.toString();
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class APIKeyClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== API Key Authentication ===\n");
+
+        APIKeyAuth apiKeyAuth = new APIKeyAuth();
+
+        // Test 1: Generate keys
+        System.out.println("--- Test 1: Generate API Keys ---");
+        Set&lt;String&gt; scopes1 = new HashSet&lt;&gt;(Arrays.asList("read", "write"));
+        String key1 = apiKeyAuth.generateKey("service1", scopes1);
+        System.out.println("Generated key for service1: " + key1);
+
+        Set&lt;String&gt; scopes2 = new HashSet&lt;&gt;(Arrays.asList("read"));
+        String key2 = apiKeyAuth.generateKey("service2", scopes2);
+        System.out.println("Generated key for service2: " + key2);
+
+        // Test 2: Validate keys
+        System.out.println("\n--- Test 2: Validate Keys ---");
+        String userId1 = apiKeyAuth.validateKey(key1, "write");
+        System.out.println("Key1 with 'write' scope: " + userId1);
+
+        String userId2 = apiKeyAuth.validateKey(key2, "write");
+        System.out.println("Key2 with 'write' scope: " + userId2);
+
+        // Test 3: Revoke key
+        System.out.println("\n--- Test 3: Revoke Key ---");
+        boolean revoked = apiKeyAuth.revokeKey(key1);
+        System.out.println("Key1 revoked: " + revoked);
+        String userId3 = apiKeyAuth.validateKey(key1, "read");
+        System.out.println("Key1 after revocation: " + userId3);
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-4-secrets-management">Pattern 4: Secrets Management<a class="headerlink" href="#pattern-4-secrets-management" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Secure storage and rotation of sensitive credentials.</p>
+<p><strong>Use case:</strong> Database passwords, API keys, encryption keys.</p>
+<pre class="highlight"><code class="language-java">import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+import java.util.*;
+
+/**
+ * Secrets Manager
+ *
+ * Features:
+ * - Encrypted storage
+ * - Versioning for rotation
+ * - Access control per secret
+ * - Audit logging
+ */
+public class SecretsManager {
+
+    static class Secret {
+        String name;
+        byte[] encryptedValue;
+        int version;
+        long createdAt;
+        Set&lt;String&gt; authorizedUsers;
+
+        Secret(String name, byte[] encryptedValue, int version, Set&lt;String&gt; authorizedUsers) {
+            this.name = name;
+            this.encryptedValue = encryptedValue;
+            this.version = version;
+            this.createdAt = System.currentTimeMillis();
+            this.authorizedUsers = authorizedUsers;
+        }
+    }
+
+    private final Map&lt;String, List&lt;Secret&gt;&gt; secrets; // name -&gt; versions
+    private final SecretKey masterKey;
+
+    /**
+     * Initialize secrets manager with master encryption key
+     *
+     * TODO: Set up encryption
+     */
+    public SecretsManager(SecretKey masterKey) {
+        this.secrets = new HashMap&lt;&gt;();
+        this.masterKey = masterKey;
+    }
+
+    /**
+     * Store secret with encryption
+     * Time: O(1), Space: O(1)
+     *
+     * TODO: Implement secret storage
+     * 1. Encrypt value with master key
+     * 2. Store with version number
+     * 3. Set authorized users
+     */
+    public void storeSecret(String name, String value, Set&lt;String&gt; authorizedUsers) {
+        // TODO: Encrypt secret value
+
+        // TODO: Create new version
+    }
+
+    /**
+     * Retrieve secret with authorization check
+     * Time: O(V) where V = versions, Space: O(1)
+     *
+     * TODO: Implement secret retrieval
+     * 1. Check authorization
+     * 2. Get latest version
+     * 3. Decrypt and return
+     */
+    public String getSecret(String name, String userId) {
+        // TODO: Get latest version
+
+        // TODO: Check authorization
+
+        // TODO: Decrypt and return
+
+        return null; // Replace
+    }
+
+    /**
+     * Rotate secret (create new version)
+     * Time: O(1), Space: O(1)
+     *
+     * TODO: Implement secret rotation
+     */
+    public void rotateSecret(String name, String newValue, String userId) {
+        // TODO: Verify authorization to rotate
+        // TODO: Create new version with new value
+        // TODO: Keep old versions for grace period
+    }
+
+    /**
+     * Helper: Encrypt data
+     *
+     * TODO: Implement AES encryption
+     */
+    private byte[] encrypt(byte[] data, SecretKey key) {
+        // TODO: Use AES/GCM for authenticated encryption
+        return null; // Replace
+    }
+
+    /**
+     * Helper: Decrypt data
+     *
+     * TODO: Implement AES decryption
+     */
+    private byte[] decrypt(byte[] encryptedData, SecretKey key) {
+        // TODO: Use AES/GCM for decryption
+        return null; // Replace
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+import java.util.*;
+
+public class SecretsManagerClient {
+
+    public static void main(String[] args) throws Exception {
+        System.out.println("=== Secrets Management ===\n");
+
+        // Generate master key
+        KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+        keyGen.init(256);
+        SecretKey masterKey = keyGen.generateKey();
+
+        SecretsManager sm = new SecretsManager(masterKey);
+
+        // Test 1: Store secrets
+        System.out.println("--- Test 1: Store Secrets ---");
+        Set&lt;String&gt; users1 = new HashSet&lt;&gt;(Arrays.asList("admin", "service1"));
+        sm.storeSecret("db_password", "super-secret-pwd", users1);
+        System.out.println("Stored db_password");
+
+        Set&lt;String&gt; users2 = new HashSet&lt;&gt;(Arrays.asList("service2"));
+        sm.storeSecret("api_key", "sk_live_123456", users2);
+        System.out.println("Stored api_key");
+
+        // Test 2: Retrieve secrets
+        System.out.println("\n--- Test 2: Retrieve Secrets ---");
+        String pwd = sm.getSecret("db_password", "admin");
+        System.out.println("Retrieved db_password: " + pwd);
+
+        // Test 3: Unauthorized access
+        System.out.println("\n--- Test 3: Unauthorized Access ---");
+        try {
+            String key = sm.getSecret("api_key", "admin");
+            System.out.println("Retrieved api_key: " + key);
+        } catch (SecurityException e) {
+            System.out.println("Access denied: " + e.getMessage());
+        }
+    }
+}</code></pre>
+<hr/>
+<h2 id="debugging-challenges">Debugging Challenges<a class="headerlink" href="#debugging-challenges" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Find and fix security bugs in broken implementations. This tests your understanding.</p>
+<h3 id="challenge-1-broken-jwt-validation">Challenge 1: Broken JWT Validation<a class="headerlink" href="#challenge-1-broken-jwt-validation" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * This JWT validator has 3 CRITICAL SECURITY BUGS. Find them!
+ */
+public class BrokenJWTValidator {
+
+    private final String secret = "my-secret-key";
+
+    public String validateToken_Buggy(String token) {
+        String[] parts = token.split("\\.");
+
+        // Extract payload
+        String payload = parts[1];
+        String decodedPayload = base64Decode(payload);
+
+        // Parse JSON to get user ID
+        String userId = extractUserId(decodedPayload);
+
+        return userId;
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>
+<p>Bug 1: <span class="fill-in">[What\'s the bug?]</span></p>
+</li>
+<li>
+<p>Bug 2: <span class="fill-in">[What\'s the bug?]</span></p>
+</li>
+<li>
+<p>Bug 3: <span class="fill-in">[What\'s the bug?]</span></p>
+</li>
+</ul>
+<p><strong>Security impact:</strong> What can an attacker do with these bugs?</p>
+<ul>
+<li>Bug 1 impact: <span class="fill-in">[Fill in]</span></li>
+<li>Bug 2 impact: <span class="fill-in">[Fill in - this is the worst one!]</span></li>
+<li>Bug 3 impact: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug 1 (Line 9):</strong> No null/length check on token or parts. Attacker can send malformed token causing
+ArrayIndexOutOfBoundsException or NullPointerException.</p>
+<p><strong>Fix:</strong></p>
+<pre class="highlight"><code class="language-java">if (token == null || token.isEmpty()) return null;
+String[] parts = token.split("\\.");
+if (parts.length != 3) return null;  // JWT must have 3 parts</code></pre>
+<p><strong>Bug 2 (Lines 12-16):</strong> NEVER VALIDATES SIGNATURE! This is critical - attacker can forge any token!</p>
+<p><strong>Fix:</strong></p>
+<pre class="highlight"><code class="language-java">// Before extracting payload, verify signature
+String toVerify = parts[0] + "." + parts[1];
+String expectedSig = hmacSha256(toVerify, secret);
+if (!expectedSig.equals(parts[2])) {
+    throw new SecurityException("Invalid signature");
+}</code></pre>
+<p><strong>Bug 3 (Line 18):</strong> No expiration check. Token valid forever even after user logout or password change.</p>
+<p><strong>Fix:</strong></p>
+<pre class="highlight"><code class="language-java">long exp = extractExpiration(decodedPayload);
+if (System.currentTimeMillis() / 1000 &gt; exp) {
+    throw new SecurityException("Token expired");
+}</code></pre>
+<p><strong>Security impact:</strong></p>
+<ul>
+<li>Bug 1: Denial of service, crashes</li>
+<li>Bug 2: <strong>Complete authentication bypass</strong> - attacker can impersonate any user!</li>
+<li>Bug 3: Stolen tokens work forever, can't revoke access</li>
+</ul>
+</details>
+<hr/>
+<h3 id="challenge-2-rbac-permission-bypass">Challenge 2: RBAC Permission Bypass<a class="headerlink" href="#challenge-2-rbac-permission-bypass" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * This RBAC implementation has 2 AUTHORIZATION BUGS.
+ */
+public class BrokenRBAC {
+
+    private Map&lt;String, Set&lt;Role&gt;&gt; userRoles = new HashMap&lt;&gt;();
+    private Map&lt;Role, Set&lt;Permission&gt;&gt; rolePermissions = new HashMap&lt;&gt;();
+
+    public boolean hasPermission_Buggy(String userId, Permission permission) {
+        Set&lt;Role&gt; roles = userRoles.get(userId);
+
+        for (Role role : roles) {
+            Set&lt;Permission&gt; perms = rolePermissions.get(role);
+            if (perms.contains(permission)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void deleteResource_Buggy(String resourceId, String userId) {
+        database.delete(resourceId);
+        System.out.println("Deleted: " + resourceId);
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug 1:</strong> <span class="fill-in">[What exception occurs?]</span></li>
+<li><strong>Bug 1 exploit:</strong> <span class="fill-in">[Can attacker use this?]</span></li>
+<li>
+<p><strong>Bug 1 fix:</strong> <span class="fill-in">[Add what check?]</span></p>
+</li>
+<li>
+<p><strong>Bug 2:</strong> <span class="fill-in">[What's the security flaw?]</span></p>
+</li>
+<li><strong>Bug 2 exploit:</strong> <span class="fill-in">[How can attacker abuse this?]</span></li>
+<li><strong>Bug 2 fix:</strong> <span class="fill-in">[What MUST happen before delete?]</span></li>
+</ul>
+<p><strong>Trace through attack scenario:</strong></p>
+<ul>
+<li>Attacker with no roles calls <code>deleteResource("admin-data", "attacker")</code></li>
+<li>What happens at Bug 1? <span class="fill-in">[Fill in]</span></li>
+<li>What happens at Bug 2? <span class="fill-in">[Fill in]</span></li>
+<li>Final result: <span class="fill-in">[Is resource deleted? Should it be?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug 1 (Line 13):</strong> NullPointerException if user has no roles. <code>userRoles.get(userId)</code> returns null.</p>
+<p><strong>Fix:</strong></p>
+<pre class="highlight"><code class="language-java">Set&lt;Role&gt; roles = userRoles.get(userId);
+if (roles == null || roles.isEmpty()) {
+    return false;  // No roles = no permissions
+}</code></pre>
+<p><strong>Bug 2 (Lines 23-26):</strong> NO PERMISSION CHECK BEFORE DELETION! Classic authorization bypass.</p>
+<p><strong>Fix:</strong></p>
+<pre class="highlight"><code class="language-java">public void deleteResource_Buggy(String resourceId, String userId) {
+    // MUST check permission first
+    if (!hasPermission(userId, Permission.DELETE)) {
+        throw new SecurityException("Insufficient permissions");
+    }
+    database.delete(resourceId);
+    auditLog.log("Deleted: " + resourceId + " by " + userId);
+}</code></pre>
+<p><strong>Attack scenario:</strong></p>
+<ol>
+<li>Attacker calls <code>deleteResource("admin-data", "attacker")</code></li>
+<li>Bug 2: No permission check, deletion proceeds</li>
+<li>Result: <strong>Resource deleted despite no authorization!</strong></li>
+</ol>
+<p><strong>Key lesson:</strong> EVERY sensitive operation MUST have explicit authorization check. One missing check = security hole.</p>
+</details>
+<hr/>
+<h3 id="challenge-3-timing-attack-on-token-comparison">Challenge 3: Timing Attack on Token Comparison<a class="headerlink" href="#challenge-3-timing-attack-on-token-comparison" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * This token validator has a SUBTLE TIMING ATTACK vulnerability.
+ */
+public class TimingAttackVulnerable {
+
+    private static final String VALID_API_KEY = "sk_live_a1b2c3d4e5f6";
+
+    public boolean validateAPIKey_Buggy(String providedKey) {
+        if (providedKey.equals(VALID_API_KEY)) {
+            return true;
+        }
+        return false;
+    }
+
+    // Alternative buggy version using manual comparison
+    public boolean validateAPIKey_Buggy2(String providedKey) {
+        if (providedKey.length() != VALID_API_KEY.length()) {
+            return false;
+        }
+
+        for (int i = 0; i &lt; VALID_API_KEY.length(); i++) {
+            if (providedKey.charAt(i) != VALID_API_KEY.charAt(i)) {
+                return false;  // Returns immediately on first mismatch
+            }
+        }
+        return true;
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug location:</strong> <span class="fill-in">[Both versions have the same class of bug]</span></li>
+<li><strong>Bug type:</strong> <span class="fill-in">[What kind of attack is possible?]</span></li>
+<li><strong>Bug explanation:</strong> <span class="fill-in">[How does attacker exploit timing differences?]</span></li>
+<li><strong>Why is this dangerous?</strong> <span class="fill-in">[Can attacker guess the secret?]</span></li>
+</ul>
+<p><strong>Attack simulation:</strong></p>
+<ul>
+<li>Try key: <code>"sk_live_XXXXXXXX"</code> (wrong prefix) → Takes ___ time</li>
+<li>Try key: <code>"sk_live_a1XXXXXX"</code> (first 2 chars match) → Takes ___ time</li>
+<li>Pattern: <span class="fill-in">[What does attacker learn from timing?]</span></li>
+</ul>
+<p><strong>Your fix:</strong> <span class="fill-in">[How to compare in constant time?]</span></p>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug:</strong> Both use non-constant-time comparison. String comparison returns early on first mismatch, leaking information
+about which characters are correct.</p>
+<p><strong>Attack:</strong> Attacker measures response times:</p>
+<ul>
+<li><code>"sk_live_XXXXXXXX"</code> → Fast (fails at 8th char)</li>
+<li><code>"sk_live_a1XXXXXX"</code> → Slightly slower (fails at 10th char)</li>
+<li>Attacker learns: first 2 chars after underscore are "a1"</li>
+<li>Repeat for each character → Bruteforce key character-by-character!</li>
+</ul>
+<p><strong>Fix - Constant-time comparison:</strong></p>
+<pre class="highlight"><code class="language-java">public boolean validateAPIKey_Secure(String providedKey) {
+    if (providedKey == null || providedKey.length() != VALID_API_KEY.length()) {
+        return false;
+    }
+
+    // Constant-time comparison: always checks all characters
+    int result = 0;
+    for (int i = 0; i &lt; VALID_API_KEY.length(); i++) {
+        result |= providedKey.charAt(i) ^ VALID_API_KEY.charAt(i);
+    }
+
+    return result == 0;  // 0 means all characters matched
+}</code></pre>
+<p>Or use Java's built-in:</p>
+<pre class="highlight"><code class="language-java">import java.security.MessageDigest;
+
+public boolean validateAPIKey_Secure(String providedKey) {
+    return MessageDigest.isEqual(
+        providedKey.getBytes(),
+        VALID_API_KEY.getBytes()
+    );
+}</code></pre>
+<p><strong>Key lesson:</strong> String/token comparisons MUST be constant-time to prevent timing attacks. This applies to passwords, API
+keys, HMAC signatures, etc.</p>
+</details>
+<hr/>
+<h3 id="challenge-4-secret-exposure-in-logs">Challenge 4: Secret Exposure in Logs<a class="headerlink" href="#challenge-4-secret-exposure-in-logs" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * This code accidentally leaks secrets. Find 3 leak points!
+ */
+public class SecretLeakage {
+
+    private final String dbPassword = System.getenv("DB_PASSWORD");
+
+    public void connectToDatabase() {
+        String connectionUrl = "jdbc:postgresql://db.example.com/mydb" +
+            "?user=dbuser&amp;password=" + dbPassword;
+        System.out.println("Connecting to: " + connectionUrl);
+        try {
+            Connection conn = DriverManager.getConnection(connectionUrl);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            logger.error("Database connection failed: " + e.getMessage());
+        }
+    }
+
+    public String generateJWT(String userId) {
+        String secret = System.getenv("JWT_SECRET");
+        String token = createToken(userId, secret);
+        logger.info("Generated token for user " + userId + ": " + token);
+- **Bug 1:** &lt;span class="fill-in"&gt;[What's exposed in the URL?]&lt;/span&gt;
+- **Bug 2:** &lt;span class="fill-in"&gt;[What gets printed to console?]&lt;/span&gt;
+- **Bug 3:** &lt;span class="fill-in"&gt;[What's in the SQLException details?]&lt;/span&gt;
+- **Bug 4:** &lt;span class="fill-in"&gt;[Is logging the token a security issue? Why?]&lt;/span&gt;
+
+**Real-world impact:**
+
+- Logs stored in: &lt;span class="fill-in"&gt;[Where can these secrets end up?]&lt;/span&gt;
+- Who can access logs: &lt;span class="fill-in"&gt;[List potential exposure points]&lt;/span&gt;
+- Lifetime: &lt;span class="fill-in"&gt;[How long do logs persist?]&lt;/span&gt;
+
+**Your fixes:**
+
+1. &lt;span class="fill-in"&gt;[How to connect without password in URL?]&lt;/span&gt;
+2. &lt;span class="fill-in"&gt;[How to log without secrets?]&lt;/span&gt;
+3. &lt;span class="fill-in"&gt;[How to handle exceptions securely?]&lt;/span&gt;
+4. &lt;span class="fill-in"&gt;[What to log instead of full token?]&lt;/span&gt;
+
+&lt;details markdown&gt;
+&lt;summary&gt;Click to verify your answers&lt;/summary&gt;
+
+**Bug 1 (Line 10):** Password in URL! If URL is logged, password exposed.
+
+**Bug 2 (Line 12):** Prints connection URL with password to console/logs!
+
+**Bug 3 (Lines 17-18):** SQLException stack trace may contain connection URL with password. `e.printStackTrace()` goes
+to stderr (often logged).
+
+**Bug 4 (Line 24):** Logging full JWT token. If logs compromised, attacker can impersonate user.
+
+**Fixes:**
+
+```java
+// Fix 1 &amp; 2: Use Properties, don't put password in URL
+public void connectToDatabase_Secure() {
+    String url = "jdbc:postgresql://db.example.com/mydb";
+    Properties props = new Properties();
+    props.setProperty("user", "dbuser");
+    props.setProperty("password", dbPassword);  // Not in URL
+
+    // Secure logging - no secrets
+    System.out.println("Connecting to: " + url);  // URL only, no password
+
+    try {
+        Connection conn = DriverManager.getConnection(url, props);
+    } catch (SQLException e) {
+        // Secure error handling - don't expose details
+        logger.error("Database connection failed", e.getErrorCode());
+        // Don't log e.getMessage() - may contain connection details
+    }
+}
+
+// Fix 4: Log token ID only, not full token
+public String generateJWT_Secure(String userId) {
+    String secret = System.getenv("JWT_SECRET");
+    String token = createToken(userId, secret);
+
+    // Log token ID/fingerprint, not full token
+    String tokenId = extractTokenId(token);  // Or hash first 16 chars
+    logger.info("Generated token " + tokenId + " for user " + userId);
+
+    return token;
+}</code></pre>
+<p><strong>Real-world impact:</strong></p>
+<ul>
+<li>Logs go to: files, centralized logging (Splunk/ELK), monitoring, backups, cloud storage</li>
+<li>Access by: developers, ops, security team, log aggregation services</li>
+<li>Lifetime: Days to years (compliance may require long retention)</li>
+</ul>
+<p><strong>One leaked secret in logs = permanent exposure!</strong>
+</p>
+<hr/>
+<h3 id="your-debugging-scorecard">Your Debugging Scorecard<a class="headerlink" href="#your-debugging-scorecard" title="Permanent link">¶</a></h3>
+<p>After finding and fixing all bugs:</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Found JWT signature validation bypass (Challenge 1)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Found RBAC authorization bypass (Challenge 2)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understood timing attack vulnerability (Challenge 3)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Found all secret leakage points (Challenge 4)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could explain WHY each bug is dangerous</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Learned common security mistakes to avoid</li>
+</ul>
+<p><strong>Common security bugs you discovered:</strong></p>
+<ol>
+<li><span class="fill-in">[List the patterns - e.g., "Missing signature validation"]</span></li>
+<li><span class="fill-in">[Fill in]</span></li>
+<li><span class="fill-in">[Fill in]</span></li>
+<li><span class="fill-in">[Fill in]</span></li>
+</ol>
+<p><strong>Your security checklist for code review:</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> All JWT tokens validated (signature + expiration)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> All sensitive operations have authorization checks</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> No secrets in logs, URLs, or error messages</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Constant-time comparison for secrets/tokens</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Null checks before accessing collections</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Fail-secure (deny by default)</li>
+</ul>
+<hr/>
+<h2 id="decision-framework">Decision Framework<a class="headerlink" href="#decision-framework" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Build decision trees for when to use each security pattern.</p>
+<h3 id="question-1-jwt-vs-session-based-auth">Question 1: JWT vs Session-Based Auth?<a class="headerlink" href="#question-1-jwt-vs-session-based-auth" title="Permanent link">¶</a></h3>
+<p>Answer after implementation:</p>
+<p><strong>Use JWT when:</strong></p>
+<ul>
+<li>Stateless architecture: <span class="fill-in">[No session storage needed]</span></li>
+<li>Microservices: <span class="fill-in">[Token contains all necessary data]</span></li>
+<li>Mobile/SPA apps: <span class="fill-in">[Easy to store and send]</span></li>
+<li>Cross-domain: <span class="fill-in">[Can share across services]</span></li>
+</ul>
+<p><strong>Use Session-based when:</strong></p>
+<ul>
+<li>Traditional web apps: <span class="fill-in">[Server-side sessions]</span></li>
+<li>Need to revoke immediately: <span class="fill-in">[Can invalidate server-side]</span></li>
+<li>Large user data: <span class="fill-in">[Don't want to send in every request]</span></li>
+<li>Simpler security model: <span class="fill-in">[Server controls everything]</span></li>
+</ul>
+<h3 id="question-2-when-to-use-api-keys-vs-jwt">Question 2: When to use API Keys vs JWT?<a class="headerlink" href="#question-2-when-to-use-api-keys-vs-jwt" title="Permanent link">¶</a></h3>
+<p><strong>API Keys when:</strong></p>
+<ul>
+<li>Service-to-service: <span class="fill-in">[Long-lived credentials]</span></li>
+<li>Simple auth: <span class="fill-in">[Just need to identify caller]</span></li>
+<li>Third-party integrations: <span class="fill-in">[Easy to rotate]</span></li>
+</ul>
+<p><strong>JWT when:</strong></p>
+<ul>
+<li>User authentication: <span class="fill-in">[Short-lived, contains user claims]</span></li>
+<li>Need user context: <span class="fill-in">[Embedded in token]</span></li>
+<li>Stateless: <span class="fill-in">[No lookup needed]</span></li>
+</ul>
+<h3 id="question-3-rbac-vs-abac-attribute-based">Question 3: RBAC vs ABAC (Attribute-Based)?<a class="headerlink" href="#question-3-rbac-vs-abac-attribute-based" title="Permanent link">¶</a></h3>
+<p><strong>RBAC when:</strong></p>
+<ul>
+<li>Clear role hierarchy: <span class="fill-in">[Admin, Editor, Viewer]</span></li>
+<li>Simple permissions: <span class="fill-in">[Read, Write, Delete]</span></li>
+<li>Most users: <span class="fill-in">[70% of access control needs]</span></li>
+</ul>
+<p><strong>ABAC when:</strong></p>
+<ul>
+<li>Complex rules: <span class="fill-in">[Based on time, location, resource attributes]</span></li>
+<li>Fine-grained control: <span class="fill-in">[User can edit own posts only]</span></li>
+<li>Dynamic policies: <span class="fill-in">[Rules change frequently]</span></li>
+</ul>
+<h3 id="your-decision-tree">Your Decision Tree<a class="headerlink" href="#your-decision-tree" title="Permanent link">¶</a></h3>
+<p>Build this after solving practice scenarios:
+<div class="mermaid">flowchart LR
+    Start["Security Pattern Selection"]
+
+    Q1{"What are you securing?"}
+    Start --&gt; Q1
+    N2["JWT or Session-based"]
+    Q1 --&gt;|"User sessions"| N2
+    N3["API Keys or JWT"]
+    Q1 --&gt;|"API endpoints"| N3
+    N4["RBAC or ABAC"]
+    Q1 --&gt;|"Resources"| N4
+    Q5{"What's the architecture?"}
+    Start --&gt; Q5
+    N6["Session-based + RBAC"]
+    Q5 --&gt;|"Monolith"| N6
+    N7["JWT + RBAC"]
+    Q5 --&gt;|"Microservices"| N7
+    N8["JWT + API Keys"]
+    Q5 --&gt;|"Serverless"| N8
+    Q9{"What's the threat model?"}
+    Start --&gt; Q9
+    N10["Strong encryption, rotation"]
+    Q9 --&gt;|"External attackers"| N10
+    N11["Audit logging, least privilege"]
+    Q9 --&gt;|"Internal threats"| N11
+    N12["Secrets management, encryption at rest"]
+    Q9 --&gt;|"Compliance (PCI/HIPAA)"| N12
+    Q13{"Performance requirements?"}
+    Start --&gt; Q13
+    N14["Stateless&lt;br/&gt;(JWT, API keys)"]
+    Q13 --&gt;|"High throughput"| N14
+    N15["Stateful&lt;br/&gt;(Sessions, central auth)"]
+    Q13 --&gt;|"Strong consistency"| N15
+    N16["JWT with refresh tokens"]
+    Q13 --&gt;|"Offline support"| N16</div></p>
+<hr/>
+<h2 id="practice">Practice<a class="headerlink" href="#practice" title="Permanent link">¶</a></h2>
+<h3 id="scenario-1-e-commerce-api-security">Scenario 1: E-commerce API Security<a class="headerlink" href="#scenario-1-e-commerce-api-security" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>REST API for orders, payments, user data</li>
+<li>Mobile app and web frontend</li>
+<li>Third-party integrations (shipping, payments)</li>
+<li>Must handle 10K requests/sec</li>
+</ul>
+<p><strong>Your security design:</strong></p>
+<ul>
+<li>Auth mechanism: <span class="fill-in">[JWT or API keys? Why?]</span></li>
+<li>Authorization: <span class="fill-in">[RBAC setup for customer, admin, partner roles]</span></li>
+<li>Secrets: <span class="fill-in">[How to manage payment gateway keys?]</span></li>
+<li>Token expiry: <span class="fill-in">[Short-lived or long-lived? Refresh strategy?]</span></li>
+<li>Rate limiting: <span class="fill-in">[Per user? Per API key?]</span></li>
+</ul>
+<h3 id="scenario-2-multi-tenant-saas-platform">Scenario 2: Multi-Tenant SaaS Platform<a class="headerlink" href="#scenario-2-multi-tenant-saas-platform" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>Tenants: organizations with multiple users</li>
+<li>Data isolation between tenants</li>
+<li>Admin panel for tenant admins</li>
+<li>SSO support for enterprise customers</li>
+</ul>
+<p><strong>Your security design:</strong></p>
+<ul>
+<li>Tenant isolation: <span class="fill-in">[How to ensure data separation?]</span></li>
+<li>User roles: <span class="fill-in">[Super admin, tenant admin, user]</span></li>
+<li>SSO integration: <span class="fill-in">[SAML, OAuth2, or both?]</span></li>
+<li>Token claims: <span class="fill-in">[What to include in JWT?]</span></li>
+<li>Cross-tenant attacks: <span class="fill-in">[How to prevent?]</span></li>
+</ul>
+<h3 id="scenario-3-microservices-internal-auth">Scenario 3: Microservices Internal Auth<a class="headerlink" href="#scenario-3-microservices-internal-auth" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>20 microservices</li>
+<li>Services call each other</li>
+<li>Need to track which service made request</li>
+<li>Some services more privileged than others</li>
+</ul>
+<p><strong>Your security design:</strong></p>
+<ul>
+<li>Service-to-service auth: <span class="fill-in">[Mutual TLS? JWT? API keys?]</span></li>
+<li>Service identity: <span class="fill-in">[How to identify calling service?]</span></li>
+<li>Permission model: <span class="fill-in">[Service-level RBAC?]</span></li>
+<li>Secret distribution: <span class="fill-in">[How do services get credentials?]</span></li>
+<li>Rotation: <span class="fill-in">[How to rotate without downtime?]</span></li>
+</ul>
+<hr/>
+<h2 id="review-checklist">Review Checklist<a class="headerlink" href="#review-checklist" title="Permanent link">¶</a></h2>
+<p>Before moving to the next topic:</p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Implementation</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> JWT generation and validation work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> RBAC role assignment and permission checks work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> API key generation and validation work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Secrets manager encrypt/decrypt work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> All client code runs successfully</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Understanding</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Filled in all ELI5 explanations</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand JWT structure and claims</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Know difference between authentication and authorization</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand RBAC role hierarchies</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Know when to use each auth mechanism</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Security Principles</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Never store passwords in plain text</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Always use HTTPS for token transmission</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Implement token expiration and refresh</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Use strong random for key generation</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Validate and sanitize all inputs</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Decision Making</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Know when to use JWT vs sessions</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Know when to use API keys vs JWT</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Completed practice scenarios</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can explain security trade-offs</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Mastery Check</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could implement JWT from memory</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could design auth for new system</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand security threat models</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Know common vulnerabilities (OWASP Top 10)</li>
+</ul>
+</li>
+</ul>
+<hr/>
+<hr/>
+<h3 id="mastery-certification">Mastery Certification<a class="headerlink" href="#mastery-certification" title="Permanent link">¶</a></h3>
+<p><strong>I certify that I can:</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Implement JWT generation and validation from memory</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Implement RBAC with role hierarchy</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Explain authentication vs authorization clearly</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Identify common security vulnerabilities</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Design auth systems for different architectures</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Compare trade-offs between auth mechanisms</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Debug security issues systematically</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Teach these concepts to someone else</li>
+</ul>
+<p><strong>Security mindset check:</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> I think "how can this be attacked?" when reviewing code</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> I validate and sanitize ALL inputs</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> I check authorization before sensitive operations</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> I use constant-time comparisons for secrets</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> I never log sensitive data</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> I design with "fail secure" principle</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> I understand the security/usability trade-off</li>
+</ul></div>
+</div>
+<footer class="col-md-12 text-center">
+<hr/>
+<p>
+<small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+</p>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../../js/bootstrap-3.0.3.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>var base_url = "../.."</script>
+<script src="../../js/base.js"></script>
+<script src="../../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<button class="close" data-dismiss="modal" type="button">
+<span aria-hidden="true">×</span>
+<span class="sr-only">Close</span>
+</button>
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+</div>
+<div class="modal-body">
+<p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="text"/>
+</div>
+</form>
+<div id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@10.4.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>

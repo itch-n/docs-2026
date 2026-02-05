@@ -1,0 +1,2602 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="A framework for algorithms, systems design, and infrastructure." name="description"/>
+<meta content="Richard" name="author"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>14. Observability - Software Engineering Study Guide</title>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" rel="stylesheet"/>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css" rel="stylesheet"/>
+<link href="//rsms.me/inter/inter.css" rel="stylesheet" type="text/css"/>
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&amp;subset=latin-ext,latin" rel="stylesheet" type="text/css"/>
+<link href="../../css/bootstrap-custom.min.css" rel="stylesheet"/>
+<link href="../../css/base.min.css" rel="stylesheet"/>
+<link href="../../css/cinder.min.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css" rel="stylesheet"/>
+<link href="../../css/custom.css" rel="stylesheet"/>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="container">
+<!-- Collapsed navigation -->
+<div class="navbar-header">
+<!-- Expander button -->
+<button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<!-- Main title -->
+<a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+</div>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li>
+<a href="../..">Home</a>
+</li>
+<li class="dropdown active">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Systems Design <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../01-storage-engines/">01. Storage Engines</a>
+</li>
+<li>
+<a href="../02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+<li>
+<a href="../03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+<li>
+<a href="../04-search-and-indexing/">04. Search &amp; Indexing</a>
+</li>
+<li>
+<a href="../05-caching-patterns/">05. Caching Patterns</a>
+</li>
+<li>
+<a href="../06-api-design/">06. API Design</a>
+</li>
+<li>
+<a href="../07-security-patterns/">07. Security Patterns</a>
+</li>
+<li>
+<a href="../08-rate-limiting/">08. Rate Limiting</a>
+</li>
+<li>
+<a href="../09-load-balancing/">09. Load Balancing</a>
+</li>
+<li>
+<a href="../10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+<li>
+<a href="../11-database-scaling/">11. Database Scaling</a>
+</li>
+<li>
+<a href="../12-message-queues/">12. Message Queues</a>
+</li>
+<li>
+<a href="../13-stream-processing/">13. Stream Processing</a>
+</li>
+<li class="active">
+<a href="./">14. Observability</a>
+</li>
+<li>
+<a href="../15-distributed-transactions/">15. Distributed Transactions</a>
+</li>
+<li>
+<a href="../16-consensus-patterns/">16. Consensus Patterns</a>
+</li>
+</ul>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">DSA <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../dsa/01-two-pointers/">01. Two Pointers</a>
+</li>
+<li>
+<a href="../../dsa/02-sliding-window/">02. Sliding Window</a>
+</li>
+<li>
+<a href="../../dsa/03-hash-tables/">03. Hash Tables</a>
+</li>
+<li>
+<a href="../../dsa/04-linked-lists/">04. Linked Lists</a>
+</li>
+<li>
+<a href="../../dsa/05-stacks--queues/">05. Stacks &amp; Queues</a>
+</li>
+<li>
+<a href="../../dsa/06-trees-traversals/">06. Trees - Traversals</a>
+</li>
+<li>
+<a href="../../dsa/07-trees-recursion/">07. Trees - Recursion</a>
+</li>
+<li>
+<a href="../../dsa/08-binary-search/">08. Binary Search</a>
+</li>
+<li>
+<a href="../../dsa/09-heaps/">09. Heaps</a>
+</li>
+<li>
+<a href="../../dsa/10-graphs/">10. Graphs</a>
+</li>
+<li>
+<a href="../../dsa/11-union-find/">11. Union-Find</a>
+</li>
+<li>
+<a href="../../dsa/12-advanced-graphs/">12. Advanced Graphs</a>
+</li>
+<li>
+<a href="../../dsa/13-backtracking/">13. Backtracking</a>
+</li>
+<li>
+<a href="../../dsa/14-dynamic-programming-1d/">14. Dynamic Programming 1D</a>
+</li>
+<li>
+<a href="../../dsa/15-dynamic-programming-2d/">15. Dynamic Programming 2D</a>
+</li>
+<li>
+<a href="../../dsa/16-tries/">16. Tries</a>
+</li>
+<li>
+<a href="../../dsa/17-advanced-topics/">17. Advanced Topics</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+<a data-target="#mkdocs_search_modal" data-toggle="modal" href="#">
+<i class="fas fa-search"></i> Search
+                        </a>
+</li>
+<li>
+<a href="../13-stream-processing/" rel="prev">
+<i class="fas fa-arrow-left"></i> Previous
+                        </a>
+</li>
+<li>
+<a href="../15-distributed-transactions/" rel="next">
+                            Next <i class="fas fa-arrow-right"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+<ul class="nav bs-sidenav">
+<li class="first-level active"><a href="#observability">Observability</a></li>
+<li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+<li class="second-level"><a href="#quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)</a></li>
+<li class="second-level"><a href="#beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters</a></li>
+<li class="second-level"><a href="#case-studies-observability-in-the-wild">Case Studies: Observability in the Wild</a></li>
+<li class="second-level"><a href="#core-implementation">Core Implementation</a></li>
+<li class="second-level"><a href="#debugging-challenges">Debugging Challenges</a></li>
+<li class="second-level"><a href="#decision-framework">Decision Framework</a></li>
+<li class="second-level"><a href="#practice">Practice</a></li>
+<li class="second-level"><a href="#review-checklist">Review Checklist</a></li>
+</ul>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="observability">Observability<a class="headerlink" href="#observability" title="Permanent link">¶</a></h1>
+<blockquote>
+<p>Metrics, Logging, Tracing - Understanding what your distributed system is doing</p>
+</blockquote>
+<hr/>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After implementing observability patterns, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What is observability in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What are the three pillars of observability?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy for metrics:</strong></p>
+<ul>
+<li>Example: "Metrics are like a car's dashboard showing speed, fuel, temperature..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy for logs:</strong></p>
+<ul>
+<li>Example: "Logs are like a detailed diary of everything that happened..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy for traces:</strong></p>
+<ul>
+<li>Example: "Traces are like following a package through the postal system..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When should you add metrics vs logs vs traces?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after practice]</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr/>
+<h2 id="quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)<a class="headerlink" href="#quick-quiz-do-before-implementing" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Test your intuition without looking at code. Answer these, then verify after implementation.</p>
+<h3 id="complexity-predictions">Complexity Predictions<a class="headerlink" href="#complexity-predictions" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p><strong>Storing all request details in memory:</strong></p>
+<ul>
+<li>Space complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Verified after learning: <span class="fill-in">[Actual: O(?)]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Recording a metric counter increment:</strong></p>
+<ul>
+<li>Time complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Space complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Verified: <span class="fill-in">[Actual]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Cost calculation:</strong></p>
+<ul>
+<li>If you log every request at 10K req/sec = <span class="fill-in">_____</span> logs/day</li>
+<li>If you sample traces at 1% = <span class="fill-in">_____</span> traces/day</li>
+<li>Storage reduction factor: <span class="fill-in">_____</span> times less</li>
+</ul>
+</li>
+</ol>
+<h3 id="scenario-predictions">Scenario Predictions<a class="headerlink" href="#scenario-predictions" title="Permanent link">¶</a></h3>
+<p><strong>Scenario 1:</strong> Your API has 99.5% success rate with a 99.9% SLO</p>
+<ul>
+<li><strong>Is this within SLO?</strong> <span class="fill-in">[Yes/No - Why?]</span></li>
+<li><strong>Error budget remaining:</strong> <span class="fill-in">[Calculate]</span></li>
+<li><strong>Should you alert?</strong> <span class="fill-in">[Yes/No - Why?]</span></li>
+<li><strong>How many more failures can you have?</strong> <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>Scenario 2:</strong> Users report "slow checkout" but avg latency looks fine</p>
+<ul>
+<li><strong>Which observability tool helps most?</strong> <span class="fill-in">[Metrics/Logs/Traces - Why?]</span></li>
+<li><strong>What metric might you be missing?</strong> <span class="fill-in">[Fill in]</span></li>
+<li><strong>What percentile should you check?</strong> <span class="fill-in">[P50/P95/P99 - Why?]</span></li>
+</ul>
+<p><strong>Scenario 3:</strong> Metric label has user_id with 1M unique values</p>
+<ul>
+<li><strong>Is this a good metric label?</strong> <span class="fill-in">[Yes/No - Why?]</span></li>
+<li><strong>What problem does this cause?</strong> <span class="fill-in">[Fill in]</span></li>
+<li><strong>What should you do instead?</strong> <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="trade-off-quiz">Trade-off Quiz<a class="headerlink" href="#trade-off-quiz" title="Permanent link">¶</a></h3>
+<p><strong>Question:</strong> When would structured logs be BETTER than traces for debugging?</p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in before implementation]</span></li>
+<li>Verified answer: <span class="fill-in">[Fill in after learning]</span></li>
+</ul>
+<p><strong>Question:</strong> What's the MAIN difference between metrics and logs?</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Metrics are numbers, logs are text</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Metrics are aggregated, logs are individual events</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Metrics are faster, logs are slower</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Metrics are free, logs cost money</li>
+</ul>
+<p>Verify after implementation: <span class="fill-in">[Which one(s)?]</span></p>
+<p><strong>Question:</strong> Why sample traces instead of capturing 100%?</p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in reasoning]</span></li>
+<li>Verified: <span class="fill-in">[Fill in after learning about performance impact]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters<a class="headerlink" href="#beforeafter-why-this-pattern-matters" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Compare blind systems vs observable systems to understand the impact.</p>
+<h3 id="example-debugging-a-slow-api">Example: Debugging a Slow API<a class="headerlink" href="#example-debugging-a-slow-api" title="Permanent link">¶</a></h3>
+<p><strong>Problem:</strong> Users report checkout API is slow, but you don't know why.</p>
+<h4 id="approach-1-no-observability-flying-blind">Approach 1: No Observability (Flying Blind)<a class="headerlink" href="#approach-1-no-observability-flying-blind" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// No instrumentation - just the business logic
+public class CheckoutService {
+    public Order checkout(Cart cart) {
+        validateCart(cart);
+        chargePayment(cart);
+        createOrder(cart);
+        sendEmail(cart);
+        return order;
+    }
+}</code></pre>
+<p><strong>What you can see:</strong></p>
+<ul>
+<li>Nothing! You have to guess what's slow</li>
+<li>Add println statements and redeploy</li>
+<li>Wait for complaints to narrow down the issue</li>
+<li>Time to debug: Hours to days</li>
+</ul>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Debugging time: Multiple deploy cycles</li>
+<li>Mean time to resolution: 4-8 hours</li>
+<li>Customer impact: High (prolonged issues)</li>
+</ul>
+<h4 id="approach-2-with-full-observability">Approach 2: With Full Observability<a class="headerlink" href="#approach-2-with-full-observability" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Instrumented with metrics, logs, and traces
+public class CheckoutService {
+    private final MetricsCollector metrics;
+    private final StructuredLogger logger;
+    private final DistributedTracer tracer;
+
+    public Order checkout(Cart cart) {
+        // Start trace
+        Span span = tracer.startSpan("checkout");
+        span.setTag("cart_id", cart.getId());
+        span.setTag("items_count", cart.getItems().size());
+
+        // Add context for logs
+        logger.addContext("trace_id", span.traceId);
+        logger.addContext("cart_id", cart.getId());
+
+        long startTime = System.nanoTime();
+
+        try {
+            // Validate cart
+            Span validateSpan = tracer.startChildSpan("validate_cart");
+            validateCart(cart);
+            tracer.finishSpan();
+
+            // Charge payment
+            Span paymentSpan = tracer.startChildSpan("charge_payment");
+            chargePayment(cart);
+            tracer.finishSpan();
+            logger.info("Payment charged", Map.of("amount", cart.getTotal()));
+
+            // Create order
+            Span orderSpan = tracer.startChildSpan("create_order");
+            Order order = createOrder(cart);
+            tracer.finishSpan();
+
+            // Send email
+            Span emailSpan = tracer.startChildSpan("send_email");
+            sendEmail(cart);
+            tracer.finishSpan();
+
+            // Record success metrics
+            long duration = System.nanoTime() - startTime;
+            metrics.recordRequest(duration / 1_000_000_000.0);
+            logger.info("Checkout completed", Map.of("order_id", order.getId()));
+
+            return order;
+
+        } catch (Exception e) {
+            metrics.recordError((System.nanoTime() - startTime) / 1_000_000_000.0);
+            logger.error("Checkout failed", e);
+            throw e;
+        } finally {
+            tracer.finishSpan();
+            logger.clearContext();
+        }
+    }
+}</code></pre>
+<p><strong>What you can see:</strong></p>
+<ol>
+<li><strong>Metrics:</strong> P99 latency is 3s (P50 is 100ms) - it's a tail latency issue!</li>
+<li><strong>Logs:</strong> Search by trace_id shows payment gateway timeouts</li>
+<li><strong>Traces:</strong> Visualization shows 95% of time spent in charge_payment span</li>
+</ol>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Debugging time: 5 minutes (query dashboards)</li>
+<li>Root cause: Payment gateway timeout for 1% of requests</li>
+<li>Solution: Add timeout + retry logic</li>
+<li>Time to resolution: 30 minutes</li>
+</ul>
+<h4 id="performance-comparison">Performance Comparison<a class="headerlink" href="#performance-comparison" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>No Observability</th>
+<th>With Observability</th>
+<th>Improvement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Time to detect issue</td>
+<td>30+ minutes (user reports)</td>
+<td>30 seconds (alert fired)</td>
+<td>60x faster</td>
+</tr>
+<tr>
+<td>Time to identify root cause</td>
+<td>2-4 hours (trial/error)</td>
+<td>5 minutes (query traces)</td>
+<td>24x faster</td>
+</tr>
+<tr>
+<td>Deploy cycles needed</td>
+<td>3-5 deploys</td>
+<td>1 deploy</td>
+<td>3-5x fewer</td>
+</tr>
+<tr>
+<td>Customer impact</td>
+<td>High (hours)</td>
+<td>Low (minutes)</td>
+<td>10x better</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Your calculation:</strong> If you have 10 incidents per month, observability saves approximately _____ engineering hours.</p>
+<h4 id="why-does-observability-work">Why Does Observability Work?<a class="headerlink" href="#why-does-observability-work" title="Permanent link">¶</a></h4>
+<p><strong>Key insight to understand:</strong></p>
+<p>Without observability, debugging is like:</p>
+<ul>
+<li>Finding a needle in a haystack... blindfolded... in the dark</li>
+</ul>
+<p>With observability, you can:</p>
+<ol>
+<li><strong>Metrics:</strong> Quickly identify that there IS a problem (P99 spike)</li>
+<li><strong>Logs:</strong> Find specific failing requests (search by error, user_id, trace_id)</li>
+<li><strong>Traces:</strong> See exactly where time is spent (payment span = 2.9s of 3s total)</li>
+</ol>
+<pre class="highlight"><code>No observability:
+"Users say checkout is slow" → Try things → Deploy → Wait → Repeat
+
+With observability:
+"Users say checkout is slow"
+  → Check metrics (P99 = 3s)
+  → Check traces (payment = 2.9s)
+  → Check logs (gateway timeout)
+  → Fix + deploy → Done</code></pre>
+<p><strong>Why can you skip trial-and-error?</strong></p>
+<ul>
+<li>Traces show the exact bottleneck (no guessing)</li>
+<li>Logs provide context (what failed and why)</li>
+<li>Metrics prove the fix worked (P99 drops to 200ms)</li>
+</ul>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>How do the three pillars work together? <span class="fill-in">[Your answer]</span></li>
+<li>What questions can you answer with each type? <span class="fill-in">[Your answer]</span></li>
+<li>Why is context propagation (trace_id) important? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="case-studies-observability-in-the-wild">Case Studies: Observability in the Wild<a class="headerlink" href="#case-studies-observability-in-the-wild" title="Permanent link">¶</a></h2>
+<h3 id="datadog-the-three-pillars-in-one-platform">Datadog: The Three Pillars in One Platform<a class="headerlink" href="#datadog-the-three-pillars-in-one-platform" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> Unified collection of Metrics, Traces, and Logs.</li>
+<li><strong>How it works:</strong> A company using Datadog instruments its applications to send all three types of telemetry data. When
+  a user reports a slow API endpoint, an engineer can start with a dashboard showing a spike in latency for that
+  endpoint (<strong>metric</strong>). From there, they can drill down to a specific slow <strong>trace</strong> for that endpoint. The trace will
+  show that the database query took 3 seconds. The engineer can then pivot directly to the <strong>logs</strong> from the database
+  server at that exact time, which reveal a "slow query" log line, identifying the exact SQL query that needs
+  optimization.</li>
+<li><strong>Key Takeaway:</strong> The power of observability comes from correlating the three pillars. By seamlessly moving between
+  metrics, traces, and logs, engineers can diagnose problems orders of magnitude faster than by looking at each data
+  source in isolation.</li>
+</ul>
+<h3 id="netflixs-distributed-tracing-debugging-microservices">Netflix's Distributed Tracing: Debugging Microservices<a class="headerlink" href="#netflixs-distributed-tracing-debugging-microservices" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> Distributed Tracing with a unique Request ID.</li>
+<li><strong>How it works:</strong> When a user's request enters the Netflix ecosystem, it's assigned a unique ID (e.g.,
+  <code>Netflix-Request-Id</code>). This ID is passed in the header of every subsequent internal network call as the request
+  travels through dozens of microservices. If any service encounters an error, it logs the error along with this Request
+  ID. Engineers can then use this single ID to search their centralized logging platform (like ELK) and instantly
+  retrieve all logs and traces related to that specific request from every service it touched.</li>
+<li><strong>Key Takeaway:</strong> In a complex microservices architecture, simple log messages are not enough. Distributed tracing is
+  essential for understanding the full lifecycle of a request and quickly pinpointing which service in a long chain is
+  the source of an error or latency.</li>
+</ul>
+<h3 id="ubers-m3-high-cardinality-metrics-at-scale">Uber's M3: High-Cardinality Metrics at Scale<a class="headerlink" href="#ubers-m3-high-cardinality-metrics-at-scale" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> High-cardinality time-series metrics for business and system monitoring.</li>
+<li><strong>How it works:</strong> Uber needed to monitor millions of unique entities in real-time (drivers, riders, trips).
+  Traditional metrics systems struggle with this "high cardinality." They built M3, a metrics platform designed to
+  handle this scale. It allows them to ask questions like "What is the average wait time for riders in downtown San
+  Francisco right now?" (<code>metrics.riders.wait_time.avg{region=sf, district=downtown}</code>).</li>
+<li><strong>Key Takeaway:</strong> Metrics are not just for CPU and memory. They are a powerful tool for real-time business
+  intelligence. However, monitoring high-cardinality dimensions (like individual users or orders) requires a specialized
+  time-series database built to handle the metric explosion.</li>
+</ul>
+<hr/>
+<h2 id="core-implementation">Core Implementation<a class="headerlink" href="#core-implementation" title="Permanent link">¶</a></h2>
+<h3 id="pattern-1-metrics-collection">Pattern 1: Metrics Collection<a class="headerlink" href="#pattern-1-metrics-collection" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Time-series measurements for monitoring system health and performance.</p>
+<p><strong>Use case:</strong> API monitoring, resource utilization, business metrics.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.*;
+
+/**
+ * Metrics Collection: Counter, Gauge, Histogram
+ *
+ * Metric types:
+ * - Counter: monotonically increasing (requests, errors)
+ * - Gauge: point-in-time value (CPU, memory, queue size)
+ * - Histogram: distribution of values (latencies, sizes)
+ *
+ * Methods:
+ * - RED: Rate, Errors, Duration
+ * - USE: Utilization, Saturation, Errors
+ */
+public class MetricsCollector {
+
+    /**
+     * Counter: Monotonically increasing value
+     * Time: O(1), Space: O(1)
+     *
+     * Use for: request counts, error counts, bytes processed
+     */
+    static class Counter {
+        private final AtomicLong value = new AtomicLong(0);
+        private final String name;
+        private final Map&lt;String, String&gt; labels;
+
+        Counter(String name, Map&lt;String, String&gt; labels) {
+            this.name = name;
+            this.labels = labels;
+        }
+
+        /**
+         * Increment counter by 1
+         * Time: O(1)
+         *
+         * TODO: Implement increment
+         */
+        public void inc() {
+            // TODO: Increment value atomically
+        }
+
+        /**
+         * Increment counter by delta
+         * Time: O(1)
+         *
+         * TODO: Implement increment by delta
+         */
+        public void inc(long delta) {
+            // TODO: Add delta to value atomically
+        }
+
+        public long get() {
+            return value.get();
+        }
+    }
+
+    /**
+     * Gauge: Point-in-time value that can increase or decrease
+     * Time: O(1), Space: O(1)
+     *
+     * Use for: CPU usage, memory usage, active connections
+     */
+    static class Gauge {
+        private final AtomicDouble value = new AtomicDouble(0.0);
+        private final String name;
+        private final Map&lt;String, String&gt; labels;
+
+        Gauge(String name, Map&lt;String, String&gt; labels) {
+            this.name = name;
+            this.labels = labels;
+        }
+
+        /**
+         * Set gauge to specific value
+         * Time: O(1)
+         *
+         * TODO: Implement gauge set
+         */
+        public void set(double val) {
+            // TODO: Set value atomically
+        }
+
+        /**
+         * Increment gauge
+         * Time: O(1)
+         *
+         * TODO: Implement increment
+         */
+        public void inc(double delta) {
+            // TODO: Add delta atomically
+        }
+
+        public void dec(double delta) {
+            inc(-delta);
+        }
+
+        public double get() {
+            return value.get();
+        }
+    }
+
+    /**
+     * Histogram: Distribution of observed values
+     * Time: O(1) per observation, Space: O(B) where B = buckets
+     *
+     * Use for: request latencies, response sizes, batch sizes
+     */
+    static class Histogram {
+        private final String name;
+        private final double[] buckets; // Upper bounds
+        private final AtomicLongArray counts; // Count per bucket
+        private final AtomicLong sum = new AtomicLong(0);
+        private final AtomicLong count = new AtomicLong(0);
+
+        /**
+         * Create histogram with specific buckets
+         * Example: [0.01, 0.05, 0.1, 0.5, 1.0, 5.0]
+         *
+         * TODO: Initialize histogram
+         */
+        Histogram(String name, double[] buckets) {
+            this.name = name;
+            this.buckets = buckets;
+            this.counts = new AtomicLongArray(buckets.length + 1); // +1 for +Inf
+        }
+
+        /**
+         * Observe a value
+         * Time: O(log B) with binary search
+         *
+         * TODO: Implement observation
+         * 1. Find which bucket this value falls into
+         * 2. Increment that bucket's count
+         * 3. Update sum and count
+         */
+        public void observe(double value) {
+            // TODO: Find bucket using binary search
+
+            // TODO: Update sum and count
+        }
+
+        /**
+         * Helper: Find bucket index for value
+         *
+         * TODO: Implement binary search
+         */
+        private int findBucket(double value) {
+            // TODO: Binary search in buckets array
+            return 0; // Replace
+        }
+
+        /**
+         * Calculate percentile from histogram
+         * Time: O(B)
+         *
+         * TODO: Implement percentile calculation
+         */
+        public double getPercentile(double percentile) {
+            long totalCount = count.get();
+            if (totalCount == 0) return 0.0;
+
+            // TODO: Find bucket containing percentile
+
+            return 0.0; // Replace
+        }
+
+        public double getAverage() {
+            long c = count.get();
+            return c &gt; 0 ? (sum.get() / 1000.0) / c : 0.0;
+        }
+    }
+
+    /**
+     * RED Method: Rate, Errors, Duration
+     * Time: O(1) per metric update
+     *
+     * TODO: Implement RED method tracking
+     */
+    static class REDMetrics {
+        private final Counter requestCount;
+        private final Counter errorCount;
+        private final Histogram duration;
+
+        REDMetrics(String service) {
+            Map&lt;String, String&gt; labels = Map.of("service", service);
+            this.requestCount = new Counter("requests_total", labels);
+            this.errorCount = new Counter("errors_total", labels);
+            this.duration = new Histogram("request_duration_seconds",
+                new double[]{0.01, 0.05, 0.1, 0.5, 1.0, 5.0});
+        }
+
+        /**
+         * Record successful request
+         * Time: O(log B)
+         *
+         * TODO: Update RED metrics
+         */
+        public void recordRequest(double durationSeconds) {
+            // TODO: Increment request count
+
+            // TODO: Record duration
+        }
+
+        /**
+         * Record failed request
+         *
+         * TODO: Update error metrics
+         */
+        public void recordError(double durationSeconds) {
+            // TODO: Increment request and error counts
+
+            // TODO: Record duration
+        }
+
+        public double getErrorRate() {
+            long requests = requestCount.get();
+            return requests &gt; 0 ? (double)errorCount.get() / requests : 0.0;
+        }
+
+        public double getP50Latency() {
+            return duration.getPercentile(0.50);
+        }
+
+        public double getP99Latency() {
+            return duration.getPercentile(0.99);
+        }
+    }
+
+    /**
+     * USE Method: Utilization, Saturation, Errors
+     * Time: O(1) per metric update
+     *
+     * TODO: Implement USE method tracking
+     */
+    static class USEMetrics {
+        private final Gauge utilization;  // % of resource used
+        private final Gauge saturation;   // Amount of queued work
+        private final Counter errors;     // Error events
+
+        USEMetrics(String resource) {
+            Map&lt;String, String&gt; labels = Map.of("resource", resource);
+            this.utilization = new Gauge("resource_utilization", labels);
+            this.saturation = new Gauge("resource_saturation", labels);
+            this.errors = new Counter("resource_errors", labels);
+        }
+
+        /**
+         * Update resource utilization (0.0 to 1.0)
+         *
+         * TODO: Set utilization gauge
+         */
+        public void setUtilization(double percent) {
+            // TODO: Set gauge value
+        }
+
+        /**
+         * Update saturation (queue depth)
+         *
+         * TODO: Set saturation gauge
+         */
+        public void setSaturation(double queueDepth) {
+            // TODO: Set gauge value
+        }
+
+        /**
+         * Record resource error
+         *
+         * TODO: Increment error counter
+         */
+        public void recordError() {
+            // TODO: Increment errors
+        }
+    }
+
+    // Helper class for atomic double operations
+    static class AtomicDouble {
+        private final AtomicLong bits = new AtomicLong();
+
+        public void set(double value) {
+            bits.set(Double.doubleToLongBits(value));
+        }
+
+        public double get() {
+            return Double.longBitsToDouble(bits.get());
+        }
+
+        public void addAndGet(double delta) {
+            while (true) {
+                long current = bits.get();
+                double currentVal = Double.longBitsToDouble(current);
+                double newVal = currentVal + delta;
+                long newBits = Double.doubleToLongBits(newVal);
+                if (bits.compareAndSet(current, newBits)) {
+                    return;
+                }
+            }
+        }
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class MetricsClient {
+
+    public static void main(String[] args) throws InterruptedException {
+        System.out.println("=== Metrics Collection ===\n");
+
+        // Test 1: Counter
+        System.out.println("--- Test 1: Counter ---");
+        MetricsCollector.Counter requests = new MetricsCollector.Counter(
+            "http_requests_total",
+            Map.of("method", "GET", "endpoint", "/api/users")
+        );
+
+        for (int i = 0; i &lt; 100; i++) {
+            requests.inc();
+        }
+        System.out.println("Total requests: " + requests.get());
+
+        // Test 2: Gauge
+        System.out.println("\n--- Test 2: Gauge ---");
+        MetricsCollector.Gauge cpuUsage = new MetricsCollector.Gauge(
+            "cpu_usage_percent",
+            Map.of("core", "0")
+        );
+
+        cpuUsage.set(45.5);
+        System.out.println("CPU usage: " + cpuUsage.get() + "%");
+        cpuUsage.inc(10.2);
+        System.out.println("CPU usage after increase: " + cpuUsage.get() + "%");
+
+        // Test 3: Histogram
+        System.out.println("\n--- Test 3: Histogram ---");
+        MetricsCollector.Histogram latency = new MetricsCollector.Histogram(
+            "request_duration_seconds",
+            new double[]{0.01, 0.05, 0.1, 0.5, 1.0, 5.0}
+        );
+
+        Random rand = new Random(42);
+        for (int i = 0; i &lt; 1000; i++) {
+            double duration = rand.nextGaussian() * 0.2 + 0.3; // Mean 300ms
+            latency.observe(Math.max(0, duration));
+        }
+
+        System.out.println("Average latency: " + latency.getAverage() + "s");
+        System.out.println("P50 latency: " + latency.getPercentile(0.50) + "s");
+        System.out.println("P99 latency: " + latency.getPercentile(0.99) + "s");
+
+        // Test 4: RED Method
+        System.out.println("\n--- Test 4: RED Method ---");
+        MetricsCollector.REDMetrics red = new MetricsCollector.REDMetrics("user-service");
+
+        for (int i = 0; i &lt; 95; i++) {
+            double duration = rand.nextDouble() * 0.5;
+            red.recordRequest(duration);
+        }
+        for (int i = 0; i &lt; 5; i++) {
+            double duration = rand.nextDouble() * 2.0;
+            red.recordError(duration);
+        }
+
+        System.out.println("Error rate: " + (red.getErrorRate() * 100) + "%");
+        System.out.println("P50 latency: " + red.getP50Latency() + "s");
+        System.out.println("P99 latency: " + red.getP99Latency() + "s");
+
+        // Test 5: USE Method
+        System.out.println("\n--- Test 5: USE Method ---");
+        MetricsCollector.USEMetrics use = new MetricsCollector.USEMetrics("database_pool");
+
+        use.setUtilization(0.75); // 75% of connections in use
+        use.setSaturation(12.0);  // 12 requests waiting
+        use.recordError();
+        use.recordError();
+
+        System.out.println("Pool utilization: 75%");
+        System.out.println("Queue saturation: 12 waiting requests");
+        System.out.println("Errors recorded: 2");
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-2-structured-logging">Pattern 2: Structured Logging<a class="headerlink" href="#pattern-2-structured-logging" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> JSON-formatted logs with consistent fields for parsing and aggregation.</p>
+<p><strong>Use case:</strong> Application logs, audit trails, debugging distributed systems.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+import java.time.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+/**
+ * Structured Logging: JSON logs with context
+ *
+ * Log levels: TRACE, DEBUG, INFO, WARN, ERROR, FATAL
+ * Context: Trace ID, User ID, Request ID
+ * Fields: timestamp, level, message, context, fields
+ */
+public class StructuredLogger {
+
+    enum LogLevel {
+        TRACE(0), DEBUG(1), INFO(2), WARN(3), ERROR(4), FATAL(5);
+
+        final int priority;
+        LogLevel(int priority) {
+            this.priority = priority;
+        }
+    }
+
+    private final String service;
+    private final LogLevel minLevel;
+    private final ObjectMapper mapper;
+    private final ThreadLocal&lt;Map&lt;String, Object&gt;&gt; context;
+
+    public StructuredLogger(String service, LogLevel minLevel) {
+        this.service = service;
+        this.minLevel = minLevel;
+        this.mapper = new ObjectMapper();
+        this.context = ThreadLocal.withInitial(HashMap::new);
+    }
+
+    /**
+     * Log entry structure
+     *
+     * TODO: Define log entry format
+     */
+    static class LogEntry {
+        public String timestamp;
+        public String level;
+        public String service;
+        public String message;
+        public Map&lt;String, Object&gt; context;
+        public Map&lt;String, Object&gt; fields;
+
+        LogEntry(String service, LogLevel level, String message,
+                 Map&lt;String, Object&gt; context, Map&lt;String, Object&gt; fields) {
+            this.timestamp = Instant.now().toString();
+            this.level = level.name();
+            this.service = service;
+            this.message = message;
+            this.context = new HashMap&lt;&gt;(context);
+            this.fields = fields;
+        }
+    }
+
+    /**
+     * Add context to current thread (trace ID, user ID, etc.)
+     * Time: O(1)
+     *
+     * TODO: Implement context addition
+     */
+    public void addContext(String key, Object value) {
+        // TODO: Add to thread-local context
+    }
+
+    /**
+     * Clear context for current thread
+     * Time: O(1)
+     *
+     * TODO: Implement context clearing
+     */
+    public void clearContext() {
+        // TODO: Clear thread-local context
+    }
+
+    /**
+     * Log at INFO level
+     * Time: O(1)
+     *
+     * TODO: Implement info logging
+     */
+    public void info(String message) {
+        log(LogLevel.INFO, message, Map.of());
+    }
+
+    public void info(String message, Map&lt;String, Object&gt; fields) {
+        log(LogLevel.INFO, message, fields);
+    }
+
+    /**
+     * Log at WARN level
+     *
+     * TODO: Implement warn logging
+     */
+    public void warn(String message) {
+        log(LogLevel.WARN, message, Map.of());
+    }
+
+    public void warn(String message, Map&lt;String, Object&gt; fields) {
+        log(LogLevel.WARN, message, fields);
+    }
+
+    /**
+     * Log at ERROR level
+     *
+     * TODO: Implement error logging
+     */
+    public void error(String message) {
+        log(LogLevel.ERROR, message, Map.of());
+    }
+
+    public void error(String message, Throwable t) {
+        Map&lt;String, Object&gt; fields = new HashMap&lt;&gt;();
+        fields.put("error", t.getClass().getName());
+        fields.put("error_message", t.getMessage());
+        fields.put("stack_trace", getStackTrace(t));
+        log(LogLevel.ERROR, message, fields);
+    }
+
+    public void error(String message, Map&lt;String, Object&gt; fields) {
+        log(LogLevel.ERROR, message, fields);
+    }
+
+    /**
+     * Core logging method
+     * Time: O(1) + O(JSON serialization)
+     *
+     * TODO: Implement core logging
+     * 1. Check if level is enabled
+     * 2. Create log entry with context
+     * 3. Serialize to JSON
+     * 4. Write to output
+     */
+    private void log(LogLevel level, String message, Map&lt;String, Object&gt; fields) {
+        // TODO: Check if level should be logged
+
+        // TODO: Create log entry
+
+        // TODO: Serialize to JSON and output
+    }
+
+    /**
+     * Helper: Get stack trace as string
+     *
+     * TODO: Implement stack trace extraction
+     */
+    private String getStackTrace(Throwable t) {
+        // TODO: Convert stack trace to string
+        return null; // Replace
+    }
+
+    /**
+     * Log aggregation helper: Parse JSON logs
+     *
+     * TODO: Implement log parsing for aggregation
+     */
+    public static LogEntry parseLog(String json) {
+        // TODO: Parse JSON string back to LogEntry
+        return null; // Replace
+    }
+
+    /**
+     * Filter logs by level
+     * Time: O(N) where N = logs
+     *
+     * TODO: Implement log filtering
+     */
+    public static List&lt;LogEntry&gt; filterByLevel(List&lt;LogEntry&gt; logs, LogLevel level) {
+        // TODO: Filter logs by minimum level
+        return null; // Replace
+    }
+
+    /**
+     * Find logs by context (e.g., trace_id)
+     * Time: O(N)
+     *
+     * TODO: Implement context-based search
+     */
+    public static List&lt;LogEntry&gt; findByContext(List&lt;LogEntry&gt; logs,
+                                               String key, Object value) {
+        // TODO: Filter logs by context field
+        return null; // Replace
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class StructuredLoggerClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Structured Logging ===\n");
+
+        StructuredLogger logger = new StructuredLogger(
+            "order-service",
+            StructuredLogger.LogLevel.INFO
+        );
+
+        // Test 1: Basic logging
+        System.out.println("--- Test 1: Basic Logging ---");
+        logger.info("Service started");
+        logger.info("Processing order", Map.of("order_id", "12345", "amount", 99.99));
+        logger.warn("High memory usage", Map.of("memory_percent", 85));
+
+        // Test 2: Context propagation
+        System.out.println("\n--- Test 2: Context Propagation ---");
+        logger.addContext("trace_id", "abc-123-def");
+        logger.addContext("user_id", "user_456");
+
+        logger.info("User logged in");
+        logger.info("Fetching user data", Map.of("user_id", "user_456"));
+        logger.info("Order created", Map.of("order_id", "67890"));
+
+        logger.clearContext();
+
+        // Test 3: Error logging
+        System.out.println("\n--- Test 3: Error Logging ---");
+        try {
+            throw new RuntimeException("Database connection failed");
+        } catch (Exception e) {
+            logger.error("Failed to process order", e);
+        }
+
+        // Test 4: Different log levels
+        System.out.println("\n--- Test 4: Log Levels ---");
+        StructuredLogger debugLogger = new StructuredLogger(
+            "debug-service",
+            StructuredLogger.LogLevel.DEBUG
+        );
+
+        debugLogger.info("This appears");
+        // debugLogger.debug("This also appears"); // Would need debug method
+        debugLogger.warn("Warning message");
+        debugLogger.error("Error message");
+
+        // Test 5: Structured fields
+        System.out.println("\n--- Test 5: Structured Fields ---");
+        Map&lt;String, Object&gt; orderFields = new HashMap&lt;&gt;();
+        orderFields.put("order_id", "ORDER-123");
+        orderFields.put("customer_id", "CUST-456");
+        orderFields.put("total", 149.99);
+        orderFields.put("items_count", 3);
+
+        logger.info("Order completed", orderFields);
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-3-distributed-tracing">Pattern 3: Distributed Tracing<a class="headerlink" href="#pattern-3-distributed-tracing" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Track requests across multiple services with parent-child relationships.</p>
+<p><strong>Use case:</strong> Debugging microservices, understanding request flow, finding bottlenecks.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+import java.time.*;
+import java.util.concurrent.*;
+
+/**
+ * Distributed Tracing: Track requests across services
+ *
+ * Concepts:
+ * - Trace: End-to-end request flow
+ * - Span: Single operation within a trace
+ * - Context: Trace ID + Span ID propagated across services
+ */
+public class DistributedTracer {
+
+    /**
+     * Trace context: Propagated across service boundaries
+     *
+     * TODO: Define trace context structure
+     */
+    static class TraceContext {
+        String traceId;      // Unique ID for entire trace
+        String spanId;       // Current span ID
+        String parentSpanId; // Parent span ID (null for root)
+
+        TraceContext(String traceId, String spanId, String parentSpanId) {
+            this.traceId = traceId;
+            this.spanId = spanId;
+            this.parentSpanId = parentSpanId;
+        }
+
+        /**
+         * Create root trace context
+         *
+         * TODO: Generate new trace ID
+         */
+        public static TraceContext createRoot() {
+            // TODO: Generate unique trace ID
+            return null; // Replace
+        }
+
+        /**
+         * Create child context for new span
+         *
+         * TODO: Generate child span ID
+         */
+        public TraceContext createChild() {
+            // TODO: Keep same trace ID, new span ID
+            return null; // Replace
+        }
+    }
+
+    /**
+     * Span: Represents single operation
+     * Time: O(1) for all operations
+     *
+     * TODO: Define span structure
+     */
+    static class Span {
+        String traceId;
+        String spanId;
+        String parentSpanId;
+        String operationName;
+        long startTimeMicros;
+        long endTimeMicros;
+        Map&lt;String, String&gt; tags;
+        List&lt;String&gt; logs;
+
+        Span(TraceContext context, String operationName) {
+            this.traceId = context.traceId;
+            this.spanId = context.spanId;
+            this.parentSpanId = context.parentSpanId;
+            this.operationName = operationName;
+            this.startTimeMicros = System.nanoTime() / 1000;
+            this.tags = new HashMap&lt;&gt;();
+            this.logs = new ArrayList&lt;&gt;();
+        }
+
+        /**
+         * Add tag to span (metadata)
+         *
+         * TODO: Add span tag
+         */
+        public void setTag(String key, String value) {
+            // TODO: Add to tags map
+        }
+
+        /**
+         * Log event within span
+         *
+         * TODO: Add log entry
+         */
+        public void log(String message) {
+            // TODO: Add timestamped log
+        }
+
+        /**
+         * Finish span (record end time)
+         *
+         * TODO: Record end time
+         */
+        public void finish() {
+            // TODO: Set end time
+        }
+
+        public long getDurationMicros() {
+            return endTimeMicros - startTimeMicros;
+        }
+    }
+
+    /**
+     * Tracer: Creates and manages spans
+     */
+    private final String serviceName;
+    private final ThreadLocal&lt;Deque&lt;Span&gt;&gt; activeSpans;
+    private final List&lt;Span&gt; completedSpans;
+
+    public DistributedTracer(String serviceName) {
+        this.serviceName = serviceName;
+        this.activeSpans = ThreadLocal.withInitial(ArrayDeque::new);
+        this.completedSpans = new CopyOnWriteArrayList&lt;&gt;();
+    }
+
+    /**
+     * Start new root span
+     * Time: O(1)
+     *
+     * TODO: Create root span
+     */
+    public Span startSpan(String operationName) {
+        // TODO: Create root context and span
+        return null; // Replace
+    }
+
+    /**
+     * Start child span of current active span
+     * Time: O(1)
+     *
+     * TODO: Create child span
+     */
+    public Span startChildSpan(String operationName) {
+        // TODO: Get current span, create child context
+        //
+        //   Span parent = stack.peek();
+        //   TraceContext parentContext = new TraceContext(
+        //     parent.traceId, parent.spanId, parent.parentSpanId
+        //   );
+        //   TraceContext childContext = parentContext.createChild();
+        //   Span span = new Span(childContext, operationName);
+        //   span.setTag("service", serviceName);
+        //   stack.push(span);
+        //   return span;
+        return null; // Replace
+    }
+
+    /**
+     * Finish current span
+     * Time: O(1)
+     *
+     * TODO: Finish and record span
+     */
+    public void finishSpan() {
+        // TODO: Pop span from stack, finish it, store it
+    }
+
+    /**
+     * Get current active span
+     * Time: O(1)
+     *
+     * TODO: Return current span
+     */
+    public Span getCurrentSpan() {
+        // TODO: Peek at top of stack
+        return null; // Replace
+    }
+
+    /**
+     * Find all spans for a trace
+     * Time: O(N) where N = total spans
+     *
+     * TODO: Filter spans by trace ID
+     */
+    public List&lt;Span&gt; getTrace(String traceId) {
+        // TODO: Filter completed spans by trace ID
+        return null; // Replace
+    }
+
+    /**
+     * Build trace tree for visualization
+     * Time: O(N) where N = spans in trace
+     *
+     * TODO: Build parent-child tree
+     */
+    public String visualizeTrace(String traceId) {
+        // TODO: Build tree structure from parent-child relationships
+        //
+        //   // Group by parent
+        //   for (Span span : spans) {
+        //     String parentId = span.parentSpanId != null ? span.parentSpanId : "root";
+        //     childrenMap.computeIfAbsent(parentId, k -&gt; new ArrayList&lt;&gt;())
+        //                .add(span);
+        //   }
+        //
+        //   // Find root and build tree
+        //   Span root = spans.stream()
+        //     .filter(s -&gt; s.parentSpanId == null)
+        //     .findFirst()
+        //     .orElse(null);
+        //
+        //   StringBuilder sb = new StringBuilder();
+        //   buildTraceString(root, childrenMap, sb, 0);
+        //   return sb.toString();
+
+        return null; // Replace
+    }
+
+    private void buildTraceString(Span span, Map&lt;String, List&lt;Span&gt;&gt; childrenMap,
+                                   StringBuilder sb, int depth) {
+        // TODO: Recursively build tree string
+        //
+        //   List&lt;Span&gt; children = childrenMap.get(span.spanId);
+        //   if (children != null) {
+        //     for (Span child : children) {
+        //       buildTraceString(child, childrenMap, sb, depth + 1);
+        //     }
+        //   }
+    }
+
+    /**
+     * Calculate critical path (longest path in trace)
+     * Time: O(N) where N = spans
+     *
+     * TODO: Find bottleneck in trace
+     */
+    public List&lt;Span&gt; getCriticalPath(String traceId) {
+        // TODO: DFS to find longest path
+        return null; // Replace
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class DistributedTracerClient {
+
+    public static void main(String[] args) throws InterruptedException {
+        System.out.println("=== Distributed Tracing ===\n");
+
+        DistributedTracer tracer = new DistributedTracer("order-service");
+
+        // Test 1: Simple trace
+        System.out.println("--- Test 1: Simple Trace ---");
+        DistributedTracer.Span rootSpan = tracer.startSpan("process_order");
+        rootSpan.setTag("order_id", "12345");
+        rootSpan.log("Order validation started");
+
+        Thread.sleep(10);
+        rootSpan.log("Order validated");
+        tracer.finishSpan();
+
+        System.out.println("Root span duration: " +
+            rootSpan.getDurationMicros() / 1000.0 + "ms");
+
+        // Test 2: Parent-child spans
+        System.out.println("\n--- Test 2: Parent-Child Spans ---");
+        DistributedTracer.Span apiSpan = tracer.startSpan("api_request");
+        apiSpan.setTag("endpoint", "/api/checkout");
+        apiSpan.log("Request received");
+
+        Thread.sleep(5);
+
+        DistributedTracer.Span dbSpan = tracer.startChildSpan("database_query");
+        dbSpan.setTag("query", "SELECT * FROM orders");
+        dbSpan.log("Query started");
+        Thread.sleep(15);
+        dbSpan.log("Query completed");
+        tracer.finishSpan(); // Finish DB span
+
+        DistributedTracer.Span cacheSpan = tracer.startChildSpan("cache_lookup");
+        cacheSpan.setTag("key", "user:123");
+        Thread.sleep(2);
+        tracer.finishSpan(); // Finish cache span
+
+        apiSpan.log("Request completed");
+        tracer.finishSpan(); // Finish API span
+
+        String traceId = apiSpan.traceId;
+        System.out.println("Trace ID: " + traceId);
+        System.out.println("API span duration: " + apiSpan.getDurationMicros() / 1000.0 + "ms");
+        System.out.println("DB span duration: " + dbSpan.getDurationMicros() / 1000.0 + "ms");
+        System.out.println("Cache span duration: " + cacheSpan.getDurationMicros() / 1000.0 + "ms");
+
+        // Test 3: Trace visualization
+        System.out.println("\n--- Test 3: Trace Visualization ---");
+        String visualization = tracer.visualizeTrace(traceId);
+        if (visualization != null) {
+            System.out.println(visualization);
+        } else {
+            System.out.println("(Trace visualization not yet implemented)");
+        }
+
+        // Test 4: Multiple traces
+        System.out.println("\n--- Test 4: Multiple Traces ---");
+        DistributedTracer.Span trace1 = tracer.startSpan("operation_1");
+        Thread.sleep(5);
+        tracer.finishSpan();
+
+        DistributedTracer.Span trace2 = tracer.startSpan("operation_2");
+        Thread.sleep(8);
+        tracer.finishSpan();
+
+        System.out.println("Trace 1 ID: " + trace1.traceId);
+        System.out.println("Trace 2 ID: " + trace2.traceId);
+        System.out.println("Different traces: " + !trace1.traceId.equals(trace2.traceId));
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-4-slos-and-alerting">Pattern 4: SLOs and Alerting<a class="headerlink" href="#pattern-4-slos-and-alerting" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Define Service Level Objectives and alert on violations.</p>
+<p><strong>Use case:</strong> Production monitoring, on-call alerting, capacity planning.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+import java.time.*;
+
+/**
+ * SLO Management and Alerting
+ *
+ * Definitions:
+ * - SLI (Service Level Indicator): Actual measurement (e.g., 99.5% uptime)
+ * - SLO (Service Level Objective): Target value (e.g., 99.9% uptime)
+ * - SLA (Service Level Agreement): Contract with penalties (e.g., 99.95% uptime)
+ * - Error Budget: Allowed failure amount (e.g., 0.1% = 43 minutes/month)
+ */
+public class SLOManager {
+
+    /**
+     * SLI: Service Level Indicator
+     */
+    enum SLIType {
+        AVAILABILITY,  // % of successful requests
+        LATENCY,       // % of requests below threshold
+        ERROR_RATE     // % of failed requests
+    }
+
+    /**
+     * SLO Definition
+     *
+     * TODO: Define SLO structure
+     */
+    static class SLO {
+        String name;
+        SLIType type;
+        double target;         // Target value (e.g., 0.999 for 99.9%)
+        Duration window;       // Time window (e.g., 30 days)
+        double alertThreshold; // When to alert (e.g., 0.5 = 50% error budget consumed)
+
+        SLO(String name, SLIType type, double target, Duration window, double alertThreshold) {
+            this.name = name;
+            this.type = type;
+            this.target = target;
+            this.window = window;
+            this.alertThreshold = alertThreshold;
+        }
+    }
+
+    /**
+     * SLI Measurement
+     *
+     * TODO: Track actual measurements
+     */
+    static class SLIMeasurement {
+        SLO slo;
+        List&lt;DataPoint&gt; measurements;
+
+        static class DataPoint {
+            Instant timestamp;
+            double value;
+
+            DataPoint(Instant timestamp, double value) {
+                this.timestamp = timestamp;
+                this.value = value;
+            }
+        }
+
+        SLIMeasurement(SLO slo) {
+            this.slo = slo;
+            this.measurements = new ArrayList&lt;&gt;();
+        }
+
+        /**
+         * Record measurement
+         * Time: O(1)
+         *
+         * TODO: Add data point
+         */
+        public void record(double value) {
+            // TODO: Add measurement with timestamp
+        }
+
+        /**
+         * Calculate current SLI value
+         * Time: O(N) where N = measurements in window
+         *
+         * TODO: Calculate SLI for time window
+         */
+        public double calculate() {
+            // TODO: Filter measurements within window
+            //
+            //   if (recent.isEmpty()) return 1.0;
+            //
+            //   // Calculate based on SLI type
+            //   switch (slo.type) {
+            //     case AVAILABILITY:
+            //       // % of successful requests
+            //       return recent.stream()
+            //         .mapToDouble(dp -&gt; dp.value)
+            //         .average()
+            //         .orElse(1.0);
+            //     // ... other types
+            //   }
+
+            return 1.0; // Replace
+        }
+
+        /**
+         * Calculate error budget remaining
+         * Time: O(1) after calculate()
+         *
+         * TODO: Compute error budget
+         * Error budget = (target - actual) / (1 - target)
+         * Example: target=0.999, actual=0.998
+         *   budget = (0.999 - 0.998) / (1 - 0.999) = 0.001 / 0.001 = 1.0 (100% remaining)
+         */
+        public double getErrorBudget() {
+            // TODO: Calculate error budget
+            //
+            //   double allowed = 1.0 - slo.target;  // Allowed failure rate
+            //   double actual = 1.0 - current;       // Actual failure rate
+            //   double consumed = actual / allowed;  // Fraction consumed
+            //   return Math.max(0.0, 1.0 - consumed); // Remaining budget
+
+            return 1.0; // Replace
+        }
+
+        /**
+         * Check if alert should fire
+         * Time: O(1)
+         *
+         * TODO: Determine if alert needed
+         */
+        public boolean shouldAlert() {
+            // TODO: Check if error budget below threshold
+            return false; // Replace
+        }
+    }
+
+    /**
+     * Alert Rule
+     *
+     * TODO: Define alert conditions
+     */
+    static class AlertRule {
+        String name;
+        String query;          // Metric query (e.g., "error_rate &gt; 0.01")
+        Duration duration;     // Must be true for this long
+        String severity;       // CRITICAL, WARNING, INFO
+        String message;
+        List&lt;String&gt; notifyChannels; // slack, pagerduty, email
+
+        AlertRule(String name, String query, Duration duration,
+                  String severity, String message, List&lt;String&gt; channels) {
+            this.name = name;
+            this.query = query;
+            this.duration = duration;
+            this.severity = severity;
+            this.message = message;
+            this.notifyChannels = channels;
+        }
+    }
+
+    /**
+     * Alert Manager
+     *
+     * TODO: Evaluate rules and fire alerts
+     */
+    static class AlertManager {
+        private List&lt;AlertRule&gt; rules;
+        private Map&lt;String, Instant&gt; firingAlerts; // Alert name -&gt; first fired time
+
+        AlertManager() {
+            this.rules = new ArrayList&lt;&gt;();
+            this.firingAlerts = new HashMap&lt;&gt;();
+        }
+
+        /**
+         * Add alert rule
+         *
+         * TODO: Register alert rule
+         */
+        public void addRule(AlertRule rule) {
+            // TODO: Add to rules list
+        }
+
+        /**
+         * Evaluate all rules
+         * Time: O(R) where R = rules
+         *
+         * TODO: Check all alert conditions
+         */
+        public List&lt;Alert&gt; evaluate(Map&lt;String, Double&gt; metrics) {
+            List&lt;Alert&gt; alerts = new ArrayList&lt;&gt;();
+
+            // TODO: Implement iteration/conditional logic
+            //
+            //     if (condition) {
+            //       // Check if been firing long enough
+            //       Instant firstFired = firingAlerts.computeIfAbsent(
+            //         rule.name, k -&gt; Instant.now()
+            //       );
+            //       Duration firingFor = Duration.between(firstFired, Instant.now());
+            //
+            //       if (firingFor.compareTo(rule.duration) &gt;= 0) {
+            //         alerts.add(new Alert(rule));
+            //       }
+            //     } else {
+            //       // Clear if no longer firing
+            //       firingAlerts.remove(rule.name);
+            //     }
+            //   }
+
+            return alerts; // Replace
+        }
+
+        /**
+         * Helper: Evaluate query condition
+         *
+         * TODO: Parse and evaluate simple queries
+         */
+        private boolean evaluateQuery(String query, Map&lt;String, Double&gt; metrics) {
+            // TODO: Parse query like "error_rate &gt; 0.01"
+            //
+            //   String metric = parts[0];
+            //   String operator = parts[1];
+            //   double threshold = Double.parseDouble(parts[2]);
+            //
+            //   Double value = metrics.get(metric);
+            //   if (value == null) return false;
+            //
+            //   switch (operator) {
+            //     case "&gt;": return value &gt; threshold;
+            //     case "&lt;": return value &lt; threshold;
+            //     case "&gt;=": return value &gt;= threshold;
+            //     case "&lt;=": return value &lt;= threshold;
+            //     default: return false;
+            //   }
+
+            return false; // Replace
+        }
+    }
+
+    /**
+     * Fired Alert
+     *
+     * TODO: Alert notification structure
+     */
+    static class Alert {
+        AlertRule rule;
+        Instant firedAt;
+
+        Alert(AlertRule rule) {
+            this.rule = rule;
+            this.firedAt = Instant.now();
+        }
+
+        @Override
+        public String toString() {
+            return String.format("[%s] %s: %s",
+                rule.severity, rule.name, rule.message);
+        }
+    }
+
+    /**
+     * Runbook: Steps to resolve alert
+     *
+     * TODO: Define runbook structure
+     */
+    static class Runbook {
+        String alertName;
+        String description;
+        List&lt;String&gt; investigationSteps;
+        List&lt;String&gt; resolutionSteps;
+        Map&lt;String, String&gt; relatedDashboards;
+
+        Runbook(String alertName) {
+            this.alertName = alertName;
+            this.investigationSteps = new ArrayList&lt;&gt;();
+            this.resolutionSteps = new ArrayList&lt;&gt;();
+            this.relatedDashboards = new HashMap&lt;&gt;();
+        }
+
+        public void addInvestigationStep(String step) {
+            investigationSteps.add(step);
+        }
+
+        public void addResolutionStep(String step) {
+            resolutionSteps.add(step);
+        }
+
+        public void addDashboard(String name, String url) {
+            relatedDashboards.put(name, url);
+        }
+
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append("=== Runbook: ").append(alertName).append(" ===\n\n");
+            sb.append(description).append("\n\n");
+
+            sb.append("Investigation Steps:\n");
+            for (int i = 0; i &lt; investigationSteps.size(); i++) {
+                sb.append((i + 1)).append(". ").append(investigationSteps.get(i)).append("\n");
+            }
+
+            sb.append("\nResolution Steps:\n");
+            for (int i = 0; i &lt; resolutionSteps.size(); i++) {
+                sb.append((i + 1)).append(". ").append(resolutionSteps.get(i)).append("\n");
+            }
+
+            if (!relatedDashboards.isEmpty()) {
+                sb.append("\nRelated Dashboards:\n");
+                relatedDashboards.forEach((name, url) -&gt;
+                    sb.append("- ").append(name).append(": ").append(url).append("\n")
+                );
+            }
+
+            return sb.toString();
+        }
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+import java.time.*;
+
+public class SLOManagerClient {
+
+    public static void main(String[] args) throws InterruptedException {
+        System.out.println("=== SLO Management and Alerting ===\n");
+
+        // Test 1: SLO Tracking
+        System.out.println("--- Test 1: SLO Tracking ---");
+        SLOManager.SLO availabilitySLO = new SLOManager.SLO(
+            "API Availability",
+            SLOManager.SLIType.AVAILABILITY,
+            0.999,  // 99.9% target
+            Duration.ofDays(30),
+            0.5     // Alert at 50% error budget
+        );
+
+        SLOManager.SLIMeasurement measurement = new SLOManager.SLIMeasurement(availabilitySLO);
+
+        // Simulate measurements (1 = success, 0 = failure)
+        for (int i = 0; i &lt; 1000; i++) {
+            measurement.record(1.0); // Success
+        }
+        for (int i = 0; i &lt; 2; i++) {
+            measurement.record(0.0); // Failure
+        }
+
+        double currentSLI = measurement.calculate();
+        double errorBudget = measurement.getErrorBudget();
+        boolean shouldAlert = measurement.shouldAlert();
+
+        System.out.println("Target SLO: 99.9%");
+        System.out.println("Current SLI: " + (currentSLI * 100) + "%");
+        System.out.println("Error budget remaining: " + (errorBudget * 100) + "%");
+        System.out.println("Should alert: " + shouldAlert);
+
+        // Test 2: Alert Rules
+        System.out.println("\n--- Test 2: Alert Rules ---");
+        SLOManager.AlertManager alertManager = new SLOManager.AlertManager();
+
+        SLOManager.AlertRule highErrorRate = new SLOManager.AlertRule(
+            "HighErrorRate",
+            "error_rate &gt; 0.01",
+            Duration.ofMinutes(5),
+            "CRITICAL",
+            "Error rate above 1% for 5+ minutes",
+            Arrays.asList("pagerduty", "slack")
+        );
+
+        SLOManager.AlertRule highLatency = new SLOManager.AlertRule(
+            "HighLatency",
+            "p99_latency &gt; 1.0",
+            Duration.ofMinutes(10),
+            "WARNING",
+            "P99 latency above 1s for 10+ minutes",
+            Arrays.asList("slack")
+        );
+
+        alertManager.addRule(highErrorRate);
+        alertManager.addRule(highLatency);
+
+        // Simulate metrics
+        Map&lt;String, Double&gt; metrics = new HashMap&lt;&gt;();
+        metrics.put("error_rate", 0.015);  // 1.5% errors
+        metrics.put("p99_latency", 0.8);   // 800ms
+
+        List&lt;SLOManager.Alert&gt; alerts = alertManager.evaluate(metrics);
+        System.out.println("Alerts fired: " + alerts.size());
+        for (SLOManager.Alert alert : alerts) {
+            System.out.println(alert);
+        }
+
+        // Test 3: Error Budget Calculation
+        System.out.println("\n--- Test 3: Error Budget Calculation ---");
+        double[] targets = {0.99, 0.999, 0.9999};
+        String[] names = {"99%", "99.9%", "99.99%"};
+
+        for (int i = 0; i &lt; targets.length; i++) {
+            double target = targets[i];
+            double allowedDowntime = (1.0 - target) * 30 * 24 * 60; // minutes per month
+            System.out.println("\nSLO: " + names[i]);
+            System.out.println("Allowed downtime: " + allowedDowntime + " minutes/month");
+            System.out.println("That's " + (allowedDowntime / 60) + " hours/month");
+        }
+
+        // Test 4: Runbook
+        System.out.println("\n--- Test 4: Runbook ---");
+        SLOManager.Runbook runbook = new SLOManager.Runbook("HighErrorRate");
+        runbook.description = "Error rate has exceeded 1% threshold";
+
+        runbook.addInvestigationStep("Check error logs for patterns");
+        runbook.addInvestigationStep("Review recent deployments");
+        runbook.addInvestigationStep("Check downstream service health");
+        runbook.addInvestigationStep("Verify database connection pool");
+
+        runbook.addResolutionStep("Rollback recent deployment if needed");
+        runbook.addResolutionStep("Scale up affected services");
+        runbook.addResolutionStep("Enable circuit breakers");
+        runbook.addResolutionStep("Update on-call ticket with findings");
+
+        runbook.addDashboard("Error Dashboard", "https://grafana.example.com/errors");
+        runbook.addDashboard("Service Health", "https://grafana.example.com/health");
+
+        System.out.println(runbook);
+    }
+}</code></pre>
+<hr/>
+<h2 id="debugging-challenges">Debugging Challenges<a class="headerlink" href="#debugging-challenges" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Find and fix bugs in broken observability implementations. This tests your understanding.</p>
+<h3 id="challenge-1-missing-metric-labels">Challenge 1: Missing Metric Labels<a class="headerlink" href="#challenge-1-missing-metric-labels" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * This metrics collector is supposed to track requests per endpoint.
+ * It has a CRITICAL DESIGN FLAW. Find it!
+ */
+public class EndpointMetrics {
+    private Counter totalRequests = new Counter("http_requests_total", Map.of());
+
+    public void recordRequest(String endpoint, String method, int statusCode) {
+        totalRequests.inc();
+    }
+
+    public long getRequestCount() {
+        return totalRequests.get();
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>Bug: <span class="fill-in">[What\'s the bug?]</span></li>
+<li><strong>Impact:</strong> <span class="fill-in">[Why is this a problem in production?]</span></li>
+</ul>
+<p><strong>Test scenario:</strong></p>
+<ul>
+<li>100 requests to <code>/api/users</code> (GET)</li>
+<li>50 requests to <code>/api/orders</code> (POST)</li>
+<li>10 requests to <code>/api/users</code> (DELETE)</li>
+<li><strong>What can you query?</strong> <span class="fill-in">[Fill in what you can and can't learn]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug:</strong> No labels! All requests go into a single counter, so you can't distinguish:</p>
+<ul>
+<li>Which endpoint is getting traffic</li>
+<li>Which HTTP method is used</li>
+<li>Which status codes are returned</li>
+</ul>
+<p><strong>Fix:</strong></p>
+<pre class="highlight"><code class="language-java">public void recordRequest(String endpoint, String method, int statusCode) {
+    Map&lt;String, String&gt; labels = Map.of(
+        "endpoint", endpoint,
+        "method", method,
+        "status_code", String.valueOf(statusCode)
+    );
+    Counter counter = new Counter("http_requests_total", labels);
+    counter.inc();
+}</code></pre>
+<p><strong>Impact:</strong> Without labels, you can't:</p>
+<ul>
+<li>Alert on specific endpoint errors</li>
+<li>Identify which API is slow</li>
+<li>Track SLOs per endpoint</li>
+<li>Debug which endpoint is causing load</li>
+</ul>
+</details>
+<hr/>
+<h3 id="challenge-2-high-cardinality-labels">Challenge 2: High-Cardinality Labels<a class="headerlink" href="#challenge-2-high-cardinality-labels" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * This code tracks cache hits/misses per user.
+ * It has a SCALABILITY BUG. Find it!
+ */
+public class CacheMetrics {
+    private Map&lt;String, Counter&gt; cacheHitsByUser = new ConcurrentHashMap&lt;&gt;();
+
+    public void recordCacheHit(String userId) {
+        cacheHitsByUser
+            .computeIfAbsent(userId,
+                k -&gt; new Counter("cache_hits", Map.of("user_id", userId)))
+            .inc();
+    }
+
+    // 1M users = 1M unique metric series!
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug:</strong> <span class="fill-in">[What's the high-cardinality problem?]</span></li>
+<li><strong>Memory impact:</strong> <span class="fill-in">[How much memory with 1M users?]</span></li>
+<li><strong>Query impact:</strong> <span class="fill-in">[Why do queries become slow?]</span></li>
+<li><strong>Fix:</strong> <span class="fill-in">[What should you track instead?]</span></li>
+</ul>
+<p><strong>Cardinality calculation:</strong></p>
+<ul>
+<li>If 1M users, you create _____ unique time series</li>
+<li>If each series uses 10KB of memory = <span class="fill-in">_____</span> GB total</li>
+<li>Query time grows from 10ms to _____ seconds</li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug:</strong> <code>user_id</code> is a high-cardinality label (potentially millions of unique values). This causes:</p>
+<ul>
+<li><strong>Memory explosion:</strong> Each unique label combination = new time series</li>
+<li><strong>Slow queries:</strong> Database must scan millions of series</li>
+<li><strong>Storage costs:</strong> Unbounded growth</li>
+<li><strong>Metric system overload:</strong> Can crash Prometheus/etc.</li>
+</ul>
+<p><strong>Fix:</strong> Track aggregated metrics instead:</p>
+<pre class="highlight"><code class="language-java">// GOOD: Low cardinality
+private Counter cacheHits = new Counter("cache_hits_total", Map.of());
+private Counter cacheMisses = new Counter("cache_misses_total", Map.of());
+
+public void recordCacheHit(boolean hit) {
+    if (hit) {
+        cacheHits.inc();
+    } else {
+        cacheMisses.inc();
+    }
+}
+
+// If you need user-level detail, use logs or traces instead!
+logger.info("Cache hit", Map.of("user_id", userId, "key", key));</code></pre>
+<p><strong>Rule:</strong> Metric labels should have <strong>bounded cardinality</strong> (&lt; 100 unique values per label).</p>
+</details>
+<hr/>
+<h3 id="challenge-3-slow-histogram-queries">Challenge 3: Slow Histogram Queries<a class="headerlink" href="#challenge-3-slow-histogram-queries" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * This histogram implementation is correct but SLOW.
+ * Why? How to fix it?
+ */
+public class LatencyHistogram {
+    private List&lt;Double&gt; allLatencies = new ArrayList&lt;&gt;();
+
+    public void observe(double latency) {
+        synchronized(allLatencies) {
+            allLatencies.add(latency);
+        }
+    }
+
+    public double getP99() {
+        synchronized(allLatencies) {
+            if (allLatencies.isEmpty()) return 0.0;
+
+            Collections.sort(allLatencies);
+            int index = (int)(allLatencies.size() * 0.99);
+            return allLatencies.get(index);
+        }
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Performance bug:</strong> <span class="fill-in">[What operation is expensive?]</span></li>
+<li><strong>Complexity:</strong> <span class="fill-in">[What's the time complexity?]</span></li>
+<li><strong>With 1M observations:</strong> <span class="fill-in">[How long does getP99 take?]</span></li>
+<li><strong>Fix:</strong> <span class="fill-in">[What data structure should you use?]</span></li>
+</ul>
+<p><strong>Performance impact:</strong></p>
+<ul>
+<li>1M observations in list</li>
+<li>Calling getP99 100 times per second</li>
+<li>Current: <span class="fill-in">_____</span> ms per call</li>
+<li>Fixed: <span class="fill-in">_____</span> ms per call</li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug:</strong> Sorting entire list on every query is O(n log n). With 1M observations:</p>
+<ul>
+<li>1M * log(1M) ≈ 20M operations</li>
+<li>At 100 calls/sec = 2 billion operations/sec!</li>
+</ul>
+<p><strong>Fix:</strong> Use bucketed histogram (like Prometheus):</p>
+<pre class="highlight"><code class="language-java">public class LatencyHistogram {
+    private final double[] buckets = {0.01, 0.05, 0.1, 0.5, 1.0, 5.0};
+    private final AtomicLongArray counts = new AtomicLongArray(buckets.length + 1);
+    private final AtomicLong totalCount = new AtomicLong(0);
+
+    public void observe(double latency) {
+        int bucket = findBucket(latency);
+        counts.incrementAndGet(bucket);
+        totalCount.incrementAndGet();
+    }
+
+    public double getP99() {
+        long total = totalCount.get();
+        long target = (long)(total * 0.99);
+        long cumulative = 0;
+
+        for (int i = 0; i &lt; counts.length(); i++) {
+            cumulative += counts.get(i);
+            if (cumulative &gt;= target) {
+                return i &lt; buckets.length ? buckets[i] : Double.POSITIVE_INFINITY;
+            }
+        }
+        return 0.0;
+    }
+}</code></pre>
+<p><strong>Improvement:</strong></p>
+<ul>
+<li><strong>Before:</strong> O(n log n) = ~20M ops for 1M observations</li>
+<li><strong>After:</strong> O(buckets) = ~7 ops regardless of observation count</li>
+<li><strong>Speedup:</strong> ~3 million times faster!</li>
+</ul>
+<p><strong>Trade-off:</strong> Approximate percentiles (bucket boundaries) vs exact values.</p>
+</details>
+<hr/>
+<h3 id="challenge-4-broken-trace-sampling">Challenge 4: Broken Trace Sampling<a class="headerlink" href="#challenge-4-broken-trace-sampling" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * This trace sampler is supposed to sample 10% of traces.
+ * It has a CRITICAL BUG. Find it!
+ */
+public class TraceSampler {
+    private Random random = new Random();
+    private double sampleRate = 0.10; // 10%
+
+    public boolean shouldSample(String traceId) {
+        return random.nextDouble() &lt; sampleRate;
+    }
+}
+
+// Usage:
+public Span startSpan(String operation) {
+    if (sampler.shouldSample(currentTraceId)) {
+        return tracer.startSpan(operation);
+    }
+    return null;
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug:</strong> <span class="fill-in">[What's inconsistent about this sampling?]</span></li>
+<li><strong>Impact:</strong> <span class="fill-in">[What happens to child spans?]</span></li>
+<li><strong>Trace visualization:</strong> <span class="fill-in">[Why are traces incomplete?]</span></li>
+<li><strong>Fix:</strong> <span class="fill-in">[How to ensure consistent sampling?]</span></li>
+</ul>
+<p><strong>Test scenario:</strong></p>
+<ul>
+<li>Parent span: API request (sampled = true)</li>
+<li>Child span: Database query (sampled = ???)</li>
+<li>Grandchild span: Cache lookup (sampled = ???)</li>
+<li><strong>Problem:</strong> <span class="fill-in">[What's broken about the trace?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug:</strong> Each span makes independent sampling decision! This causes:</p>
+<ul>
+<li>Parent sampled but children dropped → incomplete traces</li>
+<li>Children sampled but parent dropped → orphaned spans</li>
+<li>Can't reconstruct full request flow</li>
+</ul>
+<p><strong>Fix:</strong> Sample based on trace ID (head-based sampling):</p>
+<pre class="highlight"><code class="language-java">public class TraceSampler {
+    private double sampleRate = 0.10;
+
+    public boolean shouldSample(String traceId) {
+        // Hash trace ID to get consistent decision
+        // All spans in same trace get same result
+        long hash = Math.abs(traceId.hashCode());
+        return (hash % 100) &lt; (sampleRate * 100);
+    }
+}
+
+// Now all spans in trace have same sampling decision!</code></pre>
+<p><strong>Alternative:</strong> Tail-based sampling (sample AFTER seeing full trace):</p>
+<pre class="highlight"><code class="language-java">// Keep all traces in memory temporarily
+// Sample based on: errors, high latency, specific endpoints
+// Trade-off: More memory, but smarter sampling</code></pre>
+<p><strong>Key insight:</strong> Sampling decision must be consistent across entire trace.</p>
+</details>
+<hr/>
+<h3 id="challenge-5-missing-log-context">Challenge 5: Missing Log Context<a class="headerlink" href="#challenge-5-missing-log-context" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * These logs look fine individually but are USELESS for debugging.
+ * What's missing?
+ */
+public class OrderService {
+    private StructuredLogger logger = new StructuredLogger("order-service");
+
+    public void processOrder(Order order) {
+        logger.info("Processing order");
+
+        validateOrder(order);
+        logger.info("Order validated");
+
+        chargePayment(order);
+        logger.info("Payment charged");
+
+        createShipment(order);
+        logger.info("Shipment created");
+    }
+}
+
+// Logs in production:
+// {"timestamp":"...", "level":"INFO", "message":"Processing order"}
+// {"timestamp":"...", "level":"INFO", "message":"Payment charged"}
+// {"timestamp":"...", "level":"INFO", "message":"Order validated"}
+// {"timestamp":"...", "level":"INFO", "message":"Shipment created"}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug:</strong> <span class="fill-in">[What's missing from every log?]</span></li>
+<li><strong>Debugging scenario:</strong> <span class="fill-in">[How do you find logs for order #12345?]</span></li>
+<li><strong>Correlation:</strong> <span class="fill-in">[How do you trace a request across services?]</span></li>
+<li><strong>Fix:</strong> <span class="fill-in">[What fields should every log have?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug:</strong> No context! Missing:</p>
+<ul>
+<li><code>order_id</code> - can't find logs for specific order</li>
+<li><code>trace_id</code> - can't correlate across services</li>
+<li><code>user_id</code> - can't find user's journey</li>
+<li>Ordering - can't tell which log belongs to which request</li>
+</ul>
+<p><strong>Fix:</strong> Add context to every log:</p>
+<pre class="highlight"><code class="language-java">public void processOrder(Order order) {
+    // Set context once at start
+    logger.addContext("order_id", order.getId());
+    logger.addContext("user_id", order.getUserId());
+    logger.addContext("trace_id", getCurrentTraceId());
+
+    try {
+        logger.info("Processing order", Map.of("total", order.getTotal()));
+
+        validateOrder(order);
+        logger.info("Order validated");
+
+        chargePayment(order);
+        logger.info("Payment charged", Map.of("amount", order.getTotal()));
+
+        createShipment(order);
+        logger.info("Shipment created", Map.of("tracking", shipment.getTrackingId()));
+
+    } finally {
+        logger.clearContext(); // Clean up
+    }
+}
+
+// Now logs look like:
+// {"timestamp":"...", "level":"INFO", "message":"Processing order",
+//  "context":{"order_id":"12345", "user_id":"user_1", "trace_id":"abc-123"},
+//  "fields":{"total":99.99}}</code></pre>
+<p><strong>Key insight:</strong> Logs without context are useless for debugging distributed systems.</p>
+</details>
+<hr/>
+<h3 id="your-debugging-scorecard">Your Debugging Scorecard<a class="headerlink" href="#your-debugging-scorecard" title="Permanent link">¶</a></h3>
+<p>After finding and fixing all bugs:</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Found high-cardinality label issue</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understood histogram performance trade-offs</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Fixed trace sampling consistency</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Added proper log context</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Avoided common observability pitfalls</li>
+</ul>
+<p><strong>Common mistakes you discovered:</strong></p>
+<ol>
+<li><span class="fill-in">[List the patterns you noticed]</span></li>
+<li><span class="fill-in">[Fill in]</span></li>
+<li><span class="fill-in">[Fill in]</span></li>
+</ol>
+<hr/>
+<h2 id="decision-framework">Decision Framework<a class="headerlink" href="#decision-framework" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Build decision trees for observability patterns.</p>
+<h3 id="question-1-metrics-vs-logs-vs-traces">Question 1: Metrics vs Logs vs Traces?<a class="headerlink" href="#question-1-metrics-vs-logs-vs-traces" title="Permanent link">¶</a></h3>
+<p>Answer after implementation:</p>
+<p><strong>Use Metrics when:</strong></p>
+<ul>
+<li>Aggregated data: <span class="fill-in">[Count of requests, average latency]</span></li>
+<li>Alerting: <span class="fill-in">[Need to trigger alerts on thresholds]</span></li>
+<li>Dashboards: <span class="fill-in">[Time-series graphs and trends]</span></li>
+<li>Low overhead: <span class="fill-in">[Constant memory usage]</span></li>
+</ul>
+<p><strong>Use Logs when:</strong></p>
+<ul>
+<li>Debugging: <span class="fill-in">[Need full context of what happened]</span></li>
+<li>Audit trail: <span class="fill-in">[Who did what and when]</span></li>
+<li>Irregular events: <span class="fill-in">[Errors, exceptions, business events]</span></li>
+<li>Flexible queries: <span class="fill-in">[Search by any field]</span></li>
+</ul>
+<p><strong>Use Traces when:</strong></p>
+<ul>
+<li>Distributed systems: <span class="fill-in">[Request flows across services]</span></li>
+<li>Performance analysis: <span class="fill-in">[Find bottlenecks in request path]</span></li>
+<li>Dependencies: <span class="fill-in">[Understand service relationships]</span></li>
+<li>Latency debugging: <span class="fill-in">[Which service is slow]</span></li>
+</ul>
+<h3 id="question-2-when-to-add-observability">Question 2: When to add observability?<a class="headerlink" href="#question-2-when-to-add-observability" title="Permanent link">¶</a></h3>
+<p><strong>During development:</strong></p>
+<ul>
+<li>Add metrics: <span class="fill-in">[Core business operations, API endpoints]</span></li>
+<li>Add logs: <span class="fill-in">[Error paths, state changes, important decisions]</span></li>
+<li>Add traces: <span class="fill-in">[Service boundaries, external calls]</span></li>
+</ul>
+<p><strong>During incidents:</strong></p>
+<ul>
+<li>Add metrics: <span class="fill-in">[Missing visibility into problem area]</span></li>
+<li>Add logs: <span class="fill-in">[Need more context for debugging]</span></li>
+<li>Add traces: <span class="fill-in">[Don't understand request flow]</span></li>
+</ul>
+<h3 id="question-3-how-much-is-too-much">Question 3: How much is too much?<a class="headerlink" href="#question-3-how-much-is-too-much" title="Permanent link">¶</a></h3>
+<p><strong>Metrics:</strong></p>
+<ul>
+<li>Too few: <span class="fill-in">[Can't understand system health]</span></li>
+<li>Too many: <span class="fill-in">[Storage costs, query performance]</span></li>
+<li>Sweet spot: <span class="fill-in">[RED/USE for each service, key business metrics]</span></li>
+</ul>
+<p><strong>Logs:</strong></p>
+<ul>
+<li>Too few: <span class="fill-in">[Can't debug issues]</span></li>
+<li>Too many: <span class="fill-in">[Storage costs, signal-to-noise ratio]</span></li>
+<li>Sweet spot: <span class="fill-in">[WARN+ always, INFO for business events, DEBUG on-demand]</span></li>
+</ul>
+<p><strong>Traces:</strong></p>
+<ul>
+<li>Too few: <span class="fill-in">[Can't understand distributed requests]</span></li>
+<li>Too many: <span class="fill-in">[Storage costs, performance impact]</span></li>
+<li>Sweet spot: <span class="fill-in">[Sample based on traffic volume (1-10%)]</span></li>
+</ul>
+<h3 id="your-decision-tree">Your Decision Tree<a class="headerlink" href="#your-decision-tree" title="Permanent link">¶</a></h3>
+<p>Build this after solving practice scenarios:
+<div class="mermaid">flowchart LR
+    Start["Observability Pattern Selection"]
+
+    Q1{"What are you trying to understand?"}
+    Start --&gt; Q1
+    N2["Metrics&lt;br/&gt;(RED/USE)"]
+    Q1 --&gt;|"System health"| N2
+    N3["Logs + Traces"]
+    Q1 --&gt;|"Why something failed"| N3
+    N4["Traces + Metrics"]
+    Q1 --&gt;|"Performance bottleneck"| N4
+    N5["Metrics + Logs"]
+    Q1 --&gt;|"Business analytics"| N5
+    Q6{"What's the cardinality?"}
+    Start --&gt; Q6
+    N7["Metric labels"]
+    Q6 --&gt;|"Low (&lt; 100 unique values)"| N7
+    N8["Logs with indexing"]
+    Q6 --&gt;|"Medium (100-10K)"| N8
+    N9["Sampling + traces"]
+    Q6 --&gt;|"High (&gt; 10K)"| N9
+    Q10{"What's the query pattern?"}
+    Start --&gt; Q10
+    N11["Metrics"]
+    Q10 --&gt;|"Time-series aggregation"| N11
+    N12["Logs"]
+    Q10 --&gt;|"Full-text search"| N12
+    N13["Traces"]
+    Q10 --&gt;|"Causality tracking"| N13
+    N14["Logs + Traces"]
+    Q10 --&gt;|"Ad-hoc exploration"| N14
+    Q15{"What's the retention need?"}
+    Start --&gt; Q15
+    N16["Metrics&lt;br/&gt;(short retention)"]
+    Q15 --&gt;|"Real-time only"| N16
+    N17["Logs + Traces"]
+    Q15 --&gt;|"Debugging (days)"| N17
+    N18["Logs&lt;br/&gt;(archive)"]
+    Q15 --&gt;|"Compliance (years)"| N18
+    N19["Metrics&lt;br/&gt;(downsampled)"]
+    Q15 --&gt;|"Trending (months)"| N19</div></p>
+<hr/>
+<h2 id="practice">Practice<a class="headerlink" href="#practice" title="Permanent link">¶</a></h2>
+<h3 id="scenario-1-monitor-e-commerce-api">Scenario 1: Monitor E-commerce API<a class="headerlink" href="#scenario-1-monitor-e-commerce-api" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>REST API: /checkout, /orders, /products</li>
+<li>Traffic: 10K requests/sec peak</li>
+<li>SLO: 99.9% availability, P99 &lt; 500ms</li>
+<li>Team of 5 engineers on-call rotation</li>
+</ul>
+<p><strong>Your observability design:</strong></p>
+<p>Metrics to collect:</p>
+<ol>
+<li><span class="fill-in">[What RED metrics for each endpoint?]</span></li>
+<li><span class="fill-in">[What USE metrics for infrastructure?]</span></li>
+<li><span class="fill-in">[What business metrics (orders, revenue)?]</span></li>
+</ol>
+<p>Logs to capture:</p>
+<ol>
+<li><span class="fill-in">[What should be logged at each level?]</span></li>
+<li><span class="fill-in">[How to add trace IDs to logs?]</span></li>
+<li><span class="fill-in">[What fields in structured logs?]</span></li>
+</ol>
+<p>Traces to implement:</p>
+<ol>
+<li><span class="fill-in">[Where to start/end spans?]</span></li>
+<li><span class="fill-in">[What sampling rate?]</span></li>
+<li><span class="fill-in">[What tags on spans?]</span></li>
+</ol>
+<p>Alerts to configure:</p>
+<ol>
+<li><span class="fill-in">[SLO violation alerts?]</span></li>
+<li><span class="fill-in">[Error budget alerts?]</span></li>
+<li><span class="fill-in">[Runbook for each alert?]</span></li>
+</ol>
+<h3 id="scenario-2-debug-distributed-payment-system">Scenario 2: Debug Distributed Payment System<a class="headerlink" href="#scenario-2-debug-distributed-payment-system" title="Permanent link">¶</a></h3>
+<p><strong>Context:</strong></p>
+<ul>
+<li>Payment service calls: auth-service, fraud-service, payment-gateway</li>
+<li>Users reporting "payment hangs" (no error, just slow)</li>
+<li>Happens for 1% of requests</li>
+<li>Can't reproduce in staging</li>
+</ul>
+<p><strong>Your debugging approach:</strong></p>
+<p>Using traces:</p>
+<ol>
+<li><span class="fill-in">[What would you look for first?]</span></li>
+<li><span class="fill-in">[How to find the slow requests?]</span></li>
+<li><span class="fill-in">[How to identify which service is slow?]</span></li>
+</ol>
+<p>Using logs:</p>
+<ol>
+<li><span class="fill-in">[What log queries would you run?]</span></li>
+<li><span class="fill-in">[How to correlate logs across services?]</span></li>
+<li><span class="fill-in">[What might you be missing?]</span></li>
+</ol>
+<p>Using metrics:</p>
+<ol>
+<li><span class="fill-in">[What metrics would show the problem?]</span></li>
+<li><span class="fill-in">[How to narrow down the time window?]</span></li>
+<li><span class="fill-in">[What percentiles to examine?]</span></li>
+</ol>
+<p>Root cause:</p>
+<ul>
+<li>How would you prove your hypothesis? <span class="fill-in">[Your answer]</span></li>
+<li>What would you change to fix it? <span class="fill-in">[Your answer]</span></li>
+<li>What observability would you add? <span class="fill-in">[Your answer]</span></li>
+</ul>
+<h3 id="scenario-3-capacity-planning-for-growth">Scenario 3: Capacity Planning for Growth<a class="headerlink" href="#scenario-3-capacity-planning-for-growth" title="Permanent link">¶</a></h3>
+<p><strong>Situation:</strong></p>
+<ul>
+<li>Current: 1K requests/sec</li>
+<li>Growth: Expected 10K requests/sec in 6 months</li>
+<li>Need to plan infrastructure scaling</li>
+</ul>
+<p><strong>Your analysis approach:</strong></p>
+<p>Metrics analysis:</p>
+<ol>
+<li><span class="fill-in">[What metrics show current capacity?]</span></li>
+<li><span class="fill-in">[How to extrapolate to 10x load?]</span></li>
+<li><span class="fill-in">[What are the bottlenecks?]</span></li>
+</ol>
+<p>Load testing:</p>
+<ol>
+<li><span class="fill-in">[What metrics to collect during load test?]</span></li>
+<li><span class="fill-in">[How to identify breaking points?]</span></li>
+<li><span class="fill-in">[What percentiles matter most?]</span></li>
+</ol>
+<p>Planning:</p>
+<ol>
+<li><span class="fill-in">[When will current capacity be exceeded?]</span></li>
+<li><span class="fill-in">[What needs to be scaled (compute, db, cache)?]</span></li>
+<li><span class="fill-in">[What are the cost implications?]</span></li>
+</ol>
+<hr/>
+<h2 id="review-checklist">Review Checklist<a class="headerlink" href="#review-checklist" title="Permanent link">¶</a></h2>
+<p>Before moving to the next topic:</p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Implementation</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Counter, Gauge, Histogram work correctly</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> RED and USE metrics implemented</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Structured logging with JSON output works</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Distributed tracing with spans works</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> SLO tracking and error budget calculation works</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Alert rule evaluation works</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> All client code runs successfully</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Understanding</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Filled in all ELI5 explanations</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand difference between metrics/logs/traces</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Know when to use RED vs USE method</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand trace context propagation</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Know how to calculate error budget</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can design alert rules</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Decision Making</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Know when to use each observability pattern</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand sampling strategies</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can design SLOs for a service</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Completed practice scenarios</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can explain observability trade-offs</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Mastery Check</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could implement metrics collector from memory</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could add observability to new service</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand observability costs and trade-offs</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Know how to debug with observability data</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can write runbooks for alerts</li>
+</ul>
+</li>
+</ul>
+<hr/>
+<h3 id="mastery-certification">Mastery Certification<a class="headerlink" href="#mastery-certification" title="Permanent link">¶</a></h3>
+<p><strong>I certify that I can:</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Implement metrics (Counter, Gauge, Histogram) from memory</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Design structured logging with proper context</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Implement distributed tracing with span propagation</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Calculate SLOs and error budgets</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Choose the right observability tool for each problem</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Identify and fix high-cardinality issues</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Debug systems using metrics, logs, and traces</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Design observability for a new service</li>
+</ul></div>
+</div>
+<footer class="col-md-12 text-center">
+<hr/>
+<p>
+<small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+</p>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../../js/bootstrap-3.0.3.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>var base_url = "../.."</script>
+<script src="../../js/base.js"></script>
+<script src="../../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<button class="close" data-dismiss="modal" type="button">
+<span aria-hidden="true">×</span>
+<span class="sr-only">Close</span>
+</button>
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+</div>
+<div class="modal-body">
+<p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="text"/>
+</div>
+</form>
+<div id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@10.4.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>

@@ -1,0 +1,1606 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="A framework for algorithms, systems design, and infrastructure." name="description"/>
+<meta content="Richard" name="author"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>14. Dynamic Programming 1D - Software Engineering Study Guide</title>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" rel="stylesheet"/>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css" rel="stylesheet"/>
+<link href="//rsms.me/inter/inter.css" rel="stylesheet" type="text/css"/>
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&amp;subset=latin-ext,latin" rel="stylesheet" type="text/css"/>
+<link href="../../css/bootstrap-custom.min.css" rel="stylesheet"/>
+<link href="../../css/base.min.css" rel="stylesheet"/>
+<link href="../../css/cinder.min.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css" rel="stylesheet"/>
+<link href="../../css/custom.css" rel="stylesheet"/>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="container">
+<!-- Collapsed navigation -->
+<div class="navbar-header">
+<!-- Expander button -->
+<button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<!-- Main title -->
+<a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+</div>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li>
+<a href="../..">Home</a>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Systems Design <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../systems/01-storage-engines/">01. Storage Engines</a>
+</li>
+<li>
+<a href="../../systems/02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+<li>
+<a href="../../systems/03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+<li>
+<a href="../../systems/04-search-and-indexing/">04. Search &amp; Indexing</a>
+</li>
+<li>
+<a href="../../systems/05-caching-patterns/">05. Caching Patterns</a>
+</li>
+<li>
+<a href="../../systems/06-api-design/">06. API Design</a>
+</li>
+<li>
+<a href="../../systems/07-security-patterns/">07. Security Patterns</a>
+</li>
+<li>
+<a href="../../systems/08-rate-limiting/">08. Rate Limiting</a>
+</li>
+<li>
+<a href="../../systems/09-load-balancing/">09. Load Balancing</a>
+</li>
+<li>
+<a href="../../systems/10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+<li>
+<a href="../../systems/11-database-scaling/">11. Database Scaling</a>
+</li>
+<li>
+<a href="../../systems/12-message-queues/">12. Message Queues</a>
+</li>
+<li>
+<a href="../../systems/13-stream-processing/">13. Stream Processing</a>
+</li>
+<li>
+<a href="../../systems/14-observability/">14. Observability</a>
+</li>
+<li>
+<a href="../../systems/15-distributed-transactions/">15. Distributed Transactions</a>
+</li>
+<li>
+<a href="../../systems/16-consensus-patterns/">16. Consensus Patterns</a>
+</li>
+</ul>
+</li>
+<li class="dropdown active">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">DSA <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../01-two-pointers/">01. Two Pointers</a>
+</li>
+<li>
+<a href="../02-sliding-window/">02. Sliding Window</a>
+</li>
+<li>
+<a href="../03-hash-tables/">03. Hash Tables</a>
+</li>
+<li>
+<a href="../04-linked-lists/">04. Linked Lists</a>
+</li>
+<li>
+<a href="../05-stacks--queues/">05. Stacks &amp; Queues</a>
+</li>
+<li>
+<a href="../06-trees-traversals/">06. Trees - Traversals</a>
+</li>
+<li>
+<a href="../07-trees-recursion/">07. Trees - Recursion</a>
+</li>
+<li>
+<a href="../08-binary-search/">08. Binary Search</a>
+</li>
+<li>
+<a href="../09-heaps/">09. Heaps</a>
+</li>
+<li>
+<a href="../10-graphs/">10. Graphs</a>
+</li>
+<li>
+<a href="../11-union-find/">11. Union-Find</a>
+</li>
+<li>
+<a href="../12-advanced-graphs/">12. Advanced Graphs</a>
+</li>
+<li>
+<a href="../13-backtracking/">13. Backtracking</a>
+</li>
+<li class="active">
+<a href="./">14. Dynamic Programming 1D</a>
+</li>
+<li>
+<a href="../15-dynamic-programming-2d/">15. Dynamic Programming 2D</a>
+</li>
+<li>
+<a href="../16-tries/">16. Tries</a>
+</li>
+<li>
+<a href="../17-advanced-topics/">17. Advanced Topics</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+<a data-target="#mkdocs_search_modal" data-toggle="modal" href="#">
+<i class="fas fa-search"></i> Search
+                        </a>
+</li>
+<li>
+<a href="../13-backtracking/" rel="prev">
+<i class="fas fa-arrow-left"></i> Previous
+                        </a>
+</li>
+<li>
+<a href="../15-dynamic-programming-2d/" rel="next">
+                            Next <i class="fas fa-arrow-right"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+<ul class="nav bs-sidenav">
+<li class="first-level active"><a href="#dynamic-programming-1d">Dynamic Programming (1D)</a></li>
+<li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+<li class="second-level"><a href="#quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)</a></li>
+<li class="second-level"><a href="#beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters</a></li>
+<li class="second-level"><a href="#core-implementation">Core Implementation</a></li>
+<li class="second-level"><a href="#debugging-challenges">Debugging Challenges</a></li>
+<li class="second-level"><a href="#decision-framework">Decision Framework</a></li>
+<li class="second-level"><a href="#practice">Practice</a></li>
+<li class="second-level"><a href="#review-checklist">Review Checklist</a></li>
+</ul>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="dynamic-programming-1d">Dynamic Programming (1D)<a class="headerlink" href="#dynamic-programming-1d" title="Permanent link">¶</a></h1>
+<blockquote>
+<p>Turn exponential recursion into polynomial iteration by caching subproblem results</p>
+</blockquote>
+<hr/>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After implementing all patterns, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What is dynamic programming in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>How is DP different from regular recursion?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy:</strong></p>
+<ul>
+<li>Example: "DP is like saving your homework answers so you don't have to recalculate the same problems..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When does this pattern work?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after solving problems]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What's the difference between top-down and bottom-up?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after learning both approaches]</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr/>
+<h2 id="quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)<a class="headerlink" href="#quick-quiz-do-before-implementing" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Test your intuition without looking at code. Answer these, then verify after implementation.</p>
+<h3 id="complexity-predictions">Complexity Predictions<a class="headerlink" href="#complexity-predictions" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p><strong>Pure recursive Fibonacci (no memoization):</strong></p>
+<ul>
+<li>Time complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Verified after learning: <span class="fill-in">[Actual: O(?)]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Fibonacci with memoization (top-down DP):</strong></p>
+<ul>
+<li>Time complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Space complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Verified: <span class="fill-in">[Actual]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Fibonacci with bottom-up DP:</strong></p>
+<ul>
+<li>Time complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Space complexity with array: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Space complexity optimized: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Verified: <span class="fill-in">[Actual]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Speedup calculation for Fibonacci(40):</strong></p>
+<ul>
+<li>Recursive (no memo) = 2^40 = <span class="fill-in">_____</span> operations</li>
+<li>With memoization = 40 = <span class="fill-in">_____</span> operations</li>
+<li>Speedup factor: <span class="fill-in">_____</span> times faster</li>
+</ul>
+</li>
+</ol>
+<h3 id="scenario-predictions">Scenario Predictions<a class="headerlink" href="#scenario-predictions" title="Permanent link">¶</a></h3>
+<p><strong>Scenario 1:</strong> Climbing stairs - 1 or 2 steps at a time to reach step 5</p>
+<ul>
+<li><strong>How many ways without computing?</strong> <span class="fill-in">[Your guess: <span class="fill-in">___</span>_]</span></li>
+<li><strong>Can you see the Fibonacci pattern?</strong> <span class="fill-in">[Yes/No - Why?]</span></li>
+<li><strong>Recurrence relation:</strong> ways(n) = <span class="fill-in">[Fill in formula]</span></li>
+<li><strong>Why does memoization help here?</strong> <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>Scenario 2:</strong> Coin change - coins [1, 2, 5], amount = 11</p>
+<ul>
+<li><strong>Minimum coins needed:</strong> <span class="fill-in">[Your guess: <span class="fill-in">___</span>_]</span></li>
+<li><strong>What makes this a DP problem?</strong> <span class="fill-in">[Fill in]</span></li>
+<li><strong>What are the overlapping subproblems?</strong> <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>Scenario 3:</strong> House robber - houses [2, 7, 9, 3, 1]</p>
+<ul>
+<li><strong>Maximum money without adjacents:</strong> <span class="fill-in">[Your guess: <span class="fill-in">___</span>_]</span></li>
+<li><strong>Which pattern applies?</strong> <span class="fill-in">[Fibonacci-style/Decision/String/Stock]</span></li>
+<li><strong>Recurrence relation:</strong> rob(i) = <span class="fill-in">[Fill in formula]</span></li>
+</ul>
+<h3 id="trade-off-quiz">Trade-off Quiz<a class="headerlink" href="#trade-off-quiz" title="Permanent link">¶</a></h3>
+<p><strong>Question:</strong> When would recursive with memoization be BETTER than bottom-up DP?</p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in before implementation]</span></li>
+<li>Verified answer: <span class="fill-in">[Fill in after learning]</span></li>
+</ul>
+<p><strong>Question:</strong> What's the MAIN requirement for dynamic programming to work?</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Problem must involve arrays</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Must have optimal substructure</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Must have overlapping subproblems</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Both optimal substructure AND overlapping subproblems</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Must be solvable recursively</li>
+</ul>
+<p>Verify after implementation: <span class="fill-in">[Which one(s)?]</span></p>
+<p><strong>Question:</strong> Space optimization - when can you reduce O(n) to O(1)?</p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in - what's the pattern?]</span></li>
+<li>Verified: <span class="fill-in">[Fill in after learning Fibonacci-style problems]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters<a class="headerlink" href="#beforeafter-why-this-pattern-matters" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Compare naive vs optimized approaches to understand exponential to polynomial transformation.</p>
+<h3 id="example-fibonacci-number">Example: Fibonacci Number<a class="headerlink" href="#example-fibonacci-number" title="Permanent link">¶</a></h3>
+<p><strong>Problem:</strong> Calculate the nth Fibonacci number where F(n) = F(n-1) + F(n-2).</p>
+<h4 id="approach-1-pure-recursion-exponential">Approach 1: Pure Recursion (Exponential)<a class="headerlink" href="#approach-1-pure-recursion-exponential" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Naive approach - Recalculates same values many times
+public static int fib_Recursive(int n) {
+    if (n &lt;= 1) return n;
+    return fib_Recursive(n - 1) + fib_Recursive(n - 2);
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(2^n) - Each call branches into two more calls</li>
+<li>Space: O(n) - Recursion stack depth</li>
+<li>For n = 40: ~2,000,000,000 operations (takes several seconds)</li>
+<li>For n = 50: Would take hours or days</li>
+</ul>
+<p><strong>Why so slow?</strong> Tree of recursive calls:</p>
+<pre class="highlight"><code>fib(5)
+├── fib(4)
+│   ├── fib(3)
+│   │   ├── fib(2)
+│   │   │   ├── fib(1)
+│   │   │   └── fib(0)
+│   │   └── fib(1)
+│   └── fib(2)
+│       ├── fib(1)
+│       └── fib(0)
+└── fib(3)  ← RECALCULATING same subtree!
+    ├── fib(2)
+    │   ├── fib(1)
+    │   └── fib(0)
+    └── fib(1)</code></pre>
+<p>fib(3) is calculated TWICE, fib(2) THREE times, fib(1) FIVE times!</p>
+<h4 id="approach-2-memoization-top-down-dp-polynomial">Approach 2: Memoization - Top-Down DP (Polynomial)<a class="headerlink" href="#approach-2-memoization-top-down-dp-polynomial" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Optimized - Cache results to avoid recalculation
+public static int fib_Memoization(int n, int[] memo) {
+    if (n &lt;= 1) return n;
+    if (memo[n] != 0) return memo[n];  // Already calculated!
+
+    memo[n] = fib_Memoization(n - 1, memo) + fib_Memoization(n - 2, memo);
+    return memo[n];
+}
+
+// Wrapper
+public static int fib(int n) {
+    return fib_Memoization(n, new int[n + 1]);
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n) - Each fib(i) computed exactly once</li>
+<li>Space: O(n) - Memoization array + recursion stack</li>
+<li>For n = 40: ~40 operations (instant)</li>
+<li>For n = 50: ~50 operations (instant)</li>
+</ul>
+<h4 id="approach-3-bottom-up-dp-best-space-optimization">Approach 3: Bottom-Up DP (Best Space Optimization)<a class="headerlink" href="#approach-3-bottom-up-dp-best-space-optimization" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Iterative - Build from bottom, optimize space
+public static int fib_BottomUp(int n) {
+    if (n &lt;= 1) return n;
+
+    int prev2 = 0;  // F(0)
+    int prev1 = 1;  // F(1)
+
+    for (int i = 2; i &lt;= n; i++) {
+        int current = prev1 + prev2;
+        prev2 = prev1;
+        prev1 = current;
+    }
+
+    return prev1;
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n) - Single pass</li>
+<li>Space: O(1) - Only 3 variables (optimized from O(n) array)</li>
+<li>For n = 40: ~40 operations, minimal memory</li>
+<li>No recursion stack overhead</li>
+</ul>
+<h4 id="performance-comparison">Performance Comparison<a class="headerlink" href="#performance-comparison" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>n=10</th>
+<th>n=20</th>
+<th>n=30</th>
+<th>n=40</th>
+<th>Space</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Recursive</td>
+<td>0.001ms</td>
+<td>2ms</td>
+<td>200ms</td>
+<td>2000ms</td>
+<td>O(n) stack</td>
+</tr>
+<tr>
+<td>Memoization</td>
+<td>0.001ms</td>
+<td>0.001ms</td>
+<td>0.001ms</td>
+<td>0.001ms</td>
+<td>O(n) array</td>
+</tr>
+<tr>
+<td>Bottom-Up</td>
+<td>0.001ms</td>
+<td>0.001ms</td>
+<td>0.001ms</td>
+<td>0.001ms</td>
+<td>O(1)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Speedup for n=40:</strong> Memoization is ~2,000,000x faster than pure recursion!</p>
+<h4 id="why-does-dp-work-here">Why Does DP Work Here?<a class="headerlink" href="#why-does-dp-work-here" title="Permanent link">¶</a></h4>
+<p><strong>Key properties that enable DP:</strong></p>
+<ol>
+<li>
+<p><strong>Optimal Substructure:</strong> Solution to F(n) can be built from solutions to F(n-1) and F(n-2)</p>
+</li>
+<li>
+<p><strong>Overlapping Subproblems:</strong> Same values calculated repeatedly in naive recursion</p>
+</li>
+</ol>
+<p><strong>Visualization of overlapping subproblems:</strong></p>
+<pre class="highlight"><code>Computing fib(6):
+fib(5): needs fib(4) + fib(3)
+fib(4): needs fib(3) + fib(2)
+fib(3): needs fib(2) + fib(1)
+              ↑         ↑
+      These repeat!   These repeat!</code></pre>
+<p><strong>Without DP:</strong> Recalculate everything (exponential waste)
+<strong>With DP:</strong> Calculate once, reuse (polynomial efficiency)</p>
+<hr/>
+<h3 id="example-2-coin-change-decision-problem">Example 2: Coin Change (Decision Problem)<a class="headerlink" href="#example-2-coin-change-decision-problem" title="Permanent link">¶</a></h3>
+<p><strong>Problem:</strong> Minimum coins needed to make amount = 11 with coins [1, 2, 5].</p>
+<h4 id="approach-1-brute-force-recursion">Approach 1: Brute Force Recursion<a class="headerlink" href="#approach-1-brute-force-recursion" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Try all combinations - exponential time
+public static int coinChange_Recursive(int[] coins, int amount) {
+    if (amount == 0) return 0;
+    if (amount &lt; 0) return -1;
+
+    int min = Integer.MAX_VALUE;
+    for (int coin : coins) {
+        int result = coinChange_Recursive(coins, amount - coin);
+        if (result &gt;= 0 &amp;&amp; result &lt; min) {
+            min = result + 1;
+        }
+    }
+
+    return min == Integer.MAX_VALUE ? -1 : min;
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(amount^coins) - Exponential branching</li>
+<li>Space: O(amount) - Recursion depth</li>
+<li>For amount = 100, coins = [1, 2, 5]: billions of operations</li>
+</ul>
+<h4 id="approach-2-bottom-up-dp">Approach 2: Bottom-Up DP<a class="headerlink" href="#approach-2-bottom-up-dp" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Build table of minimum coins for each amount
+public static int coinChange_DP(int[] coins, int amount) {
+    int[] dp = new int[amount + 1];
+    Arrays.fill(dp, amount + 1);  // Initialize with "infinity"
+    dp[0] = 0;  // Base case
+
+    for (int i = 1; i &lt;= amount; i++) {
+        for (int coin : coins) {
+            if (i &gt;= coin) {
+                dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+            }
+        }
+    }
+
+    return dp[amount] &gt; amount ? -1 : dp[amount];
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(amount × coins) - Polynomial</li>
+<li>Space: O(amount) - DP array</li>
+<li>For amount = 100, coins = [1, 2, 5]: ~300 operations</li>
+</ul>
+<p><strong>Speedup:</strong> From exponential to polynomial!</p>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>Why does caching subproblem results help? <span class="fill-in">[Your answer]</span></li>
+<li>What's the difference between top-down and bottom-up? <span class="fill-in">[Your answer]</span></li>
+<li>When would you choose one approach over the other? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="core-implementation">Core Implementation<a class="headerlink" href="#core-implementation" title="Permanent link">¶</a></h2>
+<h3 id="pattern-1-fibonacci-style-problems">Pattern 1: Fibonacci-Style Problems<a class="headerlink" href="#pattern-1-fibonacci-style-problems" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Each state depends on previous 1-2 states.</p>
+<p><strong>Use case:</strong> Climbing stairs, house robber, decode ways.</p>
+<pre class="highlight"><code class="language-java">public class FibonacciStyle {
+
+    /**
+     * Problem: Climbing stairs (1 or 2 steps at a time)
+     * Time: O(n), Space: O(1)
+     *
+     * TODO: Implement using DP
+     */
+    public static int climbStairs(int n) {
+        // TODO: Base cases: n=1 -&gt; 1, n=2 -&gt; 2
+
+        // TODO: DP approach (bottom-up):
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: House robber (can't rob adjacent houses)
+     * Time: O(n), Space: O(1)
+     *
+     * TODO: Implement using DP
+     */
+    public static int rob(int[] nums) {
+        // TODO: dp[i] = max money robbing up to house i
+        // TODO: dp[i] = max(dp[i-1], dp[i-2] + nums[i])
+        // TODO: Optimize space: only need last 2 values
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: House robber II (houses in a circle)
+     * Time: O(n), Space: O(1)
+     *
+     * TODO: Implement circular version
+     */
+    public static int robCircular(int[] nums) {
+        // TODO: Can't rob both first and last house
+        // TODO: Try two scenarios:
+        // TODO: Return max of both
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Min cost climbing stairs
+     * Time: O(n), Space: O(1)
+     *
+     * TODO: Implement min cost DP
+     */
+    public static int minCostClimbingStairs(int[] cost) {
+        // TODO: dp[i] = min cost to reach step i
+        // TODO: dp[i] = cost[i] + min(dp[i-1], dp[i-2])
+        // TODO: Can start from step 0 or 1
+
+        return 0; // Replace with implementation
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class FibonacciStyleClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Fibonacci-Style DP ===\n");
+
+        // Test 1: Climbing stairs
+        System.out.println("--- Test 1: Climbing Stairs ---");
+        int[] stairs = {1, 2, 3, 4, 5, 10};
+        for (int n : stairs) {
+            int ways = FibonacciStyle.climbStairs(n);
+            System.out.printf("n=%d: %d ways%n", n, ways);
+        }
+
+        // Test 2: House robber
+        System.out.println("\n--- Test 2: House Robber ---");
+        int[][] houses = {
+            {1, 2, 3, 1},
+            {2, 7, 9, 3, 1},
+            {2, 1, 1, 2}
+        };
+
+        for (int[] house : houses) {
+            int maxMoney = FibonacciStyle.rob(house);
+            System.out.printf("Houses: %s -&gt; Max: %d%n",
+                Arrays.toString(house), maxMoney);
+        }
+
+        // Test 3: House robber II (circular)
+        System.out.println("\n--- Test 3: House Robber II ---");
+        int[][] circularHouses = {
+            {2, 3, 2},
+            {1, 2, 3, 1},
+            {1, 2, 3}
+        };
+
+        for (int[] house : circularHouses) {
+            int maxMoney = FibonacciStyle.robCircular(house);
+            System.out.printf("Houses: %s -&gt; Max: %d%n",
+                Arrays.toString(house), maxMoney);
+        }
+
+        // Test 4: Min cost climbing
+        System.out.println("\n--- Test 4: Min Cost Climbing Stairs ---");
+        int[][] costs = {
+            {10, 15, 20},
+            {1, 100, 1, 1, 1, 100, 1, 1, 100, 1}
+        };
+
+        for (int[] cost : costs) {
+            int minCost = FibonacciStyle.minCostClimbingStairs(cost);
+            System.out.printf("Cost: %s -&gt; Min: %d%n",
+                Arrays.toString(cost), minCost);
+        }
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-2-decision-problems-takeskip">Pattern 2: Decision Problems (Take/Skip)<a class="headerlink" href="#pattern-2-decision-problems-takeskip" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> At each position, decide to take or skip element.</p>
+<p><strong>Use case:</strong> Coin change, subset sum, partition equal subset.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class DecisionProblems {
+
+    /**
+     * Problem: Coin change - minimum coins to make amount
+     * Time: O(amount * n), Space: O(amount)
+     *
+     * TODO: Implement using DP
+     */
+    public static int coinChange(int[] coins, int amount) {
+        // TODO: dp[i] = min coins to make amount i
+        // TODO: dp[i] = min(dp[i], dp[i - coin] + 1) for each coin
+        // TODO: Initialize dp[0] = 0, rest = infinity
+        // TODO: Return dp[amount] or -1 if impossible
+
+        return -1; // Replace with implementation
+    }
+
+    /**
+     * Problem: Coin change II - count ways to make amount
+     * Time: O(amount * n), Space: O(amount)
+     *
+     * TODO: Implement counting ways
+     */
+    public static int change(int amount, int[] coins) {
+        // TODO: dp[i] = ways to make amount i
+        // TODO: Implement iteration/conditional logic
+        // TODO: dp[i] += dp[i - coin]
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Perfect squares - min perfect squares to sum to n
+     * Time: O(n * sqrt(n)), Space: O(n)
+     *
+     * TODO: Implement using DP
+     */
+    public static int numSquares(int n) {
+        // TODO: Similar to coin change
+        // TODO: "Coins" are perfect squares: 1, 4, 9, 16, ...
+        // TODO: dp[i] = min perfect squares to sum to i
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Partition equal subset sum
+     * Time: O(n * sum), Space: O(sum)
+     *
+     * TODO: Implement subset sum DP
+     */
+    public static boolean canPartition(int[] nums) {
+        // TODO: Implement iteration/conditional logic
+        // TODO: Problem becomes: can we make sum/2?
+        // TODO: dp[i] = can we make sum i?
+        // TODO: Implement iteration/conditional logic
+
+        return false; // Replace with implementation
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class DecisionProblemsClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Decision Problems ===\n");
+
+        // Test 1: Coin change
+        System.out.println("--- Test 1: Coin Change ---");
+        int[] coins = {1, 2, 5};
+        int[] amounts = {11, 3, 0, 7};
+
+        System.out.println("Coins: " + Arrays.toString(coins));
+        for (int amount : amounts) {
+            int result = DecisionProblems.coinChange(coins, amount);
+            System.out.printf("Amount %d: %d coins%n", amount, result);
+        }
+
+        // Test 2: Coin change II (count ways)
+        System.out.println("\n--- Test 2: Coin Change II ---");
+        int amount = 5;
+        int[] coins2 = {1, 2, 5};
+
+        System.out.println("Amount: " + amount);
+        System.out.println("Coins: " + Arrays.toString(coins2));
+        int ways = DecisionProblems.change(amount, coins2);
+        System.out.println("Ways: " + ways);
+
+        // Test 3: Perfect squares
+        System.out.println("\n--- Test 3: Perfect Squares ---");
+        int[] numbers = {12, 13, 1, 4, 9, 16};
+
+        for (int n : numbers) {
+            int count = DecisionProblems.numSquares(n);
+            System.out.printf("n=%d: %d perfect squares%n", n, count);
+        }
+
+        // Test 4: Partition equal subset
+        System.out.println("\n--- Test 4: Partition Equal Subset ---");
+        int[][] arrays = {
+            {1, 5, 11, 5},
+            {1, 2, 3, 5},
+            {1, 2, 3, 4}
+        };
+
+        for (int[] arr : arrays) {
+            boolean canPartition = DecisionProblems.canPartition(arr);
+            System.out.printf("Array: %s -&gt; %s%n",
+                Arrays.toString(arr), canPartition ? "YES" : "NO");
+        }
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-3-string-dp">Pattern 3: String DP<a class="headerlink" href="#pattern-3-string-dp" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Build solution character by character.</p>
+<p><strong>Use case:</strong> Decode ways, word break, palindrome partitioning.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class StringDP {
+
+    /**
+     * Problem: Decode ways (1=A, 2=B, ..., 26=Z)
+     * Time: O(n), Space: O(1)
+     *
+     * TODO: Implement decode ways
+     */
+    public static int numDecodings(String s) {
+        // TODO: dp[i] = ways to decode substring 0..i
+        // TODO: Single digit: if s[i] != '0', dp[i] += dp[i-1]
+        // TODO: Two digits: if 10 &lt;= s[i-1:i] &lt;= 26, dp[i] += dp[i-2]
+        // TODO: Optimize space: only need last 2 values
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Word break - can string be segmented into words
+     * Time: O(n^2 * m) where m = avg word length, Space: O(n)
+     *
+     * TODO: Implement word break
+     */
+    public static boolean wordBreak(String s, List&lt;String&gt; wordDict) {
+        // TODO: dp[i] = can substring 0..i be segmented?
+        // TODO: dp[i] = true if any dp[j] &amp;&amp; s.substring(j,i) in dict
+        // TODO: Use HashSet for O(1) word lookup
+
+        return false; // Replace with implementation
+    }
+
+    /**
+     * Problem: Longest increasing subsequence
+     * Time: O(n^2), Space: O(n)
+     *
+     * TODO: Implement LIS using DP
+     */
+    public static int lengthOfLIS(int[] nums) {
+        // TODO: dp[i] = length of LIS ending at i
+        // TODO: Implement logic
+        // TODO: Return max value in dp array
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Longest palindromic substring
+     * Time: O(n^2), Space: O(n^2) or O(1) with expand from center
+     *
+     * TODO: Implement LPS
+     */
+    public static String longestPalindrome(String s) {
+        // TODO: Expand around center approach (space O(1))
+        // TODO: Try each position as center (odd and even length)
+        // TODO: Or use DP: dp[i][j] = is substring i..j palindrome?
+
+        return ""; // Replace with implementation
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class StringDPClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== String DP ===\n");
+
+        // Test 1: Decode ways
+        System.out.println("--- Test 1: Decode Ways ---");
+        String[] codes = {"12", "226", "06", "10"};
+
+        for (String code : codes) {
+            int ways = StringDP.numDecodings(code);
+            System.out.printf("Code \"%s\": %d ways%n", code, ways);
+        }
+
+        // Test 2: Word break
+        System.out.println("\n--- Test 2: Word Break ---");
+        List&lt;String&gt; dict = Arrays.asList("leet", "code", "sand", "and", "cat");
+        String[] testStrings = {"leetcode", "catsand", "catsandog"};
+
+        System.out.println("Dictionary: " + dict);
+        for (String s : testStrings) {
+            boolean canBreak = StringDP.wordBreak(s, dict);
+            System.out.printf("String \"%s\": %s%n", s, canBreak ? "YES" : "NO");
+        }
+
+        // Test 3: Longest increasing subsequence
+        System.out.println("\n--- Test 3: Longest Increasing Subsequence ---");
+        int[][] sequences = {
+            {10, 9, 2, 5, 3, 7, 101, 18},
+            {0, 1, 0, 3, 2, 3},
+            {7, 7, 7, 7}
+        };
+
+        for (int[] seq : sequences) {
+            int length = StringDP.lengthOfLIS(seq);
+            System.out.printf("Array: %s -&gt; LIS length: %d%n",
+                Arrays.toString(seq), length);
+        }
+
+        // Test 4: Longest palindromic substring
+        System.out.println("\n--- Test 4: Longest Palindromic Substring ---");
+        String[] palindromeTests = {"babad", "cbbd", "racecar", "noon"};
+
+        for (String s : palindromeTests) {
+            String lps = StringDP.longestPalindrome(s);
+            System.out.printf("String \"%s\" -&gt; LPS: \"%s\"%n", s, lps);
+        }
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-4-buysell-stock-problems">Pattern 4: Buy/Sell Stock Problems<a class="headerlink" href="#pattern-4-buysell-stock-problems" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Track states (holding/not holding stock) through array.</p>
+<p><strong>Use case:</strong> Stock trading with various constraints.</p>
+<pre class="highlight"><code class="language-java">public class StockProblems {
+
+    /**
+     * Problem: Best time to buy and sell stock (one transaction)
+     * Time: O(n), Space: O(1)
+     *
+     * TODO: Implement single transaction
+     */
+    public static int maxProfit(int[] prices) {
+        // TODO: Track minimum price seen so far
+        // TODO: Track maximum profit (price - minPrice)
+        // TODO: One pass solution
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Best time to buy and sell stock II (unlimited transactions)
+     * Time: O(n), Space: O(1)
+     *
+     * TODO: Implement unlimited transactions
+     */
+    public static int maxProfitUnlimited(int[] prices) {
+        // TODO: Sum all positive differences
+        // TODO: Buy before every increase, sell at peak
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Best time to buy and sell stock with cooldown
+     * Time: O(n), Space: O(1)
+     *
+     * TODO: Implement with cooldown
+     */
+    public static int maxProfitCooldown(int[] prices) {
+        // TODO: Track three states:
+        // TODO: Transitions: hold -&gt; sold -&gt; rest -&gt; hold
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Best time to buy and sell stock with fee
+     * Time: O(n), Space: O(1)
+     *
+     * TODO: Implement with transaction fee
+     */
+    public static int maxProfitWithFee(int[] prices, int fee) {
+        // TODO: Similar to cooldown
+        // TODO: Subtract fee when selling
+
+        return 0; // Replace with implementation
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class StockProblemsClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Stock Problems ===\n");
+
+        // Test 1: Single transaction
+        System.out.println("--- Test 1: Single Transaction ---");
+        int[] prices1 = {7, 1, 5, 3, 6, 4};
+        System.out.println("Prices: " + Arrays.toString(prices1));
+        int profit1 = StockProblems.maxProfit(prices1);
+        System.out.println("Max profit: " + profit1);
+
+        // Test 2: Unlimited transactions
+        System.out.println("\n--- Test 2: Unlimited Transactions ---");
+        int[] prices2 = {7, 1, 5, 3, 6, 4};
+        System.out.println("Prices: " + Arrays.toString(prices2));
+        int profit2 = StockProblems.maxProfitUnlimited(prices2);
+        System.out.println("Max profit: " + profit2);
+
+        // Test 3: With cooldown
+        System.out.println("\n--- Test 3: With Cooldown ---");
+        int[] prices3 = {1, 2, 3, 0, 2};
+        System.out.println("Prices: " + Arrays.toString(prices3));
+        int profit3 = StockProblems.maxProfitCooldown(prices3);
+        System.out.println("Max profit: " + profit3);
+
+        // Test 4: With fee
+        System.out.println("\n--- Test 4: With Transaction Fee ---");
+        int[] prices4 = {1, 3, 2, 8, 4, 9};
+        int fee = 2;
+        System.out.println("Prices: " + Arrays.toString(prices4));
+        System.out.println("Fee: " + fee);
+        int profit4 = StockProblems.maxProfitWithFee(prices4, fee);
+        System.out.println("Max profit: " + profit4);
+    }
+}</code></pre>
+<hr/>
+<h2 id="debugging-challenges">Debugging Challenges<a class="headerlink" href="#debugging-challenges" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Find and fix bugs in broken DP implementations. This tests your understanding of recurrence relations,
+base cases, and iteration order.</p>
+<h3 id="challenge-1-broken-climbing-stairs">Challenge 1: Broken Climbing Stairs<a class="headerlink" href="#challenge-1-broken-climbing-stairs" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * This code is supposed to count ways to climb n stairs.
+ * It has 2 BUGS. Find them!
+ */
+public static int climbStairs_Buggy(int n) {
+    if (n == 1) return 1;
+    if (n == 2) return 2;
+
+    int[] dp = new int[n];    dp[0] = 1;
+    dp[1] = 2;
+
+    for (int i = 2; i &lt;= n; i++) {        dp[i] = dp[i - 1] + dp[i - 2];
+    }
+
+    return dp[n];
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>
+<p>Bug 1: <span class="fill-in">[What\'s the bug?]</span></p>
+</li>
+<li>
+<p>Bug 2: <span class="fill-in">[What\'s the bug?]</span></p>
+</li>
+</ul>
+<p><strong>Test case to expose:</strong></p>
+<ul>
+<li>Input: <code>n = 5</code></li>
+<li>Expected: <code>8</code> ways</li>
+<li>What happens: <span class="fill-in">[Trace through - where does it crash?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug 1 (Line 6):</strong> Array size should be <code>n + 1</code>, not <code>n</code>. We need indices from 0 to n inclusive, or adjust indexing.</p>
+<p><strong>Bug 2 (Line 9):</strong> Loop condition <code>i &lt;= n</code> will cause ArrayIndexOutOfBoundsException. Either use <code>i &lt; n</code> or fix array
+size to <code>n + 1</code>.</p>
+<p><strong>Correct version:</strong></p>
+<pre class="highlight"><code class="language-java">public static int climbStairs(int n) {
+    if (n == 1) return 1;
+    if (n == 2) return 2;
+
+    int[] dp = new int[n + 1];  // Fix 1: n + 1 size
+    dp[1] = 1;
+    dp[2] = 2;
+
+    for (int i = 3; i &lt;= n; i++) {  // Fix 2: start at 3, or use i &lt; n
+        dp[i] = dp[i - 1] + dp[i - 2];
+    }
+
+    return dp[n];
+}</code></pre>
+<p><strong>Alternative fix with O(1) space:</strong></p>
+<pre class="highlight"><code class="language-java">public static int climbStairs(int n) {
+    if (n &lt;= 2) return n;
+
+    int prev2 = 1, prev1 = 2;
+    for (int i = 3; i &lt;= n; i++) {
+        int current = prev1 + prev2;
+        prev2 = prev1;
+        prev1 = current;
+    }
+    return prev1;
+}</code></pre>
+</details>
+<hr/>
+<h3 id="challenge-2-broken-coin-change">Challenge 2: Broken Coin Change<a class="headerlink" href="#challenge-2-broken-coin-change" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Minimum coins to make amount.
+ * This has 2 CRITICAL BUGS - wrong recurrence and wrong base case.
+ */
+public static int coinChange_Buggy(int[] coins, int amount) {
+    int[] dp = new int[amount + 1];
+    Arrays.fill(dp, Integer.MAX_VALUE);
+    dp[0] = 0;  // Base case: 0 coins for amount 0
+
+    for (int i = 0; i &lt; amount; i++) {        for (int coin : coins) {
+            if (i + coin &lt;= amount) {
+                dp[i + coin] = Math.min(dp[i + coin], dp[i] + 1);            }
+        }
+    }
+
+    return dp[amount] == Integer.MAX_VALUE ? -1 : dp[amount];
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug 1:</strong> <span class="fill-in">[Loop should be <code>i &lt; amount</code> or <code>i &lt;= amount</code>? Why?]</span></li>
+<li><strong>Bug 2:</strong> <em>[Is the recurrence relation correct? What if dp[i] is MAX_VALUE?]</em></li>
+</ul>
+<p><strong>Test case:</strong></p>
+<ul>
+<li>coins = <code>[2]</code>, amount = <code>3</code></li>
+<li>Expected: <code>-1</code> (impossible)</li>
+<li>With buggy code: <span class="fill-in">[What do you get?]</span></li>
+</ul>
+<p><strong>Trace through manually:</strong></p>
+<ul>
+<li>i=0: dp[0]=0, trying coin=2 → dp[2] = min(MAX, 0+1) = 1</li>
+<li>i=1: dp[1]=MAX, trying coin=2 → <span class="fill-in">[What happens here?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug 1:</strong> Loop is actually okay but can be clearer. Better approach is <code>for (int i = 1; i &lt;= amount; i++)</code> and check
+<code>i - coin &gt;= 0</code>.</p>
+<p><strong>Bug 2:</strong> The logic has a subtle bug: if <code>dp[i]</code> is MAX_VALUE, then <code>dp[i] + 1</code> overflows to negative! Need to check
+before adding.</p>
+<p><strong>Correct version:</strong></p>
+<pre class="highlight"><code class="language-java">public static int coinChange(int[] coins, int amount) {
+    int[] dp = new int[amount + 1];
+    Arrays.fill(dp, amount + 1);  // Use amount + 1 as "infinity" (safer)
+    dp[0] = 0;
+
+    for (int i = 1; i &lt;= amount; i++) {
+        for (int coin : coins) {
+            if (i &gt;= coin) {
+                dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+            }
+        }
+    }
+
+    return dp[amount] &gt; amount ? -1 : dp[amount];
+}</code></pre>
+<p><strong>Key insight:</strong> Use <code>amount + 1</code> instead of <code>Integer.MAX_VALUE</code> as infinity to avoid overflow. It's impossible to need
+more than <code>amount</code> coins if you have coin value 1.</p>
+</details>
+<hr/>
+<h3 id="challenge-3-broken-house-robber">Challenge 3: Broken House Robber<a class="headerlink" href="#challenge-3-broken-house-robber" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Maximum money robbing houses without adjacent.
+ * This has 1 SUBTLE BUG in recurrence relation.
+ */
+public static int rob_Buggy(int[] nums) {
+    if (nums.length == 0) return 0;
+    if (nums.length == 1) return nums[0];
+
+    int[] dp = new int[nums.length];
+    dp[0] = nums[0];
+    dp[1] = nums[1];
+    for (int i = 2; i &lt; nums.length; i++) {
+        dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i]);
+    }
+
+    return dp[nums.length - 1];
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug location:</strong> <span class="fill-in">[Which line has the wrong base case?]</span></li>
+<li><strong>Bug explanation:</strong> <em>[Why is dp[1] = nums[1] wrong?]</em></li>
+<li><strong>Bug fix:</strong> <em>[What should dp[1] be?]</em></li>
+</ul>
+<p><strong>Test case to expose the bug:</strong></p>
+<ul>
+<li>Input: <code>[2, 1, 1, 2]</code></li>
+<li>Expected: <code>4</code> (rob houses 0 and 3)</li>
+<li>Buggy output: <span class="fill-in">[Trace through - what do you get?]</span></li>
+</ul>
+<p><strong>Manual trace with buggy code:</strong></p>
+<ul>
+<li>dp[0] = 2</li>
+<li>dp[1] = 1 (BUG: should this compare something?)</li>
+<li>dp[2] = max(dp[1], dp[0] + nums[2]) = max(1, 2+1) = 3</li>
+<li>dp[3] = max(dp[2], dp[1] + nums[3]) = max(3, 1+2) = 3</li>
+<li>Returns 3, but correct answer is 4!</li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug (Line 7):</strong> <code>dp[1]</code> should be <code>Math.max(nums[0], nums[1])</code>, not just <code>nums[1]</code>.</p>
+<p><strong>Why:</strong> At house 1, you have a choice: rob house 0 OR rob house 1. You should take the maximum of the two, not
+automatically rob house 1.</p>
+<p><strong>Correct version:</strong></p>
+<pre class="highlight"><code class="language-java">public static int rob(int[] nums) {
+    if (nums.length == 0) return 0;
+    if (nums.length == 1) return nums[0];
+
+    int[] dp = new int[nums.length];
+    dp[0] = nums[0];
+    dp[1] = Math.max(nums[0], nums[1]);  // Fix: choose better of first two
+
+    for (int i = 2; i &lt; nums.length; i++) {
+        dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i]);
+    }
+
+    return dp[nums.length - 1];
+}</code></pre>
+<p><strong>Space-optimized version:</strong></p>
+<pre class="highlight"><code class="language-java">public static int rob(int[] nums) {
+    if (nums.length == 0) return 0;
+    if (nums.length == 1) return nums[0];
+
+    int prev2 = nums[0];
+    int prev1 = Math.max(nums[0], nums[1]);
+
+    for (int i = 2; i &lt; nums.length; i++) {
+        int current = Math.max(prev1, prev2 + nums[i]);
+        prev2 = prev1;
+        prev1 = current;
+    }
+
+    return prev1;
+}</code></pre>
+</details>
+<hr/>
+<h3 id="challenge-4-broken-word-break">Challenge 4: Broken Word Break<a class="headerlink" href="#challenge-4-broken-word-break" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Check if string can be segmented into dictionary words.
+ * This has 2 BUGS - wrong iteration order and wrong base case check.
+ */
+public static boolean wordBreak_Buggy(String s, List&lt;String&gt; wordDict) {
+    Set&lt;String&gt; dict = new HashSet&lt;&gt;(wordDict);
+    boolean[] dp = new boolean[s.length() + 1];
+    dp[0] = true;
+
+    for (int i = 1; i &lt;= s.length(); i++) {
+        for (int j = i; j &gt;= 0; j--) {            if (dp[j] &amp;&amp; dict.contains(s.substring(j, i))) {
+                dp[i] = true;
+                break;            }
+        }
+    }
+
+    return dp[s.length()];
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug 1:</strong> <span class="fill-in">[Is the inner loop direction correct?]</span></li>
+<li><strong>Bug 2:</strong> <span class="fill-in">[Is the break statement causing missed solutions?]</span></li>
+</ul>
+<p><strong>Test case:</strong></p>
+<ul>
+<li>s = <code>"leetcode"</code>, dict = <code>["leet", "code"]</code></li>
+<li>Expected: <code>true</code></li>
+<li>Trace manually: <span class="fill-in">[Does it find the solution?]</span></li>
+</ul>
+<p><strong>Actually... is this code correct?</strong></p>
+<ul>
+<li><span class="fill-in">[Carefully trace through the logic]</span></li>
+<li>Check: does it explore all possible segmentations? <span class="fill-in">[Your answer]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Surprise:</strong> The code is actually CORRECT! This was a trick question to test your careful analysis.</p>
+<p><strong>Why it works:</strong></p>
+<ul>
+<li>Inner loop <code>j</code> from <code>i</code> down to <code>0</code> checks all possible last words ending at position <code>i</code></li>
+<li>If <code>dp[j]</code> is true (substring 0..j can be segmented) AND substring j..i is in dictionary, then substring 0..i can be
+  segmented</li>
+<li>The <code>break</code> is an optimization - once we find one valid segmentation, we don't need to find more</li>
+</ul>
+<p><strong>Common misconception:</strong> Students often think the break causes problems, but we only need to know IF segmentation is
+possible, not find ALL ways.</p>
+<p><strong>The real learning:</strong> Not all complex-looking DP code has bugs! Sometimes the challenge is understanding WHY it's
+correct.</p>
+<p><strong>Alternative version without break (slightly less efficient):</strong></p>
+<pre class="highlight"><code class="language-java">public static boolean wordBreak(String s, List&lt;String&gt; wordDict) {
+    Set&lt;String&gt; dict = new HashSet&lt;&gt;(wordDict);
+    boolean[] dp = new boolean[s.length() + 1];
+    dp[0] = true;
+
+    for (int i = 1; i &lt;= s.length(); i++) {
+        for (int j = 0; j &lt; i; j++) {
+            if (dp[j] &amp;&amp; dict.contains(s.substring(j, i))) {
+                dp[i] = true;
+                // No break - checks all j values
+            }
+        }
+    }
+
+    return dp[s.length()];
+}</code></pre>
+<p>Both versions are correct; the first is slightly faster due to early exit.</p>
+</details>
+<hr/>
+<h3 id="challenge-5-wrong-iteration-order">Challenge 5: Wrong Iteration Order<a class="headerlink" href="#challenge-5-wrong-iteration-order" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Coin change II - count ways to make amount.
+ * This has 1 CRITICAL BUG that causes wrong answer.
+ */
+public static int change_Buggy(int amount, int[] coins) {
+    int[] dp = new int[amount + 1];
+    dp[0] = 1;  // One way to make 0: use no coins
+
+    for (int i = 1; i &lt;= amount; i++) {
+        for (int coin : coins) {
+            if (i &gt;= coin) {
+                dp[i] += dp[i - coin];
+            }
+        }
+    }
+
+    return dp[amount];
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug:</strong> <span class="fill-in">[Why does loop order matter here?]</span></li>
+<li><strong>What does this code actually count?</strong> <span class="fill-in">[Permutations or combinations?]</span></li>
+<li><strong>How to fix:</strong> <span class="fill-in">[Swap loop order? Why?]</span></li>
+</ul>
+<p><strong>Test case:</strong></p>
+<ul>
+<li>amount = <code>4</code>, coins = <code>[1, 2]</code></li>
+<li>Expected: <code>3</code> ways (1+1+1+1, 1+1+2, 2+2)</li>
+<li>Buggy output: <span class="fill-in">[What do you get? Why?]</span></li>
+</ul>
+<p><strong>Think:</strong> This buggy version counts <code>[1,1,2]</code> and <code>[1,2,1]</code> and <code>[2,1,1]</code> as different. Should they be?</p>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> Loop order causes counting permutations instead of combinations!</p>
+<p><strong>Buggy version counts:</strong> {1,1,2}, {1,2,1}, {2,1,1}, {2,2}, {1,1,1,1} = 5 ways
+<strong>Correct should count:</strong> {1,1,2}, {2,2}, {1,1,1,1} = 3 ways</p>
+<p><strong>Fix - swap loop order:</strong></p>
+<pre class="highlight"><code class="language-java">public static int change(int amount, int[] coins) {
+    int[] dp = new int[amount + 1];
+    dp[0] = 1;
+
+    // Correct: iterate coins in outer loop
+    for (int coin : coins) {
+        for (int i = coin; i &lt;= amount; i++) {
+            dp[i] += dp[i - coin];
+        }
+    }
+
+    return dp[amount];
+}</code></pre>
+<p><strong>Why this works:</strong></p>
+<ul>
+<li>Outer loop on coins ensures we consider coins in order</li>
+<li>For each coin, we update all amounts that can use it</li>
+<li>This prevents counting different orders of the same coin set</li>
+</ul>
+<p><strong>Key insight:</strong> In combination problems (Coin Change II, Subset Sum), loop over items in outer loop. In minimum/maximum
+problems (Coin Change I), loop order doesn't matter.</p>
+</details>
+<hr/>
+<h3 id="your-debugging-scorecard">Your Debugging Scorecard<a class="headerlink" href="#your-debugging-scorecard" title="Permanent link">¶</a></h3>
+<p>After finding and fixing all bugs:</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Found all 7+ bugs across 5 challenges</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understood WHY each bug causes incorrect behavior</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could explain the difference between combinations and permutations</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Learned to check: array bounds, base cases, recurrence relations, loop order</li>
+</ul>
+<p><strong>Common DP mistakes you discovered:</strong></p>
+<ol>
+<li><strong>Off-by-one errors:</strong> <span class="fill-in">[Array size, loop bounds]</span></li>
+<li><strong>Wrong base cases:</strong> <span class="fill-in">[Initial dp values affect everything]</span></li>
+<li><strong>Overflow issues:</strong> <span class="fill-in">[Using Integer.MAX_VALUE in arithmetic]</span></li>
+<li><strong>Wrong recurrence relation:</strong> <span class="fill-in">[Not considering all choices correctly]</span></li>
+<li><strong>Wrong iteration order:</strong> <span class="fill-in">[Matters for combination vs permutation counting]</span></li>
+</ol>
+<p><strong>Your key learnings:</strong></p>
+<ul>
+<li>What was the most surprising bug? <span class="fill-in">[Your answer]</span></li>
+<li>Which bug was hardest to spot? <span class="fill-in">[Your answer]</span></li>
+<li>What will you always check now when writing DP code? <span class="fill-in">[Your answer]</span></li>
+</ul>
+<hr/>
+<h2 id="decision-framework">Decision Framework<a class="headerlink" href="#decision-framework" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Build decision trees for 1D DP problems.</p>
+<h3 id="question-1-what-defines-a-state">Question 1: What defines a state?<a class="headerlink" href="#question-1-what-defines-a-state" title="Permanent link">¶</a></h3>
+<p>Answer after solving problems:</p>
+<ul>
+<li><strong>Single index?</strong> <span class="fill-in">[1D DP array]</span></li>
+<li><strong>Two indices?</strong> <span class="fill-in">[2D DP - next topic]</span></li>
+<li><strong>Additional state (holding/not)?</strong> <span class="fill-in">[Multiple DP arrays or states]</span></li>
+<li><strong>Your observation:</strong> <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="question-2-top-down-or-bottom-up">Question 2: Top-down or bottom-up?<a class="headerlink" href="#question-2-top-down-or-bottom-up" title="Permanent link">¶</a></h3>
+<p><strong>Top-down (Memoization):</strong></p>
+<ul>
+<li>Pros: <span class="fill-in">[Natural recursion, only compute needed states]</span></li>
+<li>Cons: <span class="fill-in">[Stack space, slightly slower]</span></li>
+<li>Use when: <span class="fill-in">[Complex recurrence, not all states needed]</span></li>
+</ul>
+<p><strong>Bottom-up (Tabulation):</strong></p>
+<ul>
+<li>Pros: <span class="fill-in">[No stack, often faster, space optimization]</span></li>
+<li>Cons: <span class="fill-in">[Must compute all states]</span></li>
+<li>Use when: <span class="fill-in">[Simple iteration order, need all states]</span></li>
+</ul>
+<h3 id="your-decision-tree">Your Decision Tree<a class="headerlink" href="#your-decision-tree" title="Permanent link">¶</a></h3>
+<div class="mermaid">flowchart LR
+    Start[""]
+
+    Q1{"Depends on previous 1-2 states?"}
+    Start --&gt; Q1
+    Q2{"Take/skip decision at each element?"}
+    Start --&gt; Q2
+    Q3{"String problem?"}
+    Start --&gt; Q3
+    N4(["String DP ✓"])
+    Q3 --&gt;|"Build character by character"| N4
+    N5["2D DP&lt;br/&gt;(next topic)"]
+    Q3 --&gt;|"Subsequence"| N5
+    N6["O(1) space"]
+    Q3 --&gt;|"Expand from center"| N6
+    Q7{"State machine&lt;br/&gt;(multiple states)?"}
+    Start --&gt; Q7</div>
+<hr/>
+<h2 id="practice">Practice<a class="headerlink" href="#practice" title="Permanent link">¶</a></h2>
+<h3 id="leetcode-problems">LeetCode Problems<a class="headerlink" href="#leetcode-problems" title="Permanent link">¶</a></h3>
+<p><strong>Easy (Complete all 3):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/climbing-stairs/">70. Climbing Stairs</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Fibonacci-style]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/min-cost-climbing-stairs/">746. Min Cost Climbing Stairs</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Fibonacci with cost]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock/">121. Best Time to Buy and Sell Stock</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Single transaction]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Medium (Complete 4-5):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/house-robber/">198. House Robber</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Fibonacci-style decision]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/coin-change/">322. Coin Change</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Decision DP]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/word-break/">139. Word Break</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[String DP]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/longest-increasing-subsequence/">300. Longest Increasing Subsequence</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Sequence DP]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/decode-ways/">91. Decode Ways</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[String DP]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Hard (Optional):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/maximum-product-subarray/">152. Maximum Product Subarray</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Track min and max]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/palindrome-partitioning-ii/">132. Palindrome Partitioning II</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[String DP with cut optimization]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+</ul>
+<hr/>
+<h2 id="review-checklist">Review Checklist<a class="headerlink" href="#review-checklist" title="Permanent link">¶</a></h2>
+<p>Before moving to the next topic:</p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Implementation</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Fibonacci-style: stairs, robber, min cost all work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Decision: coin change, partition all work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> String: decode ways, word break, LIS all work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Stock: single, unlimited, cooldown, fee all work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> All client code runs successfully</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Pattern Recognition</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can identify overlapping subproblems</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand recurrence relations</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Know when to use top-down vs bottom-up</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can optimize space complexity</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Problem Solving</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Solved 3 easy problems</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Solved 4-5 medium problems</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Analyzed time/space complexity</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understood state transitions</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Understanding</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Filled in all ELI5 explanations</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Built decision tree</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Identified when NOT to use DP</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can explain memoization vs tabulation</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Mastery Check</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could implement all patterns from memory</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could recognize pattern in new problem</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could explain to someone else</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand how to derive recurrence</li>
+</ul>
+</li>
+</ul>
+<hr/>
+<h3 id="mastery-certification">Mastery Certification<a class="headerlink" href="#mastery-certification" title="Permanent link">¶</a></h3>
+<p><strong>I certify that I can:</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Identify when a problem needs DP (optimal substructure + overlapping subproblems)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Write correct recurrence relations for all 4 pattern types</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Implement both top-down (memoization) and bottom-up (tabulation) approaches</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Optimize space complexity when only previous states are needed</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Debug common DP bugs (base cases, array bounds, recurrence errors, loop order)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Analyze time and space complexity accurately</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Choose between DP approaches based on problem constraints</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Explain DP concepts clearly to others</li>
+</ul></div>
+</div>
+<footer class="col-md-12 text-center">
+<hr/>
+<p>
+<small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+</p>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../../js/bootstrap-3.0.3.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>var base_url = "../.."</script>
+<script src="../../js/base.js"></script>
+<script src="../../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<button class="close" data-dismiss="modal" type="button">
+<span aria-hidden="true">×</span>
+<span class="sr-only">Close</span>
+</button>
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+</div>
+<div class="modal-body">
+<p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="text"/>
+</div>
+</form>
+<div id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@10.4.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>

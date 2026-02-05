@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="A framework for algorithms, systems design, and infrastructure." name="description"/>
+<meta content="Richard" name="author"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>02. Sliding Window - Software Engineering Study Guide</title>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" rel="stylesheet"/>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css" rel="stylesheet"/>
+<link href="//rsms.me/inter/inter.css" rel="stylesheet" type="text/css"/>
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&amp;subset=latin-ext,latin" rel="stylesheet" type="text/css"/>
+<link href="../../css/bootstrap-custom.min.css" rel="stylesheet"/>
+<link href="../../css/base.min.css" rel="stylesheet"/>
+<link href="../../css/cinder.min.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css" rel="stylesheet"/>
+<link href="../../css/custom.css" rel="stylesheet"/>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="container">
+<!-- Collapsed navigation -->
+<div class="navbar-header">
+<!-- Expander button -->
+<button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<!-- Main title -->
+<a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+</div>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li>
+<a href="../..">Home</a>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Systems Design <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../systems/01-storage-engines/">01. Storage Engines</a>
+</li>
+<li>
+<a href="../../systems/02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+<li>
+<a href="../../systems/03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+<li>
+<a href="../../systems/04-search-and-indexing/">04. Search &amp; Indexing</a>
+</li>
+<li>
+<a href="../../systems/05-caching-patterns/">05. Caching Patterns</a>
+</li>
+<li>
+<a href="../../systems/06-api-design/">06. API Design</a>
+</li>
+<li>
+<a href="../../systems/07-security-patterns/">07. Security Patterns</a>
+</li>
+<li>
+<a href="../../systems/08-rate-limiting/">08. Rate Limiting</a>
+</li>
+<li>
+<a href="../../systems/09-load-balancing/">09. Load Balancing</a>
+</li>
+<li>
+<a href="../../systems/10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+<li>
+<a href="../../systems/11-database-scaling/">11. Database Scaling</a>
+</li>
+<li>
+<a href="../../systems/12-message-queues/">12. Message Queues</a>
+</li>
+<li>
+<a href="../../systems/13-stream-processing/">13. Stream Processing</a>
+</li>
+<li>
+<a href="../../systems/14-observability/">14. Observability</a>
+</li>
+<li>
+<a href="../../systems/15-distributed-transactions/">15. Distributed Transactions</a>
+</li>
+<li>
+<a href="../../systems/16-consensus-patterns/">16. Consensus Patterns</a>
+</li>
+</ul>
+</li>
+<li class="dropdown active">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">DSA <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../01-two-pointers/">01. Two Pointers</a>
+</li>
+<li class="active">
+<a href="./">02. Sliding Window</a>
+</li>
+<li>
+<a href="../03-hash-tables/">03. Hash Tables</a>
+</li>
+<li>
+<a href="../04-linked-lists/">04. Linked Lists</a>
+</li>
+<li>
+<a href="../05-stacks--queues/">05. Stacks &amp; Queues</a>
+</li>
+<li>
+<a href="../06-trees-traversals/">06. Trees - Traversals</a>
+</li>
+<li>
+<a href="../07-trees-recursion/">07. Trees - Recursion</a>
+</li>
+<li>
+<a href="../08-binary-search/">08. Binary Search</a>
+</li>
+<li>
+<a href="../09-heaps/">09. Heaps</a>
+</li>
+<li>
+<a href="../10-graphs/">10. Graphs</a>
+</li>
+<li>
+<a href="../11-union-find/">11. Union-Find</a>
+</li>
+<li>
+<a href="../12-advanced-graphs/">12. Advanced Graphs</a>
+</li>
+<li>
+<a href="../13-backtracking/">13. Backtracking</a>
+</li>
+<li>
+<a href="../14-dynamic-programming-1d/">14. Dynamic Programming 1D</a>
+</li>
+<li>
+<a href="../15-dynamic-programming-2d/">15. Dynamic Programming 2D</a>
+</li>
+<li>
+<a href="../16-tries/">16. Tries</a>
+</li>
+<li>
+<a href="../17-advanced-topics/">17. Advanced Topics</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+<a data-target="#mkdocs_search_modal" data-toggle="modal" href="#">
+<i class="fas fa-search"></i> Search
+                        </a>
+</li>
+<li>
+<a href="../01-two-pointers/" rel="prev">
+<i class="fas fa-arrow-left"></i> Previous
+                        </a>
+</li>
+<li>
+<a href="../03-hash-tables/" rel="next">
+                            Next <i class="fas fa-arrow-right"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+<ul class="nav bs-sidenav">
+<li class="first-level active"><a href="#sliding-window">Sliding Window</a></li>
+<li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+<li class="second-level"><a href="#quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)</a></li>
+<li class="second-level"><a href="#beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters</a></li>
+<li class="second-level"><a href="#core-implementation">Core Implementation</a></li>
+<li class="second-level"><a href="#debugging-challenges">Debugging Challenges</a></li>
+<li class="second-level"><a href="#decision-framework">Decision Framework</a></li>
+<li class="second-level"><a href="#practice">Practice</a></li>
+<li class="second-level"><a href="#review-checklist">Review Checklist</a></li>
+</ul>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="sliding-window">Sliding Window<a class="headerlink" href="#sliding-window" title="Permanent link">¶</a></h1>
+<blockquote>
+<p>Optimize subarray/substring problems from O(n²) to O(n)</p>
+</blockquote>
+<hr/>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After implementing all patterns, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What is the sliding window pattern in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>How is it different from two pointers?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy:</strong></p>
+<ul>
+<li>Example: "Sliding window is like a camera viewfinder moving across a scene..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When does this pattern work?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after solving problems]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When does this pattern fail?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after trying non-contiguous problems]</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr/>
+<h2 id="quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)<a class="headerlink" href="#quick-quiz-do-before-implementing" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Test your intuition without looking at code. Answer these, then verify after implementation.</p>
+<h3 id="complexity-predictions">Complexity Predictions<a class="headerlink" href="#complexity-predictions" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p><strong>Two nested loops finding max sum of k elements:</strong></p>
+<ul>
+<li>Time complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Verified after learning: <span class="fill-in">[Actual: O(?)]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Sliding window finding max sum of k elements:</strong></p>
+<ul>
+<li>Time complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Space complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Verified: <span class="fill-in">[Actual]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Speedup calculation:</strong></p>
+<ul>
+<li>If n = 1,000 and k = 100, nested loops = n × k = <span class="fill-in">_____</span> operations</li>
+<li>Sliding window = n = <span class="fill-in">_____</span> operations</li>
+<li>Speedup factor: <span class="fill-in">_____</span> times faster</li>
+</ul>
+</li>
+</ol>
+<h3 id="scenario-predictions">Scenario Predictions<a class="headerlink" href="#scenario-predictions" title="Permanent link">¶</a></h3>
+<p><strong>Scenario 1:</strong> Find maximum sum of 3 consecutive elements in <code>[1, 4, 2, 10, 2, 3, 1, 0, 20]</code></p>
+<ul>
+<li><strong>Can you use sliding window?</strong> <span class="fill-in">[Yes/No - Why?]</span></li>
+<li><strong>Window type:</strong> <span class="fill-in">[Fixed/Dynamic - Why?]</span></li>
+<li><strong>What do you track in the window?</strong> <span class="fill-in">[Sum? Elements? Other?]</span></li>
+<li><strong>When you slide from index 0-2 to 1-3, what changes?</strong> <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>Scenario 2:</strong> Find longest substring without repeating characters in <code>"abcabcbb"</code></p>
+<ul>
+<li><strong>Can you use sliding window?</strong> <span class="fill-in">[Yes/No - Why?]</span></li>
+<li><strong>Window type:</strong> <span class="fill-in">[Fixed/Dynamic - Why?]</span></li>
+<li><strong>What happens when you encounter a duplicate?</strong> <span class="fill-in">[Expand/Shrink window?]</span></li>
+<li><strong>What data structure tracks window state?</strong> <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>Scenario 3:</strong> Find subarray with sum = 10 in <code>[1, 2, 3, 7, 5]</code> (can be non-contiguous)</p>
+<ul>
+<li><strong>Can you use sliding window?</strong> <span class="fill-in">[Yes/No - Why?]</span></li>
+<li><strong>What's the key requirement that breaks sliding window?</strong> <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="trade-off-quiz">Trade-off Quiz<a class="headerlink" href="#trade-off-quiz" title="Permanent link">¶</a></h3>
+<p><strong>Question:</strong> When would brute force be SIMPLER than sliding window for max sum of k elements?</p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in before implementation]</span></li>
+<li>Verified answer: <span class="fill-in">[Fill in after learning]</span></li>
+</ul>
+<p><strong>Question:</strong> What's the MAIN requirement for sliding window to work?</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Array must be sorted</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Problem involves contiguous subarray/substring</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Window size must be constant</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Array must contain positive integers</li>
+</ul>
+<p>Verify after implementation: <span class="fill-in">[Which one(s)?]</span></p>
+<p><strong>Question:</strong> Fixed vs Dynamic window - which applies when?</p>
+<ul>
+<li><strong>Fixed window when:</strong> <span class="fill-in">[Fill in]</span></li>
+<li><strong>Dynamic window when:</strong> <span class="fill-in">[Fill in]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters<a class="headerlink" href="#beforeafter-why-this-pattern-matters" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Compare naive vs optimized approaches to understand the impact.</p>
+<h3 id="example-maximum-sum-of-k-consecutive-elements">Example: Maximum Sum of K Consecutive Elements<a class="headerlink" href="#example-maximum-sum-of-k-consecutive-elements" title="Permanent link">¶</a></h3>
+<p><strong>Problem:</strong> Find the maximum sum of any k consecutive elements in an array.</p>
+<h4 id="approach-1-brute-force-nested-loops">Approach 1: Brute Force (Nested Loops)<a class="headerlink" href="#approach-1-brute-force-nested-loops" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Naive approach - Recalculate sum for each window
+public static int maxSum_BruteForce(int[] nums, int k) {
+    if (nums.length &lt; k) return 0;
+
+    int maxSum = Integer.MIN_VALUE;
+
+    // For each possible starting position
+    for (int i = 0; i &lt;= nums.length - k; i++) {
+        int windowSum = 0;
+
+        // Calculate sum of k elements starting at i
+        for (int j = i; j &lt; i + k; j++) {
+            windowSum += nums[j];
+        }
+
+        maxSum = Math.max(maxSum, windowSum);
+    }
+
+    return maxSum;
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n × k) - For each of n-k positions, sum k elements</li>
+<li>Space: O(1) - No extra space</li>
+<li>For n = 10,000, k = 100: ~1,000,000 operations</li>
+</ul>
+<h4 id="approach-2-sliding-window-optimized">Approach 2: Sliding Window (Optimized)<a class="headerlink" href="#approach-2-sliding-window-optimized" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Optimized approach - Reuse previous sum by sliding
+public static int maxSum_SlidingWindow(int[] nums, int k) {
+    if (nums.length &lt; k) return 0;
+
+    // Calculate sum of first window
+    int windowSum = 0;
+    for (int i = 0; i &lt; k; i++) {
+        windowSum += nums[i];
+    }
+    int maxSum = windowSum;
+
+    // Slide window: remove left, add right
+    for (int i = k; i &lt; nums.length; i++) {
+        windowSum = windowSum - nums[i - k] + nums[i];  // KEY: Reuse previous sum!
+        maxSum = Math.max(maxSum, windowSum);
+    }
+
+    return maxSum;
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n) - One pass to build first window, one pass to slide</li>
+<li>Space: O(1) - Only track window sum</li>
+<li>For n = 10,000, k = 100: ~10,000 operations</li>
+</ul>
+<h4 id="performance-comparison">Performance Comparison<a class="headerlink" href="#performance-comparison" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>Array Size (n)</th>
+<th>Window Size (k)</th>
+<th>Brute Force (O(n×k))</th>
+<th>Sliding Window (O(n))</th>
+<th>Speedup</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n = 100</td>
+<td>k = 10</td>
+<td>1,000 ops</td>
+<td>100 ops</td>
+<td>10x</td>
+</tr>
+<tr>
+<td>n = 1,000</td>
+<td>k = 100</td>
+<td>100,000 ops</td>
+<td>1,000 ops</td>
+<td>100x</td>
+</tr>
+<tr>
+<td>n = 10,000</td>
+<td>k = 100</td>
+<td>1,000,000 ops</td>
+<td>10,000 ops</td>
+<td>100x</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Your calculation:</strong> For n = 5,000 and k = 50, the speedup is approximately _____ times faster.</p>
+<h4 id="why-does-sliding-window-work">Why Does Sliding Window Work?<a class="headerlink" href="#why-does-sliding-window-work" title="Permanent link">¶</a></h4>
+<p><strong>Key insight to understand:</strong></p>
+<p>In array <code>[1, 4, 2, 10, 2, 3]</code> with k = 3:</p>
+<pre class="highlight"><code>Window 1: [1, 4, 2]     sum = 7
+Window 2:    [4, 2, 10]  sum = 16
+
+Brute force: Calculate 4 + 2 + 10 = 16 (3 operations)
+Sliding window: Previous sum (7) - 1 + 10 = 16 (2 operations)</code></pre>
+<p><strong>Why can we reuse the sum?</strong></p>
+<ul>
+<li>Window 2 shares elements [4, 2] with Window 1</li>
+<li>Only difference: remove leftmost (1), add rightmost (10)</li>
+<li>No need to recalculate the shared elements!</li>
+</ul>
+<p><strong>Visualization:</strong></p>
+<pre class="highlight"><code>[1, 4, 2, 10, 2, 3]
+ ^-----^              Window 1: sum = 7
+    ^-----^           Window 2: Remove 1, Add 10 → sum = 7 - 1 + 10 = 16
+       ^-----^        Window 3: Remove 4, Add 2 → sum = 16 - 4 + 2 = 14</code></pre>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>Why does the window "slide" instead of "jump"? <span class="fill-in">[Your answer]</span></li>
+<li>What would happen if the window wasn't contiguous? <span class="fill-in">[Your answer]</span></li>
+<li>How is this different from two pointers? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="core-implementation">Core Implementation<a class="headerlink" href="#core-implementation" title="Permanent link">¶</a></h2>
+<h3 id="pattern-1-fixed-window-size">Pattern 1: Fixed Window Size<a class="headerlink" href="#pattern-1-fixed-window-size" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Window size is constant, slide one position at a time.</p>
+<p><strong>Use case:</strong> Maximum/minimum of k consecutive elements, average of subarrays.</p>
+<pre class="highlight"><code class="language-java">public class FixedWindow {
+
+    /**
+     * Problem: Maximum sum of K consecutive elements
+     * Time: O(n), Space: O(1)
+     *
+     * TODO: Implement fixed window
+     */
+    public static double maxAverageSubarray(int[] nums, int k) {
+        if (nums.length &lt; k) return 0.0;
+
+        // TODO: Calculate initial window sum
+        // Slide the window and update max as you go
+
+        return 0.0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Contains nearby duplicate within k distance
+     * Time: O(n), Space: O(k)
+     *
+     * TODO: Implement using HashSet as fixed window
+     */
+    public static boolean containsNearbyDuplicate(int[] nums, int k) {
+        // TODO: Use a set to track elements in current window
+
+        return false; // Replace with implementation
+    }
+
+    /**
+     * Problem: Maximum of all subarrays of size k
+     * Time: O(n), Space: O(k) using deque
+     *
+     * TODO: Implement using deque for efficient max tracking
+     */
+    public static int[] maxSlidingWindow(int[] nums, int k) {
+        // TODO: Use a deque to maintain useful elements in window
+        // Keep elements in decreasing order for easy max access
+
+        return new int[0]; // Replace with implementation
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class FixedWindowClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Fixed Window Size ===\n");
+
+        // Test 1: Max average subarray
+        System.out.println("--- Test 1: Max Average ---");
+        int[] nums1 = {1, 12, -5, -6, 50, 3};
+        int k1 = 4;
+
+        double maxAvg = FixedWindow.maxAverageSubarray(nums1, k1);
+        System.out.printf("Array: %s%n", Arrays.toString(nums1));
+        System.out.printf("k = %d%n", k1);
+        System.out.printf("Max average: %.2f%n", maxAvg);
+
+        // Test 2: Contains nearby duplicate
+        System.out.println("\n--- Test 2: Nearby Duplicate ---");
+        int[][] dupTests = {
+            {1, 2, 3, 1},     // k=3, should be true
+            {1, 0, 1, 1},     // k=1, should be true
+            {1, 2, 3, 1, 2, 3} // k=2, should be false
+        };
+        int[] kValues = {3, 1, 2};
+
+        for (int i = 0; i &lt; dupTests.length; i++) {
+            boolean hasDup = FixedWindow.containsNearbyDuplicate(dupTests[i], kValues[i]);
+            System.out.printf("Array: %s, k=%d -&gt; %b%n",
+                Arrays.toString(dupTests[i]), kValues[i], hasDup);
+        }
+
+        // Test 3: Max sliding window
+        System.out.println("\n--- Test 3: Max Sliding Window ---");
+        int[] nums3 = {1, 3, -1, -3, 5, 3, 6, 7};
+        int k3 = 3;
+
+        int[] maxes = FixedWindow.maxSlidingWindow(nums3, k3);
+        System.out.printf("Array: %s%n", Arrays.toString(nums3));
+        System.out.printf("k = %d%n", k3);
+        System.out.printf("Maximums: %s%n", Arrays.toString(maxes));
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-2-dynamic-window-size">Pattern 2: Dynamic Window Size<a class="headerlink" href="#pattern-2-dynamic-window-size" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Window expands and contracts based on condition.</p>
+<p><strong>Use case:</strong> Longest/shortest substring with constraint, subarray sum.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class DynamicWindow {
+
+    /**
+     * Problem: Longest substring without repeating characters
+     * Time: O(n), Space: O(k) where k = unique chars
+     *
+     * TODO: Implement dynamic window with HashSet
+     */
+    public static int lengthOfLongestSubstring(String s) {
+        Set&lt;Character&gt; window = new HashSet&lt;&gt;();
+        int left = 0, maxLen = 0;
+
+        // TODO: Implement iteration/conditional logic
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Longest substring with at most K distinct characters
+     * Time: O(n), Space: O(k)
+     *
+     * TODO: Implement with HashMap for frequency counting
+     */
+    public static int lengthOfLongestSubstringKDistinct(String s, int k) {
+        if (k == 0) return 0;
+
+        Map&lt;Character, Integer&gt; window = new HashMap&lt;&gt;();
+        int left = 0, maxLen = 0;
+
+        // TODO: Implement iteration/conditional logic
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Minimum size subarray sum &gt;= target
+     * Time: O(n), Space: O(1)
+     *
+     * TODO: Implement shrinking window
+     */
+    public static int minSubArrayLen(int target, int[] nums) {
+        int left = 0, sum = 0, minLen = Integer.MAX_VALUE;
+
+        // TODO: Implement iteration/conditional logic
+
+        // TODO: Return minLen == Integer.MAX_VALUE ? 0 : minLen
+
+        return 0; // Replace with implementation
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class DynamicWindowClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Dynamic Window Size ===\n");
+
+        // Test 1: Longest substring without repeating
+        System.out.println("--- Test 1: Longest Substring (No Repeats) ---");
+        String[] test1 = {"abcabcbb", "bbbbb", "pwwkew", ""};
+
+        for (String s : test1) {
+            int len = DynamicWindow.lengthOfLongestSubstring(s);
+            System.out.printf("\"%s\" -&gt; %d%n", s, len);
+        }
+
+        // Test 2: Longest with K distinct
+        System.out.println("\n--- Test 2: K Distinct Characters ---");
+        String[] test2 = {"eceba", "aa", "aaabbccd"};
+        int[] kValues = {2, 1, 2};
+
+        for (int i = 0; i &lt; test2.length; i++) {
+            int len = DynamicWindow.lengthOfLongestSubstringKDistinct(test2[i], kValues[i]);
+            System.out.printf("\"%s\", k=%d -&gt; %d%n", test2[i], kValues[i], len);
+        }
+
+        // Test 3: Minimum subarray sum
+        System.out.println("\n--- Test 3: Min Subarray Sum &gt;= Target ---");
+        int[][] arrays = {
+            {2, 3, 1, 2, 4, 3},
+            {1, 4, 4},
+            {1, 1, 1, 1, 1, 1, 1, 1}
+        };
+        int[] targets = {7, 4, 11};
+
+        for (int i = 0; i &lt; arrays.length; i++) {
+            int minLen = DynamicWindow.minSubArrayLen(targets[i], arrays[i]);
+            System.out.printf("Array: %s, target=%d -&gt; %d%n",
+                Arrays.toString(arrays[i]), targets[i], minLen);
+        }
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-3-string-problems-with-window">Pattern 3: String Problems with Window<a class="headerlink" href="#pattern-3-string-problems-with-window" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Track character frequencies in window for pattern matching.</p>
+<p><strong>Use case:</strong> Anagram problems, substring with all characters.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class StringWindow {
+
+    /**
+     * Problem: Find all anagrams of pattern in string
+     * Time: O(n), Space: O(1) - only 26 letters
+     *
+     * TODO: Implement using frequency arrays
+     */
+    public static List&lt;Integer&gt; findAnagrams(String s, String p) {
+        List&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+        if (s.length() &lt; p.length()) return result;
+
+        // TODO: Create frequency array for pattern p
+
+        // TODO: Create frequency array for current window
+
+        // TODO: Fixed window of size p.length()
+
+        return result; // Replace with implementation
+    }
+
+    /**
+     * Problem: Permutation in string (s2 contains permutation of s1)
+     * Time: O(n), Space: O(1)
+     *
+     * TODO: Implement using sliding window comparison
+     */
+    public static boolean checkInclusion(String s1, String s2) {
+        if (s1.length() &gt; s2.length()) return false;
+
+        // TODO: Similar to findAnagrams but return true on first match
+
+        return false; // Replace with implementation
+    }
+
+    /**
+     * Problem: Minimum window substring containing all chars of t
+     * Time: O(n + m), Space: O(k) where k = unique chars
+     *
+     * TODO: Implement using two frequency maps
+     */
+    public static String minWindow(String s, String t) {
+        if (s.isEmpty() || t.isEmpty()) return "";
+
+        // TODO: Create frequency map for t
+
+        // TODO: Track matched characters
+
+        // TODO: Expand right, shrink left when valid
+
+        return ""; // Replace with implementation
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class StringWindowClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== String Window Problems ===\n");
+
+        // Test 1: Find anagrams
+        System.out.println("--- Test 1: Find Anagrams ---");
+        String[][] anagramTests = {
+            {"cbaebabacd", "abc"},
+            {"abab", "ab"}
+        };
+
+        for (String[] test : anagramTests) {
+            List&lt;Integer&gt; indices = StringWindow.findAnagrams(test[0], test[1]);
+            System.out.printf("s=\"%s\", p=\"%s\" -&gt; %s%n",
+                test[0], test[1], indices);
+        }
+
+        // Test 2: Check inclusion
+        System.out.println("\n--- Test 2: Permutation In String ---");
+        String[][] inclusionTests = {
+            {"ab", "eidbaooo"},
+            {"ab", "eidboaoo"},
+            {"abc", "bbbca"}
+        };
+
+        for (String[] test : inclusionTests) {
+            boolean found = StringWindow.checkInclusion(test[0], test[1]);
+            System.out.printf("s1=\"%s\", s2=\"%s\" -&gt; %b%n",
+                test[0], test[1], found);
+        }
+
+        // Test 3: Minimum window
+        System.out.println("\n--- Test 3: Minimum Window Substring ---");
+        String[][] windowTests = {
+            {"ADOBECODEBANC", "ABC"},
+            {"a", "a"},
+            {"a", "aa"}
+        };
+
+        for (String[] test : windowTests) {
+            String result = StringWindow.minWindow(test[0], test[1]);
+            System.out.printf("s=\"%s\", t=\"%s\" -&gt; \"%s\"%n",
+                test[0], test[1], result);
+        }
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-4-two-pointers-window-hybrid">Pattern 4: Two Pointers + Window Hybrid<a class="headerlink" href="#pattern-4-two-pointers-window-hybrid" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Combine sliding window with two-pointer techniques.</p>
+<p><strong>Use case:</strong> Character replacement, fruit baskets, longest repeating replacement.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class HybridWindow {
+
+    /**
+     * Problem: Longest repeating character replacement
+     * Time: O(n), Space: O(1) - only 26 letters
+     *
+     * TODO: Implement window with character replacement
+     */
+    public static int characterReplacement(String s, int k) {
+        int[] count = new int[26];
+        int left = 0, maxCount = 0, maxLen = 0;
+
+        // TODO: Implement iteration/conditional logic
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Max consecutive ones with k flips
+     * Time: O(n), Space: O(1)
+     *
+     * TODO: Implement window tracking flips
+     */
+    public static int longestOnes(int[] nums, int k) {
+        int left = 0, zeros = 0, maxLen = 0;
+
+        // TODO: Implement iteration/conditional logic
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Fruits into baskets (at most 2 types)
+     * Time: O(n), Space: O(1)
+     *
+     * TODO: Implement window with at most 2 distinct elements
+     */
+    public static int totalFruit(int[] fruits) {
+        Map&lt;Integer, Integer&gt; basket = new HashMap&lt;&gt;();
+        int left = 0, maxFruits = 0;
+
+        // TODO: Implement iteration/conditional logic
+
+        return 0; // Replace with implementation
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class HybridWindowClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Two Pointers + Window Hybrid ===\n");
+
+        // Test 1: Character replacement
+        System.out.println("--- Test 1: Character Replacement ---");
+        String[] strings = {"ABAB", "AABABBA", "AAAA"};
+        int[] kValues = {2, 1, 2};
+
+        for (int i = 0; i &lt; strings.length; i++) {
+            int len = HybridWindow.characterReplacement(strings[i], kValues[i]);
+            System.out.printf("s=\"%s\", k=%d -&gt; %d%n",
+                strings[i], kValues[i], len);
+        }
+
+        // Test 2: Max consecutive ones
+        System.out.println("\n--- Test 2: Max Consecutive Ones ---");
+        int[][] arrays = {
+            {1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0},
+            {0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1}
+        };
+        int[] flips = {2, 3};
+
+        for (int i = 0; i &lt; arrays.length; i++) {
+            int len = HybridWindow.longestOnes(arrays[i], flips[i]);
+            System.out.printf("Array: %s%n", Arrays.toString(arrays[i]));
+            System.out.printf("k=%d -&gt; %d%n%n", flips[i], len);
+        }
+
+        // Test 3: Fruits into baskets
+        System.out.println("--- Test 3: Fruits Into Baskets ---");
+        int[][] fruitArrays = {
+            {1, 2, 1},
+            {0, 1, 2, 2},
+            {1, 2, 3, 2, 2}
+        };
+
+        for (int[] fruits : fruitArrays) {
+            int total = HybridWindow.totalFruit(fruits);
+            System.out.printf("Fruits: %s -&gt; %d%n",
+                Arrays.toString(fruits), total);
+        }
+    }
+}</code></pre>
+<hr/>
+<h2 id="debugging-challenges">Debugging Challenges<a class="headerlink" href="#debugging-challenges" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Find and fix bugs in broken implementations. This tests your understanding of sliding window mechanics.</p>
+<h3 id="challenge-1-broken-fixed-window-max-average">Challenge 1: Broken Fixed Window (Max Average)<a class="headerlink" href="#challenge-1-broken-fixed-window-max-average" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Find maximum average of k consecutive elements.
+ * This has 2 BUGS. Find them!
+ */
+public static double maxAverage_Buggy(int[] nums, int k) {
+    int windowSum = 0;
+
+    // Build first window
+    for (int i = 0; i &lt;= k; i++) {        windowSum += nums[i];
+    }
+
+    double maxAvg = windowSum / k;
+
+    // Slide window
+    for (int i = k; i &lt; nums.length; i++) {
+        windowSum = windowSum - nums[i - k] + nums[i];
+        maxAvg = Math.max(maxAvg, windowSum / k);    }
+
+    return maxAvg;
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>
+<p>Bug 1: <span class="fill-in">[What\'s the bug?]</span></p>
+</li>
+<li>
+<p>Bug 2: <span class="fill-in">[What\'s the bug?]</span></p>
+</li>
+</ul>
+<p><strong>Test case to expose bugs:</strong></p>
+<ul>
+<li>Input: <code>nums = [1, 12, -5, -6, 50, 3]</code>, <code>k = 4</code></li>
+<li>Expected: Maximum average should be <code>12.75</code> (for subarray <code>[12, -5, -6, 50]</code>)</li>
+<li>Actual with bugs: <span class="fill-in">[Trace through manually]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug 1 (Line 5):</strong> Loop should be <code>i &lt; k</code>, not <code>i &lt;= k</code>. We want k elements (indices 0 to k-1), not k+1 elements.</p>
+<p><strong>Bug 2 (Line 15):</strong> <code>windowSum / k</code> performs integer division. Should be <code>windowSum / (double) k</code> to get accurate
+average.</p>
+<p><strong>Correct code:</strong></p>
+<pre class="highlight"><code class="language-java">for (int i = 0; i &lt; k; i++) {  // Fixed: i &lt; k
+    windowSum += nums[i];
+}
+double maxAvg = windowSum / (double) k;  // Fixed: cast to double
+
+for (int i = k; i &lt; nums.length; i++) {
+    windowSum = windowSum - nums[i - k] + nums[i];
+    maxAvg = Math.max(maxAvg, windowSum / (double) k);  // Fixed: cast to double
+}</code></pre>
+</details>
+<hr/>
+<h3 id="challenge-2-broken-dynamic-window-longest-substring">Challenge 2: Broken Dynamic Window (Longest Substring)<a class="headerlink" href="#challenge-2-broken-dynamic-window-longest-substring" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Find longest substring without repeating characters.
+ * This has 1 CRITICAL BUG. Find it!
+ */
+public static int longestSubstring_Buggy(String s) {
+    Set&lt;Character&gt; window = new HashSet&lt;&gt;();
+    int left = 0, maxLen = 0;
+
+    for (int right = 0; right &lt; s.length(); right++) {
+        char c = s.charAt(right);
+
+        while (window.contains(c)) {
+            window.remove(s.charAt(left));
+            left++;
+        }
+
+        window.add(c);
+        maxLen = Math.max(maxLen, window.size());    }
+
+    return maxLen;
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>Bug: <span class="fill-in">[What\'s the bug?]</span></li>
+</ul>
+<p><strong>Trace through example:</strong></p>
+<ul>
+<li>Input: <code>"abcabcbb"</code></li>
+<li>Expected: <code>3</code> (substring "abc")</li>
+<li>Trace the window and maxLen calculation at each step: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug (Line 16):</strong> Using <code>window.size()</code> seems correct but could fail in edge cases. The proper calculation is
+<code>right - left + 1</code> to get the current window length.</p>
+<p><strong>Why the bug is subtle:</strong> In this specific implementation, <code>window.size()</code> and <code>right - left + 1</code> are usually the same
+because we maintain a set. However, using indices is the standard approach and more explicit.</p>
+<p><strong>Correct:</strong></p>
+<pre class="highlight"><code class="language-java">maxLen = Math.max(maxLen, right - left + 1);  // Proper window length calculation</code></pre>
+<p><strong>Note:</strong> This is a subtle bug because the code might work in many cases, but using index-based calculation is clearer
+and more maintainable.</p>
+</details>
+<hr/>
+<h3 id="challenge-3-broken-window-shrinking-logic">Challenge 3: Broken Window Shrinking Logic<a class="headerlink" href="#challenge-3-broken-window-shrinking-logic" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Find minimum subarray length with sum &gt;= target.
+ * This has 1 CRITICAL BUG in shrinking logic.
+ */
+public static int minSubArrayLen_Buggy(int target, int[] nums) {
+    int left = 0, sum = 0, minLen = Integer.MAX_VALUE;
+
+    for (int right = 0; right &lt; nums.length; right++) {
+        sum += nums[right];
+
+        if (sum &gt;= target) {            minLen = Math.min(minLen, right - left + 1);
+            sum -= nums[left];
+            left++;
+        }
+    }
+
+    return minLen == Integer.MAX_VALUE ? 0 : minLen;
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug location:</strong> <span class="fill-in">[What's wrong with the condition?]</span></li>
+<li><strong>Bug explanation:</strong> <span class="fill-in">[Why does IF fail but WHILE works?]</span></li>
+</ul>
+<p><strong>Test case to expose bug:</strong></p>
+<ul>
+<li>Input: <code>nums = [2, 3, 1, 2, 4, 3]</code>, <code>target = 7</code></li>
+<li>Expected: <code>2</code> (subarray <code>[4, 3]</code>)</li>
+<li>Actual with buggy code: <span class="fill-in">[Trace through and predict]</span></li>
+</ul>
+<p><strong>Trace manually:</strong></p>
+<pre class="highlight"><code>right=0: sum=2, sum &lt; 7, skip
+right=1: sum=5, sum &lt; 7, skip
+right=2: sum=6, sum &lt; 7, skip
+right=3: sum=8, sum &gt;= 7, minLen=4, left=1, sum=6
+right=4: sum=10, sum &gt;= 7, minLen=4 (not updated!), left=2, sum=8
+...</code></pre>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug (Line 7):</strong> Should be <code>while (sum &gt;= target)</code> instead of <code>if (sum &gt;= target)</code>.</p>
+<p><strong>Why:</strong> When we find a valid window, we should shrink it as much as possible to find the minimum length. Using <code>if</code>
+only shrinks once, but we might be able to shrink multiple times and still maintain <code>sum &gt;= target</code>.</p>
+<p><strong>Correct:</strong></p>
+<pre class="highlight"><code class="language-java">while (sum &gt;= target) {  // Keep shrinking while valid
+    minLen = Math.min(minLen, right - left + 1);
+    sum -= nums[left];
+    left++;
+}</code></pre>
+<p><strong>Key insight:</strong> Dynamic windows often need <code>while</code> loops for shrinking, not <code>if</code> statements, because you want to shrink
+as much as possible while maintaining the constraint.</p>
+</details>
+<hr/>
+<h3 id="challenge-4-not-shrinking-window-at-all">Challenge 4: Not Shrinking Window at All<a class="headerlink" href="#challenge-4-not-shrinking-window-at-all" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Longest substring with at most K distinct characters.
+ * This code expands the window but NEVER SHRINKS it properly!
+ */
+public static int longestKDistinct_Buggy(String s, int k) {
+    Map&lt;Character, Integer&gt; window = new HashMap&lt;&gt;();
+    int left = 0, maxLen = 0;
+
+    for (int right = 0; right &lt; s.length(); right++) {
+        char c = s.charAt(right);
+        window.put(c, window.getOrDefault(c, 0) + 1);
+
+        if (window.size() &gt; k) {            char leftChar = s.charAt(left);
+            window.put(leftChar, window.get(leftChar) - 1);
+            left++;
+        }
+
+        maxLen = Math.max(maxLen, right - left + 1);
+    }
+
+    return maxLen;
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug 1:</strong> <span class="fill-in">[Why is checking size &gt; k once not enough?]</span></li>
+<li><strong>Bug 2:</strong> <span class="fill-in">[What happens if frequency becomes 0?]</span></li>
+<li><strong>Fixes:</strong> <span class="fill-in">[Fill in both fixes]</span></li>
+</ul>
+<p><strong>Example to trace:</strong></p>
+<ul>
+<li>Input: <code>s = "eceba"</code>, <code>k = 2</code></li>
+<li>Expected: <code>3</code> (substring "ece" or "eba")</li>
+<li>Trace window map state at each step: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug 1:</strong> Should be <code>while (window.size() &gt; k)</code> instead of <code>if</code>. We need to keep shrinking until we have at most k
+distinct characters.</p>
+<p><strong>Bug 2:</strong> After decrementing frequency, we must remove the character from the map if frequency becomes 0. Otherwise,
+<code>window.size()</code> will never decrease!</p>
+<p><strong>Correct:</strong></p>
+<pre class="highlight"><code class="language-java">while (window.size() &gt; k) {  // Keep shrinking while invalid
+    char leftChar = s.charAt(left);
+    window.put(leftChar, window.get(leftChar) - 1);
+
+    if (window.get(leftChar) == 0) {  // Remove if frequency is 0
+        window.remove(leftChar);
+    }
+
+    left++;
+}</code></pre>
+<p><strong>Key mistake:</strong> Not removing keys from HashMap when their frequency reaches 0 is a common bug in sliding window
+problems with frequency tracking.</p>
+</details>
+<hr/>
+<h3 id="your-debugging-scorecard">Your Debugging Scorecard<a class="headerlink" href="#your-debugging-scorecard" title="Permanent link">¶</a></h3>
+<p>After finding and fixing all bugs:</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Found all 6+ bugs across 4 challenges</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understood WHY each bug causes incorrect behavior</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could explain the fix to someone else</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Learned common sliding window mistakes to avoid</li>
+</ul>
+<p><strong>Common mistakes you discovered:</strong></p>
+<ol>
+<li><strong>Off-by-one errors:</strong> <span class="fill-in">[In loop bounds, especially building first window]</span></li>
+<li><strong>Using IF instead of WHILE for shrinking:</strong> <span class="fill-in">[Window doesn't shrink enough]</span></li>
+<li><strong>Not removing from HashMap when frequency = 0:</strong> <span class="fill-in">[Window size never decreases]</span></li>
+<li><strong>Integer division errors:</strong> <span class="fill-in">[Forgetting to cast to double for averages]</span></li>
+<li><span class="fill-in">[Add any other patterns you noticed]</span></li>
+</ol>
+<hr/>
+<h2 id="decision-framework">Decision Framework<a class="headerlink" href="#decision-framework" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Build decision trees for when to use sliding window.</p>
+<h3 id="question-1-is-the-subarraysubstring-contiguous">Question 1: Is the subarray/substring contiguous?<a class="headerlink" href="#question-1-is-the-subarraysubstring-contiguous" title="Permanent link">¶</a></h3>
+<p>Answer after solving problems:</p>
+<ul>
+<li><strong>Why contiguous matters?</strong> <span class="fill-in">[Sliding window only works on contiguous data]</span></li>
+<li><strong>Can sliding window work on non-contiguous?</strong> <span class="fill-in">[No - need other techniques]</span></li>
+<li><strong>Your observation:</strong> <span class="fill-in">[Fill in based on testing]</span></li>
+</ul>
+<h3 id="question-2-fixed-vs-dynamic-window">Question 2: Fixed vs Dynamic window?<a class="headerlink" href="#question-2-fixed-vs-dynamic-window" title="Permanent link">¶</a></h3>
+<p>Answer for each pattern:</p>
+<p><strong>Fixed window when:</strong></p>
+<ul>
+<li>Window size: <span class="fill-in">[Known constant k]</span></li>
+<li>Movement rule: <span class="fill-in">[Always move both pointers together]</span></li>
+<li>Example problems: <span class="fill-in">[Max average, nearby duplicate]</span></li>
+</ul>
+<p><strong>Dynamic window when:</strong></p>
+<ul>
+<li>Window size: <span class="fill-in">[Varies based on constraint]</span></li>
+<li>Movement rule: <span class="fill-in">[Expand right, shrink left when needed]</span></li>
+<li>Example problems: <span class="fill-in">[Longest substring, min subarray sum]</span></li>
+</ul>
+<h3 id="question-3-what-state-to-track">Question 3: What state to track?<a class="headerlink" href="#question-3-what-state-to-track" title="Permanent link">¶</a></h3>
+<p>Answer for different scenarios:</p>
+<p><strong>For sum/count problems:</strong></p>
+<ul>
+<li>Track: <span class="fill-in">[Running sum, count]</span></li>
+<li>Data structure: <span class="fill-in">[Variables, no extra space]</span></li>
+</ul>
+<p><strong>For unique elements:</strong></p>
+<ul>
+<li>Track: <span class="fill-in">[Set of current elements]</span></li>
+<li>Data structure: <span class="fill-in">[HashSet]</span></li>
+</ul>
+<p><strong>For frequency:</strong></p>
+<ul>
+<li>Track: <span class="fill-in">[Count of each element]</span></li>
+<li>Data structure: <span class="fill-in">[HashMap or frequency array]</span></li>
+</ul>
+<h3 id="your-decision-tree">Your Decision Tree<a class="headerlink" href="#your-decision-tree" title="Permanent link">¶</a></h3>
+<p>Build this after solving practice problems:
+<div class="mermaid">flowchart LR
+    Start["Sliding Window Pattern Selection"]
+
+    Q1{"Is subarray/substring contiguous?"}
+    Start --&gt; Q1
+    N2["Use other technique&lt;br/&gt;(DP, backtracking)"]
+    Q1 --&gt;|"NO"| N2
+    N3["Continue"]
+    Q1 --&gt;|"YES"| N3
+    Q4{"Is window size known?"}
+    Start --&gt; Q4
+    N5(["Use fixed window ✓"])
+    Q4 --&gt;|"YES (fixed k)"| N5
+    N6(["Use dynamic window ✓"])
+    Q4 --&gt;|"NO (find optimal)"| N6
+    Q7{"What to track in window?"}
+    Start --&gt; Q7
+    N8(["Variables O(1) space ✓"])
+    Q7 --&gt;|"Sum/Count"| N8
+    N9(["HashSet O(k) space ✓"])
+    Q7 --&gt;|"Unique elements"| N9
+    N10(["HashMap/Array O(k) space ✓"])
+    Q7 --&gt;|"Frequencies"| N10
+    N11(["Deque O(k) space ✓"])
+    Q7 --&gt;|"Maximum"| N11
+    Q12{"Shrink condition?"}
+    Start --&gt; Q12</div></p>
+<hr/>
+<h2 id="practice">Practice<a class="headerlink" href="#practice" title="Permanent link">¶</a></h2>
+<h3 id="leetcode-problems">LeetCode Problems<a class="headerlink" href="#leetcode-problems" title="Permanent link">¶</a></h3>
+<p><strong>Easy (Complete all 4):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/maximum-average-subarray-i/">643. Maximum Average Subarray I</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Fixed window]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/contains-duplicate-ii/">219. Contains Duplicate II</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Fixed window with HashSet]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/substrings-of-size-three-with-distinct-characters/">1876. Substrings of Size Three with Distinct Characters</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Fixed window]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/maximum-number-of-vowels-in-a-substring-of-given-length/">1456. Maximum Number of Vowels</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Fixed window]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Medium (Complete 3-4):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/longest-substring-without-repeating-characters/">3. Longest Substring Without Repeating Characters</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Dynamic window]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+<li>Mistake made: <span class="fill-in">[Fill in if any]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/longest-repeating-character-replacement/">424. Longest Repeating Character Replacement</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Dynamic window with replacement]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/find-all-anagrams-in-a-string/">438. Find All Anagrams in a String</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Fixed window with frequency]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/permutation-in-string/">567. Permutation in String</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Fixed window with frequency]</span></li>
+<li>Comparison to 438: <span class="fill-in">[How similar?]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Hard (Optional):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/minimum-window-substring/">76. Minimum Window Substring</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Dynamic window with frequency]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/sliding-window-maximum/">239. Sliding Window Maximum</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Fixed window with deque]</span></li>
+<li>Key insight: <span class="fill-in">[Monotonic deque technique]</span></li>
+</ul>
+</li>
+</ul>
+<hr/>
+<h2 id="review-checklist">Review Checklist<a class="headerlink" href="#review-checklist" title="Permanent link">¶</a></h2>
+<p>Before moving to the next topic:</p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Implementation</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Fixed window: max average, nearby duplicate, max sliding window all work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Dynamic window: longest substring, k distinct, min subarray sum all work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> String window: find anagrams, check inclusion, min window all work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Hybrid: character replacement, max ones, fruit baskets all work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> All client code runs successfully</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Pattern Recognition</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can identify fixed vs dynamic window</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand when to expand vs shrink</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Know what state to track in window</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand the contiguous requirement</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Problem Solving</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Solved 4 easy problems</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Solved 3-4 medium problems</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Analyzed time/space complexity</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Handled edge cases (empty, k &gt; length)</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Understanding</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Filled in all ELI5 explanations</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Built decision tree</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Identified when NOT to use sliding window</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can explain trade-offs vs other approaches</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Mastery Check</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could implement all patterns from memory</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could recognize pattern in new problem</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could explain to someone else</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand difference from two pointers</li>
+</ul>
+</li>
+</ul>
+<hr/>
+<h3 id="mastery-certification">Mastery Certification<a class="headerlink" href="#mastery-certification" title="Permanent link">¶</a></h3>
+<p><strong>I certify that I can:</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Implement both fixed and dynamic window patterns from memory</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Explain when and why to use each pattern</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Identify the correct window type for new problems</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Track appropriate state (sum, frequency, set) in the window</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Analyze time and space complexity</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Debug common sliding window mistakes (if/while, HashMap cleanup, off-by-one)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Compare trade-offs with brute force approaches</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Teach this concept to someone else</li>
+</ul></div>
+</div>
+<footer class="col-md-12 text-center">
+<hr/>
+<p>
+<small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+</p>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../../js/bootstrap-3.0.3.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>var base_url = "../.."</script>
+<script src="../../js/base.js"></script>
+<script src="../../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<button class="close" data-dismiss="modal" type="button">
+<span aria-hidden="true">×</span>
+<span class="sr-only">Close</span>
+</button>
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+</div>
+<div class="modal-body">
+<p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="text"/>
+</div>
+</form>
+<div id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@10.4.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>

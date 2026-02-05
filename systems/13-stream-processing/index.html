@@ -1,0 +1,2444 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="A framework for algorithms, systems design, and infrastructure." name="description"/>
+<meta content="Richard" name="author"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>13. Stream Processing - Software Engineering Study Guide</title>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" rel="stylesheet"/>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css" rel="stylesheet"/>
+<link href="//rsms.me/inter/inter.css" rel="stylesheet" type="text/css"/>
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&amp;subset=latin-ext,latin" rel="stylesheet" type="text/css"/>
+<link href="../../css/bootstrap-custom.min.css" rel="stylesheet"/>
+<link href="../../css/base.min.css" rel="stylesheet"/>
+<link href="../../css/cinder.min.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css" rel="stylesheet"/>
+<link href="../../css/custom.css" rel="stylesheet"/>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="container">
+<!-- Collapsed navigation -->
+<div class="navbar-header">
+<!-- Expander button -->
+<button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<!-- Main title -->
+<a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+</div>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li>
+<a href="../..">Home</a>
+</li>
+<li class="dropdown active">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Systems Design <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../01-storage-engines/">01. Storage Engines</a>
+</li>
+<li>
+<a href="../02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+<li>
+<a href="../03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+<li>
+<a href="../04-search-and-indexing/">04. Search &amp; Indexing</a>
+</li>
+<li>
+<a href="../05-caching-patterns/">05. Caching Patterns</a>
+</li>
+<li>
+<a href="../06-api-design/">06. API Design</a>
+</li>
+<li>
+<a href="../07-security-patterns/">07. Security Patterns</a>
+</li>
+<li>
+<a href="../08-rate-limiting/">08. Rate Limiting</a>
+</li>
+<li>
+<a href="../09-load-balancing/">09. Load Balancing</a>
+</li>
+<li>
+<a href="../10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+<li>
+<a href="../11-database-scaling/">11. Database Scaling</a>
+</li>
+<li>
+<a href="../12-message-queues/">12. Message Queues</a>
+</li>
+<li class="active">
+<a href="./">13. Stream Processing</a>
+</li>
+<li>
+<a href="../14-observability/">14. Observability</a>
+</li>
+<li>
+<a href="../15-distributed-transactions/">15. Distributed Transactions</a>
+</li>
+<li>
+<a href="../16-consensus-patterns/">16. Consensus Patterns</a>
+</li>
+</ul>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">DSA <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../dsa/01-two-pointers/">01. Two Pointers</a>
+</li>
+<li>
+<a href="../../dsa/02-sliding-window/">02. Sliding Window</a>
+</li>
+<li>
+<a href="../../dsa/03-hash-tables/">03. Hash Tables</a>
+</li>
+<li>
+<a href="../../dsa/04-linked-lists/">04. Linked Lists</a>
+</li>
+<li>
+<a href="../../dsa/05-stacks--queues/">05. Stacks &amp; Queues</a>
+</li>
+<li>
+<a href="../../dsa/06-trees-traversals/">06. Trees - Traversals</a>
+</li>
+<li>
+<a href="../../dsa/07-trees-recursion/">07. Trees - Recursion</a>
+</li>
+<li>
+<a href="../../dsa/08-binary-search/">08. Binary Search</a>
+</li>
+<li>
+<a href="../../dsa/09-heaps/">09. Heaps</a>
+</li>
+<li>
+<a href="../../dsa/10-graphs/">10. Graphs</a>
+</li>
+<li>
+<a href="../../dsa/11-union-find/">11. Union-Find</a>
+</li>
+<li>
+<a href="../../dsa/12-advanced-graphs/">12. Advanced Graphs</a>
+</li>
+<li>
+<a href="../../dsa/13-backtracking/">13. Backtracking</a>
+</li>
+<li>
+<a href="../../dsa/14-dynamic-programming-1d/">14. Dynamic Programming 1D</a>
+</li>
+<li>
+<a href="../../dsa/15-dynamic-programming-2d/">15. Dynamic Programming 2D</a>
+</li>
+<li>
+<a href="../../dsa/16-tries/">16. Tries</a>
+</li>
+<li>
+<a href="../../dsa/17-advanced-topics/">17. Advanced Topics</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+<a data-target="#mkdocs_search_modal" data-toggle="modal" href="#">
+<i class="fas fa-search"></i> Search
+                        </a>
+</li>
+<li>
+<a href="../12-message-queues/" rel="prev">
+<i class="fas fa-arrow-left"></i> Previous
+                        </a>
+</li>
+<li>
+<a href="../14-observability/" rel="next">
+                            Next <i class="fas fa-arrow-right"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+<ul class="nav bs-sidenav">
+<li class="first-level active"><a href="#stream-processing">Stream Processing</a></li>
+<li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+<li class="second-level"><a href="#quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)</a></li>
+<li class="second-level"><a href="#beforeafter-why-stream-processing-matters">Before/After: Why Stream Processing Matters</a></li>
+<li class="second-level"><a href="#case-studies-stream-processing-in-the-wild">Case Studies: Stream Processing in the Wild</a></li>
+<li class="second-level"><a href="#core-implementation">Core Implementation</a></li>
+<li class="second-level"><a href="#debugging-challenges">Debugging Challenges</a></li>
+<li class="second-level"><a href="#decision-framework">Decision Framework</a></li>
+<li class="second-level"><a href="#practice">Practice</a></li>
+<li class="second-level"><a href="#review-checklist">Review Checklist</a></li>
+</ul>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="stream-processing">Stream Processing<a class="headerlink" href="#stream-processing" title="Permanent link">¶</a></h1>
+<blockquote>
+<p>Real-time data processing with windowing, watermarks, and stateful operations</p>
+</blockquote>
+<hr/>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After implementing stream processing patterns, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What is stream processing in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What is a window in stream processing?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy for tumbling window:</strong></p>
+<ul>
+<li>Example: "A tumbling window is like counting cars that pass every 5 minutes..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What are watermarks in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What is the difference between event time and processing time?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy for late data handling:</strong></p>
+<ul>
+<li>Example: "Late data is like receiving a postcard that was sent last week..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr/>
+<h2 id="quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)<a class="headerlink" href="#quick-quiz-do-before-implementing" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Test your intuition about stream processing. Answer these, then verify after implementation.</p>
+<h3 id="complexity-predictions">Complexity Predictions<a class="headerlink" href="#complexity-predictions" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p><strong>Tumbling window processing:</strong></p>
+<ul>
+<li>Time complexity per event: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Space complexity for K keys over W windows: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Verified after learning: <span class="fill-in">[Actual]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Sliding window vs tumbling window:</strong></p>
+<ul>
+<li>If sliding window size = 10s, slide = 2s, how many windows per event? <span class="fill-in">[Guess]</span></li>
+<li>Space overhead compared to tumbling: <span class="fill-in">[Guess: X times larger]</span></li>
+<li>Verified: <span class="fill-in">[Actual]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>State size calculation:</strong></p>
+<ul>
+<li>If you have 100K unique keys, each storing 1KB of state</li>
+<li>Total memory needed: <span class="fill-in">[Calculate]</span></li>
+<li>After 1 hour with TTL = 5 minutes: <span class="fill-in">[Will it grow unbounded?]</span></li>
+</ul>
+</li>
+</ol>
+<h3 id="scenario-predictions">Scenario Predictions<a class="headerlink" href="#scenario-predictions" title="Permanent link">¶</a></h3>
+<p><strong>Scenario 1:</strong> Events arriving: timestamps [100, 200, 150, 300] (out of order)</p>
+<ul>
+<li>
+<p><strong>Tumbling window (size=100ms):</strong> Which windows do they belong to?</p>
+<ul>
+<li>Event@100ms → Window <span class="fill-in">[0-100? 100-200?]</span></li>
+<li>Event@200ms → Window <span class="fill-in">[Fill in]</span></li>
+<li>Event@150ms → Window <span class="fill-in">[Fill in]</span></li>
+<li>Event@300ms → Window <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>If watermark = 250ms and allowed lateness = 50ms:</strong></p>
+<ul>
+<li>Event@150ms arrives when watermark=250ms: <span class="fill-in">[Accept or Drop?]</span></li>
+<li>Event@100ms arrives when watermark=250ms: <span class="fill-in">[Accept or Drop?]</span></li>
+<li>Why? <span class="fill-in">[Fill in your reasoning]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Scenario 2:</strong> Session window with 3-second gap</p>
+<p>Events for user1: [1000ms, 2000ms, 3000ms, 7000ms, 8000ms]</p>
+<ul>
+<li><strong>How many sessions?</strong> <span class="fill-in">[Guess]</span></li>
+<li><strong>Session boundaries:</strong> <span class="fill-in">[Fill in]</span></li>
+<li><strong>If event@4500ms arrives late, what happens?</strong> <span class="fill-in">[New session or merge?]</span></li>
+</ul>
+<p><strong>Scenario 3:</strong> Processing 100K events/second</p>
+<ul>
+<li><strong>Without state:</strong> Memory usage <span class="fill-in">[Constant? Growing?]</span></li>
+<li><strong>With state (no TTL):</strong> Memory usage <span class="fill-in">[Constant? Growing?]</span></li>
+<li><strong>With state (TTL=5min):</strong> Memory usage <span class="fill-in">[Constant? Growing?]</span></li>
+<li><strong>Your reasoning:</strong> <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="watermark-quiz">Watermark Quiz<a class="headerlink" href="#watermark-quiz" title="Permanent link">¶</a></h3>
+<p><strong>Question:</strong> Watermark = 1000ms, allowed lateness = 200ms</p>
+<p>For a tumbling window [0-1000ms]:</p>
+<ul>
+<li>When does the window start computing? <span class="fill-in">[Fill in]</span></li>
+<li>When does the window close and stop accepting data? <span class="fill-in">[Fill in]</span></li>
+<li>Event@900ms arrives at processing time 1500ms: <span class="fill-in">[Accepted?]</span></li>
+<li>Event@900ms arrives at processing time 1300ms: <span class="fill-in">[Accepted?]</span></li>
+</ul>
+<p><strong>Question:</strong> What happens if you set allowed lateness = 0?</p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in before implementation]</span></li>
+<li>Verified answer: <span class="fill-in">[Fill in after learning]</span></li>
+</ul>
+<h3 id="trade-off-quiz">Trade-off Quiz<a class="headerlink" href="#trade-off-quiz" title="Permanent link">¶</a></h3>
+<p><strong>Question:</strong> When would batch processing be BETTER than stream processing?</p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in]</span></li>
+<li>Verified: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+<p><strong>Question:</strong> What's the MAIN trade-off of exactly-once processing?</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Uses more CPU</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Requires more memory</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Increases latency</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> All of the above</li>
+</ul>
+<p>Verify after implementation: <span class="fill-in">[Which one(s)?]</span></p>
+<p><strong>Question:</strong> Event time vs Processing time</p>
+<p>Event occurs at 10:00:00 but arrives at system at 10:00:05:</p>
+<ul>
+<li>Event time = <span class="fill-in">[Fill in]</span></li>
+<li>Processing time = <span class="fill-in">[Fill in]</span></li>
+<li>Which one should windowing use? <span class="fill-in">[Why?]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="beforeafter-why-stream-processing-matters">Before/After: Why Stream Processing Matters<a class="headerlink" href="#beforeafter-why-stream-processing-matters" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Compare batch processing vs stream processing to understand the impact.</p>
+<h3 id="example-real-time-analytics">Example: Real-Time Analytics<a class="headerlink" href="#example-real-time-analytics" title="Permanent link">¶</a></h3>
+<p><strong>Problem:</strong> Calculate page views per minute for a website getting 10K events/second.</p>
+<h4 id="approach-1-batch-processing-traditional">Approach 1: Batch Processing (Traditional)<a class="headerlink" href="#approach-1-batch-processing-traditional" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Batch processing - Process accumulated data every minute
+public class BatchAnalytics {
+
+    private List&lt;Event&gt; eventBuffer = new ArrayList&lt;&gt;();
+
+    public void collectEvent(Event event) {
+        eventBuffer.add(event);
+    }
+
+    // Runs every 60 seconds
+    public Map&lt;String, Long&gt; computePageViews() {
+        Map&lt;String, Long&gt; counts = new HashMap&lt;&gt;();
+
+        // Process all accumulated events
+        for (Event event : eventBuffer) {
+            counts.merge(event.page, 1L, Long::sum);
+        }
+
+        // Clear buffer for next batch
+        eventBuffer.clear();
+
+        return counts;
+    }
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li><strong>Latency:</strong> 30-60 seconds average (must wait for batch to complete)</li>
+<li><strong>Memory:</strong> All events in 1 minute = 10K/sec × 60 = 600K events in memory</li>
+<li><strong>Throughput:</strong> High (process all at once)</li>
+<li><strong>Real-time:</strong> No - results delayed by up to 60 seconds</li>
+<li><strong>Use case:</strong> Reports, ETL jobs, historical analysis</li>
+</ul>
+<p><strong>Timeline visualization:</strong></p>
+<pre class="highlight"><code>Events:     |-------- 60 seconds of collection --------|
+Processing:                                              [Compute] → Results at T+60s
+User sees:                                               ↑
+                                                    Results 60s old</code></pre>
+<h4 id="approach-2-stream-processing-real-time">Approach 2: Stream Processing (Real-Time)<a class="headerlink" href="#approach-2-stream-processing-real-time" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Stream processing - Continuous windowing
+public class StreamAnalytics {
+
+    private Map&lt;Long, Map&lt;String, Long&gt;&gt; windows = new TreeMap&lt;&gt;();
+    private long windowSize = 60_000; // 60 seconds
+
+    public void processEvent(Event event) {
+        // Immediate assignment to window
+        long windowStart = (event.timestamp / windowSize) * windowSize;
+
+        // Update count immediately
+        windows.computeIfAbsent(windowStart, k -&gt; new HashMap&lt;&gt;())
+               .merge(event.page, 1L, Long::sum);
+
+        // Emit results when window closes
+        long currentTime = System.currentTimeMillis();
+        closeCompletedWindows(currentTime);
+    }
+
+    private void closeCompletedWindows(long currentTime) {
+        // Windows that ended more than watermark delay ago
+        long watermark = currentTime - 5000; // 5s delay tolerance
+
+        windows.entrySet().removeIf(entry -&gt; {
+            long windowEnd = entry.getKey() + windowSize;
+            if (windowEnd &lt; watermark) {
+                emitResults(entry.getKey(), entry.getValue());
+                return true; // Remove closed window
+            }
+            return false;
+        });
+    }
+
+    private void emitResults(long windowStart, Map&lt;String, Long&gt; counts) {
+        // Results available immediately when window closes
+        System.out.println("Window [" + windowStart + "]: " + counts);
+    }
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li><strong>Latency:</strong> 5-10 seconds (watermark delay + processing)</li>
+<li><strong>Memory:</strong> Only active windows = ~2 windows × events = ~100K events in memory</li>
+<li><strong>Throughput:</strong> Same (10K events/second)</li>
+<li><strong>Real-time:</strong> Yes - results within seconds</li>
+<li><strong>Use case:</strong> Dashboards, alerting, fraud detection</li>
+</ul>
+<p><strong>Timeline visualization:</strong></p>
+<pre class="highlight"><code>Events:     |--10s--|--10s--|--10s--|--10s--|--10s--|--10s--|
+Windows:    [-------- Window 0-60s --------]
+Processing:                                  ↑
+Results:                                     Results at T+5s
+User sees:                                   ↑
+                                        Results ~5s old</code></pre>
+<h4 id="performance-comparison">Performance Comparison<a class="headerlink" href="#performance-comparison" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Batch (60s)</th>
+<th>Stream (Real-Time)</th>
+<th>Improvement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Latency to see results</strong></td>
+<td>30-60 seconds</td>
+<td>5-10 seconds</td>
+<td><strong>6-10x faster</strong></td>
+</tr>
+<tr>
+<td><strong>Memory (peak)</strong></td>
+<td>600K events</td>
+<td>100K events</td>
+<td><strong>6x less</strong></td>
+</tr>
+<tr>
+<td><strong>Staleness of data</strong></td>
+<td>Up to 60s old</td>
+<td>Up to 5s old</td>
+<td><strong>12x fresher</strong></td>
+</tr>
+<tr>
+<td><strong>Throughput</strong></td>
+<td>10K events/sec</td>
+<td>10K events/sec</td>
+<td>Same</td>
+</tr>
+</tbody>
+</table>
+<h4 id="real-world-impact-fraud-detection-example">Real-World Impact: Fraud Detection Example<a class="headerlink" href="#real-world-impact-fraud-detection-example" title="Permanent link">¶</a></h4>
+<p><strong>Batch approach:</strong></p>
+<pre class="highlight"><code>
+10:00:00 - Fraudulent transaction occurs
+10:00:05 - 3 more suspicious transactions
+
+10:00:45 - 5 more transactions (pattern clear)
+10:01:00 - Batch job runs, detects fraud
+
+10:01:05 - Alert sent, account frozen
+
+Total: 9 fraudulent transactions, $4,500 loss
+Detection delay: 65 seconds</code></pre>
+<p><strong>Stream approach:</strong></p>
+<pre class="highlight"><code>
+10:00:00 - Fraudulent transaction occurs
+10:00:05 - 3 more suspicious transactions
+
+10:00:10 - Pattern detected (window closed at watermark)
+10:00:11 - Alert sent, account frozen
+
+Total: 4 fraudulent transactions, $2,000 loss
+Detection delay: 11 seconds</code></pre>
+<p><strong>Impact:</strong> Stream processing caught fraud <strong>54 seconds faster</strong>, preventing <strong>$2,500 in losses</strong>.</p>
+<h4 id="why-does-stream-processing-win">Why Does Stream Processing Win?<a class="headerlink" href="#why-does-stream-processing-win" title="Permanent link">¶</a></h4>
+<p><strong>Key insight to understand:</strong></p>
+<p>Batch processing treats time in discrete chunks:</p>
+<pre class="highlight"><code>Batch 1: [0s ────────────────── 60s] → Process → Wait
+Batch 2: [60s ──────────────── 120s] → Process → Wait</code></pre>
+<p>Stream processing treats time continuously:</p>
+<pre class="highlight"><code>Events: ─•──•─•───•──•─•──•─•──•─→ (continuous)
+Windows: [─────────] [─────────]
+Results:     ↑            ↑
+         (immediate)  (immediate)</code></pre>
+<p><strong>Your calculation:</strong></p>
+<ul>
+<li>For 1M events/second, batch processing with 5-minute windows needs _____ GB memory</li>
+<li>Stream processing with 1-minute windows needs _____ GB memory</li>
+<li>Memory savings: <span class="fill-in">_____</span> times less</li>
+</ul>
+<h4 id="when-batch-processing-is-still-better">When Batch Processing Is Still Better<a class="headerlink" href="#when-batch-processing-is-still-better" title="Permanent link">¶</a></h4>
+<p><strong>Batch wins when:</strong></p>
+<ol>
+<li><strong>Historical analysis:</strong> Processing months of data</li>
+<li><strong>Complex joins:</strong> Multiple large datasets</li>
+<li><strong>Cost-sensitive:</strong> Pay per compute hour (batch cheaper)</li>
+<li><strong>No urgency:</strong> Daily reports, weekly summaries</li>
+</ol>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>Why does stream processing use less memory? <span class="fill-in">[Your answer]</span></li>
+<li>What's the trade-off between latency and accuracy with watermarks? <span class="fill-in">[Your answer]</span></li>
+<li>When would you still choose batch processing? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="case-studies-stream-processing-in-the-wild">Case Studies: Stream Processing in the Wild<a class="headerlink" href="#case-studies-stream-processing-in-the-wild" title="Permanent link">¶</a></h2>
+<h3 id="netflix-real-time-streaming-analytics-with-flink">Netflix: Real-time Streaming Analytics with Flink<a class="headerlink" href="#netflix-real-time-streaming-analytics-with-flink" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> Windowed Aggregations on event streams.</li>
+<li><strong>How it works:</strong> Netflix's infrastructure generates a massive stream of events: every "play," "pause," "buffer,"
+  and "finish" action from millions of viewers is published to Apache Kafka. They use Apache Flink to process this
+  stream in real-time. For example, a Flink job might use a <strong>10-second tumbling window</strong> to count the number of
+  playback errors per region, allowing engineers to spot and react to regional outages instantly.</li>
+<li><strong>Key Takeaway:</strong> Stream processing is essential for real-time operational monitoring at scale. By using windowed
+  aggregations, raw event streams can be transformed into meaningful, actionable metrics for dashboards and alerting
+  systems.</li>
+</ul>
+<h3 id="linkedin-feed-updates-real-time-content-delivery">LinkedIn Feed Updates: Real-time Content Delivery<a class="headerlink" href="#linkedin-feed-updates-real-time-content-delivery" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> Stream-Table Joins.</li>
+<li><strong>How it works:</strong> LinkedIn's feed is a combination of real-time activity and user profile data. When a user you follow
+  shares an article, that's a real-time event on a stream. To render the feed, their stream processing system (Apache
+  Samza) must join this event stream with a table stream containing user profile data (like the user's name and
+  headline). The result is a fully enriched feed item, delivered in near real-time.</li>
+<li><strong>Key Takeaway:</strong> Stream processing isn't just about counting events. It's often about enriching real-time events with
+  static or slow-moving data from tables to provide context and create a complete picture for the end-user.</li>
+</ul>
+<h3 id="cloudflare-ddos-detection-with-sliding-windows">Cloudflare: DDoS Detection with Sliding Windows<a class="headerlink" href="#cloudflare-ddos-detection-with-sliding-windows" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> Sliding Window analysis for anomaly detection.</li>
+<li><strong>How it works:</strong> Cloudflare protects websites from DDoS attacks by analyzing vast streams of network request data. A
+  stream processor might use a <strong>1-minute sliding window</strong>, evaluated every 5 seconds, to track the request count per IP
+  address. If the count for any IP suddenly spikes and crosses a predefined threshold within that window, the system
+  automatically identifies it as a potential attack and can block the IP at the edge.</li>
+<li><strong>Key Takeaway:</strong> Sliding windows are perfect for detecting anomalies in real-time data. By continuously analyzing
+  recent activity, systems can identify and react to security threats or performance issues much faster than traditional
+  batch-based analysis would allow.</li>
+</ul>
+<hr/>
+<h2 id="core-implementation">Core Implementation<a class="headerlink" href="#core-implementation" title="Permanent link">¶</a></h2>
+<h3 id="pattern-1-windowing-tumbling-sliding-session">Pattern 1: Windowing (Tumbling, Sliding, Session)<a class="headerlink" href="#pattern-1-windowing-tumbling-sliding-session" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Group streaming data into finite chunks for aggregation.</p>
+<p><strong>Use case:</strong> Real-time analytics, metrics aggregation, event counting.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+/**
+ * Stream Windowing: Group events into time-based windows
+ *
+ * Window Types:
+ * - Tumbling: Fixed-size, non-overlapping (e.g., every 5 minutes)
+ * - Sliding: Fixed-size, overlapping (e.g., last 5 minutes, updated every 1 minute)
+ * - Session: Dynamic size based on inactivity gaps
+ */
+public class StreamWindow&lt;K, V&gt; {
+
+    static class Event&lt;K, V&gt; {
+        K key;
+        V value;
+        long timestamp; // Event time
+
+        Event(K key, V value, long timestamp) {
+            this.key = key;
+            this.value = value;
+            this.timestamp = timestamp;
+        }
+    }
+
+    static class WindowResult&lt;K&gt; {
+        K key;
+        long windowStart;
+        long windowEnd;
+        long count;
+
+        WindowResult(K key, long windowStart, long windowEnd, long count) {
+            this.key = key;
+            this.windowStart = windowStart;
+            this.windowEnd = windowEnd;
+            this.count = count;
+        }
+
+        @Override
+        public String toString() {
+            return String.format("Window[%d-%d] key=%s count=%d",
+                windowStart, windowEnd, key, count);
+        }
+    }
+
+    /**
+     * Tumbling Window: Fixed, non-overlapping time buckets
+     * Time: O(1) per event, Space: O(W*K) where W=windows, K=keys
+     *
+     * TODO: Implement tumbling window
+     * 1. Determine which window the event belongs to
+     * 2. windowStart = (timestamp / windowSize) * windowSize
+     * 3. Aggregate events in the same window
+     * 4. Emit results when window closes
+     */
+    public static &lt;K, V&gt; Map&lt;Long, Map&lt;K, Long&gt;&gt; tumblingWindow(
+            List&lt;Event&lt;K, V&gt;&gt; events,
+            long windowSizeMs) {
+
+        Map&lt;Long, Map&lt;K, Long&gt;&gt; windows = new TreeMap&lt;&gt;();
+
+        // TODO: Process each event
+        //
+        //     // Get or create window
+        //     Map&lt;K, Long&gt; window = windows.computeIfAbsent(windowStart, k -&gt; new HashMap&lt;&gt;());
+        //
+        //     // Aggregate (count in this case)
+        //     window.merge(event.key, 1L, Long::sum);
+        //   }
+
+        return windows; // Replace
+    }
+
+    /**
+     * Sliding Window: Overlapping windows
+     * Time: O(N) per event where N=num overlapping windows, Space: O(W*K)
+     *
+     * TODO: Implement sliding window
+     * 1. For each event, determine ALL windows it belongs to
+     * 2. An event at time T belongs to windows:
+     *    [T-windowSize+slide, T-windowSize+2*slide, ..., T]
+     * 3. Update all overlapping windows
+     */
+    public static &lt;K, V&gt; Map&lt;Long, Map&lt;K, Long&gt;&gt; slidingWindow(
+            List&lt;Event&lt;K, V&gt;&gt; events,
+            long windowSizeMs,
+            long slideMs) {
+
+        Map&lt;Long, Map&lt;K, Long&gt;&gt; windows = new TreeMap&lt;&gt;();
+
+        // TODO: Process each event
+        //
+        //     // Add event to all overlapping windows
+        //     for (long windowStart = firstWindowStart;
+        //          windowStart &lt;= lastWindowStart;
+        //          windowStart += slideMs) {
+        //       Map&lt;K, Long&gt; window = windows.computeIfAbsent(windowStart, k -&gt; new HashMap&lt;&gt;());
+        //       window.merge(event.key, 1L, Long::sum);
+        //     }
+        //   }
+
+        return windows; // Replace
+    }
+
+    /**
+     * Session Window: Group events with inactivity gap
+     * Time: O(log N) per event, Space: O(S*K) where S=sessions
+     *
+     * TODO: Implement session window
+     * 1. Sort events by key and timestamp
+     * 2. For each key, group events within gap threshold
+     * 3. Start new session if gap &gt; threshold
+     * 4. Merge sessions if events arrive late
+     */
+    public static &lt;K, V&gt; List&lt;WindowResult&lt;K&gt;&gt; sessionWindow(
+            List&lt;Event&lt;K, V&gt;&gt; events,
+            long gapMs) {
+
+        List&lt;WindowResult&lt;K&gt;&gt; results = new ArrayList&lt;&gt;();
+
+        // TODO: Group events by key
+
+        // TODO: Implement iteration/conditional logic
+        //
+        //     // Sort by timestamp
+        //     keyEvents.sort(Comparator.comparingLong(e -&gt; e.timestamp));
+        //
+        //     // Create sessions
+        //     long sessionStart = keyEvents.get(0).timestamp;
+        //     long lastTimestamp = sessionStart;
+        //     long count = 0;
+        //
+        //     for (Event&lt;K, V&gt; event : keyEvents) {
+        //       if (event.timestamp - lastTimestamp &gt; gapMs) {
+        //         // Close current session
+        //         results.add(new WindowResult&lt;&gt;(key, sessionStart, lastTimestamp, count));
+        //
+        //         // Start new session
+        //         sessionStart = event.timestamp;
+        //         count = 0;
+        //       }
+        //
+        //       lastTimestamp = event.timestamp;
+        //       count++;
+        //     }
+        //
+        //     // Close final session
+        //     results.add(new WindowResult&lt;&gt;(key, sessionStart, lastTimestamp, count));
+        //   }
+
+        return results; // Replace
+    }
+
+    /**
+     * Helper: Print window results
+     */
+    public static &lt;K&gt; void printWindows(Map&lt;Long, Map&lt;K, Long&gt;&gt; windows) {
+        for (Map.Entry&lt;Long, Map&lt;K, Long&gt;&gt; entry : windows.entrySet()) {
+            long windowStart = entry.getKey();
+            System.out.println("Window [" + windowStart + "]:");
+            for (Map.Entry&lt;K, Long&gt; keyCount : entry.getValue().entrySet()) {
+                System.out.println("  " + keyCount.getKey() + ": " + keyCount.getValue());
+            }
+        }
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class StreamWindowClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Stream Windowing ===\n");
+
+        // Create sample events (userId, action, timestamp)
+        List&lt;StreamWindow.Event&lt;String, String&gt;&gt; events = Arrays.asList(
+            new StreamWindow.Event&lt;&gt;("user1", "click", 1000L),
+            new StreamWindow.Event&lt;&gt;("user2", "click", 2000L),
+            new StreamWindow.Event&lt;&gt;("user1", "click", 3000L),
+            new StreamWindow.Event&lt;&gt;("user1", "click", 6000L),
+            new StreamWindow.Event&lt;&gt;("user2", "click", 7000L),
+            new StreamWindow.Event&lt;&gt;("user1", "click", 11000L),
+            new StreamWindow.Event&lt;&gt;("user2", "click", 12000L),
+            new StreamWindow.Event&lt;&gt;("user1", "click", 15000L),
+            new StreamWindow.Event&lt;&gt;("user2", "click", 16000L)
+        );
+
+        // Test 1: Tumbling Window (5 second windows)
+        System.out.println("--- Test 1: Tumbling Window (5s) ---");
+        Map&lt;Long, Map&lt;String, Long&gt;&gt; tumbling =
+            StreamWindow.tumblingWindow(events, 5000L);
+        StreamWindow.printWindows(tumbling);
+
+        // Test 2: Sliding Window (5s window, 2s slide)
+        System.out.println("\n--- Test 2: Sliding Window (5s window, 2s slide) ---");
+        Map&lt;Long, Map&lt;String, Long&gt;&gt; sliding =
+            StreamWindow.slidingWindow(events, 5000L, 2000L);
+        StreamWindow.printWindows(sliding);
+
+        // Test 3: Session Window (3s gap)
+        System.out.println("\n--- Test 3: Session Window (3s gap) ---");
+        List&lt;StreamWindow.WindowResult&lt;String&gt;&gt; sessions =
+            StreamWindow.sessionWindow(events, 3000L);
+        for (StreamWindow.WindowResult&lt;String&gt; result : sessions) {
+            System.out.println(result);
+        }
+
+        // Test 4: Different gap threshold
+        System.out.println("\n--- Test 4: Session Window (5s gap) ---");
+        List&lt;StreamWindow.WindowResult&lt;String&gt;&gt; sessions2 =
+            StreamWindow.sessionWindow(events, 5000L);
+        for (StreamWindow.WindowResult&lt;String&gt; result : sessions2) {
+            System.out.println(result);
+        }
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-2-watermarks-and-late-data">Pattern 2: Watermarks and Late Data<a class="headerlink" href="#pattern-2-watermarks-and-late-data" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Handle out-of-order events and determine when to close windows.</p>
+<p><strong>Use case:</strong> Distributed systems, network delays, mobile data sync.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+/**
+ * Watermarks: Track event time progress in the stream
+ *
+ * Watermark Properties:
+ * - Monotonically increasing timestamp
+ * - Indicates "all events before this time have been seen"
+ * - Allows system to close windows and emit results
+ * - Late data: events arriving after watermark
+ */
+public class WatermarkProcessor&lt;K, V&gt; {
+
+    static class Event&lt;K, V&gt; {
+        K key;
+        V value;
+        long eventTime;      // When event actually occurred
+        long processingTime; // When event was processed
+
+        Event(K key, V value, long eventTime, long processingTime) {
+            this.key = key;
+            this.value = value;
+            this.eventTime = eventTime;
+            this.processingTime = processingTime;
+        }
+    }
+
+    static class WindowState&lt;K&gt; {
+        K key;
+        long windowStart;
+        long windowEnd;
+        long count;
+        boolean closed;
+
+        WindowState(K key, long windowStart, long windowEnd) {
+            this.key = key;
+            this.windowStart = windowStart;
+            this.windowEnd = windowEnd;
+            this.count = 0;
+            this.closed = false;
+        }
+    }
+
+    private final long windowSize;
+    private final long allowedLateness;
+    private long currentWatermark;
+
+    // Active windows: windowStart -&gt; key -&gt; state
+    private Map&lt;Long, Map&lt;K, WindowState&lt;K&gt;&gt;&gt; windows;
+
+    // Late data count
+    private long lateEventCount;
+
+    public WatermarkProcessor(long windowSize, long allowedLateness) {
+        this.windowSize = windowSize;
+        this.allowedLateness = allowedLateness;
+        this.currentWatermark = 0;
+        this.windows = new TreeMap&lt;&gt;();
+        this.lateEventCount = 0;
+    }
+
+    /**
+     * Process event with watermark tracking
+     * Time: O(log W) where W=windows, Space: O(W*K)
+     *
+     * TODO: Implement event processing with watermarks
+     * 1. Update watermark based on event time
+     * 2. Assign event to window
+     * 3. Check if event is late (eventTime &lt; watermark - allowedLateness)
+     * 4. Close windows when watermark passes windowEnd + allowedLateness
+     */
+    public void processEvent(Event&lt;K, V&gt; event) {
+        // TODO: Update watermark (typically: eventTime - maxDelay)
+
+        // TODO: Calculate window for this event
+
+        // TODO: Check if event is too late
+
+        // TODO: Get or create window state
+
+        // TODO: Update state if window not closed
+
+        // TODO: Close windows that are ready
+    }
+
+    /**
+     * Close windows that have passed watermark + allowedLateness
+     * Time: O(W*K), Space: O(1)
+     *
+     * TODO: Implement window closing logic
+     */
+    private void closeCompletedWindows() {
+        List&lt;Long&gt; toRemove = new ArrayList&lt;&gt;();
+
+        // TODO: Check each window
+        //
+        //     // Close if watermark passed windowEnd + allowedLateness
+        //     if (currentWatermark &gt;= windowEnd + allowedLateness) {
+        //       Map&lt;K, WindowState&lt;K&gt;&gt; window = entry.getValue();
+        //
+        //       // Emit results for each key in window
+        //       for (WindowState&lt;K&gt; state : window.values()) {
+        //         if (!state.closed) {
+        //           emitResult(state);
+        //           state.closed = true;
+        //         }
+        //       }
+        //
+        //       toRemove.add(windowStart);
+        //     }
+        //   }
+
+        // TODO: Remove closed windows
+    }
+
+    /**
+     * Emit window result (in production: send to output stream)
+     */
+    private void emitResult(WindowState&lt;K&gt; state) {
+        System.out.printf("EMIT: Window[%d-%d] key=%s count=%d watermark=%d%n",
+            state.windowStart, state.windowEnd, state.key, state.count, currentWatermark);
+    }
+
+    /**
+     * Generate periodic watermark (for idle streams)
+     * Time: O(1), Space: O(1)
+     *
+     * TODO: Implement periodic watermark generation
+     */
+    public void generatePeriodicWatermark(long timestamp) {
+        // TODO: Advance watermark
+    }
+
+    /**
+     * Get current watermark
+     */
+    public long getWatermark() {
+        return currentWatermark;
+    }
+
+    /**
+     * Get late event count
+     */
+    public long getLateEventCount() {
+        return lateEventCount;
+    }
+
+    /**
+     * Get active window count
+     */
+    public int getActiveWindowCount() {
+        return windows.size();
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class WatermarkClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Watermarks and Late Data ===\n");
+
+        WatermarkProcessor&lt;String, String&gt; processor =
+            new WatermarkProcessor&lt;&gt;(5000L, 2000L); // 5s window, 2s late
+
+        // Test 1: In-order events
+        System.out.println("--- Test 1: In-Order Events ---");
+        List&lt;WatermarkProcessor.Event&lt;String, String&gt;&gt; events1 = Arrays.asList(
+            new WatermarkProcessor.Event&lt;&gt;("user1", "click", 1000L, 1000L),
+            new WatermarkProcessor.Event&lt;&gt;("user1", "click", 2000L, 2000L),
+            new WatermarkProcessor.Event&lt;&gt;("user2", "click", 3000L, 3000L)
+        );
+
+        for (WatermarkProcessor.Event&lt;String, String&gt; event : events1) {
+            processor.processEvent(event);
+        }
+        System.out.println("Watermark: " + processor.getWatermark());
+
+        // Test 2: Advance watermark to close window
+        System.out.println("\n--- Test 2: Close Window ---");
+        processor.generatePeriodicWatermark(8000L);
+        System.out.println("Active windows: " + processor.getActiveWindowCount());
+
+        // Test 3: Out-of-order events (within allowed lateness)
+        System.out.println("\n--- Test 3: Out-of-Order (Within Lateness) ---");
+        WatermarkProcessor.Event&lt;String, String&gt; lateEvent =
+            new WatermarkProcessor.Event&lt;&gt;("user2", "click", 4000L, 9000L);
+        processor.processEvent(lateEvent);
+
+        // Test 4: Very late event (outside allowed lateness)
+        System.out.println("\n--- Test 4: Very Late Event (Dropped) ---");
+        WatermarkProcessor.Event&lt;String, String&gt; veryLateEvent =
+            new WatermarkProcessor.Event&lt;&gt;("user1", "click", 500L, 10000L);
+        processor.processEvent(veryLateEvent);
+        System.out.println("Late event count: " + processor.getLateEventCount());
+
+        // Test 5: Multiple windows with different keys
+        System.out.println("\n--- Test 5: Multiple Windows ---");
+        WatermarkProcessor&lt;String, String&gt; processor2 =
+            new WatermarkProcessor&lt;&gt;(5000L, 1000L);
+
+        List&lt;WatermarkProcessor.Event&lt;String, String&gt;&gt; events2 = Arrays.asList(
+            new WatermarkProcessor.Event&lt;&gt;("A", "x", 1000L, 1000L),
+            new WatermarkProcessor.Event&lt;&gt;("B", "y", 2000L, 2000L),
+            new WatermarkProcessor.Event&lt;&gt;("A", "x", 3000L, 3000L),
+            new WatermarkProcessor.Event&lt;&gt;("A", "x", 7000L, 7000L),
+            new WatermarkProcessor.Event&lt;&gt;("B", "y", 8000L, 8000L)
+        );
+
+        for (WatermarkProcessor.Event&lt;String, String&gt; event : events2) {
+            processor2.processEvent(event);
+        }
+
+        // Close all windows
+        processor2.generatePeriodicWatermark(15000L);
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-3-stateful-stream-processing">Pattern 3: Stateful Stream Processing<a class="headerlink" href="#pattern-3-stateful-stream-processing" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Maintain state across events for aggregations, joins, and enrichment.</p>
+<p><strong>Use case:</strong> Running totals, user sessions, stream joins, enrichment.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+/**
+ * Stateful Stream Processing
+ *
+ * State Types:
+ * - Value State: Single value per key
+ * - List State: List of values per key
+ * - Map State: Nested key-value map per key
+ *
+ * State Backends:
+ * - In-memory (fast, not fault-tolerant)
+ * - RocksDB (persistent, fault-tolerant)
+ */
+public class StatefulProcessor&lt;K, V&gt; {
+
+    static class Event&lt;K, V&gt; {
+        K key;
+        V value;
+        long timestamp;
+
+        Event(K key, V value, long timestamp) {
+            this.key = key;
+            this.value = value;
+            this.timestamp = timestamp;
+        }
+    }
+
+    static class StateDescriptor&lt;S&gt; {
+        String name;
+        Class&lt;S&gt; stateType;
+        long ttlMs; // Time-to-live for state cleanup
+
+        StateDescriptor(String name, Class&lt;S&gt; stateType, long ttlMs) {
+            this.name = name;
+            this.stateType = stateType;
+            this.ttlMs = ttlMs;
+        }
+    }
+
+    /**
+     * Value State: Single value per key
+     * Time: O(1), Space: O(K)
+     */
+    static class ValueState&lt;K, S&gt; {
+        private Map&lt;K, S&gt; state;
+        private Map&lt;K, Long&gt; lastAccess; // For TTL
+        private long ttlMs;
+
+        ValueState(long ttlMs) {
+            this.state = new HashMap&lt;&gt;();
+            this.lastAccess = new HashMap&lt;&gt;();
+            this.ttlMs = ttlMs;
+        }
+
+        /**
+         * Get state for key
+         *
+         * TODO: Implement get with TTL check
+         * 1. Check if key exists
+         * 2. Check if state expired (current time - lastAccess &gt; ttl)
+         * 3. If expired, remove and return null
+         * 4. Otherwise return value
+         */
+        public S get(K key, long currentTime) {
+            // TODO: Check expiration
+            return null; // Replace
+        }
+
+        /**
+         * Update state for key
+         *
+         * TODO: Implement update with TTL tracking
+         */
+        public void update(K key, S value, long currentTime) {
+            // TODO: Update state and last access time
+        }
+
+        /**
+         * Clear state for key
+         */
+        public void clear(K key) {
+            state.remove(key);
+            lastAccess.remove(key);
+        }
+    }
+
+    /**
+     * List State: Append-only list per key
+     * Time: O(1) append, O(N) iterate, Space: O(K*N)
+     */
+    static class ListState&lt;K, S&gt; {
+        private Map&lt;K, List&lt;S&gt;&gt; state;
+        private Map&lt;K, Long&gt; lastAccess;
+        private long ttlMs;
+
+        ListState(long ttlMs) {
+            this.state = new HashMap&lt;&gt;();
+            this.lastAccess = new HashMap&lt;&gt;();
+            this.ttlMs = ttlMs;
+        }
+
+        /**
+         * Append value to list
+         *
+         * TODO: Implement append
+         */
+        public void append(K key, S value, long currentTime) {
+            // TODO: Get or create list and append
+        }
+
+        /**
+         * Get all values for key
+         *
+         * TODO: Implement get with TTL check
+         */
+        public List&lt;S&gt; get(K key, long currentTime) {
+            // TODO: Check expiration similar to ValueState
+            return new ArrayList&lt;&gt;(); // Replace
+        }
+    }
+
+    /**
+     * Example: Running sum aggregation
+     * Time: O(1) per event, Space: O(K)
+     *
+     * TODO: Implement stateful aggregation
+     */
+    public static class RunningSumProcessor {
+        private ValueState&lt;String, Long&gt; sumState;
+
+        public RunningSumProcessor(long ttlMs) {
+            this.sumState = new ValueState&lt;&gt;(ttlMs);
+        }
+
+        /**
+         * Process event and update running sum
+         *
+         * TODO: Implement running sum
+         * 1. Get current sum for key
+         * 2. Add new value
+         * 3. Update state
+         * 4. Return new sum
+         */
+        public long process(Event&lt;String, Long&gt; event) {
+            // TODO: Get current sum
+
+            // TODO: Add new value
+
+            // TODO: Update state
+
+            // TODO: Return result
+
+            return 0L; // Replace
+        }
+
+        public Long getCurrentSum(String key, long timestamp) {
+            return sumState.get(key, timestamp);
+        }
+    }
+
+    /**
+     * Example: Stream-Stream Join
+     * Time: O(1) per event, Space: O(K*W) where W=window size
+     *
+     * TODO: Implement stream join
+     */
+    public static class StreamJoinProcessor {
+        private ListState&lt;String, Event&lt;String, String&gt;&gt; leftState;
+        private ListState&lt;String, Event&lt;String, String&gt;&gt; rightState;
+        private long joinWindowMs;
+
+        public StreamJoinProcessor(long joinWindowMs, long stateTtl) {
+            this.leftState = new ListState&lt;&gt;(stateTtl);
+            this.rightState = new ListState&lt;&gt;(stateTtl);
+            this.joinWindowMs = joinWindowMs;
+        }
+
+        /**
+         * Process left stream event
+         *
+         * TODO: Implement left stream processing
+         * 1. Store event in left state
+         * 2. Look for matching events in right state within join window
+         * 3. Emit joined results
+         */
+        public List&lt;String&gt; processLeft(Event&lt;String, String&gt; event) {
+            List&lt;String&gt; results = new ArrayList&lt;&gt;();
+
+            // TODO: Store in left state
+
+            // TODO: Find matches in right state
+
+            return results; // Replace
+        }
+
+        /**
+         * Process right stream event
+         *
+         * TODO: Implement right stream processing (symmetric to left)
+         */
+        public List&lt;String&gt; processRight(Event&lt;String, String&gt; event) {
+            List&lt;String&gt; results = new ArrayList&lt;&gt;();
+
+            // TODO: Similar to processLeft but reversed
+
+            return results; // Replace
+        }
+    }
+
+    /**
+     * State cleanup: Remove expired state
+     * Time: O(K), Space: O(1)
+     *
+     * TODO: Implement periodic state cleanup
+     */
+    public static void cleanupExpiredState(ValueState&lt;?, ?&gt; state, long currentTime) {
+        // TODO: Iterate through all keys and remove expired entries
+        // In production: RocksDB handles this with compaction
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class StatefulProcessorClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Stateful Stream Processing ===\n");
+
+        // Test 1: Running sum
+        System.out.println("--- Test 1: Running Sum ---");
+        StatefulProcessor.RunningSumProcessor sumProcessor =
+            new StatefulProcessor.RunningSumProcessor(10000L);
+
+        List&lt;StatefulProcessor.Event&lt;String, Long&gt;&gt; sumEvents = Arrays.asList(
+            new StatefulProcessor.Event&lt;&gt;("user1", 10L, 1000L),
+            new StatefulProcessor.Event&lt;&gt;("user1", 20L, 2000L),
+            new StatefulProcessor.Event&lt;&gt;("user2", 5L, 2500L),
+            new StatefulProcessor.Event&lt;&gt;("user1", 15L, 3000L),
+            new StatefulProcessor.Event&lt;&gt;("user2", 10L, 3500L)
+        );
+
+        for (StatefulProcessor.Event&lt;String, Long&gt; event : sumEvents) {
+            long sum = sumProcessor.process(event);
+            System.out.printf("Key=%s Value=%d RunningSum=%d%n",
+                event.key, event.value, sum);
+        }
+
+        // Test 2: Stream join
+        System.out.println("\n--- Test 2: Stream Join ---");
+        StatefulProcessor.StreamJoinProcessor joinProcessor =
+            new StatefulProcessor.StreamJoinProcessor(2000L, 10000L);
+
+        // Left stream events
+        System.out.println("Processing left stream:");
+        StatefulProcessor.Event&lt;String, String&gt; left1 =
+            new StatefulProcessor.Event&lt;&gt;("order1", "LeftA", 1000L);
+        List&lt;String&gt; joined1 = joinProcessor.processLeft(left1);
+        System.out.println("  " + left1.key + ": " + joined1);
+
+        // Right stream events
+        System.out.println("Processing right stream:");
+        StatefulProcessor.Event&lt;String, String&gt; right1 =
+            new StatefulProcessor.Event&lt;&gt;("order1", "RightX", 1500L);
+        List&lt;String&gt; joined2 = joinProcessor.processRight(right1);
+        System.out.println("  " + right1.key + ": " + joined2);
+
+        // More events
+        StatefulProcessor.Event&lt;String, String&gt; left2 =
+            new StatefulProcessor.Event&lt;&gt;("order2", "LeftB", 2000L);
+        List&lt;String&gt; joined3 = joinProcessor.processLeft(left2);
+        System.out.println("  " + left2.key + ": " + joined3);
+
+        // Test 3: State TTL
+        System.out.println("\n--- Test 3: State TTL ---");
+        StatefulProcessor.ValueState&lt;String, String&gt; ttlState =
+            new StatefulProcessor.ValueState&lt;&gt;(2000L); // 2s TTL
+
+        ttlState.update("key1", "value1", 1000L);
+        System.out.println("Stored at t=1000");
+
+        String val1 = ttlState.get("key1", 2000L);
+        System.out.println("Get at t=2000: " + val1); // Should exist
+
+        String val2 = ttlState.get("key1", 4000L);
+        System.out.println("Get at t=4000: " + val2); // Should be expired
+
+        // Test 4: List state
+        System.out.println("\n--- Test 4: List State ---");
+        StatefulProcessor.ListState&lt;String, String&gt; listState =
+            new StatefulProcessor.ListState&lt;&gt;(10000L);
+
+        listState.append("user1", "event1", 1000L);
+        listState.append("user1", "event2", 2000L);
+        listState.append("user1", "event3", 3000L);
+
+        List&lt;String&gt; events = listState.get("user1", 3500L);
+        System.out.println("Events for user1: " + events);
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-4-exactly-once-semantics">Pattern 4: Exactly-Once Semantics<a class="headerlink" href="#pattern-4-exactly-once-semantics" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Ensure each event is processed exactly once, even with failures.</p>
+<p><strong>Use case:</strong> Financial transactions, billing, critical business logic.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+/**
+ * Exactly-Once Processing
+ *
+ * Techniques:
+ * - Idempotent operations (safe to retry)
+ * - Two-phase commit for sinks
+ * - Transaction markers in stream
+ * - Deduplication with state
+ */
+public class ExactlyOnceProcessor&lt;K, V&gt; {
+
+    static class Event&lt;K, V&gt; {
+        String eventId; // Unique ID for deduplication
+        K key;
+        V value;
+        long timestamp;
+
+        Event(String eventId, K key, V value, long timestamp) {
+            this.eventId = eventId;
+            this.key = key;
+            this.value = value;
+            this.timestamp = timestamp;
+        }
+    }
+
+    static class Transaction {
+        String transactionId;
+        long timestamp;
+        List&lt;String&gt; processedEventIds;
+        boolean committed;
+
+        Transaction(String transactionId, long timestamp) {
+            this.transactionId = transactionId;
+            this.timestamp = timestamp;
+            this.processedEventIds = new ArrayList&lt;&gt;();
+            this.committed = false;
+        }
+    }
+
+    /**
+     * Deduplication State: Track processed events
+     * Time: O(1) per check, Space: O(N) where N=events in window
+     */
+    static class DeduplicationState {
+        private Set&lt;String&gt; processedEventIds;
+        private long oldestEventTime;
+        private long retentionMs;
+
+        DeduplicationState(long retentionMs) {
+            this.processedEventIds = new HashSet&lt;&gt;();
+            this.retentionMs = retentionMs;
+            this.oldestEventTime = Long.MAX_VALUE;
+        }
+
+        /**
+         * Check if event already processed
+         *
+         * TODO: Implement deduplication check
+         * 1. Check if eventId exists in set
+         * 2. If yes, return true (duplicate)
+         * 3. If no, add to set and return false
+         */
+        public boolean isDuplicate(String eventId) {
+            // TODO: Check and add
+
+            return false; // Replace
+        }
+
+        /**
+         * Cleanup old event IDs
+         *
+         * TODO: Implement periodic cleanup
+         * In production: use time-based eviction or Bloom filter
+         */
+        public void cleanup(long currentTime) {
+            // TODO: Remove event IDs older than retention period
+            // Simplified: in reality need timestamps per event
+            if (currentTime - oldestEventTime &gt; retentionMs) {
+                processedEventIds.clear();
+                oldestEventTime = currentTime;
+            }
+        }
+
+        public int size() {
+            return processedEventIds.size();
+        }
+    }
+
+    /**
+     * Idempotent Aggregator: Safe to process same event multiple times
+     * Time: O(1) per event, Space: O(K)
+     *
+     * TODO: Implement idempotent aggregation
+     */
+    static class IdempotentAggregator&lt;K&gt; {
+        // Store: key -&gt; (value, eventId)
+        private Map&lt;K, Long&gt; values;
+        private Map&lt;K, String&gt; lastEventIds;
+
+        IdempotentAggregator() {
+            this.values = new HashMap&lt;&gt;();
+            this.lastEventIds = new HashMap&lt;&gt;();
+        }
+
+        /**
+         * Process event idempotently
+         *
+         * TODO: Implement idempotent update
+         * 1. Check if this exact event was already processed
+         * 2. If same eventId, skip (idempotent)
+         * 3. If new eventId, update value
+         */
+        public void process(Event&lt;K, Long&gt; event) {
+            // TODO: Check if already processed
+
+            // TODO: Update value (idempotent SET operation)
+        }
+
+        public Long getValue(K key) {
+            return values.get(key);
+        }
+    }
+
+    /**
+     * Two-Phase Commit Sink: Transactional output
+     * Time: O(1) per event, O(N) per commit
+     *
+     * TODO: Implement 2PC for sink
+     */
+    static class TransactionalSink&lt;T&gt; {
+        private Transaction currentTransaction;
+        private List&lt;T&gt; pendingWrites;
+        private Set&lt;String&gt; committedTransactions;
+
+        TransactionalSink() {
+            this.pendingWrites = new ArrayList&lt;&gt;();
+            this.committedTransactions = new HashSet&lt;&gt;();
+        }
+
+        /**
+         * Begin new transaction
+         *
+         * TODO: Implement transaction begin
+         */
+        public void beginTransaction(String txnId) {
+            // TODO: Create new transaction
+        }
+
+        /**
+         * Write to transaction (not committed yet)
+         *
+         * TODO: Implement transactional write
+         */
+        public void write(T value, String eventId) {
+            // TODO: Add to pending writes
+        }
+
+        /**
+         * Commit transaction (make writes visible)
+         *
+         * TODO: Implement commit
+         * 1. Check if transaction already committed (idempotent)
+         * 2. Flush all pending writes
+         * 3. Mark transaction as committed
+         */
+        public void commit() {
+            // TODO: Commit if not already done
+            //
+            //   if (committedTransactions.contains(currentTransaction.transactionId)) {
+            //     // Already committed (idempotent)
+            //     return;
+            //   }
+            //
+            //   // Flush writes (in production: write to external system)
+            //   System.out.println("COMMIT: " + pendingWrites.size() + " writes");
+            //
+            //   // Mark as committed
+            //   committedTransactions.add(currentTransaction.transactionId);
+            //   currentTransaction.committed = true;
+        }
+
+        /**
+         * Abort transaction (discard writes)
+         *
+         * TODO: Implement abort
+         */
+        public void abort() {
+            // TODO: Clear pending writes
+        }
+
+        public int getPendingCount() {
+            return pendingWrites.size();
+        }
+    }
+
+    /**
+     * Checkpoint coordinator: Manage checkpoints for fault tolerance
+     * Time: O(S) where S=state size, Space: O(S)
+     *
+     * TODO: Implement checkpointing
+     */
+    static class CheckpointCoordinator {
+        private long lastCheckpointId;
+        private Map&lt;Long, Map&lt;String, Object&gt;&gt; checkpoints;
+
+        CheckpointCoordinator() {
+            this.lastCheckpointId = 0;
+            this.checkpoints = new HashMap&lt;&gt;();
+        }
+
+        /**
+         * Trigger checkpoint
+         *
+         * TODO: Implement checkpoint trigger
+         * 1. Generate checkpoint ID
+         * 2. Snapshot all state
+         * 3. Store checkpoint
+         * 4. Return checkpoint ID
+         */
+        public long triggerCheckpoint(Map&lt;String, Object&gt; state) {
+            // TODO: Create checkpoint
+
+            return 0; // Replace
+        }
+
+        /**
+         * Restore from checkpoint
+         *
+         * TODO: Implement restore
+         */
+        public Map&lt;String, Object&gt; restore(long checkpointId) {
+            // TODO: Restore state
+            return null; // Replace
+        }
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class ExactlyOnceClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Exactly-Once Processing ===\n");
+
+        // Test 1: Deduplication
+        System.out.println("--- Test 1: Deduplication ---");
+        ExactlyOnceProcessor.DeduplicationState dedup =
+            new ExactlyOnceProcessor.DeduplicationState(10000L);
+
+        String[] eventIds = {"evt1", "evt2", "evt1", "evt3", "evt2"};
+        for (String id : eventIds) {
+            boolean isDup = dedup.isDuplicate(id);
+            System.out.println("Event " + id + ": " +
+                (isDup ? "DUPLICATE" : "NEW"));
+        }
+        System.out.println("Unique events tracked: " + dedup.size());
+
+        // Test 2: Idempotent aggregation
+        System.out.println("\n--- Test 2: Idempotent Operations ---");
+        ExactlyOnceProcessor.IdempotentAggregator&lt;String&gt; aggregator =
+            new ExactlyOnceProcessor.IdempotentAggregator&lt;&gt;();
+
+        List&lt;ExactlyOnceProcessor.Event&lt;String, Long&gt;&gt; events = Arrays.asList(
+            new ExactlyOnceProcessor.Event&lt;&gt;("e1", "user1", 100L, 1000L),
+            new ExactlyOnceProcessor.Event&lt;&gt;("e2", "user1", 200L, 2000L),
+            new ExactlyOnceProcessor.Event&lt;&gt;("e1", "user1", 100L, 2500L), // Duplicate
+            new ExactlyOnceProcessor.Event&lt;&gt;("e3", "user2", 50L, 3000L)
+        );
+
+        for (ExactlyOnceProcessor.Event&lt;String, Long&gt; event : events) {
+            System.out.println("Processing: " + event.eventId);
+            aggregator.process(event);
+            System.out.println("  user1: " + aggregator.getValue("user1"));
+            System.out.println("  user2: " + aggregator.getValue("user2"));
+        }
+
+        // Test 3: Transactional sink
+        System.out.println("\n--- Test 3: Transactional Sink ---");
+        ExactlyOnceProcessor.TransactionalSink&lt;String&gt; sink =
+            new ExactlyOnceProcessor.TransactionalSink&lt;&gt;();
+
+        // Transaction 1
+        sink.beginTransaction("txn1");
+        sink.write("value1", "e1");
+        sink.write("value2", "e2");
+        System.out.println("Pending writes: " + sink.getPendingCount());
+        sink.commit();
+
+        // Transaction 2 (with abort)
+        sink.beginTransaction("txn2");
+        sink.write("value3", "e3");
+        System.out.println("Pending writes: " + sink.getPendingCount());
+        sink.abort();
+        System.out.println("After abort: " + sink.getPendingCount());
+
+        // Test 4: Checkpointing
+        System.out.println("\n--- Test 4: Checkpointing ---");
+        ExactlyOnceProcessor.CheckpointCoordinator coordinator =
+            new ExactlyOnceProcessor.CheckpointCoordinator();
+
+        Map&lt;String, Object&gt; state1 = new HashMap&lt;&gt;();
+        state1.put("counter", 100);
+        state1.put("sum", 500L);
+
+        long cp1 = coordinator.triggerCheckpoint(state1);
+        System.out.println("Created checkpoint: " + cp1);
+
+        // Modify state
+        state1.put("counter", 200);
+        long cp2 = coordinator.triggerCheckpoint(state1);
+        System.out.println("Created checkpoint: " + cp2);
+
+        // Restore
+        Map&lt;String, Object&gt; restored = coordinator.restore(cp1);
+        System.out.println("Restored state: " + restored);
+    }
+}</code></pre>
+<hr/>
+<h2 id="debugging-challenges">Debugging Challenges<a class="headerlink" href="#debugging-challenges" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Find and fix bugs in broken stream processing implementations. This tests your understanding.</p>
+<h3 id="challenge-1-broken-tumbling-window">Challenge 1: Broken Tumbling Window<a class="headerlink" href="#challenge-1-broken-tumbling-window" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * This tumbling window implementation has 2 BUGS.
+ * It's supposed to count events per key per window.
+ */
+public static Map&lt;Long, Map&lt;String, Long&gt;&gt; tumblingWindow_Buggy(
+        List&lt;Event&lt;String, String&gt;&gt; events,
+        long windowSize) {
+
+    Map&lt;Long, Map&lt;String, Long&gt;&gt; windows = new TreeMap&lt;&gt;();
+
+    for (Event&lt;String, String&gt; event : events) {
+        long windowStart = event.timestamp / windowSize;
+
+        Map&lt;String, Long&gt; window = windows.computeIfAbsent(windowStart, k -&gt; new HashMap&lt;&gt;());
+
+        window.put(event.key, 1L);
+    }
+
+    return windows;
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>
+<p>Bug 1: <span class="fill-in">[What\'s the bug?]</span></p>
+<ul>
+<li>Current output: <span class="fill-in">[What windows?]</span></li>
+<li>Expected output: <span class="fill-in">[What windows?]</span></li>
+</ul>
+</li>
+<li>
+<p>Bug 2: <span class="fill-in">[What\'s the bug?]</span></p>
+<ul>
+<li>Current count: <span class="fill-in">[What do you get?]</span></li>
+<li>Expected count: <span class="fill-in">[Should be?]</span></li>
+</ul>
+</li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug 1:</strong> Window start should be <code>(event.timestamp / windowSize) * windowSize</code> to align to window boundaries.</p>
+<ul>
+<li>Current: windowStart = 1500 / 1000 = 1 (wrong - just the window index)</li>
+<li>Fixed: windowStart = (1500 / 1000) * 1000 = 1000 (correct - actual timestamp)</li>
+</ul>
+<p><strong>Bug 2:</strong> Using <code>put</code> overwrites the count instead of incrementing it.</p>
+<pre class="highlight"><code class="language-java">// Wrong: Always sets count to 1
+window.put(event.key, 1L);
+
+// Correct: Increment existing count or start at 1
+window.merge(event.key, 1L, Long::sum);</code></pre>
+</details>
+<hr/>
+<h3 id="challenge-2-watermark-calculation-bug">Challenge 2: Watermark Calculation Bug<a class="headerlink" href="#challenge-2-watermark-calculation-bug" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * This watermark processor has CRITICAL BUGS with late data handling.
+ * Test with: Event@100ms arrives when watermark=300ms, allowedLateness=50ms
+ */
+public void processEvent_Buggy(Event&lt;String, String&gt; event) {
+    // Update watermark
+    if (event.eventTime &gt; currentWatermark) {
+        currentWatermark = event.eventTime;
+    }
+
+    // Calculate window
+    long windowStart = (event.eventTime / windowSize) * windowSize;
+    long windowEnd = windowStart + windowSize;
+
+    if (event.eventTime &lt; currentWatermark) {
+        System.out.println("LATE DATA: " + event.key);
+        lateEventCount++;
+        return; // Drop event
+    }
+
+    if (currentWatermark &gt; windowEnd) {
+        // Window already closed, don't accept event
+        return;
+    }
+
+    // Add to window
+    Map&lt;String, WindowState&lt;String&gt;&gt; window = windows.computeIfAbsent(windowStart, k -&gt; new HashMap&lt;&gt;());
+    WindowState&lt;String&gt; state = window.computeIfAbsent(event.key,
+        k -&gt; new WindowState&lt;&gt;(event.key, windowStart, windowEnd));
+
+    state.count++;
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<p><strong>Bug 1: Late data check</strong></p>
+<ul>
+<li><strong>Problem:</strong> <span class="fill-in">[What's wrong with the late data check?]</span></li>
+<li><strong>Scenario:</strong> Event@100ms, watermark=300ms, allowedLateness=50ms<ul>
+<li>Should be: <span class="fill-in">[Accepted or Dropped?]</span></li>
+<li>Currently: <span class="fill-in">[What happens?]</span></li>
+</ul>
+</li>
+<li><strong>Fix:</strong> <span class="fill-in">[Correct condition?]</span></li>
+</ul>
+<p><strong>Bug 2: Window closing</strong></p>
+<ul>
+<li><strong>Problem:</strong> <span class="fill-in">[What's wrong with window closing logic?]</span></li>
+<li><strong>Scenario:</strong> Event@250ms, windowEnd=300ms, watermark=310ms, allowedLateness=50ms<ul>
+<li>Should be: <span class="fill-in">[Accepted or Dropped?]</span></li>
+<li>Currently: <span class="fill-in">[What happens?]</span></li>
+</ul>
+</li>
+<li><strong>Fix:</strong> <span class="fill-in">[How to properly check if window is still open?]</span></li>
+</ul>
+<p><strong>Test trace:</strong></p>
+<pre class="highlight"><code>Window [0-1000ms], allowedLateness=200ms
+
+- Event@900ms arrives, watermark=900ms → ?
+- Event@800ms arrives, watermark=1100ms → ?
+- Event@800ms arrives, watermark=1300ms → ?</code></pre>
+<p>Your predictions: <span class="fill-in">[Fill in for each event]</span></p>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug 1:</strong> Late data check doesn't account for allowed lateness.</p>
+<pre class="highlight"><code class="language-java">// Wrong: Drops ANY late event
+if (event.eventTime &lt; currentWatermark) {
+    return;
+}
+
+// Correct: Only drop if REALLY late
+if (event.eventTime &lt; currentWatermark - allowedLateness) {
+    System.out.println("LATE DATA: " + event.key);
+    lateEventCount++;
+    return;
+}</code></pre>
+<p><strong>Bug 2:</strong> Window closing doesn't account for allowed lateness.</p>
+<pre class="highlight"><code class="language-java">// Wrong: Closes window as soon as watermark passes windowEnd
+if (currentWatermark &gt; windowEnd) {
+    return;
+}
+
+// Correct: Keep window open for allowed lateness period
+if (currentWatermark &gt;= windowEnd + allowedLateness) {
+    // Window truly closed now
+    return;
+}</code></pre>
+<p><strong>Test trace answers:</strong></p>
+<ul>
+<li>Event@900ms, watermark=900ms → Accepted (in window, on time)</li>
+<li>Event@800ms, watermark=1100ms → Accepted (late but within 200ms)</li>
+<li>Event@800ms, watermark=1300ms → Dropped (too late: 1300 - 800 = 500ms &gt; 200ms)</li>
+</ul>
+</details>
+<hr/>
+<h3 id="challenge-3-state-management-memory-leak">Challenge 3: State Management Memory Leak<a class="headerlink" href="#challenge-3-state-management-memory-leak" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * This stateful processor has a MEMORY LEAK.
+ * State grows unbounded even with TTL configured!
+ */
+public class ValueState_Buggy&lt;K, S&gt; {
+    private Map&lt;K, S&gt; state = new HashMap&lt;&gt;();
+    private Map&lt;K, Long&gt; lastAccess = new HashMap&lt;&gt;();
+    private long ttlMs;
+
+    ValueState_Buggy(long ttlMs) {
+        this.ttlMs = ttlMs;
+    }
+
+    public S get(K key, long currentTime) {
+        if (state.containsKey(key)) {
+            Long lastTime = lastAccess.get(key);
+            if (currentTime - lastTime &gt; ttlMs) {
+                // State expired, return null
+                return null;            }
+            return state.get(key);
+        }
+        return null;
+    }
+
+    public void update(K key, S value, long currentTime) {
+        state.put(key, value);
+        lastAccess.put(key, currentTime);
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<p><strong>Memory leak scenario:</strong></p>
+<ul>
+<li>Process 1M unique keys over 1 hour</li>
+<li>TTL = 5 minutes</li>
+<li>Expected memory: <span class="fill-in">[How many keys should remain?]</span></li>
+<li>Actual memory: <span class="fill-in">[What happens?]</span></li>
+</ul>
+<p><strong>Bug location:</strong> <span class="fill-in">[Which method and line?]</span></p>
+<p><strong>Bug explanation:</strong> <span class="fill-in">[Why does state grow unbounded?]</span></p>
+<p><strong>Bug fix:</strong> <span class="fill-in">[What code is missing?]</span></p>
+<p><strong>Performance impact:</strong></p>
+<ul>
+<li>After 1 hour: <span class="fill-in">[How many expired keys still in memory?]</span></li>
+<li>Memory waste: <span class="fill-in">[Calculate]</span></li>
+<li>Performance degradation: <span class="fill-in">[Why does this hurt performance?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> When state expires, we return <code>null</code> but never remove the expired entries from the maps.</p>
+<pre class="highlight"><code class="language-java">// Wrong: Returns null but leaves garbage in memory
+if (currentTime - lastTime &gt; ttlMs) {
+    return null;  // Memory leak!
+}
+
+// Correct: Clean up expired state
+if (currentTime - lastTime &gt; ttlMs) {
+    // Remove expired state
+    state.remove(key);
+    lastAccess.remove(key);
+    return null;
+}</code></pre>
+<p><strong>Performance impact:</strong></p>
+<ul>
+<li>After 1 hour with 1M unique keys and TTL=5min:<ul>
+<li>Expected: ~100K keys (5min worth at constant rate)</li>
+<li>Actual: 1M keys (ALL keys ever seen)</li>
+<li>Memory waste: 900K entries × (state size + 2 map entries)</li>
+<li>HashMap performance degrades with size (more collisions, slower lookups)</li>
+</ul>
+</li>
+</ul>
+</details>
+<hr/>
+<h3 id="challenge-4-window-boundary-bug">Challenge 4: Window Boundary Bug<a class="headerlink" href="#challenge-4-window-boundary-bug" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Session window merger has a SUBTLE BUG.
+ * Sometimes creates gaps, sometimes creates wrong sessions.
+ */
+public static List&lt;WindowResult&lt;String&gt;&gt; sessionWindow_Buggy(
+        List&lt;Event&lt;String, String&gt;&gt; events,
+        long gapMs) {
+
+    List&lt;WindowResult&lt;String&gt;&gt; results = new ArrayList&lt;&gt;();
+    Map&lt;String, List&lt;Event&lt;String, String&gt;&gt;&gt; eventsByKey = new HashMap&lt;&gt;();
+
+    // Group by key
+    for (Event&lt;String, String&gt; event : events) {
+        eventsByKey.computeIfAbsent(event.key, k -&gt; new ArrayList&lt;&gt;()).add(event);
+    }
+
+    // Create sessions per key
+    for (Map.Entry&lt;String, List&lt;Event&lt;String, String&gt;&gt;&gt; entry : eventsByKey.entrySet()) {
+        String key = entry.getKey();
+        List&lt;Event&lt;String, String&gt;&gt; keyEvents = entry.getValue();
+
+        // keyEvents.sort(Comparator.comparingLong(e -&gt; e.timestamp));
+
+        long sessionStart = keyEvents.get(0).timestamp;
+        long lastTimestamp = sessionStart;
+        long count = 0;
+
+        for (Event&lt;String, String&gt; event : keyEvents) {
+            if (event.timestamp - lastTimestamp &gt;= gapMs) {
+                // Close current session
+                results.add(new WindowResult&lt;&gt;(key, sessionStart, lastTimestamp, count));
+
+                // Start new session
+                sessionStart = event.timestamp;
+                count = 0;
+            }
+
+            lastTimestamp = event.timestamp;
+            count++;
+        }
+
+        // Close final session
+        results.add(new WindowResult&lt;&gt;(key, sessionStart, lastTimestamp, count));
+    }
+
+    return results;
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<p><strong>Bug 1: Missing sort</strong></p>
+<ul>
+<li><strong>Scenario:</strong> Events arrive [3000ms, 1000ms, 2000ms], gap=1000ms</li>
+<li><strong>Expected sessions:</strong> <span class="fill-in">[Fill in after sorting]</span></li>
+<li><strong>Actual sessions:</strong> <span class="fill-in">[What do you get without sorting?]</span></li>
+<li><strong>Why is this wrong?</strong> <span class="fill-in">[Explain]</span></li>
+</ul>
+<p><strong>Bug 2: Gap boundary condition</strong></p>
+<ul>
+<li><strong>Scenario:</strong> Events at [0ms, 1000ms, 2000ms], gap=1000ms</li>
+<li><strong>Current logic:</strong> gap check uses <code>&gt;=</code><ul>
+<li>Event@1000ms: gap = 1000 - 0 = 1000ms → <span class="fill-in">[New session or same?]</span></li>
+<li>Event@2000ms: gap = 2000 - 1000 = 1000ms → <span class="fill-in">[New session or same?]</span></li>
+</ul>
+</li>
+<li><strong>Is this correct?</strong> <span class="fill-in">[Should gap of exactly 1000ms create new session?]</span></li>
+<li><strong>Fix:</strong> <span class="fill-in">[Use &gt; or &gt;=?]</span></li>
+</ul>
+<p><strong>Bug 3: Edge case - Empty events</strong></p>
+<ul>
+<li><strong>What happens if keyEvents is empty?</strong> <span class="fill-in">[Will it crash?]</span></li>
+<li><strong>Fix:</strong> <span class="fill-in">[Add what check?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug 1: Missing sort</strong></p>
+<pre class="highlight"><code class="language-java">// Without sort: [3000, 1000, 2000]
+// Session 1: [3000], Session 2: [1000], Session 3: [2000]
+// Wrong! Events are scattered across sessions
+
+// With sort: [1000, 2000, 3000]
+// Session 1: [1000, 2000, 3000] (all within gap)
+// Correct!
+
+// Fix: ALWAYS sort by timestamp
+keyEvents.sort(Comparator.comparingLong(e -&gt; e.timestamp));</code></pre>
+<p><strong>Bug 2: Gap boundary</strong></p>
+<pre class="highlight"><code class="language-java">// Question: Is 1000ms gap exactly equal to gapMs=1000ms a new session?
+// Typically: gap GREATER THAN threshold → new session
+// At exactly the gap threshold → still same session
+
+// Wrong: &gt;= creates new session at boundary
+if (event.timestamp - lastTimestamp &gt;= gapMs) {
+
+// Correct: &gt; allows events exactly at gap boundary
+if (event.timestamp - lastTimestamp &gt; gapMs) {</code></pre>
+<p><strong>Bug 3: Empty list</strong></p>
+<pre class="highlight"><code class="language-java">// Add check before accessing keyEvents.get(0)
+if (keyEvents.isEmpty()) {
+    continue;
+}</code></pre>
+</details>
+<hr/>
+<h3 id="challenge-5-stream-join-race-condition">Challenge 5: Stream Join Race Condition<a class="headerlink" href="#challenge-5-stream-join-race-condition" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Stream join has a RACE CONDITION and MEMORY ISSUE.
+ */
+public List&lt;String&gt; processLeft_Buggy(Event&lt;String, String&gt; event) {
+    List&lt;String&gt; results = new ArrayList&lt;&gt;();
+
+    List&lt;Event&lt;String, String&gt;&gt; rightEvents = rightState.get(event.key, event.timestamp);
+
+    if (rightEvents != null) {
+        for (Event&lt;String, String&gt; right : rightEvents) {
+            // Join window check
+            if (Math.abs(event.timestamp - right.timestamp) &lt;= joinWindowMs) {
+                results.add(event.value + "+" + right.value);
+            }
+        }
+    }
+
+    leftState.append(event.key, event, event.timestamp);
+
+    return results;
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<p><strong>Bug: Join order matters</strong></p>
+<ul>
+<li><strong>Scenario:</strong><ul>
+<li>Left event L1 arrives at T=0</li>
+<li>Right event R1 arrives at T=1 (within join window)</li>
+</ul>
+</li>
+<li><strong>Expected:</strong> L1+R1 joined</li>
+<li>
+<p><strong>What happens?</strong></p>
+<ul>
+<li>processLeft(L1): Looks in rightState, empty, no match → stores L1</li>
+<li>processRight(R1): Looks in leftState, finds L1, match! → stores R1</li>
+<li><strong>Problem:</strong> <span class="fill-in">[Is this symmetric? Do we emit join twice or once?]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Scenario 2:</strong></p>
+<ul>
+<li>Right event R1 arrives first at T=0</li>
+<li>Left event L1 arrives at T=1</li>
+</ul>
+</li>
+<li><strong>What happens?</strong><ul>
+<li>processRight(R1): Looks in leftState, empty, no match → stores R1</li>
+<li>processLeft(L1): Looks in rightState, finds R1, match! → stores L1</li>
+<li><strong>Problem:</strong> <span class="fill-in">[Same or different from scenario 1?]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Question:</strong> Should the join be emitted by processLeft, processRight, or both?</p>
+<p>Your answer: <span class="fill-in">[Fill in]</span></p>
+<p><strong>Memory issue:</strong></p>
+<ul>
+<li><strong>Without TTL on state, what happens?</strong> <span class="fill-in">[Fill in]</span></li>
+<li><strong>With join window = 5 seconds, what TTL should you use?</strong> <span class="fill-in">[Fill in]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug explanation:</strong>
+The current code stores left events AFTER checking right state. This is fine, but the symmetric operation in
+<code>processRight</code> must also store right events AFTER checking left state. The join will be emitted only once (either by
+left or right, whichever processes second).</p>
+<p><strong>Correct pattern:</strong> Store BEFORE matching (then match both directions):</p>
+<pre class="highlight"><code class="language-java">// CORRECT: Store first, then match
+leftState.append(event.key, event, event.timestamp);
+
+// Then look for matches in right state
+List&lt;Event&lt;String, String&gt;&gt; rightEvents = rightState.get(event.key, event.timestamp);
+// ... matching logic ...</code></pre>
+<p>This ensures both sides can find each other. The join will be emitted by whichever event arrives second.</p>
+<p><strong>Memory issue:</strong></p>
+<ul>
+<li>Without TTL: All events stay in state forever → memory leak</li>
+<li>With join window = 5s: Set TTL = 2 × join window = 10s (safety margin)</li>
+<li>Why 2×? Events might arrive late, need extra retention</li>
+</ul>
+</details>
+<hr/>
+<h3 id="your-debugging-scorecard">Your Debugging Scorecard<a class="headerlink" href="#your-debugging-scorecard" title="Permanent link">¶</a></h3>
+<p>After finding and fixing all bugs:</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Found all window calculation bugs</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understood watermark and late data handling</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Fixed memory leaks in state management</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Corrected session window boundary issues</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Resolved stream join race conditions</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Learned common stream processing mistakes</li>
+</ul>
+<p><strong>Common mistakes you discovered:</strong></p>
+<ol>
+<li><span class="fill-in">[List the patterns - e.g., "Not accounting for allowed lateness"]</span></li>
+<li><span class="fill-in">[Fill in]</span></li>
+<li><span class="fill-in">[Fill in]</span></li>
+<li><span class="fill-in">[Fill in]</span></li>
+</ol>
+<p><strong>Prevention checklist:</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Always align windows to proper boundaries</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Always check: eventTime vs (watermark - allowedLateness)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Always remove expired state in TTL checks</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Always sort events by timestamp for session windows</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Always set TTL for stateful joins</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Always test with out-of-order events</li>
+</ul>
+<hr/>
+<h2 id="decision-framework">Decision Framework<a class="headerlink" href="#decision-framework" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Build decision trees for when to use each stream processing pattern.</p>
+<h3 id="question-1-what-type-of-windowing-do-you-need">Question 1: What type of windowing do you need?<a class="headerlink" href="#question-1-what-type-of-windowing-do-you-need" title="Permanent link">¶</a></h3>
+<p>Answer after implementation:</p>
+<p><strong>Use Tumbling Window when:</strong></p>
+<ul>
+<li>Fixed time boundaries: <span class="fill-in">[Every hour, every day]</span></li>
+<li>Non-overlapping: <span class="fill-in">[Each event in exactly one window]</span></li>
+<li>Simple aggregation: <span class="fill-in">[Count, sum per time period]</span></li>
+<li>Example: <span class="fill-in">[Hourly sales reports, daily active users]</span></li>
+</ul>
+<p><strong>Use Sliding Window when:</strong></p>
+<ul>
+<li>Moving average: <span class="fill-in">[Last N minutes]</span></li>
+<li>Overlapping periods: <span class="fill-in">[Need smooth transitions]</span></li>
+<li>Real-time dashboards: <span class="fill-in">[Updated frequently]</span></li>
+<li>Example: <span class="fill-in">[5-minute average updated every 30 seconds]</span></li>
+</ul>
+<p><strong>Use Session Window when:</strong></p>
+<ul>
+<li>User activity: <span class="fill-in">[Group by engagement sessions]</span></li>
+<li>Variable length: <span class="fill-in">[Based on inactivity]</span></li>
+<li>Burst detection: <span class="fill-in">[Cluster related events]</span></li>
+<li>Example: <span class="fill-in">[User browsing sessions, click streams]</span></li>
+</ul>
+<h3 id="question-2-how-do-you-handle-late-data">Question 2: How do you handle late data?<a class="headerlink" href="#question-2-how-do-you-handle-late-data" title="Permanent link">¶</a></h3>
+<p><strong>Use Watermarks when:</strong></p>
+<ul>
+<li>Bounded lateness: <span class="fill-in">[Most events arrive within X seconds]</span></li>
+<li>Completeness needed: <span class="fill-in">[Want accurate results]</span></li>
+<li>Can tolerate delay: <span class="fill-in">[Results can wait for late data]</span></li>
+</ul>
+<p><strong>Allow Lateness when:</strong></p>
+<ul>
+<li>Some late arrivals: <span class="fill-in">[Network delays, mobile sync]</span></li>
+<li>Update results: <span class="fill-in">[Can emit corrections]</span></li>
+<li>Balance accuracy/latency: <span class="fill-in">[Wait a bit, not forever]</span></li>
+</ul>
+<p><strong>Drop Late Data when:</strong></p>
+<ul>
+<li>Strict latency: <span class="fill-in">[Need real-time results]</span></li>
+<li>Rare late arrivals: <span class="fill-in">[&lt; 1% of events]</span></li>
+<li>Approximate OK: <span class="fill-in">[Metrics, dashboards]</span></li>
+</ul>
+<h3 id="question-3-do-you-need-state">Question 3: Do you need state?<a class="headerlink" href="#question-3-do-you-need-state" title="Permanent link">¶</a></h3>
+<p><strong>Stateless processing when:</strong></p>
+<ul>
+<li>Pure transformations: <span class="fill-in">[map, filter]</span></li>
+<li>No aggregation: <span class="fill-in">[Just routing events]</span></li>
+<li>No joins: <span class="fill-in">[Single stream]</span></li>
+<li>Maximum throughput: <span class="fill-in">[No state overhead]</span></li>
+</ul>
+<p><strong>Stateful processing when:</strong></p>
+<ul>
+<li>Aggregations: <span class="fill-in">[count, sum, average]</span></li>
+<li>Joins: <span class="fill-in">[Combine multiple streams]</span></li>
+<li>Enrichment: <span class="fill-in">[Add reference data]</span></li>
+<li>Session tracking: <span class="fill-in">[User state across events]</span></li>
+</ul>
+<h3 id="question-4-what-consistency-level">Question 4: What consistency level?<a class="headerlink" href="#question-4-what-consistency-level" title="Permanent link">¶</a></h3>
+<p><strong>At-most-once when:</strong></p>
+<ul>
+<li>Monitoring/Metrics: <span class="fill-in">[Losing some data OK]</span></li>
+<li>Maximum throughput: <span class="fill-in">[No overhead]</span></li>
+<li>Non-critical: <span class="fill-in">[Dashboards, alerts]</span></li>
+</ul>
+<p><strong>At-least-once when:</strong></p>
+<ul>
+<li>Idempotent operations: <span class="fill-in">[Safe to retry]</span></li>
+<li>Can deduplicate: <span class="fill-in">[Downstream handles duplicates]</span></li>
+<li>Good balance: <span class="fill-in">[Performance + reliability]</span></li>
+</ul>
+<p><strong>Exactly-once when:</strong></p>
+<ul>
+<li>Financial: <span class="fill-in">[Money, billing, payments]</span></li>
+<li>Critical business logic: <span class="fill-in">[Inventory, orders]</span></li>
+<li>Compliance: <span class="fill-in">[Audit trails]</span></li>
+</ul>
+<h3 id="your-decision-tree">Your Decision Tree<a class="headerlink" href="#your-decision-tree" title="Permanent link">¶</a></h3>
+<p>Build this after solving practice scenarios:
+<div class="mermaid">flowchart LR
+    Start["Stream Processing Pattern Selection"]
+
+    Q1{"What's the data arrival pattern?"}
+    Start --&gt; Q1
+    N2["Simple windowing"]
+    Q1 --&gt;|"In-order,&lt;br/&gt;low latency"| N2
+    N3["Watermarks + allowed lateness"]
+    Q1 --&gt;|"Out-of-order,&lt;br/&gt;bounded"| N3
+    N4["Session windows or approximation"]
+    Q1 --&gt;|"Out-of-order,&lt;br/&gt;unbounded"| N4
+    Q5{"What operations do you need?"}
+    Start --&gt; Q5
+    N6["Windowing only"]
+    Q5 --&gt;|"Simple aggregation"| N6
+    N7["Stateful processing"]
+    Q5 --&gt;|"Cross-event logic"| N7
+    N8["Stream joins"]
+    Q5 --&gt;|"Multiple streams"| N8
+    N9["Stateful with reference data"]
+    Q5 --&gt;|"Enrichment"| N9
+    Q10{"What's the consistency requirement?"}
+    Start --&gt; Q10
+    N11["At-most-once"]
+    Q10 --&gt;|"Best effort"| N11
+    N12["At-least-once + dedup"]
+    Q10 --&gt;|"No duplicates OK"| N12
+    N13["Full transactional processing"]
+    Q10 --&gt;|"Exactly-once"| N13
+    Q14{"What's the latency requirement?"}
+    Start --&gt; Q14
+    N15["Drop late data, smaller windows"]
+    Q14 --&gt;|"Sub-second"| N15
+    N16["Watermarks with small lateness"]
+    Q14 --&gt;|"Seconds"| N16
+    N17["Large lateness window, accurate results"]
+    Q14 --&gt;|"Minutes"| N17</div></p>
+<hr/>
+<h2 id="practice">Practice<a class="headerlink" href="#practice" title="Permanent link">¶</a></h2>
+<h3 id="scenario-1-real-time-analytics-dashboard">Scenario 1: Real-Time Analytics Dashboard<a class="headerlink" href="#scenario-1-real-time-analytics-dashboard" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>Track page views per minute (updated every 10 seconds)</li>
+<li>Show top pages in last 5 minutes</li>
+<li>Handle 100K events/second</li>
+<li>Mobile apps may sync late data (up to 30s delay)</li>
+<li>Display updated immediately</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<p>Windowing strategy: <span class="fill-in">[Tumbling, Sliding, or Session?]</span></p>
+<p>Reasoning:</p>
+<ul>
+<li>Window type: <span class="fill-in">[Fill in]</span></li>
+<li>Window size: <span class="fill-in">[Fill in]</span></li>
+<li>Slide interval: <span class="fill-in">[Fill in]</span></li>
+<li>Why this choice: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p>Late data handling: <span class="fill-in">[How to handle 30s delayed mobile events?]</span></p>
+<ul>
+<li>Watermark strategy: <span class="fill-in">[Fill in]</span></li>
+<li>Allowed lateness: <span class="fill-in">[Fill in]</span></li>
+<li>Trade-offs: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p>State requirements: <span class="fill-in">[What state do you need?]</span></p>
+<ul>
+<li>Per-key state: <span class="fill-in">[Fill in]</span></li>
+<li>State backend: <span class="fill-in">[In-memory or RocksDB?]</span></li>
+<li>TTL: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="scenario-2-fraud-detection-system">Scenario 2: Fraud Detection System<a class="headerlink" href="#scenario-2-fraud-detection-system" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>Detect suspicious patterns in real-time</li>
+<li>Multiple failed logins within 1 minute</li>
+<li>Transactions from different countries &lt; 10 minutes apart</li>
+<li>Must detect within 2 seconds of last event</li>
+<li>No false negatives (can't miss fraud)</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<p>Pattern detection: <span class="fill-in">[How to detect patterns across events?]</span></p>
+<ul>
+<li>Windowing: <span class="fill-in">[Fill in]</span></li>
+<li>State needed: <span class="fill-in">[Fill in]</span></li>
+<li>Join strategy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p>Consistency: <span class="fill-in">[At-most-once, at-least-once, or exactly-once?]</span></p>
+<ul>
+<li>Choice: <span class="fill-in">[Fill in]</span></li>
+<li>Why: <span class="fill-in">[Fill in]</span></li>
+<li>Implementation: <span class="fill-in">[Deduplication? Transactions?]</span></li>
+</ul>
+<p>Latency: <span class="fill-in">[How to meet 2-second requirement?]</span></p>
+<ul>
+<li>Watermark strategy: <span class="fill-in">[Fill in]</span></li>
+<li>Trade-offs: <span class="fill-in">[Accuracy vs speed]</span></li>
+</ul>
+<h3 id="scenario-3-iot-sensor-aggregation">Scenario 3: IoT Sensor Aggregation<a class="headerlink" href="#scenario-3-iot-sensor-aggregation" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>10K sensors sending readings every 10 seconds</li>
+<li>Compute average, min, max per sensor per minute</li>
+<li>Sensors have unreliable networks (late data common)</li>
+<li>Some sensors offline for hours, then send batch</li>
+<li>Store aggregates in database (no duplicates)</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<p>Windowing: <span class="fill-in">[Which type and why?]</span></p>
+<ul>
+<li>Window type: <span class="fill-in">[Fill in]</span></li>
+<li>Size: <span class="fill-in">[Fill in]</span></li>
+<li>Reasoning: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p>Late data: <span class="fill-in">[How to handle hours-late data?]</span></p>
+<ul>
+<li>Watermark strategy: <span class="fill-in">[Fill in]</span></li>
+<li>Allowed lateness: <span class="fill-in">[Fill in]</span></li>
+<li>Very late data: <span class="fill-in">[Drop or reprocess?]</span></li>
+</ul>
+<p>State management: <span class="fill-in">[How to manage state for 10K sensors?]</span></p>
+<ul>
+<li>State size: <span class="fill-in">[Estimate per sensor]</span></li>
+<li>TTL: <span class="fill-in">[How long to keep state?]</span></li>
+<li>Cleanup: <span class="fill-in">[When to purge old state?]</span></li>
+</ul>
+<p>Output: <span class="fill-in">[How to avoid duplicate writes to database?]</span></p>
+<ul>
+<li>Strategy: <span class="fill-in">[Idempotent writes? Deduplication? Transactions?]</span></li>
+<li>Implementation: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<hr/>
+<h2 id="review-checklist">Review Checklist<a class="headerlink" href="#review-checklist" title="Permanent link">¶</a></h2>
+<p>Before moving to the next topic:</p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Implementation</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Tumbling window implementation works</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Sliding window implementation works</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Session window implementation works</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Watermark processing works</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Late data handling works</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Stateful processing works</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Deduplication works</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> All client code runs successfully</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Understanding</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Filled in all ELI5 explanations</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand difference between window types</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Know event time vs processing time</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand watermarks and their purpose</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Know how state works and TTL</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand exactly-once semantics</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can explain checkpointing</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Decision Making</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Know when to use each window type</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can design watermark strategy</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Know when to use state</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can choose consistency level</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Completed all practice scenarios</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can justify design choices</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Performance</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand time/space complexity</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Know state size implications</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can estimate resource needs</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Know throughput vs latency trade-offs</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Mastery Check</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could implement basic stream processor</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could design windowing strategy</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could handle late data appropriately</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could implement exactly-once processing</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Know common streaming pitfalls</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can debug watermark issues</li>
+</ul>
+</li>
+</ul>
+<hr/>
+<h3 id="mastery-certification">Mastery Certification<a class="headerlink" href="#mastery-certification" title="Permanent link">¶</a></h3>
+<p><strong>I certify that I can:</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Implement tumbling, sliding, and session windows from memory</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Configure watermarks and handle late data correctly</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Design state management with appropriate TTL</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Implement exactly-once processing</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Explain event time vs processing time</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Debug watermark and window closing issues</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Choose appropriate consistency levels</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Estimate memory and performance requirements</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Design complete stream processing pipelines</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Teach these concepts to someone else</li>
+</ul></div>
+</div>
+<footer class="col-md-12 text-center">
+<hr/>
+<p>
+<small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+</p>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../../js/bootstrap-3.0.3.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>var base_url = "../.."</script>
+<script src="../../js/base.js"></script>
+<script src="../../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<button class="close" data-dismiss="modal" type="button">
+<span aria-hidden="true">×</span>
+<span class="sr-only">Close</span>
+</button>
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+</div>
+<div class="modal-body">
+<p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="text"/>
+</div>
+</form>
+<div id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@10.4.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>

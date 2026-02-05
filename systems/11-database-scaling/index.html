@@ -1,0 +1,1990 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="A framework for algorithms, systems design, and infrastructure." name="description"/>
+<meta content="Richard" name="author"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>11. Database Scaling - Software Engineering Study Guide</title>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" rel="stylesheet"/>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css" rel="stylesheet"/>
+<link href="//rsms.me/inter/inter.css" rel="stylesheet" type="text/css"/>
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&amp;subset=latin-ext,latin" rel="stylesheet" type="text/css"/>
+<link href="../../css/bootstrap-custom.min.css" rel="stylesheet"/>
+<link href="../../css/base.min.css" rel="stylesheet"/>
+<link href="../../css/cinder.min.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css" rel="stylesheet"/>
+<link href="../../css/custom.css" rel="stylesheet"/>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="container">
+<!-- Collapsed navigation -->
+<div class="navbar-header">
+<!-- Expander button -->
+<button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<!-- Main title -->
+<a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+</div>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li>
+<a href="../..">Home</a>
+</li>
+<li class="dropdown active">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Systems Design <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../01-storage-engines/">01. Storage Engines</a>
+</li>
+<li>
+<a href="../02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+<li>
+<a href="../03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+<li>
+<a href="../04-search-and-indexing/">04. Search &amp; Indexing</a>
+</li>
+<li>
+<a href="../05-caching-patterns/">05. Caching Patterns</a>
+</li>
+<li>
+<a href="../06-api-design/">06. API Design</a>
+</li>
+<li>
+<a href="../07-security-patterns/">07. Security Patterns</a>
+</li>
+<li>
+<a href="../08-rate-limiting/">08. Rate Limiting</a>
+</li>
+<li>
+<a href="../09-load-balancing/">09. Load Balancing</a>
+</li>
+<li>
+<a href="../10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+<li class="active">
+<a href="./">11. Database Scaling</a>
+</li>
+<li>
+<a href="../12-message-queues/">12. Message Queues</a>
+</li>
+<li>
+<a href="../13-stream-processing/">13. Stream Processing</a>
+</li>
+<li>
+<a href="../14-observability/">14. Observability</a>
+</li>
+<li>
+<a href="../15-distributed-transactions/">15. Distributed Transactions</a>
+</li>
+<li>
+<a href="../16-consensus-patterns/">16. Consensus Patterns</a>
+</li>
+</ul>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">DSA <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../dsa/01-two-pointers/">01. Two Pointers</a>
+</li>
+<li>
+<a href="../../dsa/02-sliding-window/">02. Sliding Window</a>
+</li>
+<li>
+<a href="../../dsa/03-hash-tables/">03. Hash Tables</a>
+</li>
+<li>
+<a href="../../dsa/04-linked-lists/">04. Linked Lists</a>
+</li>
+<li>
+<a href="../../dsa/05-stacks--queues/">05. Stacks &amp; Queues</a>
+</li>
+<li>
+<a href="../../dsa/06-trees-traversals/">06. Trees - Traversals</a>
+</li>
+<li>
+<a href="../../dsa/07-trees-recursion/">07. Trees - Recursion</a>
+</li>
+<li>
+<a href="../../dsa/08-binary-search/">08. Binary Search</a>
+</li>
+<li>
+<a href="../../dsa/09-heaps/">09. Heaps</a>
+</li>
+<li>
+<a href="../../dsa/10-graphs/">10. Graphs</a>
+</li>
+<li>
+<a href="../../dsa/11-union-find/">11. Union-Find</a>
+</li>
+<li>
+<a href="../../dsa/12-advanced-graphs/">12. Advanced Graphs</a>
+</li>
+<li>
+<a href="../../dsa/13-backtracking/">13. Backtracking</a>
+</li>
+<li>
+<a href="../../dsa/14-dynamic-programming-1d/">14. Dynamic Programming 1D</a>
+</li>
+<li>
+<a href="../../dsa/15-dynamic-programming-2d/">15. Dynamic Programming 2D</a>
+</li>
+<li>
+<a href="../../dsa/16-tries/">16. Tries</a>
+</li>
+<li>
+<a href="../../dsa/17-advanced-topics/">17. Advanced Topics</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+<a data-target="#mkdocs_search_modal" data-toggle="modal" href="#">
+<i class="fas fa-search"></i> Search
+                        </a>
+</li>
+<li>
+<a href="../10-concurrency-patterns/" rel="prev">
+<i class="fas fa-arrow-left"></i> Previous
+                        </a>
+</li>
+<li>
+<a href="../12-message-queues/" rel="next">
+                            Next <i class="fas fa-arrow-right"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+<ul class="nav bs-sidenav">
+<li class="first-level active"><a href="#database-scaling">Database Scaling</a></li>
+<li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+<li class="second-level"><a href="#quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)</a></li>
+<li class="second-level"><a href="#beforeafter-why-database-scaling-matters">Before/After: Why Database Scaling Matters</a></li>
+<li class="second-level"><a href="#case-studies-database-scaling-in-the-wild">Case Studies: Database Scaling in the Wild</a></li>
+<li class="second-level"><a href="#core-implementation">Core Implementation</a></li>
+<li class="second-level"><a href="#client-code">Client Code</a></li>
+<li class="second-level"><a href="#debugging-challenges">Debugging Challenges</a></li>
+<li class="second-level"><a href="#decision-framework">Decision Framework</a></li>
+<li class="second-level"><a href="#practice">Practice</a></li>
+<li class="second-level"><a href="#review-checklist">Review Checklist</a></li>
+</ul>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="database-scaling">Database Scaling<a class="headerlink" href="#database-scaling" title="Permanent link">¶</a></h1>
+<blockquote>
+<p>Strategies for handling growing data and traffic through sharding, replication, and partitioning</p>
+</blockquote>
+<hr/>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After implementing database scaling strategies, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What is database scaling in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Why do databases need to scale?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy for sharding:</strong></p>
+<ul>
+<li>Example: "Sharding is like having multiple filing cabinets where..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What is sharding in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>How is replication different from sharding?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy for replication:</strong></p>
+<ul>
+<li>Example: "Replication is like photocopying important documents where..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What is partitioning in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When would you use horizontal vs vertical scaling?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr/>
+<h2 id="quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)<a class="headerlink" href="#quick-quiz-do-before-implementing" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Test your intuition about database scaling without looking at code. Answer these, then verify after
+implementation.</p>
+<h3 id="complexity-predictions">Complexity Predictions<a class="headerlink" href="#complexity-predictions" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p><strong>Single database serving reads and writes:</strong></p>
+<ul>
+<li>Bottleneck: <span class="fill-in">[Your guess: CPU/Memory/Disk/Network?]</span></li>
+<li>Verified after learning: <span class="fill-in">[Actual bottleneck]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Master-slave replication with 3 read replicas:</strong></p>
+<ul>
+<li>Read capacity increase: <span class="fill-in">[Your guess: 2x/3x/4x?]</span></li>
+<li>Write capacity increase: <span class="fill-in">[Your guess: No change/2x/3x?]</span></li>
+<li>Verified: <span class="fill-in">[Actual capacity changes]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Sharding 1TB database across 10 shards:</strong></p>
+<ul>
+<li>Data per shard: <span class="fill-in">[Calculate: <span class="fill-in">_____</span> GB]</span></li>
+<li>If one shard fails, data lost: <span class="fill-in">[Yes/No/Depends?]</span></li>
+<li>Speedup for single-key lookups: <span class="fill-in">[10x/No change/Slower?]</span></li>
+</ul>
+</li>
+</ol>
+<h3 id="scenario-predictions">Scenario Predictions<a class="headerlink" href="#scenario-predictions" title="Permanent link">¶</a></h3>
+<p><strong>Scenario 1:</strong> Social media app with 100M users, 90% reads, 10% writes</p>
+<ul>
+<li><strong>Best scaling strategy:</strong> <span class="fill-in">[Sharding/Replication/Both - Why?]</span></li>
+<li><strong>If using replication, how many read replicas?</strong> <span class="fill-in">[2/5/10 - Reasoning?]</span></li>
+<li><strong>Main challenge:</strong> <span class="fill-in">[Fill in your prediction]</span></li>
+</ul>
+<p><strong>Scenario 2:</strong> E-commerce site storing user profiles, each 5KB</p>
+<ul>
+<li><strong>You need to shard by user_id. What happens to:</strong><ul>
+<li>Single user lookups? <span class="fill-in">[Faster/Same/Slower - Why?]</span></li>
+<li>Cross-user analytics queries? <span class="fill-in">[Faster/Same/Slower - Why?]</span></li>
+<li>Adding new shards? <span class="fill-in">[Easy/Hard - Why?]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Scenario 3:</strong> Time-series IoT data, queries by timestamp ranges</p>
+<ul>
+<li><strong>Best sharding strategy:</strong> <span class="fill-in">[Hash/Range/Consistent - Why?]</span></li>
+<li><strong>Shard key should be:</strong> <span class="fill-in">[user_id/timestamp/device_id - Why?]</span></li>
+<li><strong>What's the risk?</strong> <span class="fill-in">[Fill in your prediction]</span></li>
+</ul>
+<h3 id="trade-off-quiz">Trade-off Quiz<a class="headerlink" href="#trade-off-quiz" title="Permanent link">¶</a></h3>
+<p><strong>Question:</strong> When would vertical partitioning be BETTER than adding more RAM?</p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in before implementation]</span></li>
+<li>Verified answer: <span class="fill-in">[Fill in after learning]</span></li>
+</ul>
+<p><strong>Question:</strong> What's the MAIN downside of sharding vs replication?</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Higher cost</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Complex queries across shards</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Slower single-key lookups</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Requires more DBAs</li>
+</ul>
+<p>Verify after implementation: <span class="fill-in">[Which one(s) and why?]</span></p>
+<p><strong>Question:</strong> Replication lag is 2 seconds. A user updates their profile, then immediately views it. What do they see?</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Always new data (master read)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Always old data (slave lag)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Old data if load balancer picks slave</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Random</li>
+</ul>
+<p>Your answer: <span class="fill-in">[Fill in]</span>
+Verified: <span class="fill-in">[Fill in after understanding replication]</span></p>
+</div>
+<hr/>
+<h2 id="beforeafter-why-database-scaling-matters">Before/After: Why Database Scaling Matters<a class="headerlink" href="#beforeafter-why-database-scaling-matters" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Compare unscaled vs scaled approaches to understand the impact.</p>
+<h3 id="example-e-commerce-user-lookup">Example: E-Commerce User Lookup<a class="headerlink" href="#example-e-commerce-user-lookup" title="Permanent link">¶</a></h3>
+<p><strong>Problem:</strong> Product catalog with 10M items, receiving 10,000 read requests/sec and 100 write requests/sec.</p>
+<h4 id="approach-1-single-database-no-scaling">Approach 1: Single Database (No Scaling)<a class="headerlink" href="#approach-1-single-database-no-scaling" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code>Architecture:
+┌─────────────┐
+│   Clients   │ ─────&gt; 10,000 reads/sec + 100 writes/sec
+└─────────────┘
+       │
+       ▼
+┌─────────────┐
+│  Single DB  │ ← All traffic hits one server
+└─────────────┘</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>All reads and writes hit one server</li>
+<li>Database becomes CPU and I/O bottleneck</li>
+<li>At ~1,000 req/sec: Response time = 50ms</li>
+<li>At ~5,000 req/sec: Response time = 200ms (degraded)</li>
+<li>At ~10,000 req/sec: Database crashes or times out</li>
+<li>Maximum throughput: ~3,000-5,000 req/sec (hardware limit)</li>
+</ul>
+<p><strong>Breaking point:</strong> 10,000 req/sec target vs 5,000 req/sec capacity = <strong>2x overloaded</strong></p>
+<h4 id="approach-2-master-slave-replication-read-scaling">Approach 2: Master-Slave Replication (Read Scaling)<a class="headerlink" href="#approach-2-master-slave-replication-read-scaling" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code>Architecture:
+┌─────────────┐
+│   Clients   │
+└─────────────┘
+       │
+       ├─────&gt; 100 writes/sec ────&gt; ┌──────────┐
+       │                             │  Master  │
+       │                             └──────────┘
+       │                                   │
+       │                             (replicates to)
+       │                                   │
+       │                        ┌──────────┴──────────┐
+       └─&gt; 10,000 reads/sec ──&gt; │                     │
+                                 ▼                     ▼
+                           ┌──────────┐         ┌──────────┐
+                           │ Slave 1  │         │ Slave 2  │
+                           └──────────┘         └──────────┘
+                           5,000 reads/sec      5,000 reads/sec</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Writes: 100 writes/sec to master (well under capacity)</li>
+<li>Reads: 10,000 reads/sec distributed across 2 slaves = 5,000 each</li>
+<li>Master handles: 100 writes + replication = ~200 ops/sec</li>
+<li>Each slave handles: 5,000 reads/sec (within capacity)</li>
+<li>Read capacity: 2x-3x improvement per replica added</li>
+<li>Write capacity: No improvement (still single master)</li>
+</ul>
+<p><strong>Result:</strong> Can now handle 10,000 reads/sec + 100 writes/sec comfortably</p>
+<h4 id="approach-3-sharding-write-data-scaling">Approach 3: Sharding (Write + Data Scaling)<a class="headerlink" href="#approach-3-sharding-write-data-scaling" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code>Architecture:
+┌─────────────┐
+│   Clients   │
+└─────────────┘
+       │
+(Shard by user_id % 4)
+       │
+   ┌───┴───┬───────┬───────┐
+   ▼       ▼       ▼       ▼
+┌──────┐┌──────┐┌──────┐┌──────┐
+│Shard0││Shard1││Shard2││Shard3│
+│ 2.5M ││ 2.5M ││ 2.5M ││ 2.5M │ items each
+│items ││items ││items ││items │
+└──────┘└──────┘└──────┘└──────┘
+2,500    2,500    2,500    2,500  reads/sec each
+25       25       25       25     writes/sec each</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Data per shard: 10M items / 4 = 2.5M items each</li>
+<li>Reads per shard: 10,000 / 4 = 2,500 reads/sec (well under capacity)</li>
+<li>Writes per shard: 100 / 4 = 25 writes/sec (well under capacity)</li>
+<li>Each shard operates at ~25% capacity (lots of headroom)</li>
+<li>Can scale writes (unlike replication)</li>
+<li>Can add more shards as data grows</li>
+</ul>
+<p><strong>Trade-off:</strong> Cross-shard queries become complex (e.g., "find all items &gt; $100")</p>
+<h4 id="performance-comparison">Performance Comparison<a class="headerlink" href="#performance-comparison" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Single DB</th>
+<th>Replication (2 slaves)</th>
+<th>Sharding (4 shards)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Read Capacity</strong></td>
+<td>5,000 req/sec</td>
+<td>15,000 req/sec</td>
+<td>20,000 req/sec</td>
+</tr>
+<tr>
+<td><strong>Write Capacity</strong></td>
+<td>500 req/sec</td>
+<td>500 req/sec</td>
+<td>2,000 req/sec</td>
+</tr>
+<tr>
+<td><strong>Data Capacity</strong></td>
+<td>1TB max</td>
+<td>1TB max</td>
+<td>4TB+ (linear)</td>
+</tr>
+<tr>
+<td><strong>Latency (reads)</strong></td>
+<td>50ms @ load</td>
+<td>50ms @ load</td>
+<td>50ms @ load</td>
+</tr>
+<tr>
+<td><strong>Latency (writes)</strong></td>
+<td>50ms</td>
+<td>50ms + replication</td>
+<td>50ms</td>
+</tr>
+<tr>
+<td><strong>Single-key lookup</strong></td>
+<td>1 query</td>
+<td>1 query</td>
+<td>1 query (1 shard)</td>
+</tr>
+<tr>
+<td><strong>Cross-entity query</strong></td>
+<td>1 query</td>
+<td>1 query</td>
+<td>4 queries (all shards)</td>
+</tr>
+<tr>
+<td><strong>Cost</strong></td>
+<td>1x</td>
+<td>3x (1M + 2S)</td>
+<td>4x (4 shards)</td>
+</tr>
+<tr>
+<td><strong>Complexity</strong></td>
+<td>Low</td>
+<td>Medium</td>
+<td>High</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Your calculation:</strong> For 50,000 read req/sec, you'd need <strong><em>_</em> read replicas OR </strong>___ shards.</p>
+<h4 id="real-world-impact-example">Real-World Impact Example<a class="headerlink" href="#real-world-impact-example" title="Permanent link">¶</a></h4>
+<p><strong>Instagram's scaling journey (simplified):</strong></p>
+<pre class="highlight"><code>2010: Single PostgreSQL database
+
+- 10K users
+- Single server
+- Cost: $500/month
+
+2011: Master-slave replication
+
+- 1M users
+- 1 master + 3 read replicas
+- Can't scale writes fast enough
+- Cost: $5K/month
+
+2012: Sharded by user_id
+
+- 10M users
+- 100+ shards
+- Custom sharding logic
+- Cost: $50K/month
+
+2015: Cassandra (distributed database)
+
+- 500M users
+- Automatic sharding + replication
+- No single point of failure
+- Cost: $500K/month</code></pre>
+<h4 id="why-does-replication-help-reads">Why Does Replication Help Reads?<a class="headerlink" href="#why-does-replication-help-reads" title="Permanent link">¶</a></h4>
+<p><strong>Key insight to understand:</strong></p>
+<pre class="highlight"><code>Single Database (1000 reads/sec capacity):
+Request 1 ──┐
+Request 2 ──┤
+Request 3 ──┤──&gt; ┌────────┐
+...         │    │   DB   │ ← Bottleneck
+Request 999 ──┤  └────────┘
+Request 1000──┘
+Request 1001 ✗ (rejected/timeout)</code></pre>
+<pre class="highlight"><code>Replication with 3 slaves (3000 reads/sec total):
+Request 1-333   ──&gt; ┌────────┐
+                    │ Slave 1│
+                    └────────┘
+
+Request 334-666 ──&gt; ┌────────┐
+                    │ Slave 2│
+                    └────────┘
+
+Request 667-1000──&gt; ┌────────┐
+                    │ Slave 3│
+                    └────────┘
+
+All 1000 requests handled, with 2000 req/sec headroom</code></pre>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>Why does replication not help writes? <span class="fill-in">[Your answer]</span></li>
+<li>Why does sharding help both reads and writes? <span class="fill-in">[Your answer]</span></li>
+<li>When would you combine replication + sharding? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="case-studies-database-scaling-in-the-wild">Case Studies: Database Scaling in the Wild<a class="headerlink" href="#case-studies-database-scaling-in-the-wild" title="Permanent link">¶</a></h2>
+<h3 id="facebooks-social-graph-sharding-at-massive-scale">Facebook's Social Graph: Sharding at Massive Scale<a class="headerlink" href="#facebooks-social-graph-sharding-at-massive-scale" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> Horizontal Sharding (by User ID).</li>
+<li><strong>How it works:</strong> Facebook's social graph is far too large for a single database. They partition their data, storing a
+  user and all their related data (posts, friends, messages) on a specific database server, or <strong>shard</strong>. The
+  application logic hashes a user's ID to determine which shard contains their data. This allows Facebook to scale
+  almost infinitely by simply adding more shards.</li>
+<li><strong>Key Takeaway:</strong> For applications with a massive, growing dataset that can be logically partitioned (e.g., by user,
+  by geography), sharding is the key to horizontal scalability. The main challenge becomes managing the complexity of
+  routing queries to the correct shard and handling cross-shard operations.</li>
+</ul>
+<h3 id="instagrams-early-scaling-read-replicas">Instagram's Early Scaling: Read Replicas<a class="headerlink" href="#instagrams-early-scaling-read-replicas" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> Primary-Replica Replication.</li>
+<li><strong>How it works:</strong> In its earlier days, Instagram scaled its PostgreSQL database to handle millions of users by using
+  read replicas. All writes (new photos, comments, likes) went to a single powerful primary database. This primary
+  database then asynchronously replicated all changes to dozens of read-only replica databases. The vast majority of
+  user traffic (reading feeds, viewing photos) was served from these replicas, spreading the read load and keeping the
+  primary free to handle writes.</li>
+<li><strong>Key Takeaway:</strong> For workloads that are heavily skewed towards reads, primary-replica replication is a simple and
+  highly effective scaling strategy. It's often the first and most impactful step companies take to scale their
+  database.</li>
+</ul>
+<h3 id="slack-scaling-with-vitess">Slack: Scaling with Vitess<a class="headerlink" href="#slack-scaling-with-vitess" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> Horizontal Sharding via a Database Middleware (Vitess).</li>
+<li><strong>How it works:</strong> Slack needed to scale its MySQL databases to handle explosive growth in users, messages, and
+  channels. They adopted Vitess, a clustering system that sits between their application and their MySQL servers. Vitess
+  automatically shards the data and routes queries, making a large cluster of small databases look like one single,
+  massive database to the application. This allowed them to scale horizontally without significant changes to their
+  application code.</li>
+<li><strong>Key Takeaway:</strong> Database middleware like Vitess can abstract away the complexity of sharding. It provides the
+  scalability benefits of a sharded architecture while minimizing the impact on application development, offering a
+  powerful path for scaling existing SQL databases.</li>
+</ul>
+<hr/>
+<h2 id="core-implementation">Core Implementation<a class="headerlink" href="#core-implementation" title="Permanent link">¶</a></h2>
+<h3 id="part-1-hash-based-sharding">Part 1: Hash-Based Sharding<a class="headerlink" href="#part-1-hash-based-sharding" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement hash-based sharding for distributing data.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+/**
+ * Hash-Based Sharding: Distribute data across shards using hash function
+ *
+ * Key principles:
+ * - Hash key determines shard
+ * - Even distribution of data
+ * - Simple and predictable
+ * - Resharding is expensive
+ */
+
+public class HashBasedSharding {
+
+    private final List&lt;DatabaseShard&gt; shards;
+
+    /**
+     * Initialize hash-based sharding
+     *
+     * @param numShards Number of database shards
+     *
+     * TODO: Initialize sharding
+     * - Create list of shards
+     * - Initialize each shard
+     */
+    public HashBasedSharding(int numShards) {
+        // TODO: Initialize shards list
+
+        // TODO: Create numShards DatabaseShard instances
+
+        this.shards = null; // Replace
+    }
+
+    /**
+     * Get shard for a given key
+     *
+     * @param key Record key (e.g., user ID)
+     * @return Shard that should store this key
+     *
+     * TODO: Implement shard selection
+     * 1. Hash the key
+     * 2. Modulo by number of shards
+     * 3. Return shard at that index
+     */
+    public DatabaseShard getShard(String key) {
+        // TODO: Hash key to integer
+
+        // TODO: Get shard index using modulo
+        // index = abs(hash) % shards.size()
+
+        // TODO: Return shard at index
+
+        return null; // Replace
+    }
+
+    /**
+     * Insert record
+     *
+     * TODO: Route to correct shard and insert
+     */
+    public void insert(String key, String value) {
+        // TODO: Get shard for key
+
+        // TODO: Insert into shard
+    }
+
+    /**
+     * Get record
+     *
+     * TODO: Route to correct shard and retrieve
+     */
+    public String get(String key) {
+        // TODO: Get shard for key
+
+        // TODO: Get from shard
+
+        return null; // Replace
+    }
+
+    /**
+     * Delete record
+     *
+     * TODO: Route to correct shard and delete
+     */
+    public void delete(String key) {
+        // TODO: Get shard for key
+
+        // TODO: Delete from shard
+    }
+
+    /**
+     * Get statistics for all shards
+     */
+    public Map&lt;Integer, Integer&gt; getStats() {
+        Map&lt;Integer, Integer&gt; stats = new HashMap&lt;&gt;();
+        for (int i = 0; i &lt; shards.size(); i++) {
+            stats.put(i, shards.get(i).getRecordCount());
+        }
+        return stats;
+    }
+
+    /**
+     * Hash function
+     */
+    private int hash(String key) {
+        // TODO: Hash key to integer
+        // Hint: key.hashCode() &amp; 0x7FFFFFFF
+        return 0; // Replace
+    }
+
+    static class DatabaseShard {
+        int shardId;
+        Map&lt;String, String&gt; data;
+
+        public DatabaseShard(int shardId) {
+            this.shardId = shardId;
+            this.data = new HashMap&lt;&gt;();
+        }
+
+        public void insert(String key, String value) {
+            data.put(key, value);
+        }
+
+        public String get(String key) {
+            return data.get(key);
+        }
+
+        public void delete(String key) {
+            data.remove(key);
+        }
+
+        public int getRecordCount() {
+            return data.size();
+        }
+    }
+}</code></pre>
+<h3 id="part-2-range-based-sharding">Part 2: Range-Based Sharding<a class="headerlink" href="#part-2-range-based-sharding" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement range-based sharding for ordered data.</p>
+<pre class="highlight"><code class="language-java">/**
+ * Range-Based Sharding: Distribute data by key ranges
+ *
+ * Key principles:
+ * - Continuous key ranges per shard
+ * - Good for range queries
+ * - Risk of hotspots
+ * - Easier to add shards
+ */
+
+public class RangeBasedSharding {
+
+    private final TreeMap&lt;String, DatabaseShard&gt; rangeMap;
+    private final List&lt;DatabaseShard&gt; shards;
+
+    /**
+     * Initialize range-based sharding
+     *
+     * @param ranges List of range boundaries (sorted)
+     *
+     * TODO: Initialize range sharding
+     * - Create TreeMap for range lookup
+     * - Assign shard to each range
+     *
+     * Example: ranges = ["M", "Z"] creates 3 shards
+     *   Shard 0: keys &lt; "M"
+     *   Shard 1: keys &gt;= "M" and &lt; "Z"
+     *   Shard 2: keys &gt;= "Z"
+     */
+    public RangeBasedSharding(List&lt;String&gt; ranges) {
+        // TODO: Initialize rangeMap and shards
+
+        // TODO: Create shard for each range
+
+        this.rangeMap = null; // Replace
+        this.shards = null; // Replace
+    }
+
+    /**
+     * Get shard for a given key
+     *
+     * @param key Record key
+     * @return Shard that should store this key
+     *
+     * TODO: Implement range lookup
+     * 1. Find first range &gt;= key (ceilingEntry)
+     * 2. If null, use last shard
+     * 3. Return shard
+     */
+    public HashBasedSharding.DatabaseShard getShard(String key) {
+        // TODO: Look up range in TreeMap
+        // entry = rangeMap.ceilingEntry(key)
+
+        // TODO: Implement iteration/conditional logic
+
+        // TODO: Otherwise return last shard (for keys &gt;= last boundary)
+
+        return null; // Replace
+    }
+
+    /**
+     * Insert record
+     */
+    public void insert(String key, String value) {
+        // TODO: Get shard for key and insert
+    }
+
+    /**
+     * Get record
+     */
+    public String get(String key) {
+        // TODO: Get shard for key and retrieve
+        return null; // Replace
+    }
+
+    /**
+     * Range query (scan multiple shards if needed)
+     *
+     * TODO: Find all shards in range and query them
+     */
+    public List&lt;String&gt; rangeQuery(String startKey, String endKey) {
+        // TODO: Find first shard containing startKey
+
+        // TODO: Query all shards until endKey
+
+        // TODO: Combine results
+
+        return null; // Replace
+    }
+
+    /**
+     * Get statistics
+     */
+    public Map&lt;Integer, Integer&gt; getStats() {
+        Map&lt;Integer, Integer&gt; stats = new HashMap&lt;&gt;();
+        for (int i = 0; i &lt; shards.size(); i++) {
+            stats.put(i, shards.get(i).getRecordCount());
+        }
+        return stats;
+    }
+}</code></pre>
+<h3 id="part-3-master-slave-replication">Part 3: Master-Slave Replication<a class="headerlink" href="#part-3-master-slave-replication" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement master-slave replication for read scaling.</p>
+<pre class="highlight"><code class="language-java">/**
+ * Master-Slave Replication: One writer, multiple readers
+ *
+ * Key principles:
+ * - Master handles all writes
+ * - Slaves replicate data from master
+ * - Slaves handle reads
+ * - Eventual consistency
+ */
+
+public class MasterSlaveReplication {
+
+    private final Database master;
+    private final List&lt;Database&gt; slaves;
+    private int readIndex; // For round-robin read distribution
+
+    /**
+     * Initialize master-slave replication
+     *
+     * @param numSlaves Number of read replicas
+     *
+     * TODO: Initialize replication
+     * - Create master database
+     * - Create slave databases
+     * - Initialize read index
+     */
+    public MasterSlaveReplication(int numSlaves) {
+        // TODO: Create master
+
+        // TODO: Create slaves
+
+        // TODO: Initialize readIndex to 0
+
+        this.master = null; // Replace
+        this.slaves = null; // Replace
+    }
+
+    /**
+     * Write operation (goes to master)
+     *
+     * TODO: Implement write
+     * 1. Write to master
+     * 2. Replicate to all slaves
+     *
+     * Note: In production, replication is async
+     */
+    public void write(String key, String value) {
+        // TODO: Write to master
+
+        // TODO: Replicate to all slaves
+    }
+
+    /**
+     * Read operation (load balanced across slaves)
+     *
+     * TODO: Implement read from slaves
+     * - Use round robin to select slave
+     * - Read from selected slave
+     * - Fallback to master if slave fails
+     */
+    public synchronized String read(String key) {
+        // TODO: Select slave using round robin
+        // slave = slaves.get(readIndex)
+        // readIndex = (readIndex + 1) % slaves.size()
+
+        // TODO: Read from slave
+
+        // TODO: Implement iteration/conditional logic
+
+        return null; // Replace
+    }
+
+    /**
+     * Delete operation (goes to master)
+     */
+    public void delete(String key) {
+        // TODO: Delete from master
+
+        // TODO: Replicate deletion to slaves
+    }
+
+    /**
+     * Check replication lag
+     *
+     * TODO: Compare master and slave data
+     * - Count keys that differ
+     * - Return lag metrics
+     */
+    public ReplicationStats getReplicationStats() {
+        // TODO: Compare master with each slave
+
+        return null; // Replace
+    }
+
+    static class Database {
+        String id;
+        Map&lt;String, String&gt; data;
+
+        public Database(String id) {
+            this.id = id;
+            this.data = new HashMap&lt;&gt;();
+        }
+
+        public void write(String key, String value) {
+            data.put(key, value);
+        }
+
+        public String read(String key) {
+            return data.get(key);
+        }
+
+        public void delete(String key) {
+            data.remove(key);
+        }
+
+        public int size() {
+            return data.size();
+        }
+    }
+
+    static class ReplicationStats {
+        int totalKeys;
+        Map&lt;String, Integer&gt; slaveKeyCount;
+
+        public ReplicationStats() {
+            this.slaveKeyCount = new HashMap&lt;&gt;();
+        }
+    }
+}</code></pre>
+<h3 id="part-4-vertical-partitioning">Part 4: Vertical Partitioning<a class="headerlink" href="#part-4-vertical-partitioning" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement vertical partitioning (column splitting).</p>
+<pre class="highlight"><code class="language-java">/**
+ * Vertical Partitioning: Split tables by columns
+ *
+ * Key principles:
+ * - Frequently accessed columns in one partition
+ * - Rarely accessed columns in another
+ * - Reduces I/O for common queries
+ * - Requires joins for full records
+ */
+
+public class VerticalPartitioning {
+
+    private final Map&lt;String, HotData&gt; hotStore;   // Frequently accessed
+    private final Map&lt;String, ColdData&gt; coldStore; // Rarely accessed
+
+    /**
+     * Initialize vertical partitioning
+     *
+     * TODO: Initialize hot and cold stores
+     */
+    public VerticalPartitioning() {
+        // TODO: Initialize both stores
+        this.hotStore = null; // Replace
+        this.coldStore = null; // Replace
+    }
+
+    /**
+     * Insert full record
+     *
+     * TODO: Split record into hot and cold parts
+     * - Store frequently accessed fields in hot store
+     * - Store rarely accessed fields in cold store
+     */
+    public void insert(String id, String name, String email, String bio, byte[] largeData) {
+        // TODO: Create HotData with id, name, email
+
+        // TODO: Create ColdData with id, bio, largeData
+
+        // TODO: Store in respective stores
+    }
+
+    /**
+     * Get hot data only (fast, common query)
+     *
+     * TODO: Retrieve from hot store only
+     */
+    public HotData getHotData(String id) {
+        // TODO: Get from hotStore
+        return null; // Replace
+    }
+
+    /**
+     * Get full record (requires join)
+     *
+     * TODO: Retrieve from both stores and merge
+     */
+    public FullRecord getFullRecord(String id) {
+        // TODO: Get hot data
+
+        // TODO: Get cold data
+
+        // TODO: Combine into FullRecord
+
+        return null; // Replace
+    }
+
+    /**
+     * Update hot data (fast)
+     */
+    public void updateHotData(String id, String name, String email) {
+        // TODO: Update hotStore only
+    }
+
+    /**
+     * Update cold data (infrequent)
+     */
+    public void updateColdData(String id, String bio, byte[] largeData) {
+        // TODO: Update coldStore only
+    }
+
+    /**
+     * Get statistics
+     */
+    public PartitionStats getStats() {
+        return new PartitionStats(hotStore.size(), coldStore.size());
+    }
+
+    static class HotData {
+        String id;
+        String name;
+        String email;
+
+        public HotData(String id, String name, String email) {
+            this.id = id;
+            this.name = name;
+            this.email = email;
+        }
+    }
+
+    static class ColdData {
+        String id;
+        String bio;
+        byte[] largeData;
+
+        public ColdData(String id, String bio, byte[] largeData) {
+            this.id = id;
+            this.bio = bio;
+            this.largeData = largeData;
+        }
+    }
+
+    static class FullRecord {
+        String id;
+        String name;
+        String email;
+        String bio;
+        byte[] largeData;
+
+        public FullRecord(HotData hot, ColdData cold) {
+            this.id = hot.id;
+            this.name = hot.name;
+            this.email = hot.email;
+            this.bio = cold.bio;
+            this.largeData = cold.largeData;
+        }
+    }
+
+    static class PartitionStats {
+        int hotRecords;
+        int coldRecords;
+
+        public PartitionStats(int hotRecords, int coldRecords) {
+            this.hotRecords = hotRecords;
+            this.coldRecords = coldRecords;
+        }
+    }
+}</code></pre>
+<h3 id="part-5-consistent-hashing-for-dynamic-sharding">Part 5: Consistent Hashing for Dynamic Sharding<a class="headerlink" href="#part-5-consistent-hashing-for-dynamic-sharding" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement consistent hashing for easier resharding.</p>
+<pre class="highlight"><code class="language-java">/**
+ * Consistent Hashing Sharding: Minimal data movement on resharding
+ *
+ * Key principles:
+ * - Uses hash ring (from load balancing)
+ * - Adding/removing shards affects limited keys
+ * - Virtual nodes for better distribution
+ * - Popular for distributed databases
+ */
+
+public class ConsistentHashSharding {
+
+    private final TreeMap&lt;Integer, HashBasedSharding.DatabaseShard&gt; ring;
+    private final Map&lt;Integer, HashBasedSharding.DatabaseShard&gt; shards;
+    private final int virtualNodesPerShard;
+    private int nextShardId;
+
+    /**
+     * Initialize consistent hash sharding
+     *
+     * @param initialShards Number of initial shards
+     * @param virtualNodesPerShard Virtual nodes per physical shard
+     *
+     * TODO: Initialize hash ring
+     * - Create TreeMap for ring
+     * - Add initial shards with virtual nodes
+     */
+    public ConsistentHashSharding(int initialShards, int virtualNodesPerShard) {
+        // TODO: Initialize structures
+
+        // TODO: Add initial shards
+
+        this.ring = null; // Replace
+        this.shards = null; // Replace
+        this.virtualNodesPerShard = 0;
+    }
+
+    /**
+     * Get shard for key
+     *
+     * TODO: Use consistent hashing to find shard
+     */
+    public HashBasedSharding.DatabaseShard getShard(String key) {
+        // TODO: Hash key
+
+        // TODO: Find next shard on ring (ceilingEntry)
+
+        // TODO: Implement iteration/conditional logic
+
+        return null; // Replace
+    }
+
+    /**
+     * Add new shard
+     *
+     * TODO: Add shard with virtual nodes
+     * - Place virtual nodes on ring
+     * - Migrate data from affected keys
+     */
+    public void addShard() {
+        // TODO: Create new shard
+
+        // TODO: Add virtual nodes to ring
+
+        // TODO: In production: migrate affected data
+    }
+
+    /**
+     * Remove shard
+     *
+     * TODO: Remove shard and virtual nodes
+     * - Remove from ring
+     * - Migrate data to other shards
+     */
+    public void removeShard(int shardId) {
+        // TODO: Get shard
+
+        // TODO: Remove all virtual nodes from ring
+
+        // TODO: In production: migrate data
+    }
+
+    /**
+     * Insert/Get/Delete operations
+     */
+    public void insert(String key, String value) {
+        getShard(key).insert(key, value);
+    }
+
+    public String get(String key) {
+        return getShard(key).get(key);
+    }
+
+    public void delete(String key) {
+        getShard(key).delete(key);
+    }
+
+    /**
+     * Hash function
+     */
+    private int hash(String key) {
+        return key.hashCode() &amp; 0x7FFFFFFF;
+    }
+
+    /**
+     * Get statistics
+     */
+    public Map&lt;Integer, Integer&gt; getStats() {
+        Map&lt;Integer, Integer&gt; stats = new HashMap&lt;&gt;();
+        for (Map.Entry&lt;Integer, HashBasedSharding.DatabaseShard&gt; entry : shards.entrySet()) {
+            stats.put(entry.getKey(), entry.getValue().getRecordCount());
+        }
+        return stats;
+    }
+}</code></pre>
+<hr/>
+<h2 id="client-code">Client Code<a class="headerlink" href="#client-code" title="Permanent link">¶</a></h2>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class DatabaseScalingClient {
+
+    public static void main(String[] args) {
+        testHashBasedSharding();
+        System.out.println("\n" + "=".repeat(50) + "\n");
+        testRangeBasedSharding();
+        System.out.println("\n" + "=".repeat(50) + "\n");
+        testMasterSlaveReplication();
+        System.out.println("\n" + "=".repeat(50) + "\n");
+        testVerticalPartitioning();
+        System.out.println("\n" + "=".repeat(50) + "\n");
+        testConsistentHashSharding();
+    }
+
+    static void testHashBasedSharding() {
+        System.out.println("=== Hash-Based Sharding Test ===\n");
+
+        HashBasedSharding db = new HashBasedSharding(3);
+
+        // Insert data
+        String[] users = {"user1", "user2", "user3", "user4", "user5",
+                         "user6", "user7", "user8", "user9", "user10"};
+
+        System.out.println("Inserting 10 users:");
+        for (String user : users) {
+            db.insert(user, user + "_data");
+            System.out.println(user + " -&gt; Shard " + db.getShard(user).shardId);
+        }
+
+        System.out.println("\nShard distribution:");
+        System.out.println(db.getStats());
+
+        // Test retrieval
+        System.out.println("\nRetrieving user3:");
+        System.out.println(db.get("user3"));
+    }
+
+    static void testRangeBasedSharding() {
+        System.out.println("=== Range-Based Sharding Test ===\n");
+
+        // Ranges: A-M, M-Z, Z+
+        List&lt;String&gt; ranges = Arrays.asList("M", "Z");
+        RangeBasedSharding db = new RangeBasedSharding(ranges);
+
+        // Insert data
+        String[] names = {"Alice", "Bob", "Charlie", "Mike", "Nancy",
+                         "Oscar", "Peter", "Zoe", "Zachary"};
+
+        System.out.println("Inserting names (range-based):");
+        for (String name : names) {
+            db.insert(name, name + "_data");
+            System.out.println(name + " -&gt; Shard " + db.getShard(name).shardId);
+        }
+
+        System.out.println("\nShard distribution:");
+        System.out.println(db.getStats());
+
+        // Test range query
+        System.out.println("\nRange query: M-P");
+        List&lt;String&gt; results = db.rangeQuery("M", "P");
+        System.out.println("Results: " + results);
+    }
+
+    static void testMasterSlaveReplication() {
+        System.out.println("=== Master-Slave Replication Test ===\n");
+
+        MasterSlaveReplication db = new MasterSlaveReplication(2);
+
+        // Test writes (go to master, replicate to slaves)
+        System.out.println("Writing to master:");
+        db.write("key1", "value1");
+        db.write("key2", "value2");
+        db.write("key3", "value3");
+
+        // Test reads (distributed across slaves)
+        System.out.println("\nReading from slaves (round-robin):");
+        for (int i = 0; i &lt; 6; i++) {
+            String value = db.read("key" + (i % 3 + 1));
+            System.out.println("Read " + (i+1) + ": " + value);
+        }
+
+        // Check replication
+        System.out.println("\nReplication stats:");
+        System.out.println(db.getReplicationStats());
+    }
+
+    static void testVerticalPartitioning() {
+        System.out.println("=== Vertical Partitioning Test ===\n");
+
+        VerticalPartitioning db = new VerticalPartitioning();
+
+        // Insert records
+        System.out.println("Inserting records (hot+cold data):");
+        db.insert("user1", "Alice", "alice@example.com",
+                 "Long bio...", new byte[1000]);
+        db.insert("user2", "Bob", "bob@example.com",
+                 "Long bio...", new byte[1000]);
+
+        // Fast query (hot data only)
+        System.out.println("\nFast query (hot data only):");
+        VerticalPartitioning.HotData hot = db.getHotData("user1");
+        System.out.println("Name: " + hot.name + ", Email: " + hot.email);
+
+        // Full query (requires join)
+        System.out.println("\nFull query (hot + cold data):");
+        VerticalPartitioning.FullRecord full = db.getFullRecord("user1");
+        System.out.println("Name: " + full.name);
+        System.out.println("Bio length: " + full.bio.length());
+        System.out.println("Data size: " + full.largeData.length + " bytes");
+
+        // Stats
+        System.out.println("\nPartition stats:");
+        VerticalPartitioning.PartitionStats stats = db.getStats();
+        System.out.println("Hot: " + stats.hotRecords + ", Cold: " + stats.coldRecords);
+    }
+
+    static void testConsistentHashSharding() {
+        System.out.println("=== Consistent Hash Sharding Test ===\n");
+
+        ConsistentHashSharding db = new ConsistentHashSharding(3, 3);
+
+        // Insert data
+        String[] keys = {"key1", "key2", "key3", "key4", "key5"};
+        System.out.println("Initial distribution (3 shards):");
+        for (String key : keys) {
+            db.insert(key, key + "_data");
+            System.out.println(key + " -&gt; Shard " + db.getShard(key).shardId);
+        }
+
+        System.out.println("\nStats: " + db.getStats());
+
+        // Add shard (minimal redistribution)
+        System.out.println("\nAdding 4th shard:");
+        db.addShard();
+
+        System.out.println("New distribution:");
+        for (String key : keys) {
+            System.out.println(key + " -&gt; Shard " + db.getShard(key).shardId);
+        }
+
+        System.out.println("\nStats: " + db.getStats());
+    }
+}</code></pre>
+<hr/>
+<h2 id="debugging-challenges">Debugging Challenges<a class="headerlink" href="#debugging-challenges" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Find and fix bugs in broken database scaling implementations. This tests your understanding of scaling
+pitfalls.</p>
+<h3 id="challenge-1-broken-hash-sharding-uneven-distribution">Challenge 1: Broken Hash Sharding (Uneven Distribution)<a class="headerlink" href="#challenge-1-broken-hash-sharding-uneven-distribution" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * This hash-based sharding causes hotspots
+ * Find the BUG that creates uneven distribution!
+ */
+public class BrokenHashSharding {
+    private final List&lt;DatabaseShard&gt; shards;
+
+    public DatabaseShard getShard(String key) {
+        int hash = key.length() % shards.size();
+        return shards.get(hash);
+    }
+
+    public void insert(String key, String value) {
+        getShard(key).insert(key, value);
+    }
+}
+
+// Test with user IDs: user1, user2, user3, ..., user100
+// All have same key length! All go to same shard!</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>Bug: <span class="fill-in">[What\'s the bug?]</span></li>
+</ul>
+<p><strong>Trace through example:</strong></p>
+<ul>
+<li>Keys: "user1", "user2", "user99" (all length 5)</li>
+<li>With 3 shards, where do they go? <span class="fill-in">[All to shard ___]</span></li>
+<li>Expected: <span class="fill-in">[Should be distributed across all shards]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> Using <code>key.length()</code> as hash creates terrible distribution. All keys with same length go to same shard.</p>
+<p><strong>Fix:</strong></p>
+<pre class="highlight"><code class="language-java">public DatabaseShard getShard(String key) {
+    // Use proper hash function
+    int hash = Math.abs(key.hashCode()) % shards.size();
+    return shards.get(hash);
+}</code></pre>
+<p><strong>Why:</strong> <code>hashCode()</code> produces different values for different strings, even with same length. The <code>Math.abs()</code> handles
+negative hash codes.</p>
+</details>
+<hr/>
+<h3 id="challenge-2-replication-lag-bug-read-after-write-consistency">Challenge 2: Replication Lag Bug (Read-After-Write Consistency)<a class="headerlink" href="#challenge-2-replication-lag-bug-read-after-write-consistency" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * User updates profile, immediately views it, sees OLD data
+ * Find the BUG causing stale reads!
+ */
+public class BrokenReplication {
+    private Database master;
+    private List&lt;Database&gt; slaves;
+    private int readIndex = 0;
+
+    public void updateProfile(String userId, String newName) {
+        // Write to master
+        master.write(userId, newName);
+
+        // Slaves don't have new data yet
+    }
+
+    public String getProfile(String userId) {
+        Database slave = slaves.get(readIndex);
+        readIndex = (readIndex + 1) % slaves.size();
+        return slave.read(userId);
+    }
+}
+
+// Scenario:
+// 1. User updates name to "John"
+// 2. Master has "John" immediately
+// 3. Replication takes 200ms
+// 4. User views profile 50ms later
+// 5. Read goes to slave (still has old name "Johnny")
+// 6. User sees "Johnny" instead of "John" - CONFUSION!</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug location:</strong> <span class="fill-in">[What's the problem?]</span></li>
+<li><strong>Bug explanation:</strong> <span class="fill-in">[Why do users see stale data?]</span></li>
+<li><strong>Fix option 1:</strong> <span class="fill-in">[How to guarantee read-after-write consistency?]</span></li>
+<li><strong>Fix option 2:</strong> <span class="fill-in">[Alternative approach?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug:</strong> Reading from slaves immediately after writing to master causes stale reads due to replication lag.</p>
+<p><strong>Fix Option 1 - Read-Your-Writes (sticky sessions):</strong></p>
+<pre class="highlight"><code class="language-java">public void updateProfile(String userId, String newName) {
+    master.write(userId, newName);
+    // Mark this session to read from master for next N seconds
+    markSessionForMasterReads(userId, Duration.ofSeconds(5));
+}
+
+public String getProfile(String userId) {
+    // Check if user recently wrote
+    if (shouldReadFromMaster(userId)) {
+        return master.read(userId);  // Read from master
+    }
+    // Otherwise read from slave
+    Database slave = slaves.get(readIndex);
+    readIndex = (readIndex + 1) % slaves.size();
+    return slave.read(userId);
+}</code></pre>
+<p><strong>Fix Option 2 - Always read from master after writes:</strong></p>
+<pre class="highlight"><code class="language-java">public String getProfile(String userId, boolean afterWrite) {
+    if (afterWrite) {
+        return master.read(userId);  // Guarantee consistency
+    }
+    // Normal read from slave
+    Database slave = slaves.get(readIndex);
+    readIndex = (readIndex + 1) % slaves.size();
+    return slave.read(userId);
+}</code></pre>
+<p><strong>Trade-off:</strong> Both fixes reduce read scalability by routing some reads to master.</p>
+</details>
+<hr/>
+<h3 id="challenge-3-cross-shard-query-disaster">Challenge 3: Cross-Shard Query Disaster<a class="headerlink" href="#challenge-3-cross-shard-query-disaster" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Analytics query needs to scan all shards
+ * This implementation has PERFORMANCE and CORRECTNESS bugs!
+ */
+public class BrokenCrossShardQuery {
+    private List&lt;DatabaseShard&gt; shards;
+
+    public List&lt;User&gt; findAllUsersOver21() {
+        List&lt;User&gt; results = new ArrayList&lt;&gt;();
+
+        for (DatabaseShard shard : shards) {
+            List&lt;User&gt; shardResults = shard.query("age &gt; 21");
+            results.addAll(shardResults);
+        }
+
+        // If 1M results * 1KB each = 1GB memory
+
+
+        return results;
+    }
+}
+
+// Scenario: 10 shards, each takes 2 seconds to query
+// Total time: 10 * 2 = 20 seconds!
+// If shard 5 is slow (10 seconds), entire query takes 28 seconds!</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug 1 (Performance):</strong> <span class="fill-in">[Why is serial query slow?]</span></li>
+<li>
+<p><strong>Bug 1 fix:</strong> <span class="fill-in">[How to parallelize?]</span></p>
+</li>
+<li>
+<p><strong>Bug 2 (Memory):</strong> <span class="fill-in">[What happens with millions of results?]</span></p>
+</li>
+<li>
+<p><strong>Bug 2 fix:</strong> <span class="fill-in">[How to handle large result sets?]</span></p>
+</li>
+<li>
+<p><strong>Bug 3 (Reliability):</strong> <span class="fill-in">[What if one shard hangs?]</span></p>
+</li>
+<li><strong>Bug 3 fix:</strong> <span class="fill-in">[How to add timeout?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Fixed version with all bugs addressed:</strong></p>
+<pre class="highlight"><code class="language-java">public List&lt;User&gt; findAllUsersOver21(int limit, int offset) {
+    List&lt;CompletableFuture&lt;List&lt;User&gt;&gt;&gt; futures = new ArrayList&lt;&gt;();
+
+    // FIX 1: Parallel queries across shards
+    for (DatabaseShard shard : shards) {
+        CompletableFuture&lt;List&lt;User&gt;&gt; future = CompletableFuture.supplyAsync(() -&gt; {
+            // FIX 2: Per-shard pagination
+            return shard.query("age &gt; 21", limit / shards.size(), offset / shards.size());
+        });
+
+        // FIX 3: Add timeout per shard
+        future = future.orTimeout(5, TimeUnit.SECONDS)
+                      .exceptionally(ex -&gt; {
+                          // Log error, return empty for failed shard
+                          System.err.println("Shard query failed: " + ex);
+                          return Collections.emptyList();
+                      });
+
+        futures.add(future);
+    }
+
+    // Wait for all shards (with timeout)
+    List&lt;User&gt; results = new ArrayList&lt;&gt;();
+    for (CompletableFuture&lt;List&lt;User&gt;&gt; future : futures) {
+        try {
+            results.addAll(future.get(10, TimeUnit.SECONDS));
+        } catch (Exception e) {
+            // Handle timeout or failure
+            System.err.println("Shard timeout: " + e);
+        }
+    }
+
+    // FIX 2 continued: Apply global limit
+    return results.stream().limit(limit).collect(Collectors.toList());
+}</code></pre>
+<p><strong>Performance improvement:</strong></p>
+<ul>
+<li>Before: 10 shards × 2 seconds = 20 seconds</li>
+<li>After: max(2 seconds) = 2 seconds (parallel)</li>
+<li><strong>10x faster!</strong></li>
+</ul>
+</details>
+<hr/>
+<h3 id="challenge-4-shard-imbalance-hotspot">Challenge 4: Shard Imbalance (Hotspot)<a class="headerlink" href="#challenge-4-shard-imbalance-hotspot" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Celebrity user causes ONE shard to be overloaded
+ * Find the DESIGN BUG!
+ */
+public class BrokenSharding {
+    // Sharding by user_id
+    public DatabaseShard getShard(String userId) {
+        int hash = Math.abs(userId.hashCode()) % shards.size();
+        return shards.get(hash);
+    }
+
+    // Social media queries
+    public List&lt;Post&gt; getUserPosts(String userId) {
+        return getShard(userId).queryPosts(userId);
+    }
+
+    public List&lt;Follower&gt; getUserFollowers(String userId) {
+        return getShard(userId).queryFollowers(userId);
+    }
+}
+
+// Scenario: Celebrity "user123" has 100M followers
+// - user123's shard stores: 100M follower records
+// - Other shards: ~1000 follower records each
+// - Shard 3 (celebrity's shard): 99.9% of queries!
+// - Shard 3: CPU 100%, disk full, crashing
+// - Other shards: CPU 5%, mostly idle
+
+// This is a HOTSPOT or HOT SHARD problem!</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Design bug:</strong> <span class="fill-in">[Why does one user cause shard overload?]</span></li>
+<li><strong>When does this happen?</strong> <span class="fill-in">[What data pattern causes hotspots?]</span></li>
+<li><strong>Fix option 1:</strong> <span class="fill-in">[How to split celebrity data?]</span></li>
+<li><strong>Fix option 2:</strong> <span class="fill-in">[How to cache celebrity data?]</span></li>
+<li><strong>Fix option 3:</strong> <span class="fill-in">[Different sharding strategy?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Design bug:</strong> Sharding by user_id groups all of a user's data on one shard. For celebrities with massive data/traffic,
+that shard becomes a hotspot.</p>
+<p><strong>Fix Option 1 - Split entity sharding:</strong></p>
+<pre class="highlight"><code class="language-java">// Shard users and their posts by user_id (small data)
+public DatabaseShard getUserShard(String userId) {
+    return shards.get(hash(userId) % shards.size());
+}
+
+// Shard followers by follower_id, not celebrity_id (distributes load)
+public DatabaseShard getFollowerShard(String followerId) {
+    return followerShards.get(hash(followerId) % followerShards.size());
+}
+
+// Now celebrity's 100M followers distributed across ALL shards</code></pre>
+<p><strong>Fix Option 2 - Caching layer:</strong></p>
+<pre class="highlight"><code class="language-java">// Cache celebrity data in Redis/Memcached
+public List&lt;Post&gt; getUserPosts(String userId) {
+    // Check if celebrity (cached list)
+    if (isCelebrity(userId)) {
+        return cache.get("posts:" + userId);
+    }
+    // Normal user -&gt; query shard
+    return getShard(userId).queryPosts(userId);
+}</code></pre>
+<p><strong>Fix Option 3 - Consistent hashing with detection:</strong></p>
+<pre class="highlight"><code class="language-java">// Detect hot shards and split them
+if (shard.requestRate() &gt; threshold) {
+    splitShard(shard);  // Create two shards from one
+    rehashKeys(shard);  // Redistribute keys
+}</code></pre>
+<p><strong>Prevention:</strong> Monitor shard metrics (CPU, request rate, data size) and set alerts for imbalance.</p>
+</details>
+<hr/>
+<h3 id="challenge-5-split-brain-replication-failure">Challenge 5: Split-Brain (Replication Failure)<a class="headerlink" href="#challenge-5-split-brain-replication-failure" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Master-slave replication during network partition
+ * Find the CATASTROPHIC bug!
+ */
+public class BrokenMasterFailover {
+    private Database master;
+    private List&lt;Database&gt; slaves;
+
+    // Master goes down, promote slave to master
+    public void handleMasterFailure() {
+        System.out.println("Master failed! Promoting slave to master...");
+
+        master = slaves.get(0);  // Promote first slave
+        slaves.remove(0);
+
+        // Now we have NEW master accepting writes
+    }
+
+    // Meanwhile, OLD master recovers after network partition
+    // OLD master thinks it's still master!
+    // NEW master is also accepting writes!
+    // TWO MASTERS = SPLIT BRAIN!
+
+    // Writes to OLD master: user updates email to "alice@new.com"
+    // Writes to NEW master: user updates email to "alice@old.com"
+    // CONFLICT! Which is correct?
+}
+
+// Timeline:
+// T=0: Master fails (network partition)
+// T=10: Slave promoted to new master
+// T=20: Clients write to new master
+// T=30: Old master recovers, still thinks it's master
+// T=40: Some clients write to old master (split brain!)
+// T=50: Networks merge - DATA CONFLICTS!</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug:</strong> <span class="fill-in">[What's the split-brain problem?]</span></li>
+<li><strong>Why it's catastrophic:</strong> <span class="fill-in">[What happens to data?]</span></li>
+<li><strong>Fix option 1:</strong> <span class="fill-in">[How to prevent old master from accepting writes?]</span></li>
+<li><strong>Fix option 2:</strong> <span class="fill-in">[How to detect split brain?]</span></li>
+<li><strong>Real-world solution:</strong> <span class="fill-in">[What do production systems do?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug:</strong> Split-brain occurs when two nodes both think they're master, accepting conflicting writes. This causes data
+divergence and conflicts.</p>
+<p><strong>Fix Option 1 - Fencing (prevent old master from accepting writes):</strong></p>
+<pre class="highlight"><code class="language-java">public void handleMasterFailure() {
+    // Step 1: FENCE old master (disable it)
+    oldMaster.fence();  // Prevent further writes
+
+    // Step 2: Wait for in-flight writes to complete
+    Thread.sleep(5000);
+
+    // Step 3: Promote slave
+    master = slaves.get(0);
+    slaves.remove(0);
+
+    // Step 4: Configure slaves to replicate from new master
+    for (Database slave : slaves) {
+        slave.replicateFrom(master);
+    }
+}</code></pre>
+<p><strong>Fix Option 2 - Consensus protocol (Raft/Paxos):</strong></p>
+<pre class="highlight"><code class="language-java">// Use leader election with quorum
+// - Only ONE master elected at a time
+// - Master must have quorum (majority votes)
+// - Old master can't get quorum if network partitioned
+public void electMaster() {
+    int votes = 0;
+    int requiredVotes = (nodes.size() / 2) + 1;  // Majority
+
+    for (Node node : nodes) {
+        if (node.voteFor(thisNode)) {
+            votes++;
+        }
+    }
+
+    if (votes &gt;= requiredVotes) {
+        thisNode.becomeMaster();  // Safe - have quorum
+    }
+}</code></pre>
+<p><strong>Fix Option 3 - Epoch/term numbers:</strong></p>
+<pre class="highlight"><code class="language-java">class Database {
+    int epoch = 0;  // Incremented on each master change
+
+    public void write(String key, String value, int writeEpoch) {
+        if (writeEpoch &lt; this.epoch) {
+            throw new StaleEpochException("Old master, reject write");
+        }
+        // Accept write
+    }
+}</code></pre>
+<p><strong>Real-world solutions:</strong></p>
+<ul>
+<li><strong>PostgreSQL:</strong> Uses fencing + watchdog</li>
+<li><strong>MySQL:</strong> Group Replication with consensus</li>
+<li><strong>MongoDB:</strong> Replica sets with election</li>
+<li><strong>Distributed databases:</strong> Raft/Paxos consensus algorithms</li>
+</ul>
+</details>
+<hr/>
+<h3 id="your-debugging-scorecard">Your Debugging Scorecard<a class="headerlink" href="#your-debugging-scorecard" title="Permanent link">¶</a></h3>
+<p>After finding and fixing all bugs:</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Found hotspot bug in hash sharding</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understood replication lag and read-after-write consistency</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Fixed cross-shard query performance issues</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Identified and solved hot shard problem</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understood split-brain problem in replication</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could explain each fix to someone else</li>
+</ul>
+<p><strong>Common scaling bugs you discovered:</strong></p>
+<ol>
+<li><span class="fill-in">[Poor hash functions cause hotspots]</span></li>
+<li><span class="fill-in">[Replication lag causes stale reads]</span></li>
+<li><span class="fill-in">[Cross-shard queries need parallelization and pagination]</span></li>
+<li><span class="fill-in">[Celebrity/popular entity data causes hot shards]</span></li>
+<li><span class="fill-in">[Split-brain in failover causes data conflicts]</span></li>
+</ol>
+<p><strong>Your takeaways:</strong></p>
+<ul>
+<li>Which bug surprised you most? <span class="fill-in">[Fill in]</span></li>
+<li>Which bug is hardest to detect in production? <span class="fill-in">[Fill in]</span></li>
+<li>Which bug has the worst consequences? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<hr/>
+<h2 id="decision-framework">Decision Framework<a class="headerlink" href="#decision-framework" title="Permanent link">¶</a></h2>
+<p><strong>Questions to answer after implementation:</strong></p>
+<h3 id="1-scaling-strategy-selection">1. Scaling Strategy Selection<a class="headerlink" href="#1-scaling-strategy-selection" title="Permanent link">¶</a></h3>
+<p><strong>When to use Hash-Based Sharding?</strong></p>
+<ul>
+<li>Your scenario: <span class="fill-in">[Fill in]</span></li>
+<li>Key factors: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>When to use Range-Based Sharding?</strong></p>
+<ul>
+<li>Your scenario: <span class="fill-in">[Fill in]</span></li>
+<li>Key factors: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>When to use Master-Slave Replication?</strong></p>
+<ul>
+<li>Your scenario: <span class="fill-in">[Fill in]</span></li>
+<li>Key factors: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>When to use Vertical Partitioning?</strong></p>
+<ul>
+<li>Your scenario: <span class="fill-in">[Fill in]</span></li>
+<li>Key factors: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>When to use Consistent Hash Sharding?</strong></p>
+<ul>
+<li>Your scenario: <span class="fill-in">[Fill in]</span></li>
+<li>Key factors: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="2-trade-offs">2. Trade-offs<a class="headerlink" href="#2-trade-offs" title="Permanent link">¶</a></h3>
+<p><strong>Hash-Based Sharding:</strong></p>
+<ul>
+<li>Pros: <span class="fill-in">[Fill in after understanding]</span></li>
+<li>Cons: <span class="fill-in">[Fill in after understanding]</span></li>
+</ul>
+<p><strong>Range-Based Sharding:</strong></p>
+<ul>
+<li>Pros: <span class="fill-in">[Fill in after understanding]</span></li>
+<li>Cons: <span class="fill-in">[Fill in after understanding]</span></li>
+</ul>
+<p><strong>Master-Slave Replication:</strong></p>
+<ul>
+<li>Pros: <span class="fill-in">[Fill in after understanding]</span></li>
+<li>Cons: <span class="fill-in">[Fill in after understanding]</span></li>
+</ul>
+<p><strong>Vertical Partitioning:</strong></p>
+<ul>
+<li>Pros: <span class="fill-in">[Fill in after understanding]</span></li>
+<li>Cons: <span class="fill-in">[Fill in after understanding]</span></li>
+</ul>
+<h3 id="3-your-decision-tree">3. Your Decision Tree<a class="headerlink" href="#3-your-decision-tree" title="Permanent link">¶</a></h3>
+<p>Build your decision tree after practicing:
+<div class="mermaid">flowchart LR
+    Start["What is your bottleneck?"]
+
+    N1["?"]
+    Start --&gt;|"Read traffic"| N1
+    N2["?"]
+    Start --&gt;|"Write traffic"| N2
+    N3["?"]
+    Start --&gt;|"Data size"| N3
+    N4["?"]
+    Start --&gt;|"Query patterns"| N4
+    N5["?"]
+    Start --&gt;|"Operational complexity"| N5</div></p>
+<hr/>
+<h2 id="practice">Practice<a class="headerlink" href="#practice" title="Permanent link">¶</a></h2>
+<h3 id="scenario-1-scale-read-heavy-application">Scenario 1: Scale read-heavy application<a class="headerlink" href="#scenario-1-scale-read-heavy-application" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>90% reads, 10% writes</li>
+<li>Single database becoming bottleneck</li>
+<li>Need to scale to 10x traffic</li>
+<li>Can tolerate slight staleness</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<ul>
+<li>Which strategy would you choose? <span class="fill-in">[Fill in]</span></li>
+<li>Why? <span class="fill-in">[Fill in]</span></li>
+<li>How many replicas? <span class="fill-in">[Fill in]</span></li>
+<li>Consistency guarantees? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="scenario-2-scale-social-media-platform">Scenario 2: Scale social media platform<a class="headerlink" href="#scenario-2-scale-social-media-platform" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>500M users</li>
+<li>User profiles, posts, followers</li>
+<li>Need to distribute data</li>
+<li>Want fast user lookups</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<ul>
+<li>Which sharding strategy? <span class="fill-in">[Fill in]</span></li>
+<li>What's the shard key? <span class="fill-in">[Fill in]</span></li>
+<li>How to handle hot users (celebrities)? <span class="fill-in">[Fill in]</span></li>
+<li>Cross-shard queries? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="scenario-3-time-series-data-storage">Scenario 3: Time-series data storage<a class="headerlink" href="#scenario-3-time-series-data-storage" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>IoT sensor data</li>
+<li>Queries by time range</li>
+<li>Recent data accessed frequently</li>
+<li>Old data rarely accessed</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<ul>
+<li>Which partitioning strategy? <span class="fill-in">[Fill in]</span></li>
+<li>How to partition? <span class="fill-in">[Fill in]</span></li>
+<li>Archival strategy? <span class="fill-in">[Fill in]</span></li>
+<li>Query optimization? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<hr/>
+<h2 id="review-checklist">Review Checklist<a class="headerlink" href="#review-checklist" title="Permanent link">¶</a></h2>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Hash-based sharding implemented</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Range-based sharding implemented</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Master-slave replication implemented</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Vertical partitioning implemented</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Consistent hash sharding implemented</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand when to use each strategy</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can explain trade-offs between strategies</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Built decision tree for strategy selection</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Completed practice scenarios</li>
+</ul>
+<hr/>
+<h3 id="mastery-certification">Mastery Certification<a class="headerlink" href="#mastery-certification" title="Permanent link">¶</a></h3>
+<p><strong>I certify that I can:</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Explain all scaling strategies to non-technical stakeholders</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Draw architecture diagrams for each strategy from memory</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Choose the correct strategy for different scenarios</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Calculate capacity requirements and costs</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Debug common scaling issues (lag, hotspots, split-brain)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Analyze trade-offs between different approaches</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Handle production incidents involving sharding/replication</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Design database layer for large-scale systems</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Teach these concepts to others</li>
+</ul></div>
+</div>
+<footer class="col-md-12 text-center">
+<hr/>
+<p>
+<small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+</p>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../../js/bootstrap-3.0.3.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>var base_url = "../.."</script>
+<script src="../../js/base.js"></script>
+<script src="../../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<button class="close" data-dismiss="modal" type="button">
+<span aria-hidden="true">×</span>
+<span class="sr-only">Close</span>
+</button>
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+</div>
+<div class="modal-body">
+<p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="text"/>
+</div>
+</form>
+<div id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@10.4.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>

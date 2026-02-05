@@ -1,0 +1,1600 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="A framework for algorithms, systems design, and infrastructure." name="description"/>
+<meta content="Richard" name="author"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>11. Union-Find - Software Engineering Study Guide</title>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" rel="stylesheet"/>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css" rel="stylesheet"/>
+<link href="//rsms.me/inter/inter.css" rel="stylesheet" type="text/css"/>
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&amp;subset=latin-ext,latin" rel="stylesheet" type="text/css"/>
+<link href="../../css/bootstrap-custom.min.css" rel="stylesheet"/>
+<link href="../../css/base.min.css" rel="stylesheet"/>
+<link href="../../css/cinder.min.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css" rel="stylesheet"/>
+<link href="../../css/custom.css" rel="stylesheet"/>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="container">
+<!-- Collapsed navigation -->
+<div class="navbar-header">
+<!-- Expander button -->
+<button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<!-- Main title -->
+<a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+</div>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li>
+<a href="../..">Home</a>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Systems Design <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../systems/01-storage-engines/">01. Storage Engines</a>
+</li>
+<li>
+<a href="../../systems/02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+<li>
+<a href="../../systems/03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+<li>
+<a href="../../systems/04-search-and-indexing/">04. Search &amp; Indexing</a>
+</li>
+<li>
+<a href="../../systems/05-caching-patterns/">05. Caching Patterns</a>
+</li>
+<li>
+<a href="../../systems/06-api-design/">06. API Design</a>
+</li>
+<li>
+<a href="../../systems/07-security-patterns/">07. Security Patterns</a>
+</li>
+<li>
+<a href="../../systems/08-rate-limiting/">08. Rate Limiting</a>
+</li>
+<li>
+<a href="../../systems/09-load-balancing/">09. Load Balancing</a>
+</li>
+<li>
+<a href="../../systems/10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+<li>
+<a href="../../systems/11-database-scaling/">11. Database Scaling</a>
+</li>
+<li>
+<a href="../../systems/12-message-queues/">12. Message Queues</a>
+</li>
+<li>
+<a href="../../systems/13-stream-processing/">13. Stream Processing</a>
+</li>
+<li>
+<a href="../../systems/14-observability/">14. Observability</a>
+</li>
+<li>
+<a href="../../systems/15-distributed-transactions/">15. Distributed Transactions</a>
+</li>
+<li>
+<a href="../../systems/16-consensus-patterns/">16. Consensus Patterns</a>
+</li>
+</ul>
+</li>
+<li class="dropdown active">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">DSA <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../01-two-pointers/">01. Two Pointers</a>
+</li>
+<li>
+<a href="../02-sliding-window/">02. Sliding Window</a>
+</li>
+<li>
+<a href="../03-hash-tables/">03. Hash Tables</a>
+</li>
+<li>
+<a href="../04-linked-lists/">04. Linked Lists</a>
+</li>
+<li>
+<a href="../05-stacks--queues/">05. Stacks &amp; Queues</a>
+</li>
+<li>
+<a href="../06-trees-traversals/">06. Trees - Traversals</a>
+</li>
+<li>
+<a href="../07-trees-recursion/">07. Trees - Recursion</a>
+</li>
+<li>
+<a href="../08-binary-search/">08. Binary Search</a>
+</li>
+<li>
+<a href="../09-heaps/">09. Heaps</a>
+</li>
+<li>
+<a href="../10-graphs/">10. Graphs</a>
+</li>
+<li class="active">
+<a href="./">11. Union-Find</a>
+</li>
+<li>
+<a href="../12-advanced-graphs/">12. Advanced Graphs</a>
+</li>
+<li>
+<a href="../13-backtracking/">13. Backtracking</a>
+</li>
+<li>
+<a href="../14-dynamic-programming-1d/">14. Dynamic Programming 1D</a>
+</li>
+<li>
+<a href="../15-dynamic-programming-2d/">15. Dynamic Programming 2D</a>
+</li>
+<li>
+<a href="../16-tries/">16. Tries</a>
+</li>
+<li>
+<a href="../17-advanced-topics/">17. Advanced Topics</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+<a data-target="#mkdocs_search_modal" data-toggle="modal" href="#">
+<i class="fas fa-search"></i> Search
+                        </a>
+</li>
+<li>
+<a href="../10-graphs/" rel="prev">
+<i class="fas fa-arrow-left"></i> Previous
+                        </a>
+</li>
+<li>
+<a href="../12-advanced-graphs/" rel="next">
+                            Next <i class="fas fa-arrow-right"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+<ul class="nav bs-sidenav">
+<li class="first-level active"><a href="#union-find-disjoint-set-union">Union-Find (Disjoint Set Union)</a></li>
+<li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+<li class="second-level"><a href="#quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)</a></li>
+<li class="second-level"><a href="#beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters</a></li>
+<li class="second-level"><a href="#core-implementation">Core Implementation</a></li>
+<li class="second-level"><a href="#debugging-challenges">Debugging Challenges</a></li>
+<li class="second-level"><a href="#decision-framework">Decision Framework</a></li>
+<li class="second-level"><a href="#practice">Practice</a></li>
+<li class="second-level"><a href="#review-checklist">Review Checklist</a></li>
+</ul>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="union-find-disjoint-set-union">Union-Find (Disjoint Set Union)<a class="headerlink" href="#union-find-disjoint-set-union" title="Permanent link">¶</a></h1>
+<blockquote>
+<p>Efficiently track and merge disjoint sets with near-constant time operations</p>
+</blockquote>
+<hr/>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After implementing all patterns, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What is union-find in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What do "union" and "find" operations do?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy:</strong></p>
+<ul>
+<li>Example: "Union-Find is like organizing people into groups where you can quickly check if two people are in the
+  same group..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When does this pattern work?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after solving problems]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What makes union-find fast?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after learning optimizations]</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr/>
+<h2 id="quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)<a class="headerlink" href="#quick-quiz-do-before-implementing" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Test your intuition without looking at code. Answer these, then verify after implementation.</p>
+<h3 id="complexity-predictions">Complexity Predictions<a class="headerlink" href="#complexity-predictions" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p><strong>Naive connectivity check using DFS/BFS:</strong></p>
+<ul>
+<li>Time complexity per query: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Verified after learning: <span class="fill-in">[Actual: O(?)]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Union-Find with optimizations (path compression + union by rank):</strong></p>
+<ul>
+<li>Time complexity per operation: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Space complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Verified: <span class="fill-in">[Actual]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Speedup calculation:</strong></p>
+<ul>
+<li>If n = 10,000 nodes with 1,000 connectivity queries</li>
+<li>DFS approach: <span class="fill-in">_____</span> operations</li>
+<li>Union-Find: <span class="fill-in">_____</span> operations</li>
+<li>Speedup factor: <span class="fill-in">_____</span> times faster</li>
+</ul>
+</li>
+</ol>
+<h3 id="scenario-predictions">Scenario Predictions<a class="headerlink" href="#scenario-predictions" title="Permanent link">¶</a></h3>
+<p><strong>Scenario 1:</strong> You have nodes {0, 1, 2, 3, 4}. Perform: union(0,1), union(2,3), union(1,2)</p>
+<ul>
+<li><strong>After these operations, which nodes are connected?</strong> <span class="fill-in">[Fill in]</span></li>
+<li><strong>How many disjoint components remain?</strong> <span class="fill-in">[Your guess]</span></li>
+<li><strong>Are nodes 0 and 3 connected?</strong> <span class="fill-in">[Yes/No - Why?]</span></li>
+<li><strong>What happens if we call union(0,3) now?</strong> <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>Scenario 2:</strong> Graph edges: [(0,1), (1,2), (2,3), (3,0)]</p>
+<ul>
+<li><strong>Can you detect a cycle using union-find?</strong> <span class="fill-in">[Yes/No - How?]</span></li>
+<li><strong>Which edge creates the cycle?</strong> <span class="fill-in">[Fill in your reasoning]</span></li>
+<li><strong>What does find(x) return after path compression?</strong> <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>Scenario 3:</strong> Why path compression?</p>
+<ul>
+<li><strong>Without path compression:</strong> Finding root of deeply nested node costs <span class="fill-in">[O(?)]</span></li>
+<li><strong>With path compression:</strong> Amortized cost becomes <span class="fill-in">[O(?)]</span></li>
+<li><strong>Draw a tree before and after path compression:</strong> <span class="fill-in">[Sketch after implementation]</span></li>
+</ul>
+<h3 id="trade-off-quiz">Trade-off Quiz<a class="headerlink" href="#trade-off-quiz" title="Permanent link">¶</a></h3>
+<p><strong>Question:</strong> When would DFS/BFS be BETTER than union-find for connectivity?</p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in before implementation]</span></li>
+<li>Verified answer: <span class="fill-in">[Fill in after learning]</span></li>
+</ul>
+<p><strong>Question:</strong> What's the MAIN benefit of union by rank?</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Saves memory</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Reduces number of nodes</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Keeps tree height balanced</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Makes find operation faster initially</li>
+</ul>
+<p>Verify after implementation: <span class="fill-in">[Which one(s)?]</span></p>
+<p><strong>Question:</strong> Can union-find split a component into smaller components?</p>
+<ul>
+<li>Your answer: <span class="fill-in">[Yes/No - Why or why not?]</span></li>
+<li>Implication: <span class="fill-in">[When does this limitation matter?]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters<a class="headerlink" href="#beforeafter-why-this-pattern-matters" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Compare naive vs optimized approaches to understand the impact.</p>
+<h3 id="example-connectivity-queries">Example: Connectivity Queries<a class="headerlink" href="#example-connectivity-queries" title="Permanent link">¶</a></h3>
+<p><strong>Problem:</strong> Check if two nodes are connected in a dynamic graph with union operations.</p>
+<h4 id="approach-1-dfsbfs-for-each-query">Approach 1: DFS/BFS for Each Query<a class="headerlink" href="#approach-1-dfsbfs-for-each-query" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Naive approach - Traverse graph for every connectivity check
+public class NaiveConnectivity {
+    private List&lt;Integer&gt;[] graph;
+
+    public NaiveConnectivity(int n) {
+        graph = new ArrayList[n];
+        for (int i = 0; i &lt; n; i++) {
+            graph[i] = new ArrayList&lt;&gt;();
+        }
+    }
+
+    public void union(int x, int y) {
+        graph[x].add(y);
+        graph[y].add(x);
+    }
+
+    public boolean connected(int x, int y) {
+        // DFS to check connectivity
+        boolean[] visited = new boolean[graph.length];
+        return dfs(x, y, visited);
+    }
+
+    private boolean dfs(int node, int target, boolean[] visited) {
+        if (node == target) return true;
+        visited[node] = true;
+
+        for (int neighbor : graph[node]) {
+            if (!visited[neighbor]) {
+                if (dfs(neighbor, target, visited)) return true;
+            }
+        }
+        return false;
+    }
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time per union: O(1) - Just add edges</li>
+<li>Time per connected query: O(V + E) - Full DFS/BFS traversal</li>
+<li>Space: O(V + E) - Store all edges</li>
+<li>For 1,000 queries on 10,000 nodes: ~10,000,000+ operations per query</li>
+</ul>
+<h4 id="approach-2-union-find-optimized">Approach 2: Union-Find (Optimized)<a class="headerlink" href="#approach-2-union-find-optimized" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Optimized approach - Union-Find with path compression and union by rank
+public class OptimizedConnectivity {
+    private int[] parent;
+    private int[] rank;
+
+    public OptimizedConnectivity(int n) {
+        parent = new int[n];
+        rank = new int[n];
+        for (int i = 0; i &lt; n; i++) {
+            parent[i] = i;
+            rank[i] = 0;
+        }
+    }
+
+    public int find(int x) {
+        // Path compression: point directly to root
+        if (parent[x] != x) {
+            parent[x] = find(parent[x]);
+        }
+        return parent[x];
+    }
+
+    public void union(int x, int y) {
+        int rootX = find(x);
+        int rootY = find(y);
+
+        if (rootX == rootY) return;
+
+        // Union by rank: attach smaller tree under larger
+        if (rank[rootX] &lt; rank[rootY]) {
+            parent[rootX] = rootY;
+        } else if (rank[rootX] &gt; rank[rootY]) {
+            parent[rootY] = rootX;
+        } else {
+            parent[rootY] = rootX;
+            rank[rootX]++;
+        }
+    }
+
+    public boolean connected(int x, int y) {
+        return find(x) == find(y);
+    }
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time per operation: O(α(n)) ≈ O(1) - Inverse Ackermann (practically constant)</li>
+<li>Space: O(n) - Only parent and rank arrays</li>
+<li>For 1,000 queries: ~1,000 operations total (vs millions)</li>
+</ul>
+<h4 id="performance-comparison">Performance Comparison<a class="headerlink" href="#performance-comparison" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>Operations</th>
+<th>DFS/BFS (O(V+E))</th>
+<th>Union-Find (O(α(n)))</th>
+<th>Speedup</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>100 queries</td>
+<td>~100,000 ops</td>
+<td>~100 ops</td>
+<td>1,000x</td>
+</tr>
+<tr>
+<td>1,000 queries</td>
+<td>~1,000,000 ops</td>
+<td>~1,000 ops</td>
+<td>1,000x</td>
+</tr>
+<tr>
+<td>10,000 queries</td>
+<td>~10,000,000 ops</td>
+<td>~10,000 ops</td>
+<td>1,000x</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Your calculation:</strong> For 5,000 connectivity queries on a graph with 5,000 nodes, the speedup is approximately _____
+times faster.</p>
+<h4 id="why-does-union-find-work">Why Does Union-Find Work?<a class="headerlink" href="#why-does-union-find-work" title="Permanent link">¶</a></h4>
+<p><strong>Key insight to understand:</strong></p>
+<p>Starting with nodes: {0, 1, 2, 3, 4} (all separate)</p>
+<pre class="highlight"><code>Step 1: union(0, 1)
+   Component structure:  0    2  3  4
+                        /
+                       1
+
+Step 2: union(2, 3)
+   Component structure:  0    2    4
+                        /    /
+                       1    3
+
+Step 3: union(1, 2)
+   Component structure:  0      4
+                        / \
+                       1   2
+                          /
+                         3
+
+Now find(1) and find(3) both return 0 (same root) → connected!</code></pre>
+<p><strong>Path compression in action:</strong></p>
+<pre class="highlight"><code>Before find(3): 3 → 2 → 0  (must traverse 2 links)
+After find(3):  3 → 0      (directly points to root)
+                2 → 0      (also flattened)</code></pre>
+<p><strong>Why can we skip intermediate nodes?</strong></p>
+<ul>
+<li>We only care if two nodes share the same root (same component)</li>
+<li>The path structure doesn't matter, only connectivity</li>
+<li>Path compression flattens trees without changing connectivity</li>
+<li>Future operations become faster!</li>
+</ul>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>Why does union by rank keep trees balanced? <span class="fill-in">[Your answer]</span></li>
+<li>How does path compression improve future finds? <span class="fill-in">[Your answer]</span></li>
+<li>What's the inverse Ackermann function and why does it matter? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="core-implementation">Core Implementation<a class="headerlink" href="#core-implementation" title="Permanent link">¶</a></h2>
+<h3 id="pattern-1-basic-union-find-with-optimizations">Pattern 1: Basic Union-Find with Optimizations<a class="headerlink" href="#pattern-1-basic-union-find-with-optimizations" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Track connected components with path compression and union by rank.</p>
+<p><strong>Use case:</strong> Dynamic connectivity, detecting cycles, network connections.</p>
+<pre class="highlight"><code class="language-java">public class UnionFind {
+
+    /**
+     * Union-Find Data Structure
+     * Time: O(α(n)) ≈ O(1) per operation with optimizations
+     * Space: O(n)
+     *
+     * TODO: Implement with path compression and union by rank
+     */
+    static class DSU {
+        private int[] parent;
+        private int[] rank; // or size, depending on optimization
+        private int components; // Track number of disjoint sets
+
+        public DSU(int n) {
+            // TODO: Initialize parent array: parent[i] = i
+            // TODO: Initialize rank array: rank[i] = 0
+            // TODO: Initialize components
+        }
+
+        /**
+         * Find with path compression
+         * Time: O(α(n)) amortized
+         *
+         * TODO: Implement find with path compression
+         */
+        public int find(int x) {
+            // TODO: Implement iteration/conditional logic
+            // TODO: Path compression: parent[x] = find(parent[x])
+            // TODO: Return parent[x]
+            return 0; // Replace with implementation
+        }
+
+        /**
+         * Union by rank
+         * Time: O(α(n)) amortized
+         *
+         * TODO: Implement union by rank
+         */
+        public boolean union(int x, int y) {
+            // TODO: Find roots of x and y
+            // TODO: Implement iteration/conditional logic
+            // TODO: Attach smaller rank tree under larger rank tree
+            // TODO: Implement iteration/conditional logic
+            // TODO: Decrement components count
+            // TODO: Return true (successful union)
+            return false; // Replace with implementation
+        }
+
+        /**
+         * Check if connected
+         * Time: O(α(n))
+         */
+        public boolean connected(int x, int y) {
+            // TODO: Return find(x) == find(y)
+            return false; // Replace with implementation
+        }
+
+        /**
+         * Get number of disjoint components
+         * Time: O(1)
+         */
+        public int getComponents() {
+            // TODO: Return components count
+            return 0; // Replace with implementation
+        }
+
+        /**
+         * Get size of component containing x
+         * Time: O(α(n))
+         */
+        public int getSize(int x) {
+            // TODO: Implement iteration/conditional logic
+            // TODO: Otherwise, count elements with same root
+            return 0; // Replace with implementation
+        }
+    }
+
+    /**
+     * Problem: Number of connected components in undirected graph
+     * Time: O(E * α(V)), Space: O(V)
+     *
+     * TODO: Implement using union-find
+     */
+    public static int countComponents(int n, int[][] edges) {
+        // TODO: Initialize DSU with n nodes
+        // TODO: Implement iteration/conditional logic
+        // TODO: Return number of components
+
+        return 0; // Replace with implementation
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">public class UnionFindClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Union-Find ===\n");
+
+        // Test 1: Basic operations
+        System.out.println("--- Test 1: Basic Operations ---");
+        UnionFind.DSU dsu = new UnionFind.DSU(10);
+
+        System.out.println("Initial components: " + dsu.getComponents());
+
+        // Connect some nodes
+        int[][] connections = {{0, 1}, {1, 2}, {3, 4}, {5, 6}, {6, 7}};
+        System.out.println("\nConnecting nodes:");
+        for (int[] conn : connections) {
+            boolean success = dsu.union(conn[0], conn[1]);
+            System.out.printf("  union(%d, %d): %s%n", conn[0], conn[1],
+                success ? "SUCCESS" : "ALREADY CONNECTED");
+        }
+
+        System.out.println("\nFinal components: " + dsu.getComponents());
+
+        // Test connectivity
+        System.out.println("\nConnectivity tests:");
+        int[][] tests = {{0, 2}, {0, 3}, {3, 4}, {5, 8}};
+        for (int[] test : tests) {
+            boolean connected = dsu.connected(test[0], test[1]);
+            System.out.printf("  connected(%d, %d): %s%n", test[0], test[1],
+                connected ? "YES" : "NO");
+        }
+
+        // Test 2: Count components
+        System.out.println("\n--- Test 2: Count Components ---");
+        int n = 5;
+        int[][] edges = {{0, 1}, {1, 2}, {3, 4}};
+
+        System.out.println("Nodes: " + n);
+        System.out.println("Edges: " + java.util.Arrays.deepToString(edges));
+
+        int components = UnionFind.countComponents(n, edges);
+        System.out.println("Components: " + components);
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-2-cycle-detection">Pattern 2: Cycle Detection<a class="headerlink" href="#pattern-2-cycle-detection" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Detect cycles in undirected graphs using union-find.</p>
+<p><strong>Use case:</strong> Redundant connection, graph valid tree.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class CycleDetection {
+
+    /**
+     * Problem: Detect if undirected graph has a cycle
+     * Time: O(E * α(V)), Space: O(V)
+     *
+     * TODO: Implement cycle detection
+     */
+    public static boolean hasCycle(int n, int[][] edges) {
+        // TODO: Initialize union-find
+        // TODO: Implement iteration/conditional logic
+        // TODO: Return false if no cycle
+
+        return false; // Replace with implementation
+    }
+
+    /**
+     * Problem: Find redundant connection (edge that creates cycle)
+     * Time: O(E * α(V)), Space: O(V)
+     *
+     * TODO: Implement redundant connection
+     */
+    public static int[] findRedundantConnection(int[][] edges) {
+        // TODO: Initialize union-find
+        // TODO: Implement iteration/conditional logic
+
+        return new int[]{-1, -1}; // Replace with implementation
+    }
+
+    /**
+     * Problem: Check if graph is a valid tree
+     * Time: O(E * α(V)), Space: O(V)
+     *
+     * TODO: Implement tree validation
+     */
+    public static boolean validTree(int n, int[][] edges) {
+        // TODO: Tree must have exactly n-1 edges
+        // TODO: Must have no cycles
+        // TODO: Must be fully connected (1 component)
+
+        return false; // Replace with implementation
+    }
+
+    /**
+     * Problem: Find redundant directed connection
+     * Time: O(E * α(V)), Space: O(V)
+     *
+     * TODO: Implement for directed graph
+     */
+    public static int[] findRedundantDirectedConnection(int[][] edges) {
+        // TODO: More complex - need to handle:
+        // TODO: Try removing each candidate edge
+
+        return new int[]{-1, -1}; // Replace with implementation
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class CycleDetectionClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Cycle Detection ===\n");
+
+        // Test 1: Has cycle
+        System.out.println("--- Test 1: Has Cycle ---");
+        int[][] testGraphs = {
+            {{0, 1}, {1, 2}},           // No cycle
+            {{0, 1}, {1, 2}, {2, 0}},   // Cycle
+            {{0, 1}, {0, 2}, {1, 2}}    // Cycle
+        };
+
+        for (int i = 0; i &lt; testGraphs.length; i++) {
+            int n = 3;
+            boolean cycle = CycleDetection.hasCycle(n, testGraphs[i]);
+            System.out.printf("Graph %d: %s -&gt; %s%n", i + 1,
+                Arrays.deepToString(testGraphs[i]),
+                cycle ? "HAS CYCLE" : "NO CYCLE");
+        }
+
+        // Test 2: Redundant connection
+        System.out.println("\n--- Test 2: Redundant Connection ---");
+        int[][] edgeSets = {
+            {{1, 2}, {1, 3}, {2, 3}},
+            {{1, 2}, {2, 3}, {3, 4}, {1, 4}, {1, 5}}
+        };
+
+        for (int[][] edges : edgeSets) {
+            int[] redundant = CycleDetection.findRedundantConnection(edges);
+            System.out.printf("Edges: %s%n", Arrays.deepToString(edges));
+            System.out.printf("Redundant: %s%n%n", Arrays.toString(redundant));
+        }
+
+        // Test 3: Valid tree
+        System.out.println("--- Test 3: Valid Tree ---");
+        int[][] treeTests = {
+            {{0, 1}, {0, 2}, {0, 3}, {1, 4}},           // Valid tree (5 nodes)
+            {{0, 1}, {1, 2}, {2, 3}, {1, 3}, {1, 4}}    // Not tree (cycle)
+        };
+
+        for (int i = 0; i &lt; treeTests.length; i++) {
+            int n = 5;
+            boolean isTree = CycleDetection.validTree(n, treeTests[i]);
+            System.out.printf("Test %d: %s -&gt; %s%n", i + 1,
+                Arrays.deepToString(treeTests[i]),
+                isTree ? "VALID TREE" : "NOT TREE");
+        }
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-3-connected-components-problems">Pattern 3: Connected Components Problems<a class="headerlink" href="#pattern-3-connected-components-problems" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Group elements into connected components.</p>
+<p><strong>Use case:</strong> Number of islands, accounts merge, provinces.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class ConnectedComponents {
+
+    /**
+     * Problem: Number of islands (using union-find)
+     * Time: O(m*n * α(m*n)), Space: O(m*n)
+     *
+     * TODO: Implement using union-find
+     */
+    public static int numIslands(char[][] grid) {
+        // TODO: Initialize union-find for all cells
+        // TODO: Implement iteration/conditional logic
+        // TODO: Count unique components of land cells
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Number of provinces (friend circles)
+     * Time: O(n^2 * α(n)), Space: O(n)
+     *
+     * TODO: Implement using union-find
+     */
+    public static int findCircleNum(int[][] isConnected) {
+        // TODO: Initialize union-find with n people
+        // TODO: Implement iteration/conditional logic
+        // TODO: Return number of components
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Accounts merge (emails belonging to same person)
+     * Time: O(n*k * α(n*k)), Space: O(n*k)
+     *
+     * TODO: Implement accounts merge
+     */
+    public static List&lt;List&lt;String&gt;&gt; accountsMerge(List&lt;List&lt;String&gt;&gt; accounts) {
+        // TODO: Map email to account index
+        // TODO: Union accounts that share emails
+        // TODO: Group emails by component
+        // TODO: Sort emails in each group
+
+        return new ArrayList&lt;&gt;(); // Replace with implementation
+    }
+
+    /**
+     * Problem: Smallest string with swaps
+     * Time: O(n log n + E * α(n)), Space: O(n)
+     *
+     * TODO: Implement using union-find
+     */
+    public static String smallestStringWithSwaps(String s, List&lt;List&lt;Integer&gt;&gt; pairs) {
+        // TODO: Union indices that can be swapped
+        // TODO: Group characters by component
+        // TODO: Sort characters in each component
+        // TODO: Reconstruct string
+
+        return ""; // Replace with implementation
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class ConnectedComponentsClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Connected Components ===\n");
+
+        // Test 1: Number of islands
+        System.out.println("--- Test 1: Number of Islands ---");
+        char[][] grid = {
+            {'1','1','0','0','0'},
+            {'1','1','0','0','0'},
+            {'0','0','1','0','0'},
+            {'0','0','0','1','1'}
+        };
+
+        System.out.println("Grid:");
+        for (char[] row : grid) {
+            System.out.println("  " + Arrays.toString(row));
+        }
+
+        int islands = ConnectedComponents.numIslands(grid);
+        System.out.println("Number of islands: " + islands);
+
+        // Test 2: Number of provinces
+        System.out.println("\n--- Test 2: Number of Provinces ---");
+        int[][] isConnected = {
+            {1, 1, 0},
+            {1, 1, 0},
+            {0, 0, 1}
+        };
+
+        System.out.println("Connections:");
+        for (int[] row : isConnected) {
+            System.out.println("  " + Arrays.toString(row));
+        }
+
+        int provinces = ConnectedComponents.findCircleNum(isConnected);
+        System.out.println("Number of provinces: " + provinces);
+
+        // Test 3: Accounts merge
+        System.out.println("\n--- Test 3: Accounts Merge ---");
+        List&lt;List&lt;String&gt;&gt; accounts = Arrays.asList(
+            Arrays.asList("John", "johnsmith@mail.com", "john00@mail.com"),
+            Arrays.asList("John", "johnnybravo@mail.com"),
+            Arrays.asList("John", "johnsmith@mail.com", "john_newyork@mail.com"),
+            Arrays.asList("Mary", "mary@mail.com")
+        );
+
+        System.out.println("Accounts:");
+        for (List&lt;String&gt; account : accounts) {
+            System.out.println("  " + account);
+        }
+
+        List&lt;List&lt;String&gt;&gt; merged = ConnectedComponents.accountsMerge(accounts);
+        System.out.println("\nMerged accounts:");
+        for (List&lt;String&gt; account : merged) {
+            System.out.println("  " + account);
+        }
+
+        // Test 4: Smallest string with swaps
+        System.out.println("\n--- Test 4: Smallest String with Swaps ---");
+        String s = "dcab";
+        List&lt;List&lt;Integer&gt;&gt; pairs = Arrays.asList(
+            Arrays.asList(0, 3),
+            Arrays.asList(1, 2)
+        );
+
+        System.out.println("String: " + s);
+        System.out.println("Swappable pairs: " + pairs);
+
+        String result = ConnectedComponents.smallestStringWithSwaps(s, pairs);
+        System.out.println("Smallest string: " + result);
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-4-advanced-union-find-applications">Pattern 4: Advanced Union-Find Applications<a class="headerlink" href="#pattern-4-advanced-union-find-applications" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Use union-find with additional constraints or weights.</p>
+<p><strong>Use case:</strong> Satisfiability, equations, sentence similarity.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class AdvancedUnionFind {
+
+    /**
+     * Problem: Satisfiability of equality equations
+     * Time: O(n * α(26)), Space: O(26)
+     *
+     * TODO: Implement equation satisfaction check
+     */
+    public static boolean equationsPossible(String[] equations) {
+        // TODO: Initialize union-find for 26 letters
+        // TODO: First pass: union all equal variables (==)
+        // TODO: Second pass: check all inequalities (!=)
+        // TODO: Return true if no contradictions
+
+        return false; // Replace with implementation
+    }
+
+    /**
+     * Problem: Evaluate division (transitive division)
+     * Time: O(E * α(V) + Q * V), Space: O(V)
+     *
+     * TODO: Implement with weighted union-find
+     */
+    public static double[] calcEquation(List&lt;List&lt;String&gt;&gt; equations,
+                                       double[] values,
+                                       List&lt;List&lt;String&gt;&gt; queries) {
+        // TODO: Build graph with division relationships
+        // TODO: Implement iteration/conditional logic
+        // TODO: Or use weighted union-find with ratios
+
+        return new double[0]; // Replace with implementation
+    }
+
+    /**
+     * Problem: Sentence similarity II (transitive similarity)
+     * Time: O(P * α(W)), Space: O(W)
+     *
+     * TODO: Implement similarity check
+     */
+    public static boolean areSentencesSimilar(String[] words1, String[] words2,
+                                             List&lt;List&lt;String&gt;&gt; pairs) {
+        // TODO: Implement iteration/conditional logic
+        // TODO: Union similar word pairs
+        // TODO: Check if words1[i] and words2[i] in same component
+
+        return false; // Replace with implementation
+    }
+
+    /**
+     * Problem: Minimize malware spread
+     * Time: O(n^2 * α(n)), Space: O(n)
+     *
+     * TODO: Implement using union-find
+     */
+    public static int minMalwareSpread(int[][] graph, int[] initial) {
+        // TODO: Union all connected nodes
+        // TODO: Implement iteration/conditional logic
+        // TODO: Return node whose removal saves most nodes
+
+        return 0; // Replace with implementation
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class AdvancedUnionFindClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Advanced Union-Find ===\n");
+
+        // Test 1: Equations possible
+        System.out.println("--- Test 1: Equations Possible ---");
+        String[][] equationSets = {
+            {"a==b", "b!=a"},
+            {"b==a", "a==b"},
+            {"a==b", "b==c", "a==c"}
+        };
+
+        for (String[] equations : equationSets) {
+            boolean possible = AdvancedUnionFind.equationsPossible(equations);
+            System.out.printf("Equations: %s%n", Arrays.toString(equations));
+            System.out.printf("Possible: %s%n%n", possible ? "YES" : "NO");
+        }
+
+        // Test 2: Evaluate division
+        System.out.println("--- Test 2: Evaluate Division ---");
+        List&lt;List&lt;String&gt;&gt; equations = Arrays.asList(
+            Arrays.asList("a", "b"),
+            Arrays.asList("b", "c")
+        );
+        double[] values = {2.0, 3.0};
+        List&lt;List&lt;String&gt;&gt; queries = Arrays.asList(
+            Arrays.asList("a", "c"),
+            Arrays.asList("b", "a"),
+            Arrays.asList("a", "e"),
+            Arrays.asList("a", "a"),
+            Arrays.asList("x", "x")
+        );
+
+        System.out.println("Equations: " + equations);
+        System.out.println("Values: " + Arrays.toString(values));
+        System.out.println("Queries: " + queries);
+
+        double[] results = AdvancedUnionFind.calcEquation(equations, values, queries);
+        System.out.println("Results: " + Arrays.toString(results));
+
+        // Test 3: Sentence similarity
+        System.out.println("\n--- Test 3: Sentence Similarity II ---");
+        String[] words1 = {"great", "acting", "skills"};
+        String[] words2 = {"fine", "drama", "talent"};
+        List&lt;List&lt;String&gt;&gt; pairs = Arrays.asList(
+            Arrays.asList("great", "good"),
+            Arrays.asList("fine", "good"),
+            Arrays.asList("acting", "drama"),
+            Arrays.asList("skills", "talent")
+        );
+
+        System.out.println("Sentence 1: " + Arrays.toString(words1));
+        System.out.println("Sentence 2: " + Arrays.toString(words2));
+        System.out.println("Similar pairs: " + pairs);
+
+        boolean similar = AdvancedUnionFind.areSentencesSimilar(words1, words2, pairs);
+        System.out.println("Similar: " + (similar ? "YES" : "NO"));
+    }
+}</code></pre>
+<hr/>
+<h2 id="debugging-challenges">Debugging Challenges<a class="headerlink" href="#debugging-challenges" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Find and fix bugs in broken implementations. This tests your understanding.</p>
+<h3 id="challenge-1-broken-find-missing-path-compression">Challenge 1: Broken Find (Missing Path Compression)<a class="headerlink" href="#challenge-1-broken-find-missing-path-compression" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * This find implementation is supposed to use path compression.
+ * It has 1 CRITICAL BUG. Find it!
+ */
+public int find_Buggy(int x) {
+    if (parent[x] != x) {
+        return find_Buggy(parent[x]);    }
+    return parent[x];
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug location:</strong> <span class="fill-in">[Which line?]</span></li>
+<li><strong>Bug explanation:</strong> <span class="fill-in">[What optimization is missing?]</span></li>
+<li><strong>Bug fix:</strong> <span class="fill-in">[What should the code be?]</span></li>
+</ul>
+<p><strong>Test case to measure impact:</strong></p>
+<ul>
+<li>Chain: 0 → 1 → 2 → 3 → 4 → 5</li>
+<li>Call find(5) multiple times</li>
+<li>Without fix: Each call traverses ___ links</li>
+<li>With fix: Second call traverses ___ links</li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug:</strong> Missing path compression! Should assign <code>parent[x] = find_Buggy(parent[x])</code> to flatten the tree.</p>
+<p><strong>Correct:</strong></p>
+<pre class="highlight"><code class="language-java">public int find(int x) {
+    if (parent[x] != x) {
+        parent[x] = find(parent[x]);  // Path compression!
+    }
+    return parent[x];
+}</code></pre>
+<p><strong>Impact:</strong> Without path compression, find() is O(n) in worst case (long chain). With it, amortized O(α(n)) ≈ O(1).</p>
+</details>
+<hr/>
+<h3 id="challenge-2-broken-union-wrong-parent-update">Challenge 2: Broken Union (Wrong Parent Update)<a class="headerlink" href="#challenge-2-broken-union-wrong-parent-update" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Union by rank implementation.
+ * This has 1 SUBTLE BUG that breaks the rank optimization.
+ */
+public boolean union_Buggy(int x, int y) {
+    int rootX = find(x);
+    int rootY = find(y);
+
+    if (rootX == rootY) return false;
+
+    if (rank[rootX] &lt; rank[rootY]) {
+        parent[x] = rootY;    } else if (rank[rootX] &gt; rank[rootY]) {
+        parent[y] = rootX;    } else {
+        parent[rootY] = rootX;
+        rank[rootX]++;
+    }
+
+    return true;
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug 1:</strong> <em>[What's wrong with <code>parent[x] = rootY</code>?]</em></li>
+<li><strong>Bug 2:</strong> <em>[What's wrong with <code>parent[y] = rootX</code>?]</em></li>
+<li><strong>Why this breaks union by rank:</strong> <span class="fill-in">[Explain the impact]</span></li>
+<li><strong>Correct code:</strong> <span class="fill-in">[What should it be?]</span></li>
+</ul>
+<p><strong>Trace through example:</strong></p>
+<ul>
+<li>Nodes: {0, 1, 2, 3}, all separate</li>
+<li>union(0, 1) → Works fine</li>
+<li>union(2, 3) → Works fine</li>
+<li>union(0, 2) with buggy code</li>
+<li>Expected: Attach one root under the other</li>
+<li>Actual: <span class="fill-in">[What happens?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> Should attach ROOTS, not the original nodes!</p>
+<p><strong>Correct:</strong></p>
+<pre class="highlight"><code class="language-java">if (rank[rootX] &lt; rank[rootY]) {
+    parent[rootX] = rootY;  // Attach rootX under rootY
+} else if (rank[rootX] &gt; rank[rootY]) {
+    parent[rootY] = rootX;  // Attach rootY under rootX
+}</code></pre>
+<p><strong>Why:</strong> If you attach <code>x</code> instead of <code>rootX</code>, you're not attaching the entire tree's root, just one node. This breaks
+the tree structure and defeats the purpose of union by rank.</p>
+</details>
+<hr/>
+<h3 id="challenge-3-broken-cycle-detection">Challenge 3: Broken Cycle Detection<a class="headerlink" href="#challenge-3-broken-cycle-detection" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Detect cycle in undirected graph.
+ * This has 1 LOGIC ERROR.
+ */
+public boolean hasCycle_Buggy(int n, int[][] edges) {
+    UnionFind uf = new UnionFind(n);
+
+    for (int[] edge : edges) {
+        int u = edge[0];
+        int v = edge[1];
+
+        if (uf.find(u) == uf.find(v)) {
+            uf.union(u, v);            return true;
+        }
+
+        uf.union(u, v);
+    }
+
+    return false;
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug:</strong> <span class="fill-in">[What's the logic error?]</span></li>
+<li><strong>Bug explanation:</strong> <span class="fill-in">[Why is this incorrect?]</span></li>
+<li><strong>Correct approach:</strong> <span class="fill-in">[What should happen when find(u) == find(v)?]</span></li>
+</ul>
+<p><strong>Test case:</strong></p>
+<ul>
+<li>Graph edges: [(0,1), (1,2), (2,0)]</li>
+<li>Expected: Detect cycle at edge (2,0)</li>
+<li>Actual with buggy code: <span class="fill-in">[What happens?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> Should NOT call <code>union(u, v)</code> when they're already connected! If <code>find(u) == find(v)</code>, they're in the same
+component, which means adding this edge creates a cycle. Just return true immediately.</p>
+<p><strong>Correct:</strong></p>
+<pre class="highlight"><code class="language-java">if (uf.find(u) == uf.find(v)) {
+    return true;  // Cycle detected! Don't union.
+}
+uf.union(u, v);</code></pre>
+<p><strong>Why:</strong> Calling union when they're already connected is pointless and wastes an operation.</p>
+</details>
+<hr/>
+<h3 id="challenge-4-missing-component-count-update">Challenge 4: Missing Component Count Update<a class="headerlink" href="#challenge-4-missing-component-count-update" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Union-Find with component counting.
+ * This has 1 MISSING OPERATION.
+ */
+public class UnionFind_Buggy {
+    private int[] parent;
+    private int[] rank;
+    private int components;
+
+    public UnionFind_Buggy(int n) {
+        parent = new int[n];
+        rank = new int[n];
+        components = n;
+
+        for (int i = 0; i &lt; n; i++) {
+            parent[i] = i;
+        }
+    }
+
+    public boolean union(int x, int y) {
+        int rootX = find(x);
+        int rootY = find(y);
+
+        if (rootX == rootY) return false;
+
+        if (rank[rootX] &lt; rank[rootY]) {
+            parent[rootX] = rootY;
+        } else if (rank[rootX] &gt; rank[rootY]) {
+            parent[rootY] = rootX;
+        } else {
+            parent[rootY] = rootX;
+            rank[rootX]++;
+        }
+
+        return true;
+    }
+
+    public int getComponents() {
+        return components;
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug:</strong> <span class="fill-in">[What's missing in union()?]</span></li>
+<li><strong>Impact:</strong> <span class="fill-in">[How does this affect getComponents()?]</span></li>
+<li><strong>Fix:</strong> <span class="fill-in">[What line should be added?]</span></li>
+</ul>
+<p><strong>Test case:</strong></p>
+<ul>
+<li>Initialize with 5 nodes (components = 5)</li>
+<li>union(0, 1) → Expected components: 4, Actual: <span class="fill-in">___</span></li>
+<li>union(2, 3) → Expected components: 3, Actual: <span class="fill-in">___</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> Missing <code>components--;</code> in the union method!</p>
+<p><strong>Correct:</strong></p>
+<pre class="highlight"><code class="language-java">if (rootX == rootY) return false;
+
+// ... union logic ...
+
+components--;  // Decrement when we merge two components!
+return true;</code></pre>
+<p><strong>Why:</strong> Every successful union merges two disjoint components into one, reducing the total count by 1.</p>
+</details>
+<hr/>
+<h3 id="challenge-5-rank-update-error">Challenge 5: Rank Update Error<a class="headerlink" href="#challenge-5-rank-update-error" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Union by rank implementation.
+ * This has 1 SUBTLE BUG in rank update.
+ */
+public boolean union_Buggy(int x, int y) {
+    int rootX = find(x);
+    int rootY = find(y);
+
+    if (rootX == rootY) return false;
+
+    if (rank[rootX] &lt; rank[rootY]) {
+        parent[rootX] = rootY;
+        rank[rootY]++;    } else if (rank[rootX] &gt; rank[rootY]) {
+        parent[rootY] = rootX;
+        rank[rootX]++;    } else {
+        parent[rootY] = rootX;
+        rank[rootX]++;  // This one is correct
+    }
+
+    return true;
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug 1:</strong> <span class="fill-in">[Should we increment rank when rootY is taller?]</span></li>
+<li><strong>Bug 2:</strong> <span class="fill-in">[Should we increment rank when rootX is taller?]</span></li>
+<li><strong>When should rank be incremented?</strong> <span class="fill-in">[Fill in the rule]</span></li>
+<li><strong>Why rank matters:</strong> <span class="fill-in">[Explain the purpose of rank]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> Only increment rank when ranks are EQUAL!</p>
+<p><strong>Correct:</strong></p>
+<pre class="highlight"><code class="language-java">if (rank[rootX] &lt; rank[rootY]) {
+    parent[rootX] = rootY;
+    // Don't increment - rootY's height doesn't change
+} else if (rank[rootX] &gt; rank[rootY]) {
+    parent[rootY] = rootX;
+    // Don't increment - rootX's height doesn't change
+} else {
+    parent[rootY] = rootX;
+    rank[rootX]++;  // Only increment when equal!
+}</code></pre>
+<p><strong>Why:</strong> Rank represents tree height (upper bound). When attaching a shorter tree under a taller one, the height doesn't
+change. Only when equal-height trees merge does the new root's height increase by 1.</p>
+</details>
+<hr/>
+<h3 id="challenge-6-iterative-find-bug">Challenge 6: Iterative Find Bug<a class="headerlink" href="#challenge-6-iterative-find-bug" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Iterative find with path compression attempt.
+ * This has 1 BUG that prevents path compression from working.
+ */
+public int find_Buggy(int x) {
+    // Find root
+    int root = x;
+    while (parent[root] != root) {
+        root = parent[root];
+    }
+
+    // Path compression
+    while (parent[x] != x) {
+        int next = parent[x];
+        parent[x] = root;
+        x = next;    }
+
+    return root;
+}
+
+// Now the BUGGY version - what if we write it like this?
+public int find_ActualBuggy(int x) {
+    int root = x;
+    while (parent[root] != root) {
+        root = parent[root];
+    }
+
+    // Attempted path compression
+    while (parent[x] != root) {        parent[x] = root;
+        x = parent[x];
+    }
+
+    return root;
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug:</strong> <span class="fill-in">[What's wrong with the compression loop condition?]</span></li>
+<li><strong>What happens:</strong> <span class="fill-in">[Trace through with chain: 0 → 1 → 2]</span></li>
+<li><strong>Correct version:</strong> <span class="fill-in">[How to fix it?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> In the compression loop, after we set <code>parent[x] = root</code>, we then do <code>x = parent[x]</code>, which now equals <code>root</code>!
+This causes the loop to terminate immediately, compressing only the first node.</p>
+<p><strong>Correct:</strong></p>
+<pre class="highlight"><code class="language-java">while (parent[x] != x) {
+    int next = parent[x];  // Save next before modifying
+    parent[x] = root;      // Point to root
+    x = next;              // Move to saved next
+}</code></pre>
+<p>Or use the condition <code>parent[x] != root</code> but save the next pointer first.</p>
+</details>
+<hr/>
+<h3 id="your-debugging-scorecard">Your Debugging Scorecard<a class="headerlink" href="#your-debugging-scorecard" title="Permanent link">¶</a></h3>
+<p>After finding and fixing all bugs:</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Found all 6+ bugs across 6 challenges</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understood WHY each bug causes incorrect behavior</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could explain the fix to someone else</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Learned common union-find mistakes to avoid</li>
+</ul>
+<p><strong>Common mistakes you discovered:</strong></p>
+<ol>
+<li><span class="fill-in">[Forgetting path compression in find]</span></li>
+<li><span class="fill-in">[Attaching node instead of root in union]</span></li>
+<li><span class="fill-in">[Incorrectly updating rank]</span></li>
+<li><span class="fill-in">[Missing component count decrement]</span></li>
+<li><span class="fill-in">[Calling union when cycle detected]</span></li>
+<li><span class="fill-in">[Path compression iteration bugs]</span></li>
+</ol>
+<hr/>
+<h2 id="decision-framework">Decision Framework<a class="headerlink" href="#decision-framework" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Build decision trees for union-find problems.</p>
+<h3 id="question-1-what-do-you-need-to-track">Question 1: What do you need to track?<a class="headerlink" href="#question-1-what-do-you-need-to-track" title="Permanent link">¶</a></h3>
+<p>Answer after solving problems:</p>
+<ul>
+<li><strong>Connected components?</strong> <span class="fill-in">[Basic union-find]</span></li>
+<li><strong>Cycles in graph?</strong> <span class="fill-in">[Union-find with cycle detection]</span></li>
+<li><strong>Dynamic connectivity?</strong> <span class="fill-in">[Union-find with online queries]</span></li>
+<li><strong>Weighted relationships?</strong> <span class="fill-in">[Weighted union-find]</span></li>
+</ul>
+<h3 id="question-2-what-optimizations-do-you-need">Question 2: What optimizations do you need?<a class="headerlink" href="#question-2-what-optimizations-do-you-need" title="Permanent link">¶</a></h3>
+<p><strong>Always use:</strong></p>
+<ul>
+<li>Path compression: <span class="fill-in">[Makes find nearly O(1)]</span></li>
+<li>Union by rank/size: <span class="fill-in">[Keeps tree balanced]</span></li>
+</ul>
+<p><strong>Additional data:</strong></p>
+<ul>
+<li>Component size: <span class="fill-in">[Track in size array]</span></li>
+<li>Component count: <span class="fill-in">[Decrement on union]</span></li>
+<li>Weights/ratios: <span class="fill-in">[For transitive relationships]</span></li>
+</ul>
+<h3 id="your-decision-tree">Your Decision Tree<a class="headerlink" href="#your-decision-tree" title="Permanent link">¶</a></h3>
+<div class="mermaid">flowchart LR
+    Start["Union-Find Pattern Selection"]
+
+    Q1{"Basic connectivity?"}
+    Start --&gt; Q1
+    Q2{"Cycle detection?"}
+    Start --&gt; Q2
+    N3(["Union-find ✓"])
+    Q2 --&gt;|"Undirected"| N3
+    N4["DFS&lt;br/&gt;(not union-find)"]
+    Q2 --&gt;|"Directed"| N4
+    Q5{"Dynamic components?"}
+    Start --&gt; Q5
+    N6(["Union-find ✓"])
+    Q5 --&gt;|"Number of islands"| N6
+    N7(["Union-find ✓"])
+    Q5 --&gt;|"Provinces/groups"| N7
+    N8(["Union-find ✓"])
+    Q5 --&gt;|"Merging accounts"| N8
+    Q9{"Weighted relationships?"}
+    Start --&gt; Q9
+    N10(["Weighted UF ✓"])
+    Q9 --&gt;|"Division equations"| N10
+    N11(["Weighted UF ✓"])
+    Q9 --&gt;|"Distance/ratio"| N11
+    N12(["Basic UF ✓"])
+    Q9 --&gt;|"Equality constraints"| N12</div>
+<hr/>
+<h2 id="practice">Practice<a class="headerlink" href="#practice" title="Permanent link">¶</a></h2>
+<h3 id="leetcode-problems">LeetCode Problems<a class="headerlink" href="#leetcode-problems" title="Permanent link">¶</a></h3>
+<p><strong>Easy (Complete all 2):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/number-of-provinces/">547. Number of Provinces</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Connected components]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/satisfiability-of-equality-equations/">990. Satisfiability of Equality Equations</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Constraint checking]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Medium (Complete 3-4):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/number-of-islands/">200. Number of Islands</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Connected components in grid]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/redundant-connection/">684. Redundant Connection</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Cycle detection]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/accounts-merge/">721. Accounts Merge</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Grouping with union-find]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/smallest-string-with-swaps/">1202. Smallest String With Swaps</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Components with optimization]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Hard (Optional):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/redundant-connection-ii/">685. Redundant Connection II</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Directed graph cycle]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/evaluate-division/">399. Evaluate Division</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Weighted union-find]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+</ul>
+<hr/>
+<h2 id="review-checklist">Review Checklist<a class="headerlink" href="#review-checklist" title="Permanent link">¶</a></h2>
+<p>Before moving to the next topic:</p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Implementation</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Basic union-find with path compression and union by rank works</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Cycle detection: redundant connection, valid tree work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Connected components: islands, provinces, merge accounts work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Advanced: equations, weighted relationships work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> All client code runs successfully</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Pattern Recognition</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can identify when union-find is appropriate</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand path compression and union by rank</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Know when to track additional data (size, count)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Recognize weighted union-find problems</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Problem Solving</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Solved 2 easy problems</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Solved 3-4 medium problems</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Analyzed time/space complexity</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understood amortized analysis</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Understanding</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Filled in all ELI5 explanations</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Built decision tree</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Identified when NOT to use union-find</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can explain why optimizations work</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Mastery Check</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could implement all patterns from memory</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could recognize pattern in new problem</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could explain to someone else</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand inverse Ackermann function complexity</li>
+</ul>
+</li>
+</ul>
+<hr/>
+<h3 id="mastery-certification">Mastery Certification<a class="headerlink" href="#mastery-certification" title="Permanent link">¶</a></h3>
+<p><strong>I certify that I can:</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Implement union-find with both optimizations from memory</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Explain path compression and union by rank clearly</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Identify when union-find is the right tool</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Analyze time complexity including inverse Ackermann</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Compare trade-offs with DFS/BFS approaches</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Debug common union-find mistakes</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Teach this concept to someone else</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Solve new union-find problems independently</li>
+</ul></div>
+</div>
+<footer class="col-md-12 text-center">
+<hr/>
+<p>
+<small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+</p>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../../js/bootstrap-3.0.3.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>var base_url = "../.."</script>
+<script src="../../js/base.js"></script>
+<script src="../../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<button class="close" data-dismiss="modal" type="button">
+<span aria-hidden="true">×</span>
+<span class="sr-only">Close</span>
+</button>
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+</div>
+<div class="modal-body">
+<p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="text"/>
+</div>
+</form>
+<div id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@10.4.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>

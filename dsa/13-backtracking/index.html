@@ -1,0 +1,1470 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="A framework for algorithms, systems design, and infrastructure." name="description"/>
+<meta content="Richard" name="author"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>13. Backtracking - Software Engineering Study Guide</title>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" rel="stylesheet"/>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css" rel="stylesheet"/>
+<link href="//rsms.me/inter/inter.css" rel="stylesheet" type="text/css"/>
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&amp;subset=latin-ext,latin" rel="stylesheet" type="text/css"/>
+<link href="../../css/bootstrap-custom.min.css" rel="stylesheet"/>
+<link href="../../css/base.min.css" rel="stylesheet"/>
+<link href="../../css/cinder.min.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css" rel="stylesheet"/>
+<link href="../../css/custom.css" rel="stylesheet"/>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="container">
+<!-- Collapsed navigation -->
+<div class="navbar-header">
+<!-- Expander button -->
+<button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<!-- Main title -->
+<a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+</div>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li>
+<a href="../..">Home</a>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Systems Design <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../systems/01-storage-engines/">01. Storage Engines</a>
+</li>
+<li>
+<a href="../../systems/02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+<li>
+<a href="../../systems/03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+<li>
+<a href="../../systems/04-search-and-indexing/">04. Search &amp; Indexing</a>
+</li>
+<li>
+<a href="../../systems/05-caching-patterns/">05. Caching Patterns</a>
+</li>
+<li>
+<a href="../../systems/06-api-design/">06. API Design</a>
+</li>
+<li>
+<a href="../../systems/07-security-patterns/">07. Security Patterns</a>
+</li>
+<li>
+<a href="../../systems/08-rate-limiting/">08. Rate Limiting</a>
+</li>
+<li>
+<a href="../../systems/09-load-balancing/">09. Load Balancing</a>
+</li>
+<li>
+<a href="../../systems/10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+<li>
+<a href="../../systems/11-database-scaling/">11. Database Scaling</a>
+</li>
+<li>
+<a href="../../systems/12-message-queues/">12. Message Queues</a>
+</li>
+<li>
+<a href="../../systems/13-stream-processing/">13. Stream Processing</a>
+</li>
+<li>
+<a href="../../systems/14-observability/">14. Observability</a>
+</li>
+<li>
+<a href="../../systems/15-distributed-transactions/">15. Distributed Transactions</a>
+</li>
+<li>
+<a href="../../systems/16-consensus-patterns/">16. Consensus Patterns</a>
+</li>
+</ul>
+</li>
+<li class="dropdown active">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">DSA <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../01-two-pointers/">01. Two Pointers</a>
+</li>
+<li>
+<a href="../02-sliding-window/">02. Sliding Window</a>
+</li>
+<li>
+<a href="../03-hash-tables/">03. Hash Tables</a>
+</li>
+<li>
+<a href="../04-linked-lists/">04. Linked Lists</a>
+</li>
+<li>
+<a href="../05-stacks--queues/">05. Stacks &amp; Queues</a>
+</li>
+<li>
+<a href="../06-trees-traversals/">06. Trees - Traversals</a>
+</li>
+<li>
+<a href="../07-trees-recursion/">07. Trees - Recursion</a>
+</li>
+<li>
+<a href="../08-binary-search/">08. Binary Search</a>
+</li>
+<li>
+<a href="../09-heaps/">09. Heaps</a>
+</li>
+<li>
+<a href="../10-graphs/">10. Graphs</a>
+</li>
+<li>
+<a href="../11-union-find/">11. Union-Find</a>
+</li>
+<li>
+<a href="../12-advanced-graphs/">12. Advanced Graphs</a>
+</li>
+<li class="active">
+<a href="./">13. Backtracking</a>
+</li>
+<li>
+<a href="../14-dynamic-programming-1d/">14. Dynamic Programming 1D</a>
+</li>
+<li>
+<a href="../15-dynamic-programming-2d/">15. Dynamic Programming 2D</a>
+</li>
+<li>
+<a href="../16-tries/">16. Tries</a>
+</li>
+<li>
+<a href="../17-advanced-topics/">17. Advanced Topics</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+<a data-target="#mkdocs_search_modal" data-toggle="modal" href="#">
+<i class="fas fa-search"></i> Search
+                        </a>
+</li>
+<li>
+<a href="../12-advanced-graphs/" rel="prev">
+<i class="fas fa-arrow-left"></i> Previous
+                        </a>
+</li>
+<li>
+<a href="../14-dynamic-programming-1d/" rel="next">
+                            Next <i class="fas fa-arrow-right"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+<ul class="nav bs-sidenav">
+<li class="first-level active"><a href="#backtracking">Backtracking</a></li>
+<li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+<li class="second-level"><a href="#quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)</a></li>
+<li class="second-level"><a href="#beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters</a></li>
+<li class="second-level"><a href="#core-implementation">Core Implementation</a></li>
+<li class="second-level"><a href="#debugging-challenges">Debugging Challenges</a></li>
+<li class="second-level"><a href="#decision-framework">Decision Framework</a></li>
+<li class="second-level"><a href="#practice">Practice</a></li>
+<li class="second-level"><a href="#review-checklist">Review Checklist</a></li>
+</ul>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="backtracking">Backtracking<a class="headerlink" href="#backtracking" title="Permanent link">¶</a></h1>
+<blockquote>
+<p>Explore all possible solutions by building candidates and abandoning them when they fail</p>
+</blockquote>
+<hr/>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After implementing all patterns, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What is backtracking in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>How is backtracking different from brute force?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy:</strong></p>
+<ul>
+<li>Example: "Backtracking is like solving a maze by trying each path and going back when you hit a dead end..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When does this pattern work?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after solving problems]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What makes a problem suitable for backtracking?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after learning the pattern]</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr/>
+<h2 id="quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)<a class="headerlink" href="#quick-quiz-do-before-implementing" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Test your intuition without looking at code. Answer these, then verify after implementation.</p>
+<h3 id="complexity-predictions">Complexity Predictions<a class="headerlink" href="#complexity-predictions" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p><strong>Brute force generating all permutations of n elements:</strong></p>
+<ul>
+<li>Time complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Verified after learning: <span class="fill-in">[Actual: O(?)]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Backtracking to find N-Queens solutions:</strong></p>
+<ul>
+<li>Time complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Space complexity (excluding output): <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Verified: <span class="fill-in">[Actual]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Speedup calculation:</strong></p>
+<ul>
+<li>For generating subsets, brute force with checking = <span class="fill-in">[Fill in]</span></li>
+<li>Backtracking with early pruning = <span class="fill-in">[Fill in]</span></li>
+<li>Pruning benefit: <span class="fill-in">[Fill in why it helps]</span></li>
+</ul>
+</li>
+</ol>
+<h3 id="scenario-predictions">Scenario Predictions<a class="headerlink" href="#scenario-predictions" title="Permanent link">¶</a></h3>
+<p><strong>Scenario 1:</strong> Generate all permutations of <code>[1, 2, 3]</code></p>
+<ul>
+<li><strong>How many permutations exist?</strong> <span class="fill-in">[Your guess: <span class="fill-in">___</span>]</span></li>
+<li><strong>First permutation:</strong> <span class="fill-in">[Fill in]</span></li>
+<li><strong>When do you backtrack?</strong> <span class="fill-in">[Fill in]</span></li>
+<li><strong>What state do you restore?</strong> <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>Scenario 2:</strong> Generate all subsets of <code>[1, 2, 3]</code></p>
+<ul>
+<li><strong>How many subsets exist?</strong> <span class="fill-in">[Your guess: <span class="fill-in">___</span>]</span></li>
+<li><strong>Formula for n elements:</strong> <span class="fill-in">[Fill in]</span></li>
+<li><strong>How is this different from permutations?</strong> <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>Scenario 3:</strong> Place 4 queens on a 4x4 board</p>
+<ul>
+<li><strong>Can you place 2 queens in same column?</strong> <span class="fill-in">[Yes/No - Why?]</span></li>
+<li><strong>How do you track which columns are under attack?</strong> <span class="fill-in">[Fill in your idea]</span></li>
+<li><strong>What about diagonals?</strong> <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="trade-off-quiz">Trade-off Quiz<a class="headerlink" href="#trade-off-quiz" title="Permanent link">¶</a></h3>
+<p><strong>Question:</strong> When would iterative enumeration be BETTER than backtracking?</p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in before implementation]</span></li>
+<li>Verified answer: <span class="fill-in">[Fill in after learning]</span></li>
+</ul>
+<p><strong>Question:</strong> What's the MAIN difference between permutations and combinations?</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Permutations care about order, combinations don't</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Permutations are always larger than combinations</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Permutations use recursion, combinations use iteration</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Permutations allow duplicates, combinations don't</li>
+</ul>
+<p>Verify after implementation: <span class="fill-in">[Which one?]</span></p>
+</div>
+<hr/>
+<h2 id="beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters<a class="headerlink" href="#beforeafter-why-this-pattern-matters" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Compare naive vs optimized approaches to understand the impact.</p>
+<h3 id="example-find-all-subsets">Example: Find All Subsets<a class="headerlink" href="#example-find-all-subsets" title="Permanent link">¶</a></h3>
+<p><strong>Problem:</strong> Generate all subsets of an array <code>[1, 2, 3]</code>.</p>
+<h4 id="approach-1-brute-force-enumeration">Approach 1: Brute Force Enumeration<a class="headerlink" href="#approach-1-brute-force-enumeration" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Naive approach - Generate all possible combinations with checking
+public static List&lt;List&lt;Integer&gt;&gt; subsets_BruteForce(int[] nums) {
+    List&lt;List&lt;Integer&gt;&gt; result = new ArrayList&lt;&gt;();
+    int n = nums.length;
+
+    // Generate all possible bit patterns (2^n combinations)
+    for (int mask = 0; mask &lt; (1 &lt;&lt; n); mask++) {
+        List&lt;Integer&gt; subset = new ArrayList&lt;&gt;();
+
+        // Check each bit to decide if element is included
+        for (int i = 0; i &lt; n; i++) {
+            if ((mask &amp; (1 &lt;&lt; i)) != 0) {
+                subset.add(nums[i]);
+            }
+        }
+
+        result.add(subset);
+    }
+
+    return result;
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(2^n * n) - Generate 2^n combinations, each takes O(n) to build</li>
+<li>Space: O(2^n * n) - Store all subsets</li>
+<li>For n = 10: 1,024 subsets * 10 operations = ~10,240 operations</li>
+<li><strong>Limitation:</strong> Cannot easily add pruning or constraints</li>
+</ul>
+<h4 id="approach-2-backtracking-with-pruning">Approach 2: Backtracking with Pruning<a class="headerlink" href="#approach-2-backtracking-with-pruning" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Optimized approach - Use backtracking to build subsets
+public static List&lt;List&lt;Integer&gt;&gt; subsets_Backtracking(int[] nums) {
+    List&lt;List&lt;Integer&gt;&gt; result = new ArrayList&lt;&gt;();
+    backtrack(nums, 0, new ArrayList&lt;&gt;(), result);
+    return result;
+}
+
+private static void backtrack(int[] nums, int start,
+                              List&lt;Integer&gt; current,
+                              List&lt;List&lt;Integer&gt;&gt; result) {
+    // Add current subset (valid at every step)
+    result.add(new ArrayList&lt;&gt;(current));
+
+    // Explore further choices
+    for (int i = start; i &lt; nums.length; i++) {
+        current.add(nums[i]);              // Make choice
+        backtrack(nums, i + 1, current, result);  // Explore
+        current.remove(current.size() - 1); // Undo choice (backtrack)
+    }
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(2^n * n) - Same asymptotic complexity</li>
+<li>Space: O(n) - Recursion depth (excluding output)</li>
+<li>For n = 10: Similar operations BUT can easily add pruning</li>
+<li><strong>Advantage:</strong> Can prune branches early with constraints</li>
+</ul>
+<h4 id="performance-comparison">Performance Comparison<a class="headerlink" href="#performance-comparison" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>Problem Type</th>
+<th>Brute Force</th>
+<th>Backtracking</th>
+<th>Advantage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>All subsets (n=10)</td>
+<td>10,240 ops</td>
+<td>10,240 ops</td>
+<td>Same without pruning</td>
+</tr>
+<tr>
+<td>Subsets with sum ≤ K</td>
+<td>10,240 ops</td>
+<td>~5,000 ops</td>
+<td>2x faster with pruning</td>
+</tr>
+<tr>
+<td>N-Queens (n=8)</td>
+<td>16,777,216 ops</td>
+<td>~2,000 ops</td>
+<td>8,000x faster!</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Your calculation:</strong> For N-Queens with n=4, brute force tries <strong><em>_</em> placements, backtracking tries approximately </strong>___.</p>
+<h4 id="why-does-backtracking-with-pruning-work">Why Does Backtracking with Pruning Work?<a class="headerlink" href="#why-does-backtracking-with-pruning-work" title="Permanent link">¶</a></h4>
+<p><strong>Key insight to understand:</strong></p>
+<p>In N-Queens (4x4 board):</p>
+<pre class="highlight"><code>Brute Force: Try all 4^16 possible placements (&gt;4 billion)
+Then check if valid
+
+Backtracking:
+Row 1: Try 4 positions
+  Row 2: Only try valid positions (maybe 2 safe)
+    Row 3: Only try valid positions (maybe 1 safe)
+      Row 4: Only try valid positions
+      ❌ Invalid? Backtrack immediately!</code></pre>
+<p><strong>Pruning eliminates entire branches:</strong></p>
+<ul>
+<li>Brute force: Check constraints AFTER generating complete solution</li>
+<li>Backtracking: Check constraints DURING generation</li>
+<li>Each invalid partial solution eliminates millions of possibilities!</li>
+</ul>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>Why is backtracking better than brute force enumeration? <span class="fill-in">[Your answer]</span></li>
+<li>When does backtracking give the biggest advantage? <span class="fill-in">[Your answer]</span></li>
+<li>What problems are NOT improved by backtracking? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="core-implementation">Core Implementation<a class="headerlink" href="#core-implementation" title="Permanent link">¶</a></h2>
+<h3 id="pattern-1-permutations">Pattern 1: Permutations<a class="headerlink" href="#pattern-1-permutations" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Generate all possible orderings of elements.</p>
+<p><strong>Use case:</strong> Permutations, permutations with duplicates.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class PermutationsPattern {
+
+    /**
+     * Problem: Generate all permutations of distinct integers
+     * Time: O(n! * n), Space: O(n!)
+     *
+     * TODO: Implement using backtracking
+     */
+    public static List&lt;List&lt;Integer&gt;&gt; permute(int[] nums) {
+        List&lt;List&lt;Integer&gt;&gt; result = new ArrayList&lt;&gt;();
+        // TODO: Call backtrack with empty list
+
+        return result; // Replace with implementation
+    }
+
+    private static void backtrack(int[] nums, List&lt;Integer&gt; current,
+                                  boolean[] used, List&lt;List&lt;Integer&gt;&gt; result) {
+        // TODO: Handle base case
+
+        // TODO: Implement iteration/conditional logic
+    }
+
+    /**
+     * Problem: Permutations with duplicates
+     * Time: O(n! * n), Space: O(n!)
+     *
+     * TODO: Implement with duplicate handling
+     */
+    public static List&lt;List&lt;Integer&gt;&gt; permuteUnique(int[] nums) {
+        List&lt;List&lt;Integer&gt;&gt; result = new ArrayList&lt;&gt;();
+        // TODO: Sort array first to handle duplicates
+        // TODO: Use backtracking with duplicate checking
+
+        return result; // Replace with implementation
+    }
+
+    /**
+     * Problem: Next permutation
+     * Time: O(n), Space: O(1)
+     *
+     * TODO: Implement next permutation in-place
+     */
+    public static void nextPermutation(int[] nums) {
+        // TODO: Implement logic
+        // TODO: Find smallest element greater than nums[i] to the right
+        // TODO: Swap them
+        // TODO: Reverse suffix after i
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class PermutationsPatternClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Permutations ===\n");
+
+        // Test 1: Basic permutations
+        System.out.println("--- Test 1: Permutations ---");
+        int[] nums1 = {1, 2, 3};
+        System.out.println("Input: " + Arrays.toString(nums1));
+        List&lt;List&lt;Integer&gt;&gt; perms = PermutationsPattern.permute(nums1);
+        System.out.println("Permutations (" + perms.size() + " total):");
+        for (List&lt;Integer&gt; perm : perms) {
+            System.out.println("  " + perm);
+        }
+
+        // Test 2: Permutations with duplicates
+        System.out.println("\n--- Test 2: Permutations with Duplicates ---");
+        int[] nums2 = {1, 1, 2};
+        System.out.println("Input: " + Arrays.toString(nums2));
+        List&lt;List&lt;Integer&gt;&gt; uniquePerms = PermutationsPattern.permuteUnique(nums2);
+        System.out.println("Unique permutations (" + uniquePerms.size() + " total):");
+        for (List&lt;Integer&gt; perm : uniquePerms) {
+            System.out.println("  " + perm);
+        }
+
+        // Test 3: Next permutation
+        System.out.println("\n--- Test 3: Next Permutation ---");
+        int[] nums3 = {1, 2, 3};
+        System.out.println("Start: " + Arrays.toString(nums3));
+        for (int i = 0; i &lt; 5; i++) {
+            PermutationsPattern.nextPermutation(nums3);
+            System.out.println("Next:  " + Arrays.toString(nums3));
+        }
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-2-combinations-and-subsets">Pattern 2: Combinations and Subsets<a class="headerlink" href="#pattern-2-combinations-and-subsets" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Generate all possible selections of elements.</p>
+<p><strong>Use case:</strong> Combinations, subsets, subset sum.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class CombinationsPattern {
+
+    /**
+     * Problem: Generate all subsets (power set)
+     * Time: O(2^n * n), Space: O(2^n)
+     *
+     * TODO: Implement using backtracking
+     */
+    public static List&lt;List&lt;Integer&gt;&gt; subsets(int[] nums) {
+        List&lt;List&lt;Integer&gt;&gt; result = new ArrayList&lt;&gt;();
+        // TODO: Start with empty subset
+        // TODO: Backtrack to generate all subsets
+
+        return result; // Replace with implementation
+    }
+
+    private static void backtrackSubsets(int[] nums, int start,
+                                        List&lt;Integer&gt; current,
+                                        List&lt;List&lt;Integer&gt;&gt; result) {
+        // TODO: Add current subset to result (valid at every step)
+
+        // TODO: Implement iteration/conditional logic
+    }
+
+    /**
+     * Problem: Generate combinations of k elements
+     * Time: O(C(n,k) * k), Space: O(C(n,k))
+     *
+     * TODO: Implement combinations
+     */
+    public static List&lt;List&lt;Integer&gt;&gt; combine(int n, int k) {
+        List&lt;List&lt;Integer&gt;&gt; result = new ArrayList&lt;&gt;();
+        // TODO: Backtrack with size constraint
+
+        return result; // Replace with implementation
+    }
+
+    /**
+     * Problem: Combination sum (elements can be reused)
+     * Time: O(2^n), Space: O(n)
+     *
+     * TODO: Implement combination sum
+     */
+    public static List&lt;List&lt;Integer&gt;&gt; combinationSum(int[] candidates, int target) {
+        List&lt;List&lt;Integer&gt;&gt; result = new ArrayList&lt;&gt;();
+        // TODO: Backtrack with sum tracking
+        // TODO: Can reuse same element
+
+        return result; // Replace with implementation
+    }
+
+    /**
+     * Problem: Subsets with duplicates
+     * Time: O(2^n * n), Space: O(2^n)
+     *
+     * TODO: Implement with duplicate handling
+     */
+    public static List&lt;List&lt;Integer&gt;&gt; subsetsWithDup(int[] nums) {
+        List&lt;List&lt;Integer&gt;&gt; result = new ArrayList&lt;&gt;();
+        // TODO: Sort first
+        // TODO: Skip duplicate elements in same level
+
+        return result; // Replace with implementation
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class CombinationsPatternClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Combinations and Subsets ===\n");
+
+        // Test 1: Subsets
+        System.out.println("--- Test 1: Subsets ---");
+        int[] nums1 = {1, 2, 3};
+        System.out.println("Input: " + Arrays.toString(nums1));
+        List&lt;List&lt;Integer&gt;&gt; subsets = CombinationsPattern.subsets(nums1);
+        System.out.println("Subsets (" + subsets.size() + " total):");
+        for (List&lt;Integer&gt; subset : subsets) {
+            System.out.println("  " + subset);
+        }
+
+        // Test 2: Combinations
+        System.out.println("\n--- Test 2: Combinations ---");
+        int n = 4, k = 2;
+        System.out.println("n = " + n + ", k = " + k);
+        List&lt;List&lt;Integer&gt;&gt; combinations = CombinationsPattern.combine(n, k);
+        System.out.println("Combinations (" + combinations.size() + " total):");
+        for (List&lt;Integer&gt; comb : combinations) {
+            System.out.println("  " + comb);
+        }
+
+        // Test 3: Combination sum
+        System.out.println("\n--- Test 3: Combination Sum ---");
+        int[] candidates = {2, 3, 6, 7};
+        int target = 7;
+        System.out.println("Candidates: " + Arrays.toString(candidates));
+        System.out.println("Target: " + target);
+        List&lt;List&lt;Integer&gt;&gt; combSums = CombinationsPattern.combinationSum(candidates, target);
+        System.out.println("Combinations:");
+        for (List&lt;Integer&gt; comb : combSums) {
+            System.out.println("  " + comb);
+        }
+
+        // Test 4: Subsets with duplicates
+        System.out.println("\n--- Test 4: Subsets with Duplicates ---");
+        int[] nums2 = {1, 2, 2};
+        System.out.println("Input: " + Arrays.toString(nums2));
+        List&lt;List&lt;Integer&gt;&gt; uniqueSubsets = CombinationsPattern.subsetsWithDup(nums2);
+        System.out.println("Unique subsets (" + uniqueSubsets.size() + " total):");
+        for (List&lt;Integer&gt; subset : uniqueSubsets) {
+            System.out.println("  " + subset);
+        }
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-3-n-queens-and-constraint-satisfaction">Pattern 3: N-Queens and Constraint Satisfaction<a class="headerlink" href="#pattern-3-n-queens-and-constraint-satisfaction" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Place elements with constraints, backtrack on violations.</p>
+<p><strong>Use case:</strong> N-Queens, Sudoku solver.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class ConstraintSatisfaction {
+
+    /**
+     * Problem: N-Queens - place N queens on N×N board
+     * Time: O(N!), Space: O(N^2)
+     *
+     * TODO: Implement N-Queens using backtracking
+     */
+    public static List&lt;List&lt;String&gt;&gt; solveNQueens(int n) {
+        List&lt;List&lt;String&gt;&gt; result = new ArrayList&lt;&gt;();
+        // TODO: Initialize board
+        // TODO: Track columns, diagonals under attack
+        // TODO: Backtrack row by row
+
+        return result; // Replace with implementation
+    }
+
+    private static void backtrackQueens(int row, int n, char[][] board,
+                                       Set&lt;Integer&gt; cols, Set&lt;Integer&gt; diag1,
+                                       Set&lt;Integer&gt; diag2, List&lt;List&lt;String&gt;&gt; result) {
+        // TODO: Handle base case
+
+        // TODO: Implement iteration/conditional logic
+    }
+
+    /**
+     * Problem: Sudoku solver
+     * Time: O(9^m) where m = empty cells, Space: O(1)
+     *
+     * TODO: Implement Sudoku solver
+     */
+    public static void solveSudoku(char[][] board) {
+        // TODO: Find empty cell
+        // TODO: Try digits 1-9
+        // TODO: Check row, column, 3×3 box constraints
+        // TODO: Backtrack if no valid digit
+    }
+
+    private static boolean isValidSudoku(char[][] board, int row, int col, char c) {
+        // TODO: Check row constraint
+        // TODO: Check column constraint
+        // TODO: Check 3×3 box constraint
+        return false; // Replace with implementation
+    }
+
+    /**
+     * Problem: Count total N-Queens solutions
+     * Time: O(N!), Space: O(N)
+     *
+     * TODO: Implement optimized N-Queens counter
+     */
+    public static int totalNQueens(int n) {
+        // TODO: Similar to solveNQueens but just count
+
+        return 0; // Replace with implementation
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class ConstraintSatisfactionClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Constraint Satisfaction ===\n");
+
+        // Test 1: N-Queens
+        System.out.println("--- Test 1: N-Queens (n=4) ---");
+        List&lt;List&lt;String&gt;&gt; solutions = ConstraintSatisfaction.solveNQueens(4);
+        System.out.println("Found " + solutions.size() + " solutions:");
+        for (int i = 0; i &lt; solutions.size(); i++) {
+            System.out.println("Solution " + (i + 1) + ":");
+            for (String row : solutions.get(i)) {
+                System.out.println("  " + row);
+            }
+            System.out.println();
+        }
+
+        // Test 2: Count N-Queens
+        System.out.println("--- Test 2: Count N-Queens Solutions ---");
+        for (int n = 1; n &lt;= 8; n++) {
+            int count = ConstraintSatisfaction.totalNQueens(n);
+            System.out.printf("n=%d: %d solutions%n", n, count);
+        }
+
+        // Test 3: Sudoku solver
+        System.out.println("\n--- Test 3: Sudoku Solver ---");
+        char[][] sudoku = {
+            {'5','3','.','.','7','.','.','.','.'},
+            {'6','.','.','1','9','5','.','.','.'},
+            {'.','9','8','.','.','.','.','6','.'},
+            {'8','.','.','.','6','.','.','.','3'},
+            {'4','.','.','8','.','3','.','.','1'},
+            {'7','.','.','.','2','.','.','.','6'},
+            {'.','6','.','.','.','.','2','8','.'},
+            {'.','.','.','4','1','9','.','.','5'},
+            {'.','.','.','.','8','.','.','7','9'}
+        };
+
+        System.out.println("Before:");
+        printSudoku(sudoku);
+
+        ConstraintSatisfaction.solveSudoku(sudoku);
+
+        System.out.println("\nAfter:");
+        printSudoku(sudoku);
+    }
+
+    private static void printSudoku(char[][] board) {
+        for (int i = 0; i &lt; 9; i++) {
+            if (i % 3 == 0 &amp;&amp; i != 0) {
+                System.out.println("------+-------+------");
+            }
+            for (int j = 0; j &lt; 9; j++) {
+                if (j % 3 == 0 &amp;&amp; j != 0) {
+                    System.out.print("| ");
+                }
+                System.out.print(board[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-4-grid-search-word-search">Pattern 4: Grid Search (Word Search)<a class="headerlink" href="#pattern-4-grid-search-word-search" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Explore grid paths with backtracking.</p>
+<p><strong>Use case:</strong> Word search, path finding with constraints.</p>
+<pre class="highlight"><code class="language-java">public class GridSearch {
+
+    /**
+     * Problem: Word search in 2D grid
+     * Time: O(m * n * 4^L) where L = word length, Space: O(L)
+     *
+     * TODO: Implement word search using backtracking
+     */
+    public static boolean exist(char[][] board, String word) {
+        // TODO: Try starting from each cell
+        // TODO: Use DFS with backtracking
+
+        return false; // Replace with implementation
+    }
+
+    private static boolean dfs(char[][] board, String word, int index,
+                              int row, int col, boolean[][] visited) {
+        // TODO: Handle base case
+
+        // TODO: Check bounds and visited
+        // TODO: Check if board[row][col] == word.charAt(index)
+
+        // TODO: Mark visited
+        // TODO: Explore 4 directions (up, down, left, right)
+        // TODO: Implement iteration/conditional logic
+        // TODO: Unmark visited (backtrack)
+
+        return false; // Replace with implementation
+    }
+
+    /**
+     * Problem: Count paths from top-left to bottom-right
+     * Time: O(2^(m+n)), Space: O(m+n)
+     *
+     * TODO: Implement path counter with obstacles
+     */
+    public static int countPaths(int[][] grid) {
+        // TODO: Backtrack with path counting
+        // TODO: Handle obstacles (grid[i][j] == 1)
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Longest increasing path in matrix
+     * Time: O(m * n), Space: O(m * n) with memoization
+     *
+     * TODO: Implement using DFS with memoization
+     */
+    public static int longestIncreasingPath(int[][] matrix) {
+        // TODO: DFS from each cell
+        // TODO: Use memo to cache results
+        // TODO: Can only move to strictly greater neighbors
+
+        return 0; // Replace with implementation
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">public class GridSearchClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Grid Search ===\n");
+
+        // Test 1: Word search
+        System.out.println("--- Test 1: Word Search ---");
+        char[][] board = {
+            {'A','B','C','E'},
+            {'S','F','C','S'},
+            {'A','D','E','E'}
+        };
+
+        String[] words = {"ABCCED", "SEE", "ABCB"};
+
+        System.out.println("Board:");
+        for (char[] row : board) {
+            for (char c : row) {
+                System.out.print(c + " ");
+            }
+            System.out.println();
+        }
+        System.out.println();
+
+        for (String word : words) {
+            boolean found = GridSearch.exist(board, word);
+            System.out.printf("Word \"%s\": %s%n", word, found ? "FOUND" : "NOT FOUND");
+        }
+
+        // Test 2: Count paths
+        System.out.println("\n--- Test 2: Count Paths ---");
+        int[][] grid = {
+            {0, 0, 0},
+            {0, 1, 0},
+            {0, 0, 0}
+        };
+
+        System.out.println("Grid (0=path, 1=obstacle):");
+        for (int[] row : grid) {
+            for (int cell : row) {
+                System.out.print(cell + " ");
+            }
+            System.out.println();
+        }
+        int paths = GridSearch.countPaths(grid);
+        System.out.println("Total paths: " + paths);
+
+        // Test 3: Longest increasing path
+        System.out.println("\n--- Test 3: Longest Increasing Path ---");
+        int[][] matrix = {
+            {9, 9, 4},
+            {6, 6, 8},
+            {2, 1, 1}
+        };
+
+        System.out.println("Matrix:");
+        for (int[] row : matrix) {
+            for (int cell : row) {
+                System.out.print(cell + " ");
+            }
+            System.out.println();
+        }
+        int longest = GridSearch.longestIncreasingPath(matrix);
+        System.out.println("Longest increasing path: " + longest);
+    }
+}</code></pre>
+<hr/>
+<h2 id="debugging-challenges">Debugging Challenges<a class="headerlink" href="#debugging-challenges" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Find and fix bugs in broken implementations. This tests your understanding of backtracking.</p>
+<h3 id="challenge-1-broken-permutations">Challenge 1: Broken Permutations<a class="headerlink" href="#challenge-1-broken-permutations" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * This code is supposed to generate all permutations.
+ * It has 2 BUGS. Find them!
+ */
+public static List&lt;List&lt;Integer&gt;&gt; permute_Buggy(int[] nums) {
+    List&lt;List&lt;Integer&gt;&gt; result = new ArrayList&lt;&gt;();
+    boolean[] used = new boolean[nums.length];
+    backtrack(nums, new ArrayList&lt;&gt;(), used, result);
+    return result;
+}
+
+private static void backtrack(int[] nums, List&lt;Integer&gt; current,
+                              boolean[] used, List&lt;List&lt;Integer&gt;&gt; result) {
+    // Base case
+    if (current.size() == nums.length) {
+        result.add(current);        return;
+    }
+
+    for (int i = 0; i &lt; nums.length; i++) {
+        if (used[i]) continue;
+
+        used[i] = true;
+        current.add(nums[i]);
+        backtrack(nums, current, used, result);
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>
+<p>Bug 1: <span class="fill-in">[What\'s the bug?]</span></p>
+</li>
+<li>
+<p>Bug 2: <span class="fill-in">[What\'s the bug?]</span></p>
+</li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug 1 (Line 11):</strong> Should be <code>result.add(new ArrayList&lt;&gt;(current))</code>, not <code>result.add(current)</code>. Without copying, all
+results will reference the same list object, which gets modified during backtracking!</p>
+<p><strong>Bug 2 (After line 20):</strong> Missing the backtrack step! Should have:</p>
+<pre class="highlight"><code class="language-java">current.remove(current.size() - 1);  // Undo choice
+used[i] = false;                      // Undo state</code></pre>
+<p>Without these lines, the algorithm never properly backtracks and explores other branches.</p>
+</details>
+<hr/>
+<h3 id="challenge-2-broken-subsets-with-duplicates">Challenge 2: Broken Subsets with Duplicates<a class="headerlink" href="#challenge-2-broken-subsets-with-duplicates" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Generate subsets from array with duplicates [1, 2, 2]
+ * This has 2 BUGS causing duplicate subsets in output.
+ */
+public static List&lt;List&lt;Integer&gt;&gt; subsetsWithDup_Buggy(int[] nums) {
+    List&lt;List&lt;Integer&gt;&gt; result = new ArrayList&lt;&gt;();
+    backtrack(nums, 0, new ArrayList&lt;&gt;(), result);
+    return result;
+}
+
+private static void backtrack(int[] nums, int start,
+                              List&lt;Integer&gt; current,
+                              List&lt;List&lt;Integer&gt;&gt; result) {
+    result.add(new ArrayList&lt;&gt;(current));
+
+    for (int i = start; i &lt; nums.length; i++) {
+        current.add(nums[i]);
+        backtrack(nums, i + 1, current, result);
+        current.remove(current.size() - 1);
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug 1:</strong> <span class="fill-in">[What must be done to the array first?]</span></li>
+<li>
+<p><strong>Bug 1 fix:</strong> <span class="fill-in">[Fill in]</span></p>
+</li>
+<li>
+<p><strong>Bug 2:</strong> <span class="fill-in">[What check is missing in the loop?]</span></p>
+</li>
+<li><strong>Bug 2 fix:</strong> <span class="fill-in">[Fill in the condition]</span></li>
+</ul>
+<p><strong>Test case to expose the bug:</strong></p>
+<ul>
+<li>Input: <code>[1, 2, 2]</code></li>
+<li>Expected: <code>[[], [1], [1,2], [1,2,2], [2], [2,2]]</code> (6 unique subsets)</li>
+<li>Actual with buggy code: <span class="fill-in">[How many duplicates?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug 1:</strong> Must sort the array first! Add <code>Arrays.sort(nums);</code> before calling backtrack. Sorting groups duplicates
+together so we can skip them.</p>
+<p><strong>Bug 2:</strong> Missing duplicate check. After line 15, add:</p>
+<pre class="highlight"><code class="language-java">if (i &gt; start &amp;&amp; nums[i] == nums[i - 1]) {
+    continue;  // Skip duplicates at same level
+}</code></pre>
+<p>This skips duplicate elements at the same recursion level, preventing duplicate subsets.</p>
+</details>
+<hr/>
+<h3 id="challenge-3-broken-n-queens">Challenge 3: Broken N-Queens<a class="headerlink" href="#challenge-3-broken-n-queens" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * N-Queens solver with bugs
+ * This has 1 CRITICAL BUG in the diagonal checking logic.
+ */
+public static List&lt;List&lt;String&gt;&gt; solveNQueens_Buggy(int n) {
+    List&lt;List&lt;String&gt;&gt; result = new ArrayList&lt;&gt;();
+    char[][] board = new char[n][n];
+    for (char[] row : board) Arrays.fill(row, '.');
+
+    Set&lt;Integer&gt; cols = new HashSet&lt;&gt;();
+    Set&lt;Integer&gt; diag1 = new HashSet&lt;&gt;();
+    Set&lt;Integer&gt; diag2 = new HashSet&lt;&gt;();
+
+    backtrack(0, n, board, cols, diag1, diag2, result);
+    return result;
+}
+
+private static void backtrack(int row, int n, char[][] board,
+                              Set&lt;Integer&gt; cols, Set&lt;Integer&gt; diag1,
+                              Set&lt;Integer&gt; diag2, List&lt;List&lt;String&gt;&gt; result) {
+    if (row == n) {
+        result.add(constructBoard(board));
+        return;
+    }
+
+    for (int col = 0; col &lt; n; col++) {
+        int d1 = row - col;
+        int d2 = row + col;
+        if (cols.contains(col) || diag1.contains(d1) || diag2.contains(d2)) {
+            continue;
+        }
+
+        // Place queen
+        board[row][col] = 'Q';
+        cols.add(col);
+        diag1.add(d1);
+        diag2.add(d2);
+
+        backtrack(row + 1, n, board, cols, diag1, diag2, result);
+
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>Bug: <span class="fill-in">[What\'s the bug?]</span></li>
+</ul>
+<p><strong>Hint:</strong> What happens after the recursive call?</p>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> Missing backtrack cleanup after the recursive call! After line 37, should add:</p>
+<pre class="highlight"><code class="language-java">// Remove queen (backtrack)
+board[row][col] = '.';
+cols.remove(col);
+diag1.remove(d1);
+diag2.remove(d2);</code></pre>
+<p>Without this cleanup, the queen placement and constraint tracking aren't properly undone, causing incorrect solutions or
+missing valid solutions.</p>
+</details>
+<hr/>
+<h3 id="challenge-4-broken-combination-sum-with-pruning">Challenge 4: Broken Combination Sum with Pruning<a class="headerlink" href="#challenge-4-broken-combination-sum-with-pruning" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Find all combinations that sum to target
+ * This has a PRUNING BUG that misses valid solutions.
+ */
+public static List&lt;List&lt;Integer&gt;&gt; combinationSum_Buggy(int[] candidates, int target) {
+    List&lt;List&lt;Integer&gt;&gt; result = new ArrayList&lt;&gt;();
+    Arrays.sort(candidates);  // Sorted for pruning
+    backtrack(candidates, target, 0, new ArrayList&lt;&gt;(), result);
+    return result;
+}
+
+private static void backtrack(int[] candidates, int target, int start,
+                              List&lt;Integer&gt; current, List&lt;List&lt;Integer&gt;&gt; result) {
+    if (target == 0) {
+        result.add(new ArrayList&lt;&gt;(current));
+        return;
+    }
+
+    if (target &lt; 0) {        return;
+    }
+
+    for (int i = start; i &lt; candidates.length; i++) {
+        current.add(candidates[i]);
+        backtrack(candidates, target - candidates[i], i, current, result);
+        current.remove(current.size() - 1);
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug:</strong> <span class="fill-in">[Where should pruning happen?]</span></li>
+<li><strong>Why is it a problem?</strong> <span class="fill-in">[What inefficiency does this cause?]</span></li>
+<li><strong>Fix:</strong> <span class="fill-in">[Add the proper pruning condition]</span></li>
+</ul>
+<p><strong>Performance impact:</strong></p>
+<ul>
+<li>Without fix: Explores many invalid branches</li>
+<li>With fix: Stops early when candidate exceeds remaining target</li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> Pruning should happen BEFORE recursion, not after! In the for loop, add:</p>
+<pre class="highlight"><code class="language-java">if (candidates[i] &gt; target) {
+    break;  // All remaining candidates are too large (sorted array)
+}</code></pre>
+<p>This should be added right after the for loop starts (before line 23). Since the array is sorted, once a candidate
+exceeds the target, all subsequent candidates will too, so we can break early.</p>
+<p><strong>Better version of the loop:</strong></p>
+<pre class="highlight"><code class="language-java">for (int i = start; i &lt; candidates.length; i++) {
+    if (candidates[i] &gt; target) break;  // Prune early!
+
+    current.add(candidates[i]);
+    backtrack(candidates, target - candidates[i], i, current, result);
+    current.remove(current.size() - 1);
+}</code></pre>
+</details>
+<hr/>
+<h3 id="challenge-5-duplicate-results-bug">Challenge 5: Duplicate Results Bug<a class="headerlink" href="#challenge-5-duplicate-results-bug" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Permutations with duplicates [1, 1, 2]
+ * This has a BUG causing duplicate permutations.
+ */
+public static List&lt;List&lt;Integer&gt;&gt; permuteUnique_Buggy(int[] nums) {
+    List&lt;List&lt;Integer&gt;&gt; result = new ArrayList&lt;&gt;();
+    Arrays.sort(nums);  // Sorted to handle duplicates
+    boolean[] used = new boolean[nums.length];
+    backtrack(nums, new ArrayList&lt;&gt;(), used, result);
+    return result;
+}
+
+private static void backtrack(int[] nums, List&lt;Integer&gt; current,
+                              boolean[] used, List&lt;List&lt;Integer&gt;&gt; result) {
+    if (current.size() == nums.length) {
+        result.add(new ArrayList&lt;&gt;(current));
+        return;
+    }
+
+    for (int i = 0; i &lt; nums.length; i++) {
+        if (used[i]) continue;
+
+        // Should skip if: same as previous &amp;&amp; previous not used
+
+        used[i] = true;
+        current.add(nums[i]);
+        backtrack(nums, current, used, result);
+        current.remove(current.size() - 1);
+        used[i] = false;
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug:</strong> <span class="fill-in">[What check is missing?]</span></li>
+<li><strong>Why does this cause duplicates?</strong> <span class="fill-in">[Explain the logic]</span></li>
+<li><strong>Fix:</strong> <span class="fill-in">[Fill in the condition]</span></li>
+</ul>
+<p><strong>Test case:</strong></p>
+<ul>
+<li>Input: <code>[1, 1, 2]</code></li>
+<li>Expected: <code>[[1,1,2], [1,2,1], [2,1,1]]</code> (3 unique)</li>
+<li>Actual without fix: <span class="fill-in">[How many duplicates?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> Missing duplicate check! After line 20, add:</p>
+<pre class="highlight"><code class="language-java">// Skip duplicates: if same as previous element and previous not used
+if (i &gt; 0 &amp;&amp; nums[i] == nums[i - 1] &amp;&amp; !used[i - 1]) {
+    continue;
+}</code></pre>
+<p><strong>Why this works:</strong></p>
+<ul>
+<li>If <code>nums[i] == nums[i-1]</code> (duplicates) AND previous not used, we'd generate same permutation</li>
+<li>By requiring previous to be used first, we ensure unique orderings</li>
+<li>Example: For [1, 1, 2], we must use first 1 before second 1 at same position</li>
+</ul>
+<p>Without this check, both 1's get treated as distinct, generating duplicate permutations.</p>
+</details>
+<hr/>
+<h3 id="your-debugging-scorecard">Your Debugging Scorecard<a class="headerlink" href="#your-debugging-scorecard" title="Permanent link">¶</a></h3>
+<p>After finding and fixing all bugs:</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Found all 8+ bugs across 5 challenges</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understood WHY each bug causes incorrect behavior</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could explain the fix to someone else</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Learned common backtracking mistakes to avoid</li>
+</ul>
+<p><strong>Common backtracking mistakes you discovered:</strong></p>
+<ol>
+<li><span class="fill-in">[Fill in - e.g., forgetting to copy list when adding to result]</span></li>
+<li><span class="fill-in">[Fill in - e.g., missing backtrack cleanup]</span></li>
+<li><span class="fill-in">[Fill in - e.g., wrong pruning condition]</span></li>
+<li><span class="fill-in">[Fill in]</span></li>
+</ol>
+<hr/>
+<h2 id="decision-framework">Decision Framework<a class="headerlink" href="#decision-framework" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Build decision trees for backtracking problems.</p>
+<h3 id="question-1-what-are-you-generating">Question 1: What are you generating?<a class="headerlink" href="#question-1-what-are-you-generating" title="Permanent link">¶</a></h3>
+<p>Answer after solving problems:</p>
+<ul>
+<li><strong>All permutations?</strong> <span class="fill-in">[Use permutation backtracking]</span></li>
+<li><strong>All combinations/subsets?</strong> <span class="fill-in">[Use combination backtracking]</span></li>
+<li><strong>Single valid solution?</strong> <span class="fill-in">[Return early when found]</span></li>
+<li><strong>Count solutions?</strong> <span class="fill-in">[Track count, don't store paths]</span></li>
+</ul>
+<h3 id="question-2-what-are-the-constraints">Question 2: What are the constraints?<a class="headerlink" href="#question-2-what-are-the-constraints" title="Permanent link">¶</a></h3>
+<p><strong>No duplicates in input:</strong></p>
+<ul>
+<li>Approach: <span class="fill-in">[Simple backtracking]</span></li>
+</ul>
+<p><strong>Duplicates in input:</strong></p>
+<ul>
+<li>Approach: <span class="fill-in">[Sort first, skip duplicates at same level]</span></li>
+</ul>
+<p><strong>Size constraint (k elements):</strong></p>
+<ul>
+<li>Approach: <span class="fill-in">[Add base case for size]</span></li>
+</ul>
+<p><strong>Sum/product constraint:</strong></p>
+<ul>
+<li>Approach: <span class="fill-in">[Track running sum/product, prune early]</span></li>
+</ul>
+<p><strong>Grid constraints:</strong></p>
+<ul>
+<li>Approach: <span class="fill-in">[Mark visited, unmark on backtrack]</span></li>
+</ul>
+<h3 id="your-decision-tree">Your Decision Tree<a class="headerlink" href="#your-decision-tree" title="Permanent link">¶</a></h3>
+<div class="mermaid">flowchart LR
+    Start["Backtracking Pattern Selection"]
+
+    Q1{"Generating sequences?"}
+    Start --&gt; Q1
+    N2(["Permutations ✓"])
+    Q1 --&gt;|"All orderings"| N2
+    N3(["Combinations/Subsets ✓"])
+    Q1 --&gt;|"All selections"| N3
+    N4(["Combinations with constraint ✓"])
+    Q1 --&gt;|"With size K"| N4
+    Q5{"Constraint satisfaction?"}
+    Start --&gt; Q5
+    N6(["N-Queens pattern ✓"])
+    Q5 --&gt;|"Board placement"| N6
+    N7(["Try digits with validation ✓"])
+    Q5 --&gt;|"Sudoku-like"| N7
+    N8(["DFS with visited tracking ✓"])
+    Q5 --&gt;|"Grid search"| N8
+    Q9{"Optimization?"}
+    Start --&gt; Q9</div>
+<hr/>
+<h2 id="practice">Practice<a class="headerlink" href="#practice" title="Permanent link">¶</a></h2>
+<h3 id="leetcode-problems">LeetCode Problems<a class="headerlink" href="#leetcode-problems" title="Permanent link">¶</a></h3>
+<p><strong>Easy (Complete all 2):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/binary-tree-paths/">257. Binary Tree Paths</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Backtracking with path tracking]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/binary-watch/">401. Binary Watch</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Generate all combinations]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Medium (Complete 4-5):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/permutations/">46. Permutations</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Classic permutations]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/subsets/">78. Subsets</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Classic subsets]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/combination-sum/">39. Combination Sum</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Combinations with reuse]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/word-search/">79. Word Search</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Grid DFS with backtracking]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/generate-parentheses/">22. Generate Parentheses</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Generate valid sequences]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Hard (Optional):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/n-queens/">51. N-Queens</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Constraint satisfaction]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/sudoku-solver/">37. Sudoku Solver</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Grid constraint satisfaction]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+</ul>
+<hr/>
+<h2 id="review-checklist">Review Checklist<a class="headerlink" href="#review-checklist" title="Permanent link">¶</a></h2>
+<p>Before moving to the next topic:</p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Implementation</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Permutations: basic and with duplicates work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Combinations: subsets, combinations, combination sum work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> N-Queens: placement and counting work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Word search: grid DFS with backtracking works</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> All client code runs successfully</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Pattern Recognition</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can identify permutation vs combination problems</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand when to use visited array vs set</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Know when to sort input for duplicates</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Recognize constraint satisfaction problems</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Problem Solving</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Solved 2 easy problems</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Solved 4-5 medium problems</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Analyzed time/space complexity</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understood pruning strategies</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Understanding</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Filled in all ELI5 explanations</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Built decision tree</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Identified when NOT to use backtracking</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can explain backtrack step clearly</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Mastery Check</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could implement all patterns from memory</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could recognize pattern in new problem</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could explain to someone else</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand when to prune branches</li>
+</ul>
+</li>
+</ul>
+<hr/>
+<h3 id="mastery-certification">Mastery Certification<a class="headerlink" href="#mastery-certification" title="Permanent link">¶</a></h3>
+<p><strong>I certify that I can:</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Implement all four backtracking patterns from memory</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Explain when and why to use backtracking</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Identify the correct pattern for new problems</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Write proper base cases and backtrack steps</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Add effective pruning to reduce search space</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Debug common backtracking mistakes</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Teach this concept to someone else</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Analyze when NOT to use backtracking</li>
+</ul></div>
+</div>
+<footer class="col-md-12 text-center">
+<hr/>
+<p>
+<small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+</p>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../../js/bootstrap-3.0.3.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>var base_url = "../.."</script>
+<script src="../../js/base.js"></script>
+<script src="../../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<button class="close" data-dismiss="modal" type="button">
+<span aria-hidden="true">×</span>
+<span class="sr-only">Close</span>
+</button>
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+</div>
+<div class="modal-body">
+<p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="text"/>
+</div>
+</form>
+<div id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@10.4.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>

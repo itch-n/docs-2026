@@ -1,0 +1,2070 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="A framework for algorithms, systems design, and infrastructure." name="description"/>
+<meta content="Richard" name="author"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>06. API Design - Software Engineering Study Guide</title>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" rel="stylesheet"/>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css" rel="stylesheet"/>
+<link href="//rsms.me/inter/inter.css" rel="stylesheet" type="text/css"/>
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&amp;subset=latin-ext,latin" rel="stylesheet" type="text/css"/>
+<link href="../../css/bootstrap-custom.min.css" rel="stylesheet"/>
+<link href="../../css/base.min.css" rel="stylesheet"/>
+<link href="../../css/cinder.min.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css" rel="stylesheet"/>
+<link href="../../css/custom.css" rel="stylesheet"/>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="container">
+<!-- Collapsed navigation -->
+<div class="navbar-header">
+<!-- Expander button -->
+<button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<!-- Main title -->
+<a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+</div>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li>
+<a href="../..">Home</a>
+</li>
+<li class="dropdown active">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Systems Design <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../01-storage-engines/">01. Storage Engines</a>
+</li>
+<li>
+<a href="../02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+<li>
+<a href="../03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+<li>
+<a href="../04-search-and-indexing/">04. Search &amp; Indexing</a>
+</li>
+<li>
+<a href="../05-caching-patterns/">05. Caching Patterns</a>
+</li>
+<li class="active">
+<a href="./">06. API Design</a>
+</li>
+<li>
+<a href="../07-security-patterns/">07. Security Patterns</a>
+</li>
+<li>
+<a href="../08-rate-limiting/">08. Rate Limiting</a>
+</li>
+<li>
+<a href="../09-load-balancing/">09. Load Balancing</a>
+</li>
+<li>
+<a href="../10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+<li>
+<a href="../11-database-scaling/">11. Database Scaling</a>
+</li>
+<li>
+<a href="../12-message-queues/">12. Message Queues</a>
+</li>
+<li>
+<a href="../13-stream-processing/">13. Stream Processing</a>
+</li>
+<li>
+<a href="../14-observability/">14. Observability</a>
+</li>
+<li>
+<a href="../15-distributed-transactions/">15. Distributed Transactions</a>
+</li>
+<li>
+<a href="../16-consensus-patterns/">16. Consensus Patterns</a>
+</li>
+</ul>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">DSA <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../dsa/01-two-pointers/">01. Two Pointers</a>
+</li>
+<li>
+<a href="../../dsa/02-sliding-window/">02. Sliding Window</a>
+</li>
+<li>
+<a href="../../dsa/03-hash-tables/">03. Hash Tables</a>
+</li>
+<li>
+<a href="../../dsa/04-linked-lists/">04. Linked Lists</a>
+</li>
+<li>
+<a href="../../dsa/05-stacks--queues/">05. Stacks &amp; Queues</a>
+</li>
+<li>
+<a href="../../dsa/06-trees-traversals/">06. Trees - Traversals</a>
+</li>
+<li>
+<a href="../../dsa/07-trees-recursion/">07. Trees - Recursion</a>
+</li>
+<li>
+<a href="../../dsa/08-binary-search/">08. Binary Search</a>
+</li>
+<li>
+<a href="../../dsa/09-heaps/">09. Heaps</a>
+</li>
+<li>
+<a href="../../dsa/10-graphs/">10. Graphs</a>
+</li>
+<li>
+<a href="../../dsa/11-union-find/">11. Union-Find</a>
+</li>
+<li>
+<a href="../../dsa/12-advanced-graphs/">12. Advanced Graphs</a>
+</li>
+<li>
+<a href="../../dsa/13-backtracking/">13. Backtracking</a>
+</li>
+<li>
+<a href="../../dsa/14-dynamic-programming-1d/">14. Dynamic Programming 1D</a>
+</li>
+<li>
+<a href="../../dsa/15-dynamic-programming-2d/">15. Dynamic Programming 2D</a>
+</li>
+<li>
+<a href="../../dsa/16-tries/">16. Tries</a>
+</li>
+<li>
+<a href="../../dsa/17-advanced-topics/">17. Advanced Topics</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+<a data-target="#mkdocs_search_modal" data-toggle="modal" href="#">
+<i class="fas fa-search"></i> Search
+                        </a>
+</li>
+<li>
+<a href="../05-caching-patterns/" rel="prev">
+<i class="fas fa-arrow-left"></i> Previous
+                        </a>
+</li>
+<li>
+<a href="../07-security-patterns/" rel="next">
+                            Next <i class="fas fa-arrow-right"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+<ul class="nav bs-sidenav">
+<li class="first-level active"><a href="#api-design">API Design</a></li>
+<li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+<li class="second-level"><a href="#quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)</a></li>
+<li class="second-level"><a href="#beforeafter-why-good-api-design-matters">Before/After: Why Good API Design Matters</a></li>
+<li class="second-level"><a href="#case-studies-api-design-in-the-wild">Case Studies: API Design in the Wild</a></li>
+<li class="second-level"><a href="#core-implementation">Core Implementation</a></li>
+<li class="second-level"><a href="#client-code">Client Code</a></li>
+<li class="second-level"><a href="#debugging-challenges">Debugging Challenges</a></li>
+<li class="second-level"><a href="#decision-framework">Decision Framework</a></li>
+<li class="second-level"><a href="#practice">Practice</a></li>
+<li class="second-level"><a href="#review-checklist">Review Checklist</a></li>
+<li class="second-level"><a href="#your-api-design-principles-write-your-own">Your API Design Principles (Write Your Own)</a></li>
+</ul>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="api-design">API Design<a class="headerlink" href="#api-design" title="Permanent link">¶</a></h1>
+<blockquote>
+<p>REST, GraphQL, and RPC - Choosing the right API paradigm</p>
+</blockquote>
+<hr/>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After implementing different API patterns, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What is REST in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Why do we use REST for web APIs?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy for REST:</strong></p>
+<ul>
+<li>Example: "REST is like a restaurant menu where..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What is GraphQL in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When would you choose GraphQL over REST?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy for GraphQL:</strong></p>
+<ul>
+<li>Example: "GraphQL is like a buffet where..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What is RPC (gRPC) in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When would you use RPC instead of REST?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr/>
+<h2 id="quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)<a class="headerlink" href="#quick-quiz-do-before-implementing" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Test your intuition without looking at code. Answer these, then verify after implementation.</p>
+<h3 id="complexity-predictions">Complexity Predictions<a class="headerlink" href="#complexity-predictions" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p><strong>REST API endpoint for listing resources:</strong></p>
+<ul>
+<li>What HTTP method should be used? <span class="fill-in">[Your guess: GET/POST/PUT/DELETE]</span></li>
+<li>What status code for success? <span class="fill-in">[Your guess: 200/201/204]</span></li>
+<li>Verified after learning: <span class="fill-in">[Actual: ?]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>GraphQL query that fetches nested data:</strong></p>
+<ul>
+<li>How many HTTP requests needed? <span class="fill-in">[Your guess: 1/multiple]</span></li>
+<li>Compared to REST for same data: <span class="fill-in">[More/Less/Same requests?]</span></li>
+<li>Verified: <span class="fill-in">[Actual]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>API pagination parameters:</strong></p>
+<ul>
+<li>Common parameter names: <span class="fill-in">[Your guesses]</span></li>
+<li>Default limit should be: <span class="fill-in">[Your guess: 10/50/100/unlimited?]</span></li>
+<li>Verified: <span class="fill-in">[Actual best practices]</span></li>
+</ul>
+</li>
+</ol>
+<h3 id="scenario-predictions">Scenario Predictions<a class="headerlink" href="#scenario-predictions" title="Permanent link">¶</a></h3>
+<p><strong>Scenario 1:</strong> Design endpoint to get user with their posts and comments</p>
+<ul>
+<li><strong>REST approach:</strong> How many endpoints? <span class="fill-in">[Your guess]</span></li>
+<li><strong>GraphQL approach:</strong> How many endpoints? <span class="fill-in">[Your guess]</span></li>
+<li><strong>Which has over-fetching risk?</strong> <span class="fill-in">[REST/GraphQL - Why?]</span></li>
+<li><strong>Which has N+1 query risk?</strong> <span class="fill-in">[REST/GraphQL - Why?]</span></li>
+</ul>
+<p><strong>Scenario 2:</strong> Client needs to update user's email address</p>
+<ul>
+<li><strong>Which HTTP method?</strong> <span class="fill-in">[GET/POST/PUT/PATCH/DELETE]</span></li>
+<li><strong>PUT vs PATCH - what's the difference?</strong> <span class="fill-in">[Fill in]</span></li>
+<li><strong>Success status code:</strong> <span class="fill-in">[200/201/204/304]</span></li>
+<li><strong>If email already taken, status code:</strong> <span class="fill-in">[400/404/409/500]</span></li>
+</ul>
+<p><strong>Scenario 3:</strong> API versioning strategy</p>
+<ul>
+<li><strong>Version in URL (/v1/users) or header?</strong> <span class="fill-in">[Which is better? Why?]</span></li>
+<li><strong>When to create new version?</strong> <span class="fill-in">[Fill in your reasoning]</span></li>
+<li><strong>How to deprecate old version?</strong> <span class="fill-in">[Your approach]</span></li>
+</ul>
+<h3 id="trade-off-quiz">Trade-off Quiz<a class="headerlink" href="#trade-off-quiz" title="Permanent link">¶</a></h3>
+<p><strong>Question:</strong> When would REST be BETTER than GraphQL?</p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in before implementation]</span></li>
+<li>Verified answer: <span class="fill-in">[Fill in after learning]</span></li>
+</ul>
+<p><strong>Question:</strong> What's the MAIN benefit of API pagination?</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Makes API look professional</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Prevents database from crashing</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Reduces response size and improves performance</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Required by HTTP specification</li>
+</ul>
+<p>Verify after implementation: <span class="fill-in">[Which one(s)?]</span></p>
+<p><strong>Question:</strong> What makes an API idempotent?</p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in]</span></li>
+<li>Example of idempotent operation: <span class="fill-in">[Fill in]</span></li>
+<li>Example of non-idempotent operation: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="beforeafter-why-good-api-design-matters">Before/After: Why Good API Design Matters<a class="headerlink" href="#beforeafter-why-good-api-design-matters" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Compare poorly designed vs well-designed APIs to understand the impact.</p>
+<h3 id="example-1-api-versioning">Example 1: API Versioning<a class="headerlink" href="#example-1-api-versioning" title="Permanent link">¶</a></h3>
+<p><strong>Problem:</strong> API needs to change user field from <code>name</code> to <code>firstName</code> and <code>lastName</code>.</p>
+<h4 id="approach-1-breaking-change-bad">Approach 1: Breaking Change (Bad)<a class="headerlink" href="#approach-1-breaking-change-bad" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Version 1 (deployed to production)
+class User {
+    String id;
+    String name;        // Single name field
+    String email;
+}
+
+// Suddenly changed to Version 2 - BREAKS ALL CLIENTS!
+class User {
+    String id;
+    String firstName;   // Broken change
+    String lastName;    // Broken change
+    String email;
+}</code></pre>
+<p><strong>Impact:</strong></p>
+<ul>
+<li>All existing clients break immediately</li>
+<li>Mobile apps that can't update crash</li>
+<li>Third-party integrations fail</li>
+<li>Customer complaints flood in</li>
+<li>Emergency rollback required</li>
+</ul>
+<p><strong>Client code that breaks:</strong></p>
+<pre class="highlight"><code class="language-java">// This worked yesterday, crashes today!
+User user = api.getUser("123");
+System.out.println(user.name);  // ERROR: field not found!</code></pre>
+<h4 id="approach-2-versioned-api-good">Approach 2: Versioned API (Good)<a class="headerlink" href="#approach-2-versioned-api-good" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Version 1 - Still supported
+// GET /v1/users/123
+class UserV1 {
+    String id;
+    String name;        // Still works for old clients
+    String email;
+}
+
+// Version 2 - New clients can opt in
+// GET /v2/users/123
+class UserV2 {
+    String id;
+    String firstName;   // New field
+    String lastName;    // New field
+    String email;
+}
+
+// API routes both versions
+@GetMapping("/v1/users/{id}")
+public UserV1 getUserV1(String id) {
+    User user = database.getUser(id);
+    // Convert to V1 format
+    return new UserV1(user.id,
+                      user.firstName + " " + user.lastName,
+                      user.email);
+}
+
+@GetMapping("/v2/users/{id}")
+public UserV2 getUserV2(String id) {
+    User user = database.getUser(id);
+    return new UserV2(user.id, user.firstName, user.lastName, user.email);
+}</code></pre>
+<p><strong>Impact:</strong></p>
+<ul>
+<li>Old clients continue working</li>
+<li>New clients get better data structure</li>
+<li>Gradual migration over 6-12 months</li>
+<li>Deprecation warnings guide users: "v1 deprecated, migrate to v2 by Dec 2024"</li>
+<li>No emergency fixes needed</li>
+</ul>
+<p><strong>After implementing, answer:</strong></p>
+<div class="learner-section">
+<ul>
+<li>Why is versioning critical for APIs? <span class="fill-in">[Your answer]</span></li>
+<li>When would you create a new API version? <span class="fill-in">[Your answer]</span></li>
+<li>How long should you support old versions? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr/>
+<h3 id="example-2-pagination">Example 2: Pagination<a class="headerlink" href="#example-2-pagination" title="Permanent link">¶</a></h3>
+<p><strong>Problem:</strong> API endpoint returns user's posts.</p>
+<h4 id="approach-1-return-all-data-bad">Approach 1: Return All Data (Bad)<a class="headerlink" href="#approach-1-return-all-data-bad" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// GET /users/123/posts
+// Returns ALL posts - no pagination
+@GetMapping("/users/{id}/posts")
+public List&lt;Post&gt; getUserPosts(String userId) {
+    // Returns everything - could be 10,000 posts!
+    return database.getAllPostsByUser(userId);
+}</code></pre>
+<p><strong>Impact:</strong></p>
+<ul>
+<li>Response size: 10,000 posts = ~50MB JSON</li>
+<li>Query time: 5+ seconds for large users</li>
+<li>Database overwhelmed with full table scans</li>
+<li>Mobile clients crash from memory issues</li>
+<li>Users see blank screen (timeout)</li>
+</ul>
+<p><strong>Performance:</strong></p>
+<table>
+<thead>
+<tr>
+<th>User's Posts</th>
+<th>Response Size</th>
+<th>Load Time</th>
+<th>Mobile Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>100 posts</td>
+<td>500 KB</td>
+<td>0.5s</td>
+<td>Works</td>
+</tr>
+<tr>
+<td>1,000 posts</td>
+<td>5 MB</td>
+<td>2s</td>
+<td>Slow</td>
+</tr>
+<tr>
+<td>10,000 posts</td>
+<td>50 MB</td>
+<td>10s+</td>
+<td>Crashes</td>
+</tr>
+</tbody>
+</table>
+<h4 id="approach-2-paginated-api-good">Approach 2: Paginated API (Good)<a class="headerlink" href="#approach-2-paginated-api-good" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// GET /users/123/posts?page=1&amp;limit=20
+@GetMapping("/users/{id}/posts")
+public PaginatedResponse&lt;Post&gt; getUserPosts(
+    String userId,
+    @RequestParam(defaultValue = "1") int page,
+    @RequestParam(defaultValue = "20") int limit
+) {
+    // Validate limit
+    if (limit &gt; 100) limit = 100;  // Cap at 100
+
+    int offset = (page - 1) * limit;
+    List&lt;Post&gt; posts = database.getPostsByUser(userId, offset, limit);
+    int total = database.countPostsByUser(userId);
+
+    return new PaginatedResponse&lt;&gt;(
+        posts,
+        page,
+        limit,
+        total,
+        "/users/" + userId + "/posts"  // Base URL for navigation
+    );
+}
+
+class PaginatedResponse&lt;T&gt; {
+    List&lt;T&gt; data;
+    PaginationMeta meta;
+
+    class PaginationMeta {
+        int currentPage;
+        int pageSize;
+        int totalItems;
+        int totalPages;
+        String nextPage;     // "/users/123/posts?page=2&amp;limit=20"
+        String prevPage;     // "/users/123/posts?page=1&amp;limit=20"
+    }
+}</code></pre>
+<p><strong>Impact:</strong></p>
+<ul>
+<li>Response size: 20 posts = ~100 KB (50x smaller!)</li>
+<li>Query time: &lt;100ms (10x faster)</li>
+<li>Database uses indexed queries</li>
+<li>Mobile clients load quickly</li>
+<li>Smooth infinite scroll UX</li>
+</ul>
+<p><strong>Performance Comparison:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>Response Size</th>
+<th>Query Time</th>
+<th>Database Load</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No pagination</td>
+<td>50 MB</td>
+<td>10s</td>
+<td>Full scan</td>
+</tr>
+<tr>
+<td>Paginated (limit=20)</td>
+<td>100 KB</td>
+<td>100ms</td>
+<td>Indexed query</td>
+</tr>
+<tr>
+<td>Speedup</td>
+<td><strong>500x smaller</strong></td>
+<td><strong>100x faster</strong></td>
+<td>Minimal load</td>
+</tr>
+</tbody>
+</table>
+<p><strong>After implementing, answer:</strong></p>
+<div class="learner-section">
+<ul>
+<li>Why is pagination essential for production APIs? <span class="fill-in">[Your answer]</span></li>
+<li>What's a good default page size? <span class="fill-in">[Your answer]</span></li>
+<li>Offset-based vs cursor-based pagination - when to use each? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr/>
+<h3 id="example-3-error-handling">Example 3: Error Handling<a class="headerlink" href="#example-3-error-handling" title="Permanent link">¶</a></h3>
+<p><strong>Problem:</strong> User tries to create account with email that already exists.</p>
+<h4 id="approach-1-generic-error-bad">Approach 1: Generic Error (Bad)<a class="headerlink" href="#approach-1-generic-error-bad" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">@PostMapping("/users")
+public Response createUser(@RequestBody CreateUserRequest req) {
+    try {
+        User user = database.createUser(req.name, req.email);
+        return Response.status(201).body(user);
+    } catch (Exception e) {
+        // Generic error - useless for client!
+        return Response.status(500).body("Error occurred");
+    }
+}</code></pre>
+<p><strong>Response:</strong></p>
+<pre class="highlight"><code class="language-json">{
+  "message": "Error occurred"
+}</code></pre>
+<p><strong>Impact:</strong></p>
+<ul>
+<li>Client has NO IDEA what went wrong</li>
+<li>Was it duplicate email? Invalid format? Server down?</li>
+<li>User sees generic "Something went wrong" message</li>
+<li>Developers waste hours debugging</li>
+<li>Customer support flooded with tickets</li>
+</ul>
+<h4 id="approach-2-structured-errors-good">Approach 2: Structured Errors (Good)<a class="headerlink" href="#approach-2-structured-errors-good" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">@PostMapping("/users")
+public Response createUser(@RequestBody CreateUserRequest req) {
+    // Validate input
+    if (req.email == null || !req.email.contains("@")) {
+        return Response.status(400).body(new ApiError(
+            "INVALID_EMAIL",
+            "Email address is invalid",
+            "email",
+            "Must be a valid email format"
+        ));
+    }
+
+    try {
+        User user = database.createUser(req.name, req.email);
+        return Response.status(201).body(user);
+    } catch (DuplicateEmailException e) {
+        return Response.status(409).body(new ApiError(
+            "DUPLICATE_EMAIL",
+            "Email address already registered",
+            "email",
+            "Please use a different email or try logging in"
+        ));
+    } catch (Exception e) {
+        log.error("Unexpected error creating user", e);
+        return Response.status(500).body(new ApiError(
+            "INTERNAL_ERROR",
+            "An unexpected error occurred",
+            null,
+            "Please try again later or contact support"
+        ));
+    }
+}
+
+class ApiError {
+    String code;           // Machine-readable error code
+    String message;        // Human-readable message
+    String field;          // Which field caused error (for forms)
+    String suggestion;     // How to fix it
+}</code></pre>
+<p><strong>Response (duplicate email):</strong></p>
+<pre class="highlight"><code class="language-json">{
+  "code": "DUPLICATE_EMAIL",
+  "message": "Email address already registered",
+  "field": "email",
+  "suggestion": "Please use a different email or try logging in"
+}</code></pre>
+<p><strong>Impact:</strong></p>
+<ul>
+<li>Client knows exactly what went wrong</li>
+<li>Form highlights the specific field</li>
+<li>User gets actionable error message</li>
+<li>Proper HTTP status codes (400, 409, 500)</li>
+<li>Developers debug in minutes, not hours</li>
+</ul>
+<p><strong>HTTP Status Codes Table:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Meaning</th>
+<th>When to Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200 OK</td>
+<td>Success</td>
+<td>GET, PUT successful</td>
+</tr>
+<tr>
+<td>201 Created</td>
+<td>Resource created</td>
+<td>POST successful</td>
+</tr>
+<tr>
+<td>204 No Content</td>
+<td>Success, no data</td>
+<td>DELETE successful</td>
+</tr>
+<tr>
+<td>400 Bad Request</td>
+<td>Invalid input</td>
+<td>Validation failed</td>
+</tr>
+<tr>
+<td>401 Unauthorized</td>
+<td>Auth required</td>
+<td>Missing/invalid token</td>
+</tr>
+<tr>
+<td>403 Forbidden</td>
+<td>Not allowed</td>
+<td>Authenticated but not authorized</td>
+</tr>
+<tr>
+<td>404 Not Found</td>
+<td>Resource doesn't exist</td>
+<td>GET /users/999 (doesn't exist)</td>
+</tr>
+<tr>
+<td>409 Conflict</td>
+<td>Duplicate/conflict</td>
+<td>Email already exists</td>
+</tr>
+<tr>
+<td>429 Too Many Requests</td>
+<td>Rate limited</td>
+<td>Exceeded rate limit</td>
+</tr>
+<tr>
+<td>500 Internal Error</td>
+<td>Server error</td>
+<td>Unexpected exception</td>
+</tr>
+</tbody>
+</table>
+<p><strong>After implementing, answer:</strong></p>
+<div class="learner-section">
+<ul>
+<li>Why are specific HTTP status codes important? <span class="fill-in">[Your answer]</span></li>
+<li>What makes a good error message? <span class="fill-in">[Your answer]</span></li>
+<li>When should you use 400 vs 409 vs 422? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr/>
+<h3 id="example-4-idempotency">Example 4: Idempotency<a class="headerlink" href="#example-4-idempotency" title="Permanent link">¶</a></h3>
+<p><strong>Problem:</strong> Process payment - what if client retries due to network timeout?</p>
+<h4 id="approach-1-non-idempotent-bad">Approach 1: Non-Idempotent (Bad)<a class="headerlink" href="#approach-1-non-idempotent-bad" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// POST /payments
+@PostMapping("/payments")
+public Response processPayment(@RequestBody PaymentRequest req) {
+    // No idempotency check!
+    Payment payment = new Payment(req.userId, req.amount);
+    database.save(payment);
+    creditCard.charge(req.cardToken, req.amount);  // Charges card
+
+    return Response.status(201).body(payment);
+}</code></pre>
+<p><strong>Scenario:</strong></p>
+<pre class="highlight"><code>Client: POST /payments (amount=$100)
+Server: Processes payment, charges card $100
+Server: Response lost due to network timeout
+Client: "Did it work? Let me retry..."
+Client: POST /payments (amount=$100) again
+Server: Processes payment AGAIN, charges card ANOTHER $100
+Result: User charged $200 instead of $100!</code></pre>
+<p><strong>Impact:</strong></p>
+<ul>
+<li>Double charging customers</li>
+<li>Customer disputes and refunds</li>
+<li>Loss of trust</li>
+<li>Legal liability</li>
+</ul>
+<h4 id="approach-2-idempotent-with-request-id-good">Approach 2: Idempotent with Request ID (Good)<a class="headerlink" href="#approach-2-idempotent-with-request-id-good" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// POST /payments
+@PostMapping("/payments")
+public Response processPayment(
+    @RequestBody PaymentRequest req,
+    @RequestHeader("Idempotency-Key") String idempotencyKey
+) {
+    // Check if already processed
+    Payment existing = database.findPaymentByIdempotencyKey(idempotencyKey);
+    if (existing != null) {
+        // Already processed - return same result
+        return Response.status(200).body(existing);
+    }
+
+    // Process payment
+    Payment payment = new Payment(req.userId, req.amount, idempotencyKey);
+    database.save(payment);  // Unique constraint on idempotencyKey
+    creditCard.charge(req.cardToken, req.amount);
+
+    return Response.status(201).body(payment);
+}</code></pre>
+<p><strong>Scenario:</strong></p>
+<pre class="highlight"><code>Client: POST /payments (Idempotency-Key: "uuid-12345", amount=$100)
+Server: Processes payment, charges card $100, saves with key "uuid-12345"
+Server: Response lost due to network timeout
+Client: "Did it work? Let me retry..."
+Client: POST /payments (Idempotency-Key: "uuid-12345", amount=$100) again
+Server: Finds existing payment with key "uuid-12345"
+Server: Returns existing payment (status 200, not 201)
+Result: User charged $100 only once - correct!</code></pre>
+<p><strong>Impact:</strong></p>
+<ul>
+<li>Safe retries</li>
+<li>No double charging</li>
+<li>Customer trust maintained</li>
+<li>Works with mobile apps (common retries)</li>
+</ul>
+<p><strong>Idempotent HTTP Methods:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Idempotent?</th>
+<th>Why?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>Yes</td>
+<td>Reading data multiple times = same result</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td>Yes</td>
+<td>Replacing resource multiple times = same final state</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>Yes</td>
+<td>Deleting multiple times = still deleted</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>No*</td>
+<td>Creating multiple times = multiple resources</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td>Maybe**</td>
+<td>Depends on implementation</td>
+</tr>
+</tbody>
+</table>
+<p><em>POST can be made idempotent with Idempotency-Key
+</em>*PATCH is idempotent if operations are idempotent (set vs increment)</p>
+<p><strong>After implementing, answer:</strong></p>
+<div class="learner-section">
+<ul>
+<li>What does idempotent mean? <span class="fill-in">[Your answer]</span></li>
+<li>Why is POST not naturally idempotent? <span class="fill-in">[Your answer]</span></li>
+<li>How do you make POST idempotent? <span class="fill-in">[Your answer]</span></li>
+<li>Why is PUT idempotent but POST is not? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="case-studies-api-design-in-the-wild">Case Studies: API Design in the Wild<a class="headerlink" href="#case-studies-api-design-in-the-wild" title="Permanent link">¶</a></h2>
+<h3 id="stripe-api-the-gold-standard-for-rest">Stripe API: The Gold Standard for REST<a class="headerlink" href="#stripe-api-the-gold-standard-for-rest" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Paradigm:</strong> REST.</li>
+<li><strong>How it works:</strong> Stripe's API is a model for resource-oriented design. Resources are represented as nouns (e.g.,
+  <code>/v1/customers</code>, <code>/v1/charges</code>, <code>/v1/subscriptions</code>). It uses HTTP verbs correctly (e.g., <code>POST /v1/charges</code> to create
+  a new charge, <code>GET /v1/charges/{id}</code> to retrieve it). It also excels at developer experience with clear error
+  messages, idempotent request handling, and versioning in the URL.</li>
+<li><strong>Key Takeaway:</strong> For a public-facing API where predictability, scalability, and a wide range of client support are
+  essential, a well-documented REST architecture is a powerful and reliable choice. It sets clear boundaries and is
+  easily explorable.</li>
+</ul>
+<h3 id="github-api-graphql-for-flexibility">GitHub API: GraphQL for Flexibility<a class="headerlink" href="#github-api-graphql-for-flexibility" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Paradigm:</strong> GraphQL.</li>
+<li><strong>How it works:</strong> GitHub's v4 API uses GraphQL to allow developers to craft precise queries for the exact data they
+  need. Instead of making multiple REST calls to get a repository, its pull requests, and their review comments, a
+  developer can write a single GraphQL query that specifies this nested structure.</li>
+<li><strong>Key Takeaway:</strong> GraphQL is ideal for applications with complex data models and varied client needs (like mobile vs.
+  web). It solves the over-fetching and under-fetching problems common in REST, but adds complexity to the server-side
+  with query parsing and execution.</li>
+</ul>
+<h3 id="google-netflix-grpc-for-internal-microservices">Google &amp; Netflix: gRPC for Internal Microservices<a class="headerlink" href="#google-netflix-grpc-for-internal-microservices" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Paradigm:</strong> RPC (specifically, gRPC).</li>
+<li><strong>How it works:</strong> In a microservices architecture, services need to communicate with each other at very high speed.
+  Google developed gRPC for this purpose. Services define their interfaces using Protocol Buffers (<code>.proto</code> files),
+  which act as a strict contract. gRPC then generates client and server code, enabling efficient, low-latency, binary
+  communication over HTTP/2.</li>
+<li><strong>Key Takeaway:</strong> For internal service-to-service communication where performance is critical and contracts need to be
+  strictly enforced, gRPC is often superior to REST. The focus is not on human-readable resources but on
+  high-performance procedure calls.</li>
+</ul>
+<hr/>
+<h2 id="core-implementation">Core Implementation<a class="headerlink" href="#core-implementation" title="Permanent link">¶</a></h2>
+<h3 id="part-1-rest-api-design">Part 1: REST API Design<a class="headerlink" href="#part-1-rest-api-design" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement a simple REST API with proper resource design.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+/**
+ * REST API: Resource-oriented design with HTTP verbs
+ *
+ * Key principles:
+ * - Resources are nouns (users, posts, comments)
+ * - HTTP verbs define actions (GET, POST, PUT, DELETE)
+ * - Stateless communication
+ * - HATEOAS (links to related resources)
+ */
+
+// Resource representation
+class User {
+    String id;
+    String name;
+    String email;
+    List&lt;String&gt; postIds; // Links to posts
+
+    public User(String id, String name, String email) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.postIds = new ArrayList&lt;&gt;();
+    }
+}
+
+class Post {
+    String id;
+    String authorId; // Link to user
+    String title;
+    String content;
+    long timestamp;
+
+    public Post(String id, String authorId, String title, String content) {
+        this.id = id;
+        this.authorId = authorId;
+        this.title = title;
+        this.content = content;
+        this.timestamp = System.currentTimeMillis();
+    }
+}
+
+public class RESTAPIServer {
+
+    private Map&lt;String, User&gt; users = new HashMap&lt;&gt;();
+    private Map&lt;String, Post&gt; posts = new HashMap&lt;&gt;();
+
+    /**
+     * GET /users/{id}
+     * Retrieve a user by ID
+     *
+     * TODO: Implement user retrieval
+     * - Return user if exists
+     * - Return 404 if not found
+     * - Include links to user's posts (HATEOAS)
+     */
+    public Response getUser(String userId) {
+        // TODO: Lookup user in users map
+
+        // TODO: Implement iteration/conditional logic
+        // Include links: { "posts": "/users/{id}/posts" }
+
+        // TODO: Implement iteration/conditional logic
+
+        return null; // Replace
+    }
+
+    /**
+     * POST /users
+     * Create a new user
+     *
+     * TODO: Implement user creation
+     * - Validate input (name, email required)
+     * - Generate unique ID
+     * - Store user
+     * - Return 201 Created with Location header
+     */
+    public Response createUser(String name, String email) {
+        // TODO: Validate input
+
+        // TODO: Generate ID (UUID)
+
+        // TODO: Create and store user
+
+        // TODO: Return 201 with Location: /users/{id}
+
+        return null; // Replace
+    }
+
+    /**
+     * PUT /users/{id}
+     * Update an existing user
+     *
+     * TODO: Implement user update
+     * - Full replacement of resource
+     * - Return 200 if updated, 404 if not found
+     */
+    public Response updateUser(String userId, String name, String email) {
+        // TODO: Check if user exists
+
+        // TODO: Replace user data completely
+
+        // TODO: Return appropriate status
+
+        return null; // Replace
+    }
+
+    /**
+     * DELETE /users/{id}
+     * Delete a user
+     *
+     * TODO: Implement user deletion
+     * - Remove user and cascade delete posts
+     * - Return 204 No Content if successful
+     */
+    public Response deleteUser(String userId) {
+        // TODO: Remove user
+
+        // TODO: Remove all user's posts
+
+        // TODO: Return 204
+
+        return null; // Replace
+    }
+
+    /**
+     * GET /users/{userId}/posts
+     * Get all posts by a user (nested resource)
+     *
+     * TODO: Implement nested resource retrieval
+     * - Support pagination (page, limit)
+     * - Return list of posts with links
+     */
+    public Response getUserPosts(String userId, int page, int limit) {
+        // TODO: Get user's post IDs
+
+        // TODO: Paginate results
+
+        // TODO: Return posts with pagination metadata
+
+        return null; // Replace
+    }
+
+    // Response wrapper
+    static class Response {
+        int statusCode;
+        Object body;
+        Map&lt;String, String&gt; headers;
+
+        Response(int statusCode, Object body) {
+            this.statusCode = statusCode;
+            this.body = body;
+            this.headers = new HashMap&lt;&gt;();
+        }
+    }
+}</code></pre>
+<h3 id="part-2-graphql-query-engine">Part 2: GraphQL Query Engine<a class="headerlink" href="#part-2-graphql-query-engine" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement a simple GraphQL query resolver.</p>
+<pre class="highlight"><code class="language-java">/**
+ * GraphQL: Client specifies exactly what data they need
+ *
+ * Key principles:
+ * - Single endpoint
+ * - Client defines query shape
+ * - No over-fetching or under-fetching
+ * - Strong typing with schema
+ */
+
+class GraphQLSchema {
+    // Schema definition
+    String schema = """
+        type User {
+            id: ID!
+            name: String!
+            email: String!
+            posts: [Post]
+        }
+
+        type Post {
+            id: ID!
+            title: String!
+            content: String!
+            author: User!
+        }
+
+        type Query {
+            user(id: ID!): User
+            users: [User]
+            post(id: ID!): Post
+        }
+    """;
+}
+
+public class GraphQLResolver {
+
+    private Map&lt;String, User&gt; users = new HashMap&lt;&gt;();
+    private Map&lt;String, Post&gt; posts = new HashMap&lt;&gt;();
+
+    /**
+     * Resolve a GraphQL query
+     *
+     * Example query:
+     * {
+     *   user(id: "123") {
+     *     name
+     *     posts {
+     *       title
+     *     }
+     *   }
+     * }
+     *
+     * TODO: Implement query resolver
+     * 1. Parse query (simplified - assume already parsed)
+     * 2. Resolve requested fields only
+     * 3. Handle nested relationships
+     */
+    public Map&lt;String, Object&gt; executeQuery(String query) {
+        // TODO: Parse query to understand requested fields
+
+        // TODO: Resolve root field (user, users, post)
+
+        // TODO: Implement iteration/conditional logic
+
+        // TODO: Return only requested data
+
+        return null; // Replace
+    }
+
+    /**
+     * Field resolver for User.posts
+     * Only called if "posts" is in the query
+     *
+     * TODO: Implement field resolver
+     * - Get user's post IDs
+     * - Return list of Post objects
+     */
+    public List&lt;Post&gt; resolveUserPosts(User user) {
+        // TODO: Look up posts by user.postIds
+
+        return null; // Replace
+    }
+
+    /**
+     * Field resolver for Post.author
+     * Only called if "author" is in the query
+     *
+     * TODO: Implement field resolver
+     * - Get post's author
+     * - Return User object
+     */
+    public User resolvePostAuthor(Post post) {
+        // TODO: Look up user by post.authorId
+
+        return null; // Replace
+    }
+}</code></pre>
+<h3 id="part-3-rpc-remote-procedure-call">Part 3: RPC (Remote Procedure Call)<a class="headerlink" href="#part-3-rpc-remote-procedure-call" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement a simple RPC server with method invocation.</p>
+<pre class="highlight"><code class="language-java">/**
+ * RPC: Call remote methods as if they were local
+ *
+ * Key principles:
+ * - Action-oriented (not resource-oriented)
+ * - Direct method invocation
+ * - Binary protocols (e.g., Protocol Buffers)
+ * - Efficient for service-to-service calls
+ */
+
+interface UserService {
+    User getUser(String userId);
+    String createUser(String name, String email);
+    boolean updateUser(String userId, String name, String email);
+    boolean deleteUser(String userId);
+    List&lt;Post&gt; getUserPosts(String userId);
+}
+
+public class RPCServer implements UserService {
+
+    private Map&lt;String, User&gt; users = new HashMap&lt;&gt;();
+    private Map&lt;String, Post&gt; posts = new HashMap&lt;&gt;();
+
+    /**
+     * RPC Method: getUser
+     * Direct method call, no HTTP concepts
+     *
+     * TODO: Implement user retrieval
+     * - Return user object or null
+     * - Throw exception if error
+     */
+    @Override
+    public User getUser(String userId) {
+        // TODO: Lookup and return user
+
+        return null; // Replace
+    }
+
+    /**
+     * RPC Method: createUser
+     *
+     * TODO: Implement user creation
+     * - Return new user ID
+     * - Throw exception if validation fails
+     */
+    @Override
+    public String createUser(String name, String email) {
+        // TODO: Validate and create user
+
+        // TODO: Return generated ID
+
+        return null; // Replace
+    }
+
+    /**
+     * RPC Method: updateUser
+     *
+     * TODO: Implement user update
+     * - Return true if success, false if not found
+     * - Throw exception if validation fails
+     */
+    @Override
+    public boolean updateUser(String userId, String name, String email) {
+        // TODO: Update user
+
+        return false; // Replace
+    }
+
+    /**
+     * RPC Method: deleteUser
+     *
+     * TODO: Implement user deletion
+     * - Return true if deleted, false if not found
+     */
+    @Override
+    public boolean deleteUser(String userId) {
+        // TODO: Delete user and posts
+
+        return false; // Replace
+    }
+
+    /**
+     * RPC Method: getUserPosts
+     *
+     * TODO: Implement posts retrieval
+     * - Return list of posts
+     * - Return empty list if user not found
+     */
+    @Override
+    public List&lt;Post&gt; getUserPosts(String userId) {
+        // TODO: Get user's posts
+
+        return null; // Replace
+    }
+}</code></pre>
+<hr/>
+<h2 id="client-code">Client Code<a class="headerlink" href="#client-code" title="Permanent link">¶</a></h2>
+<pre class="highlight"><code class="language-java">public class APIDesignClient {
+
+    public static void main(String[] args) {
+        testRESTAPI();
+        System.out.println("\n" + "=".repeat(50) + "\n");
+        testGraphQL();
+        System.out.println("\n" + "=".repeat(50) + "\n");
+        testRPC();
+    }
+
+    static void testRESTAPI() {
+        System.out.println("=== REST API Test ===\n");
+
+        RESTAPIServer server = new RESTAPIServer();
+
+        // Test: Create user
+        System.out.println("POST /users");
+        RESTAPIServer.Response createResp = server.createUser("Alice", "alice@example.com");
+        System.out.println("Status: " + createResp.statusCode);
+        System.out.println("Body: " + createResp.body);
+
+        // Test: Get user
+        System.out.println("\nGET /users/123");
+        RESTAPIServer.Response getResp = server.getUser("123");
+        System.out.println("Status: " + getResp.statusCode);
+        System.out.println("Body: " + getResp.body);
+
+        // Test: Get user's posts
+        System.out.println("\nGET /users/123/posts?page=1&amp;limit=10");
+        RESTAPIServer.Response postsResp = server.getUserPosts("123", 1, 10);
+        System.out.println("Status: " + postsResp.statusCode);
+        System.out.println("Body: " + postsResp.body);
+    }
+
+    static void testGraphQL() {
+        System.out.println("=== GraphQL Test ===\n");
+
+        GraphQLResolver resolver = new GraphQLResolver();
+
+        // Test: Query user with specific fields
+        String query = """
+            {
+              user(id: "123") {
+                name
+                email
+                posts {
+                  title
+                }
+              }
+            }
+        """;
+
+        System.out.println("Query:");
+        System.out.println(query);
+
+        Map&lt;String, Object&gt; result = resolver.executeQuery(query);
+        System.out.println("\nResult: " + result);
+    }
+
+    static void testRPC() {
+        System.out.println("=== RPC Test ===\n");
+
+        UserService service = new RPCServer();
+
+        // Test: Create user (direct method call)
+        System.out.println("createUser(\"Bob\", \"bob@example.com\")");
+        String userId = service.createUser("Bob", "bob@example.com");
+        System.out.println("Returned ID: " + userId);
+
+        // Test: Get user
+        System.out.println("\ngetUser(\"" + userId + "\")");
+        User user = service.getUser(userId);
+        System.out.println("Returned: " + (user != null ? user.name : "null"));
+
+        // Test: Get user posts
+        System.out.println("\ngetUserPosts(\"" + userId + "\")");
+        List&lt;Post&gt; posts = service.getUserPosts(userId);
+        System.out.println("Returned: " + posts.size() + " posts");
+    }
+}</code></pre>
+<hr/>
+<h2 id="debugging-challenges">Debugging Challenges<a class="headerlink" href="#debugging-challenges" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Find and fix bugs in broken API implementations. This tests your understanding.</p>
+<h3 id="challenge-1-broken-api-versioning">Challenge 1: Broken API Versioning<a class="headerlink" href="#challenge-1-broken-api-versioning" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * API versioning attempt - but has 2 CRITICAL BUGS.
+ * Find them!
+ */
+
+@RestController
+public class UserController {
+
+    // Version 1 endpoint
+    @GetMapping("/v1/users/{id}")
+    public UserV1 getUserV1(String id) {
+        User user = database.getUser(id);
+        return convertToV1(user);
+    }
+
+    // Version 2 endpoint - BUG 1: What's wrong with this route?
+    @GetMapping("/users/{id}")
+    public UserV2 getUserV2(String id) {
+        User user = database.getUser(id);
+        return new UserV2(user.id, user.firstName, user.lastName, user.email);
+    }
+
+    // Update endpoint - BUG 2: Version handling issue
+    @PutMapping("/users/{id}")
+    public Response updateUser(String id, @RequestBody UpdateUserRequest req) {
+        // Updates internal model
+        User user = database.getUser(id);
+        user.firstName = req.firstName;  // What if v1 client calls this?
+        user.lastName = req.lastName;
+        database.save(user);
+
+        return Response.ok(user);
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>
+<p>Bug 1: <span class="fill-in">[What\'s the bug?]</span></p>
+</li>
+<li>
+<p>Bug 2: <span class="fill-in">[What\'s the bug?]</span></p>
+</li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug 1:</strong> Version 2 endpoint uses <code>/users/{id}</code> instead of <code>/v2/users/{id}</code>. This creates ambiguity - which version is
+the "default"? Clients expect explicit versioning.</p>
+<p><strong>Fix:</strong></p>
+<pre class="highlight"><code class="language-java">@GetMapping("/v2/users/{id}")
+public UserV2 getUserV2(String id) {
+    // Now explicit
+}</code></pre>
+<p><strong>Bug 2:</strong> Single update endpoint doesn't handle version differences. V1 clients send <code>name</code> field, V2 clients send
+<code>firstName</code>/<code>lastName</code>. Need separate endpoints or request versioning.</p>
+<p><strong>Fix:</strong></p>
+<pre class="highlight"><code class="language-java">@PutMapping("/v1/users/{id}")
+public Response updateUserV1(String id, @RequestBody UpdateUserV1Request req) {
+    User user = database.getUser(id);
+    // Parse single name into firstName/lastName
+    String[] parts = req.name.split(" ", 2);
+    user.firstName = parts[0];
+    user.lastName = parts.length &gt; 1 ? parts[1] : "";
+    database.save(user);
+    return Response.ok(convertToV1(user));
+}
+
+@PutMapping("/v2/users/{id}")
+public Response updateUserV2(String id, @RequestBody UpdateUserV2Request req) {
+    User user = database.getUser(id);
+    user.firstName = req.firstName;
+    user.lastName = req.lastName;
+    database.save(user);
+    return Response.ok(new UserV2(user));
+}</code></pre>
+</details>
+<hr/>
+<h3 id="challenge-2-broken-pagination">Challenge 2: Broken Pagination<a class="headerlink" href="#challenge-2-broken-pagination" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Pagination implementation with 3 BUGS.
+ * Two are logic errors, one is a performance issue.
+ */
+
+@GetMapping("/users/{userId}/posts")
+public PaginatedResponse getPosts(
+    @PathParam("userId") String userId,
+    @RequestParam("page") int page,    @RequestParam("limit") int limit) {
+    // Calculate offset
+    int offset = page * limit;
+    List&lt;Post&gt; posts = database.query(
+        "SELECT * FROM posts WHERE user_id = ? LIMIT ? OFFSET ?",
+        userId, limit, offset
+    );
+
+    int total = database.query(
+        "SELECT COUNT(*) FROM posts WHERE user_id = ?",
+        userId
+    );
+
+    return new PaginatedResponse(posts, page, limit, total);
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<p><strong>Bug 1:</strong> <span class="fill-in">[What happens if client doesn't send page/limit parameters?]</span></p>
+<ul>
+<li>Impact: <span class="fill-in">[What error occurs?]</span></li>
+<li>Fix: <span class="fill-in">[What should be added?]</span></li>
+</ul>
+<p><strong>Bug 2:</strong> <span class="fill-in">[What if client sends limit=999999?]</span></p>
+<ul>
+<li>Impact: <span class="fill-in">[What problem does this cause?]</span></li>
+<li>Fix: <span class="fill-in">[How to prevent abuse?]</span></li>
+</ul>
+<p><strong>Bug 3:</strong> <span class="fill-in">[Is the offset calculation correct?]</span></p>
+<ul>
+<li>Test: page=1, limit=10 → offset = <span class="fill-in">___</span></li>
+<li>Expected: offset should be ___</li>
+<li>Fix: <span class="fill-in">[Correct formula?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug 1:</strong> Missing default values. If client doesn't send parameters, request fails with 400 Bad Request.</p>
+<p><strong>Fix:</strong></p>
+<pre class="highlight"><code class="language-java">@RequestParam(defaultValue = "1") int page,
+@RequestParam(defaultValue = "20") int limit</code></pre>
+<p><strong>Bug 2:</strong> No limit validation. Malicious client could send <code>limit=999999</code> and DOS the database.</p>
+<p><strong>Fix:</strong></p>
+<pre class="highlight"><code class="language-java">if (limit &gt; 100) limit = 100;  // Cap at max
+if (limit &lt; 1) limit = 20;     // Minimum 1</code></pre>
+<p><strong>Bug 3:</strong> Offset calculation is off by one. Page 1 should start at offset 0, not 10.</p>
+<p><strong>Correct calculation:</strong></p>
+<ul>
+<li>Page 1, limit 10: offset = (1-1) * 10 = 0 (items 0-9)</li>
+<li>Page 2, limit 10: offset = (2-1) * 10 = 10 (items 10-19)</li>
+</ul>
+<p><strong>Fix:</strong></p>
+<pre class="highlight"><code class="language-java">int offset = (page - 1) * limit;</code></pre>
+</details>
+<hr/>
+<h3 id="challenge-3-wrong-http-methods">Challenge 3: Wrong HTTP Methods<a class="headerlink" href="#challenge-3-wrong-http-methods" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * API with incorrect HTTP method usage.
+ * Find which methods are WRONG and explain why.
+ */
+
+// Operation 1: Get user profile
+@PostMapping("/users/{id}/profile")public User getProfile(@PathParam("id") String id) {
+    return database.getUser(id);
+}
+
+// Operation 2: Update user's email
+@GetMapping("/users/{id}/updateEmail")public Response updateEmail(
+    @PathParam("id") String id,
+    @RequestParam("email") String newEmail
+) {
+    User user = database.getUser(id);
+    user.email = newEmail;
+    database.save(user);
+    return Response.ok("Email updated");
+}
+
+// Operation 3: Delete user
+@PostMapping("/users/{id}/delete")public Response deleteUser(@PathParam("id") String id) {
+    database.deleteUser(id);
+    return Response.ok("User deleted");
+}
+
+// Operation 4: Partial update of user
+@PutMapping("/users/{id}")public Response partialUpdate(
+    @PathParam("id") String id,
+    @RequestBody Map&lt;String, Object&gt; updates
+) {
+    User user = database.getUser(id);
+    // Apply only provided fields
+    if (updates.containsKey("email")) {
+        user.email = (String) updates.get("email");
+    }
+    database.save(user);
+    return Response.ok(user);
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Current Method</th>
+<th>Correct Method</th>
+<th>Why?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Get profile</td>
+<td>POST</td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Explain]</span></td>
+</tr>
+<tr>
+<td>Update email</td>
+<td>GET</td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Explain]</span></td>
+</tr>
+<tr>
+<td>Delete user</td>
+<td>POST</td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Explain]</span></td>
+</tr>
+<tr>
+<td>Partial update</td>
+<td>PUT</td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Explain]</span></td>
+</tr>
+</tbody>
+</table>
+<details>
+<summary>Click to verify your answers</summary>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Current Method</th>
+<th>Correct Method</th>
+<th>Why?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Get profile</td>
+<td>POST</td>
+<td><strong>GET</strong></td>
+<td>Reading data, no side effects, should be cacheable</td>
+</tr>
+<tr>
+<td>Update email</td>
+<td>GET</td>
+<td><strong>PATCH or PUT</strong></td>
+<td>Modifying data, GET should never modify state</td>
+</tr>
+<tr>
+<td>Delete user</td>
+<td>POST</td>
+<td><strong>DELETE</strong></td>
+<td>Deleting resource, use proper semantic method</td>
+</tr>
+<tr>
+<td>Partial update</td>
+<td>PUT</td>
+<td><strong>PATCH</strong></td>
+<td>PUT replaces entire resource, PATCH for partial updates</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Correct implementations:</strong></p>
+<pre class="highlight"><code class="language-java">// 1. Get profile - use GET
+@GetMapping("/users/{id}/profile")
+public User getProfile(@PathParam("id") String id) {
+    return database.getUser(id);
+}
+
+// 2. Update email - use PATCH
+@PatchMapping("/users/{id}")
+public Response updateEmail(
+    @PathParam("id") String id,
+    @RequestBody UpdateEmailRequest req
+) {
+    User user = database.getUser(id);
+    user.email = req.email;
+    database.save(user);
+    return Response.ok(user);
+}
+
+// 3. Delete user - use DELETE
+@DeleteMapping("/users/{id}")
+public Response deleteUser(@PathParam("id") String id) {
+    database.deleteUser(id);
+    return Response.status(204).build();  // 204 No Content
+}
+
+// 4. Partial update - use PATCH
+@PatchMapping("/users/{id}")
+public Response partialUpdate(
+    @PathParam("id") String id,
+    @RequestBody Map&lt;String, Object&gt; updates
+) {
+    // Implementation stays the same
+}</code></pre>
+<p><strong>Key principle:</strong> HTTP methods have semantic meaning - use them correctly for proper REST API design.</p>
+</details>
+<hr/>
+<h3 id="challenge-4-poor-error-handling">Challenge 4: Poor Error Handling<a class="headerlink" href="#challenge-4-poor-error-handling" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Error handling that makes debugging IMPOSSIBLE.
+ * Find all the problems!
+ */
+
+@PostMapping("/users")
+public Response createUser(@RequestBody CreateUserRequest req) {
+    try {
+        // Validation
+        if (req.email == null) {
+            return Response.status(500).body("Error");        }
+
+        if (!req.email.contains("@")) {
+            return Response.status(200).body(null);        }
+
+        // Check duplicate
+        User existing = database.findByEmail(req.email);
+        if (existing != null) {
+            return Response.status(400).body("Error");        }
+
+        // Create user
+        User user = database.createUser(req);
+        return Response.status(200).body(user);
+    } catch (Exception e) {
+        return Response.status(500).body("Something went wrong");
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<p><strong>Bug 1:</strong> Missing email should return status ___ with message ___</p>
+<p><strong>Bug 2:</strong> Invalid email format should return status ___ with message ___</p>
+<p><strong>Bug 3:</strong> Duplicate email should return status ___ with message ___</p>
+<ul>
+<li>Current: 400 Bad Request</li>
+<li>Correct: <span class="fill-in">[Fill in]</span></li>
+<li>Why: <span class="fill-in">[Explain the difference]</span></li>
+</ul>
+<p><strong>Bug 4:</strong> Successful creation should return status ___</p>
+<ul>
+<li>Current: 200 OK</li>
+<li>Correct: <span class="fill-in">[Fill in]</span></li>
+<li>Why: <span class="fill-in">[Explain]</span></li>
+</ul>
+<p><strong>Bug 5:</strong> Generic catch block problems:</p>
+<ol>
+<li><span class="fill-in">[What's lost?]</span></li>
+<li><span class="fill-in">[How to fix?]</span></li>
+<li><span class="fill-in">[What should be logged?]</span></li>
+</ol>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Correct implementation:</strong></p>
+<pre class="highlight"><code class="language-java">@PostMapping("/users")
+public Response createUser(@RequestBody CreateUserRequest req) {
+    // Validate required fields
+    if (req.email == null || req.email.isEmpty()) {
+        return Response.status(400).body(new ApiError(
+            "MISSING_EMAIL",
+            "Email is required",
+            "email",
+            "Please provide a valid email address"
+        ));
+    }
+
+    // Validate format
+    if (!req.email.contains("@")) {
+        return Response.status(400).body(new ApiError(
+            "INVALID_EMAIL",
+            "Email format is invalid",
+            "email",
+            "Email must contain @ symbol"
+        ));
+    }
+
+    try {
+        // Check duplicate
+        User existing = database.findByEmail(req.email);
+        if (existing != null) {
+            return Response.status(409).body(new ApiError(
+                "DUPLICATE_EMAIL",
+                "Email already registered",
+                "email",
+                "Please use a different email or try logging in"
+            ));
+        }
+
+        // Create user
+        User user = database.createUser(req);
+        return Response.status(201)
+            .header("Location", "/users/" + user.id)
+            .body(user);
+
+    } catch (DatabaseException e) {
+        log.error("Database error creating user: {}", req.email, e);
+        return Response.status(500).body(new ApiError(
+            "DATABASE_ERROR",
+            "Unable to create user",
+            null,
+            "Please try again later"
+        ));
+    } catch (Exception e) {
+        log.error("Unexpected error creating user: {}", req.email, e);
+        return Response.status(500).body(new ApiError(
+            "INTERNAL_ERROR",
+            "An unexpected error occurred",
+            null,
+            "Please try again later or contact support"
+        ));
+    }
+}</code></pre>
+<p><strong>Status code fixes:</strong></p>
+<ul>
+<li>Bug 1: 400 Bad Request (not 500) - client error, not server error</li>
+<li>Bug 2: 400 Bad Request with proper message</li>
+<li>Bug 3: <strong>409 Conflict</strong> (not 400) - resource conflict, specific error type</li>
+<li>Bug 4: <strong>201 Created</strong> (not 200) - resource was created</li>
+<li>Bug 5: Always log exceptions, provide structured errors, differentiate error types</li>
+</ul>
+</details>
+<hr/>
+<h3 id="challenge-5-missing-idempotency">Challenge 5: Missing Idempotency<a class="headerlink" href="#challenge-5-missing-idempotency" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Payment processing without idempotency.
+ * What could go wrong?
+ */
+
+@PostMapping("/payments")
+public Response processPayment(@RequestBody PaymentRequest req) {
+    // Create payment record
+    Payment payment = new Payment();
+    payment.userId = req.userId;
+    payment.amount = req.amount;
+    payment.status = "PENDING";
+    database.save(payment);
+
+    // Charge credit card
+    try {
+        creditCardService.charge(req.cardToken, req.amount);
+        payment.status = "COMPLETED";
+        database.save(payment);
+        return Response.status(201).body(payment);
+    } catch (PaymentFailedException e) {
+        payment.status = "FAILED";
+        database.save(payment);
+        return Response.status(400).body("Payment failed");
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<p><strong>Scenario 1:</strong> Client submits payment, network timeout before response</p>
+<ul>
+<li>Client doesn't know if payment succeeded</li>
+<li>Client retries request</li>
+<li>What happens? <span class="fill-in">[Fill in]</span></li>
+<li>Impact: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>Scenario 2:</strong> Request processed, card charged, but database save fails</p>
+<ul>
+<li>Card was charged: <span class="fill-in">[Yes/No]</span></li>
+<li>Payment record exists: <span class="fill-in">[Yes/No]</span></li>
+<li>User's money: <span class="fill-in">[What happened?]</span></li>
+</ul>
+<p><strong>Fixes needed:</strong></p>
+<ol>
+<li>Add <span class="fill-in">[what field?]</span> to ensure idempotency</li>
+<li>Check <span class="fill-in">[what?]</span> before processing</li>
+<li>Handle <span class="fill-in">[what scenario?]</span> to prevent double charging</li>
+</ol>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Problems:</strong></p>
+<ol>
+<li>No idempotency = double charging on retry</li>
+<li>No transaction = money charged but no record</li>
+<li>No way to safely retry</li>
+</ol>
+<p><strong>Correct implementation:</strong></p>
+<pre class="highlight"><code class="language-java">@PostMapping("/payments")
+public Response processPayment(
+    @RequestBody PaymentRequest req,
+    @RequestHeader("Idempotency-Key") String idempotencyKey
+) {
+    // Check if already processed
+    Payment existing = database.findByIdempotencyKey(idempotencyKey);
+    if (existing != null) {
+        // Already processed - return existing result
+        return Response.status(200).body(existing);
+    }
+
+    // Start transaction
+    Transaction tx = database.beginTransaction();
+    try {
+        // Create payment record with idempotency key
+        Payment payment = new Payment();
+        payment.userId = req.userId;
+        payment.amount = req.amount;
+        payment.idempotencyKey = idempotencyKey;  // Unique constraint
+        payment.status = "PENDING";
+        database.save(payment);
+
+        // Charge credit card
+        String chargeId = creditCardService.charge(req.cardToken, req.amount);
+        payment.chargeId = chargeId;
+        payment.status = "COMPLETED";
+        database.save(payment);
+
+        tx.commit();
+        return Response.status(201).body(payment);
+
+    } catch (PaymentFailedException e) {
+        tx.rollback();
+        payment.status = "FAILED";
+        database.save(payment);
+        return Response.status(400).body(new ApiError(
+            "PAYMENT_FAILED",
+            "Payment could not be processed",
+            null,
+            e.getMessage()
+        ));
+    } catch (Exception e) {
+        tx.rollback();
+        log.error("Payment processing failed", e);
+        return Response.status(500).body(new ApiError(
+            "PAYMENT_ERROR",
+            "Payment processing error",
+            null,
+            "Please try again"
+        ));
+    }
+}</code></pre>
+<p><strong>Key fixes:</strong></p>
+<ol>
+<li>Idempotency-Key header required</li>
+<li>Check for existing payment before processing</li>
+<li>Transaction ensures atomicity</li>
+<li>Safe to retry with same key</li>
+</ol>
+</details>
+<hr/>
+<h3 id="your-debugging-scorecard">Your Debugging Scorecard<a class="headerlink" href="#your-debugging-scorecard" title="Permanent link">¶</a></h3>
+<p>After finding and fixing all bugs:</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Found all versioning issues</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Fixed pagination bugs and understood why they matter</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Corrected HTTP method usage</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Improved error handling with proper status codes</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Implemented idempotency for critical operations</li>
+</ul>
+<p><strong>Common API mistakes you discovered:</strong></p>
+<ol>
+<li><span class="fill-in">[List the patterns you noticed]</span></li>
+<li><span class="fill-in">[Fill in]</span></li>
+<li><span class="fill-in">[Fill in]</span></li>
+</ol>
+<p><strong>Production-critical issues:</strong></p>
+<ul>
+<li>Which bug could cause financial loss? <span class="fill-in">[Fill in]</span></li>
+<li>Which bug would break clients immediately? <span class="fill-in">[Fill in]</span></li>
+<li>Which bug would cause performance issues at scale? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<hr/>
+<h2 id="decision-framework">Decision Framework<a class="headerlink" href="#decision-framework" title="Permanent link">¶</a></h2>
+<p><strong>Questions to answer after implementation:</strong></p>
+<h3 id="1-rest-vs-graphql-vs-rpc">1. REST vs GraphQL vs RPC<a class="headerlink" href="#1-rest-vs-graphql-vs-rpc" title="Permanent link">¶</a></h3>
+<p><strong>When to use REST?</strong></p>
+<ul>
+<li>Your scenario: <span class="fill-in">[Fill in]</span></li>
+<li>Key factors: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>When to use GraphQL?</strong></p>
+<ul>
+<li>Your scenario: <span class="fill-in">[Fill in]</span></li>
+<li>Key factors: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>When to use RPC?</strong></p>
+<ul>
+<li>Your scenario: <span class="fill-in">[Fill in]</span></li>
+<li>Key factors: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="2-trade-offs">2. Trade-offs<a class="headerlink" href="#2-trade-offs" title="Permanent link">¶</a></h3>
+<p><strong>REST:</strong></p>
+<ul>
+<li>Pros: <span class="fill-in">[Fill in after understanding]</span></li>
+<li>Cons: <span class="fill-in">[Fill in after understanding]</span></li>
+</ul>
+<p><strong>GraphQL:</strong></p>
+<ul>
+<li>Pros: <span class="fill-in">[Fill in after understanding]</span></li>
+<li>Cons: <span class="fill-in">[Fill in after understanding]</span></li>
+</ul>
+<p><strong>RPC:</strong></p>
+<ul>
+<li>Pros: <span class="fill-in">[Fill in after understanding]</span></li>
+<li>Cons: <span class="fill-in">[Fill in after understanding]</span></li>
+</ul>
+<h3 id="3-your-decision-tree">3. Your Decision Tree<a class="headerlink" href="#3-your-decision-tree" title="Permanent link">¶</a></h3>
+<p>Build your decision tree after practicing:
+<div class="mermaid">flowchart LR
+    Start["What kind of API are you building?"]
+
+    N1["?"]
+    Start --&gt;|"Public web API for third parties"| N1
+    N2["?"]
+    Start --&gt;|"Mobile app backend"| N2
+    N3["?"]
+    Start --&gt;|"Service-to-service communication"| N3
+    N4["?"]
+    Start --&gt;|"Complex data fetching with relationships"| N4</div></p>
+<hr/>
+<h2 id="practice">Practice<a class="headerlink" href="#practice" title="Permanent link">¶</a></h2>
+<h3 id="scenario-1-design-api-for-a-blogging-platform">Scenario 1: Design API for a blogging platform<a class="headerlink" href="#scenario-1-design-api-for-a-blogging-platform" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>Users can create, edit, delete posts</li>
+<li>Users can comment on posts</li>
+<li>Users can follow other users</li>
+<li>Feed shows posts from followed users</li>
+</ul>
+<p><strong>Your API design:</strong></p>
+<ul>
+<li>Which paradigm would you choose? <span class="fill-in">[Fill in]</span></li>
+<li>Why? <span class="fill-in">[Fill in]</span></li>
+<li>Key endpoints/queries: <span class="fill-in">[Fill in]</span></li>
+<li>How to handle feed generation? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="scenario-2-design-api-for-microservices">Scenario 2: Design API for microservices<a class="headerlink" href="#scenario-2-design-api-for-microservices" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>Order service needs to call Payment service</li>
+<li>Payment service needs to call Notification service</li>
+<li>Low latency required</li>
+<li>Services are within same data center</li>
+</ul>
+<p><strong>Your API design:</strong></p>
+<ul>
+<li>Which paradigm would you choose? <span class="fill-in">[Fill in]</span></li>
+<li>Why? <span class="fill-in">[Fill in]</span></li>
+<li>How to handle errors? <span class="fill-in">[Fill in]</span></li>
+<li>How to handle retries? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="scenario-3-design-api-for-mobile-app-with-poor-network">Scenario 3: Design API for mobile app with poor network<a class="headerlink" href="#scenario-3-design-api-for-mobile-app-with-poor-network" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>Mobile app on slow 3G network</li>
+<li>Needs user profile, posts, and comments</li>
+<li>Different screens need different data</li>
+<li>Want to minimize requests</li>
+</ul>
+<p><strong>Your API design:</strong></p>
+<ul>
+<li>Which paradigm would you choose? <span class="fill-in">[Fill in]</span></li>
+<li>Why? <span class="fill-in">[Fill in]</span></li>
+<li>How to optimize for mobile? <span class="fill-in">[Fill in]</span></li>
+<li>Caching strategy? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<hr/>
+<h2 id="review-checklist">Review Checklist<a class="headerlink" href="#review-checklist" title="Permanent link">¶</a></h2>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> REST API implemented with proper resource design</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> GraphQL resolver implemented with field resolution</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> RPC service implemented with method calls</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand when to use each paradigm</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can explain trade-offs between approaches</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Built decision tree for API selection</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Completed practice scenarios</li>
+</ul>
+<hr/>
+<h3 id="mastery-certification">Mastery Certification<a class="headerlink" href="#mastery-certification" title="Permanent link">¶</a></h3>
+<p><strong>I certify that I can:</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Design REST APIs with proper resource modeling</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Choose appropriate HTTP methods and status codes</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Implement pagination for list endpoints</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Handle errors with structured responses</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Version APIs without breaking clients</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Make critical operations idempotent</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Compare REST, GraphQL, and RPC trade-offs</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Identify breaking vs compatible API changes</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Debug common API design mistakes</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Teach API design concepts to others</li>
+</ul>
+<hr/>
+<h2 id="your-api-design-principles-write-your-own">Your API Design Principles (Write Your Own)<a class="headerlink" href="#your-api-design-principles-write-your-own" title="Permanent link">¶</a></h2>
+<p>Based on everything you've learned, write your personal API design checklist:</p>
+<p><strong>My Top 5 API Design Principles:</strong></p>
+<ol>
+<li><span class="fill-in">[Fill in]</span></li>
+<li><span class="fill-in">[Fill in]</span></li>
+<li><span class="fill-in">[Fill in]</span></li>
+<li><span class="fill-in">[Fill in]</span></li>
+<li><span class="fill-in">[Fill in]</span></li>
+</ol>
+<p><strong>My Top 3 API Anti-Patterns to Avoid:</strong></p>
+<ol>
+<li><span class="fill-in">[Fill in]</span></li>
+<li><span class="fill-in">[Fill in]</span></li>
+<li><span class="fill-in">[Fill in]</span></li>
+</ol>
+<p><strong>When I review an API, I check:</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <span class="fill-in">[Your checklist item]</span></li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <span class="fill-in">[Your checklist item]</span></li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <span class="fill-in">[Your checklist item]</span></li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <span class="fill-in">[Your checklist item]</span></li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <span class="fill-in">[Your checklist item]</span></li>
+</ul></div>
+</div>
+<footer class="col-md-12 text-center">
+<hr/>
+<p>
+<small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+</p>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../../js/bootstrap-3.0.3.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>var base_url = "../.."</script>
+<script src="../../js/base.js"></script>
+<script src="../../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<button class="close" data-dismiss="modal" type="button">
+<span aria-hidden="true">×</span>
+<span class="sr-only">Close</span>
+</button>
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+</div>
+<div class="modal-body">
+<p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="text"/>
+</div>
+</form>
+<div id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@10.4.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>

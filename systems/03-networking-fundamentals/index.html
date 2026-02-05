@@ -1,0 +1,1498 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A framework for algorithms, systems design, and infrastructure.">
+    <meta name="author" content="Richard">
+    
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+
+    
+    <title>03. Networking Fundamentals - Software Engineering Study Guide</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../../css/base.min.css" rel="stylesheet">
+    <link href="../../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css">
+        
+    
+    <link href="../../css/custom.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../..">Home</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Systems Design <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../01-storage-engines/">01. Storage Engines</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+
+                        
+                            
+<li class="active">
+    <a href="./">03. Networking Fundamentals</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../04-search-and-indexing/">04. Search & Indexing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../05-caching-patterns/">05. Caching Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../06-api-design/">06. API Design</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../07-security-patterns/">07. Security Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../08-rate-limiting/">08. Rate Limiting</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../09-load-balancing/">09. Load Balancing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../11-database-scaling/">11. Database Scaling</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../12-message-queues/">12. Message Queues</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../13-stream-processing/">13. Stream Processing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../14-observability/">14. Observability</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../15-distributed-transactions/">15. Distributed Transactions</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../16-consensus-patterns/">16. Consensus Patterns</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">DSA <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../dsa/01-two-pointers/">01. Two Pointers</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/02-sliding-window/">02. Sliding Window</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/03-hash-tables/">03. Hash Tables</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/04-linked-lists/">04. Linked Lists</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/05-stacks--queues/">05. Stacks & Queues</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/06-trees-traversals/">06. Trees - Traversals</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/07-trees-recursion/">07. Trees - Recursion</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/08-binary-search/">08. Binary Search</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/09-heaps/">09. Heaps</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/10-graphs/">10. Graphs</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/11-union-find/">11. Union-Find</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/12-advanced-graphs/">12. Advanced Graphs</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/13-backtracking/">13. Backtracking</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/14-dynamic-programming-1d/">14. Dynamic Programming 1D</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/15-dynamic-programming-2d/">15. Dynamic Programming 2D</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/16-tries/">16. Tries</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/17-advanced-topics/">17. Advanced Topics</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../02-row-vs-column-storage/">
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="next" href="../04-search-and-indexing/">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#networking-fundamentals">Networking Fundamentals</a></li>
+            <li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+                
+            <li class="second-level"><a href="#quick-quiz-do-before-learning">Quick Quiz (Do BEFORE learning)</a></li>
+                
+            <li class="second-level"><a href="#beforeafter-why-networking-fundamentals-matter">Before/After: Why Networking Fundamentals Matter</a></li>
+                
+            <li class="second-level"><a href="#case-studies-networking-in-the-wild">Case Studies: Networking in the Wild</a></li>
+                
+            <li class="second-level"><a href="#core-concepts">Core Concepts</a></li>
+                
+            <li class="second-level"><a href="#decision-framework">Decision Framework</a></li>
+                
+            <li class="second-level"><a href="#practice-scenarios">Practice Scenarios</a></li>
+                
+            <li class="second-level"><a href="#review-checklist">Review Checklist</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="networking-fundamentals">Networking Fundamentals<a class="headerlink" href="#networking-fundamentals" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>TCP/IP vs UDP, HTTP versions, WebSockets, DNS, TLS, and load balancing</p>
+</blockquote>
+<hr />
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After learning networking fundamentals, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What is the difference between TCP and UDP in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after learning]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Why do we need DNS?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after learning]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy for TCP vs UDP:</strong></p>
+<ul>
+<li>Example: "TCP is like certified mail where..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What does HTTP/2 multiplexing solve?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after learning]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy for WebSockets:</strong></p>
+<ul>
+<li>Example: "WebSockets are like a phone call where..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Why do we need load balancers?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after practice]</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr />
+<h2 id="quick-quiz-do-before-learning">Quick Quiz (Do BEFORE learning)<a class="headerlink" href="#quick-quiz-do-before-learning" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Test your intuition about networking without looking at details. Answer these, then verify after learning.</p>
+<h3 id="protocol-predictions">Protocol Predictions<a class="headerlink" href="#protocol-predictions" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p><strong>When would you choose UDP over TCP?</strong></p>
+<ul>
+<li>Your guess: <span class="fill-in">[What scenarios?]</span></li>
+<li>Verified: <span class="fill-in">[Actual use cases]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What's the main benefit of HTTP/2 over HTTP/1.1?</strong></p>
+<ul>
+<li>Your guess: <span class="fill-in">[Speed? Efficiency? Something else?]</span></li>
+<li>Verified: <span class="fill-in">[Actual benefit]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>WebSockets vs HTTP polling - which is better for real-time chat?</strong></p>
+<ul>
+<li>Your guess: <span class="fill-in">[Which one and why?]</span></li>
+<li>Verified: <span class="fill-in">[Actual answer with trade-offs]</span></li>
+</ul>
+</li>
+</ol>
+<h3 id="scenario-predictions">Scenario Predictions<a class="headerlink" href="#scenario-predictions" title="Permanent link">&para;</a></h3>
+<p><strong>Scenario 1:</strong> Video streaming application with 1M concurrent users</p>
+<ul>
+<li><strong>Protocol choice:</strong> <span class="fill-in">[TCP/UDP - Why?]</span></li>
+<li><strong>DNS strategy:</strong> <span class="fill-in">[How to handle this scale?]</span></li>
+<li><strong>Load balancing:</strong> <span class="fill-in">[L4 or L7?]</span></li>
+</ul>
+<p><strong>Scenario 2:</strong> Real-time multiplayer game with low latency requirement</p>
+<ul>
+<li><strong>Protocol choice:</strong> <span class="fill-in">[TCP/UDP - Why?]</span></li>
+<li><strong>Packet loss handling:</strong> <span class="fill-in">[What happens?]</span></li>
+<li><strong>Expected latency:</strong> <span class="fill-in">[Milliseconds? Seconds?]</span></li>
+</ul>
+<p><strong>Scenario 3:</strong> Financial trading platform requiring guaranteed message delivery</p>
+<ul>
+<li><strong>Protocol choice:</strong> <span class="fill-in">[TCP/UDP - Why?]</span></li>
+<li><strong>TLS overhead:</strong> <span class="fill-in">[Worth it?]</span></li>
+<li><strong>Connection pooling:</strong> <span class="fill-in">[Helpful?]</span></li>
+</ul>
+</div>
+<hr />
+<h2 id="beforeafter-why-networking-fundamentals-matter">Before/After: Why Networking Fundamentals Matter<a class="headerlink" href="#beforeafter-why-networking-fundamentals-matter" title="Permanent link">&para;</a></h2>
+<p><strong>Your task:</strong> Compare naive networking assumptions vs proper understanding to see the impact.</p>
+<h3 id="example-http-connection-management">Example: HTTP Connection Management<a class="headerlink" href="#example-http-connection-management" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Mobile app making 100 API requests to load user dashboard</p>
+<h4 id="approach-1-naive-http11-sequential-requests">Approach 1: Naive HTTP/1.1 (Sequential Requests)<a class="headerlink" href="#approach-1-naive-http11-sequential-requests" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code>Client needs to load dashboard with:
+
+- User profile (1 request)
+- 20 recent posts (20 requests)
+- 50 friend suggestions (50 requests)
+- 10 notifications (10 requests)
+- Analytics data (19 requests)
+
+Total: 100 requests
+
+HTTP/1.1 behavior:
+
+- Opens connection
+- Request 1 → Response 1
+- Request 2 → Response 2
+- ...
+- Request 100 → Response 100
+- Closes connection
+
+Time analysis:
+
+- Each request: ~50ms (network RTT) + processing
+- Sequential: 100 * 50ms = 5,000ms = 5 seconds!
+- User sees: Loading spinner for 5 seconds</code></pre>
+<p><strong>Problems:</strong></p>
+<ul>
+<li>Head-of-line blocking (each request waits for previous)</li>
+<li>Connection overhead repeated</li>
+<li>Poor mobile experience</li>
+<li>Inefficient bandwidth usage</li>
+</ul>
+<h4 id="approach-2-http2-multiplexing">Approach 2: HTTP/2 Multiplexing<a class="headerlink" href="#approach-2-http2-multiplexing" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code>HTTP/2 behavior:
+
+- Opens single connection
+- Sends all 100 requests simultaneously (multiplexed)
+- Server streams responses back as ready
+- Uses single TCP connection efficiently
+
+Time analysis:
+
+- All requests sent: ~50ms (single RTT)
+- Server processing: ~200ms (parallel)
+- Total: ~250ms vs 5,000ms
+- 20x faster!
+
+Additional benefits:
+
+- Header compression (HPACK)
+- Server push (preload resources)
+- Stream prioritization</code></pre>
+<p><strong>Real-world impact:</strong></p>
+<ul>
+<li>HTTP/1.1: 5 second load time → user abandonment</li>
+<li>HTTP/2: 250ms load time → seamless experience</li>
+<li>Mobile data savings: ~40% from header compression</li>
+</ul>
+<p><strong>Your calculation:</strong> For 50 concurrent requests:</p>
+<ul>
+<li>HTTP/1.1 time: <span class="fill-in">_____</span> ms</li>
+<li>HTTP/2 time: <span class="fill-in">_____</span> ms</li>
+<li>Speedup factor: <span class="fill-in">_____</span>x</li>
+</ul>
+<hr />
+<h2 id="case-studies-networking-in-the-wild">Case Studies: Networking in the Wild<a class="headerlink" href="#case-studies-networking-in-the-wild" title="Permanent link">&para;</a></h2>
+<h3 id="online-gaming-fortnite-call-of-duty-udp-for-speed">Online Gaming (Fortnite, Call of Duty): UDP for Speed<a class="headerlink" href="#online-gaming-fortnite-call-of-duty-udp-for-speed" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Pattern:</strong> UDP for real-time game data.</li>
+<li><strong>How it works:</strong> Player movements, actions, and shots are sent via UDP packets. If a packet is lost (e.g., showing a
+  player's position from 50ms ago), the game doesn't wait. It simply discards the old data and uses the next available
+  packet. Waiting for a TCP retransmission would cause noticeable lag (rubber-banding).</li>
+<li><strong>Key Takeaway:</strong> For applications where the most recent data is more important than guaranteed delivery of every
+  single piece of data, UDP is the superior choice. The trade-off is that the application layer must handle potential
+  packet loss.</li>
+</ul>
+<h3 id="google-youtube-http2-and-http3-quic-adoption">Google &amp; YouTube: HTTP/2 and HTTP/3 (QUIC) Adoption<a class="headerlink" href="#google-youtube-http2-and-http3-quic-adoption" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Pattern:</strong> Modern HTTP protocols for web performance.</li>
+<li><strong>How it works:</strong> Google was a pioneer of both SPDY (the precursor to HTTP/2) and QUIC (the transport protocol for
+  HTTP/3). On sites like YouTube, QUIC significantly reduces connection and stream setup time. This is especially
+  noticeable on mobile networks, where it can seamlessly migrate a user's connection from Wi-Fi to cellular data without
+  interrupting the video stream, a major weakness of TCP.</li>
+<li><strong>Key Takeaway:</strong> Adopting modern protocols like HTTP/2 and HTTP/3 is critical for performance at scale. The move from
+  TCP to a UDP-based protocol (QUIC) in HTTP/3 solves fundamental transport-layer problems like Head-of-Line blocking.</li>
+</ul>
+<h3 id="slack-discord-websockets-for-real-time-chat">Slack &amp; Discord: WebSockets for Real-Time Chat<a class="headerlink" href="#slack-discord-websockets-for-real-time-chat" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Pattern:</strong> WebSockets for persistent, bidirectional communication.</li>
+<li><strong>How it works:</strong> When you open Slack or Discord, your client establishes a single, long-lived WebSocket connection to
+  their servers. When a new message is sent in a channel, the server pushes that message immediately to all connected
+  clients in that channel.</li>
+<li><strong>Key Takeaway:</strong> Compared to old-school HTTP polling, WebSockets reduce latency from seconds to milliseconds and
+  drastically decrease unnecessary network traffic and server load, making them essential for any real-time interactive
+  application.</li>
+</ul>
+<h3 id="netflix-dns-for-global-load-balancing">Netflix: DNS for Global Load Balancing<a class="headerlink" href="#netflix-dns-for-global-load-balancing" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Pattern:</strong> DNS-based Global Server Load Balancing (GSLB).</li>
+<li><strong>How it works:</strong> When you press play on Netflix, your device makes a DNS request for the server hosting the video
+  content. Netflix's DNS servers don't just return a single IP address; they return the IP address of the Open Connect
+  Appliance (OCA) cache server that is geographically and topologically closest to you.</li>
+<li><strong>Key Takeaway:</strong> DNS is not just for finding IPs. It's a powerful tool for global traffic routing. By directing users
+  to the nearest server at the DNS level, Netflix ensures low latency, high-quality streaming and distributes load
+  across its global content delivery network.</li>
+</ul>
+<hr />
+<h2 id="core-concepts">Core Concepts<a class="headerlink" href="#core-concepts" title="Permanent link">&para;</a></h2>
+<h3 id="topic-1-transport-layer-tcp-vs-udp">Topic 1: Transport Layer - TCP vs UDP<a class="headerlink" href="#topic-1-transport-layer-tcp-vs-udp" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Two fundamental protocols for sending data over networks, with different guarantees and trade-offs.</p>
+<p><strong>Key Differences:</strong></p>
+<p><strong>TCP (Transmission Control Protocol)</strong></p>
+<ul>
+<li><strong>Reliable:</strong> Guarantees delivery, ordering, and error checking</li>
+<li><strong>Connection-oriented:</strong> Establishes connection before data transfer (3-way handshake)</li>
+<li><strong>Flow control:</strong> Prevents overwhelming receiver</li>
+<li><strong>Congestion control:</strong> Adapts to network conditions</li>
+<li><strong>Overhead:</strong> Higher due to acknowledgments and retransmissions</li>
+<li><strong>Use cases:</strong> HTTP, email, file transfers, databases</li>
+</ul>
+<p><strong>UDP (User Datagram Protocol)</strong></p>
+<ul>
+<li><strong>Unreliable:</strong> Best-effort delivery, no guarantees</li>
+<li><strong>Connectionless:</strong> Send packets without establishing connection</li>
+<li><strong>No flow/congestion control:</strong> Fast but can lose packets</li>
+<li><strong>Low overhead:</strong> Minimal protocol overhead</li>
+<li><strong>Use cases:</strong> Video streaming, gaming, DNS, VoIP</li>
+</ul>
+<p><strong>TCP 3-Way Handshake:</strong></p>
+<pre class="highlight"><code>Client                          Server
+   |                              |
+   |  1. SYN (seq=100)           |
+   |-----------------------------&gt;|
+   |                              |
+   |     2. SYN-ACK (seq=300,    |
+   |        ack=101)              |
+   |&lt;-----------------------------|
+   |                              |
+   |  3. ACK (ack=301)           |
+   |-----------------------------&gt;|
+   |                              |
+   |  Connection established!     |
+   |  Now can send data           |</code></pre>
+<p><strong>TCP Flow Control (Sliding Window):</strong></p>
+<pre class="highlight"><code>Sender                          Receiver
+Window size = 4 packets
+
+Send: [1][2][3][4]
+      ↓  ↓  ↓  ↓
+                  ←-------  ACK 1
+                  ←-------  ACK 2
+                  ←-------  ACK 3
+Slide window →
+Send: [5][6][7][8]
+      ↓  ↓  ↓  ↓
+                  ←-------  ACK 4
+                  ←-------  ACK 5 (LOST!)
+
+Timeout! Retransmit packet 5
+      [5]
+       ↓
+                  ←-------  ACK 5 (success)</code></pre>
+<p><strong>Decision Matrix:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Protocol</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Must guarantee delivery</td>
+<td>TCP</td>
+<td>Retransmission on loss</td>
+</tr>
+<tr>
+<td>Need ordered packets</td>
+<td>TCP</td>
+<td>Sequence numbers</td>
+</tr>
+<tr>
+<td>Low latency critical</td>
+<td>UDP</td>
+<td>No overhead</td>
+</tr>
+<tr>
+<td>Can tolerate packet loss</td>
+<td>UDP</td>
+<td>No retransmission delay</td>
+</tr>
+<tr>
+<td>Real-time streaming</td>
+<td>UDP</td>
+<td>Prefer fresh data</td>
+</tr>
+<tr>
+<td>File transfer</td>
+<td>TCP</td>
+<td>Data integrity critical</td>
+</tr>
+<tr>
+<td>Live video</td>
+<td>UDP</td>
+<td>Skip lost frames</td>
+</tr>
+<tr>
+<td>Database connection</td>
+<td>TCP</td>
+<td>Reliability required</td>
+</tr>
+</tbody>
+</table>
+<p><strong>After learning, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>When would packet loss be acceptable? <span class="fill-in">[Your answer]</span></li>
+<li>Why is TCP slower than UDP? <span class="fill-in">[Your answer]</span></li>
+<li>What's the trade-off with reliability? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr />
+<h3 id="topic-2-http-protocol-evolution">Topic 2: HTTP Protocol Evolution<a class="headerlink" href="#topic-2-http-protocol-evolution" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> HTTP has evolved from simple request-response to sophisticated multiplexed, compressed connections.</p>
+<p><strong>HTTP/1.0 → HTTP/1.1 → HTTP/2 → HTTP/3</strong></p>
+<h4 id="http11-1997">HTTP/1.1 (1997)<a class="headerlink" href="#http11-1997" title="Permanent link">&para;</a></h4>
+<p><strong>Features:</strong></p>
+<ul>
+<li>Persistent connections (keep-alive)</li>
+<li>Pipelining (send multiple requests without waiting)</li>
+<li>Chunked transfer encoding</li>
+<li>Host header (virtual hosting)</li>
+</ul>
+<p><strong>Problems:</strong></p>
+<ul>
+<li>Head-of-line blocking (HOL blocking)</li>
+<li>No multiplexing (sequential processing)</li>
+<li>Redundant headers (repeated with each request)</li>
+<li>Limited connections per domain (~6)</li>
+</ul>
+<p><strong>Example of HOL Blocking:</strong></p>
+<pre class="highlight"><code>Browser needs: index.html, style.css, app.js, image.png
+
+Connection 1:
+  GET /index.html
+  [WAIT 200ms]
+  ← Response (large HTML file)
+
+  GET /style.css
+  [WAIT for index.html to finish!]
+  ← Response
+
+  GET /app.js
+  [WAIT for style.css!]
+  ← Response
+
+Total time: Sequential, each waits for previous</code></pre>
+<h4 id="http2-2015">HTTP/2 (2015)<a class="headerlink" href="#http2-2015" title="Permanent link">&para;</a></h4>
+<p><strong>Major improvements:</strong></p>
+<ul>
+<li><strong>Binary protocol:</strong> More efficient than text-based HTTP/1.1</li>
+<li><strong>Multiplexing:</strong> Multiple requests/responses on single connection</li>
+<li><strong>Server push:</strong> Proactively send resources</li>
+<li><strong>Header compression (HPACK):</strong> Reduce overhead</li>
+<li><strong>Stream prioritization:</strong> Critical resources first</li>
+</ul>
+<p><strong>Multiplexing Example:</strong></p>
+<pre class="highlight"><code>Single TCP Connection
+      ↓
+[Stream 1: index.html ]
+[Stream 2: style.css  ] ← All sent simultaneously
+[Stream 3: app.js     ]
+[Stream 4: image.png  ]
+      ↓
+Responses interleaved on same connection:
+← [Stream 3 chunk] [Stream 1 chunk] [Stream 2 chunk] [Stream 4 chunk]
+
+Total time: ~RTT + max(processing times)
+Much faster than sequential!</code></pre>
+<p><strong>Header Compression (HPACK):</strong></p>
+<pre class="highlight"><code>HTTP/1.1 (repeated headers):
+Request 1:
+  GET /api/users
+  Host: api.example.com
+  User-Agent: Mozilla/5.0...
+  Accept: application/json
+  Cookie: session=abc123...
+  (500 bytes total)
+
+Request 2:
+  GET /api/posts
+  Host: api.example.com
+  User-Agent: Mozilla/5.0...  ← Repeated!
+  Accept: application/json     ← Repeated!
+  Cookie: session=abc123...    ← Repeated!
+  (500 bytes total)
+
+HTTP/2 (with HPACK):
+Request 1: 500 bytes (full headers)
+Request 2: 50 bytes (only differences!)
+Savings: 90% reduction</code></pre>
+<h4 id="http3-2020">HTTP/3 (2020)<a class="headerlink" href="#http3-2020" title="Permanent link">&para;</a></h4>
+<p><strong>Built on QUIC (UDP-based):</strong></p>
+<ul>
+<li><strong>No HOL blocking at transport layer:</strong> HTTP/2 still suffered from TCP HOL blocking</li>
+<li><strong>Faster connection establishment:</strong> 0-RTT handshake</li>
+<li><strong>Better mobile performance:</strong> Connection migration (IP change resilience)</li>
+<li><strong>Improved congestion control:</strong> Per-stream instead of per-connection</li>
+</ul>
+<p><strong>HTTP/2 vs HTTP/3 (TCP vs QUIC):</strong></p>
+<pre class="highlight"><code>HTTP/2 (over TCP):
+Packet 5 lost in stream 2
+↓
+All streams blocked until packet 5 retransmitted!
+Streams 1, 3, 4 wait even though their packets arrived
+
+HTTP/3 (over QUIC):
+Packet 5 lost in stream 2
+↓
+Only stream 2 blocks, streams 1, 3, 4 continue
+Independent stream recovery</code></pre>
+<p><strong>Performance Comparison:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>HTTP/1.1</th>
+<th>HTTP/2</th>
+<th>HTTP/3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Connections per domain</td>
+<td>6</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Multiplexing</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Header compression</td>
+<td>No</td>
+<td>Yes (HPACK)</td>
+<td>Yes (QPACK)</td>
+</tr>
+<tr>
+<td>HOL blocking</td>
+<td>Yes</td>
+<td>Partial (TCP)</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Connection setup</td>
+<td>1-2 RTT</td>
+<td>1-2 RTT</td>
+<td>0-1 RTT</td>
+</tr>
+<tr>
+<td>Mobile resilience</td>
+<td>Poor</td>
+<td>Poor</td>
+<td>Excellent</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="topic-3-websockets-real-time-communication">Topic 3: WebSockets &amp; Real-Time Communication<a class="headerlink" href="#topic-3-websockets-real-time-communication" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Persistent, bidirectional communication channel for real-time updates.</p>
+<p><strong>HTTP vs WebSockets:</strong></p>
+<p><strong>HTTP (Request-Response):</strong>
+<pre class="highlight"><code>Client                    Server
+   |                        |
+   | HTTP GET              |
+   |-----------------------&gt;|
+   |                        |
+   |         Response       |
+   |&lt;-----------------------|
+   |                        |
+   | (Connection closed)    |</code></pre></p>
+<p><strong>WebSocket (Persistent Connection):</strong>
+<pre class="highlight"><code>Client                    Server
+   |                        |
+   | HTTP Upgrade Request  |
+   |-----------------------&gt;|
+   |                        |
+   |    101 Switching       |
+   |&lt;-----------------------|
+   |                        |
+   | ←------ Bidirectional --→ |
+   | Message                |
+   |-----------------------&gt;|
+   |         Message        |
+   |&lt;-----------------------|
+   | (Connection stays open) |</code></pre></p>
+<p><strong>WebSocket Handshake:</strong></p>
+<pre class="highlight"><code class="language-http">Client → Server:
+GET /chat HTTP/1.1
+Host: example.com
+Upgrade: websocket
+Connection: Upgrade
+Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==
+Sec-WebSocket-Version: 13
+
+Server → Client:
+HTTP/1.1 101 Switching Protocols
+Upgrade: websocket
+Connection: Upgrade
+Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=
+
+[Connection now upgraded to WebSocket]</code></pre>
+<p><strong>Use Cases:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>HTTP Polling</th>
+<th>Server-Sent Events</th>
+<th>WebSockets</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Real-time chat</td>
+<td>✗ (wasteful)</td>
+<td>✗ (unidirectional)</td>
+<td>✓ (perfect)</td>
+</tr>
+<tr>
+<td>Stock ticker</td>
+<td>△ (acceptable)</td>
+<td>✓ (efficient)</td>
+<td>✓ (best)</td>
+</tr>
+<tr>
+<td>Notifications</td>
+<td>△ (wastes bandwidth)</td>
+<td>✓ (ideal)</td>
+<td>△ (overkill)</td>
+</tr>
+<tr>
+<td>Multiplayer game</td>
+<td>✗ (too slow)</td>
+<td>✗ (one-way)</td>
+<td>✓ (required)</td>
+</tr>
+<tr>
+<td>Social feed</td>
+<td>✓ (simple)</td>
+<td>✓ (efficient)</td>
+<td>△ (complex)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Polling vs WebSockets (Message Frequency):</strong></p>
+<pre class="highlight"><code>Polling (every 5 seconds):
+┌─5s─┐─5s─┐─5s─┐─5s─┐
+Req  Req  Req  Req  ...
+  ↓    ↓    ↓    ↓
+ Res  Res  Res  Res
+ (empty)(data)(empty)(data)
+
+Overhead: 4 requests for 2 updates
+Latency: Up to 5s delay
+
+WebSockets (event-driven):
+Connection established
+  ↓
+[Open connection]
+  ↓    ↓
+ Data Data (instant push)
+
+Overhead: 0 extra requests
+Latency: ~RTT (milliseconds)</code></pre>
+<hr />
+<h3 id="topic-4-dns-domain-name-system">Topic 4: DNS (Domain Name System)<a class="headerlink" href="#topic-4-dns-domain-name-system" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Hierarchical, distributed system that translates domain names to IP addresses.</p>
+<p><strong>DNS Hierarchy:</strong></p>
+<pre class="highlight"><code>                   . (root)
+                   |
+         ┌─────────┼─────────┐
+         |         |         |
+       .com      .org      .net
+         |
+         |
+    example.com
+         |
+    ┌────┴────┐
+   www      api</code></pre>
+<p><strong>DNS Resolution Process:</strong></p>
+<pre class="highlight"><code>User types: www.example.com
+
+1. Browser cache check
+   └─ Miss → Continue
+
+2. OS cache check
+   └─ Miss → Continue
+
+3. Recursive resolver (ISP)
+   └─ Queries root server
+
+4. Root server
+   └─ Returns .com nameserver address
+
+5. .com nameserver
+   └─ Returns example.com nameserver
+
+6. example.com nameserver
+   └─ Returns IP: 93.184.216.34
+
+7. Resolver caches result (TTL: 3600s)
+
+8. Returns IP to browser
+
+9. Browser connects to 93.184.216.34</code></pre>
+<p><strong>DNS Record Types:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Record Type</th>
+<th>Purpose</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>IPv4 address</td>
+<td>example.com → 93.184.216.34</td>
+</tr>
+<tr>
+<td>AAAA</td>
+<td>IPv6 address</td>
+<td>example.com → 2606:2800:220:1:...</td>
+</tr>
+<tr>
+<td>CNAME</td>
+<td>Alias to another domain</td>
+<td>www.example.com → example.com</td>
+</tr>
+<tr>
+<td>MX</td>
+<td>Mail server</td>
+<td>example.com → mail.example.com</td>
+</tr>
+<tr>
+<td>TXT</td>
+<td>Arbitrary text</td>
+<td>SPF, DKIM verification</td>
+</tr>
+<tr>
+<td>NS</td>
+<td>Name server</td>
+<td>example.com → ns1.dns.com</td>
+</tr>
+</tbody>
+</table>
+<p><strong>DNS Caching &amp; TTL:</strong></p>
+<pre class="highlight"><code>TTL (Time To Live) = 3600 seconds (1 hour)
+
+Query at 12:00 PM:
+  example.com → 1.2.3.4 (TTL: 3600)
+  Cached until 1:00 PM
+
+Query at 12:30 PM:
+  ← Returns from cache (no network request)
+
+Query at 1:01 PM:
+  Cache expired → New DNS query
+  example.com → 1.2.3.5 (IP changed!)</code></pre>
+<p><strong>DNS Load Balancing:</strong></p>
+<pre class="highlight"><code>Round-robin DNS:
+example.com can return multiple A records:
+
+Query 1: 1.2.3.4
+Query 2: 1.2.3.5
+Query 3: 1.2.3.6
+Query 4: 1.2.3.4 (cycles back)
+
+Poor man's load balancing:
+
++ Simple, no extra infrastructure
+- No health checks
+- Client caching interferes
+- Not smart about server load</code></pre>
+<hr />
+<h3 id="topic-5-tlsssl-transport-layer-security">Topic 5: TLS/SSL (Transport Layer Security)<a class="headerlink" href="#topic-5-tlsssl-transport-layer-security" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Cryptographic protocol for secure communication over networks.</p>
+<p><strong>TLS Handshake (TLS 1.3 - Simplified):</strong></p>
+<pre class="highlight"><code>Client                           Server
+   |                               |
+   | 1. ClientHello               |
+   |   - Supported cipher suites  |
+   |   - Random nonce             |
+   |   - Key share                |
+   |-----------------------------&gt;|
+   |                               |
+   |        2. ServerHello        |
+   |   - Chosen cipher            |
+   |   - Key share                |
+   |   - Certificate              |
+   |&lt;-----------------------------|
+   |                               |
+   | 3. [Derive shared secret]    |
+   | 4. Finished (encrypted)      |
+   |-----------------------------&gt;|
+   |                               |
+   |        5. Finished           |
+   |   (encrypted)                |
+   |&lt;-----------------------------|
+   |                               |
+   | ←------ Encrypted data ----→ |
+
+Total: 1-RTT handshake (faster than TLS 1.2's 2-RTT)</code></pre>
+<p><strong>Certificate Chain Validation:</strong></p>
+<pre class="highlight"><code>Browser trusts: Root CA (in browser)
+                    |
+                Intermediate CA
+                    |
+              example.com cert
+
+Server sends:
+  1. example.com certificate
+  2. Intermediate CA certificate
+
+Browser validates:
+  1. example.com cert signed by Intermediate CA? ✓
+  2. Intermediate CA cert signed by Root CA? ✓
+  3. Root CA in trusted store? ✓
+  4. Certificate not expired? ✓
+  5. Domain matches? ✓
+
+All checks pass → Connection trusted</code></pre>
+<p><strong>Performance Impact:</strong></p>
+<pre class="highlight"><code>HTTPS (TLS) overhead:
+
+- Initial handshake: +1 RTT (~50-100ms)
+- Encryption/decryption CPU: ~5% server CPU
+- Certificate chain: +2-4 KB per connection
+
+Mitigation strategies:
+
+- Session resumption (reuse session keys)
+- TLS 1.3 0-RTT (resume with 0 round trips)
+- OCSP stapling (reduce cert validation RTT)
+- Connection pooling (amortize handshake cost)</code></pre>
+<hr />
+<h3 id="topic-6-load-balancing-l4-vs-l7">Topic 6: Load Balancing (L4 vs L7)<a class="headerlink" href="#topic-6-load-balancing-l4-vs-l7" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Distribute traffic across multiple servers for reliability and performance.</p>
+<p><strong>Layer 4 (Transport Layer) Load Balancing:</strong></p>
+<pre class="highlight"><code>Client connects to: lb.example.com:443
+
+L4 Load Balancer:
+  ┌─ Looks at: IP address, Port, Protocol
+  │  Does NOT look at: HTTP headers, cookies, URLs
+  │
+  └─ Forwards TCP connection to backend:
+      Server 1: 10.0.1.5:443
+      Server 2: 10.0.1.6:443
+      Server 3: 10.0.1.7:443
+
+Pros:
+
++ Fast (no packet inspection)
++ Works for any TCP/UDP protocol
++ Low latency (simple forwarding)
+
+Cons:
+
+- Can't route based on URL/headers
+- No application-aware decisions
+- Sticky sessions require IP hashing</code></pre>
+<p><strong>Layer 7 (Application Layer) Load Balancing:</strong></p>
+<pre class="highlight"><code>Client request: https://example.com/api/users
+
+L7 Load Balancer:
+  ┌─ Terminates TLS connection
+  │  Reads full HTTP request
+  │  Inspects: URL path, headers, cookies
+  │
+  └─ Routes based on rules:
+      /api/*     → API servers (10.0.2.x)
+      /static/*  → CDN servers (10.0.3.x)
+      /admin/*   → Admin servers (10.0.4.x)
+
+Pros:
+
++ Intelligent routing (URL, headers, etc.)
++ Session affinity (cookie-based)
++ Content-based caching
++ SSL termination
+
+Cons:
+
+- Slower (packet inspection overhead)
+- More CPU intensive
+- Application-specific (HTTP/gRPC/etc.)</code></pre>
+<p><strong>Load Balancing Algorithms:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Algorithm</th>
+<th>How It Works</th>
+<th>Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Round Robin</td>
+<td>Cycle through servers 1→2→3→1</td>
+<td>Uniform workload</td>
+</tr>
+<tr>
+<td>Least Connections</td>
+<td>Send to server with fewest active connections</td>
+<td>Varied request duration</td>
+</tr>
+<tr>
+<td>IP Hash</td>
+<td>Hash client IP to pick server</td>
+<td>Session persistence</td>
+</tr>
+<tr>
+<td>Least Response Time</td>
+<td>Route to fastest server</td>
+<td>Performance-critical</td>
+</tr>
+<tr>
+<td>Weighted Round Robin</td>
+<td>More traffic to powerful servers</td>
+<td>Heterogeneous servers</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Health Checks:</strong></p>
+<pre class="highlight"><code>Load balancer → Server health check
+
+Active checks (periodic):
+  Every 10s: GET /health
+  If 3 consecutive failures → Mark unhealthy
+  If 2 consecutive successes → Mark healthy
+
+Passive checks (observed):
+  Track response times, error rates
+  If error rate &gt; 5% → Reduce traffic
+  If response time &gt; 1s → Reduce traffic
+
+Unhealthy server:
+  ┌─ Stop sending new requests
+  └─ Drain existing connections (graceful)</code></pre>
+<hr />
+<h2 id="decision-framework">Decision Framework<a class="headerlink" href="#decision-framework" title="Permanent link">&para;</a></h2>
+<p><strong>Your task:</strong> Build decision trees for when to use each networking approach.</p>
+<h3 id="question-1-which-protocol">Question 1: Which Protocol?<a class="headerlink" href="#question-1-which-protocol" title="Permanent link">&para;</a></h3>
+<p><strong>Use TCP when:</strong></p>
+<ul>
+<li>Reliability is critical: <span class="fill-in">[Financial transactions, file transfers]</span></li>
+<li>Ordering matters: <span class="fill-in">[Database replication, messaging]</span></li>
+<li>Data integrity required: <span class="fill-in">[API calls, downloads]</span></li>
+</ul>
+<p><strong>Use UDP when:</strong></p>
+<ul>
+<li>Low latency critical: <span class="fill-in">[Gaming, VoIP]</span></li>
+<li>Packet loss acceptable: <span class="fill-in">[Video streaming, DNS]</span></li>
+<li>Real-time more important than reliability: <span class="fill-in">[Live broadcasts]</span></li>
+</ul>
+<h3 id="question-2-http-version">Question 2: HTTP Version?<a class="headerlink" href="#question-2-http-version" title="Permanent link">&para;</a></h3>
+<p><strong>Use HTTP/1.1 when:</strong></p>
+<ul>
+<li>Legacy client support required</li>
+<li>Simple deployment (no special infrastructure)</li>
+<li>Low concurrency use case</li>
+</ul>
+<p><strong>Use HTTP/2 when:</strong></p>
+<ul>
+<li>Modern browsers/clients</li>
+<li>High concurrency (many resources)</li>
+<li>API with many endpoints</li>
+</ul>
+<p><strong>Use HTTP/3 when:</strong></p>
+<ul>
+<li>Mobile-first application</li>
+<li>Global user base (varying network quality)</li>
+<li>WebRTC or real-time features</li>
+</ul>
+<h3 id="question-3-real-time-communication">Question 3: Real-Time Communication?<a class="headerlink" href="#question-3-real-time-communication" title="Permanent link">&para;</a></h3>
+<p><strong>Use HTTP polling when:</strong></p>
+<ul>
+<li>Infrequent updates (&gt; 30 seconds)</li>
+<li>Simple implementation required</li>
+<li>Client controls update frequency</li>
+</ul>
+<p><strong>Use Server-Sent Events (SSE) when:</strong></p>
+<ul>
+<li>Server → Client updates only</li>
+<li>Text-based data (JSON)</li>
+<li>Browser compatibility important</li>
+</ul>
+<p><strong>Use WebSockets when:</strong></p>
+<ul>
+<li>Bidirectional communication required</li>
+<li>Low latency critical (&lt; 100ms)</li>
+<li>High message frequency (&gt; 1/sec)</li>
+</ul>
+<h3 id="question-4-load-balancer-layer">Question 4: Load Balancer Layer?<a class="headerlink" href="#question-4-load-balancer-layer" title="Permanent link">&para;</a></h3>
+<p><strong>Use L4 load balancing when:</strong></p>
+<ul>
+<li>Protocol-agnostic (TCP/UDP)</li>
+<li>Maximum performance needed</li>
+<li>Simple traffic distribution</li>
+</ul>
+<p><strong>Use L7 load balancing when:</strong></p>
+<ul>
+<li>Content-based routing required</li>
+<li>SSL termination beneficial</li>
+<li>Application-aware features needed</li>
+</ul>
+<hr />
+<h2 id="practice-scenarios">Practice Scenarios<a class="headerlink" href="#practice-scenarios" title="Permanent link">&para;</a></h2>
+<h3 id="scenario-1-e-commerce-platform">Scenario 1: E-Commerce Platform<a class="headerlink" href="#scenario-1-e-commerce-platform" title="Permanent link">&para;</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>Product catalog browsing</li>
+<li>Real-time inventory updates</li>
+<li>Checkout process</li>
+<li>10K concurrent users</li>
+<li>Global user base</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<p>Protocol choices:</p>
+<ul>
+<li>Catalog API: <span class="fill-in">[HTTP/2 or HTTP/3? Why?]</span></li>
+<li>Inventory updates: <span class="fill-in">[WebSocket/SSE/Polling?]</span></li>
+<li>Checkout: <span class="fill-in">[HTTPS with what considerations?]</span></li>
+</ul>
+<p>Load balancing:</p>
+<ul>
+<li>Layer: <span class="fill-in">[L4 or L7? Why?]</span></li>
+<li>Algorithm: <span class="fill-in">[Which algorithm?]</span></li>
+<li>Sticky sessions: <span class="fill-in">[Needed?]</span></li>
+</ul>
+<p>DNS strategy:</p>
+<ul>
+<li>TTL: <span class="fill-in">[How long?]</span></li>
+<li>Multi-region: <span class="fill-in">[GeoDNS?]</span></li>
+</ul>
+<h3 id="scenario-2-multiplayer-game">Scenario 2: Multiplayer Game<a class="headerlink" href="#scenario-2-multiplayer-game" title="Permanent link">&para;</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>60 tick rate (updates per second)</li>
+<li>&lt; 50ms latency requirement</li>
+<li>100 players per game</li>
+<li>Unreliable networks (mobile)</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<p>Protocol: <span class="fill-in">[TCP or UDP? Why?]</span></p>
+<p>Packet loss handling:</p>
+<ul>
+<li>Strategy: <span class="fill-in">[How to handle?]</span></li>
+<li>Acceptable loss rate: <span class="fill-in">[X%?]</span></li>
+</ul>
+<p>Latency optimization:</p>
+<ul>
+<li>Connection pooling: <span class="fill-in">[Helpful?]</span></li>
+<li>Regional servers: <span class="fill-in">[Required?]</span></li>
+</ul>
+<h3 id="scenario-3-video-conferencing">Scenario 3: Video Conferencing<a class="headerlink" href="#scenario-3-video-conferencing" title="Permanent link">&para;</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>Real-time audio/video</li>
+<li>Screen sharing</li>
+<li>Chat messaging</li>
+<li>Recording capability</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<p>Media protocols:</p>
+<ul>
+<li>Audio/Video: <span class="fill-in">[UDP/TCP/WebRTC?]</span></li>
+<li>Chat: <span class="fill-in">[WebSocket/HTTP?]</span></li>
+<li>Recording: <span class="fill-in">[How to implement?]</span></li>
+</ul>
+<p>Quality vs Latency:</p>
+<ul>
+<li>Packet loss: <span class="fill-in">[How to handle?]</span></li>
+<li>Bandwidth adaptation: <span class="fill-in">[Strategy?]</span></li>
+</ul>
+<hr />
+<h2 id="review-checklist">Review Checklist<a class="headerlink" href="#review-checklist" title="Permanent link">&para;</a></h2>
+<p>Before moving to the next topic:</p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Understanding</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Understand TCP 3-way handshake</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Know difference between TCP and UDP</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Understand HTTP/2 multiplexing</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Know how WebSockets work</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Understand DNS resolution process</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Know TLS handshake basics</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Understand L4 vs L7 load balancing</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Protocol Selection</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Can choose between TCP and UDP</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Know when to use HTTP/2 vs HTTP/3</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Understand WebSocket use cases</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Can design DNS strategy</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Performance Optimization</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Know connection pooling benefits</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Understand header compression</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Can calculate latency impact</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Know caching strategies</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Decision Making</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Completed practice scenarios</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Can explain trade-offs</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Understand failure modes</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h3 id="mastery-certification">Mastery Certification<a class="headerlink" href="#mastery-certification" title="Permanent link">&para;</a></h3>
+<p><strong>I certify that I can:</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Explain TCP vs UDP trade-offs</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Design protocol choice for new system</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Understand HTTP evolution benefits</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Choose appropriate real-time protocol</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Configure DNS for performance</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Explain TLS handshake process</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Select load balancing strategy</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Optimize network performance</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Debug networking issues</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Teach networking concepts to others</li>
+</ul></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = "../.."</script>
+    
+    <script src="../../js/base.js"></script>
+    <script src="../../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

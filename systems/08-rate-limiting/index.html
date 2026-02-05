@@ -1,0 +1,1849 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="A framework for algorithms, systems design, and infrastructure." name="description"/>
+<meta content="Richard" name="author"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>08. Rate Limiting - Software Engineering Study Guide</title>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" rel="stylesheet"/>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css" rel="stylesheet"/>
+<link href="//rsms.me/inter/inter.css" rel="stylesheet" type="text/css"/>
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&amp;subset=latin-ext,latin" rel="stylesheet" type="text/css"/>
+<link href="../../css/bootstrap-custom.min.css" rel="stylesheet"/>
+<link href="../../css/base.min.css" rel="stylesheet"/>
+<link href="../../css/cinder.min.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css" rel="stylesheet"/>
+<link href="../../css/custom.css" rel="stylesheet"/>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="container">
+<!-- Collapsed navigation -->
+<div class="navbar-header">
+<!-- Expander button -->
+<button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<!-- Main title -->
+<a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+</div>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li>
+<a href="../..">Home</a>
+</li>
+<li class="dropdown active">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Systems Design <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../01-storage-engines/">01. Storage Engines</a>
+</li>
+<li>
+<a href="../02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+<li>
+<a href="../03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+<li>
+<a href="../04-search-and-indexing/">04. Search &amp; Indexing</a>
+</li>
+<li>
+<a href="../05-caching-patterns/">05. Caching Patterns</a>
+</li>
+<li>
+<a href="../06-api-design/">06. API Design</a>
+</li>
+<li>
+<a href="../07-security-patterns/">07. Security Patterns</a>
+</li>
+<li class="active">
+<a href="./">08. Rate Limiting</a>
+</li>
+<li>
+<a href="../09-load-balancing/">09. Load Balancing</a>
+</li>
+<li>
+<a href="../10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+<li>
+<a href="../11-database-scaling/">11. Database Scaling</a>
+</li>
+<li>
+<a href="../12-message-queues/">12. Message Queues</a>
+</li>
+<li>
+<a href="../13-stream-processing/">13. Stream Processing</a>
+</li>
+<li>
+<a href="../14-observability/">14. Observability</a>
+</li>
+<li>
+<a href="../15-distributed-transactions/">15. Distributed Transactions</a>
+</li>
+<li>
+<a href="../16-consensus-patterns/">16. Consensus Patterns</a>
+</li>
+</ul>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">DSA <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../dsa/01-two-pointers/">01. Two Pointers</a>
+</li>
+<li>
+<a href="../../dsa/02-sliding-window/">02. Sliding Window</a>
+</li>
+<li>
+<a href="../../dsa/03-hash-tables/">03. Hash Tables</a>
+</li>
+<li>
+<a href="../../dsa/04-linked-lists/">04. Linked Lists</a>
+</li>
+<li>
+<a href="../../dsa/05-stacks--queues/">05. Stacks &amp; Queues</a>
+</li>
+<li>
+<a href="../../dsa/06-trees-traversals/">06. Trees - Traversals</a>
+</li>
+<li>
+<a href="../../dsa/07-trees-recursion/">07. Trees - Recursion</a>
+</li>
+<li>
+<a href="../../dsa/08-binary-search/">08. Binary Search</a>
+</li>
+<li>
+<a href="../../dsa/09-heaps/">09. Heaps</a>
+</li>
+<li>
+<a href="../../dsa/10-graphs/">10. Graphs</a>
+</li>
+<li>
+<a href="../../dsa/11-union-find/">11. Union-Find</a>
+</li>
+<li>
+<a href="../../dsa/12-advanced-graphs/">12. Advanced Graphs</a>
+</li>
+<li>
+<a href="../../dsa/13-backtracking/">13. Backtracking</a>
+</li>
+<li>
+<a href="../../dsa/14-dynamic-programming-1d/">14. Dynamic Programming 1D</a>
+</li>
+<li>
+<a href="../../dsa/15-dynamic-programming-2d/">15. Dynamic Programming 2D</a>
+</li>
+<li>
+<a href="../../dsa/16-tries/">16. Tries</a>
+</li>
+<li>
+<a href="../../dsa/17-advanced-topics/">17. Advanced Topics</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+<a data-target="#mkdocs_search_modal" data-toggle="modal" href="#">
+<i class="fas fa-search"></i> Search
+                        </a>
+</li>
+<li>
+<a href="../07-security-patterns/" rel="prev">
+<i class="fas fa-arrow-left"></i> Previous
+                        </a>
+</li>
+<li>
+<a href="../09-load-balancing/" rel="next">
+                            Next <i class="fas fa-arrow-right"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+<ul class="nav bs-sidenav">
+<li class="first-level active"><a href="#rate-limiting">Rate Limiting</a></li>
+<li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+<li class="second-level"><a href="#quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)</a></li>
+<li class="second-level"><a href="#beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters</a></li>
+<li class="second-level"><a href="#case-studies-rate-limiting-in-the-wild">Case Studies: Rate Limiting in the Wild</a></li>
+<li class="second-level"><a href="#core-implementation">Core Implementation</a></li>
+<li class="second-level"><a href="#client-code">Client Code</a></li>
+<li class="second-level"><a href="#debugging-challenges">Debugging Challenges</a></li>
+<li class="second-level"><a href="#decision-framework">Decision Framework</a></li>
+<li class="second-level"><a href="#practice">Practice</a></li>
+<li class="second-level"><a href="#review-checklist">Review Checklist</a></li>
+</ul>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="rate-limiting">Rate Limiting<a class="headerlink" href="#rate-limiting" title="Permanent link">¶</a></h1>
+<blockquote>
+<p>Protecting APIs from abuse and ensuring fair resource usage</p>
+</blockquote>
+<hr/>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After implementing different rate limiting algorithms, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What is rate limiting in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Why do we need rate limiting?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy for token bucket:</strong></p>
+<ul>
+<li>Example: "Token bucket is like a piggy bank where..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What is the token bucket algorithm in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>How is leaky bucket different from token bucket?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy for leaky bucket:</strong></p>
+<ul>
+<li>Example: "Leaky bucket is like a water tower where..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What is sliding window algorithm in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When would you use fixed window vs sliding window?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr/>
+<h2 id="quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)<a class="headerlink" href="#quick-quiz-do-before-implementing" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Test your intuition about rate limiting algorithms. Answer these, then verify after implementation.</p>
+<h3 id="algorithm-understanding-predictions">Algorithm Understanding Predictions<a class="headerlink" href="#algorithm-understanding-predictions" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p><strong>Token bucket with 10 tokens, 2 tokens/sec refill:</strong></p>
+<ul>
+<li>How many requests can burst immediately? <span class="fill-in">[Your guess]</span></li>
+<li>After waiting 5 seconds, how many tokens? <span class="fill-in">[Your guess]</span></li>
+<li>Verified after implementation: <span class="fill-in">[Actual]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Leaky bucket vs token bucket for 100 req/sec:</strong></p>
+<ul>
+<li>Which allows bursts? <span class="fill-in">[Token/Leaky]</span></li>
+<li>Which smooths traffic? <span class="fill-in">[Token/Leaky]</span></li>
+<li>Verified: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Fixed window: 10 req/min starting at 12:00:00:</strong></p>
+<ul>
+<li>9 requests at 12:00:58</li>
+<li>9 requests at 12:01:01</li>
+<li>Total allowed in 3 seconds: <span class="fill-in">[Your guess: 9? 10? 18?]</span></li>
+<li>Why is this a problem? <span class="fill-in">[Fill in]</span></li>
+<li>Verified: <span class="fill-in">[Actual behavior]</span></li>
+</ul>
+</li>
+</ol>
+<h3 id="scenario-predictions">Scenario Predictions<a class="headerlink" href="#scenario-predictions" title="Permanent link">¶</a></h3>
+<p><strong>Scenario 1:</strong> API needs to handle traffic spikes but prevent abuse</p>
+<ul>
+<li><strong>Best algorithm?</strong> <span class="fill-in">[Token bucket/Leaky bucket/Fixed window/Sliding window]</span></li>
+<li><strong>Why?</strong> <span class="fill-in">[Your reasoning]</span></li>
+<li><strong>Verified after implementation:</strong> <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>Scenario 2:</strong> Login system needs steady rate limiting (no bursts)</p>
+<ul>
+<li><strong>Best algorithm?</strong> <span class="fill-in">[Token bucket/Leaky bucket/Fixed window/Sliding window]</span></li>
+<li><strong>Why?</strong> <span class="fill-in">[Your reasoning]</span></li>
+<li><strong>Verified after implementation:</strong> <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>Scenario 3:</strong> Rate limit 100 requests per minute with 1 million users</p>
+<ul>
+<li><strong>Fixed window memory:</strong> <span class="fill-in">[Estimate: bytes per user]</span></li>
+<li><strong>Sliding window log memory:</strong> <span class="fill-in">[Estimate: bytes per user]</span></li>
+<li><strong>Which is more memory efficient?</strong> <span class="fill-in">[Your guess]</span></li>
+<li><strong>Verified:</strong> <span class="fill-in">[Fill in calculations]</span></li>
+</ul>
+<h3 id="refill-logic-quiz">Refill Logic Quiz<a class="headerlink" href="#refill-logic-quiz" title="Permanent link">¶</a></h3>
+<p><strong>Token bucket refills 5 tokens/second, last refill at T=0:</strong></p>
+<ol>
+<li><strong>At T=2 seconds, how many tokens added?</strong> <span class="fill-in">[Your calculation]</span></li>
+<li><strong>At T=2.5 seconds, how many tokens added?</strong> <span class="fill-in">[Your calculation]</span></li>
+<li><strong>If capacity is 10 and current tokens = 8:</strong><ul>
+<li>After 1 second: <span class="fill-in">[tokens available?]</span></li>
+<li>After 5 seconds: <span class="fill-in">[tokens available? can exceed capacity?]</span></li>
+</ul>
+</li>
+</ol>
+<p><strong>Verify these calculations after implementation!</strong></p>
+<h3 id="trade-off-quiz">Trade-off Quiz<a class="headerlink" href="#trade-off-quiz" title="Permanent link">¶</a></h3>
+<p><strong>Question:</strong> Why would you choose fixed window over sliding window?</p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in before implementation]</span></li>
+<li>Verified answer: <span class="fill-in">[Fill in after learning]</span></li>
+</ul>
+<p><strong>Question:</strong> Token bucket allows 100 burst requests. Is this ALWAYS good?</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Yes, bursts are always beneficial</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> No, depends on backend capacity</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> No, depends on abuse prevention needs</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> It depends on the use case</li>
+</ul>
+<p><strong>Verify after implementation:</strong> <span class="fill-in">[Which one(s) and why?]</span></p>
+</div>
+<hr/>
+<h2 id="beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters<a class="headerlink" href="#beforeafter-why-this-pattern-matters" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Compare naive vs optimized rate limiting approaches.</p>
+<h3 id="example-protecting-an-api-endpoint">Example: Protecting an API Endpoint<a class="headerlink" href="#example-protecting-an-api-endpoint" title="Permanent link">¶</a></h3>
+<p><strong>Problem:</strong> Prevent API abuse while allowing legitimate traffic.</p>
+<h4 id="approach-1-no-rate-limiting">Approach 1: No Rate Limiting<a class="headerlink" href="#approach-1-no-rate-limiting" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Naive approach - No protection
+public class NoRateLimiting {
+    public Response handleRequest(Request req) {
+        return processRequest(req); // Process every request
+    }
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(1) per request</li>
+<li>Space: O(1)</li>
+<li>Protection: NONE - vulnerable to abuse</li>
+<li>Result: Server overload, DDoS attacks succeed</li>
+<li>For 1 million malicious requests: Server crashes</li>
+</ul>
+<h4 id="approach-2-fixed-window-rate-limiter">Approach 2: Fixed Window Rate Limiter<a class="headerlink" href="#approach-2-fixed-window-rate-limiter" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Simple fixed window - Memory efficient
+public class FixedWindowRateLimiter {
+    private int counter = 0;
+    private long windowStart = System.currentTimeMillis();
+    private final int maxRequests = 100;
+    private final long windowMs = 60000; // 1 minute
+
+    public boolean tryAcquire() {
+        long now = System.currentTimeMillis();
+
+        // Reset window if expired
+        if (now - windowStart &gt;= windowMs) {
+            counter = 0;
+            windowStart = now;
+        }
+
+        // Check limit
+        if (counter &lt; maxRequests) {
+            counter++;
+            return true;
+        }
+        return false;
+    }
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(1) per request</li>
+<li>Space: O(1) - only 3 variables per user</li>
+<li>Protection: Good - limits to 100 req/min</li>
+<li>Issue: Allows 200 requests in 2 seconds at window boundary</li>
+<li>For 1 million users: ~12 bytes × 1M = ~12 MB</li>
+</ul>
+<h4 id="approach-3-token-bucket-better-for-bursts">Approach 3: Token Bucket (Better for Bursts)<a class="headerlink" href="#approach-3-token-bucket-better-for-bursts" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Token bucket - Allows controlled bursts
+public class TokenBucketRateLimiter {
+    private double tokens;
+    private long lastRefillTime;
+    private final int capacity = 100;
+    private final double refillRate = 10.0; // tokens/sec
+
+    public boolean tryAcquire() {
+        refill();
+
+        if (tokens &gt;= 1) {
+            tokens -= 1;
+            return true;
+        }
+        return false;
+    }
+
+    private void refill() {
+        long now = System.currentTimeMillis();
+        double elapsed = (now - lastRefillTime) / 1000.0;
+        tokens = Math.min(capacity, tokens + elapsed * refillRate);
+        lastRefillTime = now;
+    }
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(1) per request</li>
+<li>Space: O(1) - 3 variables per user</li>
+<li>Protection: Excellent - smooth rate limiting + burst capacity</li>
+<li>Flexibility: Can handle legitimate traffic spikes</li>
+<li>For 1 million users: ~16 bytes × 1M = ~16 MB</li>
+</ul>
+<h4 id="performance-comparison">Performance Comparison<a class="headerlink" href="#performance-comparison" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>No Limiting</th>
+<th>Fixed Window</th>
+<th>Token Bucket</th>
+<th>Sliding Window Log</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Memory per user</td>
+<td>0 bytes</td>
+<td>12 bytes</td>
+<td>16 bytes</td>
+<td>~800 bytes (100 timestamps)</td>
+</tr>
+<tr>
+<td>1M users memory</td>
+<td>0 MB</td>
+<td>12 MB</td>
+<td>16 MB</td>
+<td>800 MB</td>
+</tr>
+<tr>
+<td>Prevents abuse</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Allows bursts</td>
+<td>N/A</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Accurate rate</td>
+<td>N/A</td>
+<td>Boundary issue</td>
+<td>Accurate</td>
+<td>Most accurate</td>
+</tr>
+<tr>
+<td>CPU per request</td>
+<td>Low</td>
+<td>Low</td>
+<td>Low</td>
+<td>Medium (cleanup)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Your calculation:</strong> For 10 million users with sliding window log tracking 1000 requests each:</p>
+<ul>
+<li>Memory needed: <span class="fill-in">[Calculate after implementation]</span></li>
+<li>Why this might be impractical: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h4 id="boundary-attack-demonstration">Boundary Attack Demonstration<a class="headerlink" href="#boundary-attack-demonstration" title="Permanent link">¶</a></h4>
+<p><strong>Fixed Window Problem:</strong></p>
+<pre class="highlight"><code>Window 1: 12:00:00 - 12:01:00 (limit: 100 req)
+Window 2: 12:01:00 - 12:02:00 (limit: 100 req)
+
+Attack pattern:
+
+- 12:00:59 → 100 requests (allowed, fills window 1)
+- 12:01:01 → 100 requests (allowed, new window 2)
+- Total: 200 requests in 2 seconds!</code></pre>
+<p><strong>Token Bucket Solution:</strong></p>
+<pre class="highlight"><code>Capacity: 100 tokens, Refill: 10 tokens/sec
+
+Attack pattern:
+
+- 12:00:59 → 100 requests (bucket empties)
+- 12:01:01 → 20 requests (only ~20 tokens refilled)
+- Total: 120 requests max (controlled burst)</code></pre>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<ul>
+<li>Why does fixed window allow double rate at boundaries? <span class="fill-in">[Fill in]</span></li>
+<li>How does token bucket prevent this? <span class="fill-in">[Fill in]</span></li>
+<li>When is fixed window "good enough"? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<hr/>
+<h2 id="case-studies-rate-limiting-in-the-wild">Case Studies: Rate Limiting in the Wild<a class="headerlink" href="#case-studies-rate-limiting-in-the-wild" title="Permanent link">¶</a></h2>
+<h3 id="stripe-api-the-leaky-bucket-for-smooth-traffic">Stripe API: The Leaky Bucket for Smooth Traffic<a class="headerlink" href="#stripe-api-the-leaky-bucket-for-smooth-traffic" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> Leaky Bucket algorithm.</li>
+<li><strong>How it works:</strong> Stripe's API processes requests at a fixed, steady rate, smoothing out bursts. Imagine a bucket with
+  a small hole in the bottom. Incoming requests fill the bucket, and they are processed at the rate water "leaks" out.
+  If requests arrive too quickly, the bucket overflows, and requests are rejected with a <code>429 Too Many Requests</code> status
+  code.</li>
+<li><strong>Key Takeaway:</strong> The Leaky Bucket algorithm is excellent for services that require a predictable, stable load and
+  want to prevent being overwhelmed by sudden bursts of traffic. It enforces a very smooth processing rate.</li>
+</ul>
+<h3 id="github-api-the-token-bucket-for-flexibility">GitHub API: The Token Bucket for Flexibility<a class="headerlink" href="#github-api-the-token-bucket-for-flexibility" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> Token Bucket algorithm.</li>
+<li><strong>How it works:</strong> GitHub provides each API client with a "bucket" of tokens (e.g., 5,000) that refills over time (
+  e.g., per hour). Each API request consumes one token. This allows clients to make short, intense bursts of requests as
+  long as they have tokens remaining. The API's HTTP response headers (<code>X-RateLimit-Limit</code>, <code>X-RateLimit-Remaining</code>,
+  <code>X-RateLimit-Reset</code>) clearly communicate the client's current status, allowing applications to gracefully back off.</li>
+<li><strong>Key Takeaway:</strong> The Token Bucket algorithm provides more flexibility than the Leaky Bucket, as it permits bursty
+  traffic. This is user-friendly for clients who may have legitimate reasons to make many requests in a short period, as
+  long as their average rate remains within the limit.</li>
+</ul>
+<h3 id="cloudflare-fixed-windows-for-ddos-protection">Cloudflare: Fixed Windows for DDoS Protection<a class="headerlink" href="#cloudflare-fixed-windows-for-ddos-protection" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> Fixed Window Counters for security.</li>
+<li><strong>How it works:</strong> As a security company, Cloudflare's priority is blocking malicious traffic. They use simple,
+  high-performance fixed window counters at their edge locations. They might have a rule like: "Block any IP that makes
+  more than 100 requests in any 10-second window." While this can be cheated by a sophisticated attacker who distributes
+  requests across windows, it is extremely effective at stopping basic brute-force attacks and application-layer DDoS
+  attempts with very little overhead.</li>
+<li><strong>Key Takeaway:</strong> For security and DDoS mitigation, the raw performance and simplicity of a fixed window counter can
+  be the most effective choice. The goal isn't perfect fairness but rather the rapid identification and blocking of
+  abusive behavior.</li>
+</ul>
+<hr/>
+<h2 id="core-implementation">Core Implementation<a class="headerlink" href="#core-implementation" title="Permanent link">¶</a></h2>
+<h3 id="part-1-token-bucket-algorithm">Part 1: Token Bucket Algorithm<a class="headerlink" href="#part-1-token-bucket-algorithm" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement token bucket rate limiter with refill mechanism.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+import java.util.concurrent.*;
+
+/**
+ * Token Bucket: Tokens refill at constant rate, burst traffic allowed
+ *
+ * Key principles:
+ * - Bucket holds tokens (capacity)
+ * - Tokens refill at fixed rate
+ * - Request consumes token(s)
+ * - Allows burst traffic up to capacity
+ */
+
+public class TokenBucketRateLimiter {
+
+    private final int capacity;          // Max tokens in bucket
+    private final double refillRate;     // Tokens per second
+    private double tokens;               // Current tokens
+    private long lastRefillTime;         // Last refill timestamp
+
+    /**
+     * Initialize token bucket
+     *
+     * @param capacity Maximum tokens (burst size)
+     * @param refillRate Tokens added per second
+     *
+     * TODO: Initialize bucket
+     * - Set capacity and refill rate
+     * - Start with full bucket
+     * - Record current time
+     */
+    public TokenBucketRateLimiter(int capacity, double refillRate) {
+        // TODO: Track state
+
+        // TODO: Initialize tokens to capacity (bucket starts full)
+
+        // TODO: Record current time in milliseconds
+
+        this.capacity = 0; // Replace
+        this.refillRate = 0; // Replace
+    }
+
+    /**
+     * Attempt to acquire a token
+     *
+     * @return true if token acquired, false if rate limited
+     *
+     * TODO: Implement token acquisition
+     * 1. Refill tokens based on time elapsed
+     * 2. Check if token available
+     * 3. Consume token if available
+     *
+     * Hint: tokens_to_add = time_elapsed * refill_rate
+     */
+    public synchronized boolean tryAcquire() {
+        // TODO: Calculate time elapsed since last refill
+
+        // TODO: Calculate new tokens to add
+        // tokens_to_add = elapsed_seconds * refillRate
+
+        // TODO: Add tokens but cap at capacity
+        // tokens = Math.min(tokens + tokens_to_add, capacity)
+
+        // TODO: Update lastRefillTime to now
+
+        // TODO: Implement iteration/conditional logic
+
+        // TODO: Otherwise return false (rate limited)
+
+        return false; // Replace
+    }
+
+    /**
+     * Try to acquire multiple tokens (for weighted rate limiting)
+     *
+     * @param tokensNeeded Number of tokens to acquire
+     * @return true if acquired, false if insufficient tokens
+     *
+     * TODO: Implement multi-token acquisition
+     * - Refill tokens first
+     * - Check if enough tokens available
+     * - Consume requested tokens
+     */
+    public synchronized boolean tryAcquire(int tokensNeeded) {
+        // TODO: Refill tokens (same as tryAcquire())
+
+        // TODO: Check if tokens &gt;= tokensNeeded
+
+        // TODO: Implement iteration/conditional logic
+
+        // TODO: Otherwise return false
+
+        return false; // Replace
+    }
+
+    /**
+     * Get current token count (for monitoring)
+     */
+    public synchronized double getTokens() {
+        refill();
+        return tokens;
+    }
+
+    /**
+     * Refill tokens based on elapsed time
+     *
+     * TODO: Extract refill logic
+     * - Calculate elapsed time
+     * - Add tokens
+     * - Cap at capacity
+     */
+    private void refill() {
+        // TODO: Implement refill logic
+    }
+}</code></pre>
+<h3 id="part-2-leaky-bucket-algorithm">Part 2: Leaky Bucket Algorithm<a class="headerlink" href="#part-2-leaky-bucket-algorithm" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement leaky bucket rate limiter with constant outflow.</p>
+<pre class="highlight"><code class="language-java">/**
+ * Leaky Bucket: Requests leak out at constant rate
+ *
+ * Key principles:
+ * - Bucket holds pending requests (queue)
+ * - Requests leak out at fixed rate
+ * - Smooths burst traffic
+ * - Rejects requests if bucket full
+ */
+
+public class LeakyBucketRateLimiter {
+
+    private final int capacity;           // Max queue size
+    private final double leakRate;        // Requests per second
+    private final Queue&lt;Long&gt; bucket;     // Request timestamps
+    private long lastLeakTime;
+
+    /**
+     * Initialize leaky bucket
+     *
+     * @param capacity Maximum pending requests
+     * @param leakRate Requests processed per second
+     *
+     * TODO: Initialize bucket
+     * - Create queue with capacity
+     * - Set leak rate
+     * - Record current time
+     */
+    public LeakyBucketRateLimiter(int capacity, double leakRate) {
+        // TODO: Track state
+
+        // TODO: Initialize queue (LinkedList)
+
+        // TODO: Record current time
+
+        this.capacity = 0; // Replace
+        this.leakRate = 0; // Replace
+        this.bucket = null; // Replace
+    }
+
+    /**
+     * Try to add request to bucket
+     *
+     * @return true if accepted, false if bucket full
+     *
+     * TODO: Implement request acceptance
+     * 1. Leak out old requests
+     * 2. Check if space available
+     * 3. Add current request
+     *
+     * Hint: Remove requests older than (current_time - 1/leak_rate)
+     */
+    public synchronized boolean tryAcquire() {
+        // TODO: Leak out processed requests
+        // requests_to_leak = elapsed_seconds * leakRate
+
+        // TODO: Remove that many requests from queue
+
+        // TODO: Implement iteration/conditional logic
+
+        // TODO: Otherwise return false (bucket full)
+
+        return false; // Replace
+    }
+
+    /**
+     * Leak out processed requests
+     *
+     * TODO: Remove requests based on elapsed time
+     * - Calculate requests that should leak
+     * - Remove from queue
+     * - Update lastLeakTime
+     */
+    private void leak() {
+        // TODO: Calculate elapsed time
+
+        // TODO: Calculate requests to leak
+        // requestsToLeak = elapsed_seconds * leakRate
+
+        // TODO: Poll requestsToLeak items from queue
+
+        // TODO: Update lastLeakTime
+    }
+
+    /**
+     * Get current bucket size (for monitoring)
+     */
+    public synchronized int getQueueSize() {
+        leak();
+        return bucket.size();
+    }
+}</code></pre>
+<h3 id="part-3-fixed-window-algorithm">Part 3: Fixed Window Algorithm<a class="headerlink" href="#part-3-fixed-window-algorithm" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement simple fixed window counter.</p>
+<pre class="highlight"><code class="language-java">/**
+ * Fixed Window: Count requests in fixed time windows
+ *
+ * Key principles:
+ * - Reset counter at window boundaries
+ * - Simple and memory efficient
+ * - Can allow 2x rate at window boundaries
+ */
+
+public class FixedWindowRateLimiter {
+
+    private final int maxRequests;        // Max requests per window
+    private final long windowSizeMs;      // Window size in milliseconds
+    private int counter;                  // Requests in current window
+    private long windowStart;             // Current window start time
+
+    /**
+     * Initialize fixed window rate limiter
+     *
+     * @param maxRequests Maximum requests per window
+     * @param windowSizeMs Window size in milliseconds
+     *
+     * TODO: Initialize window
+     * - Set max requests and window size
+     * - Start counter at 0
+     * - Record window start time
+     */
+    public FixedWindowRateLimiter(int maxRequests, long windowSizeMs) {
+        // TODO: Track state
+
+        // TODO: Initialize counter to 0
+
+        // TODO: Track state
+
+        this.maxRequests = 0; // Replace
+        this.windowSizeMs = 0; // Replace
+    }
+
+    /**
+     * Try to acquire permission
+     *
+     * @return true if allowed, false if rate limited
+     *
+     * TODO: Implement fixed window logic
+     * 1. Check if window expired (reset if needed)
+     * 2. Check if under limit
+     * 3. Increment counter
+     */
+    public synchronized boolean tryAcquire() {
+        long now = System.currentTimeMillis();
+
+        // TODO: Implement iteration/conditional logic
+
+        // TODO: Implement iteration/conditional logic
+
+        // TODO: Otherwise return false
+
+        return false; // Replace
+    }
+
+    /**
+     * Get current window stats (for monitoring)
+     */
+    public synchronized WindowStats getStats() {
+        return new WindowStats(counter, maxRequests, windowStart);
+    }
+
+    static class WindowStats {
+        int current;
+        int max;
+        long windowStart;
+
+        WindowStats(int current, int max, long windowStart) {
+            this.current = current;
+            this.max = max;
+            this.windowStart = windowStart;
+        }
+    }
+}</code></pre>
+<h3 id="part-4-sliding-window-log-algorithm">Part 4: Sliding Window Log Algorithm<a class="headerlink" href="#part-4-sliding-window-log-algorithm" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement sliding window with request log.</p>
+<pre class="highlight"><code class="language-java">/**
+ * Sliding Window Log: Track individual request timestamps
+ *
+ * Key principles:
+ * - Store timestamp of each request
+ * - Count requests in sliding window
+ * - More accurate than fixed window
+ * - Higher memory usage
+ */
+
+public class SlidingWindowLogRateLimiter {
+
+    private final int maxRequests;        // Max requests per window
+    private final long windowSizeMs;      // Window size in milliseconds
+    private final Queue&lt;Long&gt; requestLog; // Request timestamps
+
+    /**
+     * Initialize sliding window log
+     *
+     * @param maxRequests Maximum requests per window
+     * @param windowSizeMs Window size in milliseconds
+     *
+     * TODO: Initialize log
+     * - Set max requests and window size
+     * - Create queue for timestamps
+     */
+    public SlidingWindowLogRateLimiter(int maxRequests, long windowSizeMs) {
+        // TODO: Track state
+
+        // TODO: Initialize LinkedList for request log
+
+        this.maxRequests = 0; // Replace
+        this.windowSizeMs = 0; // Replace
+        this.requestLog = null; // Replace
+    }
+
+    /**
+     * Try to acquire permission
+     *
+     * @return true if allowed, false if rate limited
+     *
+     * TODO: Implement sliding window logic
+     * 1. Remove old requests outside window
+     * 2. Check if under limit
+     * 3. Add current timestamp
+     *
+     * Hint: Remove requests older than (now - windowSizeMs)
+     */
+    public synchronized boolean tryAcquire() {
+        long now = System.currentTimeMillis();
+
+        // TODO: Remove timestamps older than (now - windowSizeMs)
+
+        // TODO: Implement iteration/conditional logic
+
+        // TODO: Otherwise return false
+
+        return false; // Replace
+    }
+
+    /**
+     * Get current request count (for monitoring)
+     */
+    public synchronized int getCurrentCount() {
+        long now = System.currentTimeMillis();
+        while (!requestLog.isEmpty() &amp;&amp; requestLog.peek() &lt;= now - windowSizeMs) {
+            requestLog.poll();
+        }
+        return requestLog.size();
+    }
+}</code></pre>
+<h3 id="part-5-sliding-window-counter-hybrid">Part 5: Sliding Window Counter (Hybrid)<a class="headerlink" href="#part-5-sliding-window-counter-hybrid" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement memory-efficient sliding window counter.</p>
+<pre class="highlight"><code class="language-java">/**
+ * Sliding Window Counter: Hybrid of fixed window and sliding window
+ *
+ * Key principles:
+ * - Two counters: current and previous window
+ * - Weighted average based on time in window
+ * - More accurate than fixed window
+ * - Less memory than sliding log
+ */
+
+public class SlidingWindowCounterRateLimiter {
+
+    private final int maxRequests;
+    private final long windowSizeMs;
+    private int currentWindowCount;
+    private int previousWindowCount;
+    private long currentWindowStart;
+
+    /**
+     * Initialize sliding window counter
+     *
+     * @param maxRequests Maximum requests per window
+     * @param windowSizeMs Window size in milliseconds
+     *
+     * TODO: Initialize counters
+     * - Set max requests and window size
+     * - Initialize both counters
+     * - Record window start
+     */
+    public SlidingWindowCounterRateLimiter(int maxRequests, long windowSizeMs) {
+        // TODO: Track state
+
+        // TODO: Initialize currentWindowCount to 0
+
+        // TODO: Initialize previousWindowCount to 0
+
+        // TODO: Track state
+
+        this.maxRequests = 0; // Replace
+        this.windowSizeMs = 0; // Replace
+    }
+
+    /**
+     * Try to acquire permission
+     *
+     * @return true if allowed, false if rate limited
+     *
+     * TODO: Implement sliding window counter
+     * 1. Rotate windows if needed
+     * 2. Calculate weighted count
+     * 3. Check against limit
+     *
+     * Formula:
+     * weighted_count = previous_count * (1 - elapsed_ratio) + current_count
+     * where elapsed_ratio = time_in_window / window_size
+     */
+    public synchronized boolean tryAcquire() {
+        long now = System.currentTimeMillis();
+
+        // TODO: Check if window expired
+
+        // TODO: Calculate time elapsed in current window
+        // elapsedRatio = (now - currentWindowStart) / windowSizeMs
+
+        // TODO: Calculate weighted count
+        // weightedCount = previousWindowCount * (1 - elapsedRatio) + currentWindowCount
+
+        // TODO: Implement iteration/conditional logic
+
+        // TODO: Otherwise return false
+
+        return false; // Replace
+    }
+
+    /**
+     * Get estimated current count (for monitoring)
+     */
+    public synchronized double getEstimatedCount() {
+        long now = System.currentTimeMillis();
+        double elapsedRatio = (double)(now - currentWindowStart) / windowSizeMs;
+        return previousWindowCount * (1 - elapsedRatio) + currentWindowCount;
+    }
+}</code></pre>
+<hr/>
+<h2 id="client-code">Client Code<a class="headerlink" href="#client-code" title="Permanent link">¶</a></h2>
+<pre class="highlight"><code class="language-java">import java.util.concurrent.*;
+
+public class RateLimitingClient {
+
+    public static void main(String[] args) throws Exception {
+        testTokenBucket();
+        System.out.println("\n" + "=".repeat(50) + "\n");
+        testLeakyBucket();
+        System.out.println("\n" + "=".repeat(50) + "\n");
+        testFixedWindow();
+        System.out.println("\n" + "=".repeat(50) + "\n");
+        testSlidingWindowLog();
+        System.out.println("\n" + "=".repeat(50) + "\n");
+        testSlidingWindowCounter();
+        System.out.println("\n" + "=".repeat(50) + "\n");
+        compareBurstTraffic();
+    }
+
+    static void testTokenBucket() {
+        System.out.println("=== Token Bucket Test ===\n");
+
+        // 10 tokens capacity, 2 tokens/second refill
+        TokenBucketRateLimiter limiter = new TokenBucketRateLimiter(10, 2.0);
+
+        // Test: Burst traffic
+        System.out.println("Burst: 15 rapid requests");
+        int allowed = 0;
+        for (int i = 0; i &lt; 15; i++) {
+            if (limiter.tryAcquire()) {
+                allowed++;
+            }
+        }
+        System.out.println("Allowed: " + allowed + "/15");
+        System.out.println("Remaining tokens: " + limiter.getTokens());
+
+        // Test: Wait and retry
+        System.out.println("\nWait 2 seconds for refill...");
+        sleep(2000);
+        System.out.println("Tokens after refill: " + limiter.getTokens());
+
+        // Test: Weighted request (costs 3 tokens)
+        System.out.println("\nWeighted request (3 tokens):");
+        boolean acquired = limiter.tryAcquire(3);
+        System.out.println("Acquired: " + acquired);
+        System.out.println("Remaining tokens: " + limiter.getTokens());
+    }
+
+    static void testLeakyBucket() {
+        System.out.println("=== Leaky Bucket Test ===\n");
+
+        // 5 capacity, 1 request/second leak rate
+        LeakyBucketRateLimiter limiter = new LeakyBucketRateLimiter(5, 1.0);
+
+        // Test: Fill bucket
+        System.out.println("Fill bucket with 5 requests");
+        int allowed = 0;
+        for (int i = 0; i &lt; 5; i++) {
+            if (limiter.tryAcquire()) {
+                allowed++;
+            }
+        }
+        System.out.println("Allowed: " + allowed + "/5");
+        System.out.println("Queue size: " + limiter.getQueueSize());
+
+        // Test: Overflow
+        System.out.println("\nTry 3 more requests (should overflow)");
+        int overflow = 0;
+        for (int i = 0; i &lt; 3; i++) {
+            if (limiter.tryAcquire()) {
+                overflow++;
+            }
+        }
+        System.out.println("Allowed: " + overflow + "/3");
+
+        // Test: Wait and retry
+        System.out.println("\nWait 2 seconds for leak...");
+        sleep(2000);
+        System.out.println("Queue size after leak: " + limiter.getQueueSize());
+    }
+
+    static void testFixedWindow() {
+        System.out.println("=== Fixed Window Test ===\n");
+
+        // 5 requests per 2 second window
+        FixedWindowRateLimiter limiter = new FixedWindowRateLimiter(5, 2000);
+
+        // Test: Fill window
+        System.out.println("Make 5 requests (should all succeed)");
+        testRequests(limiter, 5);
+
+        // Test: Overflow
+        System.out.println("\nMake 3 more requests (should fail)");
+        testRequests(limiter, 3);
+
+        // Test: Window boundary
+        System.out.println("\nWait for window reset...");
+        sleep(2100);
+        System.out.println("Make 5 requests in new window");
+        testRequests(limiter, 5);
+    }
+
+    static void testSlidingWindowLog() {
+        System.out.println("=== Sliding Window Log Test ===\n");
+
+        // 5 requests per 2 second window
+        SlidingWindowLogRateLimiter limiter = new SlidingWindowLogRateLimiter(5, 2000);
+
+        // Test: Fill window
+        System.out.println("Make 5 requests");
+        testRequests(limiter, 5);
+        System.out.println("Current count: " + limiter.getCurrentCount());
+
+        // Test: Wait partial window
+        System.out.println("\nWait 1 second (half window)...");
+        sleep(1000);
+        System.out.println("Current count: " + limiter.getCurrentCount());
+
+        // Test: Make more requests
+        System.out.println("\nMake 3 more requests");
+        testRequests(limiter, 3);
+    }
+
+    static void testSlidingWindowCounter() {
+        System.out.println("=== Sliding Window Counter Test ===\n");
+
+        // 5 requests per 2 second window
+        SlidingWindowCounterRateLimiter limiter = new SlidingWindowCounterRateLimiter(5, 2000);
+
+        // Test: Fill window
+        System.out.println("Make 5 requests");
+        testRequests(limiter, 5);
+        System.out.println("Estimated count: " + limiter.getEstimatedCount());
+
+        // Test: Wait partial window
+        System.out.println("\nWait 1 second...");
+        sleep(1000);
+        System.out.println("Estimated count: " + limiter.getEstimatedCount());
+
+        // Test: Make more requests
+        System.out.println("\nMake 3 more requests");
+        testRequests(limiter, 3);
+        System.out.println("Estimated count: " + limiter.getEstimatedCount());
+    }
+
+    static void compareBurstTraffic() {
+        System.out.println("=== Burst Traffic Comparison ===\n");
+
+        TokenBucketRateLimiter tokenBucket = new TokenBucketRateLimiter(10, 2.0);
+        LeakyBucketRateLimiter leakyBucket = new LeakyBucketRateLimiter(10, 2.0);
+        FixedWindowRateLimiter fixedWindow = new FixedWindowRateLimiter(10, 5000);
+
+        // Simulate burst of 20 requests
+        System.out.println("Sending 20 rapid requests...");
+
+        int tokenAllowed = 0, leakyAllowed = 0, fixedAllowed = 0;
+        for (int i = 0; i &lt; 20; i++) {
+            if (tokenBucket.tryAcquire()) tokenAllowed++;
+            if (leakyBucket.tryAcquire()) leakyAllowed++;
+            if (fixedWindow.tryAcquire()) fixedAllowed++;
+        }
+
+        System.out.println("Token Bucket allowed: " + tokenAllowed + "/20");
+        System.out.println("Leaky Bucket allowed: " + leakyAllowed + "/20");
+        System.out.println("Fixed Window allowed: " + fixedAllowed + "/20");
+    }
+
+    static void testRequests(FixedWindowRateLimiter limiter, int count) {
+        int allowed = 0;
+        for (int i = 0; i &lt; count; i++) {
+            if (limiter.tryAcquire()) allowed++;
+        }
+        System.out.println("Allowed: " + allowed + "/" + count);
+    }
+
+    static void testRequests(SlidingWindowLogRateLimiter limiter, int count) {
+        int allowed = 0;
+        for (int i = 0; i &lt; count; i++) {
+            if (limiter.tryAcquire()) allowed++;
+        }
+        System.out.println("Allowed: " + allowed + "/" + count);
+    }
+
+    static void testRequests(SlidingWindowCounterRateLimiter limiter, int count) {
+        int allowed = 0;
+        for (int i = 0; i &lt; count; i++) {
+            if (limiter.tryAcquire()) allowed++;
+        }
+        System.out.println("Allowed: " + allowed + "/" + count);
+    }
+
+    static void sleep(long ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+}</code></pre>
+<hr/>
+<h2 id="debugging-challenges">Debugging Challenges<a class="headerlink" href="#debugging-challenges" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Find and fix bugs in broken rate limiter implementations. This tests your understanding.</p>
+<h3 id="challenge-1-broken-token-bucket-refill">Challenge 1: Broken Token Bucket Refill<a class="headerlink" href="#challenge-1-broken-token-bucket-refill" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * This token bucket has a CRITICAL bug in the refill logic.
+ * It works initially but breaks after a few minutes.
+ */
+public class BrokenTokenBucket {
+    private int tokens;
+    private long lastRefillTime;
+    private final int capacity = 10;
+    private final int refillRate = 2; // tokens per second
+
+    public BrokenTokenBucket() {
+        this.tokens = capacity;
+        this.lastRefillTime = System.currentTimeMillis();
+    }
+
+    public synchronized boolean tryAcquire() {
+        // Refill tokens
+        long now = System.currentTimeMillis();
+        long elapsed = now - lastRefillTime;
+        int tokensToAdd = (int)(elapsed * refillRate);
+        tokens = Math.min(capacity, tokens + tokensToAdd);
+        lastRefillTime = now;
+
+        // Consume token
+        if (tokens &gt;= 1) {
+            tokens--;
+            return true;
+        }
+        return false;
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug location:</strong> <span class="fill-in">[Which line?]</span></li>
+<li><strong>Bug explanation:</strong> <span class="fill-in">[What's wrong with the calculation?]</span></li>
+<li><strong>Bug manifestation:</strong> <span class="fill-in">[What happens? Too many/few tokens?]</span><ul>
+<li>Current calculation: <code>2000 * 2 = 4000</code> tokens! <span class="fill-in">[Why is this wrong?]</span></li>
+<li>Expected: <span class="fill-in">[How many tokens should be added?]</span></li>
+</ul>
+</li>
+<li><strong>Fix:</strong> <span class="fill-in">[Correct the formula]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> The formula <code>elapsed * refillRate</code> multiplies milliseconds by tokens/second, giving a massive number.</p>
+<p><strong>Correct formula:</strong></p>
+<pre class="highlight"><code class="language-java">double elapsedSeconds = elapsed / 1000.0;
+int tokensToAdd = (int)(elapsedSeconds * refillRate);</code></pre>
+<p>OR:</p>
+<pre class="highlight"><code class="language-java">int tokensToAdd = (int)((elapsed / 1000.0) * refillRate);</code></pre>
+<p><strong>Test:</strong> 2 seconds × 2 tokens/sec = 4 tokens (not 4000!)</p>
+</details>
+<hr/>
+<h3 id="challenge-2-race-condition-in-token-bucket">Challenge 2: Race Condition in Token Bucket<a class="headerlink" href="#challenge-2-race-condition-in-token-bucket" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * This token bucket has a RACE CONDITION bug.
+ * Works fine single-threaded, breaks under concurrent load.
+ */
+public class RacyTokenBucket {
+    private double tokens;
+    private long lastRefillTime;
+    private final int capacity = 100;
+    private final double refillRate = 10.0;
+
+    public boolean tryAcquire() {        refill();
+
+        if (tokens &gt;= 1) {
+            tokens--;            return true;
+        }
+        return false;
+    }
+
+    private void refill() {        long now = System.currentTimeMillis();
+        double elapsed = (now - lastRefillTime) / 1000.0;
+        tokens = Math.min(capacity, tokens + elapsed * refillRate);
+        lastRefillTime = now;
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug 1:</strong> <span class="fill-in">[What's missing from method signature?]</span></li>
+<li><strong>Bug 2:</strong> <span class="fill-in">[What happens when 2 threads check <code>tokens &gt;= 1</code> simultaneously?]</span></li>
+<li><strong>Scenario to expose bug:</strong>
+<pre class="highlight"><code>Thread 1: checks tokens (1.0) &gt;= 1 ✓
+Thread 2: checks tokens (1.0) &gt;= 1 ✓  [race!]
+Thread 1: tokens-- (now 0.0)
+Thread 2: tokens-- (now -1.0)  [negative tokens!]</code></pre></li>
+<li><strong>Fix:</strong> <span class="fill-in">[How to prevent race condition?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> Missing <code>synchronized</code> keyword. Multiple threads can pass the <code>tokens &gt;= 1</code> check before any thread decrements.</p>
+<p><strong>Fix:</strong></p>
+<pre class="highlight"><code class="language-java">public synchronized boolean tryAcquire() {
+    refill();
+
+    if (tokens &gt;= 1) {
+        tokens--;
+        return true;
+    }
+    return false;
+}
+
+private synchronized void refill() {
+    // ... refill logic
+}</code></pre>
+<p><strong>Alternative:</strong> Use <code>AtomicReference</code> or <code>Lock</code> for finer-grained control.</p>
+</details>
+<hr/>
+<h3 id="challenge-3-fixed-window-off-by-one-error">Challenge 3: Fixed Window Off-by-One Error<a class="headerlink" href="#challenge-3-fixed-window-off-by-one-error" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Fixed window counter with subtle off-by-one bug.
+ * Sometimes allows one extra request.
+ */
+public class BrokenFixedWindow {
+    private int counter = 0;
+    private long windowStart;
+    private final int maxRequests = 10;
+    private final long windowMs = 60000;
+
+    public BrokenFixedWindow() {
+        this.windowStart = System.currentTimeMillis();
+    }
+
+    public synchronized boolean tryAcquire() {
+        long now = System.currentTimeMillis();
+
+        // Reset window if needed
+        if (now - windowStart &gt; windowMs) {            counter = 0;
+            windowStart = now;
+        }
+
+        // Check limit
+        if (counter &lt;= maxRequests) {            counter++;
+            return true;
+        }
+
+        return false;
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug 1:</strong> Line with <code>now - windowStart &gt; windowMs</code><ul>
+<li>Why &gt; might be wrong: <span class="fill-in">[Fill in]</span></li>
+<li>Should it be &gt;=? <span class="fill-in">[Yes/No and why]</span></li>
+</ul>
+</li>
+<li><strong>Bug 2:</strong> Line with <code>counter &lt;= maxRequests</code><ul>
+<li>Expected: Allow 10 requests (counter 0-9)</li>
+<li>Actual: <span class="fill-in">[How many requests allowed?]</span></li>
+<li>Fix: <span class="fill-in">[Should be &lt; or &lt;= ?]</span></li>
+<li>Counter values: 0, 1, 2, 3 → <span class="fill-in">[How many increments? Is 4 requests allowed?]</span></li>
+</ul>
+</li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug 1:</strong> Using <code>&gt;</code> instead of <code>&gt;=</code> means windows that expire exactly at the boundary don't reset. Using <code>&gt;=</code> is
+standard and clearer.</p>
+<p><strong>Bug 2:</strong> The condition <code>counter &lt;= maxRequests</code> allows 11 requests:</p>
+<ul>
+<li>counter = 0 → increment to 1 (1st request)</li>
+<li>counter = 1 → increment to 2 (2nd request)</li>
+<li>...</li>
+<li>counter = 9 → increment to 10 (10th request)</li>
+<li>counter = 10 → increment to 11 (11th request) ← BUG!</li>
+</ul>
+<p><strong>Fix:</strong></p>
+<pre class="highlight"><code class="language-java">if (counter &lt; maxRequests) {  // Use &lt; not &lt;=
+    counter++;
+    return true;
+}</code></pre>
+<p>OR increment first, then check:</p>
+<pre class="highlight"><code class="language-java">counter++;
+if (counter &lt;= maxRequests) {
+    return true;
+}
+counter--; // rollback
+return false;</code></pre>
+</details>
+<hr/>
+<h3 id="challenge-4-sliding-window-log-memory-leak">Challenge 4: Sliding Window Log Memory Leak<a class="headerlink" href="#challenge-4-sliding-window-log-memory-leak" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Sliding window log with memory leak bug.
+ * Memory grows indefinitely under load.
+ */
+public class LeakyWindowLog {
+    private final int maxRequests = 100;
+    private final long windowMs = 60000;
+    private final Queue&lt;Long&gt; requestLog = new LinkedList&lt;&gt;();
+
+    public synchronized boolean tryAcquire() {
+        long now = System.currentTimeMillis();
+
+        while (!requestLog.isEmpty() &amp;&amp; requestLog.peek() &lt; now - windowMs) {
+            requestLog.poll();
+        }
+
+        if (requestLog.size() &lt; maxRequests) {
+            requestLog.add(now);
+            return true;
+        }
+
+        return false;
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug scenario:</strong> Low traffic for 5 minutes, then burst of 10,000 rejected requests<ul>
+<li>How many timestamps in queue? <span class="fill-in">[Fill in]</span></li>
+<li>Are rejected requests added to log? <span class="fill-in">[Yes/No]</span></li>
+<li>Wait, re-read the code carefully... <span class="fill-in">[What actually happens?]</span></li>
+</ul>
+</li>
+<li><strong>Memory analysis:</strong><ul>
+<li>Each timestamp: 8 bytes (long)</li>
+<li>After 1 hour of 100 req/min: <span class="fill-in">[Calculate queue size]</span></li>
+<li>After 24 hours: <span class="fill-in">[Calculate queue size]</span></li>
+</ul>
+</li>
+<li><strong>The ACTUAL bug:</strong> <span class="fill-in">[Is there actually a memory leak, or is this a trick question?]</span></li>
+<li><strong>Discussion:</strong> <span class="fill-in">[Is the cleanup sufficient? When would memory grow?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Trick question!</strong> The code is actually correct for the most part. The cleanup loop runs on every request and removes
+old timestamps.</p>
+<p><strong>However, there ARE subtle issues:</strong></p>
+<ol>
+<li>
+<p><strong>Peak memory usage:</strong> During high traffic, the queue holds up to <code>maxRequests</code> timestamps (100 × 8 bytes = 800 bytes
+   per user). For 1 million users: ~800 MB.</p>
+</li>
+<li>
+<p><strong>Stale data if no requests:</strong> If a user makes 100 requests then stops, those timestamps stay in memory for the full
+   window duration (60 seconds).</p>
+</li>
+<li>
+<p><strong>Not a traditional memory leak:</strong> Memory is bounded by <code>maxRequests × number_of_active_users</code>.</p>
+</li>
+</ol>
+<p><strong>Better approach:</strong> Use a background cleanup thread or TTL-based cache eviction for inactive users.</p>
+<p><strong>Actual memory leak scenario:</strong> If implementing per-user rate limiting, you might store a <code>Map&lt;UserId, RateLimiter&gt;</code>
+that grows indefinitely without eviction of inactive users.</p>
+</details>
+<hr/>
+<h3 id="challenge-5-incorrect-sliding-window-counter-weight">Challenge 5: Incorrect Sliding Window Counter Weight<a class="headerlink" href="#challenge-5-incorrect-sliding-window-counter-weight" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Sliding window counter with incorrect weighted calculation.
+ * Rate limiting is too strict or too lenient.
+ */
+public class BrokenSlidingCounter {
+    private int currentCount = 0;
+    private int previousCount = 0;
+    private long windowStart;
+    private final int maxRequests = 100;
+    private final long windowMs = 60000;
+
+    public BrokenSlidingCounter() {
+        this.windowStart = System.currentTimeMillis();
+    }
+
+    public synchronized boolean tryAcquire() {
+        long now = System.currentTimeMillis();
+
+        // Rotate window if needed
+        if (now - windowStart &gt;= windowMs) {
+            previousCount = currentCount;
+            currentCount = 0;
+            windowStart = now;
+        }
+
+        // Calculate weighted count
+        double elapsed = now - windowStart;
+        double ratio = elapsed / windowMs;
+
+        double weightedCount = previousCount * ratio + currentCount;
+
+        if (weightedCount &lt; maxRequests) {
+            currentCount++;
+            return true;
+        }
+
+        return false;
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Formula analysis:</strong> <code>previousCount * ratio + currentCount</code><ul>
+<li>If elapsed = 0ms (start of window): ratio = 0, weighted = <span class="fill-in">[calculate]</span></li>
+<li>If elapsed = 30s (halfway): ratio = 0.5, weighted = <span class="fill-in">[calculate]</span></li>
+<li>If elapsed = 60s (end of window): ratio = 1.0, weighted = <span class="fill-in">[calculate]</span></li>
+</ul>
+</li>
+<li><strong>Is this correct?</strong> <span class="fill-in">[Should previous count INCREASE or DECREASE as time passes?]</span></li>
+<li><strong>Expected:</strong> As time passes, previous window matters less<ul>
+<li>Start of window: previous = 100%, current = 0%</li>
+<li>Middle of window: previous = 50%, current = 50%</li>
+<li>End of window: previous = 0%, current = 100%</li>
+</ul>
+</li>
+<li><strong>Bug:</strong> <span class="fill-in">[What's wrong with the formula?]</span></li>
+<li><strong>Fix:</strong> <span class="fill-in">[Correct formula]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> The formula <code>previousCount * ratio</code> makes the previous count INCREASE as time passes. It should DECREASE!</p>
+<p><strong>Correct formula:</strong></p>
+<pre class="highlight"><code class="language-java">double weightedCount = previousCount * (1 - ratio) + currentCount;</code></pre>
+<p><strong>Why:</strong></p>
+<ul>
+<li>ratio = 0.0 (start of window) → previous weight = 1.0 (100%)</li>
+<li>ratio = 0.5 (halfway) → previous weight = 0.5 (50%)</li>
+<li>ratio = 1.0 (end of window) → previous weight = 0.0 (0%)</li>
+</ul>
+<p><strong>Example:</strong></p>
+<ul>
+<li>previousCount = 80, currentCount = 40</li>
+<li>Elapsed = 30s out of 60s → ratio = 0.5</li>
+<li>Correct: 80 × (1 - 0.5) + 40 = 80 × 0.5 + 40 = 40 + 40 = 80</li>
+<li>Buggy: 80 × 0.5 + 40 = 40 + 40 = 80 (happens to match, but wrong at other ratios!)</li>
+<li>At ratio = 0.75:<ul>
+<li>Correct: 80 × 0.25 + 40 = 20 + 40 = 60</li>
+<li>Buggy: 80 × 0.75 + 40 = 60 + 40 = 100 (too lenient!)</li>
+</ul>
+</li>
+</ul>
+</details>
+<hr/>
+<h3 id="challenge-6-leaky-bucket-leak-rate-bug">Challenge 6: Leaky Bucket Leak Rate Bug<a class="headerlink" href="#challenge-6-leaky-bucket-leak-rate-bug" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Leaky bucket that leaks at wrong rate.
+ * Sometimes too fast, sometimes too slow.
+ */
+public class BrokenLeakyBucket {
+    private final Queue&lt;Long&gt; bucket = new LinkedList&lt;&gt;();
+    private long lastLeakTime;
+    private final int capacity = 10;
+    private final double leakRate = 2.0; // requests per second
+
+    public BrokenLeakyBucket() {
+        this.lastLeakTime = System.currentTimeMillis();
+    }
+
+    public synchronized boolean tryAcquire() {
+        leak();
+
+        if (bucket.size() &lt; capacity) {
+            bucket.add(System.currentTimeMillis());
+            return true;
+        }
+
+        return false;
+    }
+
+    private void leak() {
+        long now = System.currentTimeMillis();
+        long elapsed = now - lastLeakTime;
+
+        int requestsToLeak = (int)(elapsed * leakRate);
+
+        for (int i = 0; i &lt; requestsToLeak &amp;&amp; !bucket.isEmpty(); i++) {
+            bucket.poll();
+        }
+
+        lastLeakTime = now;    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug 1:</strong> Calculation <code>elapsed * leakRate</code><ul>
+<li>elapsed = 2000ms, leakRate = 2 req/sec</li>
+<li>Current: 2000 × 2 = <span class="fill-in">[What?]</span></li>
+<li>Expected: <span class="fill-in">[How many requests should leak in 2 seconds?]</span></li>
+<li>Fix: <span class="fill-in">[Correct formula]</span></li>
+</ul>
+</li>
+<li><strong>Bug 2:</strong> <code>lastLeakTime = now</code> happens every call<ul>
+<li>Scenario: elapsed = 500ms, leakRate = 2 req/sec</li>
+<li>requests to leak = 1 request</li>
+<li>We update lastLeakTime, "losing" the remaining 0.5 requests worth of time</li>
+<li>Fix: <span class="fill-in">[Should we account for fractional leak time?]</span></li>
+</ul>
+</li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug 1:</strong> Same as token bucket - multiplying milliseconds by rate per second.</p>
+<p><strong>Fix:</strong></p>
+<pre class="highlight"><code class="language-java">double elapsedSeconds = elapsed / 1000.0;
+int requestsToLeak = (int)(elapsedSeconds * leakRate);</code></pre>
+<p><strong>Bug 2:</strong> Updating <code>lastLeakTime</code> every call loses fractional seconds.</p>
+<p><strong>Better approach:</strong></p>
+<pre class="highlight"><code class="language-java">private void leak() {
+    long now = System.currentTimeMillis();
+    double elapsedSeconds = (now - lastLeakTime) / 1000.0;
+    int requestsToLeak = (int)(elapsedSeconds * leakRate);
+
+    for (int i = 0; i &lt; requestsToLeak &amp;&amp; !bucket.isEmpty(); i++) {
+        bucket.poll();
+    }
+
+    // Only update time for the requests we actually leaked
+    if (requestsToLeak &gt; 0) {
+        lastLeakTime += (long)((requestsToLeak / leakRate) * 1000);
+    }
+}</code></pre>
+<p>This preserves fractional time for more accurate leaking.</p>
+</details>
+<hr/>
+<h3 id="your-debugging-scorecard">Your Debugging Scorecard<a class="headerlink" href="#your-debugging-scorecard" title="Permanent link">¶</a></h3>
+<p>After finding and fixing all bugs:</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Found time unit conversion errors (ms vs seconds)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Identified race conditions in concurrent access</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Caught off-by-one errors in counters</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understood memory implications of different approaches</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Fixed incorrect weight formulas in sliding window</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Recognized fractional time loss in leak calculations</li>
+</ul>
+<p><strong>Common rate limiting bugs you discovered:</strong></p>
+<ol>
+<li><span class="fill-in">[List the patterns you noticed]</span></li>
+<li><span class="fill-in">[Fill in]</span></li>
+<li><span class="fill-in">[Fill in]</span></li>
+</ol>
+<p><strong>Testing strategies you learned:</strong></p>
+<div class="learner-section">
+<ul>
+<li>How would you test for race conditions? <span class="fill-in">[Your answer]</span></li>
+<li>How would you test boundary conditions? <span class="fill-in">[Your answer]</span></li>
+<li>How would you test time-based calculations? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="decision-framework">Decision Framework<a class="headerlink" href="#decision-framework" title="Permanent link">¶</a></h2>
+<p><strong>Questions to answer after implementation:</strong></p>
+<h3 id="1-algorithm-selection">1. Algorithm Selection<a class="headerlink" href="#1-algorithm-selection" title="Permanent link">¶</a></h3>
+<p><strong>When to use Token Bucket?</strong></p>
+<ul>
+<li>Your scenario: <span class="fill-in">[Fill in]</span></li>
+<li>Key factors: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>When to use Leaky Bucket?</strong></p>
+<ul>
+<li>Your scenario: <span class="fill-in">[Fill in]</span></li>
+<li>Key factors: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>When to use Fixed Window?</strong></p>
+<ul>
+<li>Your scenario: <span class="fill-in">[Fill in]</span></li>
+<li>Key factors: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>When to use Sliding Window?</strong></p>
+<ul>
+<li>Your scenario: <span class="fill-in">[Fill in]</span></li>
+<li>Key factors: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="2-trade-offs">2. Trade-offs<a class="headerlink" href="#2-trade-offs" title="Permanent link">¶</a></h3>
+<p><strong>Token Bucket:</strong></p>
+<ul>
+<li>Pros: <span class="fill-in">[Fill in after understanding]</span></li>
+<li>Cons: <span class="fill-in">[Fill in after understanding]</span></li>
+</ul>
+<p><strong>Leaky Bucket:</strong></p>
+<ul>
+<li>Pros: <span class="fill-in">[Fill in after understanding]</span></li>
+<li>Cons: <span class="fill-in">[Fill in after understanding]</span></li>
+</ul>
+<p><strong>Fixed Window:</strong></p>
+<ul>
+<li>Pros: <span class="fill-in">[Fill in after understanding]</span></li>
+<li>Cons: <span class="fill-in">[Fill in after understanding]</span></li>
+</ul>
+<p><strong>Sliding Window:</strong></p>
+<ul>
+<li>Pros: <span class="fill-in">[Fill in after understanding]</span></li>
+<li>Cons: <span class="fill-in">[Fill in after understanding]</span></li>
+</ul>
+<h3 id="3-your-decision-tree">3. Your Decision Tree<a class="headerlink" href="#3-your-decision-tree" title="Permanent link">¶</a></h3>
+<p>Build your decision tree after practicing:
+<div class="mermaid">flowchart LR
+    Start["What is your priority?"]
+
+    N1["?"]
+    Start --&gt;|"Allow burst traffic"| N1
+    N2["?"]
+    Start --&gt;|"Smooth traffic flow"| N2
+    N3["?"]
+    Start --&gt;|"Simple and memory efficient"| N3
+    N4["?"]
+    Start --&gt;|"Accurate rate limiting"| N4</div></p>
+<hr/>
+<h2 id="practice">Practice<a class="headerlink" href="#practice" title="Permanent link">¶</a></h2>
+<h3 id="scenario-1-rate-limit-public-api">Scenario 1: Rate limit public API<a class="headerlink" href="#scenario-1-rate-limit-public-api" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>Public REST API</li>
+<li>Need to allow burst traffic</li>
+<li>100 requests per minute per user</li>
+<li>Premium users get 1000 requests per minute</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<ul>
+<li>Which algorithm would you choose? <span class="fill-in">[Fill in]</span></li>
+<li>Why? <span class="fill-in">[Fill in]</span></li>
+<li>How to handle different user tiers? <span class="fill-in">[Fill in]</span></li>
+<li>How to handle distributed servers? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="scenario-2-rate-limit-login-attempts">Scenario 2: Rate limit login attempts<a class="headerlink" href="#scenario-2-rate-limit-login-attempts" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>Prevent brute force attacks</li>
+<li>5 login attempts per minute</li>
+<li>Smooth out retry attempts</li>
+<li>Block for 15 minutes after limit</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<ul>
+<li>Which algorithm would you choose? <span class="fill-in">[Fill in]</span></li>
+<li>Why? <span class="fill-in">[Fill in]</span></li>
+<li>How to implement blocking? <span class="fill-in">[Fill in]</span></li>
+<li>How to handle false positives? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="scenario-3-rate-limit-microservice-calls">Scenario 3: Rate limit microservice calls<a class="headerlink" href="#scenario-3-rate-limit-microservice-calls" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>Service A calls Service B</li>
+<li>Protect Service B from overload</li>
+<li>Service B can handle 1000 req/sec</li>
+<li>Need graceful degradation</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<ul>
+<li>Which algorithm would you choose? <span class="fill-in">[Fill in]</span></li>
+<li>Why? <span class="fill-in">[Fill in]</span></li>
+<li>How to handle backpressure? <span class="fill-in">[Fill in]</span></li>
+<li>Circuit breaker integration? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<hr/>
+<h2 id="review-checklist">Review Checklist<a class="headerlink" href="#review-checklist" title="Permanent link">¶</a></h2>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Token bucket implemented with refill mechanism</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Leaky bucket implemented with constant outflow</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Fixed window implemented with reset logic</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Sliding window log implemented with timestamp tracking</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Sliding window counter implemented with weighted average</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand when to use each algorithm</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can explain trade-offs between algorithms</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Built decision tree for algorithm selection</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Completed practice scenarios</li>
+</ul>
+<hr/>
+<h3 id="mastery-certification">Mastery Certification<a class="headerlink" href="#mastery-certification" title="Permanent link">¶</a></h3>
+<p><strong>I certify that I can:</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Implement all rate limiting algorithms from memory</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Explain when and why to use each algorithm</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Calculate memory and time complexity for each</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Identify the correct algorithm for new scenarios</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Debug common rate limiting bugs (time units, race conditions, boundaries)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Design distributed rate limiting solutions</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Compare trade-offs with alternative approaches</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Teach these concepts to someone else</li>
+</ul></div>
+</div>
+<footer class="col-md-12 text-center">
+<hr/>
+<p>
+<small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+</p>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../../js/bootstrap-3.0.3.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>var base_url = "../.."</script>
+<script src="../../js/base.js"></script>
+<script src="../../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<button class="close" data-dismiss="modal" type="button">
+<span aria-hidden="true">×</span>
+<span class="sr-only">Close</span>
+</button>
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+</div>
+<div class="modal-body">
+<p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="text"/>
+</div>
+</form>
+<div id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@10.4.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>

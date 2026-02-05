@@ -1,0 +1,1480 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="A framework for algorithms, systems design, and infrastructure." name="description"/>
+<meta content="Richard" name="author"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>08. Binary Search - Software Engineering Study Guide</title>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" rel="stylesheet"/>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css" rel="stylesheet"/>
+<link href="//rsms.me/inter/inter.css" rel="stylesheet" type="text/css"/>
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&amp;subset=latin-ext,latin" rel="stylesheet" type="text/css"/>
+<link href="../../css/bootstrap-custom.min.css" rel="stylesheet"/>
+<link href="../../css/base.min.css" rel="stylesheet"/>
+<link href="../../css/cinder.min.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css" rel="stylesheet"/>
+<link href="../../css/custom.css" rel="stylesheet"/>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="container">
+<!-- Collapsed navigation -->
+<div class="navbar-header">
+<!-- Expander button -->
+<button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<!-- Main title -->
+<a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+</div>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li>
+<a href="../..">Home</a>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Systems Design <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../systems/01-storage-engines/">01. Storage Engines</a>
+</li>
+<li>
+<a href="../../systems/02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+<li>
+<a href="../../systems/03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+<li>
+<a href="../../systems/04-search-and-indexing/">04. Search &amp; Indexing</a>
+</li>
+<li>
+<a href="../../systems/05-caching-patterns/">05. Caching Patterns</a>
+</li>
+<li>
+<a href="../../systems/06-api-design/">06. API Design</a>
+</li>
+<li>
+<a href="../../systems/07-security-patterns/">07. Security Patterns</a>
+</li>
+<li>
+<a href="../../systems/08-rate-limiting/">08. Rate Limiting</a>
+</li>
+<li>
+<a href="../../systems/09-load-balancing/">09. Load Balancing</a>
+</li>
+<li>
+<a href="../../systems/10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+<li>
+<a href="../../systems/11-database-scaling/">11. Database Scaling</a>
+</li>
+<li>
+<a href="../../systems/12-message-queues/">12. Message Queues</a>
+</li>
+<li>
+<a href="../../systems/13-stream-processing/">13. Stream Processing</a>
+</li>
+<li>
+<a href="../../systems/14-observability/">14. Observability</a>
+</li>
+<li>
+<a href="../../systems/15-distributed-transactions/">15. Distributed Transactions</a>
+</li>
+<li>
+<a href="../../systems/16-consensus-patterns/">16. Consensus Patterns</a>
+</li>
+</ul>
+</li>
+<li class="dropdown active">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">DSA <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../01-two-pointers/">01. Two Pointers</a>
+</li>
+<li>
+<a href="../02-sliding-window/">02. Sliding Window</a>
+</li>
+<li>
+<a href="../03-hash-tables/">03. Hash Tables</a>
+</li>
+<li>
+<a href="../04-linked-lists/">04. Linked Lists</a>
+</li>
+<li>
+<a href="../05-stacks--queues/">05. Stacks &amp; Queues</a>
+</li>
+<li>
+<a href="../06-trees-traversals/">06. Trees - Traversals</a>
+</li>
+<li>
+<a href="../07-trees-recursion/">07. Trees - Recursion</a>
+</li>
+<li class="active">
+<a href="./">08. Binary Search</a>
+</li>
+<li>
+<a href="../09-heaps/">09. Heaps</a>
+</li>
+<li>
+<a href="../10-graphs/">10. Graphs</a>
+</li>
+<li>
+<a href="../11-union-find/">11. Union-Find</a>
+</li>
+<li>
+<a href="../12-advanced-graphs/">12. Advanced Graphs</a>
+</li>
+<li>
+<a href="../13-backtracking/">13. Backtracking</a>
+</li>
+<li>
+<a href="../14-dynamic-programming-1d/">14. Dynamic Programming 1D</a>
+</li>
+<li>
+<a href="../15-dynamic-programming-2d/">15. Dynamic Programming 2D</a>
+</li>
+<li>
+<a href="../16-tries/">16. Tries</a>
+</li>
+<li>
+<a href="../17-advanced-topics/">17. Advanced Topics</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+<a data-target="#mkdocs_search_modal" data-toggle="modal" href="#">
+<i class="fas fa-search"></i> Search
+                        </a>
+</li>
+<li>
+<a href="../07-trees-recursion/" rel="prev">
+<i class="fas fa-arrow-left"></i> Previous
+                        </a>
+</li>
+<li>
+<a href="../09-heaps/" rel="next">
+                            Next <i class="fas fa-arrow-right"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+<ul class="nav bs-sidenav">
+<li class="first-level active"><a href="#binary-search">Binary Search</a></li>
+<li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+<li class="second-level"><a href="#quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)</a></li>
+<li class="second-level"><a href="#beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters</a></li>
+<li class="second-level"><a href="#aside-javas-collectionsbinarysearch">Aside: Java's Collections.binarySearch</a></li>
+<li class="second-level"><a href="#core-implementation">Core Implementation</a></li>
+<li class="second-level"><a href="#debugging-challenges">Debugging Challenges</a></li>
+<li class="second-level"><a href="#decision-framework">Decision Framework</a></li>
+<li class="second-level"><a href="#practice">Practice</a></li>
+<li class="second-level"><a href="#review-checklist">Review Checklist</a></li>
+</ul>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="binary-search">Binary Search<a class="headerlink" href="#binary-search" title="Permanent link">¶</a></h1>
+<blockquote>
+<p>Reduce O(n) to O(log n) by eliminating half the search space each step</p>
+</blockquote>
+<hr/>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After implementing all patterns, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What is binary search in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Why is O(log n) so fast?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy:</strong></p>
+<ul>
+<li>Example: "Binary search is like finding a word in a dictionary by opening to the middle..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When does binary search work?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after solving problems]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What breaks binary search?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after testing]</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr/>
+<h2 id="quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)<a class="headerlink" href="#quick-quiz-do-before-implementing" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Test your intuition without looking at code. Answer these, then verify after implementation.</p>
+<h3 id="complexity-predictions">Complexity Predictions<a class="headerlink" href="#complexity-predictions" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p><strong>Linear search through entire array:</strong></p>
+<ul>
+<li>Time complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Verified after learning: <span class="fill-in">[Actual: O(?)]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Binary search in sorted array:</strong></p>
+<ul>
+<li>Time complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Space complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Verified: <span class="fill-in">[Actual]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Speedup calculation:</strong></p>
+<ul>
+<li>If n = 1,024, linear search = n = <span class="fill-in">_____</span> operations</li>
+<li>Binary search = log₂(n) = <span class="fill-in">_____</span> operations</li>
+<li>Speedup factor: <span class="fill-in">_____</span> times faster</li>
+</ul>
+</li>
+</ol>
+<h3 id="scenario-predictions">Scenario Predictions<a class="headerlink" href="#scenario-predictions" title="Permanent link">¶</a></h3>
+<p><strong>Scenario 1:</strong> Find 7 in <code>[1, 3, 5, 7, 9, 11, 13]</code></p>
+<ul>
+<li><strong>Can you use binary search?</strong> <span class="fill-in">[Yes/No - Why?]</span></li>
+<li><strong>Starting positions:</strong> left = <span class="fill-in"><strong><em></em></strong></span>, right = <span class="fill-in"></span></li>
+<li><strong>First mid calculation:</strong> mid = <span class="fill-in">___</span></li>
+<li><strong>If nums[mid] = 5 (too small), which pointer moves?</strong> <span class="fill-in">[Left/Right - Why?]</span></li>
+<li><strong>If nums[mid] = 9 (too big), which pointer moves?</strong> <span class="fill-in">[Left/Right - Why?]</span></li>
+</ul>
+<p><strong>Scenario 2:</strong> Find 6 in <code>[1, 3, 5, 7, 9, 11, 13]</code> (not present)</p>
+<ul>
+<li><strong>What will binary search return?</strong> <span class="fill-in">[Fill in]</span></li>
+<li><strong>What's the value of left when search ends?</strong> <span class="fill-in">[Fill in]</span></li>
+<li><strong>Could you use that for insert position?</strong> <span class="fill-in">[Yes/No - Why?]</span></li>
+</ul>
+<p><strong>Scenario 3:</strong> Find 8 in rotated array <code>[6, 7, 8, 1, 2, 3, 4, 5]</code></p>
+<ul>
+<li><strong>Can you use classic binary search directly?</strong> <span class="fill-in">[Yes/No - Why?]</span></li>
+<li><strong>Which half is sorted after first mid?</strong> <span class="fill-in">[Fill in your reasoning]</span></li>
+<li><strong>How do you determine which half to search?</strong> <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="trade-off-quiz">Trade-off Quiz<a class="headerlink" href="#trade-off-quiz" title="Permanent link">¶</a></h3>
+<p><strong>Question:</strong> When would linear search be BETTER than binary search?</p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in before implementation]</span></li>
+<li>Verified answer: <span class="fill-in">[Fill in after learning]</span></li>
+</ul>
+<p><strong>Question:</strong> What's the MAIN requirement for binary search to work?</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Array must have even length</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Array must be sorted or have monotonic property</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Array must contain unique elements</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Array must be positive integers</li>
+</ul>
+<p>Verify after implementation: <span class="fill-in">[Which one(s)?]</span></p>
+<p><strong>Question:</strong> What happens if you calculate mid as <code>(left + right) / 2</code> with large numbers?</p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in - consider integer overflow]</span></li>
+<li>Verified answer: <span class="fill-in">[Fill in after learning]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters<a class="headerlink" href="#beforeafter-why-this-pattern-matters" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Compare naive vs optimized approaches to understand the impact.</p>
+<h3 id="example-find-target-in-array">Example: Find Target in Array<a class="headerlink" href="#example-find-target-in-array" title="Permanent link">¶</a></h3>
+<p><strong>Problem:</strong> Find target value in a sorted array of 1 million elements.</p>
+<h4 id="approach-1-linear-search-brute-force">Approach 1: Linear Search (Brute Force)<a class="headerlink" href="#approach-1-linear-search-brute-force" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Naive approach - Check every element
+public static int linearSearch(int[] nums, int target) {
+    for (int i = 0; i &lt; nums.length; i++) {
+        if (nums[i] == target) {
+            return i;
+        }
+    }
+    return -1;
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n) - Worst case: check all elements</li>
+<li>Space: O(1) - No extra space</li>
+<li>For n = 1,000,000: up to 1,000,000 comparisons</li>
+</ul>
+<h4 id="approach-2-binary-search-optimized">Approach 2: Binary Search (Optimized)<a class="headerlink" href="#approach-2-binary-search-optimized" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Optimized approach - Eliminate half each step
+public static int binarySearch(int[] nums, int target) {
+    int left = 0;
+    int right = nums.length - 1;
+
+    while (left &lt;= right) {
+        int mid = left + (right - left) / 2;  // Avoid overflow
+
+        if (nums[mid] == target) return mid;
+        if (nums[mid] &lt; target) left = mid + 1;   // Search right half
+        else right = mid - 1;                     // Search left half
+    }
+
+    return -1;  // Not found
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(log n) - Each step eliminates half</li>
+<li>Space: O(1) - No extra space</li>
+<li>For n = 1,000,000: only ~20 comparisons</li>
+</ul>
+<h4 id="performance-comparison">Performance Comparison<a class="headerlink" href="#performance-comparison" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>Array Size</th>
+<th>Linear Search (O(n))</th>
+<th>Binary Search (O(log n))</th>
+<th>Speedup</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n = 100</td>
+<td>100 ops</td>
+<td>7 ops</td>
+<td>14x</td>
+</tr>
+<tr>
+<td>n = 1,000</td>
+<td>1,000 ops</td>
+<td>10 ops</td>
+<td>100x</td>
+</tr>
+<tr>
+<td>n = 10,000</td>
+<td>10,000 ops</td>
+<td>14 ops</td>
+<td>714x</td>
+</tr>
+<tr>
+<td>n = 1,000,000</td>
+<td>1,000,000 ops</td>
+<td>20 ops</td>
+<td>50,000x</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Your calculation:</strong> For n = 16,384, binary search needs _____ comparisons.</p>
+<h4 id="why-does-binary-search-work">Why Does Binary Search Work?<a class="headerlink" href="#why-does-binary-search-work" title="Permanent link">¶</a></h4>
+<p><strong>Key insight to understand:</strong></p>
+<p>In a sorted array <code>[1, 3, 5, 7, 9, 11, 13]</code> looking for 7:</p>
+<pre class="highlight"><code>Step 1: left=0, right=6, mid=3, nums[3]=7 → FOUND!</code></pre>
+<p>If we were looking for 11:</p>
+<pre class="highlight"><code>Step 1: left=0, right=6, mid=3, nums[3]=7 (too small)
+        → Move left=4 because target must be in right half
+
+Step 2: left=4, right=6, mid=5, nums[5]=11 → FOUND!</code></pre>
+<p><strong>Why can we eliminate half?</strong></p>
+<ul>
+<li>Array is sorted, so all values to the left of mid are ≤ nums[mid]</li>
+<li>All values to the right of mid are ≥ nums[mid]</li>
+<li>If target &gt; nums[mid], it CANNOT be in the left half</li>
+<li>If target &lt; nums[mid], it CANNOT be in the right half</li>
+<li>So each comparison eliminates half the remaining elements!</li>
+</ul>
+<p><strong>Logarithmic growth visualization:</strong></p>
+<pre class="highlight"><code>n = 1,024 → log₂(1,024) = 10 steps
+n = 2,048 → log₂(2,048) = 11 steps  (doubled n, only +1 step!)
+n = 1,048,576 → log₂(1,048,576) = 20 steps</code></pre>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>Why is O(log n) so much faster than O(n)? <span class="fill-in">[Your answer]</span></li>
+<li>What property of sorted arrays makes this possible? <span class="fill-in">[Your answer]</span></li>
+<li>What happens at each step that makes it logarithmic? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="aside-javas-collectionsbinarysearch">Aside: Java's Collections.binarySearch<a class="headerlink" href="#aside-javas-collectionsbinarysearch" title="Permanent link">¶</a></h2>
+<p><strong>Quick reference:</strong> Understanding Java's built-in binary search helps with B+Tree implementation.</p>
+<h3 id="return-value-convention">Return Value Convention<a class="headerlink" href="#return-value-convention" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">List&lt;Integer&gt; nums = Arrays.asList(1, 3, 5, 7, 9);
+
+// Element FOUND → returns index
+Collections.binarySearch(nums, 5);  // Returns: 2
+
+// Element NOT FOUND → returns -(insertion point) - 1
+Collections.binarySearch(nums, 6);  // Returns: -4
+// Decode: insertion point = -(−4) - 1 = 3</code></pre>
+<p><strong>Why negative encoding?</strong></p>
+<ul>
+<li>Distinguishes "not found" from "found at index 0"</li>
+<li>Encodes where to insert to maintain sorted order</li>
+</ul>
+<h3 id="using-with-comparators">Using with Comparators<a class="headerlink" href="#using-with-comparators" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">class Person {
+    String name;
+    int age;
+}
+
+// Search by specific field
+Comparator&lt;Person&gt; byAge = (p1, p2) -&gt; Integer.compare(p1.age, p2.age);
+int idx = Collections.binarySearch(people, searchKey, byAge);</code></pre>
+<p><strong>Key insight:</strong> You can search by one field without exact object equality.</p>
+<h3 id="generic-implementation-pattern">Generic Implementation Pattern<a class="headerlink" href="#generic-implementation-pattern" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">public static &lt;T extends Comparable&lt;T&gt;&gt; int binarySearch(List&lt;T&gt; list, T key) {
+    int left = 0, right = list.size() - 1;
+
+    while (left &lt;= right) {
+        int mid = left + (right - left) / 2;  // Avoid overflow
+        int cmp = list.get(mid).compareTo(key);
+
+        if (cmp == 0) return mid;              // Found
+        else if (cmp &lt; 0) left = mid + 1;      // Search right
+        else right = mid - 1;                  // Search left
+    }
+
+    return -(left + 1);  // Not found - encode insertion point
+}</code></pre>
+<h3 id="applying-to-btree">Applying to B+Tree<a class="headerlink" href="#applying-to-btree" title="Permanent link">¶</a></h3>
+<p><strong>Finding child pointer in internal node:</strong></p>
+<pre class="highlight"><code class="language-java">class InternalNode&lt;K extends Comparable&lt;K&gt;&gt; {
+    List&lt;K&gt; keys;           // [10, 20, 30]
+    List&lt;Node&lt;K&gt;&gt; children; // [child0, child1, child2, child3]
+}
+
+private int findChildIndex(K searchKey) {
+    int idx = Collections.binarySearch(keys, searchKey);
+
+    if (idx &gt;= 0) {
+        return idx + 1;  // Key found - go to right child
+    } else {
+        return -(idx + 1);  // Not found - decode insertion point
+    }
+}</code></pre>
+<p><strong>Visual:</strong> Given keys <code>[10, 20, 30]</code>, searching for <code>25</code>:</p>
+<pre class="highlight"><code>Children:  [&lt;10]  [10-20)  [20-30)  [≥30]
+Keys:         10      20       30
+Indices:   0      1       2        3</code></pre>
+<p>Result: child index 2 (between 20 and 30)</p>
+<h3 id="common-pitfalls">Common Pitfalls<a class="headerlink" href="#common-pitfalls" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">// ❌ WRONG: Integer overflow
+int mid = (left + right) / 2;
+
+// ✓ CORRECT: Avoids overflow
+int mid = left + (right - left) / 2;
+
+// ❌ WRONG: Misses single element case
+while (left &lt; right) { ... }
+
+// ✓ CORRECT: Handles all cases
+while (left &lt;= right) { ... }
+
+// ❌ WRONG: Forgets to decode
+return Math.abs(idx);
+
+// ✓ CORRECT: Properly decodes insertion point
+return idx &gt;= 0 ? idx : -(idx + 1);</code></pre>
+<hr/>
+<h2 id="core-implementation">Core Implementation<a class="headerlink" href="#core-implementation" title="Permanent link">¶</a></h2>
+<h3 id="pattern-1-classic-binary-search">Pattern 1: Classic Binary Search<a class="headerlink" href="#pattern-1-classic-binary-search" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Search in sorted array by halving search space.</p>
+<p><strong>Use case:</strong> Find target, find insert position, find boundaries.</p>
+<pre class="highlight"><code class="language-java">public class ClassicBinarySearch {
+
+    /**
+     * Problem: Find target in sorted array
+     * Time: O(log n), Space: O(1)
+     *
+     * TODO: Implement classic binary search
+     */
+    public static int binarySearch(int[] nums, int target) {
+        // TODO: Initialize pointers/variables
+
+        // TODO: Implement iteration/conditional logic
+
+        // TODO: Return -1 if not found
+
+        return -1; // Replace with implementation
+    }
+
+    /**
+     * Problem: Find insert position for target
+     * Time: O(log n), Space: O(1)
+     *
+     * TODO: Implement search insert position
+     */
+    public static int searchInsert(int[] nums, int target) {
+        // TODO: Similar to binary search
+        // TODO: Return left pointer when not found
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Find first and last position of target
+     * Time: O(log n), Space: O(1)
+     *
+     * TODO: Implement find range
+     */
+    public static int[] searchRange(int[] nums, int target) {
+        // TODO: Find leftmost occurrence
+        // TODO: Find rightmost occurrence
+        // TODO: Return [-1, -1] if not found
+
+        return new int[]{-1, -1}; // Replace with implementation
+    }
+
+    private static int findFirst(int[] nums, int target) {
+        // TODO: Binary search to find first occurrence
+        // TODO: When found, continue searching left half
+
+        return -1; // Replace with implementation
+    }
+
+    private static int findLast(int[] nums, int target) {
+        // TODO: Binary search to find last occurrence
+        // TODO: When found, continue searching right half
+
+        return -1; // Replace with implementation
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class ClassicBinarySearchClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Classic Binary Search ===\n");
+
+        // Test 1: Find target
+        System.out.println("--- Test 1: Find Target ---");
+        int[] arr = {1, 3, 5, 7, 9, 11, 13};
+        int[] targets = {5, 8, 1, 13};
+
+        System.out.println("Array: " + Arrays.toString(arr));
+        for (int target : targets) {
+            int index = ClassicBinarySearch.binarySearch(arr, target);
+            System.out.printf("Search %d: index = %d%n", target, index);
+        }
+
+        // Test 2: Search insert position
+        System.out.println("\n--- Test 2: Search Insert Position ---");
+        int[] arr2 = {1, 3, 5, 6};
+        int[] insertTargets = {5, 2, 7, 0};
+
+        System.out.println("Array: " + Arrays.toString(arr2));
+        for (int target : insertTargets) {
+            int pos = ClassicBinarySearch.searchInsert(arr2, target);
+            System.out.printf("Insert position for %d: %d%n", target, pos);
+        }
+
+        // Test 3: Find range
+        System.out.println("\n--- Test 3: Find First and Last Position ---");
+        int[] arr3 = {5, 7, 7, 8, 8, 8, 10};
+        int rangeTarget = 8;
+
+        System.out.println("Array: " + Arrays.toString(arr3));
+        int[] range = ClassicBinarySearch.searchRange(arr3, rangeTarget);
+        System.out.printf("Range for %d: [%d, %d]%n", rangeTarget, range[0], range[1]);
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-2-rotated-array-search">Pattern 2: Rotated Array Search<a class="headerlink" href="#pattern-2-rotated-array-search" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Search in rotated sorted array.</p>
+<p><strong>Use case:</strong> Find target in rotated array, find minimum, find rotation point.</p>
+<pre class="highlight"><code class="language-java">public class RotatedArraySearch {
+
+    /**
+     * Problem: Search in rotated sorted array
+     * Time: O(log n), Space: O(1)
+     *
+     * TODO: Implement rotated array search
+     */
+    public static int search(int[] nums, int target) {
+        // TODO: Initialize pointers/variables
+
+        // TODO: Implement iteration/conditional logic
+        //
+        //   Determine which half is sorted:
+        //   If nums[left] &lt;= nums[mid]: left half sorted
+        //     Check if target in left half
+        //   Else: right half sorted
+        //     Check if target in right half
+
+        return -1; // Replace with implementation
+    }
+
+    /**
+     * Problem: Find minimum in rotated sorted array
+     * Time: O(log n), Space: O(1)
+     *
+     * TODO: Implement find minimum
+     */
+    public static int findMin(int[] nums) {
+        // TODO: Initialize pointers/variables
+
+        // TODO: Implement iteration/conditional logic
+
+        // TODO: Return nums[left]
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Find rotation count (how many rotations)
+     * Time: O(log n), Space: O(1)
+     *
+     * TODO: Implement rotation count
+     */
+    public static int findRotationCount(int[] nums) {
+        // TODO: Find index of minimum element
+        // TODO: That index is the rotation count
+
+        return 0; // Replace with implementation
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class RotatedArraySearchClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Rotated Array Search ===\n");
+
+        // Test 1: Search in rotated array
+        System.out.println("--- Test 1: Search in Rotated Array ---");
+        int[] rotated = {4, 5, 6, 7, 0, 1, 2};
+        int[] searchTargets = {0, 3, 4, 7};
+
+        System.out.println("Rotated array: " + Arrays.toString(rotated));
+        for (int target : searchTargets) {
+            int index = RotatedArraySearch.search(rotated, target);
+            System.out.printf("Search %d: index = %d%n", target, index);
+        }
+
+        // Test 2: Find minimum
+        System.out.println("\n--- Test 2: Find Minimum ---");
+        int[][] rotatedArrays = {
+            {3, 4, 5, 1, 2},
+            {4, 5, 6, 7, 0, 1, 2},
+            {11, 13, 15, 17}
+        };
+
+        for (int[] arr : rotatedArrays) {
+            int min = RotatedArraySearch.findMin(arr);
+            System.out.printf("Array: %s -&gt; Min: %d%n", Arrays.toString(arr), min);
+        }
+
+        // Test 3: Find rotation count
+        System.out.println("\n--- Test 3: Find Rotation Count ---");
+        for (int[] arr : rotatedArrays) {
+            int count = RotatedArraySearch.findRotationCount(arr);
+            System.out.printf("Array: %s -&gt; Rotations: %d%n", Arrays.toString(arr), count);
+        }
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-3-search-in-2d-matrix">Pattern 3: Search in 2D Matrix<a class="headerlink" href="#pattern-3-search-in-2d-matrix" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Binary search in matrix with sorted properties.</p>
+<p><strong>Use case:</strong> Search in row-sorted matrix, search in fully sorted matrix.</p>
+<pre class="highlight"><code class="language-java">public class Search2DMatrix {
+
+    /**
+     * Problem: Search in matrix where each row is sorted
+     * Time: O(m log n), Space: O(1)
+     *
+     * TODO: Implement 2D matrix search (rows sorted)
+     */
+    public static boolean searchMatrix1(int[][] matrix, int target) {
+        // TODO: Binary search on each row
+        // TODO: Or: binary search to find row, then binary search in row
+
+        return false; // Replace with implementation
+    }
+
+    /**
+     * Problem: Search in matrix sorted like a flat array
+     * Time: O(log(m*n)), Space: O(1)
+     *
+     * TODO: Implement 2D matrix search (fully sorted)
+     */
+    public static boolean searchMatrix2(int[][] matrix, int target) {
+        // TODO: Treat matrix as 1D array
+        // TODO: Initialize pointers/variables
+        // TODO: Implement logic
+
+        return false; // Replace with implementation
+    }
+
+    /**
+     * Problem: Search in matrix sorted row-wise and column-wise
+     * Time: O(m + n), Space: O(1)
+     *
+     * TODO: Implement staircase search
+     */
+    public static boolean searchMatrixStaircase(int[][] matrix, int target) {
+        // TODO: Start from top-right corner
+        // TODO: Implement iteration/conditional logic
+        // TODO: Implement iteration/conditional logic
+        // TODO: Implement iteration/conditional logic
+
+        return false; // Replace with implementation
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">public class Search2DMatrixClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Search in 2D Matrix ===\n");
+
+        // Test 1: Search in row-sorted matrix
+        System.out.println("--- Test 1: Row-Sorted Matrix ---");
+        int[][] matrix1 = {
+            {1, 3, 5, 7},
+            {10, 11, 16, 20},
+            {23, 30, 34, 60}
+        };
+
+        int[] targets1 = {3, 13, 60};
+        for (int target : targets1) {
+            boolean found = Search2DMatrix.searchMatrix1(matrix1, target);
+            System.out.printf("Search %d: %s%n", target, found ? "FOUND" : "NOT FOUND");
+        }
+
+        // Test 2: Search in fully sorted matrix
+        System.out.println("\n--- Test 2: Fully Sorted Matrix ---");
+        int[][] matrix2 = {
+            {1, 3, 5, 7},
+            {10, 11, 16, 20},
+            {23, 30, 34, 50}
+        };
+
+        int[] targets2 = {3, 13, 50};
+        for (int target : targets2) {
+            boolean found = Search2DMatrix.searchMatrix2(matrix2, target);
+            System.out.printf("Search %d: %s%n", target, found ? "FOUND" : "NOT FOUND");
+        }
+
+        // Test 3: Staircase search
+        System.out.println("\n--- Test 3: Staircase Search ---");
+        int[][] matrix3 = {
+            {1, 4, 7, 11},
+            {2, 5, 8, 12},
+            {3, 6, 9, 16},
+            {10, 13, 14, 17}
+        };
+
+        int[] targets3 = {5, 20, 14};
+        for (int target : targets3) {
+            boolean found = Search2DMatrix.searchMatrixStaircase(matrix3, target);
+            System.out.printf("Search %d: %s%n", target, found ? "FOUND" : "NOT FOUND");
+        }
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-4-binary-search-on-answer">Pattern 4: Binary Search on Answer<a class="headerlink" href="#pattern-4-binary-search-on-answer" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Binary search on solution space, not array index.</p>
+<p><strong>Use case:</strong> Find square root, find kth smallest, capacity problems.</p>
+<pre class="highlight"><code class="language-java">public class BinarySearchOnAnswer {
+
+    /**
+     * Problem: Find square root (integer part)
+     * Time: O(log n), Space: O(1)
+     *
+     * TODO: Implement integer square root
+     */
+    public static int mySqrt(int x) {
+        // TODO: Binary search from 0 to x
+        // TODO: Check if mid * mid &lt;= x
+        // TODO: Return largest mid where mid * mid &lt;= x
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Find minimum capacity to ship packages in D days
+     * Time: O(n log(sum)), Space: O(1)
+     *
+     * TODO: Implement capacity to ship
+     */
+    public static int shipWithinDays(int[] weights, int days) {
+        // TODO: Binary search on capacity
+        // TODO: Initialize pointers/variables
+        // TODO: Check if capacity allows shipping in D days
+
+        return 0; // Replace with implementation
+    }
+
+    private static boolean canShip(int[] weights, int days, int capacity) {
+        // TODO: Simulate shipping with given capacity
+        // TODO: Return true if possible in D days
+
+        return false; // Replace with implementation
+    }
+
+    /**
+     * Problem: Find kth missing positive number
+     * Time: O(log n), Space: O(1)
+     *
+     * TODO: Implement kth missing
+     */
+    public static int findKthPositive(int[] arr, int k) {
+        // TODO: Binary search on array
+        // TODO: Count missing numbers at each position
+
+        return 0; // Replace with implementation
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class BinarySearchOnAnswerClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Binary Search on Answer ===\n");
+
+        // Test 1: Square root
+        System.out.println("--- Test 1: Integer Square Root ---");
+        int[] sqrtInputs = {4, 8, 16, 27};
+
+        for (int x : sqrtInputs) {
+            int sqrt = BinarySearchOnAnswer.mySqrt(x);
+            System.out.printf("sqrt(%d) = %d%n", x, sqrt);
+        }
+
+        // Test 2: Ship within days
+        System.out.println("\n--- Test 2: Ship Within Days ---");
+        int[] weights = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        int days = 5;
+
+        System.out.println("Weights: " + Arrays.toString(weights));
+        System.out.println("Days: " + days);
+        int capacity = BinarySearchOnAnswer.shipWithinDays(weights, days);
+        System.out.println("Minimum capacity: " + capacity);
+
+        // Test 3: Kth missing positive
+        System.out.println("\n--- Test 3: Kth Missing Positive ---");
+        int[] arr = {2, 3, 4, 7, 11};
+        int k = 5;
+
+        System.out.println("Array: " + Arrays.toString(arr));
+        System.out.println("k = " + k);
+        int kthMissing = BinarySearchOnAnswer.findKthPositive(arr, k);
+        System.out.println("Kth missing: " + kthMissing);
+    }
+}</code></pre>
+<hr/>
+<h2 id="debugging-challenges">Debugging Challenges<a class="headerlink" href="#debugging-challenges" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Find and fix bugs in broken binary search implementations. This tests your understanding.</p>
+<h3 id="challenge-1-broken-classic-binary-search">Challenge 1: Broken Classic Binary Search<a class="headerlink" href="#challenge-1-broken-classic-binary-search" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * This code is supposed to find target in sorted array.
+ * It has 2 BUGS. Find them!
+ */
+public static int binarySearch_Buggy(int[] nums, int target) {
+    int left = 0;
+    int right = nums.length;
+    while (left &lt;= right) {
+        int mid = (left + right) / 2;
+        if (nums[mid] == target) {
+            return mid;
+        }
+        if (nums[mid] &lt; target) {
+            left = mid + 1;
+        } else {
+            right = mid - 1;
+        }
+    }
+
+    return -1;
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>
+<p>Bug 1: <span class="fill-in">[What\'s the bug?]</span></p>
+</li>
+<li>
+<p>Bug 2: <span class="fill-in">[What\'s the bug?]</span></p>
+</li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug 1 (Line 7):</strong> <code>right</code> should be <code>nums.length - 1</code>, not <code>nums.length</code>. Array indices are 0-based, so valid range is
+0 to length-1. Using <code>nums.length</code> will cause ArrayIndexOutOfBoundsException.</p>
+<p><strong>Bug 2 (Line 10):</strong> <code>(left + right) / 2</code> can overflow when left and right are large integers. Should use
+<code>left + (right - left) / 2</code> to avoid overflow.</p>
+<p><strong>Correct version:</strong></p>
+<pre class="highlight"><code class="language-java">int right = nums.length - 1;  // Fix Bug 1
+int mid = left + (right - left) / 2;  // Fix Bug 2</code></pre>
+</details>
+<hr/>
+<h3 id="challenge-2-broken-infinite-loop">Challenge 2: Broken Infinite Loop<a class="headerlink" href="#challenge-2-broken-infinite-loop" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Find first occurrence of target.
+ * This has 1 CRITICAL BUG that causes infinite loop.
+ */
+public static int findFirst_Buggy(int[] nums, int target) {
+    int left = 0;
+    int right = nums.length - 1;
+    int result = -1;
+
+    while (left &lt;= right) {
+        int mid = left + (right - left) / 2;
+
+        if (nums[mid] == target) {
+            result = mid;
+            right = mid;        } else if (nums[mid] &lt; target) {
+            left = mid + 1;
+        } else {
+            right = mid - 1;
+        }
+    }
+
+    return result;
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>Bug: <span class="fill-in">[What\'s the bug?]</span></li>
+</ul>
+<p><strong>Test case to expose the bug:</strong></p>
+<ul>
+<li>Input: <code>[5, 7, 7, 8, 8, 8, 10]</code>, target = 8</li>
+<li>Expected: index 3 (first occurrence)</li>
+<li>Actual: <span class="fill-in">[What happens? Trace through manually]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug (Line 12):</strong> Should be <code>right = mid - 1</code>, not <code>right = mid</code>.</p>
+<p><strong>Why:</strong> When <code>nums[mid] == target</code>, we want to search the left half for an earlier occurrence. But if we set
+<code>right = mid</code>, and if <code>mid</code> happens to equal <code>left</code> (when left and right differ by 1), the loop never terminates because
+mid stays the same.</p>
+<p><strong>Example trace with bug:</strong></p>
+<pre class="highlight"><code>nums = [5, 7, 7, 8, 8, 8, 10], target = 8
+left=3, right=5, mid=4, nums[4]=8 → right=4
+left=3, right=4, mid=3, nums[3]=8 → right=3
+left=3, right=3, mid=3, nums[3]=8 → right=3  ← INFINITE LOOP!</code></pre>
+<p><strong>Correct version:</strong></p>
+<pre class="highlight"><code class="language-java">if (nums[mid] == target) {
+    result = mid;
+    right = mid - 1;  // Continue searching left half
+}</code></pre>
+</details>
+<hr/>
+<h3 id="challenge-3-broken-rotated-array-search">Challenge 3: Broken Rotated Array Search<a class="headerlink" href="#challenge-3-broken-rotated-array-search" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Search in rotated sorted array.
+ * This has 1 LOGIC BUG.
+ */
+public static int searchRotated_Buggy(int[] nums, int target) {
+    int left = 0;
+    int right = nums.length - 1;
+
+    while (left &lt;= right) {
+        int mid = left + (right - left) / 2;
+
+        if (nums[mid] == target) return mid;
+
+        if (nums[left] &lt; nums[mid]) {
+            // Left half is sorted
+            if (target &gt;= nums[left] &amp;&amp; target &lt;= nums[mid]) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        } else {
+            // Right half is sorted
+            if (target &gt;= nums[mid] &amp;&amp; target &lt;= nums[right]) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+    }
+
+    return -1;
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug:</strong> <span class="fill-in">[What's the logic error in the left-sorted check?]</span></li>
+<li><strong>Example:</strong> Test with <code>[3, 1]</code>, target = 1<ul>
+<li>Step 1: left=0, right=1, mid=0, nums[0]=3, nums[1]=1</li>
+<li>nums[left] &lt; nums[mid]? <span class="fill-in">[What happens?]</span></li>
+<li>Expected: return 1</li>
+<li>Actual: <span class="fill-in">[What do you get?]</span></li>
+</ul>
+</li>
+<li><strong>Fix:</strong> <span class="fill-in">[How to correct the condition?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> Should be <code>nums[left] &lt;= nums[mid]</code> (with equals), not <code>nums[left] &lt; nums[mid]</code>.</p>
+<p><strong>Why:</strong> When left == mid (happens when there are only 2 elements left and mid rounds down), the condition
+<code>nums[left] &lt; nums[mid]</code> is false (3 is not &lt; 3), so we incorrectly assume the right half is sorted.</p>
+<p><strong>Example trace with bug:</strong></p>
+<pre class="highlight"><code>nums = [3, 1], target = 1
+left=0, right=1, mid=0
+nums[left]=3, nums[mid]=3
+3 &lt; 3? FALSE → assumes right half sorted
+target=1 &gt;= nums[mid]=3? FALSE
+→ right = mid - 1 = -1
+→ loop ends, returns -1 (WRONG!)</code></pre>
+<p><strong>Correct version:</strong></p>
+<pre class="highlight"><code class="language-java">if (nums[left] &lt;= nums[mid]) {  // Include equals case
+    // Left half is sorted
+    if (target &gt;= nums[left] &amp;&amp; target &lt; nums[mid]) {  // Also: &lt; not &lt;=
+        right = mid - 1;
+    } else {
+        left = mid + 1;
+    }
+}</code></pre>
+</details>
+<hr/>
+<h3 id="challenge-4-wrong-mid-calculation-in-search-insert">Challenge 4: Wrong Mid Calculation in Search Insert<a class="headerlink" href="#challenge-4-wrong-mid-calculation-in-search-insert" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Find insert position for target.
+ * This produces WRONG results.
+ */
+public static int searchInsert_Buggy(int[] nums, int target) {
+    int left = 0;
+    int right = nums.length - 1;
+
+    while (left &lt; right) {        int mid = left + (right - left) / 2;
+
+        if (nums[mid] == target) {
+            return mid;
+        } else if (nums[mid] &lt; target) {
+            left = mid + 1;
+        } else {
+            right = mid - 1;
+        }
+    }
+
+    return left;}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug 1:</strong> <span class="fill-in">[Should loop condition be <code>&lt;</code> or <code>&lt;=</code>?]</span></li>
+<li><strong>Bug 2:</strong> <span class="fill-in">[What if target should go after all elements?]</span></li>
+<li><strong>Example:</strong> Input <code>[1, 3, 5]</code>, target = 4<ul>
+<li>Expected: 2 (insert between 3 and 5)</li>
+<li>Trace through: <span class="fill-in">[What do you get?]</span></li>
+</ul>
+</li>
+<li><strong>Example:</strong> Input <code>[1, 3, 5]</code>, target = 6<ul>
+<li>Expected: 3 (insert at end)</li>
+<li>Trace through: <span class="fill-in">[What do you get?]</span></li>
+</ul>
+</li>
+<li><strong>Fix:</strong> <span class="fill-in">[How to handle both cases correctly?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> The loop condition and pointer updates don't work together correctly.</p>
+<p><strong>Two correct approaches:</strong></p>
+<p><strong>Approach 1: Use <code>left &lt;= right</code></strong></p>
+<pre class="highlight"><code class="language-java">while (left &lt;= right) {
+    int mid = left + (right - left) / 2;
+    if (nums[mid] == target) {
+        return mid;
+    } else if (nums[mid] &lt; target) {
+        left = mid + 1;
+    } else {
+        right = mid - 1;
+    }
+}
+return left;  // left is the insert position</code></pre>
+<p><strong>Approach 2: Use <code>left &lt; right</code> with different pointer update</strong></p>
+<pre class="highlight"><code class="language-java">while (left &lt; right) {
+    int mid = left + (right - left) / 2;
+    if (nums[mid] &lt; target) {
+        left = mid + 1;
+    } else {
+        right = mid;  // Keep right at mid (don't subtract 1)
+    }
+}
+return left;</code></pre>
+<p><strong>The original bug:</strong> With <code>left &lt; right</code> and <code>right = mid - 1</code>, we can miss the correct insert position.</p>
+</details>
+<hr/>
+<h3 id="challenge-5-off-by-one-in-find-minimum-rotated-array">Challenge 5: Off-by-One in Find Minimum (Rotated Array)<a class="headerlink" href="#challenge-5-off-by-one-in-find-minimum-rotated-array" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Find minimum in rotated sorted array.
+ * This has OFF-BY-ONE error.
+ */
+public static int findMin_Buggy(int[] nums) {
+    int left = 0;
+    int right = nums.length - 1;
+
+    while (left &lt; right) {
+        int mid = left + (right - left) / 2;
+
+        if (nums[mid] &gt; nums[right]) {
+            left = mid;        } else {
+            right = mid - 1;        }
+    }
+
+    return nums[left];
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug 1:</strong> <span class="fill-in">[Line with <code>left = mid</code> - what's wrong?]</span></li>
+<li><strong>Bug 2:</strong> <span class="fill-in">[Line with <code>right = mid - 1</code> - what's wrong?]</span></li>
+<li><strong>Example:</strong> Input <code>[3, 4, 5, 1, 2]</code><ul>
+<li>Expected: 1</li>
+<li>Trace through buggy version: <span class="fill-in">[What do you get?]</span></li>
+</ul>
+</li>
+<li><strong>Fix:</strong> <span class="fill-in">[Correct both pointer updates]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug 1:</strong> <code>left = mid</code> should be <code>left = mid + 1</code>. When <code>nums[mid] &gt; nums[right]</code>, the minimum is in the right half,
+but NOT at mid (since nums[mid] is large), so we can safely skip mid.</p>
+<p><strong>Bug 2:</strong> <code>right = mid - 1</code> should be <code>right = mid</code>. When <code>nums[mid] &lt;= nums[right]</code>, the minimum could BE at mid, so
+we can't skip it.</p>
+<p><strong>Trace with bugs:</strong></p>
+<pre class="highlight"><code>nums = [3, 4, 5, 1, 2]
+left=0, right=4, mid=2, nums[2]=5, nums[4]=2
+5 &gt; 2 → left=2  (WRONG! Should be 3)
+left=2, right=4, mid=3, nums[3]=1, nums[4]=2
+
+1 &gt; 2? NO → right=2  (WRONG! Should be 3)
+left=2, right=2, loop ends
+return nums[2]=5  (WRONG! Should be 1)</code></pre>
+<p><strong>Correct version:</strong></p>
+<pre class="highlight"><code class="language-java">if (nums[mid] &gt; nums[right]) {
+    left = mid + 1;  // Min is definitely in right half
+} else {
+    right = mid;     // Min could be at mid
+}</code></pre>
+</details>
+<hr/>
+<h3 id="your-debugging-scorecard">Your Debugging Scorecard<a class="headerlink" href="#your-debugging-scorecard" title="Permanent link">¶</a></h3>
+<p>After finding and fixing all bugs:</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Found all 8+ bugs across 5 challenges</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understood WHY each bug causes incorrect behavior</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could explain the fix to someone else</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Learned common binary search mistakes to avoid</li>
+</ul>
+<p><strong>Common mistakes you discovered:</strong></p>
+<ol>
+<li><span class="fill-in">[Off-by-one errors in initialization: right = length vs length-1]</span></li>
+<li><span class="fill-in">[Integer overflow in mid calculation]</span></li>
+<li><span class="fill-in">[Infinite loops from wrong pointer updates]</span></li>
+<li><span class="fill-in">[Wrong loop conditions: &lt; vs &lt;=]</span></li>
+<li><span class="fill-in">[Fill in more patterns you noticed]</span></li>
+</ol>
+<p><strong>The three most dangerous binary search bugs:</strong></p>
+<ol>
+<li><strong>Off-by-one:</strong> <span class="fill-in">[When does this happen?]</span></li>
+<li><strong>Infinite loop:</strong> <span class="fill-in">[What causes this?]</span></li>
+<li><strong>Integer overflow:</strong> <span class="fill-in">[How to prevent?]</span></li>
+</ol>
+<hr/>
+<h2 id="decision-framework">Decision Framework<a class="headerlink" href="#decision-framework" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Build decision trees for binary search problems.</p>
+<h3 id="question-1-is-the-data-sorted">Question 1: Is the data sorted?<a class="headerlink" href="#question-1-is-the-data-sorted" title="Permanent link">¶</a></h3>
+<p>Answer after solving problems:</p>
+<ul>
+<li><strong>Already sorted?</strong> <span class="fill-in">[Classic binary search]</span></li>
+<li><strong>Rotated?</strong> <span class="fill-in">[Find sorted half, adjust search]</span></li>
+<li><strong>Partially sorted?</strong> <span class="fill-in">[Modified binary search]</span></li>
+<li><strong>Not sorted?</strong> <span class="fill-in">[Can't use binary search]</span></li>
+</ul>
+<h3 id="question-2-what-are-you-searching-for">Question 2: What are you searching for?<a class="headerlink" href="#question-2-what-are-you-searching-for" title="Permanent link">¶</a></h3>
+<p><strong>Search for value:</strong></p>
+<ul>
+<li>Direct search: <span class="fill-in">[Classic binary search]</span></li>
+<li>First/last occurrence: <span class="fill-in">[Modified binary search]</span></li>
+</ul>
+<p><strong>Search for position:</strong></p>
+<ul>
+<li>Insert position: <span class="fill-in">[Binary search with left pointer]</span></li>
+<li>Peak element: <span class="fill-in">[Binary search on local property]</span></li>
+</ul>
+<p><strong>Search on answer space:</strong></p>
+<ul>
+<li>Square root, capacity: <span class="fill-in">[Binary search on range]</span></li>
+<li>Minimize/maximize: <span class="fill-in">[Binary search with validation]</span></li>
+</ul>
+<h3 id="your-decision-tree">Your Decision Tree<a class="headerlink" href="#your-decision-tree" title="Permanent link">¶</a></h3>
+<div class="mermaid">flowchart LR
+    Start["Binary Search Pattern Selection"]
+
+    Q1{"Standard sorted array?"}
+    Start --&gt; Q1
+    Q2{"Rotated sorted array?"}
+    Start --&gt; Q2
+    Q3{"2D matrix?"}
+    Start --&gt; Q3
+    N4(["Treat as 1D ✓"])
+    Q3 --&gt;|"Fully sorted"| N4
+    N5(["Search each row ✓"])
+    Q3 --&gt;|"Row-sorted"| N5
+    N6(["Staircase search ✓"])
+    Q3 --&gt;|"Row &amp; col sorted"| N6
+    Q7{"Not searching in array?"}
+    Start --&gt; Q7</div>
+<hr/>
+<h2 id="practice">Practice<a class="headerlink" href="#practice" title="Permanent link">¶</a></h2>
+<h3 id="leetcode-problems">LeetCode Problems<a class="headerlink" href="#leetcode-problems" title="Permanent link">¶</a></h3>
+<p><strong>Easy (Complete all 4):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/binary-search/">704. Binary Search</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Classic binary search]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/search-insert-position/">35. Search Insert Position</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Binary search with insert]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/sqrtx/">69. Sqrt(x)</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Binary search on answer]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/first-bad-version/">278. First Bad Version</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Find first occurrence]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Medium (Complete 3-4):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/search-in-rotated-sorted-array/">33. Search in Rotated Sorted Array</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Rotated array]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/">34. Find First and Last Position of Element in Sorted Array</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Find range]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/search-a-2d-matrix/">74. Search a 2D Matrix</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[2D binary search]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/">153. Find Minimum in Rotated Sorted Array</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Find minimum]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Hard (Optional):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/median-of-two-sorted-arrays/">4. Median of Two Sorted Arrays</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Binary search on two arrays]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/split-array-largest-sum/">410. Split Array Largest Sum</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Binary search on answer]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+</ul>
+<hr/>
+<h2 id="review-checklist">Review Checklist<a class="headerlink" href="#review-checklist" title="Permanent link">¶</a></h2>
+<p>Before moving to the next topic:</p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Implementation</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Classic: search, insert, find range all work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Rotated: search and find min both work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> 2D: all three matrix patterns work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> On answer: sqrt, capacity, kth missing work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> All client code runs successfully</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Pattern Recognition</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can identify when to use binary search</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand sorted vs rotated arrays</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Know when to search on answer space</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Recognize 2D matrix patterns</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Problem Solving</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Solved 4 easy problems</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Solved 3-4 medium problems</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Analyzed time/space complexity</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Handled edge cases (empty, single element)</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Understanding</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Filled in all ELI5 explanations</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Built decision tree</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Identified when NOT to use binary search</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can explain why O(log n) is fast</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Mastery Check</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could implement all patterns from memory</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could recognize pattern in new problem</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could explain to someone else</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand off-by-one errors and how to avoid them</li>
+</ul>
+</li>
+</ul>
+<hr/>
+<h3 id="mastery-certification">Mastery Certification<a class="headerlink" href="#mastery-certification" title="Permanent link">¶</a></h3>
+<p><strong>I certify that I can:</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Implement classic binary search from memory</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Explain why O(log n) is fundamentally different from O(n)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Identify and fix common binary search bugs</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Choose the correct binary search variant for new problems</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Analyze when binary search is better than alternatives</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Avoid off-by-one errors and infinite loops</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Explain the sorted/monotonic requirement clearly</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Teach this concept to someone else</li>
+</ul></div>
+</div>
+<footer class="col-md-12 text-center">
+<hr/>
+<p>
+<small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+</p>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../../js/bootstrap-3.0.3.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>var base_url = "../.."</script>
+<script src="../../js/base.js"></script>
+<script src="../../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<button class="close" data-dismiss="modal" type="button">
+<span aria-hidden="true">×</span>
+<span class="sr-only">Close</span>
+</button>
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+</div>
+<div class="modal-body">
+<p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="text"/>
+</div>
+</form>
+<div id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@10.4.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>

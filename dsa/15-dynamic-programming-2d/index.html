@@ -1,0 +1,1557 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="A framework for algorithms, systems design, and infrastructure." name="description"/>
+<meta content="Richard" name="author"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>15. Dynamic Programming 2D - Software Engineering Study Guide</title>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" rel="stylesheet"/>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css" rel="stylesheet"/>
+<link href="//rsms.me/inter/inter.css" rel="stylesheet" type="text/css"/>
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&amp;subset=latin-ext,latin" rel="stylesheet" type="text/css"/>
+<link href="../../css/bootstrap-custom.min.css" rel="stylesheet"/>
+<link href="../../css/base.min.css" rel="stylesheet"/>
+<link href="../../css/cinder.min.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css" rel="stylesheet"/>
+<link href="../../css/custom.css" rel="stylesheet"/>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="container">
+<!-- Collapsed navigation -->
+<div class="navbar-header">
+<!-- Expander button -->
+<button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<!-- Main title -->
+<a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+</div>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li>
+<a href="../..">Home</a>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Systems Design <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../systems/01-storage-engines/">01. Storage Engines</a>
+</li>
+<li>
+<a href="../../systems/02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+<li>
+<a href="../../systems/03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+<li>
+<a href="../../systems/04-search-and-indexing/">04. Search &amp; Indexing</a>
+</li>
+<li>
+<a href="../../systems/05-caching-patterns/">05. Caching Patterns</a>
+</li>
+<li>
+<a href="../../systems/06-api-design/">06. API Design</a>
+</li>
+<li>
+<a href="../../systems/07-security-patterns/">07. Security Patterns</a>
+</li>
+<li>
+<a href="../../systems/08-rate-limiting/">08. Rate Limiting</a>
+</li>
+<li>
+<a href="../../systems/09-load-balancing/">09. Load Balancing</a>
+</li>
+<li>
+<a href="../../systems/10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+<li>
+<a href="../../systems/11-database-scaling/">11. Database Scaling</a>
+</li>
+<li>
+<a href="../../systems/12-message-queues/">12. Message Queues</a>
+</li>
+<li>
+<a href="../../systems/13-stream-processing/">13. Stream Processing</a>
+</li>
+<li>
+<a href="../../systems/14-observability/">14. Observability</a>
+</li>
+<li>
+<a href="../../systems/15-distributed-transactions/">15. Distributed Transactions</a>
+</li>
+<li>
+<a href="../../systems/16-consensus-patterns/">16. Consensus Patterns</a>
+</li>
+</ul>
+</li>
+<li class="dropdown active">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">DSA <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../01-two-pointers/">01. Two Pointers</a>
+</li>
+<li>
+<a href="../02-sliding-window/">02. Sliding Window</a>
+</li>
+<li>
+<a href="../03-hash-tables/">03. Hash Tables</a>
+</li>
+<li>
+<a href="../04-linked-lists/">04. Linked Lists</a>
+</li>
+<li>
+<a href="../05-stacks--queues/">05. Stacks &amp; Queues</a>
+</li>
+<li>
+<a href="../06-trees-traversals/">06. Trees - Traversals</a>
+</li>
+<li>
+<a href="../07-trees-recursion/">07. Trees - Recursion</a>
+</li>
+<li>
+<a href="../08-binary-search/">08. Binary Search</a>
+</li>
+<li>
+<a href="../09-heaps/">09. Heaps</a>
+</li>
+<li>
+<a href="../10-graphs/">10. Graphs</a>
+</li>
+<li>
+<a href="../11-union-find/">11. Union-Find</a>
+</li>
+<li>
+<a href="../12-advanced-graphs/">12. Advanced Graphs</a>
+</li>
+<li>
+<a href="../13-backtracking/">13. Backtracking</a>
+</li>
+<li>
+<a href="../14-dynamic-programming-1d/">14. Dynamic Programming 1D</a>
+</li>
+<li class="active">
+<a href="./">15. Dynamic Programming 2D</a>
+</li>
+<li>
+<a href="../16-tries/">16. Tries</a>
+</li>
+<li>
+<a href="../17-advanced-topics/">17. Advanced Topics</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+<a data-target="#mkdocs_search_modal" data-toggle="modal" href="#">
+<i class="fas fa-search"></i> Search
+                        </a>
+</li>
+<li>
+<a href="../14-dynamic-programming-1d/" rel="prev">
+<i class="fas fa-arrow-left"></i> Previous
+                        </a>
+</li>
+<li>
+<a href="../16-tries/" rel="next">
+                            Next <i class="fas fa-arrow-right"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+<ul class="nav bs-sidenav">
+<li class="first-level active"><a href="#dynamic-programming-2d">Dynamic Programming (2D)</a></li>
+<li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+<li class="second-level"><a href="#quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)</a></li>
+<li class="second-level"><a href="#beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters</a></li>
+<li class="second-level"><a href="#core-implementation">Core Implementation</a></li>
+<li class="second-level"><a href="#debugging-challenges">Debugging Challenges</a></li>
+<li class="second-level"><a href="#decision-framework">Decision Framework</a></li>
+<li class="second-level"><a href="#practice">Practice</a></li>
+<li class="second-level"><a href="#review-checklist">Review Checklist</a></li>
+</ul>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="dynamic-programming-2d">Dynamic Programming (2D)<a class="headerlink" href="#dynamic-programming-2d" title="Permanent link">¶</a></h1>
+<blockquote>
+<p>Solve problems with two-dimensional state space using tabulation or memoization</p>
+</blockquote>
+<hr/>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After implementing all patterns, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What is 2D DP in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>How is 2D DP different from 1D DP?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy:</strong></p>
+<ul>
+<li>Example: "2D DP is like filling out a grid where each cell depends on cells above and to the left..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When does this pattern work?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after solving problems]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>How do you know when you need 2D instead of 1D?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after learning the pattern]</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr/>
+<h2 id="quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)<a class="headerlink" href="#quick-quiz-do-before-implementing" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Test your intuition without looking at code. Answer these, then verify after implementation.</p>
+<h3 id="complexity-predictions">Complexity Predictions<a class="headerlink" href="#complexity-predictions" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p><strong>Recursive solution for LCS (no memoization):</strong></p>
+<ul>
+<li>Time complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Verified after learning: <span class="fill-in">[Actual: O(?)]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>2D DP table for LCS:</strong></p>
+<ul>
+<li>Time complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Space complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Verified: <span class="fill-in">[Actual]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Speedup calculation:</strong></p>
+<ul>
+<li>If m = 100, n = 100, naive recursion ≈ _____ operations</li>
+<li>2D DP table = m × n = <span class="fill-in">_____</span> operations</li>
+<li>Speedup factor: <span class="fill-in">_____</span> times faster</li>
+</ul>
+</li>
+</ol>
+<h3 id="scenario-predictions">Scenario Predictions<a class="headerlink" href="#scenario-predictions" title="Permanent link">¶</a></h3>
+<p><strong>Scenario 1:</strong> Longest Common Subsequence of "abc" and "abc"</p>
+<ul>
+<li><strong>What's the answer?</strong> <span class="fill-in">[Fill in]</span></li>
+<li><strong>Size of DP table?</strong> <span class="fill-in">[m+1 × n+1 or m × n?]</span></li>
+<li><strong>Why do we need +1 for dimensions?</strong> <span class="fill-in">[Fill in - think about base cases]</span></li>
+</ul>
+<p><strong>Scenario 2:</strong> Edit distance from "cat" to "dog"</p>
+<ul>
+<li><strong>Your guess for minimum edits:</strong> <span class="fill-in">[Fill in]</span></li>
+<li><strong>What operations are allowed?</strong> <span class="fill-in">[Fill in - insert, delete, replace?]</span></li>
+<li><strong>If characters match, what happens in DP?</strong> <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>Scenario 3:</strong> Unique paths in 3×3 grid (can only move right or down)</p>
+<ul>
+<li><strong>Manual count:</strong> <span class="fill-in">[Try to draw and count all paths]</span></li>
+<li><strong>DP recurrence:</strong> dp[i][j] = <span class="fill-in">[Fill in formula]</span></li>
+<li><strong>Starting position value:</strong> dp[0][0] = <span class="fill-in">[0 or 1?]</span></li>
+</ul>
+<h3 id="pattern-recognition-quiz">Pattern Recognition Quiz<a class="headerlink" href="#pattern-recognition-quiz" title="Permanent link">¶</a></h3>
+<p><strong>Question 1:</strong> Which 2D DP pattern applies?</p>
+<p>Match each problem to its pattern:</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Longest Common Subsequence → <span class="fill-in">[String/Grid/Knapsack/Interval?]</span></li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Unique Paths → <span class="fill-in">[String/Grid/Knapsack/Interval?]</span></li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> 0/1 Knapsack → <span class="fill-in">[String/Grid/Knapsack/Interval?]</span></li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Burst Balloons → <span class="fill-in">[String/Grid/Knapsack/Interval?]</span></li>
+</ul>
+<p><strong>Question 2:</strong> When do you need 2D instead of 1D DP?</p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in before implementation]</span></li>
+<li>Verified answer: <span class="fill-in">[Fill in after learning]</span></li>
+</ul>
+<h3 id="state-design-quiz">State Design Quiz<a class="headerlink" href="#state-design-quiz" title="Permanent link">¶</a></h3>
+<p><strong>For LCS of strings "abcde" and "ace":</strong></p>
+<p>What does dp[3][2] represent?</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> LCS length of "abc" and "ac"</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> LCS length of first 3 chars of s1 and first 2 chars of s2</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> LCS length including index 3 and 2</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Something else: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p>Verify after implementation: <span class="fill-in">[Which one is correct?]</span></p>
+</div>
+<hr/>
+<h2 id="beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters<a class="headerlink" href="#beforeafter-why-this-pattern-matters" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Compare naive vs optimized approaches to understand the impact.</p>
+<h3 id="example-1-longest-common-subsequence">Example 1: Longest Common Subsequence<a class="headerlink" href="#example-1-longest-common-subsequence" title="Permanent link">¶</a></h3>
+<p><strong>Problem:</strong> Find the length of the longest common subsequence of two strings.</p>
+<h4 id="approach-1-brute-force-recursion-no-memoization">Approach 1: Brute Force Recursion (No Memoization)<a class="headerlink" href="#approach-1-brute-force-recursion-no-memoization" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Naive recursive approach - Try all possibilities
+public static int lcs_Recursive(String s1, String s2, int i, int j) {
+    // Base case: reached end of either string
+    if (i == s1.length() || j == s2.length()) {
+        return 0;
+    }
+
+    // If characters match, include and move both
+    if (s1.charAt(i) == s2.charAt(j)) {
+        return 1 + lcs_Recursive(s1, s2, i + 1, j + 1);
+    }
+
+    // Characters don't match - try both options
+    int skipS1 = lcs_Recursive(s1, s2, i + 1, j);
+    int skipS2 = lcs_Recursive(s1, s2, i, j + 1);
+
+    return Math.max(skipS1, skipS2);
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(2^(m+n)) - Exponential! Each call branches into 2 recursive calls</li>
+<li>Space: O(m+n) - Recursion stack depth</li>
+<li>For m = n = 20: ~1,000,000,000 operations (over 1 billion!)</li>
+</ul>
+<p><strong>Why so slow?</strong> Recalculates the same subproblems repeatedly.</p>
+<h4 id="approach-2-2d-dp-table-bottom-up">Approach 2: 2D DP Table (Bottom-Up)<a class="headerlink" href="#approach-2-2d-dp-table-bottom-up" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Optimized 2D DP - Build table from base cases
+public static int lcs_DP(String s1, String s2) {
+    int m = s1.length();
+    int n = s2.length();
+    int[][] dp = new int[m + 1][n + 1];
+
+    // Base case: dp[0][j] = 0, dp[i][0] = 0 (already initialized)
+
+    for (int i = 1; i &lt;= m; i++) {
+        for (int j = 1; j &lt;= n; j++) {
+            if (s1.charAt(i - 1) == s2.charAt(j - 1)) {
+                dp[i][j] = dp[i - 1][j - 1] + 1;  // Match: take both
+            } else {
+                dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);  // No match: try both
+            }
+        }
+    }
+
+    return dp[m][n];
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(m × n) - Fill each cell once</li>
+<li>Space: O(m × n) - Store entire table</li>
+<li>For m = n = 20: 400 operations (just 400!)</li>
+</ul>
+<h4 id="performance-comparison">Performance Comparison<a class="headerlink" href="#performance-comparison" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>String Lengths</th>
+<th>Recursive (2^(m+n))</th>
+<th>2D DP (m×n)</th>
+<th>Speedup</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>m=10, n=10</td>
+<td>~1,000,000</td>
+<td>100</td>
+<td>10,000x</td>
+</tr>
+<tr>
+<td>m=15, n=15</td>
+<td>~1,000,000,000</td>
+<td>225</td>
+<td>4.4M x</td>
+</tr>
+<tr>
+<td>m=20, n=20</td>
+<td>~1,000,000,000,000</td>
+<td>400</td>
+<td>2.5B x</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Your calculation:</strong> For m = 25, n = 25, the speedup is approximately _____ times faster.</p>
+<h4 id="why-does-2d-dp-work">Why Does 2D DP Work?<a class="headerlink" href="#why-does-2d-dp-work" title="Permanent link">¶</a></h4>
+<p><strong>Key insight to understand:</strong></p>
+<p>For strings "ace" and "abcde":</p>
+<pre class="highlight"><code>    ""  a  b  c  d  e
+""   0  0  0  0  0  0
+a    0  1  1  1  1  1    ← 'a' matches: dp[1][1] = dp[0][0] + 1
+c    0  1  1  2  2  2    ← 'c' matches: dp[2][3] = dp[1][2] + 1
+e    0  1  1  2  2  3    ← 'e' matches: dp[3][5] = dp[2][4] + 1
+
+Answer: dp[3][5] = 3 (LCS = "ace")</code></pre>
+<p><strong>Why do we need the extra row/column of zeros?</strong></p>
+<ul>
+<li>Fill in after understanding - what do they represent? <span class="fill-in">[Your answer]</span></li>
+</ul>
+<p><strong>Why can we skip recomputation?</strong></p>
+<ul>
+<li>Each cell depends only on: <span class="fill-in">[which cells?]</span></li>
+<li>We compute in order: <span class="fill-in">[top-to-bottom, left-to-right]</span></li>
+<li>So dependencies are always ready when needed!</li>
+</ul>
+<hr/>
+<h3 id="example-2-01-knapsack">Example 2: 0/1 Knapsack<a class="headerlink" href="#example-2-01-knapsack" title="Permanent link">¶</a></h3>
+<p><strong>Problem:</strong> Given items with weights and values, maximize value without exceeding capacity.</p>
+<h4 id="approach-1-recursive-exploration">Approach 1: Recursive Exploration<a class="headerlink" href="#approach-1-recursive-exploration" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Try all combinations - exponential time
+public static int knapsack_Recursive(int[] weights, int[] values,
+                                     int capacity, int index) {
+    // Base case: no items left or no capacity
+    if (index == weights.length || capacity == 0) {
+        return 0;
+    }
+
+    // Can't take current item - too heavy
+    if (weights[index] &gt; capacity) {
+        return knapsack_Recursive(weights, values, capacity, index + 1);
+    }
+
+    // Try both: take it or skip it
+    int take = values[index] +
+               knapsack_Recursive(weights, values,
+                                 capacity - weights[index], index + 1);
+    int skip = knapsack_Recursive(weights, values, capacity, index + 1);
+
+    return Math.max(take, skip);
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(2^n) - For each item, branch into take/skip</li>
+<li>For n = 30 items: Over 1 billion recursive calls!</li>
+</ul>
+<h4 id="approach-2-2d-dp-table">Approach 2: 2D DP Table<a class="headerlink" href="#approach-2-2d-dp-table" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Build table: dp[item][capacity]
+public static int knapsack_DP(int[] weights, int[] values, int capacity) {
+    int n = weights.length;
+    int[][] dp = new int[n + 1][capacity + 1];
+
+    for (int i = 1; i &lt;= n; i++) {
+        for (int w = 0; w &lt;= capacity; w++) {
+            // Skip current item
+            dp[i][w] = dp[i - 1][w];
+
+            // Take current item (if it fits)
+            if (weights[i - 1] &lt;= w) {
+                int takeValue = values[i - 1] + dp[i - 1][w - weights[i - 1]];
+                dp[i][w] = Math.max(dp[i][w], takeValue);
+            }
+        }
+    }
+
+    return dp[n][capacity];
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n × capacity)</li>
+<li>For n = 30, capacity = 1000: 30,000 operations vs 1 billion!</li>
+</ul>
+<h4 id="visualization-knapsack-table">Visualization: Knapsack Table<a class="headerlink" href="#visualization-knapsack-table" title="Permanent link">¶</a></h4>
+<p>Items: weights=[1, 2, 3], values=[10, 5, 15], capacity=5</p>
+<pre class="highlight"><code>       Capacity: 0  1  2  3  4  5
+No items (i=0):  0  0  0  0  0  0
+Item 1 (w=1,v=10): 0 10 10 10 10 10  ← Take item 1
+Item 2 (w=2,v=5):  0 10 10 15 15 15  ← Take items 1+2 or just 1
+Item 3 (w=3,v=15): 0 10 10 15 25 25  ← Take items 1+3
+
+Answer: dp[3][5] = 25 (take items 1 and 3)</code></pre>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>Why does each cell represent "best value using first i items with capacity w"? <span class="fill-in">[Your answer]</span></li>
+<li>Why do we need to check both "take" and "skip" options? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="core-implementation">Core Implementation<a class="headerlink" href="#core-implementation" title="Permanent link">¶</a></h2>
+<h3 id="pattern-1-grid-path-problems">Pattern 1: Grid Path Problems<a class="headerlink" href="#pattern-1-grid-path-problems" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Count paths or find optimal path in 2D grid.</p>
+<p><strong>Use case:</strong> Unique paths, minimum path sum, maximal square.</p>
+<pre class="highlight"><code class="language-java">public class GridPathProblems {
+
+    /**
+     * Problem: Unique paths in m×n grid (can only move right or down)
+     * Time: O(m*n), Space: O(n) optimized
+     *
+     * TODO: Implement using 2D DP
+     */
+    public static int uniquePaths(int m, int n) {
+        // TODO: dp[i][j] = number of ways to reach cell (i,j)
+        // TODO: dp[i][j] = dp[i-1][j] + dp[i][j-1]
+        // TODO: Base: dp[0][j] = 1, dp[i][0] = 1
+        // TODO: Optimize to 1D: only need previous row
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Unique paths with obstacles
+     * Time: O(m*n), Space: O(n)
+     *
+     * TODO: Implement with obstacles
+     */
+    public static int uniquePathsWithObstacles(int[][] obstacleGrid) {
+        // TODO: Similar to uniquePaths
+        // TODO: Implement iteration/conditional logic
+        // TODO: Handle obstacles in first row/column
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Minimum path sum (sum of cell values)
+     * Time: O(m*n), Space: O(n)
+     *
+     * TODO: Implement minimum path sum
+     */
+    public static int minPathSum(int[][] grid) {
+        // TODO: dp[i][j] = minimum sum to reach (i,j)
+        // TODO: dp[i][j] = grid[i][j] + min(dp[i-1][j], dp[i][j-1])
+        // TODO: Can modify grid in-place to save space
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Maximum sum path (can move in all 4 directions)
+     * Time: O(m*n), Space: O(m*n)
+     *
+     * TODO: Implement maximum path sum
+     */
+    public static int maxPathSum(int[][] grid) {
+        // TODO: Use DFS with memoization
+        // TODO: Or: DP with careful ordering
+
+        return 0; // Replace with implementation
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">public class GridPathProblemsClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Grid Path Problems ===\n");
+
+        // Test 1: Unique paths
+        System.out.println("--- Test 1: Unique Paths ---");
+        int[][] grids = {{3, 2}, {3, 7}, {7, 3}};
+        for (int[] grid : grids) {
+            int paths = GridPathProblems.uniquePaths(grid[0], grid[1]);
+            System.out.printf("Grid %d×%d: %d paths%n", grid[0], grid[1], paths);
+        }
+
+        // Test 2: Unique paths with obstacles
+        System.out.println("\n--- Test 2: Unique Paths with Obstacles ---");
+        int[][] obstacleGrid = {
+            {0, 0, 0},
+            {0, 1, 0},
+            {0, 0, 0}
+        };
+        System.out.println("Grid (0=path, 1=obstacle):");
+        printGrid(obstacleGrid);
+        int pathsWithObstacles = GridPathProblems.uniquePathsWithObstacles(obstacleGrid);
+        System.out.println("Unique paths: " + pathsWithObstacles);
+
+        // Test 3: Minimum path sum
+        System.out.println("\n--- Test 3: Minimum Path Sum ---");
+        int[][] grid = {
+            {1, 3, 1},
+            {1, 5, 1},
+            {4, 2, 1}
+        };
+        System.out.println("Grid:");
+        printGrid(grid);
+        int minSum = GridPathProblems.minPathSum(grid);
+        System.out.println("Minimum path sum: " + minSum);
+
+        // Test 4: Maximum path sum
+        System.out.println("\n--- Test 4: Maximum Path Sum ---");
+        int[][] grid2 = {
+            {1, 2, 3},
+            {4, 5, 6},
+            {7, 8, 9}
+        };
+        System.out.println("Grid:");
+        printGrid(grid2);
+        int maxSum = GridPathProblems.maxPathSum(grid2);
+        System.out.println("Maximum path sum: " + maxSum);
+    }
+
+    private static void printGrid(int[][] grid) {
+        for (int[] row : grid) {
+            for (int cell : row) {
+                System.out.print(cell + " ");
+            }
+            System.out.println();
+        }
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-2-string-matching-lcs-edit-distance">Pattern 2: String Matching (LCS, Edit Distance)<a class="headerlink" href="#pattern-2-string-matching-lcs-edit-distance" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Compare two strings character by character.</p>
+<p><strong>Use case:</strong> Longest common subsequence, edit distance, wildcard matching.</p>
+<pre class="highlight"><code class="language-java">public class StringMatching {
+
+    /**
+     * Problem: Longest common subsequence
+     * Time: O(m*n), Space: O(m*n)
+     *
+     * TODO: Implement LCS using 2D DP
+     */
+    public static int longestCommonSubsequence(String text1, String text2) {
+        // TODO: dp[i][j] = LCS of text1[0..i] and text2[0..j]
+        // TODO: Implement iteration/conditional logic
+        // TODO: Else: dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Edit distance (insert, delete, replace)
+     * Time: O(m*n), Space: O(m*n)
+     *
+     * TODO: Implement edit distance
+     */
+    public static int minDistance(String word1, String word2) {
+        // TODO: Implement logic
+        // TODO: Implement iteration/conditional logic
+        // TODO: Else: dp[i][j] = 1 + min(insert, delete, replace)
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Longest palindromic subsequence
+     * Time: O(n^2), Space: O(n^2)
+     *
+     * TODO: Implement LPS using 2D DP
+     */
+    public static int longestPalindromeSubseq(String s) {
+        // TODO: dp[i][j] = LPS length in s[i..j]
+        // TODO: Implement iteration/conditional logic
+        // TODO: Else: dp[i][j] = max(dp[i+1][j], dp[i][j-1])
+        // TODO: Fill diagonal first, then expand
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Wildcard matching (* and ?)
+     * Time: O(m*n), Space: O(m*n)
+     *
+     * TODO: Implement wildcard matching
+     */
+    public static boolean isMatch(String s, String p) {
+        // TODO: dp[i][j] = does s[0..i] match p[0..j]?
+        // TODO: Handle * (matches any sequence)
+        // TODO: Handle ? (matches single char)
+
+        return false; // Replace with implementation
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">public class StringMatchingClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== String Matching ===\n");
+
+        // Test 1: LCS
+        System.out.println("--- Test 1: Longest Common Subsequence ---");
+        String[][] lcsTests = {
+            {"abcde", "ace"},
+            {"abc", "abc"},
+            {"abc", "def"}
+        };
+
+        for (String[] test : lcsTests) {
+            int lcs = StringMatching.longestCommonSubsequence(test[0], test[1]);
+            System.out.printf("\"%s\" and \"%s\": LCS = %d%n", test[0], test[1], lcs);
+        }
+
+        // Test 2: Edit distance
+        System.out.println("\n--- Test 2: Edit Distance ---");
+        String[][] editTests = {
+            {"horse", "ros"},
+            {"intention", "execution"},
+            {"abc", "abc"}
+        };
+
+        for (String[] test : editTests) {
+            int dist = StringMatching.minDistance(test[0], test[1]);
+            System.out.printf("\"%s\" -&gt; \"%s\": %d edits%n", test[0], test[1], dist);
+        }
+
+        // Test 3: Longest palindromic subsequence
+        System.out.println("\n--- Test 3: Longest Palindromic Subsequence ---");
+        String[] lpsTests = {"bbbab", "cbbd", "racecar"};
+
+        for (String s : lpsTests) {
+            int lps = StringMatching.longestPalindromeSubseq(s);
+            System.out.printf("\"%s\": LPS length = %d%n", s, lps);
+        }
+
+        // Test 4: Wildcard matching
+        System.out.println("\n--- Test 4: Wildcard Matching ---");
+        String[][] matchTests = {
+            {"aa", "a"},
+            {"aa", "*"},
+            {"cb", "?a"},
+            {"adceb", "*a*b"}
+        };
+
+        for (String[] test : matchTests) {
+            boolean matches = StringMatching.isMatch(test[0], test[1]);
+            System.out.printf("s=\"%s\", p=\"%s\": %s%n",
+                test[0], test[1], matches ? "MATCH" : "NO MATCH");
+        }
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-3-knapsack-problems">Pattern 3: Knapsack Problems<a class="headerlink" href="#pattern-3-knapsack-problems" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Select items with constraints to maximize/minimize value.</p>
+<p><strong>Use case:</strong> 0/1 knapsack, unbounded knapsack, target sum.</p>
+<pre class="highlight"><code class="language-java">public class KnapsackProblems {
+
+    /**
+     * Problem: 0/1 Knapsack
+     * Time: O(n * capacity), Space: O(n * capacity)
+     *
+     * TODO: Implement 0/1 knapsack
+     */
+    public static int knapsack(int[] weights, int[] values, int capacity) {
+        // TODO: dp[i][w] = max value using first i items with capacity w
+        // TODO: dp[i][w] = max(
+        // )
+        // TODO: Can optimize to 1D by iterating backwards
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Partition into K equal sum subsets
+     * Time: O(k * n * sum), Space: O(n * sum)
+     *
+     * TODO: Implement partition check
+     */
+    public static boolean canPartitionKSubsets(int[] nums, int k) {
+        // TODO: Implement iteration/conditional logic
+        // TODO: Target = sum / k
+        // TODO: Use backtracking or DP to check if k subsets possible
+
+        return false; // Replace with implementation
+    }
+
+    /**
+     * Problem: Target sum (assign + or - to make target)
+     * Time: O(n * sum), Space: O(sum)
+     *
+     * TODO: Implement target sum
+     */
+    public static int findTargetSumWays(int[] nums, int target) {
+        // TODO: Transform to subset sum problem
+        // TODO: sum(P) - sum(N) = target where P=positive, N=negative
+        // TODO: sum(P) + sum(N) = sum(all)
+        // TODO: Therefore: sum(P) = (target + sum) / 2
+        // TODO: Count subsets that sum to (target + sum) / 2
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Ones and Zeroes (2D knapsack)
+     * Time: O(l * m * n), Space: O(m * n)
+     *
+     * TODO: Implement 2D knapsack
+     */
+    public static int findMaxForm(String[] strs, int m, int n) {
+        // TODO: dp[i][j] = max strings with i zeros and j ones
+        // TODO: Implement iteration/conditional logic
+        // TODO: Update DP backwards (0/1 knapsack style)
+
+        return 0; // Replace with implementation
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class KnapsackProblemsClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Knapsack Problems ===\n");
+
+        // Test 1: 0/1 Knapsack
+        System.out.println("--- Test 1: 0/1 Knapsack ---");
+        int[] weights = {1, 2, 3, 5};
+        int[] values = {10, 5, 15, 7};
+        int capacity = 7;
+
+        System.out.println("Weights: " + Arrays.toString(weights));
+        System.out.println("Values:  " + Arrays.toString(values));
+        System.out.println("Capacity: " + capacity);
+
+        int maxValue = KnapsackProblems.knapsack(weights, values, capacity);
+        System.out.println("Max value: " + maxValue);
+
+        // Test 2: Partition K subsets
+        System.out.println("\n--- Test 2: Partition K Subsets ---");
+        int[] nums = {4, 3, 2, 3, 5, 2, 1};
+        int k = 4;
+
+        System.out.println("Array: " + Arrays.toString(nums));
+        System.out.println("k = " + k);
+        boolean canPartition = KnapsackProblems.canPartitionKSubsets(nums, k);
+        System.out.println("Can partition: " + (canPartition ? "YES" : "NO"));
+
+        // Test 3: Target sum
+        System.out.println("\n--- Test 3: Target Sum ---");
+        int[] nums2 = {1, 1, 1, 1, 1};
+        int target = 3;
+
+        System.out.println("Array: " + Arrays.toString(nums2));
+        System.out.println("Target: " + target);
+        int ways = KnapsackProblems.findTargetSumWays(nums2, target);
+        System.out.println("Ways: " + ways);
+
+        // Test 4: Ones and Zeroes
+        System.out.println("\n--- Test 4: Ones and Zeroes ---");
+        String[] strs = {"10", "0001", "111001", "1", "0"};
+        int m = 5; // max zeros
+        int n = 3; // max ones
+
+        System.out.println("Strings: " + Arrays.toString(strs));
+        System.out.println("Max 0s: " + m + ", Max 1s: " + n);
+        int maxStrings = KnapsackProblems.findMaxForm(strs, m, n);
+        System.out.println("Max strings: " + maxStrings);
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-4-game-theory-min-max">Pattern 4: Game Theory / Min-Max<a class="headerlink" href="#pattern-4-game-theory-min-max" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Two players making optimal moves.</p>
+<p><strong>Use case:</strong> Stone game, predict winner, burst balloons.</p>
+<pre class="highlight"><code class="language-java">public class GameTheory {
+
+    /**
+     * Problem: Stone game (take from ends, maximize score)
+     * Time: O(n^2), Space: O(n^2)
+     *
+     * TODO: Implement stone game
+     */
+    public static boolean stoneGame(int[] piles) {
+        // TODO: dp[i][j] = max stones first player gets from piles[i..j]
+        // TODO: Player chooses max of:
+        // TODO: First player wins if dp[0][n-1] &gt; sum/2
+
+        return false; // Replace with implementation
+    }
+
+    /**
+     * Problem: Predict the winner
+     * Time: O(n^2), Space: O(n^2)
+     *
+     * TODO: Implement predict winner
+     */
+    public static boolean predictWinner(int[] nums) {
+        // TODO: dp[i][j] = max advantage first player has in nums[i..j]
+        // TODO: Advantage = player1 score - player2 score
+        // TODO: Return dp[0][n-1] &gt;= 0
+
+        return false; // Replace with implementation
+    }
+
+    /**
+     * Problem: Burst balloons (maximize coins)
+     * Time: O(n^3), Space: O(n^2)
+     *
+     * TODO: Implement burst balloons
+     */
+    public static int maxCoins(int[] nums) {
+        // TODO: Add virtual balloons with value 1 at both ends
+        // TODO: dp[i][j] = max coins from bursting balloons (i..j)
+        // TODO: Try each balloon k as last to burst in range [i,j]
+        // TODO: Implement logic
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Minimum score triangulation
+     * Time: O(n^3), Space: O(n^2)
+     *
+     * TODO: Implement triangulation
+     */
+    public static int minScoreTriangulation(int[] values) {
+        // TODO: Similar to burst balloons
+        // TODO: dp[i][j] = min score triangulating polygon from i to j
+
+        return 0; // Replace with implementation
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class GameTheoryClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Game Theory ===\n");
+
+        // Test 1: Stone game
+        System.out.println("--- Test 1: Stone Game ---");
+        int[] piles = {5, 3, 4, 5};
+        System.out.println("Piles: " + Arrays.toString(piles));
+        boolean firstWins = GameTheory.stoneGame(piles);
+        System.out.println("First player wins: " + (firstWins ? "YES" : "NO"));
+
+        // Test 2: Predict winner
+        System.out.println("\n--- Test 2: Predict Winner ---");
+        int[][] testArrays = {
+            {1, 5, 2},
+            {1, 5, 233, 7}
+        };
+
+        for (int[] arr : testArrays) {
+            boolean player1Wins = GameTheory.predictWinner(arr);
+            System.out.printf("Array: %s -&gt; Player 1 wins: %s%n",
+                Arrays.toString(arr), player1Wins ? "YES" : "NO");
+        }
+
+        // Test 3: Burst balloons
+        System.out.println("\n--- Test 3: Burst Balloons ---");
+        int[] balloons = {3, 1, 5, 8};
+        System.out.println("Balloons: " + Arrays.toString(balloons));
+        int maxCoins = GameTheory.maxCoins(balloons);
+        System.out.println("Max coins: " + maxCoins);
+
+        // Test 4: Triangulation
+        System.out.println("\n--- Test 4: Minimum Score Triangulation ---");
+        int[] polygon = {1, 2, 3};
+        System.out.println("Polygon: " + Arrays.toString(polygon));
+        int minScore = GameTheory.minScoreTriangulation(polygon);
+        System.out.println("Min score: " + minScore);
+    }
+}</code></pre>
+<hr/>
+<h2 id="debugging-challenges">Debugging Challenges<a class="headerlink" href="#debugging-challenges" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Find and fix bugs in broken 2D DP implementations. This tests your understanding of state transitions and
+edge cases.</p>
+<h3 id="challenge-1-broken-lcs-implementation">Challenge 1: Broken LCS Implementation<a class="headerlink" href="#challenge-1-broken-lcs-implementation" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Longest Common Subsequence - has 3 BUGS!
+ * Find them all.
+ */
+public static int lcs_Buggy(String s1, String s2) {
+    int m = s1.length();
+    int n = s2.length();
+    int[][] dp = new int[m][n];
+    for (int i = 1; i &lt;= m; i++) {
+        for (int j = 1; j &lt;= n; j++) {
+            if (s1.charAt(i) == s2.charAt(j)) {                dp[i][j] = dp[i-1][j-1] + 1;
+            } else {
+                dp[i][j] = Math.max(dp[i-1][j], dp[i][j-1]);
+            }
+        }
+    }
+
+    return dp[m][n];}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>
+<p>Bug 1: <span class="fill-in">[What\'s the bug?]</span></p>
+</li>
+<li>
+<p>Bug 2: <span class="fill-in">[What\'s the bug?]</span></p>
+</li>
+<li>
+<p>Bug 3: <span class="fill-in">[What\'s the bug?]</span></p>
+</li>
+</ul>
+<p><strong>Test case to expose bugs:</strong></p>
+<ul>
+<li>Input: s1 = "abc", s2 = "abc"</li>
+<li>Expected: 3</li>
+<li>Actual with buggy code: <span class="fill-in">[What happens? Crash or wrong answer?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug 1 (Line 4):</strong> Should be <code>int[][] dp = new int[m + 1][n + 1]</code>. We need extra row/column for the empty string base
+case.</p>
+<p><strong>Bug 2 (Line 8):</strong> Should be <code>s1.charAt(i - 1) == s2.charAt(j - 1)</code>. The DP indices are 1-based but string indices are
+0-based.</p>
+<p><strong>Bug 3 (Line 15):</strong> With Bug 1 unfixed, <code>dp[m][n]</code> is out of bounds. After fixing Bug 1, this is correct.</p>
+<p><strong>All three bugs are interconnected!</strong> The root cause is not allocating space for the base case (empty string).</p>
+</details>
+<hr/>
+<h3 id="challenge-2-broken-edit-distance">Challenge 2: Broken Edit Distance<a class="headerlink" href="#challenge-2-broken-edit-distance" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Edit Distance - has 2 SUBTLE BUGS
+ * One is an off-by-one error, one is a logic error
+ */
+public static int editDistance_Buggy(String word1, String word2) {
+    int m = word1.length();
+    int n = word2.length();
+    int[][] dp = new int[m + 1][n + 1];
+
+    // Initialize base cases
+    for (int i = 0; i &lt;= m; i++) dp[i][0] = i;
+    for (int j = 0; j &lt;= n; j++) dp[0][j] = j;
+
+    for (int i = 1; i &lt;= m; i++) {
+        for (int j = 1; j &lt;= n; j++) {
+            if (word1.charAt(i) == word2.charAt(j)) {                dp[i][j] = dp[i-1][j-1];
+            } else {
+                int insert = dp[i][j-1];
+                int delete = dp[i-1][j];
+                int replace = dp[i-1][j-1];
+                dp[i][j] = Math.min(insert, Math.min(delete, replace));            }
+        }
+    }
+
+    return dp[m][n];
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug 1:</strong> <span class="fill-in">[What's wrong with charAt(i)?]</span></li>
+<li>
+<p><strong>Bug 1 fix:</strong> <span class="fill-in">[Correct index?]</span></p>
+</li>
+<li>
+<p><strong>Bug 2:</strong> <span class="fill-in">[What's missing in the min calculation?]</span></p>
+</li>
+<li><strong>Bug 2 fix:</strong> <span class="fill-in">[Fill in the correct formula]</span></li>
+</ul>
+<p><strong>Test case:</strong></p>
+<ul>
+<li>Input: "horse" → "ros"</li>
+<li>Expected: 3 (delete 'h', delete 'r', replace 'e' with 's')</li>
+<li>Actual: <span class="fill-in">[Trace through manually - what do you get?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug 1 (Line 15):</strong> Should be <code>word1.charAt(i - 1) == word2.charAt(j - 1)</code>. DP uses 1-based indexing, strings use
+0-based.</p>
+<p><strong>Bug 2 (Line 21):</strong> Each operation (insert, delete, replace) costs 1, so should be:</p>
+<pre class="highlight"><code class="language-java">dp[i][j] = 1 + Math.min(insert, Math.min(delete, replace));</code></pre>
+<p>Without the <code>+ 1</code>, we're not counting the operation cost!</p>
+</details>
+<hr/>
+<h3 id="challenge-3-broken-unique-paths">Challenge 3: Broken Unique Paths<a class="headerlink" href="#challenge-3-broken-unique-paths" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Unique Paths in m×n grid
+ * Has 2 BUGS: one initialization, one recurrence
+ */
+public static int uniquePaths_Buggy(int m, int n) {
+    int[][] dp = new int[m][n];
+
+    // Initialize first row and column
+    for (int i = 0; i &lt; m; i++) dp[i][0] = 0;    for (int j = 0; j &lt; n; j++) dp[0][j] = 1;
+
+    for (int i = 1; i &lt; m; i++) {
+        for (int j = 1; j &lt; n; j++) {
+            dp[i][j] = dp[i-1][j] * dp[i][j-1];        }
+    }
+
+    return dp[m-1][n-1];
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug 1:</strong> <em>[Why is dp[i][0] = 0 wrong?]</em></li>
+<li><strong>Bug 1 explanation:</strong> <span class="fill-in">[What should the first column represent?]</span></li>
+<li>
+<p><strong>Bug 1 fix:</strong> <span class="fill-in">[Correct value?]</span></p>
+</li>
+<li>
+<p><strong>Bug 2:</strong> <span class="fill-in">[Why is multiplication wrong?]</span></p>
+</li>
+<li><strong>Bug 2 explanation:</strong> <span class="fill-in">[What's the correct recurrence?]</span></li>
+<li><strong>Bug 2 fix:</strong> <span class="fill-in">[Should be...?]</span></li>
+</ul>
+<p><strong>Test case:</strong></p>
+<ul>
+<li>Input: m = 3, n = 3</li>
+<li>Expected: 6 paths</li>
+<li>Actual with buggy code: <span class="fill-in">[Calculate it]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug 1 (Line 8):</strong> Should be <code>dp[i][0] = 1</code>. There's exactly ONE way to reach any cell in the first column (move down
+only).</p>
+<p><strong>Bug 2 (Line 13):</strong> Should be <code>dp[i][j] = dp[i-1][j] + dp[i][j-1]</code> (addition, not multiplication). We're COUNTING
+paths, not multiplying them.</p>
+<p><strong>Why addition?</strong> The number of ways to reach cell (i,j) is the sum of:</p>
+<ul>
+<li>Ways to reach (i-1,j) [coming from above]</li>
+<li>Ways to reach (i,j-1) [coming from left]</li>
+</ul>
+</details>
+<hr/>
+<h3 id="challenge-4-broken-knapsack">Challenge 4: Broken Knapsack<a class="headerlink" href="#challenge-4-broken-knapsack" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * 0/1 Knapsack - has 3 BUGS
+ * Focus on state transition and boundary conditions
+ */
+public static int knapsack_Buggy(int[] weights, int[] values, int capacity) {
+    int n = weights.length;
+    int[][] dp = new int[n][capacity + 1];
+    for (int i = 1; i &lt; n; i++) {        for (int w = 1; w &lt;= capacity; w++) {
+            // Don't take item i
+            dp[i][w] = dp[i-1][w];
+
+            // Take item i (if it fits)
+            if (weights[i] &lt;= w) {                int takeValue = values[i] + dp[i-1][w - weights[i]];
+                dp[i][w] = Math.max(dp[i][w], takeValue);
+            }
+        }
+    }
+
+    return dp[n-1][capacity];
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug 1:</strong> <span class="fill-in">[Why might this cause issues?]</span></li>
+<li>
+<p><strong>Bug 1 fix:</strong> <span class="fill-in">[Correct dimensions?]</span></p>
+</li>
+<li>
+<p><strong>Bug 2:</strong> <span class="fill-in">[What gets skipped?]</span></p>
+</li>
+<li>
+<p><strong>Bug 2 fix:</strong> <span class="fill-in">[Should loop start at...?]</span></p>
+</li>
+<li>
+<p><strong>Bug 3:</strong> <span class="fill-in">[Index mismatch between DP and arrays?]</span></p>
+</li>
+<li><strong>Bug 3 explanation:</strong> <span class="fill-in">[Fill in]</span></li>
+<li><strong>Bug 3 fix:</strong> <span class="fill-in">[Correct index?]</span></li>
+</ul>
+<p><strong>Test case:</strong></p>
+<ul>
+<li>weights = [1, 2, 3], values = [10, 5, 15], capacity = 5</li>
+<li>Expected: 25 (items 1 and 3)</li>
+<li>Actual: <span class="fill-in">[Trace through - what happens?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug 1 (Line 3):</strong> Should be <code>int[][] dp = new int[n + 1][capacity + 1]</code>. Need extra row for "no items" base case.</p>
+<p><strong>Bug 2 (Line 5):</strong> Should start at <code>i = 1</code>, which is actually correct! But with Bug 1 fixed, we need the +1 dimension.</p>
+<p><strong>Bug 3 (Line 11):</strong> Should be <code>weights[i - 1]</code> and <code>values[i - 1]</code>. The DP table has n+1 rows but arrays have n
+elements, so there's an offset.</p>
+<p><strong>The complete fix:</strong></p>
+<pre class="highlight"><code class="language-java">for (int i = 1; i &lt;= n; i++) {  // Note: &lt;= n
+    for (int w = 1; w &lt;= capacity; w++) {
+        dp[i][w] = dp[i-1][w];
+        if (weights[i - 1] &lt;= w) {  // i-1 for array index
+            int takeValue = values[i - 1] + dp[i-1][w - weights[i - 1]];
+            dp[i][w] = Math.max(dp[i][w], takeValue);
+        }
+    }
+}
+return dp[n][capacity];  // Not n-1</code></pre>
+</details>
+<hr/>
+<h3 id="challenge-5-missing-edge-case-initialization">Challenge 5: Missing Edge Case Initialization<a class="headerlink" href="#challenge-5-missing-edge-case-initialization" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Unique Paths with Obstacles
+ * Has 1 CRITICAL EDGE CASE BUG
+ */
+public static int uniquePathsWithObstacles_Buggy(int[][] obstacleGrid) {
+    int m = obstacleGrid.length;
+    int n = obstacleGrid[0].length;
+    int[][] dp = new int[m][n];
+
+    // Initialize first row
+    for (int j = 0; j &lt; n; j++) {
+        dp[0][j] = 1;    }
+
+    // Initialize first column
+    for (int i = 0; i &lt; m; i++) {
+        dp[i][0] = 1;    }
+
+    for (int i = 1; i &lt; m; i++) {
+        for (int j = 1; j &lt; n; j++) {
+            if (obstacleGrid[i][j] == 1) {
+                dp[i][j] = 0;
+            } else {
+                dp[i][j] = dp[i-1][j] + dp[i][j-1];
+            }
+        }
+    }
+
+    return dp[m-1][n-1];
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug location:</strong> <span class="fill-in">[Lines 10 and 15]</span></li>
+<li><strong>Bug explanation:</strong> <span class="fill-in">[What happens if first row/column has obstacle?]</span></li>
+<li><strong>Why is this critical?</strong> <span class="fill-in">[Once blocked, all cells after it are unreachable]</span></li>
+<li><strong>Fix:</strong> <span class="fill-in">[How to handle obstacles in initialization?]</span></li>
+</ul>
+<p><strong>Test case to expose:</strong></p>
+<pre class="highlight"><code>Grid:
+0 0 0
+0 1 0  ← Obstacle in first column
+0 0 0
+
+Expected: 2 paths
+Buggy result: &lt;span class="fill-in"&gt;[Fill in]&lt;/span&gt;</code></pre>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> Must check for obstacles during initialization. If there's an obstacle in the first row/column, all cells AFTER
+it are unreachable (can't be reached).</p>
+<p><strong>Fix:</strong></p>
+<pre class="highlight"><code class="language-java">// Initialize first row - stop at first obstacle
+for (int j = 0; j &lt; n; j++) {
+    if (obstacleGrid[0][j] == 1) {
+        break;  // All cells after obstacle are unreachable
+    }
+    dp[0][j] = 1;
+}
+
+// Initialize first column - stop at first obstacle
+for (int i = 0; i &lt; m; i++) {
+    if (obstacleGrid[i][0] == 1) {
+        break;  // All cells after obstacle are unreachable
+    }
+    dp[i][0] = 1;
+}
+
+// Also need to check starting cell!
+if (obstacleGrid[0][0] == 1) return 0;</code></pre>
+<p><strong>Key insight:</strong> In first row/column, once blocked, everything after is blocked (only one direction to reach them).</p>
+</details>
+<hr/>
+<h3 id="your-debugging-scorecard">Your Debugging Scorecard<a class="headerlink" href="#your-debugging-scorecard" title="Permanent link">¶</a></h3>
+<p>After finding and fixing all bugs:</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Found all 11+ bugs across 5 challenges</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understood WHY each bug causes incorrect behavior</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could explain the difference between DP indices and array indices</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Learned importance of base case initialization</li>
+</ul>
+<p><strong>Common 2D DP mistakes you discovered:</strong></p>
+<ol>
+<li><strong>Off-by-one errors:</strong> <span class="fill-in">[DP table size vs array size]</span></li>
+<li><strong>Index mismatches:</strong> <span class="fill-in">[1-based DP vs 0-based strings/arrays]</span></li>
+<li><strong>Missing base cases:</strong> <span class="fill-in">[Edge initialization forgotten]</span></li>
+<li><strong>Wrong recurrence:</strong> <span class="fill-in">[Addition vs multiplication, missing +1 cost]</span></li>
+<li><strong>Edge case bugs:</strong> <span class="fill-in">[Obstacles, empty strings, zero capacity]</span></li>
+</ol>
+<p><strong>Your reflection:</strong> Which bug was hardest to find? <span class="fill-in">[Fill in]</span></p>
+<hr/>
+<h2 id="decision-framework">Decision Framework<a class="headerlink" href="#decision-framework" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Build decision trees for 2D DP problems.</p>
+<h3 id="question-1-what-are-your-two-dimensions">Question 1: What are your two dimensions?<a class="headerlink" href="#question-1-what-are-your-two-dimensions" title="Permanent link">¶</a></h3>
+<p>Answer after solving problems:</p>
+<ul>
+<li><strong>Two strings?</strong> <span class="fill-in">[String matching DP]</span></li>
+<li><strong>Grid coordinates?</strong> <span class="fill-in">[Path DP]</span></li>
+<li><strong>Range [i,j]?</strong> <span class="fill-in">[Interval DP]</span></li>
+<li><strong>Items and capacity?</strong> <span class="fill-in">[Knapsack DP]</span></li>
+</ul>
+<h3 id="question-2-whats-the-recurrence">Question 2: What's the recurrence?<a class="headerlink" href="#question-2-whats-the-recurrence" title="Permanent link">¶</a></h3>
+<p><strong>String matching:</strong></p>
+<ul>
+<li>Match: <span class="fill-in">[Use both characters]</span></li>
+<li>Mismatch: <span class="fill-in">[Try alternatives]</span></li>
+</ul>
+<p><strong>Grid paths:</strong></p>
+<ul>
+<li>Current cell: <span class="fill-in">[Function of neighbors]</span></li>
+<li>Direction: <span class="fill-in">[Usually top/left]</span></li>
+</ul>
+<p><strong>Interval DP:</strong></p>
+<ul>
+<li>Try each split point: <span class="fill-in">[Combine subproblems]</span></li>
+</ul>
+<p><strong>Knapsack:</strong></p>
+<ul>
+<li>Take or skip: <span class="fill-in">[Compare options]</span></li>
+</ul>
+<h3 id="your-decision-tree">Your Decision Tree<a class="headerlink" href="#your-decision-tree" title="Permanent link">¶</a></h3>
+<div class="mermaid">flowchart LR
+    Start["2D DP Pattern Selection"]
+
+    Q1{"Two strings?"}
+    Start --&gt; Q1
+    N2(["LCS ✓"])
+    Q1 --&gt;|"Common subsequence"| N2
+    N3(["Edit distance ✓"])
+    Q1 --&gt;|"Transform one to other"| N3
+    N4(["Wildcard/regex DP ✓"])
+    Q1 --&gt;|"Pattern matching"| N4
+    Q5{"Grid problem?"}
+    Start --&gt; Q5
+    N6(["Path counting DP ✓"])
+    Q5 --&gt;|"Count paths"| N6
+    N7(["Min path sum ✓"])
+    Q5 --&gt;|"Minimize cost"| N7
+    N8(["Max path DP ✓"])
+    Q5 --&gt;|"Maximize value"| N8
+    Q9{"Interval/range [i,j]?"}
+    Start --&gt; Q9
+    N10(["Palindrome DP ✓"])
+    Q9 --&gt;|"Palindrome"| N10
+    N11(["Interval DP ✓"])
+    Q9 --&gt;|"Burst/merge"| N11
+    N12(["Min-max DP ✓"])
+    Q9 --&gt;|"Game theory"| N12
+    Q13{"Items with capacity?"}
+    Start --&gt; Q13</div>
+<hr/>
+<h2 id="practice">Practice<a class="headerlink" href="#practice" title="Permanent link">¶</a></h2>
+<h3 id="leetcode-problems">LeetCode Problems<a class="headerlink" href="#leetcode-problems" title="Permanent link">¶</a></h3>
+<p><strong>Easy (Complete all 2):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/unique-paths/">62. Unique Paths</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Grid path counting]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/minimum-path-sum/">64. Minimum Path Sum</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Grid min path]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Medium (Complete 4-5):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/longest-common-subsequence/">1143. Longest Common Subsequence</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[String matching]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/edit-distance/">72. Edit Distance</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[String transformation]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/unique-paths-ii/">63. Unique Paths II</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Grid with obstacles]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/longest-palindromic-subsequence/">516. Longest Palindromic Subsequence</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Interval DP]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/target-sum/">494. Target Sum</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Knapsack variant]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Hard (Optional):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/burst-balloons/">312. Burst Balloons</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Interval DP]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/wildcard-matching/">44. Wildcard Matching</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[String matching]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+</ul>
+<hr/>
+<h2 id="review-checklist">Review Checklist<a class="headerlink" href="#review-checklist" title="Permanent link">¶</a></h2>
+<p>Before moving to the next topic:</p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Implementation</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Grid paths: unique, with obstacles, min sum all work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> String matching: LCS, edit distance, palindrome all work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Knapsack: 0/1, target sum, ones-zeroes all work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Game theory: stone game, burst balloons work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> All client code runs successfully</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Pattern Recognition</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can identify when 2D state is needed</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand recurrence in each pattern</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Know when to optimize space to 1D</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Recognize interval DP problems</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Problem Solving</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Solved 2 easy problems</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Solved 4-5 medium problems</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Analyzed time/space complexity</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understood state transitions</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Understanding</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Filled in all ELI5 explanations</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Built decision tree</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Identified when NOT to use 2D DP</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can explain how to derive 2D recurrence</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Mastery Check</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could implement all patterns from memory</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could recognize pattern in new problem</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could explain to someone else</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand space optimization techniques</li>
+</ul>
+</li>
+</ul>
+<hr/>
+<h3 id="mastery-certification">Mastery Certification<a class="headerlink" href="#mastery-certification" title="Permanent link">¶</a></h3>
+<p><strong>I certify that I can:</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Design 2D DP state from problem description</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Write correct recurrence relations</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Handle base cases and edge initialization properly</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Identify and fix off-by-one errors</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Optimize 2D → 1D space when possible</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Explain why a problem needs 2D vs 1D</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Trace through a DP table by hand</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Debug incorrect implementations quickly</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Teach 2D DP concepts to someone else</li>
+</ul></div>
+</div>
+<footer class="col-md-12 text-center">
+<hr/>
+<p>
+<small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+</p>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../../js/bootstrap-3.0.3.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>var base_url = "../.."</script>
+<script src="../../js/base.js"></script>
+<script src="../../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<button class="close" data-dismiss="modal" type="button">
+<span aria-hidden="true">×</span>
+<span class="sr-only">Close</span>
+</button>
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+</div>
+<div class="modal-body">
+<p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="text"/>
+</div>
+</form>
+<div id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@10.4.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>

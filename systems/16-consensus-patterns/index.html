@@ -1,0 +1,1972 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="A framework for algorithms, systems design, and infrastructure." name="description"/>
+<meta content="Richard" name="author"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>16. Consensus Patterns - Software Engineering Study Guide</title>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" rel="stylesheet"/>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css" rel="stylesheet"/>
+<link href="//rsms.me/inter/inter.css" rel="stylesheet" type="text/css"/>
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&amp;subset=latin-ext,latin" rel="stylesheet" type="text/css"/>
+<link href="../../css/bootstrap-custom.min.css" rel="stylesheet"/>
+<link href="../../css/base.min.css" rel="stylesheet"/>
+<link href="../../css/cinder.min.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css" rel="stylesheet"/>
+<link href="../../css/custom.css" rel="stylesheet"/>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="container">
+<!-- Collapsed navigation -->
+<div class="navbar-header">
+<!-- Expander button -->
+<button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<!-- Main title -->
+<a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+</div>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li>
+<a href="../..">Home</a>
+</li>
+<li class="dropdown active">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Systems Design <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../01-storage-engines/">01. Storage Engines</a>
+</li>
+<li>
+<a href="../02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+<li>
+<a href="../03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+<li>
+<a href="../04-search-and-indexing/">04. Search &amp; Indexing</a>
+</li>
+<li>
+<a href="../05-caching-patterns/">05. Caching Patterns</a>
+</li>
+<li>
+<a href="../06-api-design/">06. API Design</a>
+</li>
+<li>
+<a href="../07-security-patterns/">07. Security Patterns</a>
+</li>
+<li>
+<a href="../08-rate-limiting/">08. Rate Limiting</a>
+</li>
+<li>
+<a href="../09-load-balancing/">09. Load Balancing</a>
+</li>
+<li>
+<a href="../10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+<li>
+<a href="../11-database-scaling/">11. Database Scaling</a>
+</li>
+<li>
+<a href="../12-message-queues/">12. Message Queues</a>
+</li>
+<li>
+<a href="../13-stream-processing/">13. Stream Processing</a>
+</li>
+<li>
+<a href="../14-observability/">14. Observability</a>
+</li>
+<li>
+<a href="../15-distributed-transactions/">15. Distributed Transactions</a>
+</li>
+<li class="active">
+<a href="./">16. Consensus Patterns</a>
+</li>
+</ul>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">DSA <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../dsa/01-two-pointers/">01. Two Pointers</a>
+</li>
+<li>
+<a href="../../dsa/02-sliding-window/">02. Sliding Window</a>
+</li>
+<li>
+<a href="../../dsa/03-hash-tables/">03. Hash Tables</a>
+</li>
+<li>
+<a href="../../dsa/04-linked-lists/">04. Linked Lists</a>
+</li>
+<li>
+<a href="../../dsa/05-stacks--queues/">05. Stacks &amp; Queues</a>
+</li>
+<li>
+<a href="../../dsa/06-trees-traversals/">06. Trees - Traversals</a>
+</li>
+<li>
+<a href="../../dsa/07-trees-recursion/">07. Trees - Recursion</a>
+</li>
+<li>
+<a href="../../dsa/08-binary-search/">08. Binary Search</a>
+</li>
+<li>
+<a href="../../dsa/09-heaps/">09. Heaps</a>
+</li>
+<li>
+<a href="../../dsa/10-graphs/">10. Graphs</a>
+</li>
+<li>
+<a href="../../dsa/11-union-find/">11. Union-Find</a>
+</li>
+<li>
+<a href="../../dsa/12-advanced-graphs/">12. Advanced Graphs</a>
+</li>
+<li>
+<a href="../../dsa/13-backtracking/">13. Backtracking</a>
+</li>
+<li>
+<a href="../../dsa/14-dynamic-programming-1d/">14. Dynamic Programming 1D</a>
+</li>
+<li>
+<a href="../../dsa/15-dynamic-programming-2d/">15. Dynamic Programming 2D</a>
+</li>
+<li>
+<a href="../../dsa/16-tries/">16. Tries</a>
+</li>
+<li>
+<a href="../../dsa/17-advanced-topics/">17. Advanced Topics</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+<a data-target="#mkdocs_search_modal" data-toggle="modal" href="#">
+<i class="fas fa-search"></i> Search
+                        </a>
+</li>
+<li>
+<a href="../15-distributed-transactions/" rel="prev">
+<i class="fas fa-arrow-left"></i> Previous
+                        </a>
+</li>
+<li>
+<a href="../../dsa/01-two-pointers/" rel="next">
+                            Next <i class="fas fa-arrow-right"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+<ul class="nav bs-sidenav">
+<li class="first-level active"><a href="#consensus-patterns">Consensus Patterns</a></li>
+<li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+<li class="second-level"><a href="#quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)</a></li>
+<li class="second-level"><a href="#beforeafter-why-consensus-matters">Before/After: Why Consensus Matters</a></li>
+<li class="second-level"><a href="#case-studies-consensus-in-the-wild">Case Studies: Consensus in the Wild</a></li>
+<li class="second-level"><a href="#core-concepts">Core Concepts</a></li>
+<li class="second-level"><a href="#debugging-challenges">Debugging Challenges</a></li>
+<li class="second-level"><a href="#decision-framework">Decision Framework</a></li>
+<li class="second-level"><a href="#practice">Practice</a></li>
+<li class="second-level"><a href="#review-checklist">Review Checklist</a></li>
+</ul>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="consensus-patterns">Consensus Patterns<a class="headerlink" href="#consensus-patterns" title="Permanent link">¶</a></h1>
+<blockquote>
+<p>Leader election, Raft consensus, distributed locks, and quorum-based systems</p>
+</blockquote>
+<hr/>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After implementing consensus patterns, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What is consensus in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Why do distributed systems need consensus?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy for leader election:</strong></p>
+<ul>
+<li>Example: "Leader election is like choosing a class president where..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What is the split-brain problem in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy for distributed locks:</strong></p>
+<ul>
+<li>Example: "A distributed lock is like a bathroom key that..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Why do we need quorums?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after practice]</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr/>
+<h2 id="quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)<a class="headerlink" href="#quick-quiz-do-before-implementing" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Test your intuition about distributed consensus without looking at code. Answer these, then verify after
+implementation.</p>
+<h3 id="complexity-predictions">Complexity Predictions<a class="headerlink" href="#complexity-predictions" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p><strong>Leader election with N nodes (Bully algorithm):</strong></p>
+<ul>
+<li>Time complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Message complexity: <span class="fill-in">[How many messages?]</span></li>
+<li>Verified after learning: <span class="fill-in">[Actual: O(?)]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Raft log replication to majority of N nodes:</strong></p>
+<ul>
+<li>Time complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>When is an entry committed: <span class="fill-in">[Your guess]</span></li>
+<li>Verified: <span class="fill-in">[Actual]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Quorum read with R nodes, N total nodes:</strong></p>
+<ul>
+<li>Time complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Space complexity per node: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Verified: <span class="fill-in">[Actual]</span></li>
+</ul>
+</li>
+</ol>
+<h3 id="scenario-predictions">Scenario Predictions<a class="headerlink" href="#scenario-predictions" title="Permanent link">¶</a></h3>
+<p><strong>Scenario 1:</strong> 5-node cluster, leader fails during log replication</p>
+<ul>
+<li><strong>What happens to uncommitted entries?</strong> <span class="fill-in">[Lost/Preserved - Why?]</span></li>
+<li><strong>How long until new leader elected?</strong> <span class="fill-in">[Depends on what?]</span></li>
+<li><strong>Can clients write during election?</strong> <span class="fill-in">[Yes/No - Why?]</span></li>
+</ul>
+<p><strong>Scenario 2:</strong> Network partition splits 5 nodes into {3 nodes, 2 nodes}</p>
+<ul>
+<li><strong>Which partition can elect a leader?</strong> <span class="fill-in">[3-node/2-node/Both - Why?]</span></li>
+<li><strong>What happens to writes in minority partition?</strong> <span class="fill-in">[Fill in]</span></li>
+<li><strong>Is this a split-brain scenario?</strong> <span class="fill-in">[Yes/No - Why?]</span></li>
+</ul>
+<p><strong>Scenario 3:</strong> Distributed lock with 30-second TTL, holder crashes after 10 seconds</p>
+<ul>
+<li><strong>When can another process acquire the lock?</strong> <span class="fill-in">[Immediately/After 20s/Never]</span></li>
+<li><strong>Why that timing?</strong> <span class="fill-in">[Fill in your reasoning]</span></li>
+<li><strong>What could go wrong?</strong> <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="trade-off-quiz">Trade-off Quiz<a class="headerlink" href="#trade-off-quiz" title="Permanent link">¶</a></h3>
+<p><strong>Question:</strong> When would leaderless (quorum) be BETTER than Raft for consensus?</p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in before implementation]</span></li>
+<li>Verified answer: <span class="fill-in">[Fill in after learning]</span></li>
+</ul>
+<p><strong>Question:</strong> What's the MAIN requirement for achieving strong consistency with quorums?</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> R + W &gt; N (where N is replication factor)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> R + W = N</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> R = W = majority</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> R = N, W = 1</li>
+</ul>
+<p>Verify after implementation: <span class="fill-in">[Which one(s)? Why?]</span></p>
+<p><strong>Question:</strong> Why use fencing tokens with distributed locks?</p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in before implementation]</span></li>
+<li>Verified answer: <span class="fill-in">[Fill in after implementing Pattern 3]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="beforeafter-why-consensus-matters">Before/After: Why Consensus Matters<a class="headerlink" href="#beforeafter-why-consensus-matters" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Compare naive distributed coordination vs proper consensus to understand the impact.</p>
+<h3 id="example-leader-election-without-consensus">Example: Leader Election Without Consensus<a class="headerlink" href="#example-leader-election-without-consensus" title="Permanent link">¶</a></h3>
+<p><strong>Problem:</strong> Multiple nodes need to coordinate on a single leader for a distributed database.</p>
+<h4 id="approach-1-naive-leader-election-no-consensus">Approach 1: Naive Leader Election (No Consensus)<a class="headerlink" href="#approach-1-naive-leader-election-no-consensus" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Naive approach - Highest ID claims leadership
+public class NaiveLeaderElection {
+    private int myId;
+    private int leaderId;
+
+    public void electLeader(Set&lt;Integer&gt; visibleNodes) {
+        // Just pick the highest ID we can see
+        int maxId = myId;
+        for (int nodeId : visibleNodes) {
+            if (nodeId &gt; maxId) {
+                maxId = nodeId;
+            }
+        }
+        leaderId = maxId;
+
+        if (leaderId == myId) {
+            System.out.println("I am the leader!");
+        }
+    }
+}</code></pre>
+<p><strong>What goes wrong: Network Partition Scenario</strong></p>
+<pre class="highlight"><code>Before partition:
+Cluster: [Node 1, Node 2, Node 3, Node 4, Node 5]
+Leader: Node 5 (highest ID)
+
+After network partition:
+Partition A: [Node 1, Node 2, Node 3]
+Partition B: [Node 4, Node 5]
+
+Partition A thinks: Node 3 is leader (highest visible)
+Partition B thinks: Node 5 is leader (highest visible)
+
+SPLIT-BRAIN: Two leaders accepting writes simultaneously!
+
+Result:
+
+- Data divergence (inconsistent state)
+- Lost updates when partition heals
+- Violated uniqueness guarantee</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(N) to scan visible nodes</li>
+<li>Space: O(1)</li>
+<li>
+<p>Problem: No consensus, <strong>split-brain during partition!</strong></p>
+</li>
+<li>
+<p>Failure rate: ~50% in networks with partitions</p>
+</li>
+</ul>
+<h4 id="approach-2-raft-consensus-safe-leader-election">Approach 2: Raft Consensus (Safe Leader Election)<a class="headerlink" href="#approach-2-raft-consensus-safe-leader-election" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Raft approach - Majority vote required
+public class RaftLeaderElection {
+    private int currentTerm;
+    private int votedFor;
+    private int myId;
+
+    public boolean electLeader(Set&lt;Integer&gt; allNodes) {
+        currentTerm++;
+        votedFor = myId;
+
+        int votesReceived = 1; // Vote for self
+        int majoritySize = (allNodes.size() / 2) + 1;
+
+        // Request votes from all nodes
+        for (int nodeId : allNodes) {
+            if (nodeId != myId &amp;&amp; requestVote(nodeId, currentTerm)) {
+                votesReceived++;
+            }
+        }
+
+        // Only become leader if MAJORITY votes received
+        if (votesReceived &gt;= majoritySize) {
+            System.out.println("I am leader with " + votesReceived + " votes");
+            return true;
+        }
+        return false;
+    }
+}</code></pre>
+<p><strong>Same network partition with Raft:</strong></p>
+<pre class="highlight"><code>After network partition:
+Partition A: [Node 1, Node 2, Node 3] - 3 nodes, majority = 2
+Partition B: [Node 4, Node 5]         - 2 nodes, majority = 2
+
+Partition A attempts election:
+
+- Node 3 requests votes from Node 1, Node 2 (both visible)
+- Node 3 gets 3 votes total → SUCCESS (3 ≥ 2 majority)
+- Node 3 becomes leader ✓
+
+Partition B attempts election:
+
+- Node 5 requests votes from Node 4 (only visible node)
+- Node 5 gets 2 votes total → FAIL (2 &lt; 3 majority of 5 total)
+- No leader elected ✗
+
+Result:
+
+- Only ONE leader (Node 3)
+- Partition B cannot accept writes (no leader)
+- Partition A continues operating safely
+- No split-brain! ✓
+- When partition heals, Node 5 recognizes Node 3 as leader</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(N) to request votes</li>
+<li>Space: O(1)</li>
+<li>
+<p>Safety: <strong>Prevents split-brain through majority requirement</strong></p>
+</li>
+<li>
+<p>Availability: Minority partition cannot elect leader (trade-off for safety)</p>
+</li>
+</ul>
+<h4 id="performance-comparison-failure-scenarios">Performance Comparison: Failure Scenarios<a class="headerlink" href="#performance-comparison-failure-scenarios" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Naive Election</th>
+<th>Raft Consensus</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Network partition</td>
+<td>Split-brain (2 leaders)</td>
+<td>Single leader in majority</td>
+</tr>
+<tr>
+<td>Node failure</td>
+<td>Immediate re-election</td>
+<td>Election only if leader fails</td>
+</tr>
+<tr>
+<td>Data consistency</td>
+<td>Violated during partition</td>
+<td>Preserved (CP in CAP)</td>
+</tr>
+<tr>
+<td>Write availability</td>
+<td>Both partitions accept</td>
+<td>Only majority partition</td>
+</tr>
+</tbody>
+</table>
+<h4 id="why-does-raft-work">Why Does Raft Work?<a class="headerlink" href="#why-does-raft-work" title="Permanent link">¶</a></h4>
+<p><strong>Key insight: The Majority Principle</strong></p>
+<p>With 5 nodes, majority = 3:</p>
+<ul>
+<li>Any two majorities must overlap by at least 1 node</li>
+<li>That overlapping node prevents conflicting decisions</li>
+<li>Example: {Node 1, 2, 3} and {Node 3, 4, 5} both contain Node 3</li>
+</ul>
+<pre class="highlight"><code>Election term visualization:
+Term 1: Node 5 is leader (got votes from 1, 3, 5)
+Network partition occurs
+Term 2: Node 3 attempts election
+        - Gets votes from 1, 2, 3 (majority) → SUCCESS
+        - Node 5 in minority cannot get majority → FAILS
+Term 3: When partition heals, Node 5 sees Node 3 has higher term → steps down</code></pre>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>Why does majority prevent split-brain? <span class="fill-in">[Your answer]</span></li>
+<li>What's the trade-off between safety and availability? <span class="fill-in">[Your answer]</span></li>
+<li>Why can't the minority partition elect a leader? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<h3 id="real-world-impact">Real-World Impact<a class="headerlink" href="#real-world-impact" title="Permanent link">¶</a></h3>
+<p><strong>Without consensus (naive approach):</strong></p>
+<ul>
+<li>Google Cloud DNS split-brain (2015): Traffic routed to wrong servers</li>
+<li>MongoDB 2.4 split-brain: Accepted conflicting writes, data corruption</li>
+<li>Recovery time: Hours to manually resolve conflicts</li>
+</ul>
+<p><strong>With consensus (Raft/Paxos):</strong></p>
+<ul>
+<li>etcd (Kubernetes): Thousands of clusters, zero split-brain incidents</li>
+<li>Consul: Service discovery with guaranteed consistency</li>
+<li>Recovery time: Seconds (automatic election)</li>
+</ul>
+<p><strong>Your calculation:</strong> For a 7-node cluster with network partition into {4, 3}:</p>
+<ul>
+<li>Naive approach: <span class="fill-in">_____</span> leaders elected (how many?)</li>
+<li>Raft consensus: <span class="fill-in">_____</span> leader(s) elected (in which partition?)</li>
+<li>Which partition can serve writes: <span class="fill-in">_____</span></li>
+</ul>
+<hr/>
+<h2 id="case-studies-consensus-in-the-wild">Case Studies: Consensus in the Wild<a class="headerlink" href="#case-studies-consensus-in-the-wild" title="Permanent link">¶</a></h2>
+<h3 id="kubernetes-cluster-coordination-with-etcd-raft">Kubernetes: Cluster Coordination with etcd (Raft)<a class="headerlink" href="#kubernetes-cluster-coordination-with-etcd-raft" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> Raft for consistent state replication.</li>
+<li><strong>How it works:</strong> Kubernetes, the container orchestration system, needs to reliably store the state of the entire
+  cluster: which nodes are active, what pods should be running, what secrets are available, etc. It uses <strong>etcd</strong>, a
+  distributed key-value store, for this. <code>etcd</code> forms a small cluster (typically 3 or 5 nodes) and uses the <strong>Raft</strong>
+  consensus algorithm to ensure that all nodes have a consistent, replicated log of all changes. The Raft leader
+  receives all writes, and a write is only considered "committed" when it has been replicated to a majority of the
+  nodes.</li>
+<li><strong>Key Takeaway:</strong> Raft provides the safety and consistency needed for critical infrastructure components. By requiring
+  a majority quorum for all decisions, it can tolerate node failures while preventing split-brain scenarios and
+  maintaining a consistent view of the system state.</li>
+</ul>
+<h3 id="googles-chubby-distributed-locking-with-paxos">Google's Chubby: Distributed Locking with Paxos<a class="headerlink" href="#googles-chubby-distributed-locking-with-paxos" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> Paxos for distributed locking and leader election.</li>
+<li><strong>How it works:</strong> Inside Google, many distributed systems need to elect a single primary or "leader" from a group of
+  identical replicas. They use a service called <strong>Chubby</strong>. A group of service replicas will attempt to acquire an
+  exclusive lock in Chubby. The one that succeeds becomes the leader. All other replicas become standbys, watching the
+  lock. If the leader crashes and its session with Chubby expires, the lock is released, and the standby replicas are
+  notified so they can attempt to acquire the lock and elect a new leader.</li>
+<li><strong>Key Takeaway:</strong> Consensus algorithms provide the foundation for reliable leader election, a fundamental pattern in
+  distributed systems. By using a consistent lock service, systems can ensure that there is only one active leader at
+  any given time, preventing data corruption and split-brain issues.</li>
+</ul>
+<h3 id="apache-kafka-cluster-management-with-zookeeper">Apache Kafka: Cluster Management with ZooKeeper<a class="headerlink" href="#apache-kafka-cluster-management-with-zookeeper" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> Consensus for metadata management and leader election.</li>
+<li><strong>How it works:</strong> Apache Kafka uses <strong>Apache ZooKeeper</strong> (which uses a Paxos-like protocol called Zab) to manage the
+  state of the Kafka cluster. ZooKeeper is responsible for tracking which brokers are alive, which broker is the "
+  controller" (the leader for the whole cluster), the configuration of all topics, and which replica is the leader for
+  each topic partition. If a broker fails, the controller (elected via ZooKeeper) is responsible for electing new
+  partition leaders from the available replicas.</li>
+<li><strong>Key Takeaway:</strong> Many distributed data systems (like Kafka, Hadoop, and HBase) delegate the complex task of consensus
+  to a dedicated coordination service like ZooKeeper. This separates the concern of data processing from the difficult
+  problem of managing distributed state and leader election.</li>
+</ul>
+<hr/>
+<h2 id="core-concepts">Core Concepts<a class="headerlink" href="#core-concepts" title="Permanent link">¶</a></h2>
+<h3 id="pattern-1-leader-election">Pattern 1: Leader Election<a class="headerlink" href="#pattern-1-leader-election" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Distributed algorithm to elect a single leader node from a cluster of nodes, ensuring only one leader
+exists at any time.</p>
+<p><strong>Use case:</strong> Distributed databases, coordination services, master-worker systems.</p>
+<p><strong>Key Properties:</strong></p>
+<ul>
+<li><strong>Safety</strong>: At most one leader at any time</li>
+<li><strong>Liveness</strong>: Eventually a leader is elected if majority is available</li>
+<li><strong>Agreement</strong>: All nodes agree on who the leader is</li>
+</ul>
+<p><strong>Common Algorithms:</strong></p>
+<p><strong>1. Bully Algorithm</strong></p>
+<ul>
+<li>Highest ID node becomes leader</li>
+<li>Node contacts all higher-ID nodes; if no response, declares itself leader</li>
+<li>Simple but can cause message storms</li>
+<li>Time: O(N²) messages in worst case</li>
+</ul>
+<p><strong>2. Ring Algorithm</strong></p>
+<ul>
+<li>Nodes organized in logical ring</li>
+<li>Election message passes around ring collecting IDs</li>
+<li>Node with highest ID becomes leader</li>
+<li>Time: O(N) messages, but slower latency</li>
+</ul>
+<p><strong>3. Raft Leader Election</strong> (see Pattern 2)</p>
+<ul>
+<li>Term-based elections with majority voting</li>
+<li>Prevents split-brain through quorum</li>
+<li>Production-ready (etcd, Consul)</li>
+</ul>
+<p><strong>Simplified Example:</strong></p>
+<pre class="highlight"><code class="language-java">// High-level API - implementation details abstracted
+public interface LeaderElection {
+    // Start election process
+    void startElection(int nodeId);
+
+    // Get current leader (or -1 if none)
+    int getLeader();
+
+    // Check if this node is the leader
+    boolean isLeader(int nodeId);
+
+    // Detect leader failure via heartbeat timeout
+    void checkLeaderHealth(int nodeId);
+}
+
+// Typical usage
+LeaderElection election = new BullyAlgorithm(nodeIds, heartbeatTimeout);
+election.startElection(myNodeId);
+
+if (election.isLeader(myNodeId)) {
+    // I'm the leader, handle writes
+    handleWrites();
+} else {
+    // I'm a follower, forward to leader
+    forwardToLeader(election.getLeader());
+}</code></pre>
+<p><strong>Failure Handling:</strong></p>
+<pre class="highlight"><code>Initial state: Node 5 is leader
+Node 5 fails (heartbeat timeout)
+Node 4 detects failure → starts election
+Node 4 sends election messages to Node 5 (no response)
+Node 4 declares itself leader
+Node 4 broadcasts victory to all nodes
+New state: Node 4 is leader</code></pre>
+<hr/>
+<h3 id="pattern-2-raft-consensus-algorithm">Pattern 2: Raft Consensus Algorithm<a class="headerlink" href="#pattern-2-raft-consensus-algorithm" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Consensus algorithm that ensures replicated log consistency across distributed nodes through leader
+election and log replication.</p>
+<p><strong>Use case:</strong> Distributed databases (etcd, Consul), replicated state machines, configuration management.</p>
+<p><strong>Key Components:</strong></p>
+<ol>
+<li><strong>Leader Election with Terms</strong></li>
+<li>Each election cycle has a term number</li>
+<li>Candidate requests votes from all nodes</li>
+<li>Requires majority to become leader</li>
+<li>
+<p>Prevents split-brain through quorum</p>
+</li>
+<li>
+<p><strong>Log Replication (AppendEntries RPC)</strong></p>
+</li>
+<li>Leader appends entries to local log</li>
+<li>Replicates to followers</li>
+<li>Commits when majority acknowledges</li>
+<li>
+<p>Guarantees: committed entries never lost</p>
+</li>
+<li>
+<p><strong>Safety Properties</strong></p>
+</li>
+<li><strong>Election Safety</strong>: At most one leader per term</li>
+<li><strong>Leader Append-Only</strong>: Leader never overwrites/deletes entries</li>
+<li><strong>Log Matching</strong>: If two logs contain entry with same index/term, all preceding entries are identical</li>
+<li><strong>Leader Completeness</strong>: If entry committed in term T, it will be present in leaders of all future terms</li>
+<li><strong>State Machine Safety</strong>: If a server applies log entry at index i, no other server will apply different entry at i</li>
+</ol>
+<p><strong>How Raft Works:</strong></p>
+<pre class="highlight"><code>Phase 1: Leader Election
+
+- Follower timeout → becomes Candidate
+- Candidate increments term, votes for self
+- Requests votes from all nodes
+- If majority grants votes → becomes Leader
+- If receives heartbeat from valid leader → becomes Follower
+- If election timeout → starts new election
+
+Phase 2: Log Replication
+
+- Client sends command to Leader
+- Leader appends to local log
+- Leader sends AppendEntries to all Followers
+- Followers append entries to their logs
+- Once majority acknowledges → Leader commits entry
+- Leader notifies Followers of commit via next AppendEntries
+
+Phase 3: Safety
+
+- New leader contains all committed entries (election restriction)
+- Leader never commits entries from previous terms directly
+- Only commits when majority has current-term entry</code></pre>
+<p><strong>Simplified API:</strong></p>
+<pre class="highlight"><code class="language-java">// High-level Raft interface
+public interface RaftConsensus {
+    // Start election (becomes candidate)
+    void startElection(int nodeId);
+
+    // Append command to replicated log
+    boolean appendEntry(int leaderId, String command);
+
+    // Get current leader
+    int getLeader();
+
+    // Get committed log entries
+    List&lt;LogEntry&gt; getCommittedEntries(int nodeId);
+}
+
+// Typical usage
+RaftConsensus raft = new RaftImpl(nodeIds);
+
+// Elect a leader
+raft.startElection(1);
+int leader = raft.getLeader();
+
+// Replicate commands
+raft.appendEntry(leader, "SET x=1");
+raft.appendEntry(leader, "DELETE y");
+
+// All nodes will have same committed log
+List&lt;LogEntry&gt; node1Log = raft.getCommittedEntries(1);
+List&lt;LogEntry&gt; node2Log = raft.getCommittedEntries(2);
+// node1Log == node2Log (same order, same entries)</code></pre>
+<p><strong>Log Replication Flow:</strong></p>
+<pre class="highlight"><code>Client → Leader: "SET x=1"
+
+Leader state:
+  term: 2
+  log: [...]
+  commitIndex: 5
+
+Step 1: Leader appends to local log
+  log: [..., Entry(term=2, index=6, cmd="SET x=1")]
+
+Step 2: Leader sends AppendEntries to Followers
+  → Follower 2: AppendEntries(term=2, prevIndex=5, entries=[Entry(6)])
+  → Follower 3: AppendEntries(term=2, prevIndex=5, entries=[Entry(6)])
+  → Follower 4: AppendEntries(term=2, prevIndex=5, entries=[Entry(6)])
+  → Follower 5: AppendEntries(term=2, prevIndex=5, entries=[Entry(6)])
+
+Step 3: Followers append and ACK
+  Follower 2: ✓ ACK
+  Follower 3: ✓ ACK
+  Follower 4: ✗ (down)
+  Follower 5: ✗ (partition)
+
+Step 4: Leader receives majority (Leader + 2 followers = 3/5)
+  commitIndex: 6 (committed!)
+
+Step 5: Leader notifies followers of commit in next AppendEntries
+  All nodes apply "SET x=1" to state machine</code></pre>
+<p><strong>Key Insight: Log Matching Property</strong></p>
+<pre class="highlight"><code>If two entries in different logs have same index and term:
+
+1. They store the same command
+2. All preceding entries are identical
+
+Why? Leader creates at most one entry per index per term,
+and entries are never moved or deleted (append-only).
+
+This property enables Raft to keep logs consistent with simple checks.</code></pre>
+<hr/>
+<h3 id="pattern-3-distributed-locks">Pattern 3: Distributed Locks<a class="headerlink" href="#pattern-3-distributed-locks" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Mechanism to ensure mutual exclusion across distributed systems, preventing concurrent access to shared
+resources.</p>
+<p><strong>Use case:</strong> Job schedulers, resource allocation, preventing duplicate processing.</p>
+<p><strong>Key Features:</strong></p>
+<ol>
+<li><strong>Time-To-Live (TTL):</strong></li>
+<li>Locks automatically expire after timeout</li>
+<li>Prevents deadlock if lock holder crashes</li>
+<li>
+<p>Trade-off: Too short = premature release, too long = delayed recovery</p>
+</li>
+<li>
+<p><strong>Fencing Tokens:</strong></p>
+</li>
+<li>Monotonically increasing token per lock acquisition</li>
+<li>Prevents stale lock holders from corrupting data</li>
+<li>
+<p>Resource validates token before accepting operations</p>
+</li>
+<li>
+<p><strong>Lock Renewal:</strong></p>
+</li>
+<li>Extend lease before expiration</li>
+<li>Allows long-running operations</li>
+<li>Heartbeat mechanism to prove liveness</li>
+</ol>
+<p><strong>How Distributed Locks Work:</strong></p>
+<pre class="highlight"><code>Lock Lifecycle:
+
+1. Try Acquire:
+   Client → Lock Service: "Lock resource X for client A"
+
+   If unlocked or expired:
+     Generate fencing token (counter++)
+     Store: {resource: X, owner: A, token: 123, expires: now+TTL}
+     Return: Lock{token: 123}
+
+   If locked by another owner:
+     Return: null (acquisition failed)
+
+2. Hold Lock:
+   Client performs work
+   Optionally renew before expiration:
+     Client → Lock Service: "Renew X with token 123"
+     If valid: Update expires = now + TTL
+
+3. Release Lock:
+   Client → Lock Service: "Release X with token 123"
+   Verify owner and token match
+   Delete lock entry
+
+4. Auto-Expiration (if crash):
+   Lock expires at TTL
+   Next client can acquire</code></pre>
+<p><strong>Fencing Token Pattern:</strong></p>
+<pre class="highlight"><code>Problem: Lock holder's work outlives the lock
+
+Scenario WITHOUT fencing tokens:
+  t0: Client A acquires lock (TTL=10s), starts slow write
+  t10: Lock expires (A still writing)
+  t11: Client B acquires lock, starts fast write
+  t12: Client B completes write
+  t15: Client A completes write ← Overwrites B's data!
+
+Solution WITH fencing tokens:
+  t0: Client A acquires lock → token=100
+  t10: Lock expires
+  t11: Client B acquires lock → token=101
+  t12: Client B writes with token=101 → SUCCESS
+  t15: Client A writes with token=100 → REJECTED (stale token!)
+
+Resource checks: token &gt;= last_accepted_token</code></pre>
+<p><strong>Example Flow:</strong></p>
+<pre class="highlight"><code>Job Scheduler with Distributed Locks:
+
+Job: "Send daily email"
+Schedulers: A, B, C (for redundancy)
+
+Scheduler A:
+  1. tryAcquire("job:daily-email", "scheduler-A")
+     → Lock{token: 456, expires: now+30s}
+
+  2. Execute job (15 seconds)
+     - Fetch recipients
+     - Generate emails
+     - Send emails
+
+  3. release("job:daily-email", token=456)
+     → Success
+
+Scheduler B (parallel attempt):
+  1. tryAcquire("job:daily-email", "scheduler-B")
+     → null (already locked by A)
+
+  2. Skip job (A is handling it)
+
+Result: Email sent exactly once ✓</code></pre>
+<p><strong>High-Level API:</strong></p>
+<pre class="highlight"><code class="language-java">// Simple distributed lock interface
+public interface DistributedLock {
+    // Try to acquire lock immediately
+    Lock tryAcquire(String resourceId, String ownerId);
+
+    // Try with custom TTL
+    Lock tryAcquire(String resourceId, String ownerId, long ttlMs);
+
+    // Blocking acquire with timeout
+    Lock acquire(String resourceId, String ownerId, long timeoutMs);
+
+    // Release lock
+    boolean release(String resourceId, String ownerId, long fencingToken);
+
+    // Extend lease
+    boolean renew(String resourceId, String ownerId, long fencingToken);
+
+    // Check if locked
+    boolean isLocked(String resourceId);
+}
+
+// Typical usage with try-finally
+DistributedLock lockService = new RedisLock();
+
+Lock lock = lockService.tryAcquire("resource:123", "worker-1", 30000);
+if (lock != null) {
+    try {
+        // Perform exclusive work
+        processResource();
+
+        // Optionally renew if work takes longer
+        if (needMoreTime()) {
+            lockService.renew("resource:123", "worker-1", lock.fencingToken);
+        }
+    } finally {
+        lockService.release("resource:123", "worker-1", lock.fencingToken);
+    }
+} else {
+    // Resource locked by another worker, skip or retry later
+    System.out.println("Resource busy");
+}</code></pre>
+<p><strong>Lock Acquisition Strategies:</strong></p>
+<p><strong>1. Non-blocking (tryAcquire):</strong>
+<pre class="highlight"><code>Use when: Fast failure preferred
+Pattern: Try once, fail immediately if unavailable
+
+lockService.tryAcquire("job:x", "worker-1");
+→ null → Skip job, another worker handling it</code></pre></p>
+<p><strong>2. Blocking with timeout (acquire):</strong>
+<pre class="highlight"><code>Use when: Willing to wait briefly
+Pattern: Retry with backoff until timeout
+
+lockService.acquire("job:x", "worker-1", 5000);  // 5s timeout
+→ Retries every 50-100ms
+→ Returns lock or null after timeout</code></pre></p>
+<p><strong>3. Lease renewal:</strong>
+<pre class="highlight"><code>Use when: Long-running tasks
+Pattern: Periodic heartbeat to extend lease
+
+Lock lock = lockService.acquire("job:x", "worker-1", 30000);
+ScheduledExecutorService renewalService = ...;
+renewalService.scheduleAtFixedRate(() -&gt; {
+    lockService.renew("job:x", "worker-1", lock.fencingToken);
+}, 10, 10, TimeUnit.SECONDS);  // Renew every 10s (TTL=30s)</code></pre></p>
+<p><strong>Common Pitfalls:</strong></p>
+<p><strong>1. Deadlock from crashed holder:</strong>
+<pre class="highlight"><code>Problem: Client crashes while holding lock
+
+Without TTL:
+  Lock held forever → Deadlock
+
+With TTL:
+  Lock expires after 30s
+  Next client can acquire
+  System self-heals ✓</code></pre></p>
+<p><strong>2. Split-brain without fencing:</strong>
+<pre class="highlight"><code>Problem: GC pause longer than TTL
+
+Client A:
+  Acquires lock
+  GC pause (40s) ← Longer than TTL!
+  Resumes, thinks it still has lock
+  Writes data ← DANGER!
+
+Client B:
+  Lock expired, acquires new lock
+  Writes data
+
+Result: Conflicting writes!
+
+Solution: Use fencing tokens
+  Client A write rejected (stale token)</code></pre></p>
+<p><strong>3. Clock skew:</strong>
+<pre class="highlight"><code>Problem: Distributed clocks not synchronized
+
+Node 1 clock: 12:00:00
+Node 2 clock: 12:00:30 (30s ahead!)
+
+Lock expires at: 12:00:20
+Node 1: Still valid (20s left)
+Node 2: Expired! (in the past)
+
+Solution:
+
+- Use relative time (TTL in milliseconds, not absolute timestamps)
+- Single source of truth (lock service's clock)
+- Or use logical clocks (Lamport timestamps)</code></pre></p>
+<p><strong>Implementation Options:</strong></p>
+<p><strong>Redis (Redlock algorithm):</strong>
+<pre class="highlight"><code>SET resource:lock "owner-id" NX PX 30000
+
+NX = only if not exists
+PX = expire after milliseconds
+
+Pros: Fast, simple
+Cons: Single point of failure (unless Redis cluster)</code></pre></p>
+<p><strong>ZooKeeper (ephemeral nodes):</strong>
+<pre class="highlight"><code>create /locks/resource-1 "owner-id" EPHEMERAL
+
+Node auto-deleted if client session ends
+
+Pros: Reliable, automatic cleanup
+Cons: Higher latency, more complex</code></pre></p>
+<p><strong>etcd (lease-based):</strong>
+<pre class="highlight"><code>
+1. Create lease (TTL=30s)
+2. Put key with lease
+3. Keep-alive to renew lease
+
+Pros: Lease abstraction, Raft consensus
+Cons: More moving parts</code></pre></p>
+<p><strong>Time Complexity:</strong></p>
+<ul>
+<li>Acquire: O(1) - single operation</li>
+<li>Release: O(1) - single operation</li>
+<li>Renew: O(1) - update expiration</li>
+<li>Cleanup: O(N) - scan expired locks (background)</li>
+</ul>
+<hr/>
+<h3 id="pattern-4-quorum-based-consensus">Pattern 4: Quorum-Based Consensus<a class="headerlink" href="#pattern-4-quorum-based-consensus" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Achieve consistency by requiring a majority (quorum) of nodes to agree on reads and writes.</p>
+<p><strong>Use case:</strong> Distributed databases (Cassandra, DynamoDB), multi-datacenter replication, high availability systems.</p>
+<p><strong>Key Properties:</strong></p>
+<ol>
+<li><strong>Quorum Requirement (R + W &gt; N):</strong></li>
+<li>R = Read quorum (nodes to read from)</li>
+<li>W = Write quorum (nodes to write to)</li>
+<li>N = Replication factor (total copies)</li>
+<li>
+<p>When R + W &gt; N, guarantees strong consistency (overlap ensures latest value seen)</p>
+</li>
+<li>
+<p><strong>Versioning:</strong></p>
+</li>
+<li>Each write tagged with version (timestamp or vector clock)</li>
+<li>Enables conflict detection and resolution</li>
+<li>
+<p>Client receives latest version on read</p>
+</li>
+<li>
+<p><strong>Tunable Consistency:</strong></p>
+</li>
+<li>Adjust R and W based on workload</li>
+<li>Read-heavy: R=1, W=N (fast reads, slow writes)</li>
+<li>Write-heavy: R=N, W=1 (fast writes, slow reads)</li>
+<li>Strong consistency: R+W &gt; N (most common: R=W=majority)</li>
+</ol>
+<p><strong>How Quorum Consensus Works:</strong></p>
+<pre class="highlight"><code>Cluster: 5 nodes, Replication Factor (N) = 3
+Configuration: R=2, W=2 (R+W=4 &gt; N=3, strong consistency)
+
+Key "user:123" stored on nodes: [1, 3, 5] (consistent hashing)</code></pre>
+<p><strong>Quorum Write Flow:</strong></p>
+<pre class="highlight"><code>Client → Coordinator: write("user:123", "Alice")
+
+Step 1: Select W nodes for write
+  Coordinator selects 2 of 3 replicas: [Node 1, Node 3]
+
+Step 2: Create versioned value
+  value = {
+    data: "Alice",
+    version: {timestamp: 1234567890, vectorClock: v5}
+  }
+
+Step 3: Write to W nodes concurrently
+  → Node 1: write(key, value) → ACK
+  → Node 3: write(key, value) → ACK
+
+Step 4: Wait for W=2 acknowledgments
+  Received 2 ACKs → Write successful!
+  (Even though Node 5 wasn't written, quorum satisfied)
+
+Step 5: Return success to client
+  Write latency: max(Node 1, Node 3 latency) ≈ 10-50ms</code></pre>
+<p><strong>Quorum Read Flow with Conflict Resolution:</strong></p>
+<pre class="highlight"><code>Client → Coordinator: read("user:123")
+
+Step 1: Select R nodes for read
+  Coordinator selects 2 of 3 replicas: [Node 1, Node 5]
+
+Step 2: Read from R nodes concurrently
+  → Node 1: value={data:"Alice", version:v5}
+  → Node 5: value={data:"Bob", version:v3} (stale!)
+
+Step 3: Wait for R=2 responses
+  Received responses from Node 1 and Node 5
+
+Step 4: Resolve conflicts (pick latest version)
+  Compare versions:
+    Node 1: v5 (latest)
+    Node 5: v3 (stale)
+
+  Winner: Node 1's value "Alice" (version v5)
+
+Step 5: Optional read-repair
+  Coordinator sends v5 to Node 5 to update stale data
+  (Background operation, doesn't block client)
+
+Step 6: Return latest value to client
+  Client receives: "Alice"
+  Read latency: max(Node 1, Node 5 latency) ≈ 5-20ms</code></pre>
+<p><strong>Why R + W &gt; N Guarantees Consistency:</strong></p>
+<pre class="highlight"><code>N = 3 replicas: [Node 1, Node 2, Node 3]
+R = 2, W = 2 (R + W = 4 &gt; N = 3)
+
+Write to nodes [1, 2] → At least one has latest value
+Read from nodes [2, 3] → At least one has latest value
+
+Overlap: Node 2 appears in both sets!
+This guarantees reader sees latest write.
+
+If R + W ≤ N:
+  Write [1, 2], Read [3, 4] → No overlap! Stale read possible</code></pre>
+<p><strong>High-Level API:</strong></p>
+<pre class="highlight"><code class="language-java">// Simple quorum-based data store interface
+public interface QuorumStore {
+    // Write value with quorum
+    boolean write(String key, String value);
+
+    // Read value with quorum
+    VersionedValue read(String key);
+
+    // Configure quorum sizes
+    void setQuorum(int readQuorum, int writeQuorum);
+
+    // Check if value exists
+    boolean exists(String key);
+}
+
+// Typical usage
+QuorumStore store = new QuorumStore(
+    numNodes: 5,
+    replicationFactor: 3,
+    readQuorum: 2,
+    writeQuorum: 2
+);
+
+// Write data
+store.write("session:abc123", "user-data");
+
+// Read data (gets latest version)
+VersionedValue value = store.read("session:abc123");
+System.out.println("Value: " + value.data);
+System.out.println("Version: " + value.version);</code></pre>
+<p><strong>Quorum Configurations:</strong></p>
+<p><strong>Configuration 1: Strong Consistency (R=2, W=2, N=3)</strong>
+<pre class="highlight"><code>Use case: Financial transactions, inventory management
+R + W = 4 &gt; N = 3 ✓
+Trade-off:
+  + Always read latest write
+  + Tolerate 1 node failure
+  - Higher latency (wait for 2 nodes)</code></pre></p>
+<p><strong>Configuration 2: Read-Optimized (R=1, W=3, N=3)</strong>
+<pre class="highlight"><code>Use case: Product catalog, content delivery
+R + W = 4 &gt; N = 3 ✓
+Trade-off:
+  + Fast reads (only 1 node)
+  - Slow writes (all 3 nodes)
+  + Still strongly consistent</code></pre></p>
+<p><strong>Configuration 3: Write-Optimized (R=3, W=1, N=3)</strong>
+<pre class="highlight"><code>Use case: Write-heavy logging, telemetry
+R + W = 4 &gt; N = 3 ✓
+Trade-off:
+  + Fast writes (only 1 node)
+  - Slow reads (all 3 nodes)
+  + Still strongly consistent</code></pre></p>
+<p><strong>Configuration 4: Eventual Consistency (R=1, W=1, N=3)</strong>
+<pre class="highlight"><code>Use case: Shopping cart, user preferences
+R + W = 2 ≤ N = 3 ✗
+Trade-off:
+  + Fastest reads and writes
+  - May read stale data temporarily
+  - Eventually consistent (not strongly consistent)</code></pre></p>
+<p><strong>Advanced Techniques:</strong></p>
+<p><strong>1. Read Repair (Fix Stale Replicas):</strong>
+<pre class="highlight"><code>During quorum read, if coordinator detects stale replicas:
+
+Read responses:
+  Node 1: version v5 (latest)
+  Node 2: version v3 (stale)
+
+Coordinator triggers read-repair:
+  → Node 2: write(key, value with v5)
+
+Next read will see consistent data across replicas
+Happens in background, doesn't block client</code></pre></p>
+<p><strong>2. Hinted Handoff (Handle Temporary Failures):</strong>
+<pre class="highlight"><code>Write fails because target node is down:
+
+Intended replicas: [Node 1, Node 2, Node 3]
+Node 2 is down!
+
+Coordinator stores "hint" on Node 4:
+  hint = {
+    target: Node 2,
+    key: "user:123",
+    value: "Alice",
+    version: v5
+  }
+
+When Node 2 recovers:
+  Node 4 replays hint → Node 2 gets missing write
+  System self-heals without manual intervention</code></pre></p>
+<p><strong>3. Anti-Entropy (Periodic Synchronization):</strong>
+<pre class="highlight"><code>Background process compares replicas:
+
+Every 10 minutes:
+  1. Compare Merkle trees of replicas
+  2. Identify differences
+  3. Synchronize stale data
+
+Ensures eventual consistency even if read-repair missed
+Handles network partitions and prolonged node failures</code></pre></p>
+<p><strong>Implementation Examples:</strong></p>
+<p><strong>Cassandra (Apache):</strong>
+<pre class="highlight"><code>Configuration:
+  CREATE KEYSPACE store WITH replication = {
+    'class': 'SimpleStrategy',
+    'replication_factor': 3
+  };
+
+Write:
+  INSERT INTO users (id, name) VALUES ('123', 'Alice')
+  USING CONSISTENCY QUORUM;  // W = majority
+
+Read:
+  SELECT * FROM users WHERE id='123'
+  USING CONSISTENCY QUORUM;  // R = majority
+
+Features:
+  - Tunable consistency per query
+  - Automatic read-repair
+  - Hinted handoff
+  - Multi-datacenter replication</code></pre></p>
+<p><strong>DynamoDB (AWS):</strong>
+<pre class="highlight"><code>Configuration:
+  Table: users
+  Read Capacity: 100 RCUs
+  Write Capacity: 50 WCUs
+
+Write:
+  put_item(
+    TableName='users',
+    Item={'id': '123', 'name': 'Alice'},
+    ConsistentRead=True  // W = majority
+  )
+
+Read:
+  get_item(
+    TableName='users',
+    Key={'id': '123'},
+    ConsistentRead=True  // R = majority (strong consistency)
+  )
+
+Features:
+  - Eventually consistent reads by default
+  - Strongly consistent reads on demand
+  - Automatic scaling and replication
+  - Global tables for multi-region</code></pre></p>
+<p><strong>Riak (Basho):</strong>
+<pre class="highlight"><code>Configuration:
+  bucket-type create users '{"props":{"n_val":3}}'
+
+Write with custom quorum:
+  PUT /types/users/buckets/sessions/keys/abc123
+  Header: X-Riak-W: 2  // Write quorum
+
+Read with custom quorum:
+  GET /types/users/buckets/sessions/keys/abc123
+  Header: X-Riak-R: 2  // Read quorum
+
+Features:
+  - Per-request quorum tuning
+  - Vector clocks for versioning
+  - Conflict resolution strategies
+  - Active anti-entropy</code></pre></p>
+<p><strong>Time Complexity:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Complexity</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Write</td>
+<td>O(W)</td>
+<td>W = write quorum, parallel writes</td>
+</tr>
+<tr>
+<td>Read</td>
+<td>O(R)</td>
+<td>R = read quorum, parallel reads</td>
+</tr>
+<tr>
+<td>Conflict resolution</td>
+<td>O(R)</td>
+<td>Compare R versions</td>
+</tr>
+<tr>
+<td>Node selection</td>
+<td>O(1)</td>
+<td>Consistent hashing lookup</td>
+</tr>
+<tr>
+<td>Read repair</td>
+<td>O(N - R)</td>
+<td>Update stale replicas in background</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Space Complexity:</strong></p>
+<ul>
+<li>Per-node storage: O(K / N) where K = total keys, N = replication factor</li>
+<li>Version metadata: O(K) per node (small overhead)</li>
+<li>Hint storage: O(H) where H = pending hints (temporary)</li>
+</ul>
+<hr/>
+<h2 id="debugging-challenges">Debugging Challenges<a class="headerlink" href="#debugging-challenges" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Find and fix bugs in broken consensus implementations. This tests your understanding of distributed
+systems failure modes.</p>
+<h3 id="challenge-1-split-brain-in-leader-election">Challenge 1: Split-Brain in Leader Election<a class="headerlink" href="#challenge-1-split-brain-in-leader-election" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Leader election that's supposed to prevent split-brain.
+ * This has 2 CRITICAL BUGS that allow multiple leaders.
+ * Find them!
+ */
+public class BuggyLeaderElection {
+    private Map&lt;Integer, Node&gt; nodes;
+    private int majoritySize;
+
+    public void startElection(int candidateId) {
+        Node candidate = nodes.get(candidateId);
+        candidate.role = NodeRole.CANDIDATE;
+        candidate.currentTerm++;
+
+        int votesReceived = 1; // Vote for self
+
+        for (Map.Entry&lt;Integer, Node&gt; entry : nodes.entrySet()) {
+            int nodeId = entry.getKey();
+            if (nodeId != candidateId) {
+                boolean voteGranted = requestVote(nodeId, candidateId);
+                votesReceived++;  // Counting even if vote not granted!
+            }
+        }
+
+        if (votesReceived &gt; majoritySize) {  // Should this be &gt; or &gt;= ?
+            becomeLeader(candidateId);
+        }
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>
+<p>Bug 1: <span class="fill-in">[What\'s the bug?]</span></p>
+</li>
+<li>
+<p>Bug 2: <span class="fill-in">[What\'s the bug?]</span></p>
+</li>
+</ul>
+<p><strong>Split-brain scenario:</strong></p>
+<ul>
+<li>5 nodes, majoritySize = 3</li>
+<li>Network partition: {1, 2} and {3, 4, 5}</li>
+<li>Node 1 starts election, gets vote from Node 2</li>
+<li>Node 3 starts election, gets votes from 4, 5</li>
+<li>With bugs: <span class="fill-in">[How many leaders? Why?]</span></li>
+<li>After fixes: <span class="fill-in">[How many leaders? Why?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug 1 (Line 15):</strong> Increments <code>votesReceived</code> unconditionally, even when <code>voteGranted</code> is false. Should only increment
+when vote is granted.</p>
+<p><strong>Fix:</strong></p>
+<pre class="highlight"><code class="language-java">if (voteGranted) votesReceived++;</code></pre>
+<p><strong>Bug 2 (Line 19):</strong> Uses <code>&gt;</code> instead of <code>&gt;=</code>. With 5 nodes, majority is 3. If candidate gets exactly 3 votes, <code>3 &gt; 3</code>
+is false, so no leader elected!</p>
+<p><strong>Fix:</strong></p>
+<pre class="highlight"><code class="language-java">if (votesReceived &gt;= majoritySize) {</code></pre>
+<p><strong>With bugs:</strong> In partition {1, 2}, Node 1 gets 2 votes but bug counts as 3+ → becomes leader. In partition {3, 4, 5},
+Node 3 gets 3 votes → becomes leader. <strong>Two leaders!</strong></p>
+<p><strong>After fixes:</strong> Node 1 gets 2 votes &lt; 3 majority → no leader. Node 3 gets 3 votes ≥ 3 majority → becomes leader. <strong>One
+leader only.</strong></p>
+</details>
+<hr/>
+<h3 id="challenge-2-lost-commits-in-raft">Challenge 2: Lost Commits in Raft<a class="headerlink" href="#challenge-2-lost-commits-in-raft" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Raft log replication with a CRITICAL BUG.
+ * Committed entries can be LOST after leader failure!
+ */
+public class BuggyRaftReplication {
+
+    public boolean appendEntry(int leaderId, String command) {
+        RaftNode leader = nodes.get(leaderId);
+        if (leader.role != NodeRole.LEADER) return false;
+
+        // Create log entry
+        int newIndex = leader.getLastLogIndex() + 1;
+        LogEntry entry = new LogEntry(leader.currentTerm, command, newIndex);
+        leader.log.add(entry);
+
+        int replicatedCount = 0;  // Forgot to count leader!
+
+        for (Map.Entry&lt;Integer, RaftNode&gt; e : nodes.entrySet()) {
+            int nodeId = e.getKey();
+            if (nodeId != leaderId &amp;&amp; nodeActive.get(nodeId)) {
+                boolean success = sendAppendEntries(leaderId, nodeId);
+                if (success) replicatedCount++;
+            }
+        }
+
+        // Commit if majority replicated
+        if (replicatedCount &gt;= majoritySize) {
+            leader.commitIndex = newIndex;
+            return true;
+        }
+
+        return false;
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>Bug: <span class="fill-in">[What\'s the bug?]</span></li>
+</ul>
+<p><strong>Failure scenario:</strong></p>
+<ul>
+<li>5 nodes (Node 1 = leader), majoritySize = 3</li>
+<li>Leader appends entry "SET x=1"</li>
+<li>Entry replicated to Node 2, Node 3 (2 nodes)</li>
+<li>Bug: replicatedCount = 2 &lt; 3 majority → NOT committed</li>
+<li>Leader crashes before replicating to Node 4</li>
+<li>With bug: Entry lost (never committed)</li>
+<li>Trace through: <span class="fill-in">[Step by step, what happens?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug (Line 17):</strong> Initializes <code>replicatedCount = 0</code>, forgetting that the leader already has the entry in its log.
+Should start at 1.</p>
+<p><strong>Fix:</strong></p>
+<pre class="highlight"><code class="language-java">int replicatedCount = 1; // Leader has it</code></pre>
+<p><strong>Why it matters:</strong> With 5 nodes, majority = 3. If leader + 2 followers have the entry, that's 3 copies (majority). But
+bug counts only 2 followers, thinks it's not committed, and entry could be lost if leader crashes.</p>
+<p><strong>Correct behavior:</strong> Leader counts self + 2 followers = 3 ≥ majority → committed. Entry is safe even if leader fails.</p>
+</details>
+<hr/>
+<h3 id="challenge-3-term-confusion-in-raft">Challenge 3: Term Confusion in Raft<a class="headerlink" href="#challenge-3-term-confusion-in-raft" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Raft RequestVote RPC with TERM HANDLING BUG.
+ * Can accept votes from candidates with STALE terms!
+ */
+public class BuggyRequestVote {
+
+    private boolean requestVote(int voterId, int candidateId, int candidateTerm) {
+        RaftNode voter = nodes.get(voterId);
+
+        // Check term
+        if (candidateTerm &lt; voter.currentTerm) {
+            return false; // Reject outdated candidate
+        }
+
+        voter.currentTerm = candidateTerm;
+        // Missing: What should happen to voter.votedFor?
+
+        // Grant vote if haven't voted
+        if (voter.votedFor == -1) {
+            voter.votedFor = candidateId;
+            return true;
+        }
+
+        return false;
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>Bug: <span class="fill-in">[What\'s the bug?]</span></li>
+</ul>
+<p><strong>Failure scenario:</strong></p>
+<ul>
+<li>Term 1: Node 3 votes for Node 5</li>
+<li>Term 2: Node 1 starts election, requests vote from Node 3</li>
+<li>Node 3's state: currentTerm=1, votedFor=5</li>
+<li>Node 1's term: currentTerm=2</li>
+<li>With bug: What happens to Node 3's votedFor?</li>
+<li>Expected: <span class="fill-in">[Should vote be granted? Why?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug (After line 14):</strong> When updating term, must reset <code>votedFor = -1</code> to allow voting in new term. Current code leaves
+old vote in place.</p>
+<p><strong>Fix:</strong></p>
+<pre class="highlight"><code class="language-java">if (candidateTerm &gt; voter.currentTerm) {
+    voter.currentTerm = candidateTerm;
+    voter.votedFor = -1;  // Reset vote for new term!
+}</code></pre>
+<p><strong>Why it matters:</strong> In new term, voter should be able to vote again. Without reset, voter stays committed to old vote,
+can't vote for anyone in new term, election may fail.</p>
+<p><strong>Correct:</strong> When Node 3 sees candidateTerm=2 &gt; currentTerm=1, it resets votedFor=-1, then can vote for Node 1.</p>
+</details>
+<hr/>
+<h3 id="challenge-4-log-inconsistency-in-raft">Challenge 4: Log Inconsistency in Raft<a class="headerlink" href="#challenge-4-log-inconsistency-in-raft" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Raft AppendEntries with LOG CONSISTENCY BUG.
+ * Follower can accept entries that create holes in log!
+ */
+public class BuggyAppendEntries {
+
+    private boolean appendEntries(int followerId, int leaderTerm,
+                                   int prevLogIndex, int prevLogTerm,
+                                   List&lt;LogEntry&gt; entries) {
+        RaftNode follower = nodes.get(followerId);
+
+        // Check term
+        if (leaderTerm &lt; follower.currentTerm) {
+            return false;
+        }
+
+        // Should verify follower has entry at prevLogIndex with prevLogTerm
+
+        // Append entries
+        for (LogEntry entry : entries) {
+            follower.log.add(entry);
+        }
+
+        return true;
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>Bug: <span class="fill-in">[What\'s the bug?]</span></li>
+</ul>
+<p><strong>Failure scenario:</strong></p>
+<ul>
+<li>Leader log: [e1(term=1), e2(term=1), e3(term=2)]</li>
+<li>Follower log: [e1(term=1), e2(term=2)] (e2 has wrong term!)</li>
+<li>Leader sends: prevLogIndex=2, prevLogTerm=1, entries=[e3]</li>
+<li>With bug: <span class="fill-in">[What happens?]</span></li>
+<li>Expected behavior: <span class="fill-in">[Should append be accepted?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug (After line 16):</strong> Missing log consistency check. Must verify that follower's log at <code>prevLogIndex</code> has term
+<code>prevLogTerm</code>.</p>
+<p><strong>Fix:</strong></p>
+<pre class="highlight"><code class="language-java">// Check log consistency
+if (prevLogIndex &gt; 0) {
+    if (prevLogIndex &gt; follower.getLastLogIndex()) {
+        return false; // Follower's log too short
+    }
+    if (follower.log.get(prevLogIndex - 1).term != prevLogTerm) {
+        return false; // Term mismatch
+    }
+}</code></pre>
+<p><strong>Why it matters:</strong> Raft requires logs to be consistent before appending. If follower has conflicting entry (different
+term at same index), must reject and let leader retry with earlier index.</p>
+<p><strong>Correct:</strong> Leader's prevLogTerm=1, but follower has term=2 at index 2 → reject. Leader decrements prevLogIndex and
+retries until logs match.</p>
+</details>
+<hr/>
+<h3 id="challenge-5-distributed-lock-deadlock">Challenge 5: Distributed Lock Deadlock<a class="headerlink" href="#challenge-5-distributed-lock-deadlock" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Distributed lock with DEADLOCK BUG.
+ * Lock can remain held forever if holder crashes!
+ */
+public class BuggyDistributedLock {
+
+    public Lock tryAcquire(String resourceId, String ownerId) {
+        Lock existingLock = locks.get(resourceId);
+
+        if (existingLock != null) {
+            if (!existingLock.ownerId.equals(ownerId)) {
+                return null; // Lock held by someone else
+            }
+        }
+
+        // Acquire lock
+        long fencingToken = tokenCounter.incrementAndGet();
+        Lock newLock = new Lock(resourceId, ownerId, fencingToken, ttl);
+        locks.put(resourceId, newLock);
+
+        return newLock;
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>Bug: <span class="fill-in">[What\'s the bug?]</span></li>
+</ul>
+<p><strong>Failure scenario:</strong></p>
+<ul>
+<li>Client A acquires lock with 30s TTL</li>
+<li>Client A crashes after 5 seconds (doesn't release)</li>
+<li>Client B tries to acquire lock after 40 seconds</li>
+<li>With bug: <span class="fill-in">[Can Client B acquire lock? Why?]</span></li>
+<li>Expected: <span class="fill-in">[Should lock be available?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug (Line 11):</strong> Doesn't check if existing lock is expired. Should call <code>existingLock.isExpired()</code> before rejecting
+acquisition.</p>
+<p><strong>Fix:</strong></p>
+<pre class="highlight"><code class="language-java">if (existingLock != null &amp;&amp; !existingLock.isExpired()) {
+    if (!existingLock.ownerId.equals(ownerId)) {
+        return null; // Lock still valid and held by someone else
+    }
+}</code></pre>
+<p><strong>Why it matters:</strong> If lock holder crashes, lock expires after TTL. Without expiration check, lock remains held
+forever → deadlock. Other processes can never acquire.</p>
+<p><strong>Correct:</strong> After TTL expires, lock is considered released, can be acquired by another process. Prevents deadlock from
+crashed holders.</p>
+</details>
+<hr/>
+<h3 id="challenge-6-quorum-read-inconsistency">Challenge 6: Quorum Read Inconsistency<a class="headerlink" href="#challenge-6-quorum-read-inconsistency" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Quorum read with CONSISTENCY BUG.
+ * Can return stale data even with proper R/W settings!
+ */
+public class BuggyQuorumRead {
+
+    public VersionedValue read(String key) {
+        List&lt;Node&gt; replicas = selectNodes(key, replicationFactor);
+        List&lt;VersionedValue&gt; responses = new ArrayList&lt;&gt;();
+
+        // Read from R nodes
+        int successCount = 0;
+        for (Node node : replicas) {
+            if (node.active &amp;&amp; successCount &lt; readQuorum) {
+                VersionedValue value = node.get(key);
+                if (value != null) {
+                    responses.add(value);
+                    successCount++;
+                }
+            }
+        }
+
+        if (!responses.isEmpty()) {
+            return responses.get(0);  // Wrong! Might be stale!
+        }
+
+        return null;
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>Bug: <span class="fill-in">[What\'s the bug?]</span></li>
+</ul>
+<p><strong>Inconsistency scenario:</strong></p>
+<ul>
+<li>R=2, W=2, N=3 (strong consistency: R+W &gt; N)</li>
+<li>Node 1: value="v1" (version=1)</li>
+<li>Node 2: value="v2" (version=2, latest)</li>
+<li>Node 3: value="v2" (version=2)</li>
+<li>Read from Node 1, Node 2 (in that order)</li>
+<li>With bug: <span class="fill-in">[What value is returned?]</span></li>
+<li>Expected: <span class="fill-in">[What should be returned?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug (Line 23):</strong> Returns first response without comparing versions. First response might be stale (lower version).</p>
+<p><strong>Fix:</strong></p>
+<pre class="highlight"><code class="language-java">if (responses.size() &gt;= readQuorum) {
+    return resolveConflicts(responses); // Pick latest version
+}</code></pre>
+<p><strong>Conflict resolution:</strong></p>
+<pre class="highlight"><code class="language-java">private VersionedValue resolveConflicts(List&lt;VersionedValue&gt; values) {
+    VersionedValue latest = values.get(0);
+    for (VersionedValue v : values) {
+        if (v.version.vectorClock &gt; latest.version.vectorClock) {
+            latest = v;
+        }
+    }
+    return latest;
+}</code></pre>
+<p><strong>Why it matters:</strong> Even with quorum, responses can have different versions. Must compare and return latest to guarantee
+consistency.</p>
+<p><strong>Correct:</strong> Compare Node 1 (v1) and Node 2 (v2), return v2 (higher version). Client sees consistent, latest data.</p>
+</details>
+<hr/>
+<h3 id="your-debugging-scorecard">Your Debugging Scorecard<a class="headerlink" href="#your-debugging-scorecard" title="Permanent link">¶</a></h3>
+<p>After finding and fixing all bugs:</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Found all 8+ bugs across 6 challenges</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understood consensus failure modes (split-brain, lost commits, inconsistency)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could explain WHY each bug violates safety properties</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Learned common distributed systems mistakes</li>
+</ul>
+<p><strong>Common consensus bugs you discovered:</strong></p>
+<ol>
+<li><span class="fill-in">[List patterns: vote counting, term handling, etc.]</span></li>
+<li><span class="fill-in">[Fill in]</span></li>
+<li><span class="fill-in">[Fill in]</span></li>
+</ol>
+<p><strong>Safety properties that bugs violated:</strong></p>
+<ul>
+<li><strong>Agreement:</strong> <span class="fill-in">[Which bugs caused nodes to disagree?]</span></li>
+<li><strong>Validity:</strong> <span class="fill-in">[Which bugs caused invalid states?]</span></li>
+<li><strong>Termination:</strong> <span class="fill-in">[Which bugs caused deadlock/livelock?]</span></li>
+</ul>
+<hr/>
+<h2 id="decision-framework">Decision Framework<a class="headerlink" href="#decision-framework" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Build decision trees for when to use each consensus pattern.</p>
+<h3 id="question-1-leader-election-vs-leaderless">Question 1: Leader Election vs Leaderless?<a class="headerlink" href="#question-1-leader-election-vs-leaderless" title="Permanent link">¶</a></h3>
+<p>Answer after implementation:</p>
+<p><strong>Use Leader Election when:</strong></p>
+<ul>
+<li>Single coordinator needed: <span class="fill-in">[One node must make decisions]</span></li>
+<li>Simplify operations: <span class="fill-in">[Leader handles all writes]</span></li>
+<li>Strong consistency: <span class="fill-in">[Leader ensures ordering]</span></li>
+<li>Examples: <span class="fill-in">[Master-worker, coordinator services]</span></li>
+</ul>
+<p><strong>Use Leaderless (Quorum) when:</strong></p>
+<ul>
+<li>High availability: <span class="fill-in">[No single point of failure]</span></li>
+<li>Multi-datacenter: <span class="fill-in">[Local writes in each DC]</span></li>
+<li>Read/write balance: <span class="fill-in">[Tune R/W for workload]</span></li>
+<li>Examples: <span class="fill-in">[Cassandra, DynamoDB]</span></li>
+</ul>
+<h3 id="question-2-when-to-use-raft-vs-paxos">Question 2: When to use Raft vs Paxos?<a class="headerlink" href="#question-2-when-to-use-raft-vs-paxos" title="Permanent link">¶</a></h3>
+<p><strong>Raft when:</strong></p>
+<ul>
+<li>Understandability: <span class="fill-in">[Easier to implement and reason about]</span></li>
+<li>Log replication: <span class="fill-in">[Need ordered log of operations]</span></li>
+<li>Modern systems: <span class="fill-in">[etcd, Consul use Raft]</span></li>
+</ul>
+<p><strong>Paxos when:</strong></p>
+<ul>
+<li>Proven formal correctness: <span class="fill-in">[Mathematically proven]</span></li>
+<li>Legacy systems: <span class="fill-in">[Google Chubby uses Paxos]</span></li>
+<li>Academic interest: <span class="fill-in">[Understanding distributed consensus theory]</span></li>
+</ul>
+<h3 id="question-3-when-to-use-distributed-locks">Question 3: When to use distributed locks?<a class="headerlink" href="#question-3-when-to-use-distributed-locks" title="Permanent link">¶</a></h3>
+<p><strong>Use distributed locks when:</strong></p>
+<ul>
+<li>Mutual exclusion: <span class="fill-in">[Only one process should access resource]</span></li>
+<li>Job scheduling: <span class="fill-in">[Prevent duplicate job execution]</span></li>
+<li>Leader election: <span class="fill-in">[Simple leader election mechanism]</span></li>
+</ul>
+<p><strong>Avoid distributed locks when:</strong></p>
+<ul>
+<li>Performance critical: <span class="fill-in">[Locks add latency]</span></li>
+<li>Can use optimistic locking: <span class="fill-in">[Version-based concurrency control]</span></li>
+<li>Idempotent operations: <span class="fill-in">[Can safely retry without lock]</span></li>
+</ul>
+<h3 id="your-decision-tree">Your Decision Tree<a class="headerlink" href="#your-decision-tree" title="Permanent link">¶</a></h3>
+<p>Build this after solving practice scenarios:
+<div class="mermaid">flowchart LR
+    Start["Consensus Pattern Selection"]
+
+    Q1{"Need single coordinator?"}
+    Start --&gt; Q1
+    N2["Leader Election"]
+    Q1 --&gt;|"YES"| N2
+    N3["Bully algorithm"]
+    Q1 --&gt;|"Simple cluster?"| N3
+    N4["Raft"]
+    Q1 --&gt;|"Production system?"| N4
+    N5["Continue to Q2"]
+    Q1 --&gt;|"NO"| N5
+    Q6{"What's the consistency requirement?"}
+    Start --&gt; Q6
+    N7["Raft or Paxos"]
+    Q6 --&gt;|"Strong consistency"| N7
+    N8["Quorum with R=1, W=1"]
+    Q6 --&gt;|"Eventual consistency"| N8
+    N9["Quorum with configurable R/W"]
+    Q6 --&gt;|"Tunable consistency"| N9
+    Q10{"What's the failure scenario?"}
+    Start --&gt; Q10
+    N11["Raft&lt;br/&gt;(CP in CAP)"]
+    Q10 --&gt;|"Network partitions"| N11
+    N12["Quorum with hints"]
+    Q10 --&gt;|"Node failures"| N12
+    N13["Leader election with fencing"]
+    Q10 --&gt;|"Split-brain"| N13
+    Q14{"What's the use case?"}
+    Start --&gt; Q14
+    N15["Raft&lt;br/&gt;(etcd, ZooKeeper)"]
+    Q14 --&gt;|"Configuration management"| N15
+    N16["Quorum consensus"]
+    Q14 --&gt;|"Distributed database"| N16
+    N17["Distributed locks"]
+    Q14 --&gt;|"Job coordination"| N17
+    N18["No consensus needed&lt;br/&gt;(best-effort)"]
+    Q14 --&gt;|"Cache invalidation"| N18</div></p>
+<hr/>
+<h2 id="practice">Practice<a class="headerlink" href="#practice" title="Permanent link">¶</a></h2>
+<h3 id="scenario-1-distributed-database-leader-election">Scenario 1: Distributed Database Leader Election<a class="headerlink" href="#scenario-1-distributed-database-leader-election" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>5-node database cluster</li>
+<li>Need single primary for writes</li>
+<li>Automatic failover on primary failure</li>
+<li>Must prevent split-brain</li>
+<li>Downtime &lt; 5 seconds on failure</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<p>Leader election algorithm: <span class="fill-in">[Raft or Bully? Why?]</span></p>
+<p>Reasoning:</p>
+<ul>
+<li>Election speed: <span class="fill-in">[Fill in]</span></li>
+<li>Split-brain prevention: <span class="fill-in">[How?]</span></li>
+<li>Failure detection: <span class="fill-in">[Heartbeat timeout?]</span></li>
+</ul>
+<p>Implementation details:</p>
+<ol>
+<li><span class="fill-in">[Heartbeat interval and timeout values]</span></li>
+<li><span class="fill-in">[How to handle network partition]</span></li>
+<li><span class="fill-in">[Fencing mechanism to prevent dual-primary]</span></li>
+</ol>
+<h3 id="scenario-2-distributed-job-scheduler">Scenario 2: Distributed Job Scheduler<a class="headerlink" href="#scenario-2-distributed-job-scheduler" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>1000 scheduled jobs</li>
+<li>Must run exactly once</li>
+<li>Multiple scheduler instances for HA</li>
+<li>Jobs can take 1-60 minutes</li>
+<li>Must handle scheduler crashes</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<p>Lock mechanism: <span class="fill-in">[Distributed locks or leader election?]</span></p>
+<p>Why?</p>
+<ol>
+<li><span class="fill-in">[Exactly-once execution guarantee]</span></li>
+<li><span class="fill-in">[How to handle lock holder crash]</span></li>
+<li><span class="fill-in">[Lock timeout calculation]</span></li>
+</ol>
+<p>Lock implementation:</p>
+<ul>
+<li>TTL: <span class="fill-in">[How long?]</span></li>
+<li>Renewal: <span class="fill-in">[When and how often?]</span></li>
+<li>Fencing: <span class="fill-in">[Prevent duplicate execution how?]</span></li>
+</ul>
+<h3 id="scenario-3-multi-region-key-value-store">Scenario 3: Multi-Region Key-Value Store<a class="headerlink" href="#scenario-3-multi-region-key-value-store" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>3 datacenters (US, EU, Asia)</li>
+<li>Need low latency reads in each region</li>
+<li>Eventual consistency acceptable</li>
+<li>1M writes/sec globally</li>
+<li>Must survive datacenter failure</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<p>Consensus approach: <span class="fill-in">[Quorum or leader?]</span></p>
+<p>Quorum configuration:</p>
+<ul>
+<li>Replication factor: <span class="fill-in">[How many DCs?]</span></li>
+<li>Read quorum: <span class="fill-in">[R = ?]</span></li>
+<li>Write quorum: <span class="fill-in">[W = ?]</span></li>
+<li>Reasoning: <span class="fill-in">[R + W &gt; N?]</span></li>
+</ul>
+<p>Trade-offs:</p>
+<ol>
+<li><span class="fill-in">[Consistency vs availability]</span></li>
+<li><span class="fill-in">[Cross-DC write latency]</span></li>
+<li><span class="fill-in">[Conflict resolution strategy]</span></li>
+</ol>
+<hr/>
+<h2 id="review-checklist">Review Checklist<a class="headerlink" href="#review-checklist" title="Permanent link">¶</a></h2>
+<p>Before moving to the next topic:</p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Implementation</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Leader election works (Bully algorithm)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Raft election and log replication work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Distributed locks acquire, release, renew work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Quorum reads and writes work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> All client code runs successfully</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Understanding</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Filled in all ELI5 explanations</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand split-brain problem</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Know how Raft achieves consensus</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand fencing tokens</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Know how quorums provide consistency</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Failure Scenarios</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Leader failure and re-election</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Lock holder crashes (deadlock prevention)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Network partition (split-brain)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Quorum not reachable</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Node recovery and catch-up</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Decision Making</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Know when to use leader vs leaderless</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Know when to use Raft vs Paxos</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Completed practice scenarios</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can explain trade-offs in CAP theorem</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Mastery Check</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could implement leader election from memory</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could design consensus for new system</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand Raft log replication</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Know how to prevent split-brain</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can calculate quorum sizes for requirements</li>
+</ul>
+</li>
+</ul>
+<hr/>
+<h3 id="mastery-certification">Mastery Certification<a class="headerlink" href="#mastery-certification" title="Permanent link">¶</a></h3>
+<p><strong>I certify that I can:</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Implement leader election (Bully or Raft) from memory</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Explain split-brain problem and how consensus prevents it</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Design consensus strategy for new distributed system</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Identify correct consensus pattern for requirements</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Analyze failure modes and their impact</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Debug common consensus bugs (vote counting, term handling, etc.)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Explain trade-offs between leader-based and leaderless</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Apply CAP theorem to consensus decisions</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Calculate quorum sizes for consistency requirements</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Teach consensus concepts to someone else</li>
+</ul></div>
+</div>
+<footer class="col-md-12 text-center">
+<hr/>
+<p>
+<small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+</p>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../../js/bootstrap-3.0.3.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>var base_url = "../.."</script>
+<script src="../../js/base.js"></script>
+<script src="../../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<button class="close" data-dismiss="modal" type="button">
+<span aria-hidden="true">×</span>
+<span class="sr-only">Close</span>
+</button>
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+</div>
+<div class="modal-body">
+<p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="text"/>
+</div>
+</form>
+<div id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@10.4.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>

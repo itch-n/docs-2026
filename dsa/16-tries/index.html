@@ -1,0 +1,1658 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="A framework for algorithms, systems design, and infrastructure." name="description"/>
+<meta content="Richard" name="author"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>16. Tries - Software Engineering Study Guide</title>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" rel="stylesheet"/>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css" rel="stylesheet"/>
+<link href="//rsms.me/inter/inter.css" rel="stylesheet" type="text/css"/>
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&amp;subset=latin-ext,latin" rel="stylesheet" type="text/css"/>
+<link href="../../css/bootstrap-custom.min.css" rel="stylesheet"/>
+<link href="../../css/base.min.css" rel="stylesheet"/>
+<link href="../../css/cinder.min.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css" rel="stylesheet"/>
+<link href="../../css/custom.css" rel="stylesheet"/>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="container">
+<!-- Collapsed navigation -->
+<div class="navbar-header">
+<!-- Expander button -->
+<button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<!-- Main title -->
+<a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+</div>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li>
+<a href="../..">Home</a>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Systems Design <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../systems/01-storage-engines/">01. Storage Engines</a>
+</li>
+<li>
+<a href="../../systems/02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+<li>
+<a href="../../systems/03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+<li>
+<a href="../../systems/04-search-and-indexing/">04. Search &amp; Indexing</a>
+</li>
+<li>
+<a href="../../systems/05-caching-patterns/">05. Caching Patterns</a>
+</li>
+<li>
+<a href="../../systems/06-api-design/">06. API Design</a>
+</li>
+<li>
+<a href="../../systems/07-security-patterns/">07. Security Patterns</a>
+</li>
+<li>
+<a href="../../systems/08-rate-limiting/">08. Rate Limiting</a>
+</li>
+<li>
+<a href="../../systems/09-load-balancing/">09. Load Balancing</a>
+</li>
+<li>
+<a href="../../systems/10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+<li>
+<a href="../../systems/11-database-scaling/">11. Database Scaling</a>
+</li>
+<li>
+<a href="../../systems/12-message-queues/">12. Message Queues</a>
+</li>
+<li>
+<a href="../../systems/13-stream-processing/">13. Stream Processing</a>
+</li>
+<li>
+<a href="../../systems/14-observability/">14. Observability</a>
+</li>
+<li>
+<a href="../../systems/15-distributed-transactions/">15. Distributed Transactions</a>
+</li>
+<li>
+<a href="../../systems/16-consensus-patterns/">16. Consensus Patterns</a>
+</li>
+</ul>
+</li>
+<li class="dropdown active">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">DSA <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../01-two-pointers/">01. Two Pointers</a>
+</li>
+<li>
+<a href="../02-sliding-window/">02. Sliding Window</a>
+</li>
+<li>
+<a href="../03-hash-tables/">03. Hash Tables</a>
+</li>
+<li>
+<a href="../04-linked-lists/">04. Linked Lists</a>
+</li>
+<li>
+<a href="../05-stacks--queues/">05. Stacks &amp; Queues</a>
+</li>
+<li>
+<a href="../06-trees-traversals/">06. Trees - Traversals</a>
+</li>
+<li>
+<a href="../07-trees-recursion/">07. Trees - Recursion</a>
+</li>
+<li>
+<a href="../08-binary-search/">08. Binary Search</a>
+</li>
+<li>
+<a href="../09-heaps/">09. Heaps</a>
+</li>
+<li>
+<a href="../10-graphs/">10. Graphs</a>
+</li>
+<li>
+<a href="../11-union-find/">11. Union-Find</a>
+</li>
+<li>
+<a href="../12-advanced-graphs/">12. Advanced Graphs</a>
+</li>
+<li>
+<a href="../13-backtracking/">13. Backtracking</a>
+</li>
+<li>
+<a href="../14-dynamic-programming-1d/">14. Dynamic Programming 1D</a>
+</li>
+<li>
+<a href="../15-dynamic-programming-2d/">15. Dynamic Programming 2D</a>
+</li>
+<li class="active">
+<a href="./">16. Tries</a>
+</li>
+<li>
+<a href="../17-advanced-topics/">17. Advanced Topics</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+<a data-target="#mkdocs_search_modal" data-toggle="modal" href="#">
+<i class="fas fa-search"></i> Search
+                        </a>
+</li>
+<li>
+<a href="../15-dynamic-programming-2d/" rel="prev">
+<i class="fas fa-arrow-left"></i> Previous
+                        </a>
+</li>
+<li>
+<a href="../17-advanced-topics/" rel="next">
+                            Next <i class="fas fa-arrow-right"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+<ul class="nav bs-sidenav">
+<li class="first-level active"><a href="#tries-prefix-trees">Tries (Prefix Trees)</a></li>
+<li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+<li class="second-level"><a href="#quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)</a></li>
+<li class="second-level"><a href="#beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters</a></li>
+<li class="second-level"><a href="#core-implementation">Core Implementation</a></li>
+<li class="second-level"><a href="#debugging-challenges">Debugging Challenges</a></li>
+<li class="second-level"><a href="#decision-framework">Decision Framework</a></li>
+<li class="second-level"><a href="#practice">Practice</a></li>
+<li class="second-level"><a href="#review-checklist">Review Checklist</a></li>
+</ul>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="tries-prefix-trees">Tries (Prefix Trees)<a class="headerlink" href="#tries-prefix-trees" title="Permanent link">¶</a></h1>
+<blockquote>
+<p>Efficient storage and retrieval of strings with common prefixes using tree structure</p>
+</blockquote>
+<hr/>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After implementing all patterns, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What is a trie in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>How is a trie different from a hash table for strings?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy:</strong></p>
+<ul>
+<li>Example: "A trie is like how you organize words in a dictionary by first letter, then second letter..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When does this pattern work?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after solving problems]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What's the space-time tradeoff with tries?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr/>
+<h2 id="quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)<a class="headerlink" href="#quick-quiz-do-before-implementing" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Test your intuition without looking at code. Answer these, then verify after implementation.</p>
+<h3 id="complexity-predictions">Complexity Predictions<a class="headerlink" href="#complexity-predictions" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p><strong>HashMap search for word in dictionary of n words:</strong></p>
+<ul>
+<li>Time complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Verified after learning: <span class="fill-in">[Actual: O(?)]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Trie search for word of length m in dictionary of n words:</strong></p>
+<ul>
+<li>Time complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Space complexity for entire trie: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Verified: <span class="fill-in">[Actual]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Prefix search comparison:</strong></p>
+<ul>
+<li>Find all words starting with "app" using HashMap: <span class="fill-in">[Time: O(?)]</span></li>
+<li>Find all words starting with "app" using Trie: <span class="fill-in">[Time: O(?)]</span></li>
+<li>Which is faster: <span class="fill-in">[HashMap/Trie - Why?]</span></li>
+</ul>
+</li>
+</ol>
+<h3 id="scenario-predictions">Scenario Predictions<a class="headerlink" href="#scenario-predictions" title="Permanent link">¶</a></h3>
+<p><strong>Scenario 1:</strong> Dictionary has ["apple", "app", "application", "apply"]</p>
+<ul>
+<li><strong>How many nodes in the trie?</strong> <span class="fill-in">[Count them]</span></li>
+<li><strong>Which nodes have isEndOfWord = true?</strong> <span class="fill-in">[List them]</span></li>
+<li><strong>How many nodes share the prefix "app"?</strong> <span class="fill-in">[Count]</span></li>
+<li><strong>Memory saved compared to storing each word separately?</strong> <span class="fill-in">[Estimate]</span></li>
+</ul>
+<p><strong>Scenario 2:</strong> Search for "appl" in above dictionary</p>
+<ul>
+<li><strong>Using search(): returns</strong> <span class="fill-in">[true/false - Why?]</span></li>
+<li><strong>Using startsWith(): returns</strong> <span class="fill-in">[true/false - Why?]</span></li>
+<li><strong>What's the difference?</strong> <span class="fill-in">[Fill in your reasoning]</span></li>
+</ul>
+<p><strong>Scenario 3:</strong> Autocomplete with prefix "ap"</p>
+<ul>
+<li><strong>Which words match?</strong> <span class="fill-in">[List them]</span></li>
+<li><strong>Path through trie:</strong> <span class="fill-in">[Describe the traversal]</span></li>
+<li><strong>Why is trie better than checking each word?</strong> <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="trade-off-quiz">Trade-off Quiz<a class="headerlink" href="#trade-off-quiz" title="Permanent link">¶</a></h3>
+<p><strong>Question:</strong> When would HashMap be BETTER than Trie for dictionary?</p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in before implementation]</span></li>
+<li>Verified answer: <span class="fill-in">[Fill in after learning]</span></li>
+</ul>
+<p><strong>Question:</strong> What's the MAIN advantage of trie over hash table?</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Faster single word lookup</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Less space usage</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Efficient prefix queries</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Simpler to implement</li>
+</ul>
+<p>Verify after implementation: <span class="fill-in">[Which one(s)?]</span></p>
+<p><strong>Question:</strong> What's the space complexity of trie with n words of average length m?</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> O(n)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> O(m)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> O(n * m) worst case</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> O(1)</li>
+</ul>
+<p>Verify: <span class="fill-in">[Which one and why?]</span></p>
+</div>
+<hr/>
+<h2 id="beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters<a class="headerlink" href="#beforeafter-why-this-pattern-matters" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Compare naive vs optimized approaches to understand the impact.</p>
+<h3 id="example-autocomplete-system">Example: Autocomplete System<a class="headerlink" href="#example-autocomplete-system" title="Permanent link">¶</a></h3>
+<p><strong>Problem:</strong> Find all words in dictionary that start with given prefix.</p>
+<h4 id="approach-1-hashmap-with-linear-scan">Approach 1: HashMap with Linear Scan<a class="headerlink" href="#approach-1-hashmap-with-linear-scan" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Naive approach - Check every word
+public static List&lt;String&gt; autocomplete_Naive(Set&lt;String&gt; dictionary, String prefix) {
+    List&lt;String&gt; results = new ArrayList&lt;&gt;();
+
+    // Check every word in dictionary
+    for (String word : dictionary) {
+        if (word.startsWith(prefix)) {
+            results.add(word);
+        }
+    }
+
+    return results;
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n * m) - Check n words, each comparison takes m characters</li>
+<li>Space: O(1) additional space (not counting results)</li>
+<li>For dictionary with 100,000 words, prefix length 3: ~300,000 character comparisons</li>
+</ul>
+<h4 id="approach-2-trie-optimized">Approach 2: Trie (Optimized)<a class="headerlink" href="#approach-2-trie-optimized" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Optimized approach - Navigate to prefix then collect
+public List&lt;String&gt; autocomplete_Trie(String prefix) {
+    List&lt;String&gt; results = new ArrayList&lt;&gt;();
+
+    // Navigate to prefix node: O(p) where p = prefix length
+    TrieNode node = root;
+    for (char c : prefix.toCharArray()) {
+        if (!node.children.containsKey(c)) {
+            return results; // Prefix not found
+        }
+        node = node.children.get(c);
+    }
+
+    // Collect all words under this node: O(k) where k = results
+    collectWords(node, prefix, results);
+
+    return results;
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(p + k) - p = prefix length, k = number of results</li>
+<li>Space: O(n * m) for trie structure</li>
+<li>For same dictionary, prefix length 3: Only 3 comparisons + collecting results</li>
+</ul>
+<h4 id="performance-comparison">Performance Comparison<a class="headerlink" href="#performance-comparison" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>Dictionary Size</th>
+<th>Prefix Length</th>
+<th>HashMap (O(n*m))</th>
+<th>Trie (O(p+k))</th>
+<th>Speedup</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n = 1,000</td>
+<td>m = 5</td>
+<td>5,000 ops</td>
+<td>5 + k ops</td>
+<td>1000x</td>
+</tr>
+<tr>
+<td>n = 10,000</td>
+<td>m = 5</td>
+<td>50,000 ops</td>
+<td>5 + k ops</td>
+<td>10000x</td>
+</tr>
+<tr>
+<td>n = 100,000</td>
+<td>m = 5</td>
+<td>500,000 ops</td>
+<td>5 + k ops</td>
+<td>100000x</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Your calculation:</strong> For n = 50,000 and prefix length 4, the speedup is approximately _____ times faster.</p>
+<h4 id="why-does-trie-work">Why Does Trie Work?<a class="headerlink" href="#why-does-trie-work" title="Permanent link">¶</a></h4>
+<p><strong>Key insight to understand:</strong></p>
+<p>Building dictionary: ["apple", "app", "application", "apply", "banana"]</p>
+<pre class="highlight"><code>Trie structure:
+        root
+       /    \
+      a      b
+      |      |
+      p      a
+      |      |
+      p*     n
+     / \     |
+    l   l    a
+    |   |    |
+    e*  y*   n
+    |        |
+    a        a*
+    |
+    t
+    |
+    i
+    |
+    o
+    |
+    n*
+
+(* = isEndOfWord)</code></pre>
+<p><strong>Autocomplete for "app":</strong></p>
+<pre class="highlight"><code>Step 1: Navigate to 'a' → 'p' → 'p' (3 steps only!)
+Step 2: Collect all words from this subtree
+Found: "app", "apple", "application", "apply"</code></pre>
+<p><strong>Why can we skip other words?</strong></p>
+<ul>
+<li>Words not starting with 'a' are in different branch (never visited)</li>
+<li>Words starting with 'a' but not 'ap' are in different branch (never visited)</li>
+<li>Only visit nodes relevant to prefix - massive pruning!</li>
+</ul>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>Why is trie better for prefix queries than hash table? <span class="fill-in">[Your answer]</span></li>
+<li>What's the space-time tradeoff? <span class="fill-in">[Your answer]</span></li>
+<li>When would hash table still be better? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr/>
+<h3 id="example-word-search-in-grid">Example: Word Search in Grid<a class="headerlink" href="#example-word-search-in-grid" title="Permanent link">¶</a></h3>
+<p><strong>Problem:</strong> Find all words from dictionary in 2D character grid.</p>
+<h4 id="approach-1-brute-force-with-hash-set">Approach 1: Brute Force with Hash Set<a class="headerlink" href="#approach-1-brute-force-with-hash-set" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Naive approach - DFS from each cell for each word
+public static List&lt;String&gt; findWords_BruteForce(char[][] board, String[] words) {
+    Set&lt;String&gt; wordSet = new HashSet&lt;&gt;(Arrays.asList(words));
+    Set&lt;String&gt; found = new HashSet&lt;&gt;();
+
+    // Try to find each word starting from each cell
+    for (int i = 0; i &lt; board.length; i++) {
+        for (int j = 0; j &lt; board[0].length; j++) {
+            for (String word : words) {
+                if (dfsSearch(board, i, j, word, 0, new boolean[board.length][board[0].length])) {
+                    found.add(word);
+                }
+            }
+        }
+    }
+
+    return new ArrayList&lt;&gt;(found);
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(w * m * n * 4^L) - w words, m*n cells, 4^L DFS</li>
+<li>For 1000 words, 4x4 grid, word length 10: Extremely slow</li>
+<li>No early pruning - explores impossible paths</li>
+</ul>
+<h4 id="approach-2-trie-with-dfs-optimized">Approach 2: Trie with DFS (Optimized)<a class="headerlink" href="#approach-2-trie-with-dfs-optimized" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Optimized approach - Single DFS using trie for pruning
+public List&lt;String&gt; findWords_Trie(char[][] board, String[] words) {
+    // Build trie once: O(w * L)
+    TrieNode root = buildTrie(words);
+    Set&lt;String&gt; found = new HashSet&lt;&gt;();
+
+    // DFS from each cell, trie prunes invalid paths
+    for (int i = 0; i &lt; board.length; i++) {
+        for (int j = 0; j &lt; board[0].length; j++) {
+            dfs(board, i, j, root, found, new boolean[board.length][board[0].length]);
+        }
+    }
+
+    return new ArrayList&lt;&gt;(found);
+}
+
+// Trie prunes branches early - if prefix doesn't exist in trie, stop!</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(m * n * 4^L) - Only one DFS per cell</li>
+<li>Trie pruning: If "xy" not in dictionary, never explore "xyz", "xya", etc.</li>
+<li>For same problem: 1000x faster with early pruning</li>
+</ul>
+<h4 id="performance-comparison_1">Performance Comparison<a class="headerlink" href="#performance-comparison_1" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>Dictionary Size</th>
+<th>Grid Size</th>
+<th>Brute Force</th>
+<th>Trie with Pruning</th>
+<th>Speedup</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>100 words</td>
+<td>3x3</td>
+<td>~100,000 ops</td>
+<td>~1,000 ops</td>
+<td>100x</td>
+</tr>
+<tr>
+<td>1,000 words</td>
+<td>4x4</td>
+<td>~10,000,000</td>
+<td>~10,000 ops</td>
+<td>1000x</td>
+</tr>
+<tr>
+<td>10,000 words</td>
+<td>5x5</td>
+<td>Timeout</td>
+<td>~100,000 ops</td>
+<td>100x+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key insight:</strong> Trie eliminates redundant work by sharing prefixes and enabling early stopping.</p>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>How does trie enable early pruning in DFS? <span class="fill-in">[Your answer]</span></li>
+<li>Why is single DFS with trie better than multiple DFS? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="core-implementation">Core Implementation<a class="headerlink" href="#core-implementation" title="Permanent link">¶</a></h2>
+<h3 id="pattern-1-basic-trie-operations">Pattern 1: Basic Trie Operations<a class="headerlink" href="#pattern-1-basic-trie-operations" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Build tree where each node represents a character.</p>
+<p><strong>Use case:</strong> Insert, search, prefix search, delete words.</p>
+<pre class="highlight"><code class="language-java">public class BasicTrie {
+
+    /**
+     * TrieNode: Basic node structure
+     */
+    static class TrieNode {
+        // TODO: Create children array/map for next characters
+        // TODO: Boolean flag for end of word
+
+        TrieNode[] children;
+        boolean isEndOfWord;
+
+        TrieNode() {
+            // TODO: Initialize children array (size 26 for a-z)
+            // TODO: Set isEndOfWord = false
+        }
+    }
+
+    static class Trie {
+        private TrieNode root;
+
+        public Trie() {
+            // TODO: Initialize root node
+        }
+
+        /**
+         * Insert word into trie
+         * Time: O(m) where m = word length, Space: O(m)
+         *
+         * TODO: Implement insert
+         */
+        public void insert(String word) {
+            // TODO: Start from root
+            // TODO: Implement iteration/conditional logic
+            // TODO: Mark last node as end of word
+        }
+
+        /**
+         * Search if word exists in trie
+         * Time: O(m), Space: O(1)
+         *
+         * TODO: Implement search
+         */
+        public boolean search(String word) {
+            // TODO: Traverse trie following characters
+            // TODO: Return true only if:
+            return false; // Replace with implementation
+        }
+
+        /**
+         * Check if any word starts with prefix
+         * Time: O(m), Space: O(1)
+         *
+         * TODO: Implement startsWith
+         */
+        public boolean startsWith(String prefix) {
+            // TODO: Similar to search
+            // TODO: Return true if all characters found
+            return false; // Replace with implementation
+        }
+
+        /**
+         * Delete word from trie
+         * Time: O(m), Space: O(m) for recursion
+         *
+         * TODO: Implement delete
+         */
+        public boolean delete(String word) {
+            // TODO: Use recursive helper
+            // TODO: Only delete nodes that aren't part of other words
+            return false; // Replace with implementation
+        }
+
+        private boolean deleteHelper(TrieNode node, String word, int index) {
+            // TODO: Base case: reached end of word
+
+            // TODO: Recursive case:
+
+            return false; // Replace with implementation
+        }
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">public class BasicTrieClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Basic Trie Operations ===\n");
+
+        BasicTrie.Trie trie = new BasicTrie.Trie();
+
+        // Test 1: Insert and search
+        System.out.println("--- Test 1: Insert and Search ---");
+        String[] words = {"apple", "app", "application", "apply", "banana"};
+
+        System.out.println("Inserting words:");
+        for (String word : words) {
+            trie.insert(word);
+            System.out.println("  Inserted: " + word);
+        }
+
+        System.out.println("\nSearching:");
+        String[] searchWords = {"apple", "app", "appl", "ban", "banana"};
+        for (String word : searchWords) {
+            boolean found = trie.search(word);
+            System.out.printf("  search(\"%s\"): %s%n", word, found ? "FOUND" : "NOT FOUND");
+        }
+
+        // Test 2: Prefix search
+        System.out.println("\n--- Test 2: Prefix Search ---");
+        String[] prefixes = {"app", "ban", "cat"};
+        for (String prefix : prefixes) {
+            boolean hasPrefix = trie.startsWith(prefix);
+            System.out.printf("  startsWith(\"%s\"): %s%n", prefix, hasPrefix ? "YES" : "NO");
+        }
+
+        // Test 3: Delete
+        System.out.println("\n--- Test 3: Delete ---");
+        String deleteWord = "app";
+        System.out.println("Deleting: " + deleteWord);
+        trie.delete(deleteWord);
+
+        System.out.println("After deletion:");
+        for (String word : new String[]{"app", "apple", "application"}) {
+            boolean found = trie.search(word);
+            System.out.printf("  search(\"%s\"): %s%n", word, found ? "FOUND" : "NOT FOUND");
+        }
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-2-word-search-in-grid-with-trie">Pattern 2: Word Search in Grid with Trie<a class="headerlink" href="#pattern-2-word-search-in-grid-with-trie" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Use trie to efficiently search multiple words in 2D grid.</p>
+<p><strong>Use case:</strong> Word Search II, Boggle game solver.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class WordSearchTrie {
+
+    static class TrieNode {
+        Map&lt;Character, TrieNode&gt; children = new HashMap&lt;&gt;();
+        String word; // Store word at end node for easy retrieval
+    }
+
+    /**
+     * Problem: Find all words from dictionary in 2D grid
+     * Time: O(m*n*4^L) where L = max word length, Space: O(k*L) where k = words
+     *
+     * TODO: Implement word search II
+     */
+    public static List&lt;String&gt; findWords(char[][] board, String[] words) {
+        // TODO: Build trie from words array
+        // TODO: DFS from each cell using trie for pruning
+        // TODO: Mark visited cells during DFS
+        // TODO: Add found words to result (use Set to avoid duplicates)
+
+        return new ArrayList&lt;&gt;(); // Replace with implementation
+    }
+
+    private static TrieNode buildTrie(String[] words) {
+        // TODO: Create root node
+        // TODO: Insert each word into trie
+        // TODO: Store complete word at end node
+        return new TrieNode(); // Replace with implementation
+    }
+
+    private static void dfs(char[][] board, int i, int j, TrieNode node,
+                           Set&lt;String&gt; result, boolean[][] visited) {
+        // TODO: Check bounds and visited
+        // TODO: Get character at current position
+        // TODO: Check if character exists in trie children
+        // TODO: Implement iteration/conditional logic
+        // TODO: Mark visited
+        // TODO: DFS in 4 directions
+        // TODO: Unmark visited (backtrack)
+    }
+
+    /**
+     * Problem: Longest word in dictionary built one char at a time
+     * Time: O(n * L), Space: O(n * L)
+     *
+     * TODO: Implement longest word
+     */
+    public static String longestWord(String[] words) {
+        // TODO: Build trie
+        // TODO: DFS/BFS to find longest word where all prefixes exist
+        // TODO: Each character must form a valid word
+
+        return ""; // Replace with implementation
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class WordSearchTrieClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Word Search with Trie ===\n");
+
+        // Test 1: Word Search II
+        System.out.println("--- Test 1: Word Search II ---");
+        char[][] board = {
+            {'o','a','a','n'},
+            {'e','t','a','e'},
+            {'i','h','k','r'},
+            {'i','f','l','v'}
+        };
+
+        String[] words = {"oath", "pea", "eat", "rain", "oat"};
+
+        System.out.println("Board:");
+        for (char[] row : board) {
+            for (char c : row) {
+                System.out.print(c + " ");
+            }
+            System.out.println();
+        }
+
+        System.out.println("\nDictionary: " + Arrays.toString(words));
+
+        List&lt;String&gt; found = WordSearchTrie.findWords(board, words);
+        System.out.println("Found words: " + found);
+
+        // Test 2: Longest word
+        System.out.println("\n--- Test 2: Longest Word ---");
+        String[][] wordSets = {
+            {"w", "wo", "wor", "worl", "world"},
+            {"a", "banana", "app", "appl", "ap", "apply", "apple"}
+        };
+
+        for (String[] wordSet : wordSets) {
+            String longest = WordSearchTrie.longestWord(wordSet);
+            System.out.printf("Words: %s%n", Arrays.toString(wordSet));
+            System.out.printf("Longest: \"%s\"%n%n", longest);
+        }
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-3-autocomplete-and-prefix-matching">Pattern 3: Autocomplete and Prefix Matching<a class="headerlink" href="#pattern-3-autocomplete-and-prefix-matching" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Find all words with given prefix.</p>
+<p><strong>Use case:</strong> Autocomplete, suggestions, prefix search.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class Autocomplete {
+
+    static class TrieNode {
+        Map&lt;Character, TrieNode&gt; children = new HashMap&lt;&gt;();
+        boolean isEndOfWord;
+        String word; // Store full word for easy retrieval
+    }
+
+    static class AutocompleteTrie {
+        private TrieNode root;
+
+        public AutocompleteTrie() {
+            root = new TrieNode();
+        }
+
+        /**
+         * Insert word
+         * Time: O(m), Space: O(m)
+         *
+         * TODO: Implement insert
+         */
+        public void insert(String word) {
+            // TODO: Standard trie insert
+            // TODO: Store word at end node
+        }
+
+        /**
+         * Find all words with given prefix
+         * Time: O(p + n) where p=prefix length, n=results, Space: O(n)
+         *
+         * TODO: Implement autocomplete
+         */
+        public List&lt;String&gt; autocomplete(String prefix) {
+            List&lt;String&gt; results = new ArrayList&lt;&gt;();
+
+            // TODO: Navigate to end of prefix
+            // TODO: Implement iteration/conditional logic
+            // TODO: DFS from prefix node to collect all words
+            // TODO: Return results
+
+            return results; // Replace with implementation
+        }
+
+        private void collectWords(TrieNode node, List&lt;String&gt; results) {
+            // TODO: Implement iteration/conditional logic
+            // TODO: DFS all children
+        }
+
+        /**
+         * Find top K most frequent words with prefix
+         * Time: O(p + n log k), Space: O(n)
+         *
+         * TODO: Implement top K suggestions
+         */
+        public List&lt;String&gt; topKSuggestions(String prefix, int k) {
+            // TODO: Get all words with prefix
+            // TODO: Use min-heap to track top K by frequency
+            // TODO: Return top K
+
+            return new ArrayList&lt;&gt;(); // Replace with implementation
+        }
+    }
+
+    /**
+     * Problem: Search suggestions system
+     * Time: O(m*n) where m=products, n=searchWord length, Space: O(m*n)
+     *
+     * TODO: Implement search suggestions
+     */
+    public static List&lt;List&lt;String&gt;&gt; suggestedProducts(String[] products, String searchWord) {
+        // TODO: Build trie from products
+        // TODO: Implement iteration/conditional logic
+        // TODO: Return list of suggestions for each prefix
+
+        return new ArrayList&lt;&gt;(); // Replace with implementation
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class AutocompleteClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Autocomplete ===\n");
+
+        // Test 1: Basic autocomplete
+        System.out.println("--- Test 1: Basic Autocomplete ---");
+        Autocomplete.AutocompleteTrie trie = new Autocomplete.AutocompleteTrie();
+
+        String[] dictionary = {
+            "apple", "application", "apply", "app",
+            "banana", "band", "bandana", "ban"
+        };
+
+        System.out.println("Dictionary:");
+        for (String word : dictionary) {
+            trie.insert(word);
+            System.out.println("  " + word);
+        }
+
+        String[] prefixes = {"app", "ban", "cat"};
+        System.out.println("\nAutocomplete:");
+        for (String prefix : prefixes) {
+            List&lt;String&gt; suggestions = trie.autocomplete(prefix);
+            System.out.printf("  \"%s\" -&gt; %s%n", prefix, suggestions);
+        }
+
+        // Test 2: Search suggestions system
+        System.out.println("\n--- Test 2: Search Suggestions System ---");
+        String[] products = {"mobile", "mouse", "moneypot", "monitor", "mousepad"};
+        String searchWord = "mouse";
+
+        System.out.println("Products: " + Arrays.toString(products));
+        System.out.println("Search word: " + searchWord);
+
+        List&lt;List&lt;String&gt;&gt; suggestions = Autocomplete.suggestedProducts(products, searchWord);
+        System.out.println("Suggestions for each prefix:");
+        for (int i = 0; i &lt; suggestions.size(); i++) {
+            System.out.printf("  \"%s\" -&gt; %s%n",
+                searchWord.substring(0, i + 1), suggestions.get(i));
+        }
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-4-advanced-trie-applications">Pattern 4: Advanced Trie Applications<a class="headerlink" href="#pattern-4-advanced-trie-applications" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Use tries for complex string operations.</p>
+<p><strong>Use case:</strong> Longest common prefix, map sum pairs, replace words.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class AdvancedTrie {
+
+    /**
+     * Problem: Longest common prefix of all strings
+     * Time: O(S) where S = sum of all characters, Space: O(S)
+     *
+     * TODO: Implement using trie
+     */
+    public static String longestCommonPrefix(String[] strs) {
+        // TODO: Build trie from all strings
+        // TODO: Traverse trie while:
+        // TODO: Return prefix
+
+        return ""; // Replace with implementation
+    }
+
+    /**
+     * MapSum: Sum of values with given prefix
+     *
+     * TODO: Implement map sum trie
+     */
+    static class MapSum {
+        // TODO: TrieNode with value at each node
+        // TODO: Store running sum at each node
+
+        static class TrieNode {
+            Map&lt;Character, TrieNode&gt; children = new HashMap&lt;&gt;();
+            int value; // Value of word ending here
+            int sum; // Sum of all words with this prefix
+        }
+
+        private TrieNode root;
+
+        public MapSum() {
+            // TODO: Initialize root
+        }
+
+        /**
+         * Insert key with value
+         * Time: O(m), Space: O(m)
+         */
+        public void insert(String key, int val) {
+            // TODO: Navigate/create path for key
+            // TODO: Update sum at each node
+            // TODO: Store value at end node
+        }
+
+        /**
+         * Sum of all values with given prefix
+         * Time: O(m), Space: O(1)
+         */
+        public int sum(String prefix) {
+            // TODO: Navigate to end of prefix
+            // TODO: Return sum at that node
+            return 0; // Replace with implementation
+        }
+    }
+
+    /**
+     * Problem: Replace words with shortest root from dictionary
+     * Time: O(N + S), Space: O(N)
+     *
+     * TODO: Implement replace words
+     */
+    public static String replaceWords(List&lt;String&gt; dictionary, String sentence) {
+        // TODO: Build trie from dictionary
+        // TODO: Implement iteration/conditional logic
+        // TODO: Return modified sentence
+
+        return ""; // Replace with implementation
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class AdvancedTrieClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Advanced Trie ===\n");
+
+        // Test 1: Longest common prefix
+        System.out.println("--- Test 1: Longest Common Prefix ---");
+        String[][] stringSets = {
+            {"flower", "flow", "flight"},
+            {"dog", "racecar", "car"},
+            {"interview", "internet", "interval"}
+        };
+
+        for (String[] strs : stringSets) {
+            String lcp = AdvancedTrie.longestCommonPrefix(strs);
+            System.out.printf("Strings: %s%n", Arrays.toString(strs));
+            System.out.printf("LCP: \"%s\"%n%n", lcp);
+        }
+
+        // Test 2: Map sum
+        System.out.println("--- Test 2: Map Sum ---");
+        AdvancedTrie.MapSum mapSum = new AdvancedTrie.MapSum();
+
+        mapSum.insert("apple", 3);
+        System.out.println("insert(\"apple\", 3)");
+        System.out.println("sum(\"ap\"): " + mapSum.sum("ap"));
+
+        mapSum.insert("app", 2);
+        System.out.println("insert(\"app\", 2)");
+        System.out.println("sum(\"ap\"): " + mapSum.sum("ap"));
+
+        // Test 3: Replace words
+        System.out.println("\n--- Test 3: Replace Words ---");
+        List&lt;String&gt; dictionary = Arrays.asList("cat", "bat", "rat");
+        String sentence = "the cattle was rattled by the battery";
+
+        System.out.println("Dictionary: " + dictionary);
+        System.out.println("Sentence: " + sentence);
+
+        String replaced = AdvancedTrie.replaceWords(dictionary, sentence);
+        System.out.println("Result: " + replaced);
+    }
+}</code></pre>
+<hr/>
+<h2 id="debugging-challenges">Debugging Challenges<a class="headerlink" href="#debugging-challenges" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Find and fix bugs in broken implementations. This tests your understanding.</p>
+<h3 id="challenge-1-broken-insert">Challenge 1: Broken Insert<a class="headerlink" href="#challenge-1-broken-insert" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * This insert method is supposed to add words to the trie.
+ * It has 2 BUGS. Find them!
+ */
+public void insert_Buggy(String word) {
+    TrieNode current = root;
+
+    for (char c : word.toCharArray()) {
+        int index = c - 'a';
+
+        if (current.children[index] == null) {
+        }
+
+        current = current.children[index];
+    }
+
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>
+<p>Bug 1: <span class="fill-in">[What\'s the bug?]</span></p>
+</li>
+<li>
+<p>Bug 2: <span class="fill-in">[What\'s the bug?]</span></p>
+</li>
+</ul>
+<p><strong>Test case to expose the bug:</strong></p>
+<ul>
+<li>Insert: "app" and "apple"</li>
+<li>Search for "app": Expected true, Actual: <span class="fill-in">[Trace through manually]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug 1:</strong> Missing node creation! Should be:</p>
+<pre class="highlight"><code class="language-java">if (current.children[index] == null) {
+    current.children[index] = new TrieNode();
+}</code></pre>
+<p><strong>Bug 2:</strong> Missing <code>current.isEndOfWord = true;</code> after the loop. Without this, search will fail even though word was
+inserted.</p>
+<p><strong>Result:</strong> Without bug fixes, search("app") would return false because isEndOfWord is never set to true.</p>
+</details>
+<hr/>
+<h3 id="challenge-2-broken-search">Challenge 2: Broken Search<a class="headerlink" href="#challenge-2-broken-search" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Search if word exists in trie.
+ * This has 1 CRITICAL BUG.
+ */
+public boolean search_Buggy(String word) {
+    TrieNode current = root;
+
+    for (char c : word.toCharArray()) {
+        int index = c - 'a';
+
+        if (current.children[index] == null) {
+            return false;
+        }
+
+        current = current.children[index];
+    }
+
+    return true;}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>Bug: <span class="fill-in">[What\'s the bug?]</span></li>
+</ul>
+<p><strong>Test case to expose the bug:</strong></p>
+<ul>
+<li>Dictionary: ["apple", "application"]</li>
+<li>Search for "app": Expected false, Actual: <span class="fill-in">[What happens?]</span></li>
+<li>Search for "apple": Expected true, Actual: <span class="fill-in">[What happens?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> Should return <code>current.isEndOfWord</code>, not just <code>true</code>.</p>
+<p><strong>Correct:</strong></p>
+<pre class="highlight"><code class="language-java">return current.isEndOfWord;</code></pre>
+<p><strong>Why:</strong> We traversed all characters successfully, but that only means the prefix exists. We must check if it's marked
+as an actual word ending.</p>
+<p><strong>Result:</strong> Without fix, search("app") returns true even though "app" wasn't inserted (only "apple" was).</p>
+</details>
+<hr/>
+<h3 id="challenge-3-broken-autocomplete">Challenge 3: Broken Autocomplete<a class="headerlink" href="#challenge-3-broken-autocomplete" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Find all words with given prefix.
+ * This has 2 BUGS causing wrong results.
+ */
+public List&lt;String&gt; autocomplete_Buggy(String prefix) {
+    List&lt;String&gt; results = new ArrayList&lt;&gt;();
+    TrieNode current = root;
+
+    // Navigate to prefix
+    for (char c : prefix.toCharArray()) {
+        int index = c - 'a';
+        if (current.children[index] == null) {
+            return results;
+        }
+        current = current.children[index];
+    }
+
+
+    // Collect all words
+    collectWords(current, prefix, results);
+    return results;
+}
+
+private void collectWords(TrieNode node, String currentWord, List&lt;String&gt; results) {
+    for (int i = 0; i &lt; 26; i++) {
+        if (node.children[i] != null) {
+            collectWords(node.children[i], currentWord + (char)('a' + i), results);
+        }
+    }
+
+    if (node.isEndOfWord) {
+        results.add(currentWord);
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug 1:</strong> <span class="fill-in">[What check is missing?]</span></li>
+<li>
+<p><strong>Bug 1 fix:</strong> <span class="fill-in">[What code to add?]</span></p>
+</li>
+<li>
+<p><strong>Bug 2:</strong> <span class="fill-in">[What's wrong with the order?]</span></p>
+</li>
+<li><strong>Bug 2 fix:</strong> <span class="fill-in">[Where should the check go?]</span></li>
+</ul>
+<p><strong>Test case:</strong></p>
+<ul>
+<li>Dictionary: ["app", "apple", "application"]</li>
+<li>Autocomplete("app"): Expected ["app", "apple", "application"]</li>
+<li>Actual: <span class="fill-in">[Trace through - what's wrong?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug 1:</strong> Missing check if prefix itself is a word. After navigating to prefix, add:</p>
+<pre class="highlight"><code class="language-java">if (current.isEndOfWord) {
+    results.add(prefix);
+}</code></pre>
+<p><strong>Bug 2:</strong> The isEndOfWord check should come BEFORE recursing to children, not after. This ensures parent words are
+added before children (proper DFS order).</p>
+<p><strong>Correct order:</strong></p>
+<pre class="highlight"><code class="language-java">private void collectWords(TrieNode node, String currentWord, List&lt;String&gt; results) {
+    if (node.isEndOfWord) {
+        results.add(currentWord);  // Add current word first
+    }
+
+    for (int i = 0; i &lt; 26; i++) {
+        if (node.children[i] != null) {
+            collectWords(node.children[i], currentWord + (char)('a' + i), results);
+        }
+    }
+}</code></pre>
+</details>
+<hr/>
+<h3 id="challenge-4-memory-leak-in-delete">Challenge 4: Memory Leak in Delete<a class="headerlink" href="#challenge-4-memory-leak-in-delete" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Delete word from trie.
+ * This has 1 SUBTLE BUG causing memory waste.
+ */
+public boolean delete_Buggy(String word) {
+    return deleteHelper(root, word, 0);
+}
+
+private boolean deleteHelper(TrieNode node, String word, int index) {
+    if (index == word.length()) {
+        if (!node.isEndOfWord) {
+            return false;  // Word not in trie
+        }
+
+        node.isEndOfWord = false;
+        return true;    }
+
+    char c = word.charAt(index);
+    int idx = c - 'a';
+    TrieNode child = node.children[idx];
+
+    if (child == null) {
+        return false;  // Word not in trie
+    }
+
+    boolean shouldDeleteChild = deleteHelper(child, word, index + 1);
+
+    if (shouldDeleteChild) {
+        node.children[idx] = null;  // Delete child
+    }
+
+    return false;  // Don't delete this node
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug 1:</strong> <span class="fill-in">[What's the logic error?]</span></li>
+<li><strong>Bug 2:</strong> <span class="fill-in">[When should we delete a node?]</span></li>
+<li><strong>Bug 3:</strong> <span class="fill-in">[What should the final return be?]</span></li>
+</ul>
+<p><strong>Test case:</strong></p>
+<ul>
+<li>Dictionary: ["app", "apple"]</li>
+<li>Delete "apple"</li>
+<li>Expected: "app" still works, nodes for "le" are removed</li>
+<li>Actual: <span class="fill-in">[What happens? Trace through]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> The logic for when to delete nodes is wrong. We should only delete a node if:</p>
+<ol>
+<li>It's not an end of word (after marking false)</li>
+<li>It has no children</li>
+</ol>
+<p><strong>Correct implementation:</strong></p>
+<pre class="highlight"><code class="language-java">private boolean deleteHelper(TrieNode node, String word, int index) {
+    if (index == word.length()) {
+        if (!node.isEndOfWord) {
+            return false;
+        }
+
+        node.isEndOfWord = false;
+
+        // Can delete if no children
+        return isEmpty(node);
+    }
+
+    char c = word.charAt(index);
+    int idx = c - 'a';
+    TrieNode child = node.children[idx];
+
+    if (child == null) {
+        return false;
+    }
+
+    boolean shouldDeleteChild = deleteHelper(child, word, index + 1);
+
+    if (shouldDeleteChild) {
+        node.children[idx] = null;
+
+        // Delete this node if it's not end of word and has no children
+        return !node.isEndOfWord &amp;&amp; isEmpty(node);
+    }
+
+    return false;
+}
+
+private boolean isEmpty(TrieNode node) {
+    for (int i = 0; i &lt; 26; i++) {
+        if (node.children[i] != null) {
+            return false;
+        }
+    }
+    return true;
+}</code></pre>
+<p><strong>Why:</strong> Without proper cleanup, deleted word's unique nodes remain in memory even though they're not part of any word.</p>
+</details>
+<hr/>
+<h3 id="challenge-5-off-by-one-in-word-search">Challenge 5: Off-by-One in Word Search<a class="headerlink" href="#challenge-5-off-by-one-in-word-search" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * DFS for word search in grid using trie.
+ * This has 1 CRITICAL BUG causing wrong results.
+ */
+private void dfs_Buggy(char[][] board, int i, int j, TrieNode node,
+                      Set&lt;String&gt; result, boolean[][] visited) {
+
+    char c = board[i][j];
+
+    if (!node.children.containsKey(c)) {
+        return;  // Character not in trie
+    }
+
+    visited[i][j] = true;
+    TrieNode next = node.children.get(c);
+
+    if (next.word != null) {
+        result.add(next.word);
+    }
+
+    // Explore 4 directions
+    dfs_Buggy(board, i + 1, j, next, result, visited);
+    dfs_Buggy(board, i - 1, j, next, result, visited);
+    dfs_Buggy(board, i, j + 1, next, result, visited);
+    dfs_Buggy(board, i, j - 1, next, result, visited);
+
+    visited[i][j] = false;  // Backtrack
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>Bug: <span class="fill-in">[What\'s the bug?]</span></li>
+</ul>
+<p><strong>Test case:</strong></p>
+<ul>
+<li>Grid: [['a','b'],['c','d']]</li>
+<li>Dictionary: ["ab"]</li>
+<li>What error occurs? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> Missing boundary and visited checks at the START of the function. Current code checks after accessing array,
+causing ArrayIndexOutOfBoundsException.</p>
+<p><strong>Correct:</strong></p>
+<pre class="highlight"><code class="language-java">private void dfs(char[][] board, int i, int j, TrieNode node,
+                Set&lt;String&gt; result, boolean[][] visited) {
+    // Check bounds and visited FIRST
+    if (i &lt; 0 || i &gt;= board.length || j &lt; 0 || j &gt;= board[0].length || visited[i][j]) {
+        return;
+    }
+
+    char c = board[i][j];
+
+    if (!node.children.containsKey(c)) {
+        return;
+    }
+
+    visited[i][j] = true;
+    TrieNode next = node.children.get(c);
+
+    if (next.word != null) {
+        result.add(next.word);
+    }
+
+    dfs(board, i + 1, j, next, result, visited);
+    dfs(board, i - 1, j, next, result, visited);
+    dfs(board, i, j + 1, next, result, visited);
+    dfs(board, i, j - 1, next, result, visited);
+
+    visited[i][j] = false;
+}</code></pre>
+<p><strong>Why:</strong> Without boundary checks first, recursive calls will access invalid indices.</p>
+</details>
+<hr/>
+<h3 id="your-debugging-scorecard">Your Debugging Scorecard<a class="headerlink" href="#your-debugging-scorecard" title="Permanent link">¶</a></h3>
+<p>After finding and fixing all bugs:</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Found all 8+ bugs across 5 challenges</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understood WHY each bug causes incorrect behavior</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could explain the fix to someone else</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Learned common trie mistakes to avoid</li>
+</ul>
+<p><strong>Common mistakes you discovered:</strong></p>
+<ol>
+<li><span class="fill-in">[Forgetting to mark isEndOfWord]</span></li>
+<li><span class="fill-in">[Not creating new nodes during insert]</span></li>
+<li><span class="fill-in">[Not checking isEndOfWord in search]</span></li>
+<li><span class="fill-in">[Wrong order in DFS collection]</span></li>
+<li><span class="fill-in">[Missing boundary checks in grid search]</span></li>
+<li><span class="fill-in">[Incomplete deletion logic]</span></li>
+</ol>
+<hr/>
+<h2 id="decision-framework">Decision Framework<a class="headerlink" href="#decision-framework" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Build decision trees for trie problems.</p>
+<h3 id="question-1-what-operations-do-you-need">Question 1: What operations do you need?<a class="headerlink" href="#question-1-what-operations-do-you-need" title="Permanent link">¶</a></h3>
+<p>Answer after solving problems:</p>
+<ul>
+<li><strong>Insert/search single word?</strong> <span class="fill-in">[Basic trie]</span></li>
+<li><strong>Prefix search?</strong> <span class="fill-in">[Trie with prefix traversal]</span></li>
+<li><strong>Find all words with prefix?</strong> <span class="fill-in">[Autocomplete trie]</span></li>
+<li><strong>Multiple word search in grid?</strong> <span class="fill-in">[Trie + DFS]</span></li>
+</ul>
+<h3 id="question-2-what-are-the-constraints">Question 2: What are the constraints?<a class="headerlink" href="#question-2-what-are-the-constraints" title="Permanent link">¶</a></h3>
+<p><strong>Space critical:</strong></p>
+<ul>
+<li>Use: <span class="fill-in">[Hash map for children (sparse)]</span></li>
+<li>Avoid: <span class="fill-in">[Array for children (dense)]</span></li>
+</ul>
+<p><strong>Need frequency/values:</strong></p>
+<ul>
+<li>Store: <span class="fill-in">[Additional data at nodes]</span></li>
+<li>Examples: <span class="fill-in">[MapSum, frequency trie]</span></li>
+</ul>
+<p><strong>Need to delete:</strong></p>
+<ul>
+<li>Implement: <span class="fill-in">[Recursive deletion with cleanup]</span></li>
+</ul>
+<h3 id="your-decision-tree">Your Decision Tree<a class="headerlink" href="#your-decision-tree" title="Permanent link">¶</a></h3>
+<div class="mermaid">flowchart LR
+    Start["Trie Pattern Selection"]
+
+    Q1{"Basic operations?"}
+    Start --&gt; Q1
+    N2(["Basic Trie ✓"])
+    Q1 --&gt;|"Insert/search/prefix"| N2
+    N3(["Trie with delete ✓"])
+    Q1 --&gt;|"With deletion"| N3
+    Q4{"Multiple word search?"}
+    Start --&gt; Q4
+    N5(["Trie + DFS ✓"])
+    Q4 --&gt;|"In grid"| N5
+    N6(["Trie + automaton ✓"])
+    Q4 --&gt;|"In stream"| N6
+    Q7{"Prefix-based queries?"}
+    Start --&gt; Q7
+    N8(["Autocomplete ✓"])
+    Q7 --&gt;|"Find all with prefix"| N8
+    N9(["Trie with counts ✓"])
+    Q7 --&gt;|"Count with prefix"| N9
+    N10(["MapSum trie ✓"])
+    Q7 --&gt;|"Sum with prefix"| N10
+    Q11{"String operations?"}
+    Start --&gt; Q11
+    N12(["Trie traversal ✓"])
+    Q11 --&gt;|"Longest common prefix"| N12
+    N13(["Dictionary trie ✓"])
+    Q11 --&gt;|"Replace with root"| N13
+    N14(["Trie with validation ✓"])
+    Q11 --&gt;|"Longest word"| N14</div>
+<hr/>
+<h2 id="practice">Practice<a class="headerlink" href="#practice" title="Permanent link">¶</a></h2>
+<h3 id="leetcode-problems">LeetCode Problems<a class="headerlink" href="#leetcode-problems" title="Permanent link">¶</a></h3>
+<p><strong>Easy (Complete all 2):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/implement-trie-prefix-tree/">208. Implement Trie</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Basic trie]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/longest-word-in-dictionary/">720. Longest Word in Dictionary</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Trie with validation]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Medium (Complete 3-4):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/design-add-and-search-words-data-structure/">211. Design Add and Search Words Data Structure</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Trie with wildcard]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/word-search-ii/">212. Word Search II</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Trie + DFS]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/search-suggestions-system/">1268. Search Suggestions System</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Autocomplete]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/replace-words/">648. Replace Words</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Dictionary trie]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Hard (Optional):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/concatenated-words/">472. Concatenated Words</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Trie + DP]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/maximum-xor-with-an-element-from-array/">1707. Maximum XOR With an Element From Array</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Binary trie]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+</ul>
+<hr/>
+<h2 id="review-checklist">Review Checklist<a class="headerlink" href="#review-checklist" title="Permanent link">¶</a></h2>
+<p>Before moving to the next topic:</p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Implementation</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Basic trie: insert, search, prefix, delete all work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Word search: find multiple words in grid works</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Autocomplete: prefix matching and suggestions work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Advanced: LCP, MapSum, replace words work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> All client code runs successfully</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Pattern Recognition</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can identify when trie is appropriate</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand trie vs hash table tradeoffs</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Know how to store additional data in nodes</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Recognize prefix query patterns</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Problem Solving</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Solved 2 easy problems</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Solved 3-4 medium problems</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Analyzed time/space complexity</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understood when to use array vs map for children</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Understanding</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Filled in all ELI5 explanations</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Built decision tree</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Identified when NOT to use tries</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can explain trie structure and traversal</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Mastery Check</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could implement all patterns from memory</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could recognize pattern in new problem</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could explain to someone else</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand space complexity of tries</li>
+</ul>
+</li>
+</ul>
+<hr/>
+<h3 id="mastery-certification">Mastery Certification<a class="headerlink" href="#mastery-certification" title="Permanent link">¶</a></h3>
+<p><strong>I certify that I can:</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Implement basic trie (insert, search, prefix) from memory</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Explain when and why to use trie over hash table</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Implement autocomplete with prefix matching</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Use trie for word search in 2D grid</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Implement trie deletion correctly</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Analyze space and time complexity</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Debug common trie mistakes</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Apply tries to real-world problems</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Teach this concept to someone else</li>
+</ul></div>
+</div>
+<footer class="col-md-12 text-center">
+<hr/>
+<p>
+<small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+</p>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../../js/bootstrap-3.0.3.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>var base_url = "../.."</script>
+<script src="../../js/base.js"></script>
+<script src="../../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<button class="close" data-dismiss="modal" type="button">
+<span aria-hidden="true">×</span>
+<span class="sr-only">Close</span>
+</button>
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+</div>
+<div class="modal-body">
+<p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="text"/>
+</div>
+</form>
+<div id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@10.4.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>

@@ -1,0 +1,1656 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="A framework for algorithms, systems design, and infrastructure." name="description"/>
+<meta content="Richard" name="author"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>09. Load Balancing - Software Engineering Study Guide</title>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" rel="stylesheet"/>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css" rel="stylesheet"/>
+<link href="//rsms.me/inter/inter.css" rel="stylesheet" type="text/css"/>
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&amp;subset=latin-ext,latin" rel="stylesheet" type="text/css"/>
+<link href="../../css/bootstrap-custom.min.css" rel="stylesheet"/>
+<link href="../../css/base.min.css" rel="stylesheet"/>
+<link href="../../css/cinder.min.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css" rel="stylesheet"/>
+<link href="../../css/custom.css" rel="stylesheet"/>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="container">
+<!-- Collapsed navigation -->
+<div class="navbar-header">
+<!-- Expander button -->
+<button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<!-- Main title -->
+<a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+</div>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li>
+<a href="../..">Home</a>
+</li>
+<li class="dropdown active">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Systems Design <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../01-storage-engines/">01. Storage Engines</a>
+</li>
+<li>
+<a href="../02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+<li>
+<a href="../03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+<li>
+<a href="../04-search-and-indexing/">04. Search &amp; Indexing</a>
+</li>
+<li>
+<a href="../05-caching-patterns/">05. Caching Patterns</a>
+</li>
+<li>
+<a href="../06-api-design/">06. API Design</a>
+</li>
+<li>
+<a href="../07-security-patterns/">07. Security Patterns</a>
+</li>
+<li>
+<a href="../08-rate-limiting/">08. Rate Limiting</a>
+</li>
+<li class="active">
+<a href="./">09. Load Balancing</a>
+</li>
+<li>
+<a href="../10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+<li>
+<a href="../11-database-scaling/">11. Database Scaling</a>
+</li>
+<li>
+<a href="../12-message-queues/">12. Message Queues</a>
+</li>
+<li>
+<a href="../13-stream-processing/">13. Stream Processing</a>
+</li>
+<li>
+<a href="../14-observability/">14. Observability</a>
+</li>
+<li>
+<a href="../15-distributed-transactions/">15. Distributed Transactions</a>
+</li>
+<li>
+<a href="../16-consensus-patterns/">16. Consensus Patterns</a>
+</li>
+</ul>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">DSA <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../dsa/01-two-pointers/">01. Two Pointers</a>
+</li>
+<li>
+<a href="../../dsa/02-sliding-window/">02. Sliding Window</a>
+</li>
+<li>
+<a href="../../dsa/03-hash-tables/">03. Hash Tables</a>
+</li>
+<li>
+<a href="../../dsa/04-linked-lists/">04. Linked Lists</a>
+</li>
+<li>
+<a href="../../dsa/05-stacks--queues/">05. Stacks &amp; Queues</a>
+</li>
+<li>
+<a href="../../dsa/06-trees-traversals/">06. Trees - Traversals</a>
+</li>
+<li>
+<a href="../../dsa/07-trees-recursion/">07. Trees - Recursion</a>
+</li>
+<li>
+<a href="../../dsa/08-binary-search/">08. Binary Search</a>
+</li>
+<li>
+<a href="../../dsa/09-heaps/">09. Heaps</a>
+</li>
+<li>
+<a href="../../dsa/10-graphs/">10. Graphs</a>
+</li>
+<li>
+<a href="../../dsa/11-union-find/">11. Union-Find</a>
+</li>
+<li>
+<a href="../../dsa/12-advanced-graphs/">12. Advanced Graphs</a>
+</li>
+<li>
+<a href="../../dsa/13-backtracking/">13. Backtracking</a>
+</li>
+<li>
+<a href="../../dsa/14-dynamic-programming-1d/">14. Dynamic Programming 1D</a>
+</li>
+<li>
+<a href="../../dsa/15-dynamic-programming-2d/">15. Dynamic Programming 2D</a>
+</li>
+<li>
+<a href="../../dsa/16-tries/">16. Tries</a>
+</li>
+<li>
+<a href="../../dsa/17-advanced-topics/">17. Advanced Topics</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+<a data-target="#mkdocs_search_modal" data-toggle="modal" href="#">
+<i class="fas fa-search"></i> Search
+                        </a>
+</li>
+<li>
+<a href="../08-rate-limiting/" rel="prev">
+<i class="fas fa-arrow-left"></i> Previous
+                        </a>
+</li>
+<li>
+<a href="../10-concurrency-patterns/" rel="next">
+                            Next <i class="fas fa-arrow-right"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+<ul class="nav bs-sidenav">
+<li class="first-level active"><a href="#load-balancing">Load Balancing</a></li>
+<li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+<li class="second-level"><a href="#quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)</a></li>
+<li class="second-level"><a href="#beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters</a></li>
+<li class="second-level"><a href="#case-studies-load-balancing-in-the-wild">Case Studies: Load Balancing in the Wild</a></li>
+<li class="second-level"><a href="#core-implementation">Core Implementation</a></li>
+<li class="second-level"><a href="#client-code">Client Code</a></li>
+<li class="second-level"><a href="#debugging-challenges">Debugging Challenges</a></li>
+<li class="second-level"><a href="#decision-framework">Decision Framework</a></li>
+<li class="second-level"><a href="#practice">Practice</a></li>
+<li class="second-level"><a href="#review-checklist">Review Checklist</a></li>
+</ul>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="load-balancing">Load Balancing<a class="headerlink" href="#load-balancing" title="Permanent link">¶</a></h1>
+<blockquote>
+<p>Distributing requests across multiple servers for scalability and reliability</p>
+</blockquote>
+<hr/>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After implementing different load balancing algorithms, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What is load balancing in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Why do we need load balancers?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy for round robin:</strong></p>
+<ul>
+<li>Example: "Round robin is like a carousel where..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What is round robin in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>How is least connections different from round robin?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy for consistent hashing:</strong></p>
+<ul>
+<li>Example: "Consistent hashing is like a clock where..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What is consistent hashing in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When would you use weighted load balancing?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr/>
+<h2 id="quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)<a class="headerlink" href="#quick-quiz-do-before-implementing" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Test your intuition without looking at code. Answer these, then verify after implementation.</p>
+<h3 id="complexity-predictions">Complexity Predictions<a class="headerlink" href="#complexity-predictions" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p><strong>Round robin server selection:</strong></p>
+<ul>
+<li>Time complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Space complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Verified after learning: <span class="fill-in">[Actual: O(?)]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Least connections server selection:</strong></p>
+<ul>
+<li>Time complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Space complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Verified: <span class="fill-in">[Actual]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Consistent hashing lookup:</strong></p>
+<ul>
+<li>Time complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Space complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Verified: <span class="fill-in">[Actual]</span></li>
+</ul>
+</li>
+</ol>
+<h3 id="scenario-predictions">Scenario Predictions<a class="headerlink" href="#scenario-predictions" title="Permanent link">¶</a></h3>
+<p><strong>Scenario 1:</strong> 3 identical servers, 12 requests using round robin</p>
+<ul>
+<li><strong>How many requests does each server get?</strong> <span class="fill-in">[Fill in]</span></li>
+<li><strong>If we add a 4th server after 8 requests, what happens?</strong> <span class="fill-in">[Explain]</span></li>
+<li><strong>Is this distribution optimal for all workloads?</strong> <span class="fill-in">[Yes/No - Why?]</span></li>
+</ul>
+<p><strong>Scenario 2:</strong> 3 servers, server 1 has 5 connections, server 2 has 2, server 3 has 3</p>
+<ul>
+<li><strong>Which server does least connections choose?</strong> <span class="fill-in">[Fill in]</span></li>
+<li><strong>Why not round robin in this case?</strong> <span class="fill-in">[Explain]</span></li>
+<li><strong>What if requests have varying durations?</strong> <span class="fill-in">[Which algorithm is better?]</span></li>
+</ul>
+<p><strong>Scenario 3:</strong> Consistent hashing with 3 servers, 100 cache keys</p>
+<ul>
+<li><strong>If you add a 4th server, approximately what % of keys are remapped?</strong> <span class="fill-in">[Fill in]</span></li>
+<li><strong>If you remove 1 server, what % of keys are remapped?</strong> <span class="fill-in">[Fill in]</span></li>
+<li><strong>Why is this better than simple hash % server_count?</strong> <span class="fill-in">[Explain]</span></li>
+</ul>
+<h3 id="trade-off-quiz">Trade-off Quiz<a class="headerlink" href="#trade-off-quiz" title="Permanent link">¶</a></h3>
+<p><strong>Question:</strong> When would IP hash be WORSE than round robin?</p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in before implementation]</span></li>
+<li>Verified answer: <span class="fill-in">[Fill in after learning]</span></li>
+</ul>
+<p><strong>Question:</strong> What's the MAIN problem with simple hash-based load balancing?</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> It's too slow</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> It doesn't distribute evenly</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Adding/removing servers causes massive redistribution</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> It requires too much memory</li>
+</ul>
+<p>Verify after implementation: <span class="fill-in">[Which one(s)?]</span></p>
+<p><strong>Question:</strong> What problem do virtual nodes solve in consistent hashing?</p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in before implementation]</span></li>
+<li>Verified answer: <span class="fill-in">[Fill in after learning]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters<a class="headerlink" href="#beforeafter-why-this-pattern-matters" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Compare different load balancing approaches to understand the impact.</p>
+<h3 id="example-distributing-10-requests">Example: Distributing 10 Requests<a class="headerlink" href="#example-distributing-10-requests" title="Permanent link">¶</a></h3>
+<p><strong>Problem:</strong> Route 10 requests across 3 servers with different algorithms.</p>
+<h4 id="approach-1-round-robin">Approach 1: Round Robin<a class="headerlink" href="#approach-1-round-robin" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Round robin - Simple circular rotation
+List&lt;Server&gt; servers = Arrays.asList(server1, server2, server3);
+int currentIndex = 0;
+
+for (int i = 1; i &lt;= 10; i++) {
+    Server selected = servers.get(currentIndex);
+    System.out.println("Request " + i + " -&gt; " + selected.id);
+    currentIndex = (currentIndex + 1) % servers.size();
+}</code></pre>
+<p><strong>Output:</strong></p>
+<pre class="highlight"><code>Request 1 -&gt; S1, Request 2 -&gt; S2, Request 3 -&gt; S3
+Request 4 -&gt; S1, Request 5 -&gt; S2, Request 6 -&gt; S3
+Request 7 -&gt; S1, Request 8 -&gt; S2, Request 9 -&gt; S3
+Request 10 -&gt; S1</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Distribution: S1=4, S2=3, S3=3 (even)</li>
+<li>Time: O(1) per request</li>
+<li>Space: O(1)</li>
+<li>Problem: Doesn't consider if S1 is slower or overloaded</li>
+</ul>
+<h4 id="approach-2-least-connections">Approach 2: Least Connections<a class="headerlink" href="#approach-2-least-connections" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Least connections - Route to server with fewest active connections
+// Assume current state: S1=5 connections, S2=2 connections, S3=3 connections
+
+ServerWithStats min = servers.get(0);
+for (ServerWithStats s : servers) {
+    if (s.activeConnections &lt; min.activeConnections) {
+        min = s;
+    }
+}
+System.out.println("Route to: " + min.server.id);
+min.activeConnections++;</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Routes to S2 (only 2 connections vs 5 and 3)</li>
+<li>Time: O(n) per request (scan all servers)</li>
+<li>Space: O(n) (track connection counts)</li>
+<li>Benefit: Adapts to varying request durations</li>
+<li>Problem: More overhead than round robin</li>
+</ul>
+<h4 id="approach-3-consistent-hashing">Approach 3: Consistent Hashing<a class="headerlink" href="#approach-3-consistent-hashing" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Consistent hashing - Map user to consistent server
+TreeMap&lt;Integer, Server&gt; ring = new TreeMap&lt;&gt;();
+
+// Place servers on ring with virtual nodes
+for (Server s : servers) {
+    for (int i = 0; i &lt; 3; i++) {
+        int hash = hash(s.id + "-" + i);
+        ring.put(hash, s);
+    }
+}
+
+// Route request by user ID
+String userId = "user123";
+int userHash = hash(userId);
+Map.Entry&lt;Integer, Server&gt; entry = ring.ceilingEntry(userHash);
+if (entry == null) entry = ring.firstEntry();
+System.out.println(userId + " -&gt; " + entry.getValue().id);</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(log n) per request (TreeMap lookup)</li>
+<li>Space: O(n * virtual_nodes)</li>
+<li>Benefit: Adding server only remaps ~1/n keys</li>
+<li>Problem: More complex, uneven distribution without enough virtual nodes</li>
+</ul>
+<h4 id="performance-comparison-adding-a-server">Performance Comparison: Adding a Server<a class="headerlink" href="#performance-comparison-adding-a-server" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>Algorithm</th>
+<th>Before</th>
+<th>After</th>
+<th>Keys Remapped</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Simple Hash (key % n)</td>
+<td>3 servers</td>
+<td>4 servers</td>
+<td>~75% (3 out of 4 keys)</td>
+</tr>
+<tr>
+<td>Consistent Hashing</td>
+<td>3 servers</td>
+<td>4 servers</td>
+<td>~25% (1 out of 4 keys)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why does this matter for caching?</strong></p>
+<ul>
+<li>Simple hash: 75% cache miss rate after adding server</li>
+<li>Consistent hash: 25% cache miss rate after adding server</li>
+<li>3x improvement in cache hit rate during scaling</li>
+</ul>
+<p><strong>Your calculation:</strong> With 100 servers and 1,000,000 cached keys:</p>
+<ul>
+<li>Simple hash remapping: <span class="fill-in">_____</span> keys need to move</li>
+<li>Consistent hash remapping: <span class="fill-in">_____</span> keys need to move</li>
+<li>Improvement factor: <span class="fill-in">_____</span> times better</li>
+</ul>
+<h4 id="comparison-session-persistence">Comparison: Session Persistence<a class="headerlink" href="#comparison-session-persistence" title="Permanent link">¶</a></h4>
+<p><strong>Scenario:</strong> User with shopping cart stored in server memory</p>
+<p><strong>Round Robin:</strong></p>
+<pre class="highlight"><code>Request 1 (user123) -&gt; S1 (cart created)
+Request 2 (user123) -&gt; S2 (cart lost! No session data)
+Request 3 (user123) -&gt; S3 (cart lost! No session data)</code></pre>
+<p>Result: Cart lost, poor user experience</p>
+<p><strong>IP Hash:</strong></p>
+<pre class="highlight"><code>hash("192.168.1.100") % 3 = 1 -&gt; S2
+Request 1 (user123 from 192.168.1.100) -&gt; S2 (cart created)
+Request 2 (user123 from 192.168.1.100) -&gt; S2 (cart found!)
+Request 3 (user123 from 192.168.1.100) -&gt; S2 (cart persists)</code></pre>
+<p>Result: Same server every time, session maintained</p>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>When would you choose round robin over least connections? <span class="fill-in">[Your answer]</span></li>
+<li>Why use consistent hashing for a cache cluster? <span class="fill-in">[Your answer]</span></li>
+<li>What are the trade-offs of IP hash for session persistence? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="case-studies-load-balancing-in-the-wild">Case Studies: Load Balancing in the Wild<a class="headerlink" href="#case-studies-load-balancing-in-the-wild" title="Permanent link">¶</a></h2>
+<h3 id="netflix-zuul-api-gateway">Netflix: Zuul API Gateway<a class="headerlink" href="#netflix-zuul-api-gateway" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> L7 Load Balancing.</li>
+<li><strong>How it works:</strong> Netflix's Zuul gateway acts as a smart L7 router. It inspects incoming HTTP requests and routes them
+  to the appropriate microservice (e.g., <code>api/v1/movies</code> -&gt; Movie Service, <code>api/v1/billing</code> -&gt; Billing Service).</li>
+<li><strong>Key Takeaway:</strong> They use it for more than just traffic distribution; it handles dynamic routing, security, and
+  monitoring, acting as the "front door" to their entire microservices architecture.</li>
+</ul>
+<h3 id="facebook-katran-load-balancer">Facebook: Katran Load Balancer<a class="headerlink" href="#facebook-katran-load-balancer" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> L4 Load Balancing.</li>
+<li><strong>How it works:</strong> Katran is a high-performance L4 load balancer that operates at the network packet level (TCP/UDP).
+  It uses a technique called Direct Server Return (DSR) where the backend server responds directly to the client,
+  bypassing the load balancer on the return path to reduce latency.</li>
+<li><strong>Key Takeaway:</strong> For massive scale, Facebook optimized at a lower level to achieve extreme performance, sacrificing
+  application-level routing logic at the edge for raw speed.</li>
+</ul>
+<h3 id="cloudflare-anycast-and-geo-routing">Cloudflare: Anycast and Geo-Routing<a class="headerlink" href="#cloudflare-anycast-and-geo-routing" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> Global Load Balancing (GSLB).</li>
+<li><strong>How it works:</strong> Cloudflare uses Anycast DNS to route users to the nearest data center based on network topology. An
+  L4/L7 load balancer within that data center then distributes traffic locally.</li>
+<li><strong>Key Takeaway:</strong> Load balancing isn't just for a single data center. It's a critical tool for global traffic
+  management, improving latency and providing DDoS protection by distributing traffic geographically.</li>
+</ul>
+<hr/>
+<h2 id="core-implementation">Core Implementation<a class="headerlink" href="#core-implementation" title="Permanent link">¶</a></h2>
+<h3 id="part-1-round-robin-load-balancer">Part 1: Round Robin Load Balancer<a class="headerlink" href="#part-1-round-robin-load-balancer" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement simple round robin algorithm.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+/**
+ * Round Robin: Distribute requests evenly in rotation
+ *
+ * Key principles:
+ * - Circular iteration through servers
+ * - Simple and fair distribution
+ * - Doesn't consider server load
+ * - Works well for similar servers
+ */
+
+public class RoundRobinLoadBalancer {
+
+    private final List&lt;Server&gt; servers;
+    private int currentIndex;
+
+    /**
+     * Initialize round robin load balancer
+     *
+     * @param servers List of backend servers
+     *
+     * TODO: Initialize balancer
+     * - Store server list
+     * - Start index at 0
+     */
+    public RoundRobinLoadBalancer(List&lt;Server&gt; servers) {
+        // TODO: Store servers (defensive copy)
+
+        // TODO: Initialize currentIndex to 0
+
+        this.servers = null; // Replace
+        this.currentIndex = 0;
+    }
+
+    /**
+     * Select next server using round robin
+     *
+     * @return Next server in rotation
+     *
+     * TODO: Implement round robin selection
+     * 1. Get server at current index
+     * 2. Increment index (with wraparound)
+     * 3. Return server
+     *
+     * Hint: Use modulo for wraparound
+     */
+    public synchronized Server getNextServer() {
+        // TODO: Check if servers list is empty
+
+        // TODO: Get server at currentIndex
+
+        // TODO: Increment currentIndex with wraparound
+        // currentIndex = (currentIndex + 1) % servers.size()
+
+        // TODO: Return selected server
+
+        return null; // Replace
+    }
+
+    /**
+     * Add server to pool
+     */
+    public synchronized void addServer(Server server) {
+        // TODO: Add server to list
+    }
+
+    /**
+     * Remove server from pool
+     */
+    public synchronized void removeServer(Server server) {
+        // TODO: Remove server from list
+        // TODO: Adjust currentIndex if needed
+    }
+
+    static class Server {
+        String id;
+        String host;
+        int port;
+
+        public Server(String id, String host, int port) {
+            this.id = id;
+            this.host = host;
+            this.port = port;
+        }
+
+        @Override
+        public String toString() {
+            return id + " (" + host + ":" + port + ")";
+        }
+    }
+}</code></pre>
+<h3 id="part-2-least-connections-load-balancer">Part 2: Least Connections Load Balancer<a class="headerlink" href="#part-2-least-connections-load-balancer" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement least connections algorithm.</p>
+<pre class="highlight"><code class="language-java">/**
+ * Least Connections: Route to server with fewest active connections
+ *
+ * Key principles:
+ * - Track active connections per server
+ * - Select server with minimum load
+ * - Better for varying request durations
+ * - More overhead than round robin
+ */
+
+public class LeastConnectionsLoadBalancer {
+
+    private final List&lt;ServerWithStats&gt; servers;
+
+    /**
+     * Initialize least connections load balancer
+     *
+     * @param servers List of backend servers
+     *
+     * TODO: Initialize balancer
+     * - Create ServerWithStats for each server
+     * - Initialize connection counters to 0
+     */
+    public LeastConnectionsLoadBalancer(List&lt;RoundRobinLoadBalancer.Server&gt; servers) {
+        // TODO: Wrap each server with connection counter
+
+        this.servers = null; // Replace
+    }
+
+    /**
+     * Select server with fewest connections
+     *
+     * @return Server with minimum active connections
+     *
+     * TODO: Implement least connections selection
+     * 1. Find server with minimum connections
+     * 2. Increment its connection count
+     * 3. Return server
+     *
+     * Hint: Break ties by choosing first found
+     */
+    public synchronized RoundRobinLoadBalancer.Server getNextServer() {
+        // TODO: Check if servers list is empty
+
+        // TODO: Find server with minimum connections
+
+        // TODO: Increment connection count for selected server
+
+        // TODO: Return selected server
+
+        return null; // Replace
+    }
+
+    /**
+     * Release connection when request completes
+     *
+     * @param server Server to release connection from
+     *
+     * TODO: Decrement connection count
+     * - Find server in list
+     * - Decrement activeConnections
+     * - Ensure doesn't go below 0
+     */
+    public synchronized void releaseConnection(RoundRobinLoadBalancer.Server server) {
+        // TODO: Find ServerWithStats for given server
+
+        // TODO: Decrement activeConnections (min 0)
+    }
+
+    /**
+     * Get server statistics
+     */
+    public synchronized Map&lt;String, Integer&gt; getStats() {
+        Map&lt;String, Integer&gt; stats = new HashMap&lt;&gt;();
+        for (ServerWithStats s : servers) {
+            stats.put(s.server.id, s.activeConnections);
+        }
+        return stats;
+    }
+
+    static class ServerWithStats {
+        RoundRobinLoadBalancer.Server server;
+        int activeConnections;
+
+        public ServerWithStats(RoundRobinLoadBalancer.Server server) {
+            this.server = server;
+            this.activeConnections = 0;
+        }
+    }
+}</code></pre>
+<h3 id="part-3-weighted-round-robin">Part 3: Weighted Round Robin<a class="headerlink" href="#part-3-weighted-round-robin" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement weighted round robin for heterogeneous servers.</p>
+<pre class="highlight"><code class="language-java">/**
+ * Weighted Round Robin: Distribute based on server capacity
+ *
+ * Key principles:
+ * - Servers have different weights (capacity)
+ * - Higher weight = more requests
+ * - Smooth distribution using GCD algorithm
+ * - Good for heterogeneous servers
+ */
+
+public class WeightedRoundRobinLoadBalancer {
+
+    private final List&lt;WeightedServer&gt; servers;
+    private int currentIndex;
+    private int currentWeight;
+    private int maxWeight;
+    private int gcd; // Greatest common divisor of weights
+
+    /**
+     * Initialize weighted round robin
+     *
+     * @param servers List of servers with weights
+     *
+     * TODO: Initialize balancer
+     * - Store servers
+     * - Calculate max weight and GCD
+     * - Initialize currentWeight to max
+     */
+    public WeightedRoundRobinLoadBalancer(List&lt;WeightedServer&gt; servers) {
+        // TODO: Store servers
+
+        // TODO: Calculate maxWeight (max of all weights)
+
+        // TODO: Calculate GCD of all weights
+
+        // TODO: Initialize currentIndex to -1
+
+        // TODO: Initialize currentWeight to 0
+
+        this.servers = null; // Replace
+    }
+
+    /**
+     * Select next server using weighted round robin
+     *
+     * @return Next server based on weight
+     *
+     * TODO: Implement weighted selection
+     * 1. Loop until finding server with weight &gt;= currentWeight
+     * 2. When loop completes, decrease currentWeight by GCD
+     * 3. Return selected server
+     *
+     * Hint: This ensures smooth distribution
+     */
+    public synchronized RoundRobinLoadBalancer.Server getNextServer() {
+        // TODO: Loop through servers
+        while (true) {
+            // TODO: Move to next index (wraparound)
+            // currentIndex = (currentIndex + 1) % servers.size()
+
+            // TODO: Implement iteration/conditional logic
+
+            // TODO: Implement iteration/conditional logic
+
+        }
+    }
+
+    /**
+     * Calculate GCD of all weights
+     */
+    private int calculateGCD() {
+        // TODO: Calculate GCD of all server weights
+        // Hint: Use Euclidean algorithm
+        return 1; // Replace
+    }
+
+    /**
+     * Calculate GCD of two numbers
+     */
+    private int gcd(int a, int b) {
+        // TODO: Implement Euclidean algorithm
+        return 0; // Replace
+    }
+
+    static class WeightedServer {
+        RoundRobinLoadBalancer.Server server;
+        int weight; // Capacity/power of server
+
+        public WeightedServer(RoundRobinLoadBalancer.Server server, int weight) {
+            this.server = server;
+            this.weight = weight;
+        }
+    }
+}</code></pre>
+<h3 id="part-4-consistent-hashing">Part 4: Consistent Hashing<a class="headerlink" href="#part-4-consistent-hashing" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement consistent hashing for distributed caching.</p>
+<pre class="highlight"><code class="language-java">/**
+ * Consistent Hashing: Map requests to servers using hash ring
+ *
+ * Key principles:
+ * - Servers placed on virtual ring
+ * - Request hashed to position on ring
+ * - Clockwise walk to find server
+ * - Minimal redistribution when servers change
+ */
+
+public class ConsistentHashingLoadBalancer {
+
+    private final TreeMap&lt;Integer, RoundRobinLoadBalancer.Server&gt; ring;
+    private final int virtualNodesPerServer;
+
+    /**
+     * Initialize consistent hashing
+     *
+     * @param servers List of servers
+     * @param virtualNodesPerServer Number of virtual nodes per physical server
+     *
+     * TODO: Initialize hash ring
+     * - Create TreeMap for ring
+     * - Add each server with virtual nodes
+     */
+    public ConsistentHashingLoadBalancer(List&lt;RoundRobinLoadBalancer.Server&gt; servers, int virtualNodesPerServer) {
+        // TODO: Initialize TreeMap
+
+        // TODO: Store virtualNodesPerServer
+
+        // TODO: Add all servers to ring
+
+        this.ring = null; // Replace
+        this.virtualNodesPerServer = 0;
+    }
+
+    /**
+     * Get server for a given key
+     *
+     * @param key Request key (e.g., user ID, session ID)
+     * @return Server to handle this key
+     *
+     * TODO: Implement consistent hashing lookup
+     * 1. Hash the key to integer
+     * 2. Find next server clockwise on ring
+     * 3. If no server found, wrap to first server
+     */
+    public RoundRobinLoadBalancer.Server getServer(String key) {
+        // TODO: Check if ring is empty
+
+        // TODO: Hash key to integer position
+
+        // TODO: Find next entry on ring (ceilingEntry)
+
+        // TODO: Return server
+
+        return null; // Replace
+    }
+
+    /**
+     * Add server to hash ring
+     *
+     * TODO: Add server with virtual nodes
+     * - For each virtual node:
+     *   - Hash "serverId-virtualNodeIndex"
+     *   - Place on ring
+     */
+    public void addServer(RoundRobinLoadBalancer.Server server) {
+        // TODO: Add virtualNodesPerServer copies of this server
+    }
+
+    /**
+     * Remove server from hash ring
+     *
+     * TODO: Remove all virtual nodes for this server
+     */
+    public void removeServer(RoundRobinLoadBalancer.Server server) {
+        // TODO: Remove all virtual nodes
+    }
+
+    /**
+     * Hash function
+     *
+     * TODO: Implement simple hash function
+     * - Use string hashCode()
+     * - Ensure positive value
+     */
+    private int hash(String key) {
+        // TODO: Hash key to integer
+        // Hint: key.hashCode() &amp; 0x7FFFFFFF (remove sign bit)
+        return 0; // Replace
+    }
+
+    /**
+     * Get ring statistics
+     */
+    public int getRingSize() {
+        return ring.size();
+    }
+}</code></pre>
+<h3 id="part-5-ip-hash-load-balancer">Part 5: IP Hash Load Balancer<a class="headerlink" href="#part-5-ip-hash-load-balancer" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement IP hash for session persistence.</p>
+<pre class="highlight"><code class="language-java">/**
+ * IP Hash: Route client to same server based on IP
+ *
+ * Key principles:
+ * - Hash client IP to select server
+ * - Ensures session persistence
+ * - Client always hits same server
+ * - Issues when server pool changes
+ */
+
+public class IPHashLoadBalancer {
+
+    private final List&lt;RoundRobinLoadBalancer.Server&gt; servers;
+
+    /**
+     * Initialize IP hash load balancer
+     *
+     * @param servers List of backend servers
+     */
+    public IPHashLoadBalancer(List&lt;RoundRobinLoadBalancer.Server&gt; servers) {
+        // TODO: Store servers
+        this.servers = null; // Replace
+    }
+
+    /**
+     * Select server based on client IP
+     *
+     * @param clientIP Client IP address
+     * @return Server for this client
+     *
+     * TODO: Implement IP hash selection
+     * 1. Hash the client IP
+     * 2. Modulo by server count
+     * 3. Return server at that index
+     */
+    public synchronized RoundRobinLoadBalancer.Server getServer(String clientIP) {
+        // TODO: Check if servers list is empty
+
+        // TODO: Hash clientIP to integer
+
+        // TODO: Get index using modulo
+        // index = abs(hash) % servers.size()
+
+        // TODO: Return server at index
+
+        return null; // Replace
+    }
+
+    /**
+     * Hash IP address
+     */
+    private int hash(String ip) {
+        // TODO: Hash IP string
+        // Hint: ip.hashCode()
+        return 0; // Replace
+    }
+
+    /**
+     * Add server (warning: disrupts session persistence)
+     */
+    public synchronized void addServer(RoundRobinLoadBalancer.Server server) {
+        // TODO: Add server
+        // Note: This will change hash distribution
+    }
+
+    /**
+     * Remove server (warning: disrupts session persistence)
+     */
+    public synchronized void removeServer(RoundRobinLoadBalancer.Server server) {
+        // TODO: Remove server
+        // Note: This will change hash distribution
+    }
+}</code></pre>
+<hr/>
+<h2 id="client-code">Client Code<a class="headerlink" href="#client-code" title="Permanent link">¶</a></h2>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class LoadBalancingClient {
+
+    public static void main(String[] args) {
+        testRoundRobin();
+        System.out.println("\n" + "=".repeat(50) + "\n");
+        testLeastConnections();
+        System.out.println("\n" + "=".repeat(50) + "\n");
+        testWeightedRoundRobin();
+        System.out.println("\n" + "=".repeat(50) + "\n");
+        testConsistentHashing();
+        System.out.println("\n" + "=".repeat(50) + "\n");
+        testIPHash();
+    }
+
+    static void testRoundRobin() {
+        System.out.println("=== Round Robin Test ===\n");
+
+        // Create servers
+        List&lt;RoundRobinLoadBalancer.Server&gt; servers = Arrays.asList(
+            new RoundRobinLoadBalancer.Server("S1", "10.0.0.1", 8080),
+            new RoundRobinLoadBalancer.Server("S2", "10.0.0.2", 8080),
+            new RoundRobinLoadBalancer.Server("S3", "10.0.0.3", 8080)
+        );
+
+        RoundRobinLoadBalancer lb = new RoundRobinLoadBalancer(servers);
+
+        // Test: Send 10 requests
+        System.out.println("Sending 10 requests:");
+        for (int i = 1; i &lt;= 10; i++) {
+            RoundRobinLoadBalancer.Server server = lb.getNextServer();
+            System.out.println("Request " + i + " -&gt; " + server);
+        }
+    }
+
+    static void testLeastConnections() {
+        System.out.println("=== Least Connections Test ===\n");
+
+        List&lt;RoundRobinLoadBalancer.Server&gt; servers = Arrays.asList(
+            new RoundRobinLoadBalancer.Server("S1", "10.0.0.1", 8080),
+            new RoundRobinLoadBalancer.Server("S2", "10.0.0.2", 8080),
+            new RoundRobinLoadBalancer.Server("S3", "10.0.0.3", 8080)
+        );
+
+        LeastConnectionsLoadBalancer lb = new LeastConnectionsLoadBalancer(servers);
+
+        // Test: Send requests and simulate completion
+        System.out.println("Request 1:");
+        RoundRobinLoadBalancer.Server s1 = lb.getNextServer();
+        System.out.println("Routed to: " + s1);
+        System.out.println("Stats: " + lb.getStats());
+
+        System.out.println("\nRequest 2:");
+        RoundRobinLoadBalancer.Server s2 = lb.getNextServer();
+        System.out.println("Routed to: " + s2);
+        System.out.println("Stats: " + lb.getStats());
+
+        System.out.println("\nRequest 1 completes:");
+        lb.releaseConnection(s1);
+        System.out.println("Stats: " + lb.getStats());
+
+        System.out.println("\nRequest 3:");
+        RoundRobinLoadBalancer.Server s3 = lb.getNextServer();
+        System.out.println("Routed to: " + s3);
+        System.out.println("Stats: " + lb.getStats());
+    }
+
+    static void testWeightedRoundRobin() {
+        System.out.println("=== Weighted Round Robin Test ===\n");
+
+        // Create servers with different capacities
+        List&lt;WeightedRoundRobinLoadBalancer.WeightedServer&gt; servers = Arrays.asList(
+            new WeightedRoundRobinLoadBalancer.WeightedServer(
+                new RoundRobinLoadBalancer.Server("S1-Small", "10.0.0.1", 8080), 1),
+            new WeightedRoundRobinLoadBalancer.WeightedServer(
+                new RoundRobinLoadBalancer.Server("S2-Medium", "10.0.0.2", 8080), 2),
+            new WeightedRoundRobinLoadBalancer.WeightedServer(
+                new RoundRobinLoadBalancer.Server("S3-Large", "10.0.0.3", 8080), 3)
+        );
+
+        WeightedRoundRobinLoadBalancer lb = new WeightedRoundRobinLoadBalancer(servers);
+
+        // Test: Send 12 requests (should distribute 2:4:6)
+        System.out.println("Sending 12 requests (expected: 2:4:6 distribution):");
+        Map&lt;String, Integer&gt; distribution = new HashMap&lt;&gt;();
+        for (int i = 1; i &lt;= 12; i++) {
+            RoundRobinLoadBalancer.Server server = lb.getNextServer();
+            distribution.merge(server.id, 1, Integer::sum);
+            System.out.println("Request " + i + " -&gt; " + server.id);
+        }
+        System.out.println("\nDistribution: " + distribution);
+    }
+
+    static void testConsistentHashing() {
+        System.out.println("=== Consistent Hashing Test ===\n");
+
+        List&lt;RoundRobinLoadBalancer.Server&gt; servers = Arrays.asList(
+            new RoundRobinLoadBalancer.Server("S1", "10.0.0.1", 8080),
+            new RoundRobinLoadBalancer.Server("S2", "10.0.0.2", 8080),
+            new RoundRobinLoadBalancer.Server("S3", "10.0.0.3", 8080)
+        );
+
+        ConsistentHashingLoadBalancer lb = new ConsistentHashingLoadBalancer(servers, 3);
+
+        // Test: Same key always goes to same server
+        String[] keys = {"user123", "user456", "user789", "user123", "user456"};
+        System.out.println("Routing requests by user ID:");
+        for (String key : keys) {
+            RoundRobinLoadBalancer.Server server = lb.getServer(key);
+            System.out.println(key + " -&gt; " + server.id);
+        }
+
+        // Test: Add server and see minimal redistribution
+        System.out.println("\nAdding new server S4:");
+        lb.addServer(new RoundRobinLoadBalancer.Server("S4", "10.0.0.4", 8080));
+        for (String key : keys) {
+            RoundRobinLoadBalancer.Server server = lb.getServer(key);
+            System.out.println(key + " -&gt; " + server.id);
+        }
+    }
+
+    static void testIPHash() {
+        System.out.println("=== IP Hash Test ===\n");
+
+        List&lt;RoundRobinLoadBalancer.Server&gt; servers = Arrays.asList(
+            new RoundRobinLoadBalancer.Server("S1", "10.0.0.1", 8080),
+            new RoundRobinLoadBalancer.Server("S2", "10.0.0.2", 8080),
+            new RoundRobinLoadBalancer.Server("S3", "10.0.0.3", 8080)
+        );
+
+        IPHashLoadBalancer lb = new IPHashLoadBalancer(servers);
+
+        // Test: Same IP always goes to same server
+        String[] clientIPs = {"192.168.1.100", "192.168.1.101", "192.168.1.102",
+                             "192.168.1.100", "192.168.1.101"};
+        System.out.println("Routing by client IP (session persistence):");
+        for (String ip : clientIPs) {
+            RoundRobinLoadBalancer.Server server = lb.getServer(ip);
+            System.out.println(ip + " -&gt; " + server.id);
+        }
+    }
+}</code></pre>
+<hr/>
+<h2 id="debugging-challenges">Debugging Challenges<a class="headerlink" href="#debugging-challenges" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Find and fix bugs in broken load balancing implementations. This tests your understanding.</p>
+<h3 id="challenge-1-broken-round-robin">Challenge 1: Broken Round Robin<a class="headerlink" href="#challenge-1-broken-round-robin" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Round robin with wraparound bug
+ * This has 1 CRITICAL BUG that causes crashes.
+ */
+public synchronized Server getNextServer_Buggy() {
+    if (servers.isEmpty()) {
+        throw new IllegalStateException("No servers available");
+    }
+
+    Server server = servers.get(currentIndex);
+    currentIndex = currentIndex + 1;
+    return server;
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>Bug: <span class="fill-in">[What\'s the bug?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> Missing modulo operation for wraparound. After 3 requests, <code>currentIndex = 3</code> which is out of bounds for a list
+of size 3.</p>
+<p><strong>Correct:</strong></p>
+<pre class="highlight"><code class="language-java">currentIndex = (currentIndex + 1) % servers.size();</code></pre>
+<p><strong>Why:</strong> The modulo ensures the index wraps to 0 after reaching the end, creating circular iteration.</p>
+</details>
+<hr/>
+<h3 id="challenge-2-broken-least-connections">Challenge 2: Broken Least Connections<a class="headerlink" href="#challenge-2-broken-least-connections" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Least connections with race condition
+ * This has 1 SUBTLE BUG in concurrent scenarios.
+ */
+public Server getNextServer_Buggy() {
+    ServerWithStats minServer = null;
+    int minConnections = Integer.MAX_VALUE;
+
+    for (ServerWithStats s : servers) {
+        if (s.activeConnections &lt; minConnections) {
+            minConnections = s.activeConnections;
+            minServer = s;
+        }
+    }
+
+    minServer.activeConnections++;
+
+    return minServer.server;
+}
+
+public void releaseConnection_Buggy(Server server) {
+    for (ServerWithStats s : servers) {
+        if (s.server.equals(server)) {
+            s.activeConnections--;            break;
+        }
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug 1:</strong> <span class="fill-in">[What's the concurrency issue?]</span></li>
+<li><strong>Bug 1 fix:</strong> <span class="fill-in">[How to make it thread-safe?]</span></li>
+<li><strong>Bug 2:</strong> <span class="fill-in">[What if connections goes negative?]</span></li>
+<li><strong>Bug 2 fix:</strong> <span class="fill-in">[Add safety check]</span></li>
+</ul>
+<p><strong>Trace through scenario:</strong></p>
+<pre class="highlight"><code>Thread 1: Reads S1.connections = 5
+Thread 2: Reads S1.connections = 5 (same value!)
+Thread 1: Increments to 6
+Thread 2: Increments to 6 (should be 7!)
+Result: Connection count is wrong</code></pre>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug 1:</strong> Missing synchronization on activeConnections increment/decrement. Multiple threads can read the same value
+and create inconsistent state.</p>
+<p><strong>Fix 1 - Add synchronized:</strong></p>
+<pre class="highlight"><code class="language-java">public synchronized Server getNextServer() {
+    // ... selection logic ...
+    minServer.activeConnections++;
+    return minServer.server;
+}
+
+public synchronized void releaseConnection(Server server) {
+    for (ServerWithStats s : servers) {
+        if (s.server.equals(server)) {
+            s.activeConnections = Math.max(0, s.activeConnections - 1);
+            break;
+        }
+    }
+}</code></pre>
+<p><strong>Fix 2 - Use AtomicInteger:</strong></p>
+<pre class="highlight"><code class="language-java">static class ServerWithStats {
+    Server server;
+    AtomicInteger activeConnections;
+
+    public ServerWithStats(Server server) {
+        this.server = server;
+        this.activeConnections = new AtomicInteger(0);
+    }
+}
+
+// Then use:
+minServer.activeConnections.incrementAndGet();</code></pre>
+<p><strong>Bug 2:</strong> Connection count could go negative if <code>releaseConnection</code> called without matching <code>getNextServer</code>. Fix with
+<code>Math.max(0, ...)</code>.</p>
+</details>
+<hr/>
+<h3 id="challenge-3-broken-consistent-hashing">Challenge 3: Broken Consistent Hashing<a class="headerlink" href="#challenge-3-broken-consistent-hashing" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Consistent hashing with distribution bug
+ * This has 1 LOGIC BUG causing poor distribution.
+ */
+public ConsistentHashingLoadBalancer_Buggy(List&lt;Server&gt; servers, int virtualNodesPerServer) {
+    this.ring = new TreeMap&lt;&gt;();
+    this.virtualNodesPerServer = virtualNodesPerServer;
+
+    for (Server server : servers) {
+        int hash = hash(server.id);
+        ring.put(hash, server);
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug:</strong> <span class="fill-in">[What's wrong with this initialization?]</span></li>
+<li><strong>Result:</strong> <span class="fill-in">[How does this affect distribution?]</span></li>
+<li><strong>Fix:</strong> <span class="fill-in">[What should the code be?]</span></li>
+</ul>
+<p><strong>Test case:</strong></p>
+<pre class="highlight"><code>3 servers, virtualNodesPerServer = 3
+Expected: 9 entries in ring
+Actual: 3 entries in ring
+Problem: Poor key distribution, some servers get no keys</code></pre>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> Missing loop to create virtual nodes. Only creating 1 node per server instead of <code>virtualNodesPerServer</code>.</p>
+<p><strong>Correct:</strong></p>
+<pre class="highlight"><code class="language-java">for (Server server : servers) {
+    for (int i = 0; i &lt; virtualNodesPerServer; i++) {
+        String virtualKey = server.id + "-" + i;
+        int hash = hash(virtualKey);
+        ring.put(hash, server);
+    }
+}</code></pre>
+<p><strong>Why virtual nodes matter:</strong></p>
+<ul>
+<li>Without them: Each server gets 1 point on ring, uneven distribution</li>
+<li>With them: Each server gets N points, smoother distribution</li>
+<li>More virtual nodes = better balance, but more memory</li>
+</ul>
+</details>
+<hr/>
+<h3 id="challenge-4-consistent-hashing-wraparound-bug">Challenge 4: Consistent Hashing Wraparound Bug<a class="headerlink" href="#challenge-4-consistent-hashing-wraparound-bug" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Missing wraparound in hash ring lookup
+ * This has 1 EDGE CASE BUG.
+ */
+public Server getServer_Buggy(String key) {
+    if (ring.isEmpty()) {
+        throw new IllegalStateException("No servers in ring");
+    }
+
+    int hash = hash(key);
+
+    Map.Entry&lt;Integer, Server&gt; entry = ring.ceilingEntry(hash);
+    return entry.getValue();  // NullPointerException!
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug:</strong> <span class="fill-in">[When does ceilingEntry return null?]</span></li>
+<li><strong>Scenario:</strong> <span class="fill-in">[Give an example where this fails]</span></li>
+<li><strong>Fix:</strong> <span class="fill-in">[How to handle wraparound?]</span></li>
+</ul>
+<p><strong>Example:</strong></p>
+<pre class="highlight"><code>Ring has entries at: [100, 200, 300]
+Key hashes to: 350 (larger than all ring entries)
+ceilingEntry(350) returns: null
+Result: NullPointerException</code></pre>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> <code>ceilingEntry</code> returns null when the hash is greater than all keys in the ring. Need to wrap around to first
+entry.</p>
+<p><strong>Correct:</strong></p>
+<pre class="highlight"><code class="language-java">public Server getServer(String key) {
+    if (ring.isEmpty()) {
+        throw new IllegalStateException("No servers in ring");
+    }
+
+    int hash = hash(key);
+    Map.Entry&lt;Integer, Server&gt; entry = ring.ceilingEntry(hash);
+
+    // Handle wraparound: if no entry found, use first entry
+    if (entry == null) {
+        entry = ring.firstEntry();
+    }
+
+    return entry.getValue();
+}</code></pre>
+<p><strong>Why:</strong> The hash ring is conceptually circular. When you go past the largest position, you wrap to the beginning.</p>
+</details>
+<hr/>
+<h3 id="challenge-5-weighted-round-robin-distribution-bug">Challenge 5: Weighted Round Robin Distribution Bug<a class="headerlink" href="#challenge-5-weighted-round-robin-distribution-bug" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Weighted round robin with incorrect distribution
+ * This has 1 ALGORITHM BUG.
+ */
+public Server getNextServer_Buggy() {
+    while (true) {
+        currentIndex = (currentIndex + 1) % servers.size();
+
+        WeightedServer ws = servers.get(currentIndex);
+
+        if (ws.currentWeight &lt; ws.weight) {
+            ws.currentWeight++;
+            return ws.server;
+        } else {
+            ws.currentWeight = 0;
+        }
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug:</strong> <span class="fill-in">[What's wrong with this distribution logic?]</span></li>
+<li><strong>Result:</strong> Servers with weight=3 get 3 requests in a row, then none</li>
+<li><strong>Expected:</strong> Smooth distribution mixed with other servers</li>
+<li><strong>Fix:</strong> <span class="fill-in">[How to implement smooth weighted round robin?]</span></li>
+</ul>
+<p><strong>Example with weights [1, 2, 3]:</strong></p>
+<pre class="highlight"><code>Buggy output: S1, S2, S2, S3, S3, S3, S1, S2, S2, S3, S3, S3
+(Clumpy distribution)
+
+Expected output: S3, S2, S3, S1, S2, S3
+(Smooth distribution using GCD algorithm)</code></pre>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> Using per-server counters doesn't create smooth distribution. Need to use the GCD-based algorithm with global
+currentWeight.</p>
+<p><strong>Correct approach:</strong></p>
+<pre class="highlight"><code class="language-java">public Server getNextServer() {
+    while (true) {
+        currentIndex = (currentIndex + 1) % servers.size();
+
+        if (currentIndex == 0) {
+            currentWeight = currentWeight - gcd;
+            if (currentWeight &lt;= 0) {
+                currentWeight = maxWeight;
+            }
+        }
+
+        WeightedServer ws = servers.get(currentIndex);
+        if (ws.weight &gt;= currentWeight) {
+            return ws.server;
+        }
+    }
+}</code></pre>
+<p><strong>Why:</strong> The GCD algorithm ensures servers are selected proportionally but interleaved smoothly, not in blocks.</p>
+</details>
+<hr/>
+<h3 id="challenge-6-health-check-race-condition">Challenge 6: Health Check Race Condition<a class="headerlink" href="#challenge-6-health-check-race-condition" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Load balancer with health checks
+ * This has 2 RACE CONDITION BUGS.
+ */
+public class HealthAwareLoadBalancer {
+    private List&lt;Server&gt; servers;
+    private List&lt;Server&gt; healthyServers;
+
+    public Server getNextServer() {
+        if (healthyServers.isEmpty()) {
+            throw new IllegalStateException("No healthy servers");
+        }
+
+        int index = currentIndex++ % healthyServers.size();
+        return healthyServers.get(index);
+    }
+
+    // Health check thread updates this
+    public void updateHealthStatus(Server server, boolean healthy) {
+        if (healthy &amp;&amp; !healthyServers.contains(server)) {
+            healthyServers.add(server);        } else if (!healthy) {
+            healthyServers.remove(server);        }
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug 1:</strong> <span class="fill-in">[What happens if health check runs during getNextServer?]</span></li>
+<li><strong>Bug 2:</strong> <span class="fill-in">[What if list size changes during modulo operation?]</span></li>
+<li><strong>Fix:</strong> <span class="fill-in">[How to make this thread-safe?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bugs:</strong> Multiple race conditions with concurrent modification of <code>healthyServers</code> list.</p>
+<p><strong>Fix:</strong></p>
+<pre class="highlight"><code class="language-java">public class HealthAwareLoadBalancer {
+    private final List&lt;Server&gt; servers;
+    private volatile List&lt;Server&gt; healthyServers;  // volatile for visibility
+    private final AtomicInteger currentIndex = new AtomicInteger(0);
+
+    public Server getNextServer() {
+        List&lt;Server&gt; snapshot = healthyServers;  // Local copy
+
+        if (snapshot.isEmpty()) {
+            throw new IllegalStateException("No healthy servers");
+        }
+
+        int index = currentIndex.getAndIncrement() % snapshot.size();
+        return snapshot.get(index);
+    }
+
+    public synchronized void updateHealthStatus(Server server, boolean healthy) {
+        List&lt;Server&gt; newList = new ArrayList&lt;&gt;(healthyServers);
+
+        if (healthy &amp;&amp; !newList.contains(server)) {
+            newList.add(server);
+        } else if (!healthy) {
+            newList.remove(server);
+        }
+
+        healthyServers = newList;  // Atomic replacement
+    }
+}</code></pre>
+<p><strong>Key insights:</strong></p>
+<ul>
+<li>Use immutable snapshots for reads</li>
+<li>Copy-on-write for updates</li>
+<li>Volatile for visibility across threads</li>
+</ul>
+</details>
+<hr/>
+<h3 id="your-debugging-scorecard">Your Debugging Scorecard<a class="headerlink" href="#your-debugging-scorecard" title="Permanent link">¶</a></h3>
+<p>After finding and fixing all bugs:</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Found all 8+ bugs across 6 challenges</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understood WHY each bug causes incorrect behavior</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could explain the fix to someone else</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Learned common load balancing mistakes to avoid</li>
+</ul>
+<p><strong>Common mistakes you discovered:</strong></p>
+<ol>
+<li><span class="fill-in">[List the patterns you noticed]</span></li>
+<li><span class="fill-in">[Fill in]</span></li>
+<li><span class="fill-in">[Fill in]</span></li>
+</ol>
+<hr/>
+<h2 id="decision-framework">Decision Framework<a class="headerlink" href="#decision-framework" title="Permanent link">¶</a></h2>
+<p><strong>Questions to answer after implementation:</strong></p>
+<h3 id="1-algorithm-selection">1. Algorithm Selection<a class="headerlink" href="#1-algorithm-selection" title="Permanent link">¶</a></h3>
+<p><strong>When to use Round Robin?</strong></p>
+<ul>
+<li>Your scenario: <span class="fill-in">[Fill in]</span></li>
+<li>Key factors: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>When to use Least Connections?</strong></p>
+<ul>
+<li>Your scenario: <span class="fill-in">[Fill in]</span></li>
+<li>Key factors: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>When to use Weighted Round Robin?</strong></p>
+<ul>
+<li>Your scenario: <span class="fill-in">[Fill in]</span></li>
+<li>Key factors: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>When to use Consistent Hashing?</strong></p>
+<ul>
+<li>Your scenario: <span class="fill-in">[Fill in]</span></li>
+<li>Key factors: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>When to use IP Hash?</strong></p>
+<ul>
+<li>Your scenario: <span class="fill-in">[Fill in]</span></li>
+<li>Key factors: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="2-trade-offs">2. Trade-offs<a class="headerlink" href="#2-trade-offs" title="Permanent link">¶</a></h3>
+<p><strong>Round Robin:</strong></p>
+<ul>
+<li>Pros: <span class="fill-in">[Fill in after understanding]</span></li>
+<li>Cons: <span class="fill-in">[Fill in after understanding]</span></li>
+</ul>
+<p><strong>Least Connections:</strong></p>
+<ul>
+<li>Pros: <span class="fill-in">[Fill in after understanding]</span></li>
+<li>Cons: <span class="fill-in">[Fill in after understanding]</span></li>
+</ul>
+<p><strong>Consistent Hashing:</strong></p>
+<ul>
+<li>Pros: <span class="fill-in">[Fill in after understanding]</span></li>
+<li>Cons: <span class="fill-in">[Fill in after understanding]</span></li>
+</ul>
+<p><strong>IP Hash:</strong></p>
+<ul>
+<li>Pros: <span class="fill-in">[Fill in after understanding]</span></li>
+<li>Cons: <span class="fill-in">[Fill in after understanding]</span></li>
+</ul>
+<h3 id="3-your-decision-tree">3. Your Decision Tree<a class="headerlink" href="#3-your-decision-tree" title="Permanent link">¶</a></h3>
+<p>Build your decision tree after practicing:
+<div class="mermaid">flowchart LR
+    Start["What is your priority?"]
+
+    N1["?"]
+    Start --&gt;|"Simple and fair distribution"| N1
+    N2["?"]
+    Start --&gt;|"Consider server load"| N2
+    N3["?"]
+    Start --&gt;|"Heterogeneous servers"| N3
+    N4["?"]
+    Start --&gt;|"Session persistence"| N4
+    N5["?"]
+    Start --&gt;|"Minimal redistribution on changes"| N5</div></p>
+<hr/>
+<h2 id="practice">Practice<a class="headerlink" href="#practice" title="Permanent link">¶</a></h2>
+<h3 id="scenario-1-load-balance-web-application">Scenario 1: Load balance web application<a class="headerlink" href="#scenario-1-load-balance-web-application" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>5 web servers of equal capacity</li>
+<li>Stateless application</li>
+<li>Want even distribution</li>
+<li>Simple to understand</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<ul>
+<li>Which algorithm would you choose? <span class="fill-in">[Fill in]</span></li>
+<li>Why? <span class="fill-in">[Fill in]</span></li>
+<li>How to handle server failures? <span class="fill-in">[Fill in]</span></li>
+<li>Health check strategy? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="scenario-2-load-balance-with-session-state">Scenario 2: Load balance with session state<a class="headerlink" href="#scenario-2-load-balance-with-session-state" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>Users have shopping carts</li>
+<li>Cart stored in server memory</li>
+<li>10 application servers</li>
+<li>Need session persistence</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<ul>
+<li>Which algorithm would you choose? <span class="fill-in">[Fill in]</span></li>
+<li>Why? <span class="fill-in">[Fill in]</span></li>
+<li>How to handle server additions? <span class="fill-in">[Fill in]</span></li>
+<li>Alternative to sticky sessions? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="scenario-3-distributed-cache-cluster">Scenario 3: Distributed cache cluster<a class="headerlink" href="#scenario-3-distributed-cache-cluster" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>Cache cluster with 20 nodes</li>
+<li>Frequently add/remove nodes</li>
+<li>Want to minimize cache misses</li>
+<li>Keys should stay on same node</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<ul>
+<li>Which algorithm would you choose? <span class="fill-in">[Fill in]</span></li>
+<li>Why? <span class="fill-in">[Fill in]</span></li>
+<li>How many virtual nodes? <span class="fill-in">[Fill in]</span></li>
+<li>Replication strategy? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<hr/>
+<h2 id="review-checklist">Review Checklist<a class="headerlink" href="#review-checklist" title="Permanent link">¶</a></h2>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Round robin implemented with circular iteration</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Least connections implemented with connection tracking</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Weighted round robin implemented with GCD algorithm</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Consistent hashing implemented with virtual nodes</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> IP hash implemented for session persistence</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand when to use each algorithm</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can explain trade-offs between algorithms</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Built decision tree for algorithm selection</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Completed practice scenarios</li>
+</ul>
+<hr/>
+<h3 id="mastery-certification">Mastery Certification<a class="headerlink" href="#mastery-certification" title="Permanent link">¶</a></h3>
+<p><strong>I certify that I can:</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Implement all five load balancing algorithms from memory</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Explain when and why to use each algorithm</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Identify the correct algorithm for new scenarios</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Analyze time and space complexity of each approach</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Compare trade-offs between algorithms</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Debug common load balancing bugs</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Design load balancing for production systems</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Teach these concepts to someone else</li>
+</ul></div>
+</div>
+<footer class="col-md-12 text-center">
+<hr/>
+<p>
+<small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+</p>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../../js/bootstrap-3.0.3.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>var base_url = "../.."</script>
+<script src="../../js/base.js"></script>
+<script src="../../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<button class="close" data-dismiss="modal" type="button">
+<span aria-hidden="true">×</span>
+<span class="sr-only">Close</span>
+</button>
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+</div>
+<div class="modal-body">
+<p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="text"/>
+</div>
+</form>
+<div id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@10.4.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>

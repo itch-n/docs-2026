@@ -1,0 +1,1962 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="A framework for algorithms, systems design, and infrastructure." name="description"/>
+<meta content="Richard" name="author"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>12. Message Queues - Software Engineering Study Guide</title>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" rel="stylesheet"/>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css" rel="stylesheet"/>
+<link href="//rsms.me/inter/inter.css" rel="stylesheet" type="text/css"/>
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&amp;subset=latin-ext,latin" rel="stylesheet" type="text/css"/>
+<link href="../../css/bootstrap-custom.min.css" rel="stylesheet"/>
+<link href="../../css/base.min.css" rel="stylesheet"/>
+<link href="../../css/cinder.min.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css" rel="stylesheet"/>
+<link href="../../css/custom.css" rel="stylesheet"/>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="container">
+<!-- Collapsed navigation -->
+<div class="navbar-header">
+<!-- Expander button -->
+<button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<!-- Main title -->
+<a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+</div>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li>
+<a href="../..">Home</a>
+</li>
+<li class="dropdown active">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Systems Design <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../01-storage-engines/">01. Storage Engines</a>
+</li>
+<li>
+<a href="../02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+<li>
+<a href="../03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+<li>
+<a href="../04-search-and-indexing/">04. Search &amp; Indexing</a>
+</li>
+<li>
+<a href="../05-caching-patterns/">05. Caching Patterns</a>
+</li>
+<li>
+<a href="../06-api-design/">06. API Design</a>
+</li>
+<li>
+<a href="../07-security-patterns/">07. Security Patterns</a>
+</li>
+<li>
+<a href="../08-rate-limiting/">08. Rate Limiting</a>
+</li>
+<li>
+<a href="../09-load-balancing/">09. Load Balancing</a>
+</li>
+<li>
+<a href="../10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+<li>
+<a href="../11-database-scaling/">11. Database Scaling</a>
+</li>
+<li class="active">
+<a href="./">12. Message Queues</a>
+</li>
+<li>
+<a href="../13-stream-processing/">13. Stream Processing</a>
+</li>
+<li>
+<a href="../14-observability/">14. Observability</a>
+</li>
+<li>
+<a href="../15-distributed-transactions/">15. Distributed Transactions</a>
+</li>
+<li>
+<a href="../16-consensus-patterns/">16. Consensus Patterns</a>
+</li>
+</ul>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">DSA <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../dsa/01-two-pointers/">01. Two Pointers</a>
+</li>
+<li>
+<a href="../../dsa/02-sliding-window/">02. Sliding Window</a>
+</li>
+<li>
+<a href="../../dsa/03-hash-tables/">03. Hash Tables</a>
+</li>
+<li>
+<a href="../../dsa/04-linked-lists/">04. Linked Lists</a>
+</li>
+<li>
+<a href="../../dsa/05-stacks--queues/">05. Stacks &amp; Queues</a>
+</li>
+<li>
+<a href="../../dsa/06-trees-traversals/">06. Trees - Traversals</a>
+</li>
+<li>
+<a href="../../dsa/07-trees-recursion/">07. Trees - Recursion</a>
+</li>
+<li>
+<a href="../../dsa/08-binary-search/">08. Binary Search</a>
+</li>
+<li>
+<a href="../../dsa/09-heaps/">09. Heaps</a>
+</li>
+<li>
+<a href="../../dsa/10-graphs/">10. Graphs</a>
+</li>
+<li>
+<a href="../../dsa/11-union-find/">11. Union-Find</a>
+</li>
+<li>
+<a href="../../dsa/12-advanced-graphs/">12. Advanced Graphs</a>
+</li>
+<li>
+<a href="../../dsa/13-backtracking/">13. Backtracking</a>
+</li>
+<li>
+<a href="../../dsa/14-dynamic-programming-1d/">14. Dynamic Programming 1D</a>
+</li>
+<li>
+<a href="../../dsa/15-dynamic-programming-2d/">15. Dynamic Programming 2D</a>
+</li>
+<li>
+<a href="../../dsa/16-tries/">16. Tries</a>
+</li>
+<li>
+<a href="../../dsa/17-advanced-topics/">17. Advanced Topics</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+<a data-target="#mkdocs_search_modal" data-toggle="modal" href="#">
+<i class="fas fa-search"></i> Search
+                        </a>
+</li>
+<li>
+<a href="../11-database-scaling/" rel="prev">
+<i class="fas fa-arrow-left"></i> Previous
+                        </a>
+</li>
+<li>
+<a href="../13-stream-processing/" rel="next">
+                            Next <i class="fas fa-arrow-right"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+<ul class="nav bs-sidenav">
+<li class="first-level active"><a href="#message-queues">Message Queues</a></li>
+<li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+<li class="second-level"><a href="#quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)</a></li>
+<li class="second-level"><a href="#beforeafter-why-message-queues-matter">Before/After: Why Message Queues Matter</a></li>
+<li class="second-level"><a href="#case-studies-message-queues-in-the-wild">Case Studies: Message Queues in the Wild</a></li>
+<li class="second-level"><a href="#core-implementation">Core Implementation</a></li>
+<li class="second-level"><a href="#client-code">Client Code</a></li>
+<li class="second-level"><a href="#debugging-challenges">Debugging Challenges</a></li>
+<li class="second-level"><a href="#decision-framework">Decision Framework</a></li>
+<li class="second-level"><a href="#practice">Practice</a></li>
+<li class="second-level"><a href="#review-checklist">Review Checklist</a></li>
+</ul>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="message-queues">Message Queues<a class="headerlink" href="#message-queues" title="Permanent link">¶</a></h1>
+<blockquote>
+<p>Asynchronous communication patterns for decoupled, scalable systems</p>
+</blockquote>
+<hr/>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After implementing different message queue patterns, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What is a message queue in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Why do we need message queues?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy for simple queue:</strong></p>
+<ul>
+<li>Example: "A simple queue is like a line at a store where..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What is the producer-consumer pattern in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>How is pub-sub different from producer-consumer?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy for pub-sub:</strong></p>
+<ul>
+<li>Example: "Pub-sub is like a newsletter subscription where..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What is a priority queue in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When would you use a dead letter queue?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr/>
+<h2 id="quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)<a class="headerlink" href="#quick-quiz-do-before-implementing" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Test your intuition without looking at code. Answer these, then verify after implementation.</p>
+<h3 id="complexity-predictions">Complexity Predictions<a class="headerlink" href="#complexity-predictions" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p><strong>Synchronous API call to process 100 tasks:</strong></p>
+<ul>
+<li>Time if each task takes 1 second: <span class="fill-in">[Your guess: ?]</span></li>
+<li>Verified after learning: <span class="fill-in">[Actual: ?]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Message queue with 3 workers processing 100 tasks:</strong></p>
+<ul>
+<li>Time if each task takes 1 second: <span class="fill-in">[Your guess: ?]</span></li>
+<li>Speedup factor: <span class="fill-in">[Your guess: ?x faster]</span></li>
+<li>Verified: <span class="fill-in">[Actual]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Memory usage prediction:</strong></p>
+<ul>
+<li>Simple queue with 1000 messages: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Pub-sub with 5 subscribers and 100 messages: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Verified: <span class="fill-in">[Actual]</span></li>
+</ul>
+</li>
+</ol>
+<h3 id="scenario-predictions">Scenario Predictions<a class="headerlink" href="#scenario-predictions" title="Permanent link">¶</a></h3>
+<p><strong>Scenario 1:</strong> Image upload service - users upload photos that need resizing</p>
+<ul>
+<li><strong>Should you use message queue?</strong> <span class="fill-in">[Yes/No - Why?]</span></li>
+<li><strong>Pattern to use:</strong> <span class="fill-in">[Simple queue/Producer-consumer/Pub-sub/Priority]</span></li>
+<li><strong>Why that pattern?</strong> <span class="fill-in">[Fill in your reasoning]</span></li>
+<li><strong>What happens without queue?</strong> <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>Scenario 2:</strong> Notification system - send email AND SMS AND push notification</p>
+<ul>
+<li><strong>Should you use message queue?</strong> <span class="fill-in">[Yes/No - Why?]</span></li>
+<li><strong>Pattern to use:</strong> <span class="fill-in">[Simple queue/Producer-consumer/Pub-sub/Priority]</span></li>
+<li><strong>Why that pattern?</strong> <span class="fill-in">[Fill in your reasoning]</span></li>
+<li><strong>How many times is each message delivered?</strong> <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>Scenario 3:</strong> Payment processing - some customers are VIP, need faster processing</p>
+<ul>
+<li><strong>Should you use message queue?</strong> <span class="fill-in">[Yes/No - Why?]</span></li>
+<li><strong>Pattern to use:</strong> <span class="fill-in">[Simple queue/Producer-consumer/Pub-sub/Priority]</span></li>
+<li><strong>Why that pattern?</strong> <span class="fill-in">[Fill in your reasoning]</span></li>
+<li><strong>How do you prevent low-priority starvation?</strong> <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="trade-off-quiz">Trade-off Quiz<a class="headerlink" href="#trade-off-quiz" title="Permanent link">¶</a></h3>
+<p><strong>Question:</strong> When is a message queue WORSE than direct synchronous calls?</p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in before implementation]</span></li>
+<li>Verified answer: <span class="fill-in">[Fill in after learning]</span></li>
+</ul>
+<p><strong>Question:</strong> What's the MAIN difference between a queue and pub-sub?</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Queue is faster</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Queue stores messages longer</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Queue delivers to one consumer, pub-sub to many</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Queue supports priorities</li>
+</ul>
+<p>Verify after implementation: <span class="fill-in">[Which one(s)?]</span></p>
+<p><strong>Question:</strong> What does "at-least-once delivery" mean?</p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in before implementation]</span></li>
+<li>What problem does it cause? <span class="fill-in">[Fill in]</span></li>
+<li>Verified: <span class="fill-in">[Actual answer after learning]</span></li>
+</ul>
+<p><strong>Question:</strong> When should you use a dead letter queue?</p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in before implementation]</span></li>
+<li>Verified: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="beforeafter-why-message-queues-matter">Before/After: Why Message Queues Matter<a class="headerlink" href="#beforeafter-why-message-queues-matter" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Compare synchronous vs message queue vs pub-sub approaches to understand the impact.</p>
+<h3 id="example-image-processing-service">Example: Image Processing Service<a class="headerlink" href="#example-image-processing-service" title="Permanent link">¶</a></h3>
+<p><strong>Problem:</strong> Users upload images that need to be resized, compressed, and thumbnailed. Each operation takes 2 seconds.</p>
+<h4 id="approach-1-synchronous-processing-no-queue">Approach 1: Synchronous Processing (No Queue)<a class="headerlink" href="#approach-1-synchronous-processing-no-queue" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Naive approach - Process immediately in request handler
+public class SynchronousImageService {
+
+    public UploadResponse uploadImage(Image image) {
+        // User waits for all processing to complete
+        resize(image);        // 2 seconds
+        compress(image);      // 2 seconds
+        thumbnail(image);     // 2 seconds
+
+        return new UploadResponse("success");
+    }
+
+    // Total user wait time: 6 seconds!
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>User wait time: 6 seconds for each upload</li>
+<li>Scalability: Limited by processing capacity</li>
+<li>Failure handling: User sees error immediately</li>
+<li>For 100 uploads: 600 seconds (10 minutes)</li>
+</ul>
+<p><strong>Problems:</strong></p>
+<ul>
+<li>Poor user experience (slow response)</li>
+<li>Request timeout on slow operations</li>
+<li>No retry mechanism</li>
+<li>Server blocked during processing</li>
+</ul>
+<h4 id="approach-2-simple-message-queue-async-processing">Approach 2: Simple Message Queue (Async Processing)<a class="headerlink" href="#approach-2-simple-message-queue-async-processing" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Better approach - Queue work for background processing
+public class QueuedImageService {
+
+    private final SimpleMessageQueue queue;
+    private final List&lt;Worker&gt; workers; // 3 worker threads
+
+    public UploadResponse uploadImage(Image image) {
+        // Queue the work immediately
+        queue.send(new ImageProcessingTask(image));
+
+        // Return immediately - user doesn't wait!
+        return new UploadResponse("processing");
+    }
+
+    // Workers process in background
+    // Total user wait time: &lt;100ms (just queue operation)
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>User wait time: &lt;100ms (instant response)</li>
+<li>Scalability: Can add more workers</li>
+<li>Failure handling: Automatic retry with DLQ</li>
+<li>For 100 uploads with 3 workers: ~200 seconds (parallelized)</li>
+</ul>
+<p><strong>Benefits:</strong></p>
+<ul>
+<li>Fast user response</li>
+<li>Decoupled processing</li>
+<li>Horizontal scaling</li>
+<li>Retry mechanism</li>
+</ul>
+<h4 id="approach-3-pub-sub-multiple-subscribers">Approach 3: Pub-Sub (Multiple Subscribers)<a class="headerlink" href="#approach-3-pub-sub-multiple-subscribers" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Best approach - Multiple services process independently
+public class PubSubImageService {
+
+    private final PubSubMessageQueue pubsub;
+
+    public UploadResponse uploadImage(Image image) {
+        // Publish once to "image.uploaded" topic
+        pubsub.publish("image.uploaded", new ImageEvent(image));
+
+        // Multiple subscribers receive:
+        // - Resize service
+        // - Analytics service
+        // - Notification service
+
+        return new UploadResponse("processing");
+    }
+
+    // Each service processes independently!
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>User wait time: &lt;100ms (instant response)</li>
+<li>Scalability: Each subscriber scales independently</li>
+<li>Extensibility: Add new subscribers without code changes</li>
+<li>Loose coupling: Services don't know about each other</li>
+</ul>
+<h4 id="performance-comparison">Performance Comparison<a class="headerlink" href="#performance-comparison" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>Upload Time</th>
+<th>100 Uploads</th>
+<th>Scalability</th>
+<th>Failure Handling</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Synchronous</td>
+<td>6 sec</td>
+<td>600 sec (10 min)</td>
+<td>Poor</td>
+<td>User sees error</td>
+</tr>
+<tr>
+<td>Queue (3 workers)</td>
+<td>&lt;100ms</td>
+<td>~200 sec (3 min)</td>
+<td>Good</td>
+<td>Auto retry + DLQ</td>
+</tr>
+<tr>
+<td>Pub-Sub</td>
+<td>&lt;100ms</td>
+<td>~200 sec (3 min)</td>
+<td>Excellent</td>
+<td>Per-service retry</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Your calculation:</strong> For 1,000 uploads with 10 workers:</p>
+<ul>
+<li>Synchronous: <span class="fill-in">_____</span> seconds</li>
+<li>Queue: <span class="fill-in">_____</span> seconds</li>
+<li>Speedup: <span class="fill-in">_____</span> times faster</li>
+</ul>
+<h4 id="why-does-message-queue-work">Why Does Message Queue Work?<a class="headerlink" href="#why-does-message-queue-work" title="Permanent link">¶</a></h4>
+<p><strong>Key insight to understand:</strong></p>
+<pre class="highlight"><code>Without Queue:
+User → [Upload + Process] → Response
+       ↑ 6 seconds wait ↑
+
+With Queue:
+User → [Upload] → Response        (instant)
+       Queue → [Worker 1] Process  (async)
+            → [Worker 2] Process  (async)
+            → [Worker 3] Process  (async)</code></pre>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>Why does async processing improve user experience? <span class="fill-in">[Your answer]</span></li>
+<li>What happens if a worker fails? <span class="fill-in">[Your answer]</span></li>
+<li>When would you NOT use a message queue? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<h4 id="queue-vs-pub-sub-when-to-use-each">Queue vs Pub-Sub: When to Use Each<a class="headerlink" href="#queue-vs-pub-sub-when-to-use-each" title="Permanent link">¶</a></h4>
+<p><strong>Use Queue when:</strong></p>
+<ul>
+<li>One consumer should process each message</li>
+<li>Work distribution across workers</li>
+<li>Task processing (jobs, background work)</li>
+<li>Example: <span class="fill-in">[Fill in your example]</span></li>
+</ul>
+<p><strong>Use Pub-Sub when:</strong></p>
+<ul>
+<li>Multiple consumers need each message</li>
+<li>Broadcasting events</li>
+<li>Event-driven architecture</li>
+<li>Example: <span class="fill-in">[Fill in your example]</span></li>
+</ul>
+<p><strong>After implementing, explain the difference:</strong></p>
+<div class="learner-section">
+<ul>
+<li>How does message delivery differ? <span class="fill-in">[Your answer]</span></li>
+<li>Which one for image processing? Why? <span class="fill-in">[Your answer]</span></li>
+<li>Which one for notifications? Why? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="case-studies-message-queues-in-the-wild">Case Studies: Message Queues in the Wild<a class="headerlink" href="#case-studies-message-queues-in-the-wild" title="Permanent link">¶</a></h2>
+<h3 id="uber-ride-requests-decoupling-with-a-task-queue">Uber Ride Requests: Decoupling with a Task Queue<a class="headerlink" href="#uber-ride-requests-decoupling-with-a-task-queue" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> Point-to-Point (Task Queue) using a system like RabbitMQ or Apache Kafka.</li>
+<li><strong>How it works:</strong> When a user requests a ride, the mobile application's API call doesn't wait for a driver to be
+  found. Instead, it publishes a <code>RideRequested</code> message to a queue and immediately returns a response to the user. A
+  separate pool of "dispatcher" microservices consumes tasks from this queue. These workers are responsible for the
+  heavy lifting: finding nearby drivers, calculating ETAs, and sending notifications, all happening asynchronously.</li>
+<li><strong>Key Takeaway:</strong> Message queues are fundamental for creating responsive and resilient systems. By decoupling the
+  initial request from the complex backend processing, Uber's app feels fast and can handle massive bursts of requests,
+  even if the backend services are temporarily slow.</li>
+</ul>
+<h3 id="twitters-fan-out-service-the-power-of-pubsub">Twitter's Fan-out Service: The Power of Pub/Sub<a class="headerlink" href="#twitters-fan-out-service-the-power-of-pubsub" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> Publish-Subscribe (Pub/Sub) for fanning out events.</li>
+<li><strong>How it works:</strong> When a user tweets, that action is published as a single message to a "Tweets" topic in a system
+  like Kafka. Many different downstream services subscribe to this topic. A "fan-out" service consumes the tweet and
+  injects it into the home timeline caches of all the user's followers. A "notifications" service consumes it to send
+  push notifications. A "search" service consumes it to index the tweet.</li>
+<li><strong>Key Takeaway:</strong> Pub/sub is incredibly powerful for building extensible, loosely-coupled systems. The original
+  tweeting service doesn't need to know about all the other services that care about new tweets. Teams can add new
+  subscribers to the topic to build new features without ever changing the original service.</li>
+</ul>
+<h3 id="netflix-conductor-orchestrating-workflows-with-events">Netflix Conductor: Orchestrating Workflows with Events<a class="headerlink" href="#netflix-conductor-orchestrating-workflows-with-events" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> Pub/Sub for complex workflow orchestration.</li>
+<li><strong>How it works:</strong> Encoding and processing a new movie is a complex, multi-step workflow. Netflix uses an event-driven
+  orchestrator called Conductor. When a video upload is complete, a <code>VideoUploaded</code> event is published. A service
+  consumes this and starts encoding, publishing a <code>VideoEncodingSucceeded</code> event on completion. This new event triggers
+  multiple parallel actions: one service starts generating thumbnails, another runs quality control, and a third updates
+  the catalog.</li>
+<li><strong>Key Takeaway:</strong> Complex business processes can be modeled as a series of events and subscribers. This makes the
+  system more resilient (a failed thumbnail generator doesn't stop the whole workflow) and easier to reason about than a
+  single, monolithic application.</li>
+</ul>
+<hr/>
+<h2 id="core-implementation">Core Implementation<a class="headerlink" href="#core-implementation" title="Permanent link">¶</a></h2>
+<h3 id="part-1-simple-message-queue">Part 1: Simple Message Queue<a class="headerlink" href="#part-1-simple-message-queue" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement a basic FIFO message queue.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+import java.util.concurrent.*;
+
+/**
+ * Simple Message Queue: FIFO with blocking operations
+ *
+ * Key principles:
+ * - First In First Out ordering
+ * - Blocking when empty (wait for messages)
+ * - Thread-safe operations
+ * - Decouples producers and consumers
+ */
+
+public class SimpleMessageQueue {
+
+    private final Queue&lt;Message&gt; queue;
+    private final int capacity;
+    private final Object lock = new Object();
+
+    /**
+     * Initialize simple message queue
+     *
+     * @param capacity Maximum queue size
+     *
+     * TODO: Initialize queue
+     * - Create LinkedList for messages
+     * - Set capacity limit
+     */
+    public SimpleMessageQueue(int capacity) {
+        // TODO: Initialize queue (LinkedList)
+
+        // TODO: Store capacity
+
+        this.queue = null; // Replace
+        this.capacity = 0;
+    }
+
+    /**
+     * Send message to queue (producer)
+     *
+     * @param message Message to send
+     * @throws InterruptedException if interrupted while waiting
+     *
+     * TODO: Implement send
+     * 1. Wait if queue is full
+     * 2. Add message to queue
+     * 3. Notify waiting consumers
+     *
+     * Hint: Use wait() and notifyAll() with synchronized block
+     */
+    public void send(Message message) throws InterruptedException {
+        synchronized (lock) {
+            // TODO: Implement iteration/conditional logic
+
+            // TODO: Add message to queue
+
+            // TODO: Notify all waiting consumers
+            // lock.notifyAll()
+        }
+    }
+
+    /**
+     * Receive message from queue (consumer)
+     *
+     * @return Next message from queue
+     * @throws InterruptedException if interrupted while waiting
+     *
+     * TODO: Implement receive
+     * 1. Wait if queue is empty
+     * 2. Remove and return message
+     * 3. Notify waiting producers
+     */
+    public Message receive() throws InterruptedException {
+        synchronized (lock) {
+            // TODO: Implement iteration/conditional logic
+
+            // TODO: Remove message from queue
+
+            // TODO: Notify all waiting producers
+            // lock.notifyAll()
+
+            // TODO: Return message
+
+            return null; // Replace
+        }
+    }
+
+    /**
+     * Try to receive with timeout
+     *
+     * @param timeoutMs Timeout in milliseconds
+     * @return Message or null if timeout
+     */
+    public Message receive(long timeoutMs) throws InterruptedException {
+        synchronized (lock) {
+            long deadline = System.currentTimeMillis() + timeoutMs;
+
+            // TODO: Wait until message available or timeout
+
+            // TODO: Implement iteration/conditional logic
+
+            return null; // Replace (or message)
+        }
+    }
+
+    /**
+     * Get queue size
+     */
+    public synchronized int size() {
+        return queue.size();
+    }
+
+    /**
+     * Check if queue is empty
+     */
+    public synchronized boolean isEmpty() {
+        return queue.isEmpty();
+    }
+
+    static class Message {
+        String id;
+        String content;
+        long timestamp;
+
+        public Message(String id, String content) {
+            this.id = id;
+            this.content = content;
+            this.timestamp = System.currentTimeMillis();
+        }
+
+        @Override
+        public String toString() {
+            return "Message{id='" + id + "', content='" + content + "'}";
+        }
+    }
+}</code></pre>
+<h3 id="part-2-producer-consumer-pattern">Part 2: Producer-Consumer Pattern<a class="headerlink" href="#part-2-producer-consumer-pattern" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement producer-consumer with multiple workers.</p>
+<pre class="highlight"><code class="language-java">/**
+ * Producer-Consumer: Multiple producers and consumers processing work
+ *
+ * Key principles:
+ * - Work distribution across consumers
+ * - Load balancing
+ * - Backpressure handling
+ * - Graceful shutdown
+ */
+
+public class ProducerConsumer {
+
+    private final SimpleMessageQueue queue;
+    private final List&lt;Thread&gt; consumerThreads;
+    private volatile boolean running;
+
+    /**
+     * Initialize producer-consumer system
+     *
+     * @param queueCapacity Queue size
+     * @param numConsumers Number of consumer threads
+     *
+     * TODO: Initialize system
+     * - Create message queue
+     * - Create consumer threads
+     * - Set running flag
+     */
+    public ProducerConsumer(int queueCapacity, int numConsumers) {
+        // TODO: Create SimpleMessageQueue
+
+        // TODO: Initialize consumer threads list
+
+        // TODO: Track state
+
+        this.queue = null; // Replace
+        this.consumerThreads = null; // Replace
+    }
+
+    /**
+     * Start all consumers
+     *
+     * TODO: Start consumer threads
+     * - Each consumer polls queue and processes messages
+     * - Handle InterruptedException
+     * - Check running flag
+     */
+    public void start() {
+        // TODO: Implement iteration/conditional logic
+    }
+
+    /**
+     * Produce message (called by producers)
+     *
+     * TODO: Send message to queue
+     */
+    public void produce(String messageId, String content) throws InterruptedException {
+        // TODO: Create Message and send to queue
+    }
+
+    /**
+     * Process message (override in subclass for custom logic)
+     *
+     * TODO: Implement message processing
+     * - Extract message content
+     * - Perform work
+     * - Handle errors
+     */
+    protected void processMessage(SimpleMessageQueue.Message message) {
+        // TODO: Process message (simulated work)
+        System.out.println(Thread.currentThread().getName() +
+                          " processing: " + message);
+
+        // TODO: Simulate work
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    /**
+     * Shutdown system
+     *
+     * TODO: Graceful shutdown
+     * - Set running to false
+     * - Wait for consumers to finish
+     */
+    public void shutdown() throws InterruptedException {
+        // TODO: Track state
+
+        // TODO: Interrupt all consumer threads
+
+        // TODO: Wait for all threads to finish (join)
+    }
+
+    /**
+     * Get queue statistics
+     */
+    public QueueStats getStats() {
+        return new QueueStats(queue.size(), consumerThreads.size());
+    }
+
+    static class QueueStats {
+        int queueSize;
+        int activeConsumers;
+
+        public QueueStats(int queueSize, int activeConsumers) {
+            this.queueSize = queueSize;
+            this.activeConsumers = activeConsumers;
+        }
+    }
+}</code></pre>
+<h3 id="part-3-publish-subscribe-pattern">Part 3: Publish-Subscribe Pattern<a class="headerlink" href="#part-3-publish-subscribe-pattern" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement pub-sub for multiple subscribers.</p>
+<pre class="highlight"><code class="language-java">/**
+ * Publish-Subscribe: Broadcast messages to multiple subscribers
+ *
+ * Key principles:
+ * - One message delivered to all subscribers
+ * - Topic-based routing
+ * - Decoupled publishers and subscribers
+ * - Each subscriber has own queue
+ */
+
+public class PubSubMessageQueue {
+
+    private final Map&lt;String, List&lt;Subscriber&gt;&gt; topicSubscribers;
+    private final Object lock = new Object();
+
+    /**
+     * Initialize pub-sub system
+     *
+     * TODO: Initialize topic mapping
+     */
+    public PubSubMessageQueue() {
+        // TODO: Initialize topicSubscribers map (ConcurrentHashMap)
+        this.topicSubscribers = null; // Replace
+    }
+
+    /**
+     * Subscribe to topic
+     *
+     * @param topic Topic name
+     * @param subscriber Subscriber to register
+     *
+     * TODO: Register subscriber
+     * - Create topic if doesn't exist
+     * - Add subscriber to topic list
+     */
+    public void subscribe(String topic, Subscriber subscriber) {
+        synchronized (lock) {
+            // TODO: Get or create subscriber list for topic
+
+            // TODO: Add subscriber to list
+
+            System.out.println(subscriber.name + " subscribed to " + topic);
+        }
+    }
+
+    /**
+     * Unsubscribe from topic
+     *
+     * TODO: Remove subscriber from topic
+     */
+    public void unsubscribe(String topic, Subscriber subscriber) {
+        synchronized (lock) {
+            // TODO: Get subscriber list for topic
+
+            // TODO: Remove subscriber
+        }
+    }
+
+    /**
+     * Publish message to topic
+     *
+     * @param topic Topic to publish to
+     * @param message Message to publish
+     *
+     * TODO: Deliver to all subscribers
+     * - Get all subscribers for topic
+     * - Send message to each subscriber's queue
+     */
+    public void publish(String topic, SimpleMessageQueue.Message message) {
+        synchronized (lock) {
+            // TODO: Get subscribers for topic
+
+            // TODO: Implement iteration/conditional logic
+
+            System.out.println("Published to " + topic + ": " + message);
+        }
+    }
+
+    /**
+     * Get topic statistics
+     */
+    public Map&lt;String, Integer&gt; getTopicStats() {
+        Map&lt;String, Integer&gt; stats = new HashMap&lt;&gt;();
+        synchronized (lock) {
+            for (Map.Entry&lt;String, List&lt;Subscriber&gt;&gt; entry : topicSubscribers.entrySet()) {
+                stats.put(entry.getKey(), entry.getValue().size());
+            }
+        }
+        return stats;
+    }
+
+    static class Subscriber {
+        String name;
+        Queue&lt;SimpleMessageQueue.Message&gt; queue;
+
+        public Subscriber(String name) {
+            this.name = name;
+            this.queue = new LinkedList&lt;&gt;();
+        }
+
+        public void deliver(SimpleMessageQueue.Message message) {
+            queue.offer(message);
+        }
+
+        public SimpleMessageQueue.Message receive() {
+            return queue.poll();
+        }
+
+        public int getQueueSize() {
+            return queue.size();
+        }
+    }
+}</code></pre>
+<h3 id="part-4-priority-message-queue">Part 4: Priority Message Queue<a class="headerlink" href="#part-4-priority-message-queue" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement priority queue for urgent messages.</p>
+<pre class="highlight"><code class="language-java">/**
+ * Priority Message Queue: Process high-priority messages first
+ *
+ * Key principles:
+ * - Priority levels (HIGH, MEDIUM, LOW)
+ * - Higher priority processed first
+ * - FIFO within same priority
+ * - Prevents starvation of low priority
+ */
+
+public class PriorityMessageQueue {
+
+    private final PriorityQueue&lt;PriorityMessage&gt; queue;
+    private final Object lock = new Object();
+    private final int capacity;
+
+    /**
+     * Initialize priority queue
+     *
+     * @param capacity Maximum queue size
+     *
+     * TODO: Initialize priority queue
+     * - Create PriorityQueue with comparator
+     * - Sort by priority then timestamp
+     */
+    public PriorityMessageQueue(int capacity) {
+        // TODO: Create PriorityQueue with comparator
+        // Comparator: First by priority (descending), then timestamp (ascending)
+
+        // TODO: Store capacity
+
+        this.queue = null; // Replace
+        this.capacity = 0;
+    }
+
+    /**
+     * Send message with priority
+     *
+     * TODO: Add message to priority queue
+     * - Wait if queue is full
+     * - Add message
+     * - Notify consumers
+     */
+    public void send(PriorityMessage message) throws InterruptedException {
+        synchronized (lock) {
+            // TODO: Wait while queue is full
+
+            // TODO: Add message to queue
+
+            // TODO: Notify waiting consumers
+        }
+    }
+
+    /**
+     * Receive highest priority message
+     *
+     * TODO: Get message with highest priority
+     * - Wait if queue is empty
+     * - Remove highest priority message
+     * - Notify producers
+     */
+    public PriorityMessage receive() throws InterruptedException {
+        synchronized (lock) {
+            // TODO: Wait while queue is empty
+
+            // TODO: Poll highest priority message
+
+            // TODO: Notify waiting producers
+
+            return null; // Replace
+        }
+    }
+
+    /**
+     * Get queue size
+     */
+    public synchronized int size() {
+        return queue.size();
+    }
+
+    static class PriorityMessage implements Comparable&lt;PriorityMessage&gt; {
+        String id;
+        String content;
+        Priority priority;
+        long timestamp;
+
+        public PriorityMessage(String id, String content, Priority priority) {
+            this.id = id;
+            this.content = content;
+            this.priority = priority;
+            this.timestamp = System.currentTimeMillis();
+        }
+
+        @Override
+        public int compareTo(PriorityMessage other) {
+            // TODO: Compare by priority first (higher priority first)
+
+            // Hint:
+            // int priorityCompare = other.priority.value - this.priority.value;
+            // if (priorityCompare != 0) return priorityCompare;
+            // return Long.compare(this.timestamp, other.timestamp);
+
+            return 0; // Replace
+        }
+
+        @Override
+        public String toString() {
+            return "PriorityMessage{id='" + id + "', priority=" + priority + "}";
+        }
+    }
+
+    enum Priority {
+        LOW(1), MEDIUM(2), HIGH(3);
+
+        final int value;
+
+        Priority(int value) {
+            this.value = value;
+        }
+    }
+}</code></pre>
+<h3 id="part-5-dead-letter-queue">Part 5: Dead Letter Queue<a class="headerlink" href="#part-5-dead-letter-queue" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement dead letter queue for failed messages.</p>
+<pre class="highlight"><code class="language-java">/**
+ * Dead Letter Queue: Handle messages that fail processing
+ *
+ * Key principles:
+ * - Retry failed messages
+ * - Max retry limit
+ * - Move to DLQ after max retries
+ * - Allows manual inspection/reprocessing
+ */
+
+public class DeadLetterQueue {
+
+    private final SimpleMessageQueue mainQueue;
+    private final SimpleMessageQueue dlq;
+    private final int maxRetries;
+    private final Map&lt;String, Integer&gt; retryCount;
+
+    /**
+     * Initialize dead letter queue system
+     *
+     * @param capacity Queue capacity
+     * @param maxRetries Maximum retry attempts
+     *
+     * TODO: Initialize queues
+     * - Create main queue
+     * - Create DLQ
+     * - Initialize retry counter
+     */
+    public DeadLetterQueue(int capacity, int maxRetries) {
+        // TODO: Create main queue
+
+        // TODO: Create DLQ
+
+        // TODO: Store maxRetries
+
+        // TODO: Initialize retry counter map
+
+        this.mainQueue = null; // Replace
+        this.dlq = null; // Replace
+        this.maxRetries = 0;
+        this.retryCount = null; // Replace
+    }
+
+    /**
+     * Send message to main queue
+     */
+    public void send(SimpleMessageQueue.Message message) throws InterruptedException {
+        // TODO: Send to main queue
+        // Initialize retry count to 0
+    }
+
+    /**
+     * Process message with retry logic
+     *
+     * @param processor Message processor
+     * @return true if processed successfully
+     *
+     * TODO: Process with retries
+     * 1. Receive message from main queue
+     * 2. Try to process
+     * 3. If fails, check retry count
+     * 4. If under limit, requeue with incremented count
+     * 5. If over limit, move to DLQ
+     */
+    public boolean processWithRetry(MessageProcessor processor) throws InterruptedException {
+        // TODO: Receive message from main queue
+
+        // TODO: Try to process message
+        try {
+            // processor.process(message)
+            // return true if successful
+        } catch (Exception e) {
+            // TODO: Get current retry count
+
+            // TODO: Implement iteration/conditional logic
+
+            // TODO: Implement iteration/conditional logic
+        }
+
+        return false; // Replace
+    }
+
+    /**
+     * Get message from DLQ for manual processing
+     */
+    public SimpleMessageQueue.Message receiveDLQ() throws InterruptedException {
+        return dlq.receive();
+    }
+
+    /**
+     * Reprocess message from DLQ (manual retry)
+     */
+    public void reprocessFromDLQ(SimpleMessageQueue.Message message) throws InterruptedException {
+        // TODO: Reset retry count and send to main queue
+    }
+
+    /**
+     * Get statistics
+     */
+    public DLQStats getStats() {
+        return new DLQStats(
+            mainQueue.size(),
+            dlq.size(),
+            retryCount.size()
+        );
+    }
+
+    interface MessageProcessor {
+        void process(SimpleMessageQueue.Message message) throws Exception;
+    }
+
+    static class DLQStats {
+        int mainQueueSize;
+        int dlqSize;
+        int messagesWithRetries;
+
+        public DLQStats(int mainQueueSize, int dlqSize, int messagesWithRetries) {
+            this.mainQueueSize = mainQueueSize;
+            this.dlqSize = dlqSize;
+            this.messagesWithRetries = messagesWithRetries;
+        }
+
+        @Override
+        public String toString() {
+            return "DLQStats{main=" + mainQueueSize +
+                   ", dlq=" + dlqSize +
+                   ", retrying=" + messagesWithRetries + "}";
+        }
+    }
+}</code></pre>
+<hr/>
+<h2 id="client-code">Client Code<a class="headerlink" href="#client-code" title="Permanent link">¶</a></h2>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class MessageQueuesClient {
+
+    public static void main(String[] args) throws Exception {
+        testSimpleQueue();
+        System.out.println("\n" + "=".repeat(50) + "\n");
+        testProducerConsumer();
+        System.out.println("\n" + "=".repeat(50) + "\n");
+        testPubSub();
+        System.out.println("\n" + "=".repeat(50) + "\n");
+        testPriorityQueue();
+        System.out.println("\n" + "=".repeat(50) + "\n");
+        testDeadLetterQueue();
+    }
+
+    static void testSimpleQueue() throws InterruptedException {
+        System.out.println("=== Simple Message Queue Test ===\n");
+
+        SimpleMessageQueue queue = new SimpleMessageQueue(5);
+
+        // Test: Producer thread
+        Thread producer = new Thread(() -&gt; {
+            try {
+                for (int i = 1; i &lt;= 5; i++) {
+                    SimpleMessageQueue.Message msg =
+                        new SimpleMessageQueue.Message("msg" + i, "Content " + i);
+                    queue.send(msg);
+                    System.out.println("Sent: " + msg);
+                    Thread.sleep(100);
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        });
+
+        // Test: Consumer thread
+        Thread consumer = new Thread(() -&gt; {
+            try {
+                for (int i = 1; i &lt;= 5; i++) {
+                    SimpleMessageQueue.Message msg = queue.receive();
+                    System.out.println("Received: " + msg);
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        });
+
+        producer.start();
+        consumer.start();
+        producer.join();
+        consumer.join();
+
+        System.out.println("\nFinal queue size: " + queue.size());
+    }
+
+    static void testProducerConsumer() throws InterruptedException {
+        System.out.println("=== Producer-Consumer Test ===\n");
+
+        ProducerConsumer pc = new ProducerConsumer(10, 3);
+        pc.start();
+
+        // Produce messages
+        System.out.println("Producing 10 messages...");
+        for (int i = 1; i &lt;= 10; i++) {
+            pc.produce("msg" + i, "Task " + i);
+            Thread.sleep(50);
+        }
+
+        // Let consumers process
+        Thread.sleep(2000);
+
+        System.out.println("\nStats: " + pc.getStats());
+        pc.shutdown();
+    }
+
+    static void testPubSub() throws InterruptedException {
+        System.out.println("=== Pub-Sub Test ===\n");
+
+        PubSubMessageQueue pubsub = new PubSubMessageQueue();
+
+        // Create subscribers
+        PubSubMessageQueue.Subscriber sub1 = new PubSubMessageQueue.Subscriber("User1");
+        PubSubMessageQueue.Subscriber sub2 = new PubSubMessageQueue.Subscriber("User2");
+        PubSubMessageQueue.Subscriber sub3 = new PubSubMessageQueue.Subscriber("User3");
+
+        // Subscribe to topics
+        pubsub.subscribe("news", sub1);
+        pubsub.subscribe("news", sub2);
+        pubsub.subscribe("sports", sub2);
+        pubsub.subscribe("sports", sub3);
+
+        System.out.println("\nTopic stats: " + pubsub.getTopicStats());
+
+        // Publish messages
+        System.out.println("\nPublishing messages:");
+        pubsub.publish("news", new SimpleMessageQueue.Message("n1", "Breaking news!"));
+        pubsub.publish("sports", new SimpleMessageQueue.Message("s1", "Game update!"));
+
+        // Check subscriber queues
+        System.out.println("\nSubscriber queues:");
+        System.out.println("User1 queue size: " + sub1.getQueueSize());
+        System.out.println("User2 queue size: " + sub2.getQueueSize());
+        System.out.println("User3 queue size: " + sub3.getQueueSize());
+
+        // Receive messages
+        System.out.println("\nUser1 receives: " + sub1.receive());
+        System.out.println("User2 receives: " + sub2.receive());
+        System.out.println("User2 receives: " + sub2.receive());
+    }
+
+    static void testPriorityQueue() throws InterruptedException {
+        System.out.println("=== Priority Queue Test ===\n");
+
+        PriorityMessageQueue queue = new PriorityMessageQueue(10);
+
+        // Send messages with different priorities
+        System.out.println("Sending messages:");
+        queue.send(new PriorityMessageQueue.PriorityMessage(
+            "m1", "Low priority", PriorityMessageQueue.Priority.LOW));
+        queue.send(new PriorityMessageQueue.PriorityMessage(
+            "m2", "High priority", PriorityMessageQueue.Priority.HIGH));
+        queue.send(new PriorityMessageQueue.PriorityMessage(
+            "m3", "Medium priority", PriorityMessageQueue.Priority.MEDIUM));
+        queue.send(new PriorityMessageQueue.PriorityMessage(
+            "m4", "High priority 2", PriorityMessageQueue.Priority.HIGH));
+
+        System.out.println("Queue size: " + queue.size());
+
+        // Receive in priority order
+        System.out.println("\nReceiving messages (priority order):");
+        while (queue.size() &gt; 0) {
+            PriorityMessageQueue.PriorityMessage msg = queue.receive();
+            System.out.println("Received: " + msg);
+        }
+    }
+
+    static void testDeadLetterQueue() throws InterruptedException {
+        System.out.println("=== Dead Letter Queue Test ===\n");
+
+        DeadLetterQueue dlq = new DeadLetterQueue(10, 3);
+
+        // Create failing processor
+        DeadLetterQueue.MessageProcessor failingProcessor = message -&gt; {
+            System.out.println("Processing: " + message.id);
+            if (message.id.equals("msg2")) {
+                throw new Exception("Simulated failure");
+            }
+        };
+
+        // Send messages
+        System.out.println("Sending messages:");
+        dlq.send(new SimpleMessageQueue.Message("msg1", "Good message"));
+        dlq.send(new SimpleMessageQueue.Message("msg2", "Bad message"));
+        dlq.send(new SimpleMessageQueue.Message("msg3", "Good message"));
+
+        // Process messages
+        System.out.println("\nProcessing messages:");
+        for (int i = 0; i &lt; 3; i++) {
+            boolean success = dlq.processWithRetry(failingProcessor);
+            System.out.println("Process attempt " + (i+1) + ": " +
+                             (success ? "SUCCESS" : "FAILED"));
+            System.out.println("Stats: " + dlq.getStats());
+        }
+
+        // Try more times to move bad message to DLQ
+        System.out.println("\nRetrying failed message:");
+        for (int i = 0; i &lt; 3; i++) {
+            dlq.processWithRetry(failingProcessor);
+            System.out.println("Stats: " + dlq.getStats());
+        }
+    }
+}</code></pre>
+<hr/>
+<h2 id="debugging-challenges">Debugging Challenges<a class="headerlink" href="#debugging-challenges" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Find and fix bugs in broken message queue implementations. This tests your understanding of common
+message queue pitfalls.</p>
+<h3 id="challenge-1-lost-messages">Challenge 1: Lost Messages<a class="headerlink" href="#challenge-1-lost-messages" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * This message queue is losing messages under load.
+ * It has 2 BUGS. Find them!
+ */
+public class BuggyMessageQueue {
+    private final Queue&lt;Message&gt; queue;
+    private final int capacity;
+
+    public BuggyMessageQueue(int capacity) {
+        this.queue = new LinkedList&lt;&gt;();
+        this.capacity = capacity;
+    }
+
+    public void send(Message message) throws InterruptedException {
+        if (queue.size() &gt;= capacity) {
+            Thread.sleep(100); // Wait for space
+        }
+        queue.offer(message);
+    }
+
+    public Message receive() throws InterruptedException {
+        if (queue.isEmpty()) {
+            return null; // What happens to waiting consumers?
+        }
+        return queue.poll();
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>Bug 1: <span class="fill-in">[What\'s the bug?]</span></li>
+<li>
+<p><strong>Scenario that exposes bug:</strong> <span class="fill-in">[Fill in]</span></p>
+</li>
+<li>
+<p>Bug 2: <span class="fill-in">[What\'s the bug?]</span></p>
+</li>
+<li><strong>Why does it lose messages?</strong> <span class="fill-in">[Fill in]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug 1 (send method):</strong> Missing synchronization. Multiple threads can check <code>queue.size()</code> simultaneously, both see
+space available, both add messages, exceeding capacity. Race condition on queue operations.</p>
+<p><strong>Fix:</strong></p>
+<pre class="highlight"><code class="language-java">public synchronized void send(Message message) throws InterruptedException {
+    while (queue.size() &gt;= capacity) {
+        wait(); // Wait until space available
+    }
+    queue.offer(message);
+    notifyAll(); // Wake up waiting receivers
+}</code></pre>
+<p><strong>Bug 2 (receive method):</strong> Returns null instead of waiting. Consumers poll repeatedly or miss messages. No coordination
+between producers and consumers.</p>
+<p><strong>Fix:</strong></p>
+<pre class="highlight"><code class="language-java">public synchronized Message receive() throws InterruptedException {
+    while (queue.isEmpty()) {
+        wait(); // Wait until message available
+    }
+    Message msg = queue.poll();
+    notifyAll(); // Wake up waiting senders
+    return msg;
+}</code></pre>
+<p><strong>Why messages are lost:</strong> Without synchronization, concurrent operations can corrupt the queue state. Without
+wait/notify, producers may overwrite or consumers may miss messages.</p>
+</details>
+<hr/>
+<h3 id="challenge-2-duplicate-processing">Challenge 2: Duplicate Processing<a class="headerlink" href="#challenge-2-duplicate-processing" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * This consumer processes some messages twice!
+ * It has 1 CRITICAL BUG related to at-least-once delivery.
+ */
+public class BuggyConsumer {
+    private final SimpleMessageQueue queue;
+
+    public void processMessages() {
+        while (true) {
+            try {
+                Message msg = queue.receive();
+                processMessage(msg); // Long operation - 5 seconds
+
+                // Message was already removed from queue!
+
+            } catch (Exception e) {
+                // Message lost or processed twice?
+                System.err.println("Error: " + e.getMessage());
+            }
+        }
+    }
+
+    private void processMessage(Message msg) throws Exception {
+        // Simulate processing
+        if (msg.content.contains("fail")) {
+            throw new Exception("Processing failed");
+        }
+        // Save to database
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug:</strong> <span class="fill-in">[What's the problem with this pattern?]</span></li>
+<li><strong>At-least-once delivery issue:</strong> <span class="fill-in">[Explain the problem]</span></li>
+<li><strong>Exactly-once challenge:</strong> <span class="fill-in">[Why is this hard to solve?]</span></li>
+<li><strong>Fix option 1:</strong> <span class="fill-in">[How to make it safe?]</span></li>
+<li><strong>Fix option 2:</strong> <span class="fill-in">[Alternative approach?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> Message is removed from queue BEFORE successful processing. If <code>processMessage</code> fails, the message is lost. If
+we add retry logic, we might process it multiple times.</p>
+<p><strong>At-least-once delivery problem:</strong></p>
+<pre class="highlight"><code>
+1. Receive message (removed from queue)
+2. Start processing
+3. Process fails halfway
+4. Message is lost - neither in queue nor processed!</code></pre>
+<p><strong>Exactly-once challenge:</strong> Very hard to guarantee. You need:</p>
+<ul>
+<li>Idempotent processing (safe to process twice)</li>
+<li>Transactional processing</li>
+<li>Deduplication mechanism</li>
+</ul>
+<p><strong>Fix Option 1 - Use acknowledgment pattern:</strong></p>
+<pre class="highlight"><code class="language-java">public void processMessages() {
+    while (true) {
+        Message msg = null;
+        try {
+            msg = queue.receive();
+            processMessage(msg);
+            queue.acknowledge(msg.id); // Explicit ACK
+
+        } catch (Exception e) {
+            if (msg != null) {
+                queue.nack(msg.id); // Negative ACK - requeue
+            }
+        }
+    }
+}</code></pre>
+<p><strong>Fix Option 2 - Use idempotent processing:</strong></p>
+<pre class="highlight"><code class="language-java">private void processMessage(Message msg) throws Exception {
+    // Check if already processed (deduplication)
+    if (database.isProcessed(msg.id)) {
+        return; // Skip duplicate
+    }
+
+    // Process and mark as processed in same transaction
+    database.transaction(() -&gt; {
+        doActualProcessing(msg);
+        database.markProcessed(msg.id);
+    });
+}</code></pre>
+<p><strong>Key insight:</strong> At-least-once delivery requires idempotent consumers!</p>
+</details>
+<hr/>
+<h3 id="challenge-3-message-ordering-violation">Challenge 3: Message Ordering Violation<a class="headerlink" href="#challenge-3-message-ordering-violation" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * This pub-sub system delivers messages OUT OF ORDER.
+ * It has 1 SUBTLE BUG in concurrent delivery.
+ */
+public class BuggyPubSub {
+    private final Map&lt;String, List&lt;Subscriber&gt;&gt; topicSubscribers;
+    private final ExecutorService executor;
+
+    public BuggyPubSub() {
+        this.topicSubscribers = new ConcurrentHashMap&lt;&gt;();
+        this.executor = Executors.newFixedThreadPool(10);
+    }
+
+    public void publish(String topic, Message message) {
+        List&lt;Subscriber&gt; subscribers = topicSubscribers.get(topic);
+        if (subscribers == null) return;
+
+        for (Subscriber sub : subscribers) {
+            executor.submit(() -&gt; {
+                sub.deliver(message);
+            });
+        }
+        // Messages may arrive out of order to each subscriber
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug:</strong> <span class="fill-in">[What causes out-of-order delivery?]</span></li>
+<li><strong>Example scenario:</strong> <span class="fill-in">[When does this fail?]</span></li>
+<li><strong>Why is ordering important?</strong> <span class="fill-in">[Give examples]</span></li>
+<li><strong>Fix for ordered delivery:</strong> <span class="fill-in">[How to guarantee order?]</span></li>
+<li><strong>Trade-off:</strong> <span class="fill-in">[What do you sacrifice?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> Using thread pool for parallel delivery breaks message ordering. Messages sent to thread pool may execute in
+any order.</p>
+<p><strong>Example scenario:</strong></p>
+<pre class="highlight"><code>Publisher sends: msg1, msg2, msg3
+Thread pool:
+    - Thread 2 picks up msg1 (delayed)
+    - Thread 1 picks up msg2 (fast)
+    - Thread 3 picks up msg3 (fast)
+Subscriber receives: msg2, msg3, msg1 ❌</code></pre>
+<p><strong>Why ordering matters:</strong></p>
+<ul>
+<li>Database updates (create → update → delete)</li>
+<li>State transitions (pending → processing → completed)</li>
+<li>Financial transactions (debit must follow credit)</li>
+<li>Event sourcing (events must be ordered)</li>
+</ul>
+<p><strong>Fix Option 1 - Serial delivery per subscriber:</strong></p>
+<pre class="highlight"><code class="language-java">public void publish(String topic, Message message) {
+    List&lt;Subscriber&gt; subscribers = topicSubscribers.get(topic);
+    if (subscribers == null) return;
+
+    // Each subscriber gets messages in order
+    for (Subscriber sub : subscribers) {
+        sub.deliverInOrder(message); // Subscriber queues internally
+    }
+}
+
+class Subscriber {
+    private final Queue&lt;Message&gt; orderedQueue;
+    private final SingleThreadExecutor executor; // One thread per subscriber
+
+    void deliverInOrder(Message msg) {
+        orderedQueue.offer(msg);
+        executor.execute(() -&gt; {
+            Message m = orderedQueue.poll();
+            process(m); // Processed in order
+        });
+    }
+}</code></pre>
+<p><strong>Fix Option 2 - Partition-based ordering:</strong></p>
+<pre class="highlight"><code class="language-java">// Only guarantee order within partition key (like Kafka)
+public void publish(String topic, Message message, String partitionKey) {
+    int partition = Math.abs(partitionKey.hashCode()) % numPartitions;
+    // Messages with same key go to same partition (ordered)
+    partitions[partition].deliver(message);
+}</code></pre>
+<p><strong>Trade-off:</strong> Serial processing is slower than parallel. Must choose between throughput and ordering guarantees.</p>
+</details>
+<hr/>
+<h3 id="challenge-4-dead-letter-queue-overflow">Challenge 4: Dead Letter Queue Overflow<a class="headerlink" href="#challenge-4-dead-letter-queue-overflow" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * This DLQ system fills up and loses messages.
+ * It has 2 BUGS in retry logic.
+ */
+public class BuggyDLQ {
+    private final SimpleMessageQueue mainQueue;
+    private final SimpleMessageQueue dlq;
+    private final int maxRetries;
+    private final Map&lt;String, Integer&gt; retryCount;
+
+    public boolean processWithRetry(MessageProcessor processor) throws InterruptedException {
+        Message msg = mainQueue.receive();
+
+        try {
+            processor.process(msg);
+            return true;
+
+        } catch (Exception e) {
+            int count = retryCount.getOrDefault(msg.id, 0);
+            count++;
+            retryCount.put(msg.id, count);
+
+            if (count &lt; maxRetries) {
+                mainQueue.send(msg);
+                return false;
+            } else {
+                dlq.send(msg);
+                retryCount.remove(msg.id);
+                return false;
+            }
+        }
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug 1:</strong> <span class="fill-in">[What's wrong with immediate retry?]</span></li>
+<li><strong>Bug 1 impact:</strong> <span class="fill-in">[What happens to the system?]</span></li>
+<li>
+<p><strong>Bug 1 fix:</strong> <span class="fill-in">[How to fix?]</span></p>
+</li>
+<li>
+<p><strong>Bug 2:</strong> <span class="fill-in">[What if DLQ is full?]</span></p>
+</li>
+<li><strong>Bug 2 impact:</strong> <span class="fill-in">[Messages lost or blocked?]</span></li>
+<li><strong>Bug 2 fix:</strong> <span class="fill-in">[How to handle full DLQ?]</span></li>
+</ul>
+<p><strong>Additional questions:</strong></p>
+<ul>
+<li><strong>Retry timing strategy:</strong> <span class="fill-in">[Constant vs exponential backoff?]</span></li>
+<li><strong>When to stop retrying:</strong> <span class="fill-in">[How to decide max retries?]</span></li>
+<li><strong>DLQ monitoring:</strong> <span class="fill-in">[How to detect problems?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug 1:</strong> Immediate retry causes rapid retry loop. If a message consistently fails (e.g., bad data), it will be retried
+maxRetries times in rapid succession, wasting CPU and blocking other messages.</p>
+<p><strong>Bug 1 fix - Add exponential backoff:</strong></p>
+<pre class="highlight"><code class="language-java">if (count &lt; maxRetries) {
+    long delay = (long) Math.pow(2, count) * 1000; // 1s, 2s, 4s, 8s...
+    Thread.sleep(delay);
+    mainQueue.send(msg);
+    return false;
+}</code></pre>
+<p>Or better, use a delayed queue:</p>
+<pre class="highlight"><code class="language-java">if (count &lt; maxRetries) {
+    long delayMs = (long) Math.pow(2, count) * 1000;
+    delayedQueue.send(msg, delayMs); // Reprocess after delay
+    return false;
+}</code></pre>
+<p><strong>Bug 2:</strong> If DLQ is full, <code>dlq.send(msg)</code> will block forever (if blocking queue) or throw exception (if non-blocking).
+Message processing stalls.</p>
+<p><strong>Bug 2 fix - Handle DLQ overflow:</strong></p>
+<pre class="highlight"><code class="language-java">} else {
+    // Try to send to DLQ with timeout
+    boolean sent = dlq.sendWithTimeout(msg, 5000);
+    if (!sent) {
+        // DLQ full - critical alert!
+        alertOps("DLQ full! Message: " + msg.id);
+        // Option 1: Drop message (with logging)
+        logDroppedMessage(msg);
+        // Option 2: Write to disk/database as backup
+        persistToBackup(msg);
+    }
+    retryCount.remove(msg.id);
+    return false;
+}</code></pre>
+<p><strong>Retry strategies:</strong></p>
+<ol>
+<li>
+<p><strong>Constant backoff:</strong> Fixed delay (1s, 1s, 1s)</p>
+<ul>
+<li>Pro: Simple</li>
+<li>Con: Doesn't give system time to recover</li>
+</ul>
+</li>
+<li>
+<p><strong>Exponential backoff:</strong> Increasing delay (1s, 2s, 4s, 8s)</p>
+<ul>
+<li>Pro: Reduces load during problems</li>
+<li>Con: Messages delayed longer</li>
+</ul>
+</li>
+<li>
+<p><strong>Max retry limits:</strong></p>
+<ul>
+<li>Transient errors (network): High retries (10+)</li>
+<li>Permanent errors (validation): Low retries (3)</li>
+<li>Timeout errors: Medium retries (5)</li>
+</ul>
+</li>
+</ol>
+<p><strong>DLQ monitoring:</strong></p>
+<ul>
+<li>Alert when DLQ size &gt; threshold</li>
+<li>Alert when DLQ growth rate is high</li>
+<li>Dashboard showing DLQ trends</li>
+<li>Automated DLQ processing for known issues</li>
+</ul>
+</details>
+<hr/>
+<h3 id="your-debugging-scorecard">Your Debugging Scorecard<a class="headerlink" href="#your-debugging-scorecard" title="Permanent link">¶</a></h3>
+<p>After finding and fixing all bugs:</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understood message loss causes (synchronization, race conditions)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understood duplicate processing (at-least-once vs exactly-once)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understood ordering violations (concurrent delivery)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understood DLQ overflow (backoff, capacity planning)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could explain each bug to someone else</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Learned common message queue mistakes to avoid</li>
+</ul>
+<p><strong>Common mistakes you discovered:</strong></p>
+<ol>
+<li><span class="fill-in">[List the patterns you noticed]</span></li>
+<li><span class="fill-in">[Fill in]</span></li>
+<li><span class="fill-in">[Fill in]</span></li>
+<li><span class="fill-in">[Fill in]</span></li>
+</ol>
+<p><strong>Key takeaways:</strong></p>
+<ul>
+<li><strong>Concurrency:</strong> <span class="fill-in">[What did you learn?]</span></li>
+<li><strong>Delivery guarantees:</strong> <span class="fill-in">[What did you learn?]</span></li>
+<li><strong>Error handling:</strong> <span class="fill-in">[What did you learn?]</span></li>
+<li><strong>Monitoring:</strong> <span class="fill-in">[What did you learn?]</span></li>
+</ul>
+<hr/>
+<h2 id="decision-framework">Decision Framework<a class="headerlink" href="#decision-framework" title="Permanent link">¶</a></h2>
+<p><strong>Questions to answer after implementation:</strong></p>
+<h3 id="1-pattern-selection">1. Pattern Selection<a class="headerlink" href="#1-pattern-selection" title="Permanent link">¶</a></h3>
+<p><strong>When to use Simple Queue?</strong></p>
+<ul>
+<li>Your scenario: <span class="fill-in">[Fill in]</span></li>
+<li>Key factors: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>When to use Producer-Consumer?</strong></p>
+<ul>
+<li>Your scenario: <span class="fill-in">[Fill in]</span></li>
+<li>Key factors: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>When to use Pub-Sub?</strong></p>
+<ul>
+<li>Your scenario: <span class="fill-in">[Fill in]</span></li>
+<li>Key factors: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>When to use Priority Queue?</strong></p>
+<ul>
+<li>Your scenario: <span class="fill-in">[Fill in]</span></li>
+<li>Key factors: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>When to use Dead Letter Queue?</strong></p>
+<ul>
+<li>Your scenario: <span class="fill-in">[Fill in]</span></li>
+<li>Key factors: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="2-trade-offs">2. Trade-offs<a class="headerlink" href="#2-trade-offs" title="Permanent link">¶</a></h3>
+<p><strong>Simple Queue:</strong></p>
+<ul>
+<li>Pros: <span class="fill-in">[Fill in after understanding]</span></li>
+<li>Cons: <span class="fill-in">[Fill in after understanding]</span></li>
+</ul>
+<p><strong>Producer-Consumer:</strong></p>
+<ul>
+<li>Pros: <span class="fill-in">[Fill in after understanding]</span></li>
+<li>Cons: <span class="fill-in">[Fill in after understanding]</span></li>
+</ul>
+<p><strong>Pub-Sub:</strong></p>
+<ul>
+<li>Pros: <span class="fill-in">[Fill in after understanding]</span></li>
+<li>Cons: <span class="fill-in">[Fill in after understanding]</span></li>
+</ul>
+<p><strong>Priority Queue:</strong></p>
+<ul>
+<li>Pros: <span class="fill-in">[Fill in after understanding]</span></li>
+<li>Cons: <span class="fill-in">[Fill in after understanding]</span></li>
+</ul>
+<h3 id="3-your-decision-tree">3. Your Decision Tree<a class="headerlink" href="#3-your-decision-tree" title="Permanent link">¶</a></h3>
+<p>Build your decision tree after practicing:
+<div class="mermaid">flowchart LR
+    Start["What is your communication pattern?"]
+
+    N1["?"]
+    Start --&gt;|"One-to-one async processing"| N1
+    N2["?"]
+    Start --&gt;|"Multiple workers needed"| N2
+    N3["?"]
+    Start --&gt;|"Broadcast to multiple consumers"| N3
+    N4["?"]
+    Start --&gt;|"Urgent messages need priority"| N4
+    N5["?"]
+    Start --&gt;|"Need retry and failure handling"| N5</div></p>
+<hr/>
+<h2 id="practice">Practice<a class="headerlink" href="#practice" title="Permanent link">¶</a></h2>
+<h3 id="scenario-1-process-uploaded-images">Scenario 1: Process uploaded images<a class="headerlink" href="#scenario-1-process-uploaded-images" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>Users upload images</li>
+<li>Need to resize, compress, generate thumbnails</li>
+<li>Processing takes 5-10 seconds</li>
+<li>Want fast upload response</li>
+<li>Handle processing failures</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<ul>
+<li>Which pattern would you choose? <span class="fill-in">[Fill in]</span></li>
+<li>Why? <span class="fill-in">[Fill in]</span></li>
+<li>How many workers? <span class="fill-in">[Fill in]</span></li>
+<li>Failure handling strategy? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="scenario-2-notification-system">Scenario 2: Notification system<a class="headerlink" href="#scenario-2-notification-system" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>Send notifications via email, SMS, push</li>
+<li>Users subscribe to notification types</li>
+<li>Some notifications are urgent</li>
+<li>Must deliver to all channels</li>
+<li>Track delivery failures</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<ul>
+<li>Which pattern would you choose? <span class="fill-in">[Fill in]</span></li>
+<li>Why? <span class="fill-in">[Fill in]</span></li>
+<li>How to handle different channels? <span class="fill-in">[Fill in]</span></li>
+<li>Priority strategy? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="scenario-3-order-processing-system">Scenario 3: Order processing system<a class="headerlink" href="#scenario-3-order-processing-system" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>Process orders from multiple sources</li>
+<li>Some orders need priority (VIP customers)</li>
+<li>Payment processing might fail</li>
+<li>Need retry logic</li>
+<li>Monitor failed orders</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<ul>
+<li>Which pattern would you choose? <span class="fill-in">[Fill in]</span></li>
+<li>Why? <span class="fill-in">[Fill in]</span></li>
+<li>How to handle priorities? <span class="fill-in">[Fill in]</span></li>
+<li>Retry strategy? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<hr/>
+<h2 id="review-checklist">Review Checklist<a class="headerlink" href="#review-checklist" title="Permanent link">¶</a></h2>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Simple message queue implemented with blocking operations</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Producer-consumer implemented with multiple workers</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Pub-sub implemented with topic-based routing</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Priority queue implemented with priority ordering</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Dead letter queue implemented with retry logic</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand when to use each pattern</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can explain trade-offs between patterns</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Built decision tree for pattern selection</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Completed practice scenarios</li>
+</ul>
+<hr/>
+<h3 id="mastery-certification">Mastery Certification<a class="headerlink" href="#mastery-certification" title="Permanent link">¶</a></h3>
+<p><strong>I certify that I can:</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Implement all message queue patterns from memory</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Explain when and why to use each pattern</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Identify the correct pattern for new scenarios</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Analyze delivery guarantees and trade-offs</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Debug common message queue problems</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Design scalable message-based systems</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Explain at-least-once vs exactly-once delivery</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Implement retry logic with dead letter queues</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Compare queue vs pub-sub architectures</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Teach these concepts to someone else</li>
+</ul></div>
+</div>
+<footer class="col-md-12 text-center">
+<hr/>
+<p>
+<small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+</p>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../../js/bootstrap-3.0.3.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>var base_url = "../.."</script>
+<script src="../../js/base.js"></script>
+<script src="../../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<button class="close" data-dismiss="modal" type="button">
+<span aria-hidden="true">×</span>
+<span class="sr-only">Close</span>
+</button>
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+</div>
+<div class="modal-body">
+<p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="text"/>
+</div>
+</form>
+<div id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@10.4.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>

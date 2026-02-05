@@ -1,0 +1,1456 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="A framework for algorithms, systems design, and infrastructure." name="description"/>
+<meta content="Richard" name="author"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>03. Hash Tables - Software Engineering Study Guide</title>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" rel="stylesheet"/>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css" rel="stylesheet"/>
+<link href="//rsms.me/inter/inter.css" rel="stylesheet" type="text/css"/>
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&amp;subset=latin-ext,latin" rel="stylesheet" type="text/css"/>
+<link href="../../css/bootstrap-custom.min.css" rel="stylesheet"/>
+<link href="../../css/base.min.css" rel="stylesheet"/>
+<link href="../../css/cinder.min.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css" rel="stylesheet"/>
+<link href="../../css/custom.css" rel="stylesheet"/>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="container">
+<!-- Collapsed navigation -->
+<div class="navbar-header">
+<!-- Expander button -->
+<button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<!-- Main title -->
+<a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+</div>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li>
+<a href="../..">Home</a>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Systems Design <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../systems/01-storage-engines/">01. Storage Engines</a>
+</li>
+<li>
+<a href="../../systems/02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+<li>
+<a href="../../systems/03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+<li>
+<a href="../../systems/04-search-and-indexing/">04. Search &amp; Indexing</a>
+</li>
+<li>
+<a href="../../systems/05-caching-patterns/">05. Caching Patterns</a>
+</li>
+<li>
+<a href="../../systems/06-api-design/">06. API Design</a>
+</li>
+<li>
+<a href="../../systems/07-security-patterns/">07. Security Patterns</a>
+</li>
+<li>
+<a href="../../systems/08-rate-limiting/">08. Rate Limiting</a>
+</li>
+<li>
+<a href="../../systems/09-load-balancing/">09. Load Balancing</a>
+</li>
+<li>
+<a href="../../systems/10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+<li>
+<a href="../../systems/11-database-scaling/">11. Database Scaling</a>
+</li>
+<li>
+<a href="../../systems/12-message-queues/">12. Message Queues</a>
+</li>
+<li>
+<a href="../../systems/13-stream-processing/">13. Stream Processing</a>
+</li>
+<li>
+<a href="../../systems/14-observability/">14. Observability</a>
+</li>
+<li>
+<a href="../../systems/15-distributed-transactions/">15. Distributed Transactions</a>
+</li>
+<li>
+<a href="../../systems/16-consensus-patterns/">16. Consensus Patterns</a>
+</li>
+</ul>
+</li>
+<li class="dropdown active">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">DSA <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../01-two-pointers/">01. Two Pointers</a>
+</li>
+<li>
+<a href="../02-sliding-window/">02. Sliding Window</a>
+</li>
+<li class="active">
+<a href="./">03. Hash Tables</a>
+</li>
+<li>
+<a href="../04-linked-lists/">04. Linked Lists</a>
+</li>
+<li>
+<a href="../05-stacks--queues/">05. Stacks &amp; Queues</a>
+</li>
+<li>
+<a href="../06-trees-traversals/">06. Trees - Traversals</a>
+</li>
+<li>
+<a href="../07-trees-recursion/">07. Trees - Recursion</a>
+</li>
+<li>
+<a href="../08-binary-search/">08. Binary Search</a>
+</li>
+<li>
+<a href="../09-heaps/">09. Heaps</a>
+</li>
+<li>
+<a href="../10-graphs/">10. Graphs</a>
+</li>
+<li>
+<a href="../11-union-find/">11. Union-Find</a>
+</li>
+<li>
+<a href="../12-advanced-graphs/">12. Advanced Graphs</a>
+</li>
+<li>
+<a href="../13-backtracking/">13. Backtracking</a>
+</li>
+<li>
+<a href="../14-dynamic-programming-1d/">14. Dynamic Programming 1D</a>
+</li>
+<li>
+<a href="../15-dynamic-programming-2d/">15. Dynamic Programming 2D</a>
+</li>
+<li>
+<a href="../16-tries/">16. Tries</a>
+</li>
+<li>
+<a href="../17-advanced-topics/">17. Advanced Topics</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+<a data-target="#mkdocs_search_modal" data-toggle="modal" href="#">
+<i class="fas fa-search"></i> Search
+                        </a>
+</li>
+<li>
+<a href="../02-sliding-window/" rel="prev">
+<i class="fas fa-arrow-left"></i> Previous
+                        </a>
+</li>
+<li>
+<a href="../04-linked-lists/" rel="next">
+                            Next <i class="fas fa-arrow-right"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+<ul class="nav bs-sidenav">
+<li class="first-level active"><a href="#hash-tables">Hash Tables</a></li>
+<li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+<li class="second-level"><a href="#quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)</a></li>
+<li class="second-level"><a href="#beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters</a></li>
+<li class="second-level"><a href="#core-implementation">Core Implementation</a></li>
+<li class="second-level"><a href="#debugging-challenges">Debugging Challenges</a></li>
+<li class="second-level"><a href="#decision-framework">Decision Framework</a></li>
+<li class="second-level"><a href="#practice">Practice</a></li>
+<li class="second-level"><a href="#review-checklist">Review Checklist</a></li>
+</ul>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="hash-tables">Hash Tables<a class="headerlink" href="#hash-tables" title="Permanent link">¶</a></h1>
+<blockquote>
+<p>O(1) average lookup, insertion, and deletion using key-value mapping</p>
+</blockquote>
+<hr/>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After implementing all patterns, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What is a hash table in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Why is O(1) lookup possible?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy:</strong></p>
+<ul>
+<li>Example: "Hash tables are like a library card catalog..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When does this pattern work?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after solving problems]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What happens when two keys hash to the same location?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after learning about collisions]</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr/>
+<h2 id="quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)<a class="headerlink" href="#quick-quiz-do-before-implementing" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Test your intuition without looking at code. Answer these, then verify after implementation.</p>
+<h3 id="complexity-predictions">Complexity Predictions<a class="headerlink" href="#complexity-predictions" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p><strong>Linear search through array to find if element exists:</strong></p>
+<ul>
+<li>Time complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Verified after learning: <span class="fill-in">[Actual: O(?)]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Hash table lookup to find if element exists:</strong></p>
+<ul>
+<li>Time complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Space complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Verified: <span class="fill-in">[Actual]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Speedup calculation:</strong></p>
+<ul>
+<li>If n = 1,000, linear search = n = <span class="fill-in">_____</span> operations</li>
+<li>Hash table lookup = <span class="fill-in">_____</span> operations (average case)</li>
+<li>Speedup factor: <span class="fill-in">_____</span> times faster</li>
+</ul>
+</li>
+</ol>
+<h3 id="scenario-predictions">Scenario Predictions<a class="headerlink" href="#scenario-predictions" title="Permanent link">¶</a></h3>
+<p><strong>Scenario 1:</strong> Count frequency of each word in <code>["cat", "dog", "cat", "bird", "dog", "cat"]</code></p>
+<ul>
+<li><strong>Can you use a hash map?</strong> <span class="fill-in">[Yes/No - Why?]</span></li>
+<li><strong>What would be the key?</strong> <span class="fill-in">[Fill in]</span></li>
+<li><strong>What would be the value?</strong> <span class="fill-in">[Fill in]</span></li>
+<li><strong>What's the final map for "cat"?</strong> <span class="fill-in">[Key: "cat", Value: ?]</span></li>
+</ul>
+<p><strong>Scenario 2:</strong> Find two numbers that sum to 10 in <code>[2, 7, 11, 15]</code></p>
+<ul>
+<li><strong>Can you use a hash map?</strong> <span class="fill-in">[Yes/No - Why?]</span></li>
+<li><strong>What would you store in the map?</strong> <span class="fill-in">[Fill in]</span></li>
+<li><strong>How does hash map help vs nested loops?</strong> <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>Scenario 3:</strong> Group anagrams: <code>["eat", "tea", "tan", "ate", "nat", "bat"]</code></p>
+<ul>
+<li><strong>What makes two strings anagrams?</strong> <span class="fill-in">[Fill in]</span></li>
+<li><strong>What should be the map key?</strong> <span class="fill-in">[Fill in your idea]</span></li>
+<li><strong>How to create the key from "eat"?</strong> <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="hash-collision-quiz">Hash Collision Quiz<a class="headerlink" href="#hash-collision-quiz" title="Permanent link">¶</a></h3>
+<p><strong>Question:</strong> What happens when two different keys hash to the same location?</p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in before implementation]</span></li>
+<li>Verified answer: <span class="fill-in">[Fill in after learning]</span></li>
+</ul>
+<p><strong>Question:</strong> Why is HashMap lookup O(1) average but O(n) worst case?</p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in before implementation]</span></li>
+<li>Verified answer: <span class="fill-in">[Fill in after learning]</span></li>
+</ul>
+<h3 id="trade-off-quiz">Trade-off Quiz<a class="headerlink" href="#trade-off-quiz" title="Permanent link">¶</a></h3>
+<p><strong>Question:</strong> When would sorting + binary search be BETTER than using a HashMap?</p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in before implementation]</span></li>
+<li>Verified answer: <span class="fill-in">[Fill in after learning]</span></li>
+</ul>
+<p><strong>Question:</strong> What's the MAIN advantage of HashMap over arrays?</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Always uses less memory</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can use non-integer keys</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Maintains sorted order</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Always faster for all operations</li>
+</ul>
+<p>Verify after implementation: <span class="fill-in">[Which one(s)?]</span></p>
+</div>
+<hr/>
+<h2 id="beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters<a class="headerlink" href="#beforeafter-why-this-pattern-matters" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Compare naive vs optimized approaches to understand the impact.</p>
+<h3 id="example-two-sum-problem">Example: Two Sum Problem<a class="headerlink" href="#example-two-sum-problem" title="Permanent link">¶</a></h3>
+<p><strong>Problem:</strong> Find two numbers in an array that sum to a target value.</p>
+<h4 id="approach-1-brute-force-nested-loops">Approach 1: Brute Force (Nested Loops)<a class="headerlink" href="#approach-1-brute-force-nested-loops" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Naive approach - Check all possible pairs
+public static int[] twoSum_BruteForce(int[] nums, int target) {
+    for (int i = 0; i &lt; nums.length; i++) {
+        for (int j = i + 1; j &lt; nums.length; j++) {
+            if (nums[i] + nums[j] == target) {
+                return new int[] {i, j};
+            }
+        }
+    }
+    return new int[] {-1, -1};
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n²) - For each element, check all remaining elements</li>
+<li>Space: O(1) - No extra space</li>
+<li>For n = 10,000: ~100,000,000 comparisons</li>
+</ul>
+<h4 id="approach-2-hashmap-optimized">Approach 2: HashMap (Optimized)<a class="headerlink" href="#approach-2-hashmap-optimized" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Optimized approach - Use HashMap for O(1) lookup
+public static int[] twoSum_HashMap(int[] nums, int target) {
+    Map&lt;Integer, Integer&gt; map = new HashMap&lt;&gt;();
+
+    for (int i = 0; i &lt; nums.length; i++) {
+        int complement = target - nums[i];
+        if (map.containsKey(complement)) {
+            return new int[] {map.get(complement), i};
+        }
+        map.put(nums[i], i);
+    }
+
+    return new int[] {-1, -1};
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n) - Single pass through array, O(1) lookups</li>
+<li>Space: O(n) - Store up to n elements in map</li>
+<li>For n = 10,000: ~10,000 operations</li>
+</ul>
+<h4 id="performance-comparison">Performance Comparison<a class="headerlink" href="#performance-comparison" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>Array Size</th>
+<th>Brute Force (O(n²))</th>
+<th>HashMap (O(n))</th>
+<th>Speedup</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n = 100</td>
+<td>10,000 ops</td>
+<td>100 ops</td>
+<td>100x</td>
+</tr>
+<tr>
+<td>n = 1,000</td>
+<td>1,000,000 ops</td>
+<td>1,000 ops</td>
+<td>1,000x</td>
+</tr>
+<tr>
+<td>n = 10,000</td>
+<td>100,000,000 ops</td>
+<td>10,000 ops</td>
+<td>10,000x</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Your calculation:</strong> For n = 5,000, the speedup is approximately _____ times faster.</p>
+<h4 id="why-does-hashmap-work">Why Does HashMap Work?<a class="headerlink" href="#why-does-hashmap-work" title="Permanent link">¶</a></h4>
+<p><strong>Key insight to understand:</strong></p>
+<p>In array <code>[2, 7, 11, 15]</code> looking for sum = 9:</p>
+<pre class="highlight"><code>Step 1: num=2, complement=7, map={} → not found, add 2→0
+Step 2: num=7, complement=2, map={2→0} → FOUND! Return [0, 1]</code></pre>
+<p><strong>Why is this faster?</strong></p>
+<ul>
+<li>Instead of checking every pair (2,7), (2,11), (2,15), (7,11), (7,15), (11,15)</li>
+<li>We check each number once and use O(1) lookup to find its complement</li>
+<li>HashMap eliminates the need for the inner loop!</li>
+</ul>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>Why does O(1) lookup matter? <span class="fill-in">[Your answer]</span></li>
+<li>What's the space/time trade-off? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr/>
+<h3 id="example-finding-duplicates">Example: Finding Duplicates<a class="headerlink" href="#example-finding-duplicates" title="Permanent link">¶</a></h3>
+<p><strong>Problem:</strong> Check if an array contains any duplicate values.</p>
+<h4 id="approach-1-linear-search-for-each-element">Approach 1: Linear Search for Each Element<a class="headerlink" href="#approach-1-linear-search-for-each-element" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Naive approach - For each element, search rest of array
+public static boolean containsDuplicate_LinearSearch(int[] nums) {
+    for (int i = 0; i &lt; nums.length; i++) {
+        for (int j = i + 1; j &lt; nums.length; j++) {
+            if (nums[i] == nums[j]) {
+                return true;
+            }
+        }
+    }
+    return false;
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n²) - Nested loops</li>
+<li>Space: O(1) - No extra space</li>
+</ul>
+<h4 id="approach-2-hashset-optimized">Approach 2: HashSet (Optimized)<a class="headerlink" href="#approach-2-hashset-optimized" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Optimized approach - Use HashSet for O(1) membership test
+public static boolean containsDuplicate_HashSet(int[] nums) {
+    Set&lt;Integer&gt; seen = new HashSet&lt;&gt;();
+
+    for (int num : nums) {
+        if (seen.contains(num)) {
+            return true;  // Found duplicate!
+        }
+        seen.add(num);
+    }
+
+    return false;
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n) - Single pass, O(1) contains/add operations</li>
+<li>Space: O(n) - Store up to n elements</li>
+</ul>
+<h4 id="performance-comparison_1">Performance Comparison<a class="headerlink" href="#performance-comparison_1" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>Array Size</th>
+<th>Linear Search (O(n²))</th>
+<th>HashSet (O(n))</th>
+<th>Speedup</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n = 100</td>
+<td>10,000 ops</td>
+<td>100 ops</td>
+<td>100x</td>
+</tr>
+<tr>
+<td>n = 1,000</td>
+<td>1,000,000 ops</td>
+<td>1,000 ops</td>
+<td>1,000x</td>
+</tr>
+<tr>
+<td>n = 10,000</td>
+<td>100,000,000 ops</td>
+<td>10,000 ops</td>
+<td>10,000x</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key insight:</strong></p>
+<ul>
+<li>HashSet remembers what we've seen in O(1) time</li>
+<li>No need to repeatedly search through previous elements</li>
+<li>Trade memory for speed!</li>
+</ul>
+<p><strong>After implementing, answer:</strong></p>
+<div class="learner-section">
+<ul>
+<li>When is the space trade-off worth it? <span class="fill-in">[Your answer]</span></li>
+<li>When might you prefer the O(1) space solution? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="core-implementation">Core Implementation<a class="headerlink" href="#core-implementation" title="Permanent link">¶</a></h2>
+<h3 id="pattern-1-basic-hash-map-operations">Pattern 1: Basic Hash Map Operations<a class="headerlink" href="#pattern-1-basic-hash-map-operations" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Fast lookups using key-value pairs.</p>
+<p><strong>Use case:</strong> Frequency counting, two-sum problems, duplicate detection.</p>
+<pre class="highlight"><code class="language-java">public class BasicHashMap {
+
+    /**
+     * Problem: Two Sum - find indices of two numbers that sum to target
+     * Time: O(n), Space: O(n)
+     *
+     * TODO: Implement using HashMap for O(1) lookup
+     */
+    public static int[] twoSum(int[] nums, int target) {
+        // TODO: Use a map to remember what you've seen
+        // What should be stored as the key? As the value?
+
+        return new int[] {-1, -1}; // Replace with implementation
+    }
+
+    /**
+     * Problem: Count frequency of each character
+     * Time: O(n), Space: O(k) where k = unique characters
+     *
+     * TODO: Implement frequency counter
+     */
+    public static Map&lt;Character, Integer&gt; countCharacters(String s) {
+        // TODO: Track how many times each character appears
+        // Consider using getOrDefault for cleaner code
+
+        return new HashMap&lt;&gt;(); // Replace with implementation
+    }
+
+    /**
+     * Problem: Contains duplicate - check if array has duplicates
+     * Time: O(n), Space: O(n)
+     *
+     * TODO: Implement using HashSet
+     */
+    public static boolean containsDuplicate(int[] nums) {
+        // TODO: Use a set to track seen elements
+        // What indicates a duplicate has been found?
+
+        return false; // Replace with implementation
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class BasicHashMapClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Basic Hash Map Operations ===\n");
+
+        // Test 1: Two Sum
+        System.out.println("--- Test 1: Two Sum ---");
+        int[] nums = {2, 7, 11, 15};
+        int target = 9;
+
+        int[] result = BasicHashMap.twoSum(nums, target);
+        System.out.printf("Array: %s%n", Arrays.toString(nums));
+        System.out.printf("Target: %d%n", target);
+        System.out.printf("Indices: %s%n", Arrays.toString(result));
+        if (result[0] != -1) {
+            System.out.printf("Values: %d + %d = %d%n",
+                nums[result[0]], nums[result[1]], target);
+        }
+
+        // Test 2: Character frequency
+        System.out.println("\n--- Test 2: Character Frequency ---");
+        String[] testStrings = {"hello", "mississippi", "aabbcc"};
+
+        for (String s : testStrings) {
+            Map&lt;Character, Integer&gt; freq = BasicHashMap.countCharacters(s);
+            System.out.printf("String: \"%s\"%n", s);
+            System.out.println("Frequency: " + freq);
+            System.out.println();
+        }
+
+        // Test 3: Contains duplicate
+        System.out.println("--- Test 3: Contains Duplicate ---");
+        int[][] testArrays = {
+            {1, 2, 3, 4, 5},
+            {1, 2, 3, 1},
+            {1, 1, 1, 3, 3, 4, 3, 2, 4, 2}
+        };
+
+        for (int[] arr : testArrays) {
+            boolean hasDup = BasicHashMap.containsDuplicate(arr);
+            System.out.printf("Array: %s -&gt; %s%n",
+                Arrays.toString(arr), hasDup ? "HAS duplicates" : "NO duplicates");
+        }
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-2-hash-set-for-fast-membership-testing">Pattern 2: Hash Set for Fast Membership Testing<a class="headerlink" href="#pattern-2-hash-set-for-fast-membership-testing" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Use HashSet for O(1) membership checks.</p>
+<p><strong>Use case:</strong> Finding missing numbers, intersection/union operations.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class HashSetOperations {
+
+    /**
+     * Problem: Find intersection of two arrays
+     * Time: O(n + m), Space: O(min(n, m))
+     *
+     * TODO: Implement using HashSet
+     */
+    public static int[] intersection(int[] nums1, int[] nums2) {
+        // TODO: Store one array in a set for fast lookup
+        // How do you find common elements?
+
+        return new int[0]; // Replace with implementation
+    }
+
+    /**
+     * Problem: Find missing number from 0 to n
+     * Time: O(n), Space: O(n)
+     *
+     * TODO: Implement using HashSet
+     */
+    public static int missingNumber(int[] nums) {
+        // TODO: Store all present numbers
+        // How do you check which number is missing?
+
+        return -1; // Replace with implementation
+    }
+
+    /**
+     * Problem: Longest consecutive sequence
+     * Time: O(n), Space: O(n)
+     *
+     * TODO: Implement using HashSet
+     */
+    public static int longestConsecutive(int[] nums) {
+        // TODO: Store all numbers in a set for O(1) lookup
+        // How do you identify the start of a sequence?
+        // How do you count consecutive numbers?
+
+        return 0; // Replace with implementation
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class HashSetOperationsClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Hash Set Operations ===\n");
+
+        // Test 1: Intersection
+        System.out.println("--- Test 1: Intersection ---");
+        int[] arr1 = {1, 2, 2, 1};
+        int[] arr2 = {2, 2};
+
+        int[] intersection = HashSetOperations.intersection(arr1, arr2);
+        System.out.printf("Array 1: %s%n", Arrays.toString(arr1));
+        System.out.printf("Array 2: %s%n", Arrays.toString(arr2));
+        System.out.printf("Intersection: %s%n", Arrays.toString(intersection));
+
+        int[] arr3 = {4, 9, 5};
+        int[] arr4 = {9, 4, 9, 8, 4};
+
+        int[] intersection2 = HashSetOperations.intersection(arr3, arr4);
+        System.out.printf("\nArray 1: %s%n", Arrays.toString(arr3));
+        System.out.printf("Array 2: %s%n", Arrays.toString(arr4));
+        System.out.printf("Intersection: %s%n", Arrays.toString(intersection2));
+
+        // Test 2: Missing number
+        System.out.println("\n--- Test 2: Missing Number ---");
+        int[][] testArrays = {
+            {3, 0, 1},
+            {0, 1},
+            {9, 6, 4, 2, 3, 5, 7, 0, 1}
+        };
+
+        for (int[] arr : testArrays) {
+            int missing = HashSetOperations.missingNumber(arr);
+            System.out.printf("Array: %s -&gt; Missing: %d%n",
+                Arrays.toString(arr), missing);
+        }
+
+        // Test 3: Longest consecutive sequence
+        System.out.println("\n--- Test 3: Longest Consecutive ---");
+        int[][] sequenceArrays = {
+            {100, 4, 200, 1, 3, 2},
+            {0, 3, 7, 2, 5, 8, 4, 6, 0, 1},
+            {9, 1, -3, 2, 4, 8, 3, -1, 6, -2, -4, 7}
+        };
+
+        for (int[] arr : sequenceArrays) {
+            int length = HashSetOperations.longestConsecutive(arr);
+            System.out.printf("Array: %s%n", Arrays.toString(arr));
+            System.out.printf("Longest consecutive: %d%n%n", length);
+        }
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-3-hash-map-for-grouping">Pattern 3: Hash Map for Grouping<a class="headerlink" href="#pattern-3-hash-map-for-grouping" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Group elements by a computed key.</p>
+<p><strong>Use case:</strong> Anagrams, group by property, categorization.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class HashMapGrouping {
+
+    /**
+     * Problem: Group anagrams together
+     * Time: O(n * k log k) where k = max word length, Space: O(n * k)
+     *
+     * TODO: Implement using HashMap with sorted string as key
+     */
+    public static List&lt;List&lt;String&gt;&gt; groupAnagrams(String[] strs) {
+        // TODO: What makes anagrams have the same key?
+        // How can you transform each string into a unique key?
+
+        return new ArrayList&lt;&gt;(); // Replace with implementation
+    }
+
+    /**
+     * Problem: Group numbers by digit sum
+     * Time: O(n * d) where d = digits, Space: O(n)
+     *
+     * TODO: Implement custom grouping
+     */
+    public static Map&lt;Integer, List&lt;Integer&gt;&gt; groupByDigitSum(int[] nums) {
+        // TODO: Compute a key for each number based on its digits
+        // Group numbers with the same key together
+
+        return new HashMap&lt;&gt;(); // Replace with implementation
+    }
+
+    /**
+     * Problem: Find all strings that start with same character
+     * Time: O(n), Space: O(n)
+     *
+     * TODO: Implement grouping by first character
+     */
+    public static Map&lt;Character, List&lt;String&gt;&gt; groupByFirstChar(String[] words) {
+        // TODO: Extract the grouping criterion from each word
+        // Store words with the same criterion together
+
+        return new HashMap&lt;&gt;(); // Replace with implementation
+    }
+
+    // Helper: Calculate digit sum
+    private static int digitSum(int n) {
+        int sum = 0;
+        n = Math.abs(n);
+        while (n &gt; 0) {
+            sum += n % 10;
+            n /= 10;
+        }
+        return sum;
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class HashMapGroupingClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Hash Map Grouping ===\n");
+
+        // Test 1: Group anagrams
+        System.out.println("--- Test 1: Group Anagrams ---");
+        String[] words = {"eat", "tea", "tan", "ate", "nat", "bat"};
+
+        List&lt;List&lt;String&gt;&gt; groups = HashMapGrouping.groupAnagrams(words);
+        System.out.println("Words: " + Arrays.toString(words));
+        System.out.println("Grouped:");
+        for (List&lt;String&gt; group : groups) {
+            System.out.println("  " + group);
+        }
+
+        // Test 2: Group by digit sum
+        System.out.println("\n--- Test 2: Group by Digit Sum ---");
+        int[] numbers = {12, 21, 13, 31, 100, 10, 1, 23, 32};
+
+        Map&lt;Integer, List&lt;Integer&gt;&gt; digitGroups = HashMapGrouping.groupByDigitSum(numbers);
+        System.out.println("Numbers: " + Arrays.toString(numbers));
+        System.out.println("Grouped by digit sum:");
+        for (Map.Entry&lt;Integer, List&lt;Integer&gt;&gt; entry : digitGroups.entrySet()) {
+            System.out.printf("  Sum %d: %s%n", entry.getKey(), entry.getValue());
+        }
+
+        // Test 3: Group by first character
+        System.out.println("\n--- Test 3: Group by First Character ---");
+        String[] dictionary = {"apple", "ant", "ball", "bear", "cat", "car", "dog"};
+
+        Map&lt;Character, List&lt;String&gt;&gt; charGroups = HashMapGrouping.groupByFirstChar(dictionary);
+        System.out.println("Words: " + Arrays.toString(dictionary));
+        System.out.println("Grouped by first character:");
+        for (Map.Entry&lt;Character, List&lt;String&gt;&gt; entry : charGroups.entrySet()) {
+            System.out.printf("  %c: %s%n", entry.getKey(), entry.getValue());
+        }
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-4-hash-map-for-sliding-window-with-constraints">Pattern 4: Hash Map for Sliding Window with Constraints<a class="headerlink" href="#pattern-4-hash-map-for-sliding-window-with-constraints" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Track window state using frequency map.</p>
+<p><strong>Use case:</strong> Substring problems with character constraints.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class HashMapWindow {
+
+    /**
+     * Problem: Minimum window substring containing all chars of target
+     * Time: O(n + m), Space: O(k) where k = unique chars
+     *
+     * TODO: Implement using HashMap to track frequencies
+     */
+    public static String minWindow(String s, String t) {
+        // TODO: Track character frequencies in the target string
+        // Use a sliding window to find the minimum valid window
+
+        return ""; // Replace with implementation
+    }
+
+    /**
+     * Problem: Check if s2 contains permutation of s1
+     * Time: O(n), Space: O(1) - only 26 chars
+     *
+     * TODO: Implement using frequency comparison
+     */
+    public static boolean checkInclusion(String s1, String s2) {
+        // TODO: How can you detect a permutation using frequencies?
+        // Consider using a fixed-size window
+
+        return false; // Replace with implementation
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class HashMapWindowClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Hash Map Sliding Window ===\n");
+
+        // Test 1: Minimum window substring
+        System.out.println("--- Test 1: Minimum Window ---");
+        String[][] testCases = {
+            {"ADOBECODEBANC", "ABC"},
+            {"a", "a"},
+            {"a", "aa"}
+        };
+
+        for (String[] test : testCases) {
+            String s = test[0];
+            String t = test[1];
+            String result = HashMapWindow.minWindow(s, t);
+            System.out.printf("s=\"%s\", t=\"%s\" -&gt; \"%s\"%n", s, t, result);
+        }
+
+        // Test 2: Check inclusion (permutation)
+        System.out.println("\n--- Test 2: Check Inclusion ---");
+        String[][] inclusionTests = {
+            {"ab", "eidbaooo"},
+            {"ab", "eidboaoo"},
+            {"abc", "ccccbbbbaaaa"}
+        };
+
+        for (String[] test : inclusionTests) {
+            String s1 = test[0];
+            String s2 = test[1];
+            boolean result = HashMapWindow.checkInclusion(s1, s2);
+            System.out.printf("s1=\"%s\", s2=\"%s\" -&gt; %b%n", s1, s2, result);
+        }
+    }
+}</code></pre>
+<hr/>
+<h2 id="debugging-challenges">Debugging Challenges<a class="headerlink" href="#debugging-challenges" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Find and fix bugs in broken implementations. This tests your understanding of hash tables.</p>
+<h3 id="challenge-1-broken-two-sum-with-hashmap">Challenge 1: Broken Two Sum with HashMap<a class="headerlink" href="#challenge-1-broken-two-sum-with-hashmap" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * This code is supposed to find two numbers that sum to target.
+ * It has 2 BUGS. Find them!
+ */
+public static int[] twoSum_Buggy(int[] nums, int target) {
+    Map&lt;Integer, Integer&gt; map = new HashMap&lt;&gt;();
+
+    for (int i = 0; i &lt; nums.length; i++) {
+        map.put(nums[i], i);    }
+
+    for (int i = 0; i &lt; nums.length; i++) {
+        int complement = target - nums[i];
+        if (map.containsKey(complement)) {
+            return new int[] {map.get(complement), i};        }
+    }
+
+    return new int[] {-1, -1};
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>
+<p>Bug 1: <span class="fill-in">[What\'s the bug?]</span></p>
+</li>
+<li>
+<p><strong>Bug 2 location:</strong> <span class="fill-in">[Which line?]</span></p>
+</li>
+<li><strong>Bug 2 explanation:</strong> <em>[What if nums[i] + nums[i] = target? Same index used twice!]</em></li>
+<li><strong>Bug 2 fix:</strong> <span class="fill-in">[How to check indices are different?]</span></li>
+</ul>
+<p><strong>Test case to expose Bug 2:</strong></p>
+<ul>
+<li>Input: <code>nums = [3, 2, 4], target = 6</code></li>
+<li>Expected: <code>[1, 2]</code> (indices of 2 and 4)</li>
+<li>Buggy output: <span class="fill-in">[What happens if we check 3+3?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug 1:</strong> Two separate loops are inefficient (though not technically wrong). Better to check and add in single loop.</p>
+<p><strong>Bug 2:</strong> Could return <code>[i, i]</code> if the same element appears twice. Fix:</p>
+<pre class="highlight"><code class="language-java">if (map.containsKey(complement) &amp;&amp; map.get(complement) != i) {
+    return new int[] {map.get(complement), i};
+}
+map.put(nums[i], i);</code></pre>
+<p><strong>Better solution - check BEFORE adding:</strong></p>
+<pre class="highlight"><code class="language-java">for (int i = 0; i &lt; nums.length; i++) {
+    int complement = target - nums[i];
+    if (map.containsKey(complement)) {
+        return new int[] {map.get(complement), i};
+    }
+    map.put(nums[i], i);  // Add after checking
+}</code></pre>
+</details>
+<hr/>
+<h3 id="challenge-2-broken-frequency-counter">Challenge 2: Broken Frequency Counter<a class="headerlink" href="#challenge-2-broken-frequency-counter" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Count character frequencies.
+ * This has 1 NULL POINTER BUG.
+ */
+public static Map&lt;Character, Integer&gt; countChars_Buggy(String s) {
+    Map&lt;Character, Integer&gt; freq = new HashMap&lt;&gt;();
+
+    for (char c : s.toCharArray()) {
+        int count = freq.get(c);        freq.put(c, count + 1);
+    }
+
+    return freq;
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>Bug: <span class="fill-in">[What\'s the bug?]</span></li>
+</ul>
+<p><strong>Test case:</strong></p>
+<ul>
+<li>Input: <code>"hello"</code></li>
+<li>Expected: <code>{h=1, e=1, l=2, o=1}</code></li>
+<li>Buggy output: <span class="fill-in">[What exception?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug:</strong> <code>freq.get(c)</code> returns <code>null</code> for first occurrence, causing <code>NullPointerException</code> when adding 1.</p>
+<p><strong>Fix Option 1 - Use getOrDefault:</strong></p>
+<pre class="highlight"><code class="language-java">int count = freq.getOrDefault(c, 0);
+freq.put(c, count + 1);</code></pre>
+<p><strong>Fix Option 2 - Check containsKey:</strong></p>
+<pre class="highlight"><code class="language-java">if (freq.containsKey(c)) {
+    freq.put(c, freq.get(c) + 1);
+} else {
+    freq.put(c, 1);
+}</code></pre>
+<p><strong>Fix Option 3 - Use compute:</strong></p>
+<pre class="highlight"><code class="language-java">freq.compute(c, (key, val) -&gt; val == null ? 1 : val + 1);</code></pre>
+</details>
+<hr/>
+<h3 id="challenge-3-broken-group-anagrams">Challenge 3: Broken Group Anagrams<a class="headerlink" href="#challenge-3-broken-group-anagrams" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Group anagrams together.
+ * This has a LOGIC BUG with the key generation.
+ */
+public static List&lt;List&lt;String&gt;&gt; groupAnagrams_Buggy(String[] strs) {
+    Map&lt;String, List&lt;String&gt;&gt; groups = new HashMap&lt;&gt;();
+
+    for (String s : strs) {
+        String key = s.toLowerCase();
+        if (!groups.containsKey(key)) {
+            groups.put(key, new ArrayList&lt;&gt;());
+        }
+        groups.get(key).add(s);
+    }
+
+    return new ArrayList&lt;&gt;(groups.values());
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>Bug: <span class="fill-in">[What\'s the bug?]</span></li>
+</ul>
+<p><strong>Test case:</strong></p>
+<ul>
+<li>Input: <code>["eat", "tea", "tan", "ate", "nat", "bat"]</code></li>
+<li>Expected: <code>[["eat", "tea", "ate"], ["tan", "nat"], ["bat"]]</code></li>
+<li>Buggy output: <span class="fill-in">[Each word in its own group!]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> Lowercase doesn't make anagrams have the same key. "eat" and "tea" are different when lowercased.</p>
+<p><strong>Fix - Sort characters:</strong></p>
+<pre class="highlight"><code class="language-java">char[] chars = s.toCharArray();
+Arrays.sort(chars);
+String key = new String(chars);</code></pre>
+<p>Now "eat", "tea", and "ate" all become "aet" when sorted!</p>
+</details>
+<hr/>
+<h3 id="challenge-4-hash-collision-awareness">Challenge 4: Hash Collision Awareness<a class="headerlink" href="#challenge-4-hash-collision-awareness" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * This code works but has PERFORMANCE issues due to collisions.
+ * Identify the problem.
+ */
+public static class BadHashCode {
+    private String name;
+    private int age;
+
+    @Override
+    public int hashCode() {
+        return 42;    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof BadHashCode)) return false;
+        BadHashCode other = (BadHashCode) o;
+        return this.name.equals(other.name) &amp;&amp; this.age == other.age;
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug:</strong> <span class="fill-in">[What's wrong with always returning 42?]</span></li>
+<li><strong>Performance impact:</strong> <span class="fill-in">[What's the time complexity now?]</span></li>
+<li><strong>Explanation:</strong> <span class="fill-in">[How does HashMap work with this hashCode?]</span></li>
+</ul>
+<p><strong>Real-world scenario:</strong></p>
+<ul>
+<li>HashMap with 10,000 BadHashCode objects</li>
+<li>Expected lookup: O(1)</li>
+<li>Actual lookup: <span class="fill-in">[What happens?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your understanding</summary>
+<p><strong>Problem:</strong> All objects hash to the same bucket (42), creating a massive collision.</p>
+<p><strong>Performance:</strong> HashMap degrades to O(n) for all operations because all entries are in one linked list/tree.</p>
+<p><strong>Why it's bad:</strong></p>
+<ul>
+<li>HashMap has many buckets (default 16, grows to thousands)</li>
+<li>All 10,000 objects go into ONE bucket</li>
+<li>Lookup requires scanning through all 10,000 objects</li>
+<li>Defeats the entire purpose of hashing!</li>
+</ul>
+<p><strong>Correct implementation:</strong></p>
+<pre class="highlight"><code class="language-java">@Override
+public int hashCode() {
+    return Objects.hash(name, age);
+}</code></pre>
+<p><strong>Key lesson:</strong> Good hash functions distribute objects evenly across buckets.</p>
+</details>
+<hr/>
+<h3 id="challenge-5-missing-null-checks">Challenge 5: Missing Null Checks<a class="headerlink" href="#challenge-5-missing-null-checks" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Find intersection of two arrays.
+ * This has MULTIPLE null-safety bugs.
+ */
+public static int[] intersection_Buggy(int[] nums1, int[] nums2) {
+    Set&lt;Integer&gt; set1 = new HashSet&lt;&gt;();
+
+    for (int num : nums1) {        set1.add(num);
+    }
+
+    Set&lt;Integer&gt; result = new HashSet&lt;&gt;();
+    for (int num : nums2) {        if (set1.contains(num)) {
+            result.add(num);
+        }
+    }
+
+    return result.stream().mapToInt(i -&gt; i).toArray();}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug 1:</strong> <span class="fill-in">[What happens if nums1 is null?]</span></li>
+<li><strong>Bug 2:</strong> <span class="fill-in">[What happens if nums2 is null?]</span></li>
+<li><strong>Bug 3:</strong> <span class="fill-in">[Is this actually a bug? Empty result valid?]</span></li>
+</ul>
+<p><strong>Fixes:</strong></p>
+<ul>
+<li>Should you check for null? Return empty array? Throw exception? <span class="fill-in">[Your answer]</span></li>
+<li><span class="fill-in">[Your defensive programming strategy]</span></li>
+</ul>
+<details>
+<summary>Click to verify your approach</summary>
+<p><strong>Bugs 1 &amp; 2:</strong> NullPointerException if either array is null.</p>
+<p><strong>Fix - Add null checks:</strong></p>
+<pre class="highlight"><code class="language-java">public static int[] intersection_Fixed(int[] nums1, int[] nums2) {
+    if (nums1 == null || nums2 == null) {
+        return new int[0];  // or throw IllegalArgumentException
+    }
+
+    // ... rest of implementation
+}</code></pre>
+<p><strong>Bug 3:</strong> Not actually a bug - empty result is valid when there's no intersection.</p>
+<p><strong>Design decision:</strong></p>
+<ul>
+<li>Return empty array: Easier for caller, no exception handling</li>
+<li>Throw exception: Fail fast, makes null input a programmer error</li>
+<li>Which is better? Depends on your API design philosophy!</li>
+</ul>
+</details>
+<hr/>
+<h3 id="challenge-6-longest-consecutive-sequence-off-by-one">Challenge 6: Longest Consecutive Sequence - Off By One<a class="headerlink" href="#challenge-6-longest-consecutive-sequence-off-by-one" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Find longest consecutive sequence.
+ * This has a SUBTLE off-by-one bug.
+ */
+public static int longestConsecutive_Buggy(int[] nums) {
+    Set&lt;Integer&gt; numSet = new HashSet&lt;&gt;();
+    for (int num : nums) {
+        numSet.add(num);
+    }
+
+    int maxLength = 0;
+
+    for (int num : numSet) {
+        if (!numSet.contains(num - 1)) {  // Start of sequence
+            int currentNum = num;
+            int currentLength = 1;
+
+            while (numSet.contains(currentNum + 1)) {
+                currentNum++;
+                currentLength++;
+            }
+
+            maxLength = Math.max(maxLength, currentLength);
+        }
+    }
+
+    return maxLength;}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug:</strong> <span class="fill-in">[What's returned for empty array?]</span></li>
+<li><strong>Expected:</strong> <span class="fill-in">[What should be returned?]</span></li>
+<li><strong>Fix:</strong> <span class="fill-in">[Is 0 correct for empty array? Or should it be different?]</span></li>
+</ul>
+<p><strong>Test cases:</strong></p>
+<ul>
+<li>Input: <code>[]</code> → Expected: 0 or -1? <span class="fill-in">[Your decision]</span></li>
+<li>Input: <code>[100, 4, 200, 1, 3, 2]</code> → Expected: 4 (sequence: 1,2,3,4)</li>
+</ul>
+<details>
+<summary>Click to verify</summary>
+<p><strong>Bug:</strong> For empty array, returns 0. Is this a bug?</p>
+<p><strong>Answer:</strong> Depends on problem specification!</p>
+<ul>
+<li>Returning 0 is often correct (no elements = sequence length 0)</li>
+<li>Some problems might expect -1 or throw exception</li>
+</ul>
+<p><strong>The code is actually CORRECT!</strong> This was a trick question to make you think about edge cases.</p>
+<p><strong>Real lesson:</strong> Always verify edge case behavior matches problem requirements.</p>
+</details>
+<hr/>
+<h3 id="your-debugging-scorecard">Your Debugging Scorecard<a class="headerlink" href="#your-debugging-scorecard" title="Permanent link">¶</a></h3>
+<p>After finding and fixing all bugs:</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Found the two-sum same-index bug</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Fixed null pointer in frequency counter (knew 2+ solutions)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Corrected anagram key generation (sorted characters)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understood hash collision performance impact</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Added null checks for defensive programming</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Analyzed edge cases (empty array behavior)</li>
+</ul>
+<p><strong>Common hash table mistakes you discovered:</strong></p>
+<ol>
+<li><span class="fill-in">[List the patterns you noticed]</span></li>
+<li><span class="fill-in">[Fill in]</span></li>
+<li><span class="fill-in">[Fill in]</span></li>
+</ol>
+<p><strong>Best practices learned:</strong></p>
+<ol>
+<li><span class="fill-in">[When to use getOrDefault vs containsKey?]</span></li>
+<li><span class="fill-in">[Why check before adding to map in some cases?]</span></li>
+<li><span class="fill-in">[How to handle null inputs?]</span></li>
+</ol>
+<hr/>
+<h2 id="decision-framework">Decision Framework<a class="headerlink" href="#decision-framework" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Build decision trees for when to use hash tables.</p>
+<h3 id="question-1-what-operation-do-you-need">Question 1: What operation do you need?<a class="headerlink" href="#question-1-what-operation-do-you-need" title="Permanent link">¶</a></h3>
+<p>Answer after solving problems:</p>
+<ul>
+<li><strong>Fast lookup by key?</strong> <span class="fill-in">[When to use HashMap vs array?]</span></li>
+<li><strong>Fast membership test?</strong> <span class="fill-in">[When to use HashSet?]</span></li>
+<li><strong>Frequency counting?</strong> <span class="fill-in">[Why is HashMap ideal?]</span></li>
+<li><strong>Your observation:</strong> <span class="fill-in">[Fill in based on testing]</span></li>
+</ul>
+<h3 id="question-2-what-are-the-timespace-trade-offs">Question 2: What are the time/space trade-offs?<a class="headerlink" href="#question-2-what-are-the-timespace-trade-offs" title="Permanent link">¶</a></h3>
+<p>Answer for each pattern:</p>
+<p><strong>HashMap for lookups:</strong></p>
+<ul>
+<li>Time complexity: <span class="fill-in">[Average case? Worst case?]</span></li>
+<li>Space complexity: <span class="fill-in">[How much extra space?]</span></li>
+<li>Best use cases: <span class="fill-in">[List problems you solved]</span></li>
+</ul>
+<p><strong>HashSet for membership:</strong></p>
+<ul>
+<li>Time complexity: <span class="fill-in">[Compare to linear search]</span></li>
+<li>Space complexity: <span class="fill-in">[Trade-off worth it when?]</span></li>
+<li>Best use cases: <span class="fill-in">[List problems you solved]</span></li>
+</ul>
+<p><strong>HashMap for grouping:</strong></p>
+<ul>
+<li>Time complexity: <span class="fill-in">[Depends on what?]</span></li>
+<li>Space complexity: <span class="fill-in">[How to estimate?]</span></li>
+<li>Best use cases: <span class="fill-in">[List problems you solved]</span></li>
+</ul>
+<h3 id="your-decision-tree">Your Decision Tree<a class="headerlink" href="#your-decision-tree" title="Permanent link">¶</a></h3>
+<p>Build this after solving practice problems:
+<div class="mermaid">flowchart LR
+    Start["Hash Table Pattern Selection"]
+
+    Q1{"What do you need?"}
+    Start --&gt; Q1
+    Q2{"Fast lookup by key?"}
+    Q3{"Fast membership test?"}
+    Q4{"Count frequencies?"}
+    Q5{"Group by property?"}
+    Q6{"Track window state?"}
+    Q7{"Space constraint?"}
+    Start --&gt; Q7
+    N8["Consider alternatives"]
+    Q7 --&gt;|"Yes"| N8
+    N9["Hash table is usually best choice"]
+    Q7 --&gt;|"No"| N9</div></p>
+<hr/>
+<h2 id="practice">Practice<a class="headerlink" href="#practice" title="Permanent link">¶</a></h2>
+<h3 id="leetcode-problems">LeetCode Problems<a class="headerlink" href="#leetcode-problems" title="Permanent link">¶</a></h3>
+<p><strong>Easy (Complete all 4):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/two-sum/">1. Two Sum</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Which one?]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/contains-duplicate/">217. Contains Duplicate</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Which one?]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/valid-anagram/">242. Valid Anagram</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Which one?]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/intersection-of-two-arrays/">349. Intersection of Two Arrays</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Which one?]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Medium (Complete 3-4):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/group-anagrams/">49. Group Anagrams</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Which one?]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+<li>Mistake made: <span class="fill-in">[Fill in if any]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/longest-consecutive-sequence/">128. Longest Consecutive Sequence</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Which one?]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/subarray-sum-equals-k/">560. Subarray Sum Equals K</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Which one?]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Prefix sum + HashMap]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/first-unique-character-in-a-string/">387. First Unique Character in a String</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Which one?]</span></li>
+<li>Comparison: <span class="fill-in">[Two-pass vs one-pass?]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Hard (Optional):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/minimum-window-substring/">76. Minimum Window Substring</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Sliding window + HashMap]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/substring-with-concatenation-of-all-words/">30. Substring with Concatenation of All Words</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Which variant?]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+</ul>
+<hr/>
+<h2 id="review-checklist">Review Checklist<a class="headerlink" href="#review-checklist" title="Permanent link">¶</a></h2>
+<p>Before moving to the next topic:</p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Implementation</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Basic HashMap: two sum, frequency counting, contains duplicate all work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> HashSet: intersection, missing number, longest consecutive all work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Grouping: group anagrams, custom grouping all work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Window: minimum window substring, check inclusion work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> All client code runs successfully</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Pattern Recognition</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can identify when to use HashMap vs HashSet</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand frequency counting pattern</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand grouping pattern</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Know when hash table beats other approaches</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Problem Solving</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Solved 4 easy problems</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Solved 3-4 medium problems</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Analyzed time/space complexity</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understood collision handling (conceptually)</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Understanding</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Filled in all ELI5 explanations</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Built decision tree</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Identified when NOT to use hash tables</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can explain trade-offs vs other approaches</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Mastery Check</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could implement all patterns from memory</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could recognize pattern in new problem</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could explain to someone else</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand hash table internals (basic level)</li>
+</ul>
+</li>
+</ul>
+<hr/>
+<h3 id="mastery-certification">Mastery Certification<a class="headerlink" href="#mastery-certification" title="Permanent link">¶</a></h3>
+<p><strong>I certify that I can:</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Implement HashMap and HashSet patterns from memory</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Explain when and why to use each data structure</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Identify the correct pattern for new problems</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Analyze time and space complexity (including collision impact)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Compare trade-offs with alternative approaches</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Debug common hash table mistakes (null checks, collisions, key design)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Teach this concept to someone else using analogies</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Design real-world systems using hash tables</li>
+</ul></div>
+</div>
+<footer class="col-md-12 text-center">
+<hr/>
+<p>
+<small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+</p>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../../js/bootstrap-3.0.3.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>var base_url = "../.."</script>
+<script src="../../js/base.js"></script>
+<script src="../../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<button class="close" data-dismiss="modal" type="button">
+<span aria-hidden="true">×</span>
+<span class="sr-only">Close</span>
+</button>
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+</div>
+<div class="modal-body">
+<p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="text"/>
+</div>
+</form>
+<div id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@10.4.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>

@@ -1,0 +1,1735 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A framework for algorithms, systems design, and infrastructure.">
+    <meta name="author" content="Richard">
+    
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+
+    
+    <title>12. Advanced Graphs - Software Engineering Study Guide</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../../css/base.min.css" rel="stylesheet">
+    <link href="../../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css">
+        
+    
+    <link href="../../css/custom.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../..">Home</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Systems Design <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../systems/01-storage-engines/">01. Storage Engines</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/04-search-and-indexing/">04. Search & Indexing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/05-caching-patterns/">05. Caching Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/06-api-design/">06. API Design</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/07-security-patterns/">07. Security Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/08-rate-limiting/">08. Rate Limiting</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/09-load-balancing/">09. Load Balancing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/11-database-scaling/">11. Database Scaling</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/12-message-queues/">12. Message Queues</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/13-stream-processing/">13. Stream Processing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/14-observability/">14. Observability</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/15-distributed-transactions/">15. Distributed Transactions</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/16-consensus-patterns/">16. Consensus Patterns</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">DSA <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../01-two-pointers/">01. Two Pointers</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../02-sliding-window/">02. Sliding Window</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../03-hash-tables/">03. Hash Tables</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../04-linked-lists/">04. Linked Lists</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../05-stacks--queues/">05. Stacks & Queues</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../06-trees-traversals/">06. Trees - Traversals</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../07-trees-recursion/">07. Trees - Recursion</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../08-binary-search/">08. Binary Search</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../09-heaps/">09. Heaps</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../10-graphs/">10. Graphs</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../11-union-find/">11. Union-Find</a>
+</li>
+
+                        
+                            
+<li class="active">
+    <a href="./">12. Advanced Graphs</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../13-backtracking/">13. Backtracking</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../14-dynamic-programming-1d/">14. Dynamic Programming 1D</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../15-dynamic-programming-2d/">15. Dynamic Programming 2D</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../16-tries/">16. Tries</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../17-advanced-topics/">17. Advanced Topics</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../11-union-find/">
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="next" href="../13-backtracking/">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#graph-algorithms-optimization-ordering">Graph Algorithms: Optimization &amp; Ordering</a></li>
+            <li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+                
+            <li class="second-level"><a href="#quick-quiz-do-before-learning">Quick Quiz (Do BEFORE learning)</a></li>
+                
+            <li class="second-level"><a href="#beforeafter-why-advanced-graph-algorithms-matter">Before/After: Why Advanced Graph Algorithms Matter</a></li>
+                
+            <li class="second-level"><a href="#core-concepts">Core Concepts</a></li>
+                
+            <li class="second-level"><a href="#decision-framework">Decision Framework</a></li>
+                
+            <li class="second-level"><a href="#debugging-challenges">Debugging Challenges</a></li>
+                
+            <li class="second-level"><a href="#practice">Practice</a></li>
+                
+            <li class="second-level"><a href="#review-checklist">Review Checklist</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="graph-algorithms-optimization-ordering">Graph Algorithms: Optimization &amp; Ordering<a class="headerlink" href="#graph-algorithms-optimization-ordering" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>Apply graph traversal to solve optimization problems: topological sort, shortest paths, and MST</p>
+</blockquote>
+<hr />
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After learning these algorithms, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What does Topological Sort give us?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after learning]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When do we need Topological Sort?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Course prerequisites, build systems...]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What does Dijkstra's algorithm find?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after learning]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy for Dijkstra's algorithm:</strong></p>
+<ul>
+<li>Example: "Dijkstra's algorithm is like finding the cheapest flight where..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Why can't we use Dijkstra for negative weights?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after practice]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Why do we need Minimum Spanning Trees?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after learning]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What problem does Union-Find solve?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Dynamic connectivity...]</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr />
+<h2 id="quick-quiz-do-before-learning">Quick Quiz (Do BEFORE learning)<a class="headerlink" href="#quick-quiz-do-before-learning" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Test your intuition about these algorithms before diving deep.</p>
+<h3 id="complexity-predictions">Complexity Predictions<a class="headerlink" href="#complexity-predictions" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p><strong>Topological Sort (DFS-based):</strong></p>
+<ul>
+<li>Time complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>When does it fail: <span class="fill-in">[Your guess]</span></li>
+<li>Verified: <span class="fill-in">[Actual: O(V+E)]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Dijkstra's algorithm for shortest path:</strong></p>
+<ul>
+<li>Time complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Space complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Verified: <span class="fill-in">[Actual: O((V+E)logV)]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Minimum Spanning Tree (Kruskal's):</strong></p>
+<ul>
+<li>Time complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>What data structure: <span class="fill-in">[Union-Find]</span></li>
+<li>Verified: <span class="fill-in">[Actual: O(ElogE)]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Union-Find operations:</strong></p>
+<ul>
+<li>Find/Union complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>With optimizations: <span class="fill-in">[Path compression + union by rank]</span></li>
+<li>Verified: <span class="fill-in">[Actual: O(α(n)) ≈ O(1)]</span></li>
+</ul>
+</li>
+</ol>
+<h3 id="scenario-predictions">Scenario Predictions<a class="headerlink" href="#scenario-predictions" title="Permanent link">&para;</a></h3>
+<p><strong>Scenario 1:</strong> GPS navigation finding fastest route</p>
+<ul>
+<li><strong>Algorithm:</strong> <span class="fill-in">[Dijkstra? A*? Bellman-Ford?]</span></li>
+<li><strong>Edge weight:</strong> <span class="fill-in">[Distance? Time? Both?]</span></li>
+<li><strong>Challenge:</strong> <span class="fill-in">[Traffic changes? One-way streets?]</span></li>
+</ul>
+<p><strong>Scenario 2:</strong> Package dependency resolution (npm, pip)</p>
+<ul>
+<li><strong>Algorithm:</strong> <span class="fill-in">[Topological sort? DFS? BFS?]</span></li>
+<li><strong>Failure case:</strong> <span class="fill-in">[Circular dependency?]</span></li>
+<li><strong>Output:</strong> <span class="fill-in">[Install order?]</span></li>
+</ul>
+<p><strong>Scenario 3:</strong> Network cable installation (connect all offices)</p>
+<ul>
+<li><strong>Algorithm:</strong> <span class="fill-in">[MST? Shortest path?]</span></li>
+<li><strong>Goal:</strong> <span class="fill-in">[Minimize what?]</span></li>
+<li><strong>Constraint:</strong> <span class="fill-in">[All connected? No cycles?]</span></li>
+</ul>
+<p><strong>Scenario 4:</strong> Dynamic friend groups (social network)</p>
+<ul>
+<li><strong>Algorithm:</strong> <span class="fill-in">[Union-Find? DFS?]</span></li>
+<li><strong>Operations:</strong> <span class="fill-in">[Add friendship, check if connected]</span></li>
+<li><strong>Why not DFS:</strong> <span class="fill-in">[Union-Find is faster for dynamic updates]</span></li>
+</ul>
+</div>
+<hr />
+<h2 id="beforeafter-why-advanced-graph-algorithms-matter">Before/After: Why Advanced Graph Algorithms Matter<a class="headerlink" href="#beforeafter-why-advanced-graph-algorithms-matter" title="Permanent link">&para;</a></h2>
+<p><strong>Your task:</strong> Compare naive approaches vs optimized algorithms to understand the impact.</p>
+<h3 id="example-network-routing-shortest-path">Example: Network Routing (Shortest Path)<a class="headerlink" href="#example-network-routing-shortest-path" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Find shortest path between two cities in a road network with 10,000 intersections</p>
+<h4 id="approach-1-breadth-first-search-bfs-unweighted">Approach 1: Breadth-First Search (BFS) - Unweighted<a class="headerlink" href="#approach-1-breadth-first-search-bfs-unweighted" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code>Treats all roads as equal distance
+
+Network:
+A --100km--&gt; B --5km--&gt; C
+A --50km--&gt; D --50km--&gt; C
+
+BFS finds: A → B → C (2 hops)
+Distance: 100 + 5 = 105 km
+
+Ignores: A → D → C (2 hops)
+Distance: 50 + 50 = 100 km ← Actually shorter!
+
+Problem: BFS optimizes for fewest edges, not shortest distance</code></pre>
+<p><strong>BFS Execution:</strong>
+<pre class="highlight"><code>Queue: [A]
+Visited: {}
+
+Step 1: Visit A
+Queue: [B, D]
+Visited: {A}
+
+Step 2: Visit B (first in queue)
+Queue: [D, C]
+Visited: {A, B}
+
+Step 3: Visit D
+Queue: [C, C]
+Visited: {A, B, D}
+
+Step 4: Visit C (from B path)
+Queue: [C]
+Visited: {A, B, D, C}
+
+Result: A → B → C (wrong!)
+Time: O(V + E) but gives wrong answer</code></pre></p>
+<h4 id="approach-2-dijkstras-algorithm-weighted">Approach 2: Dijkstra's Algorithm (Weighted)<a class="headerlink" href="#approach-2-dijkstras-algorithm-weighted" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code>Same network:
+A --100km--&gt; B --5km--&gt; C
+A --50km--&gt; D --50km--&gt; C
+
+Dijkstra finds: A → D → C
+Distance: 100 km ← Optimal!
+
+How? Explores paths by cumulative distance, not hop count</code></pre>
+<p><strong>Dijkstra Execution:</strong>
+<pre class="highlight"><code>Priority Queue: [(A, 0)]
+Distances: {A: 0, others: ∞}
+
+Step 1: Process A (distance 0)
+Update neighbors:
+  B: 0 + 100 = 100
+  D: 0 + 50 = 50
+PQ: [(D, 50), (B, 100)]
+
+Step 2: Process D (distance 50, smallest)
+Update neighbors:
+  C: 50 + 50 = 100
+PQ: [(B, 100), (C, 100)]
+
+Step 3: Process B (distance 100)
+Update neighbors:
+  C: 100 + 5 = 105 (worse than current 100, don't update)
+PQ: [(C, 100)]
+
+Step 4: Process C (distance 100)
+Done! Path: A → D → C
+
+Result: 100 km (optimal!)
+Time: O((V + E) log V) with binary heap</code></pre></p>
+<p><strong>Performance Comparison:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>BFS</th>
+<th>Dijkstra</th>
+<th>Improvement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Result</td>
+<td>Wrong (105 km)</td>
+<td>Correct (100 km)</td>
+<td>5% shorter</td>
+</tr>
+<tr>
+<td>Time</td>
+<td>O(V + E)</td>
+<td>O((V + E) log V)</td>
+<td>Slightly slower</td>
+</tr>
+<tr>
+<td>Use case</td>
+<td>Unweighted graphs</td>
+<td>Weighted graphs</td>
+<td>Essential!</td>
+</tr>
+<tr>
+<td>Optimality</td>
+<td># of hops</td>
+<td>Total weight</td>
+<td>Correct metric</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Real-world impact:</strong></p>
+<ul>
+<li>GPS navigation: 5-20% shorter routes with Dijkstra</li>
+<li>Network routing: Lower latency paths</li>
+<li>Cost: Minimal (few ms difference for practical graphs)</li>
+</ul>
+<p><strong>Your calculation:</strong> For 1000-node graph, 5000 edges:</p>
+<ul>
+<li>BFS time: <span class="fill-in">_____</span> (V + E)</li>
+<li>Dijkstra time: <span class="fill-in">_____</span> (E log V)</li>
+<li>Trade-off: <span class="fill-in">[Worth it?]</span></li>
+</ul>
+<hr />
+<h2 id="core-concepts">Core Concepts<a class="headerlink" href="#core-concepts" title="Permanent link">&para;</a></h2>
+<p><strong>Recommended study order:</strong></p>
+<ol>
+<li>⭐⭐⭐ Topological Sort (Topic 3 below) - Most common in interviews</li>
+<li>⭐⭐ Dijkstra's Algorithm (Topic 1 below) - Important for weighted graphs</li>
+<li>⭐⭐ Union-Find (add after completing above) - Dynamic connectivity</li>
+<li>⭐ MST (Topic 2 below) - Optional, low interview frequency</li>
+</ol>
+<hr />
+<h3 id="topic-1-dijkstras-shortest-path-algorithm">Topic 1: Dijkstra's Shortest Path Algorithm<a class="headerlink" href="#topic-1-dijkstras-shortest-path-algorithm" title="Permanent link">&para;</a></h3>
+<p><strong>Interview Priority: ⭐⭐ GOOD TO KNOW</strong> - Appears in ~15% of graph problems</p>
+<p><strong>Concept:</strong> Find shortest path from source to all other vertices in a weighted graph (non-negative weights).</p>
+<p><strong>Algorithm Overview:</strong></p>
+<pre class="highlight"><code>Given graph G = (V, E) and source vertex s:
+
+1. Initialize:
+   - Distance[s] = 0
+   - Distance[all others] = ∞
+   - Priority Queue = [(s, 0)]
+   - Visited = {}
+
+2. While PQ not empty:
+   a. Extract vertex u with min distance
+   b. If u in Visited, skip
+   c. Mark u as Visited
+   d. For each neighbor v of u:
+      - new_dist = Distance[u] + weight(u, v)
+      - If new_dist &lt; Distance[v]:
+          Distance[v] = new_dist
+          Parent[v] = u
+          Add (v, new_dist) to PQ
+
+3. Return Distance array and Parent pointers</code></pre>
+<p><strong>Example:</strong></p>
+<pre class="highlight"><code>Graph:
+    A --1--&gt; B
+    |        |
+    4        2
+    |        |
+    v        v
+    C --1--&gt; D
+
+Source: A
+
+Iteration 1: Process A (dist=0)
+  Visit B: dist = 0+1 = 1
+  Visit C: dist = 0+4 = 4
+  PQ: [(B,1), (C,4)]
+  Distances: {A:0, B:1, C:4, D:∞}
+
+Iteration 2: Process B (dist=1)
+  Visit D: dist = 1+2 = 3
+  PQ: [(D,3), (C,4)]
+  Distances: {A:0, B:1, C:4, D:3}
+
+Iteration 3: Process D (dist=3)
+  (No unvisited neighbors)
+  PQ: [(C,4)]
+  Distances: {A:0, B:1, C:4, D:3}
+
+Iteration 4: Process C (dist=4)
+  Visit D: dist = 4+1 = 5 (worse than 3, ignore)
+  PQ: []
+  Distances: {A:0, B:1, C:4, D:3}
+
+Final shortest paths from A:
+A → A: 0
+A → B: 1 (path: A → B)
+A → C: 4 (path: A → C)
+A → D: 3 (path: A → B → D)</code></pre>
+<p><strong>Implementation:</strong></p>
+<pre class="highlight"><code class="language-java">class DijkstraShortestPath {
+    static class Edge {
+        int to;
+        int weight;
+
+        Edge(int to, int weight) {
+            this.to = to;
+            this.weight = weight;
+        }
+    }
+
+    /**
+     * Dijkstra's algorithm
+     * Time: O((V + E) log V) with binary heap
+     * Space: O(V)
+     */
+    public int[] dijkstra(List&lt;List&lt;Edge&gt;&gt; graph, int source) {
+        int n = graph.size();
+        int[] dist = new int[n];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        dist[source] = 0;
+
+        // Priority queue: (vertex, distance)
+        PriorityQueue&lt;int[]&gt; pq = new PriorityQueue&lt;&gt;((a, b) -&gt; a[1] - b[1]);
+        pq.offer(new int[]{source, 0});
+
+        boolean[] visited = new boolean[n];
+
+        while (!pq.isEmpty()) {
+            int[] curr = pq.poll();
+            int u = curr[0];
+            int d = curr[1];
+
+            if (visited[u]) continue;
+            visited[u] = true;
+
+            // Relax edges
+            for (Edge edge : graph.get(u)) {
+                int v = edge.to;
+                int newDist = dist[u] + edge.weight;
+
+                if (newDist &lt; dist[v]) {
+                    dist[v] = newDist;
+                    pq.offer(new int[]{v, newDist});
+                }
+            }
+        }
+
+        return dist;
+    }
+
+    // Reconstruct path from source to target
+    public List&lt;Integer&gt; getPath(int[] parent, int target) {
+        List&lt;Integer&gt; path = new ArrayList&lt;&gt;();
+        for (int v = target; v != -1; v = parent[v]) {
+            path.add(v);
+        }
+        Collections.reverse(path);
+        return path;
+    }
+}</code></pre>
+<p><strong>Optimizations:</strong></p>
+<p><strong>1. Fibonacci Heap (Theoretical):</strong>
+<pre class="highlight"><code>Time: O(E + V log V)
+vs Binary Heap: O((V + E) log V)
+
+Improvement: Better for dense graphs
+Practical: Binary heap usually faster due to simpler implementation</code></pre></p>
+<p><strong>2. Bidirectional Dijkstra:</strong>
+<pre class="highlight"><code>Simultaneously search from source and target:
+
+Forward:  s → ... → meet point
+Backward: t → ... → meet point
+
+Time: ~2x faster (searches half the graph)
+Use case: Point-to-point shortest path (GPS navigation)</code></pre></p>
+<p><strong>3. A* Search (Heuristic):</strong>
+<pre class="highlight"><code>Dijkstra: f(n) = g(n)              (distance so far)
+A*:       f(n) = g(n) + h(n)       (+ estimated distance to goal)
+
+h(n) = heuristic (e.g., straight-line distance)
+
+Explores fewer nodes by guiding search toward target
+Optimal if h(n) is admissible (never overestimates)</code></pre></p>
+<p><strong>Limitations:</strong></p>
+<pre class="highlight"><code>Dijkstra FAILS with negative edge weights:
+
+Graph:
+A --1--&gt; B
+|        |
+2       -5
+|        |
+v        v
+C &lt;------+
+
+Dijkstra from A:
+
+1. Process A: dist[B]=1, dist[C]=2
+2. Process B: dist[C] = 1+(-5) = -4 (improvement!)
+3. But B already visited, won't update C!
+
+Result: dist[C] = 2 (wrong! should be -4)
+
+Solution: Use Bellman-Ford for negative weights</code></pre>
+<p><strong>Use Cases:</strong></p>
+<ul>
+<li>GPS navigation (road networks)</li>
+<li>Network routing (OSPF protocol)</li>
+<li>Robotics path planning</li>
+<li>Social network analysis (degrees of separation)</li>
+</ul>
+<hr />
+<h3 id="topic-2-minimum-spanning-tree-mst">Topic 2: Minimum Spanning Tree (MST)<a class="headerlink" href="#topic-2-minimum-spanning-tree-mst" title="Permanent link">&para;</a></h3>
+<p><strong>Interview Priority: ⭐ OPTIONAL</strong> - Appears in &lt;5% of interviews, study if time permits</p>
+<p><strong>Concept:</strong> Subset of edges that connects all vertices with minimum total weight, no cycles.</p>
+<p><strong>MST Properties:</strong></p>
+<pre class="highlight"><code>Given graph G = (V, E):
+
+- MST has exactly V-1 edges
+- MST is acyclic (it's a tree)
+- MST connects all vertices
+- MST has minimum total edge weight
+- MST may not be unique (multiple MSTs with same weight)</code></pre>
+<p><strong>Kruskal's Algorithm:</strong></p>
+<pre class="highlight"><code>Greedy approach: Add edges in increasing weight order, skip if creates cycle
+
+Algorithm:
+
+1. Sort edges by weight (ascending)
+2. Initialize Union-Find (each vertex in its own set)
+3. For each edge (u, v, weight):
+   - If u and v in different sets:
+       Add edge to MST
+       Union(u, v)
+   - Else: Skip (would create cycle)
+4. Return MST
+
+Time: O(E log E) for sorting + O(E α(V)) for Union-Find ≈ O(E log E)
+Space: O(V) for Union-Find</code></pre>
+<p><strong>Example:</strong></p>
+<pre class="highlight"><code>Graph:
+    A
+   /|\
+  4 2 5
+ /  |  \
+B---3---C
+     6
+     |
+     D
+
+Edges sorted by weight:
+(A,C): 2
+(B,C): 3
+(A,B): 4
+(A,D): 5
+(C,D): 6
+
+Step 1: Add (A,C) weight 2
+  Sets: {A,C}, {B}, {D}
+  MST: {(A,C)}
+
+Step 2: Add (B,C) weight 3
+  Sets: {A,B,C}, {D}
+  MST: {(A,C), (B,C)}
+
+Step 3: Try (A,B) weight 4
+  A and B already connected → Skip (would create cycle)
+
+Step 4: Add (A,D) weight 5
+  Sets: {A,B,C,D}
+  MST: {(A,C), (B,C), (A,D)}
+
+Step 5: Try (C,D) weight 6
+  C and D already connected → Skip
+
+MST edges: (A,C), (B,C), (A,D)
+Total weight: 2 + 3 + 5 = 10</code></pre>
+<p><strong>Prim's Algorithm:</strong></p>
+<pre class="highlight"><code>Greedy approach: Grow MST from a starting vertex
+
+Algorithm:
+
+1. Start with arbitrary vertex s
+2. Add s to MST
+3. Repeat until all vertices in MST:
+   - Find minimum weight edge (u, v) where u in MST, v not in MST
+   - Add v to MST
+   - Add edge (u, v) to MST
+
+Time: O(E log V) with binary heap, O(E + V log V) with Fibonacci heap
+Space: O(V)
+
+Similar to Dijkstra but minimizes edge weight instead of path weight</code></pre>
+<p><strong>Implementation (Kruskal's):</strong></p>
+<pre class="highlight"><code class="language-java">class KruskalMST {
+    static class Edge implements Comparable&lt;Edge&gt; {
+        int u, v, weight;
+
+        Edge(int u, int v, int weight) {
+            this.u = u;
+            this.v = v;
+            this.weight = weight;
+        }
+
+        public int compareTo(Edge other) {
+            return this.weight - other.weight;
+        }
+    }
+
+    // Union-Find data structure
+    static class UnionFind {
+        int[] parent, rank;
+
+        UnionFind(int n) {
+            parent = new int[n];
+            rank = new int[n];
+            for (int i = 0; i &lt; n; i++) {
+                parent[i] = i;
+            }
+        }
+
+        int find(int x) {
+            if (parent[x] != x) {
+                parent[x] = find(parent[x]); // Path compression
+            }
+            return parent[x];
+        }
+
+        boolean union(int x, int y) {
+            int px = find(x), py = find(y);
+            if (px == py) return false; // Already in same set
+
+            // Union by rank
+            if (rank[px] &lt; rank[py]) {
+                parent[px] = py;
+            } else if (rank[px] &gt; rank[py]) {
+                parent[py] = px;
+            } else {
+                parent[py] = px;
+                rank[px]++;
+            }
+            return true;
+        }
+    }
+
+    public List&lt;Edge&gt; kruskal(int n, List&lt;Edge&gt; edges) {
+        Collections.sort(edges); // O(E log E)
+
+        UnionFind uf = new UnionFind(n);
+        List&lt;Edge&gt; mst = new ArrayList&lt;&gt;();
+
+        for (Edge edge : edges) {
+            if (uf.union(edge.u, edge.v)) {
+                mst.add(edge);
+                if (mst.size() == n - 1) break; // MST complete
+            }
+        }
+
+        return mst;
+    }
+}</code></pre>
+<p><strong>Use Cases:</strong></p>
+<ul>
+<li>Network design (minimize cable length)</li>
+<li>Clustering algorithms (single-linkage)</li>
+<li>Image segmentation</li>
+<li>Approximation algorithms (TSP)</li>
+</ul>
+<hr />
+<h3 id="topic-3-topological-sort">Topic 3: Topological Sort<a class="headerlink" href="#topic-3-topological-sort" title="Permanent link">&para;</a></h3>
+<p><strong>Interview Priority: ⭐⭐⭐ CRITICAL</strong> - Course Schedule is in top 20 most common problems!</p>
+<p><strong>Concept:</strong> Linear ordering of vertices in a directed acyclic graph (DAG) such that for every edge (u, v), u comes before v.</p>
+<p><strong>Properties:</strong></p>
+<pre class="highlight"><code>Valid only for DAGs (Directed Acyclic Graphs):
+
+- If graph has cycle → No topological ordering exists
+- Multiple valid orderings may exist
+- Used for dependency resolution, task scheduling</code></pre>
+<p><strong>DFS-Based Algorithm:</strong></p>
+<pre class="highlight"><code>Algorithm:
+
+1. Mark all vertices as unvisited
+2. For each unvisited vertex:
+   - Perform DFS
+   - After visiting all descendants, add vertex to result (reverse order)
+3. Reverse result to get topological order
+
+Time: O(V + E)
+Space: O(V) for recursion stack
+
+Key insight: Vertices with no outgoing edges go last</code></pre>
+<p><strong>Example:</strong></p>
+<pre class="highlight"><code>DAG (course prerequisites):
+A (Intro) → B (Data Structures) → D (Algorithms)
+         → C (Databases)        → D
+
+Valid topological orders:
+
+1. A, B, C, D
+2. A, C, B, D
+Both satisfy: A before B, A before C, B before D, C before D</code></pre>
+<p><strong>Detailed Execution:</strong></p>
+<pre class="highlight"><code>Graph:
+A → B → D
+↓   ↓
+C   →
+
+DFS from A:
+  Visit A
+    Visit B
+      Visit D
+        (No outgoing edges, add D to stack)
+      (B done, add B to stack)
+    Visit C
+      Visit D (already visited, skip)
+      (C done, add C to stack)
+  (A done, add A to stack)
+
+Stack (reverse order): [D, B, C, A]
+Reverse: [A, C, B, D] or [A, B, C, D]</code></pre>
+<p><strong>Implementation:</strong></p>
+<pre class="highlight"><code class="language-java">class TopologicalSort {
+    /**
+     * DFS-based topological sort
+     * Time: O(V + E), Space: O(V)
+     */
+    public List&lt;Integer&gt; topologicalSort(int n, List&lt;List&lt;Integer&gt;&gt; graph) {
+        boolean[] visited = new boolean[n];
+        Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
+
+        // Visit all vertices
+        for (int i = 0; i &lt; n; i++) {
+            if (!visited[i]) {
+                dfs(i, graph, visited, stack);
+            }
+        }
+
+        // Build result (reverse of stack)
+        List&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+        while (!stack.isEmpty()) {
+            result.add(stack.pop());
+        }
+        return result;
+    }
+
+    private void dfs(int u, List&lt;List&lt;Integer&gt;&gt; graph, boolean[] visited, Stack&lt;Integer&gt; stack) {
+        visited[u] = true;
+
+        for (int v : graph.get(u)) {
+            if (!visited[v]) {
+                dfs(v, graph, visited, stack);
+            }
+        }
+
+        stack.push(u); // Add after visiting all descendants
+    }
+
+    /**
+     * Kahn's algorithm (BFS-based)
+     * Detects cycles explicitly
+     */
+    public List&lt;Integer&gt; topologicalSortKahn(int n, List&lt;List&lt;Integer&gt;&gt; graph) {
+        int[] inDegree = new int[n];
+
+        // Calculate in-degrees
+        for (int u = 0; u &lt; n; u++) {
+            for (int v : graph.get(u)) {
+                inDegree[v]++;
+            }
+        }
+
+        // Start with vertices that have no incoming edges
+        Queue&lt;Integer&gt; queue = new LinkedList&lt;&gt;();
+        for (int i = 0; i &lt; n; i++) {
+            if (inDegree[i] == 0) {
+                queue.offer(i);
+            }
+        }
+
+        List&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+        while (!queue.isEmpty()) {
+            int u = queue.poll();
+            result.add(u);
+
+            // Remove edges from u
+            for (int v : graph.get(u)) {
+                inDegree[v]--;
+                if (inDegree[v] == 0) {
+                    queue.offer(v);
+                }
+            }
+        }
+
+        // If result doesn't contain all vertices, graph has cycle
+        if (result.size() != n) {
+            throw new IllegalArgumentException("Graph has cycle!");
+        }
+
+        return result;
+    }
+}</code></pre>
+<p><strong>Cycle Detection:</strong></p>
+<pre class="highlight"><code>Kahn's algorithm automatically detects cycles:
+
+If cycle exists:
+  All vertices in cycle have inDegree &gt; 0
+  Never added to queue
+  result.size() &lt; n
+
+Example:
+A → B → C → A (cycle)
+
+inDegree: A=1, B=1, C=1
+Queue: [] (empty! all have incoming edges)
+Result: [] (empty)
+Cycle detected!</code></pre>
+<p><strong>Use Cases:</strong></p>
+<ul>
+<li><strong>Build systems:</strong> Compile dependencies in correct order</li>
+<li><strong>Task scheduling:</strong> Execute tasks respecting dependencies</li>
+<li><strong>Course prerequisites:</strong> Determine valid course order</li>
+<li><strong>Package managers:</strong> Install packages with dependencies</li>
+<li><strong>Git commit history:</strong> Linearize parallel development</li>
+</ul>
+<hr />
+<h3 id="topic-4-union-find-disjoint-set-union">Topic 4: Union-Find (Disjoint Set Union)<a class="headerlink" href="#topic-4-union-find-disjoint-set-union" title="Permanent link">&para;</a></h3>
+<p><strong>Interview Priority: ⭐⭐ IMPORTANT</strong> - Key data structure for dynamic connectivity (~10% of graph problems)</p>
+<p><strong>Concept:</strong> Efficiently track and merge disjoint sets, primarily used for dynamic connectivity problems.</p>
+<p><strong>Core Operations:</strong></p>
+<pre class="highlight"><code>
+1. Find(x): Which set does element x belong to?
+   - Returns representative (root) of the set
+
+2. Union(x, y): Merge the sets containing x and y
+   - Connect roots of both sets
+
+3. Connected(x, y): Are x and y in the same set?
+   - Return Find(x) == Find(y)</code></pre>
+<p><strong>Optimizations:</strong></p>
+<ol>
+<li>
+<p><strong>Path Compression</strong> (in Find):
+   <pre class="highlight"><code>Make every node point directly to root
+Flattens tree structure
+Time: O(α(n)) amortized per operation</code></pre></p>
+</li>
+<li>
+<p><strong>Union by Rank</strong>:
+   <pre class="highlight"><code>Always attach smaller tree under larger tree
+Keeps tree balanced</code></pre></p>
+</li>
+</ol>
+<p><strong>Implementation:</strong></p>
+<pre class="highlight"><code class="language-java">class UnionFind {
+    private int[] parent;
+    private int[] rank;
+
+    public UnionFind(int n) {
+        parent = new int[n];
+        rank = new int[n];
+        for (int i = 0; i &lt; n; i++) {
+            parent[i] = i;  // Each element is its own parent initially
+            rank[i] = 0;
+        }
+    }
+
+    // Find with path compression
+    public int find(int x) {
+        if (parent[x] != x) {
+            parent[x] = find(parent[x]);  // Path compression
+        }
+        return parent[x];
+    }
+
+    // Union by rank
+    public boolean union(int x, int y) {
+        int rootX = find(x);
+        int rootY = find(y);
+
+        if (rootX == rootY) {
+            return false;  // Already in same set
+        }
+
+        // Union by rank: attach smaller tree under larger
+        if (rank[rootX] &lt; rank[rootY]) {
+            parent[rootX] = rootY;
+        } else if (rank[rootX] &gt; rank[rootY]) {
+            parent[rootY] = rootX;
+        } else {
+            parent[rootY] = rootX;
+            rank[rootX]++;
+        }
+
+        return true;
+    }
+
+    public boolean connected(int x, int y) {
+        return find(x) == find(y);
+    }
+}</code></pre>
+<p><strong>Common Problems:</strong></p>
+<ol>
+<li><strong>Number of Connected Components</strong></li>
+<li>Start with n components</li>
+<li>Each union decreases count by 1</li>
+<li>
+<p>Final count = n - (number of successful unions)</p>
+</li>
+<li>
+<p><strong>Detect Cycle in Undirected Graph</strong></p>
+</li>
+<li>
+<p>For each edge (u, v):</p>
+<ul>
+<li>If find(u) == find(v): cycle exists!</li>
+<li>Else: union(u, v)</li>
+</ul>
+</li>
+<li>
+<p><strong>Accounts Merge (LeetCode 721)</strong></p>
+</li>
+<li>Union accounts with common emails</li>
+<li>Each component = one person</li>
+</ol>
+<p><strong>Example: Detect Redundant Connection</strong></p>
+<pre class="highlight"><code>Problem: Find edge that creates cycle in undirected graph
+
+Input: edges = [[1,2], [1,3], [2,3]]
+Output: [2,3] (creates cycle)
+
+Solution:
+UnionFind uf = new UnionFind(n);
+for (int[] edge : edges) {
+    if (!uf.union(edge[0], edge[1])) {
+        return edge;  // This edge creates cycle
+    }
+}</code></pre>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time: O(α(n)) per operation (inverse Ackermann, effectively O(1))</li>
+<li>Space: O(n) for parent and rank arrays</li>
+</ul>
+<p><strong>When to Use Union-Find:</strong></p>
+<p>✅ Dynamic connectivity (edges added over time)
+✅ Detect cycles in undirected graphs
+✅ Group elements by equivalence relation
+✅ Kruskal's MST algorithm</p>
+<p>❌ Need to remove edges (Union-Find doesn't support deletion)
+❌ Directed graph cycle detection (use DFS instead)
+❌ Shortest path queries (use BFS/Dijkstra)</p>
+<p><strong>Use Cases:</strong></p>
+<ul>
+<li>Network connectivity</li>
+<li>Image segmentation (connected components)</li>
+<li>Kruskal's MST</li>
+<li>Social network friend groups</li>
+<li>Accounts merging</li>
+</ul>
+<hr />
+<h2 id="decision-framework">Decision Framework<a class="headerlink" href="#decision-framework" title="Permanent link">&para;</a></h2>
+<h3 id="question-1-which-shortest-path-algorithm">Question 1: Which shortest path algorithm?<a class="headerlink" href="#question-1-which-shortest-path-algorithm" title="Permanent link">&para;</a></h3>
+<p><strong>Use Dijkstra when:</strong></p>
+<ul>
+<li>Non-negative weights: <span class="fill-in">[Road networks, costs]</span></li>
+<li>Single source: <span class="fill-in">[From one node to all others]</span></li>
+<li>Dense graphs: <span class="fill-in">[Many edges]</span></li>
+</ul>
+<p><strong>Use Bellman-Ford when:</strong></p>
+<ul>
+<li>Negative weights allowed: <span class="fill-in">[Financial arbitrage]</span></li>
+<li>Need cycle detection: <span class="fill-in">[Negative cycles]</span></li>
+<li>Simple implementation: <span class="fill-in">[No priority queue]</span></li>
+</ul>
+<p><strong>Use A* when:</strong></p>
+<ul>
+<li>Point-to-point search: <span class="fill-in">[GPS navigation]</span></li>
+<li>Heuristic available: <span class="fill-in">[Euclidean distance]</span></li>
+<li>Want faster search: <span class="fill-in">[Guided by heuristic]</span></li>
+</ul>
+<h3 id="question-2-mst-algorithm-choice">Question 2: MST Algorithm Choice?<a class="headerlink" href="#question-2-mst-algorithm-choice" title="Permanent link">&para;</a></h3>
+<p><strong>Use Kruskal when:</strong></p>
+<ul>
+<li>Sparse graph: <span class="fill-in">[E &lt;&lt; V²]</span></li>
+<li>Need simple implementation: <span class="fill-in">[Sort + Union-Find]</span></li>
+<li>Edge list representation: <span class="fill-in">[Not adjacency list]</span></li>
+</ul>
+<p><strong>Use Prim when:</strong></p>
+<ul>
+<li>Dense graph: <span class="fill-in">[E ≈ V²]</span></li>
+<li>Adjacency list: <span class="fill-in">[Efficient neighbor access]</span></li>
+<li>Want incremental MST: <span class="fill-in">[Grow from one vertex]</span></li>
+</ul>
+<h3 id="question-3-topological-sort">Question 3: Topological Sort?<a class="headerlink" href="#question-3-topological-sort" title="Permanent link">&para;</a></h3>
+<p><strong>Use DFS-based when:</strong></p>
+<ul>
+<li>Simple implementation needed</li>
+<li>Want to detect cycles during sort</li>
+<li>Graph fits in memory</li>
+</ul>
+<p><strong>Use Kahn's (BFS) when:</strong></p>
+<ul>
+<li>Need explicit cycle detection</li>
+<li>Want lexicographically smallest ordering</li>
+<li>Parallel processing possible</li>
+</ul>
+<h3 id="question-4-when-to-use-union-find">Question 4: When to use Union-Find?<a class="headerlink" href="#question-4-when-to-use-union-find" title="Permanent link">&para;</a></h3>
+<p><strong>Use Union-Find when:</strong></p>
+<ul>
+<li>Dynamic connectivity: <span class="fill-in">[Edges added over time]</span></li>
+<li>Detect cycles in undirected graphs: <span class="fill-in">[Kruskal's MST]</span></li>
+<li>Group by equivalence: <span class="fill-in">[Accounts merge, friend groups]</span></li>
+</ul>
+<p><strong>Don't use Union-Find when:</strong></p>
+<ul>
+<li>Need to remove edges: <span class="fill-in">[UF doesn't support deletion]</span></li>
+<li>Directed graph cycles: <span class="fill-in">[Use DFS with states instead]</span></li>
+<li>Need shortest paths: <span class="fill-in">[Use BFS/Dijkstra]</span></li>
+</ul>
+<hr />
+<h2 id="debugging-challenges">Debugging Challenges<a class="headerlink" href="#debugging-challenges" title="Permanent link">&para;</a></h2>
+<p><strong>Your task:</strong> Find and fix bugs in broken graph algorithm implementations. This tests your understanding of algorithm correctness and edge cases.</p>
+<h3 id="challenge-1-dijkstras-distance-check-bug">Challenge 1: Dijkstra's Distance Check Bug<a class="headerlink" href="#challenge-1-dijkstras-distance-check-bug" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Dijkstra's algorithm with a CRITICAL BUG.
+ * Can return incorrect shortest paths!
+ */
+public class BuggyDijkstra {
+
+    public int[] dijkstra(List&lt;List&lt;Edge&gt;&gt; graph, int source) {
+        int n = graph.size();
+        int[] dist = new int[n];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        dist[source] = 0;
+
+        PriorityQueue&lt;int[]&gt; pq = new PriorityQueue&lt;&gt;((a, b) -&gt; a[1] - b[1]);
+        pq.offer(new int[]{source, 0});
+
+        while (!pq.isEmpty()) {
+            int[] curr = pq.poll();
+            int u = curr[0];
+            int d = curr[1];
+
+            // Missing check here!
+
+            for (Edge edge : graph.get(u)) {
+                int v = edge.to;
+                int newDist = dist[u] + edge.weight;
+
+                if (newDist &lt; dist[v]) {
+                    dist[v] = newDist;
+                    pq.offer(new int[]{v, newDist});
+                }
+            }
+        }
+
+        return dist;
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>Bug: <span class="fill-in">[What's missing after polling from PQ?]</span></li>
+</ul>
+<p><strong>Failure scenario:</strong></p>
+<ul>
+<li>Graph: 0→1(weight=5), 0→1(weight=3), 1→2(weight=1)</li>
+<li>Without fix: <span class="fill-in">[How many times do we process node 1?]</span></li>
+<li>With fix: <span class="fill-in">[How many times should we process node 1?]</span></li>
+<li>Impact: <span class="fill-in">[Correctness? Performance? Both?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> Missing distance check after polling. Should verify that we haven't already found a better path to this node.</p>
+<p><strong>Fix:</strong></p>
+<pre class="highlight"><code class="language-java">while (!pq.isEmpty()) {
+    int[] curr = pq.poll();
+    int u = curr[0];
+    int d = curr[1];
+
+    // Skip if we've already processed this node with better distance
+    if (d &gt; dist[u]) continue;
+
+    // ... rest of code
+}</code></pre>
+<p><strong>Why it matters:</strong> We may add the same node to the priority queue multiple times with different distances. Without this check, we process outdated entries, doing unnecessary work and potentially corrupting results.</p>
+<p><strong>Example trace without fix:</strong>
+<pre class="highlight"><code>Step 1: Process (0, dist=0), add (1, dist=5)
+Step 2: Find shorter path, add (1, dist=3)
+Step 3: Process (1, dist=3) ✓ (correct)
+Step 4: Process (1, dist=5) ✗ (outdated entry, wastes time)</code></pre></p>
+<p><strong>With fix:</strong> Step 4 is skipped because d=5 &gt; dist[1]=3.</p>
+</details>
+<hr />
+<h3 id="challenge-2-kruskals-mst-cycle-detection-miss">Challenge 2: Kruskal's MST - Cycle Detection Miss<a class="headerlink" href="#challenge-2-kruskals-mst-cycle-detection-miss" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Kruskal's algorithm with MISSING CYCLE CHECK.
+ * Can create cycles in MST!
+ */
+public class BuggyKruskalMST {
+
+    public List&lt;Edge&gt; kruskal(int n, List&lt;Edge&gt; edges) {
+        Collections.sort(edges); // Sort by weight
+
+        UnionFind uf = new UnionFind(n);
+        List&lt;Edge&gt; mst = new ArrayList&lt;&gt;();
+
+        for (Edge edge : edges) {
+            // Missing cycle check!
+            mst.add(edge);
+
+            if (mst.size() == n - 1) break;
+        }
+
+        return mst;
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>Bug: <span class="fill-in">[What's missing before adding edge to MST?]</span></li>
+</ul>
+<p><strong>Failure scenario:</strong></p>
+<ul>
+<li>Graph: Triangle with edges (0,1,1), (1,2,2), (2,0,3)</li>
+<li>With bug: MST edges = <span class="fill-in">[Which edges?]</span></li>
+<li>Expected: MST edges = <span class="fill-in">[Which edges?]</span></li>
+<li>Result: <span class="fill-in">[Valid tree? Contains cycle?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> Missing Union-Find check to detect cycles. Must verify that edge doesn't connect two vertices already in the same component.</p>
+<p><strong>Fix:</strong></p>
+<pre class="highlight"><code class="language-java">for (Edge edge : edges) {
+    if (uf.union(edge.u, edge.v)) {  // Only add if doesn't create cycle
+        mst.add(edge);
+        if (mst.size() == n - 1) break;
+    }
+}</code></pre>
+<p><strong>Why it matters:</strong> Kruskal's algorithm relies on Union-Find to detect cycles. Without this check, we'd add all edges in weight order, creating cycles instead of a tree.</p>
+<p><strong>Correct behavior:</strong></p>
+<ul>
+<li>Edge (0,1,1): Add (different components) ✓</li>
+<li>Edge (1,2,2): Add (different components) ✓</li>
+<li>Edge (2,0,3): Skip (0 and 2 already connected via 1) ✗</li>
+</ul>
+<p><strong>MST edges:</strong> (0,1), (1,2) with total weight = 3</p>
+</details>
+<hr />
+<h3 id="challenge-3-topological-sort-term-handling-bug">Challenge 3: Topological Sort - Term Handling Bug<a class="headerlink" href="#challenge-3-topological-sort-term-handling-bug" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Topological sort (DFS-based) with CYCLE PROPAGATION BUG.
+ * Fails to detect cycles properly!
+ */
+public class BuggyTopologicalSort {
+
+    public List&lt;Integer&gt; topologicalSort(int n, List&lt;List&lt;Integer&gt;&gt; graph) {
+        int[] visited = new int[n];  // 0: unvisited, 1: visiting, 2: visited
+        Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
+
+        for (int i = 0; i &lt; n; i++) {
+            if (visited[i] == 0) {
+                if (!dfs(i, graph, visited, stack)) {
+                    return new ArrayList&lt;&gt;();  // Cycle detected
+                }
+            }
+        }
+
+        List&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+        while (!stack.isEmpty()) {
+            result.add(stack.pop());
+        }
+        return result;
+    }
+
+    private boolean dfs(int node, List&lt;List&lt;Integer&gt;&gt; graph,
+                       int[] visited, Stack&lt;Integer&gt; stack) {
+        visited[node] = 1;  // Mark as visiting
+
+        for (int neighbor : graph.get(node)) {
+            if (visited[neighbor] == 1) {
+                return false;  // Cycle detected
+            }
+            if (visited[neighbor] == 0) {
+                dfs(neighbor, graph, visited, stack);  // BUG: Missing return check!
+            }
+        }
+
+        visited[node] = 2;  // Mark as visited
+        stack.push(node);
+        return true;
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>Bug: <span class="fill-in">[What's missing in the recursive call?]</span></li>
+</ul>
+<p><strong>Failure scenario:</strong></p>
+<ul>
+<li>Graph: 0→1, 1→2, 2→0 (cycle)</li>
+<li>With bug: <span class="fill-in">[Does it detect the cycle?]</span></li>
+<li>Expected: <span class="fill-in">[Should return empty list]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> Not checking the return value of recursive DFS call. Even if a recursive call detects a cycle (returns false), we ignore it and continue.</p>
+<p><strong>Fix:</strong></p>
+<pre class="highlight"><code class="language-java">if (visited[neighbor] == 0) {
+    if (!dfs(neighbor, graph, visited, stack)) {
+        return false;  // Propagate cycle detection
+    }
+}</code></pre>
+<p><strong>Why it matters:</strong> Cycle detection must propagate back up the call stack. Without checking the return value, we lose the cycle detection signal.</p>
+<p><strong>Trace with cycle:</strong>
+<pre class="highlight"><code>DFS(0): visits 1
+  DFS(1): visits 2
+    DFS(2): sees 0 is visiting → return false (cycle!)
+  DFS(1): ignores return value, continues → BUG!
+DFS(0): completes successfully → WRONG!</code></pre></p>
+<p><strong>Correct:</strong> When DFS(2) detects cycle, DFS(1) should return false, then DFS(0) should return false, signaling cycle to main function.</p>
+</details>
+<hr />
+<h3 id="your-debugging-scorecard">Your Debugging Scorecard<a class="headerlink" href="#your-debugging-scorecard" title="Permanent link">&para;</a></h3>
+<p>After finding and fixing all bugs:</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Found all 3 bugs across different algorithms</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Understood correctness vs performance issues</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Could explain WHY each bug causes failures</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Learned common algorithm implementation mistakes</li>
+</ul>
+<p><strong>Common graph algorithm bugs you discovered:</strong></p>
+<ol>
+<li><span class="fill-in">[Missing distance check in Dijkstra after polling]</span></li>
+<li><span class="fill-in">[Not using Union-Find to detect cycles in Kruskal's]</span></li>
+<li><span class="fill-in">[Not propagating cycle detection in TopSort DFS]</span></li>
+</ol>
+<hr />
+<h2 id="practice">Practice<a class="headerlink" href="#practice" title="Permanent link">&para;</a></h2>
+<h3 id="leetcode-problems">LeetCode Problems<a class="headerlink" href="#leetcode-problems" title="Permanent link">&para;</a></h3>
+<p><strong>Focus on interview-critical patterns - practice in priority order:</strong></p>
+<p><strong>Topological Sort (MUST DO - ⭐⭐⭐):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/course-schedule/">207. Course Schedule</a> ⭐⭐⭐</p>
+<ul>
+<li>Pattern: <span class="fill-in">[Topological Sort / Cycle Detection]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/course-schedule-ii/">210. Course Schedule II</a> ⭐⭐⭐</p>
+<ul>
+<li>Pattern: <span class="fill-in">[Topological Sort - return order]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/alien-dictionary/">269. Alien Dictionary</a> (Premium) ⭐⭐</p>
+<ul>
+<li>Pattern: <span class="fill-in">[Topological Sort]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Union-Find (Important - ⭐⭐):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/number-of-provinces/">547. Number of Provinces</a> ⭐⭐</p>
+<ul>
+<li>Pattern: <span class="fill-in">[Union-Find / Connected Components]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/redundant-connection/">684. Redundant Connection</a> ⭐⭐</p>
+<ul>
+<li>Pattern: <span class="fill-in">[Union-Find / Cycle Detection]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/accounts-merge/">721. Accounts Merge</a> ⭐⭐</p>
+<ul>
+<li>Pattern: <span class="fill-in">[Union-Find / Grouping]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Dijkstra (Good to know - ⭐⭐):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/network-delay-time/">743. Network Delay Time</a> ⭐⭐</p>
+<ul>
+<li>Pattern: <span class="fill-in">[Dijkstra's Algorithm]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/cheapest-flights-within-k-stops/">787. Cheapest Flights Within K Stops</a> ⭐⭐</p>
+<ul>
+<li>Pattern: <span class="fill-in">[Modified Dijkstra with constraints]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>MST (Optional - ⭐):</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/min-cost-to-connect-all-points/">1584. Min Cost to Connect All Points</a> ⭐<ul>
+<li>Pattern: <span class="fill-in">[Prim's MST]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Note: Low frequency - only if you have extra time</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="review-checklist">Review Checklist<a class="headerlink" href="#review-checklist" title="Permanent link">&para;</a></h2>
+<p><strong>Before moving to next topic, ensure you've mastered:</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Understanding</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Understand topological sort (DFS and Kahn's algorithms) ⭐⭐⭐</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Understand Dijkstra's algorithm ⭐⭐</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Know Union-Find with optimizations ⭐⭐</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Understand MST algorithms (Kruskal, Prim) ⭐</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Know when each algorithm applies</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Implementation</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Can implement topological sort (both methods)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Can implement Dijkstra with priority queue</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Can implement Union-Find with path compression</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Can implement Kruskal's MST (if time permits)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Understand complexity analysis</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Pattern Recognition</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Solved Course Schedule I &amp; II (topological sort)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Solved 2-3 Union-Find problems</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Attempted 1-2 Dijkstra problems</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Understand when to use each algorithm</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Decision Making</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Know algorithm trade-offs</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Can choose correct algorithm for requirements</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Understand limitations (e.g., Dijkstra + negative weights)</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h3 id="mastery-certification">Mastery Certification<a class="headerlink" href="#mastery-certification" title="Permanent link">&para;</a></h3>
+<p><strong>I certify that I can:</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Implement topological sort from memory (both DFS and Kahn's) ⭐⭐⭐</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Solve Course Schedule problems confidently</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Implement Union-Find with path compression and union by rank ⭐⭐</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Detect cycles using Union-Find</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Implement Dijkstra's algorithm ⭐⭐</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Explain when Dijkstra fails (negative weights)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Understand MST algorithms (Kruskal/Prim) ⭐</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Choose appropriate algorithm for given problem</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Analyze time/space complexity</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Debug common algorithm issues</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Explain these concepts to others</li>
+</ul></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = "../.."</script>
+    
+    <script src="../../js/base.js"></script>
+    <script src="../../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

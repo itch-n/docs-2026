@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="A framework for algorithms, systems design, and infrastructure." name="description"/>
+<meta content="Richard" name="author"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>01. Two Pointers - Software Engineering Study Guide</title>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" rel="stylesheet"/>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css" rel="stylesheet"/>
+<link href="//rsms.me/inter/inter.css" rel="stylesheet" type="text/css"/>
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&amp;subset=latin-ext,latin" rel="stylesheet" type="text/css"/>
+<link href="../../css/bootstrap-custom.min.css" rel="stylesheet"/>
+<link href="../../css/base.min.css" rel="stylesheet"/>
+<link href="../../css/cinder.min.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css" rel="stylesheet"/>
+<link href="../../css/custom.css" rel="stylesheet"/>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="container">
+<!-- Collapsed navigation -->
+<div class="navbar-header">
+<!-- Expander button -->
+<button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<!-- Main title -->
+<a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+</div>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li>
+<a href="../..">Home</a>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Systems Design <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../systems/01-storage-engines/">01. Storage Engines</a>
+</li>
+<li>
+<a href="../../systems/02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+<li>
+<a href="../../systems/03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+<li>
+<a href="../../systems/04-search-and-indexing/">04. Search &amp; Indexing</a>
+</li>
+<li>
+<a href="../../systems/05-caching-patterns/">05. Caching Patterns</a>
+</li>
+<li>
+<a href="../../systems/06-api-design/">06. API Design</a>
+</li>
+<li>
+<a href="../../systems/07-security-patterns/">07. Security Patterns</a>
+</li>
+<li>
+<a href="../../systems/08-rate-limiting/">08. Rate Limiting</a>
+</li>
+<li>
+<a href="../../systems/09-load-balancing/">09. Load Balancing</a>
+</li>
+<li>
+<a href="../../systems/10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+<li>
+<a href="../../systems/11-database-scaling/">11. Database Scaling</a>
+</li>
+<li>
+<a href="../../systems/12-message-queues/">12. Message Queues</a>
+</li>
+<li>
+<a href="../../systems/13-stream-processing/">13. Stream Processing</a>
+</li>
+<li>
+<a href="../../systems/14-observability/">14. Observability</a>
+</li>
+<li>
+<a href="../../systems/15-distributed-transactions/">15. Distributed Transactions</a>
+</li>
+<li>
+<a href="../../systems/16-consensus-patterns/">16. Consensus Patterns</a>
+</li>
+</ul>
+</li>
+<li class="dropdown active">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">DSA <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li class="active">
+<a href="./">01. Two Pointers</a>
+</li>
+<li>
+<a href="../02-sliding-window/">02. Sliding Window</a>
+</li>
+<li>
+<a href="../03-hash-tables/">03. Hash Tables</a>
+</li>
+<li>
+<a href="../04-linked-lists/">04. Linked Lists</a>
+</li>
+<li>
+<a href="../05-stacks--queues/">05. Stacks &amp; Queues</a>
+</li>
+<li>
+<a href="../06-trees-traversals/">06. Trees - Traversals</a>
+</li>
+<li>
+<a href="../07-trees-recursion/">07. Trees - Recursion</a>
+</li>
+<li>
+<a href="../08-binary-search/">08. Binary Search</a>
+</li>
+<li>
+<a href="../09-heaps/">09. Heaps</a>
+</li>
+<li>
+<a href="../10-graphs/">10. Graphs</a>
+</li>
+<li>
+<a href="../11-union-find/">11. Union-Find</a>
+</li>
+<li>
+<a href="../12-advanced-graphs/">12. Advanced Graphs</a>
+</li>
+<li>
+<a href="../13-backtracking/">13. Backtracking</a>
+</li>
+<li>
+<a href="../14-dynamic-programming-1d/">14. Dynamic Programming 1D</a>
+</li>
+<li>
+<a href="../15-dynamic-programming-2d/">15. Dynamic Programming 2D</a>
+</li>
+<li>
+<a href="../16-tries/">16. Tries</a>
+</li>
+<li>
+<a href="../17-advanced-topics/">17. Advanced Topics</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+<a data-target="#mkdocs_search_modal" data-toggle="modal" href="#">
+<i class="fas fa-search"></i> Search
+                        </a>
+</li>
+<li>
+<a href="../../systems/16-consensus-patterns/" rel="prev">
+<i class="fas fa-arrow-left"></i> Previous
+                        </a>
+</li>
+<li>
+<a href="../02-sliding-window/" rel="next">
+                            Next <i class="fas fa-arrow-right"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+<ul class="nav bs-sidenav">
+<li class="first-level active"><a href="#two-pointers">Two Pointers</a></li>
+<li class="second-level"><a href="#important-info">Important info</a></li>
+<li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+<li class="second-level"><a href="#quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)</a></li>
+<li class="second-level"><a href="#beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters</a></li>
+<li class="second-level"><a href="#core-implementation">Core Implementation</a></li>
+<li class="second-level"><a href="#debugging-challenges">Debugging Challenges</a></li>
+<li class="second-level"><a href="#decision-framework">Decision Framework</a></li>
+<li class="second-level"><a href="#practice">Practice</a></li>
+<li class="second-level"><a href="#review-checklist">Review Checklist</a></li>
+</ul>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="two-pointers">Two Pointers<a class="headerlink" href="#two-pointers" title="Permanent link">¶</a></h1>
+<blockquote>
+<p>Reduce O(n²) to O(n) by using two indices moving through data</p>
+</blockquote>
+<hr/>
+<h2 id="important-info">Important info<a class="headerlink" href="#important-info" title="Permanent link">¶</a></h2>
+<ul>
+<li>Can be same/different direction/speed</li>
+<li>Same direction cursor conventions<ul>
+<li>Write Cursor: Points to the first available space where the next piece of incoming data will be
+  stored</li>
+<li>Read Cursor: Points to the first piece of available data that has not been read yet.</li>
+</ul>
+</li>
+</ul>
+<hr/>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After implementing all three patterns, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What is the two pointers pattern in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">Avoiding the need to exhaustively "check every pair" by keeping track of two
+  pointers and exploiting some property of the input</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Why is it faster than nested loops?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">You don't need to check all combinations leading to fewer ops</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy:</strong></p>
+<ul>
+<li>Same direction partitioning: <span class="fill-in">Using your left arm to keep the good apples in your sweater and
+  your right arm to sort new ones in or out. When you get a good one, your left arm moves a little to make room for
+  the good apple</span></li>
+<li>Opposite direction matching: <span class="fill-in">You and your brother have 20 chuck-e-cheese tickets for 2
+  prizes. You want to use all 20 tickets and all the prizes are sorted by ticket price.</span></li>
+<li>Different speeds exploring: <span class="fill-in">You're lost and walking along a rushing river. You throw a
+  message in a bottle, wait a bit, then keep walking. If you eventually see the bottle again, you know you're on a
+  circular river. Importantly, this wouldn't work if you started running the same speed as the river current!</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When does this pattern work?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">When you can eliminate multiple possibilities with each pointer
+  movement or when trying to explore paths and you can't store state.</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When does this pattern fail?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">when you truly need to check every combination or when the problem requires
+  random access to all elements simultaneously.</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr/>
+<h2 id="quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)<a class="headerlink" href="#quick-quiz-do-before-implementing" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Test your intuition without looking at code. Answer these, then verify after implementation.</p>
+<h3 id="complexity-predictions">Complexity Predictions<a class="headerlink" href="#complexity-predictions" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p><strong>Two nested loops searching for a sum pair:</strong></p>
+<ul>
+<li>Time complexity: <span class="fill-in">O(n^2)</span></li>
+<li>Verified after learning: <span class="fill-in">[Actual: O(?)]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Two pointers searching for a sum pair in sorted array:</strong></p>
+<ul>
+<li>Time complexity: <span class="fill-in">O(n)</span></li>
+<li>Space complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Verified: <span class="fill-in">[Actual]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Speedup calculation:</strong></p>
+<ul>
+<li>If n = 1,000, nested loops = n² = <span class="fill-in">1,000,000</span> operations</li>
+<li>Two pointers = n = <span class="fill-in">1000</span> operations</li>
+<li>Speedup factor: <span class="fill-in">1,000</span> times faster</li>
+</ul>
+</li>
+</ol>
+<h3 id="scenario-predictions">Scenario Predictions<a class="headerlink" href="#scenario-predictions" title="Permanent link">¶</a></h3>
+<p><strong>Scenario 1:</strong> Find pair that sums to 10 in <code>[1, 3, 5, 7, 9]</code></p>
+<ul>
+<li><strong>Can you use two pointers?</strong> <span class="fill-in">Yes, input is sorted</span></li>
+<li><strong>Starting positions:</strong> left = <span class="fill-in">0</span>, right = <span class="fill-in">4</span></li>
+<li><strong>If sum = 8 (too small), which pointer moves?</strong> <span class="fill-in">Left, since this makes the sum bigger</span></li>
+<li><strong>If sum = 12 (too big), which pointer moves?</strong> <span class="fill-in">Right, since this makes the sum smaller</span></li>
+</ul>
+<p><strong>Scenario 2:</strong> Find pair that sums to 10 in <code>[9, 3, 1, 7, 5]</code> (unsorted)</p>
+<ul>
+<li><strong>Can you use two pointers directly?</strong> <span class="fill-in">No, input is not sorted</span></li>
+<li><strong>What must you do first?</strong> <span class="fill-in">Sort the input</span></li>
+</ul>
+<p><strong>Scenario 3:</strong> Remove duplicates from <code>[1, 1, 2, 2, 3]</code></p>
+<ul>
+<li><strong>Which pattern applies?</strong> <span class="fill-in">Same</span></li>
+<li><strong>Why that pattern?</strong> <span class="fill-in">[Fill in your reasoning]</span></li>
+</ul>
+<h3 id="trade-off-quiz">Trade-off Quiz<a class="headerlink" href="#trade-off-quiz" title="Permanent link">¶</a></h3>
+<p><strong>Question:</strong> When would HashSet be BETTER than two pointers for finding pairs?</p>
+<ul>
+<li>Your answer: <span class="fill-in">When you don't care about space complexity</span></li>
+<li>Verified answer: <span class="fill-in">[Fill in after learning]</span></li>
+</ul>
+<p><strong>Question:</strong> What's the MAIN requirement for opposite-direction two pointers?</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Array must be sorted</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Array must have even length</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Array must contain unique elements</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Array must be positive integers</li>
+</ul>
+<p>Verify after implementation: <span class="fill-in">[Which one(s)?]</span></p>
+</div>
+<hr/>
+<h2 id="beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters<a class="headerlink" href="#beforeafter-why-this-pattern-matters" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Compare naive vs optimized approaches to understand the impact.</p>
+<h3 id="example-find-pair-sum">Example: Find Pair Sum<a class="headerlink" href="#example-find-pair-sum" title="Permanent link">¶</a></h3>
+<p><strong>Problem:</strong> Find two numbers in a sorted array that sum to a target.</p>
+<h4 id="approach-1-brute-force-nested-loops">Approach 1: Brute Force (Nested Loops)<a class="headerlink" href="#approach-1-brute-force-nested-loops" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Naive approach - Check all possible pairs
+public static boolean hasPairSum_BruteForce(int[] nums, int target) {
+    for (int i = 0; i &lt; nums.length; i++) {
+        for (int j = i + 1; j &lt; nums.length; j++) {
+            if (nums[i] + nums[j] == target) {
+                return true;
+            }
+        }
+    }
+    return false;
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n²) - For each element, check all remaining elements</li>
+<li>Space: O(1) - No extra space</li>
+<li>For n = 10,000: ~100,000,000 operations</li>
+</ul>
+<h4 id="approach-2-two-pointers-optimized">Approach 2: Two Pointers (Optimized)<a class="headerlink" href="#approach-2-two-pointers-optimized" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Optimized approach - Use two pointers from opposite ends
+public static boolean hasPairSum_TwoPointers(int[] nums, int target) {
+    int left = 0;
+    int right = nums.length - 1;
+
+    while (left &lt; right) {
+        int sum = nums[left] + nums[right];
+        if (sum == target) return true;
+        if (sum &lt; target) left++;    // Need larger sum
+        else right--;                 // Need smaller sum
+    }
+
+    return false;
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n) - Each pointer moves at most n/2 steps</li>
+<li>Space: O(1) - No extra space</li>
+<li>For n = 10,000: ~10,000 operations</li>
+</ul>
+<h4 id="performance-comparison">Performance Comparison<a class="headerlink" href="#performance-comparison" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>Array Size</th>
+<th>Brute Force (O(n²))</th>
+<th>Two Pointers (O(n))</th>
+<th>Speedup</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n = 100</td>
+<td>10,000 ops</td>
+<td>100 ops</td>
+<td>100x</td>
+</tr>
+<tr>
+<td>n = 1,000</td>
+<td>1,000,000 ops</td>
+<td>1,000 ops</td>
+<td>1,000x</td>
+</tr>
+<tr>
+<td>n = 10,000</td>
+<td>100,000,000 ops</td>
+<td>10,000 ops</td>
+<td>10,000x</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Your calculation:</strong> For n = 5,000, the speedup is approximately <em>7000</em> times faster.</p>
+<h4 id="why-does-two-pointers-work">Why Does Two Pointers Work?<a class="headerlink" href="#why-does-two-pointers-work" title="Permanent link">¶</a></h4>
+<p><strong>Key insight to understand:</strong></p>
+<p>In a sorted array <code>[1, 3, 5, 7, 9]</code> looking for sum = 10:</p>
+<pre class="highlight"><code>Step 1: left=0 (val=1), right=4 (val=9), sum=10 → FOUND!</code></pre>
+<p>If we were looking for sum = 12:</p>
+<pre class="highlight"><code>Step 1: left=0 (val=1), right=4 (val=9), sum=10 (too small)
+        → Move left++ because we need a LARGER sum
+
+Step 2: left=1 (val=3), right=4 (val=9), sum=12 → FOUND!</code></pre>
+<p><strong>Why can we skip pairs?</strong></p>
+<ul>
+<li>When sum is too small, moving <code>right--</code> makes it even smaller (not helpful)</li>
+<li>When sum is too large, moving <code>left++</code> makes it even larger (not helpful)</li>
+<li>So each move eliminates multiple pairs in one step!</li>
+</ul>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>Why does sorted order matter? <span class="fill-in">It means we know for sure that moving a pointer isn't skipping
+  valid pairs</span></li>
+<li>What pairs do we skip and why is it safe? <span class="fill-in">Any pairs whose sum is greater/lesser than the
+  current</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="core-implementation">Core Implementation<a class="headerlink" href="#core-implementation" title="Permanent link">¶</a></h2>
+<h3 id="pattern-1-opposite-direction-pointers">Pattern 1: Opposite Direction Pointers<a class="headerlink" href="#pattern-1-opposite-direction-pointers" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Start from both ends, move toward each other.</p>
+<p><strong>Use case:</strong> Palindromes, pair sum in sorted array.</p>
+<pre class="highlight"><code class="language-java">public class OppositeDirectionPointers {
+
+    /**
+     * Problem: Check if string is a palindrome
+     * Time: O(n), Space: O(1)
+     */
+    public static boolean isPalindrome(String s) {
+        int l = 0;
+        int r = s.length() - 1;
+        while (l &lt; r) {
+            if (s.charAt(l) != s.charAt(r)) {
+                return false;
+            }
+            l++;
+            r--;
+        }
+        return true; // Replace with implementation
+    }
+
+    /**
+     * Problem: Find pair in sorted array that sums to target
+     * Time: O(n), Space: O(1)
+     * &lt;p&gt;
+     */
+    public static int[] twoSum(int[] nums, int target) {
+        int l = 0;
+        int r = nums.length - 1;
+        while (l &lt; r) {
+            int sum = nums[l] + nums[r];
+            if (sum == target) {
+                return new int[]{l, r};
+            } else if (sum &lt; target) {
+                l++;
+            } else {
+                r--;
+            }
+        }
+        throw new IllegalArgumentException("No two sum solution");
+    }
+
+    /**
+     * Problem: Reverse array in-place
+     * Time: O(n), Space: O(1)
+     * &lt;p&gt;
+     */
+    public static void reverseArray(int[] arr) {
+        int l = 0;
+        int r = arr.length - 1;
+        while (l &lt; r) {
+            int tmp = arr[l];
+            arr[l] = arr[r];
+            arr[r] = tmp;
+            l++;
+            r--;
+        }
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">public class OppositeDirectionClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Opposite Direction Two Pointers ===\n");
+
+        // Test 1: Palindrome check
+        System.out.println("--- Test 1: Palindrome ---");
+        String[] testStrings = {"racecar", "hello", "noon", "a", ""};
+
+        for (String s : testStrings) {
+            boolean result = OppositeDirectionPointers.isPalindrome(s);
+            System.out.printf("isPalindrome(\"%s\") = %b%n", s, result);
+        }
+
+        // Test 2: Two sum in sorted array
+        System.out.println("\n--- Test 2: Two Sum ---");
+        int[] sortedArray = {1, 3, 5, 7, 9, 11};
+        int target = 12;
+
+        int[] result = OppositeDirectionPointers.twoSum(sortedArray, target);
+        System.out.printf("Array: %s%n", Arrays.toString(sortedArray));
+        System.out.printf("Target: %d%n", target);
+        System.out.printf("Pair indices: %s%n", Arrays.toString(result));
+        if (result[0] != -1) {
+            System.out.printf("Values: %d + %d = %d%n",
+                sortedArray[result[0]], sortedArray[result[1]], target);
+        }
+
+        // Test 3: Reverse array
+        System.out.println("\n--- Test 3: Reverse Array ---");
+        int[] arr = {1, 2, 3, 4, 5};
+        System.out.println("Before: " + Arrays.toString(arr));
+        OppositeDirectionPointers.reverseArray(arr);
+        System.out.println("After:  " + Arrays.toString(arr));
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-2-same-direction-pointers-slowfast">Pattern 2: Same Direction Pointers (Slow/Fast)<a class="headerlink" href="#pattern-2-same-direction-pointers-slowfast" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Both pointers move left to right, at different speeds.</p>
+<p><strong>Use case:</strong> Remove duplicates, partition array, in-place modifications.</p>
+<pre class="highlight"><code class="language-java">public class SameDirectionPointers {
+
+    /**
+     * Problem: Remove duplicates from sorted array in-place
+     * Return new length
+     * Time: O(n), Space: O(1)
+     * &lt;p&gt;
+     */
+    public static int removeDuplicates(int[] nums) {
+        if (nums.length == 0) return 0;
+
+        int write = 1;
+        for (int read = 1; read &lt; nums.length; read++) {
+            // duplicate, skip this write
+            if (nums[read] == nums[write - 1]) {
+                continue;
+            }
+            nums[write] = nums[read];
+            write++;
+        }
+        return write; // new length
+    }
+
+    /**
+     * Problem: Move all zeros to end, maintain order of non-zeros
+     * Time: O(n), Space: O(1)
+     * &lt;p&gt;
+     */
+    public static void moveZeroes(int[] nums) {
+        int write = 0;
+        for (int read = 0; read &lt; nums.length; read++) {
+            if (nums[read] == 0) {
+                continue;
+            }
+            nums[write] = nums[read];
+            write++;
+        }
+
+        while (write &lt; nums.length) {
+            nums[write] = 0;
+            write++;
+        }
+    }
+
+    /**
+     * Problem: Partition array - all elements &lt; pivot go left
+     * Time: O(n), Space: O(1)
+     * &lt;p&gt;
+     * &lt;pre&gt;
+     *        [  Condition Met  |  Unmet/Mixed  |  Unprocessed  ]
+     *           0           slow-1 slow          fast          n-1
+     *           ↓             ↓     ↓             ↓             ↓
+     * Array: [  2  1  4  3  0  |  9  8  7  6  5  |  ?  ?  ?  ?  ]
+     *           ↑             ↑                 ↑             ↑
+     *           └─────┬───────┘                 └──────┬──────┘
+     *          Elements ≤ Pivot                 Current Element
+     *          (The "Good" Zone)               Being Evaluated
+     * &lt;/pre&gt;
+     */
+    public static int partition(int[] arr, int pivot) {
+        int wall = 0; // "good zone indices &lt; wall"
+        for (int fast = 0; fast &lt; arr.length; fast++) {
+            if (arr[fast] &gt;= pivot) {
+                continue;
+            }
+
+            int tmp = arr[fast];
+            arr[fast] = arr[wall];
+            arr[wall] = tmp;
+            wall++;
+        }
+
+        return wall; // Replace with implementation
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">public class SameDirectionClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Same Direction Two Pointers ===\n");
+
+        // Test 1: Remove duplicates
+        System.out.println("--- Test 1: Remove Duplicates ---");
+        int[] arr1 = {1, 1, 2, 2, 2, 3, 4, 4, 5};
+        System.out.println("Before: " + Arrays.toString(arr1));
+
+        int newLength = SameDirectionPointers.removeDuplicates(arr1);
+        System.out.println("After:  " + Arrays.toString(Arrays.copyOf(arr1, newLength)));
+        System.out.println("New length: " + newLength);
+
+        // Test 2: Move zeros
+        System.out.println("\n--- Test 2: Move Zeros ---");
+        int[] arr2 = {0, 1, 0, 3, 12, 0, 5};
+        System.out.println("Before: " + Arrays.toString(arr2));
+        SameDirectionPointers.moveZeroes(arr2);
+        System.out.println("After:  " + Arrays.toString(arr2));
+
+        // Test 3: Partition
+        System.out.println("\n--- Test 3: Partition ---");
+        int[] arr3 = {7, 2, 9, 1, 5, 3, 8};
+        int pivot = 5;
+        System.out.println("Before: " + Arrays.toString(arr3));
+        System.out.println("Pivot:  " + pivot);
+
+        int partitionIdx = SameDirectionPointers.partition(arr3, pivot);
+        System.out.println("After:  " + Arrays.toString(arr3));
+        System.out.println("Partition index: " + partitionIdx);
+        System.out.println("(All elements before index " + partitionIdx + " are &lt; " + pivot + ")");
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-3-different-speed-pointers">Pattern 3: Different Speed Pointers<a class="headerlink" href="#pattern-3-different-speed-pointers" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> One pointer moves faster than the other.</p>
+<p><strong>Use case:</strong> Linked list cycle detection, finding middle element.</p>
+<pre class="highlight"><code class="language-java">public class DifferentSpeedPointers {
+
+    // Simple ListNode definition
+    static class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode(int val) {
+            this.val = val;
+        }
+    }
+
+    /**
+     * Problem: Detect cycle in linked list
+     * Time: O(n), Space: O(1)
+     */
+    public static boolean hasCycle(ListNode head) {
+        if (head == null) return false;
+
+        ListNode slow = head;
+        ListNode fast = head;
+
+        while (fast != null) {
+            slow = slow.next;
+            fast = fast.next;
+            if (fast != null) {
+                fast = fast.next;
+            }
+            if (slow == fast) return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Problem: Find middle of linked list
+     * If even length, return second middle node
+     * Time: O(n), Space: O(1)
+     */
+    public static ListNode findMiddle(ListNode head) {
+        // this handles the "rounding up" behavior
+        ListNode sentinel = new ListNode(-1);
+        sentinel.next = head;
+
+        ListNode slow = sentinel;
+        ListNode fast = sentinel;
+
+        while (fast != null) {
+            slow = slow.next;
+            fast = fast.next;
+            if (fast != null) {
+                fast = fast.next;
+            }
+        }
+        return slow ;
+    }
+
+    /**
+     * Problem: Find kth node from end
+     * Time: O(n), Space: O(1)
+     */
+    public static ListNode findKthFromEnd(ListNode head, int k) {
+        if (head == null) throw new IllegalArgumentException();
+        if (k &lt;= 0) throw new IllegalArgumentException();
+
+        ListNode boat = head;
+        for (int i = 0; i &lt;= k; i++) {
+            boat = boat.next;
+        }
+
+        ListNode waterskiier = head;
+        while (boat != null) {
+            boat = boat.next;
+            waterskiier = waterskiier.next;
+        }
+        return waterskiier;
+    }
+
+    // Helper: Create linked list from array
+    static ListNode createList(int[] values) {
+        if (values.length == 0) return null;
+
+        ListNode head = new ListNode(values[0]);
+        ListNode current = head;
+
+        for (int i = 1; i &lt; values.length; i++) {
+            current.next = new ListNode(values[i]);
+            current = current.next;
+        }
+
+        return head;
+    }
+
+    // Helper: Print linked list
+    static void printList(ListNode head) {
+        ListNode current = head;
+        while (current != null) {
+            System.out.print(current.val);
+            if (current.next != null) System.out.print(" -&gt; ");
+            current = current.next;
+        }
+        System.out.println();
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">public class DifferentSpeedClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Different Speed Two Pointers ===\n");
+
+        // Test 1: Cycle detection
+        System.out.println("--- Test 1: Cycle Detection ---");
+
+        // List without cycle: 1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 5
+        ListNode list1 = DifferentSpeedPointers.createList(new int[]{1, 2, 3, 4, 5});
+        System.out.print("List: ");
+        DifferentSpeedPointers.printList(list1);
+        System.out.println("Has cycle: " + DifferentSpeedPointers.hasCycle(list1));
+
+        // List with cycle: 1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 5 -&gt; (back to 3)
+        ListNode list2 = DifferentSpeedPointers.createList(new int[]{1, 2, 3, 4, 5});
+        ListNode node3 = list2.next.next; // Node with value 3
+        ListNode tail = list2.next.next.next.next; // Node with value 5
+        tail.next = node3; // Create cycle
+
+        System.out.println("\nList with cycle (5 -&gt; 3):");
+        System.out.println("Has cycle: " + DifferentSpeedPointers.hasCycle(list2));
+
+        // Test 2: Find middle
+        System.out.println("\n--- Test 2: Find Middle ---");
+        ListNode list3 = DifferentSpeedPointers.createList(new int[]{1, 2, 3, 4, 5});
+        System.out.print("List (odd length): ");
+        DifferentSpeedPointers.printList(list3);
+
+        ListNode middle = DifferentSpeedPointers.findMiddle(list3);
+        System.out.println("Middle value: " + middle.val);
+
+        ListNode list4 = DifferentSpeedPointers.createList(new int[]{1, 2, 3, 4, 5, 6});
+        System.out.print("List (even length): ");
+        DifferentSpeedPointers.printList(list4);
+
+        middle = DifferentSpeedPointers.findMiddle(list4);
+        System.out.println("Middle value: " + middle.val);
+
+        // Test 3: Kth from end
+        System.out.println("\n--- Test 3: Kth From End ---");
+        ListNode list5 = DifferentSpeedPointers.createList(new int[]{1, 2, 3, 4, 5});
+        System.out.print("List: ");
+        DifferentSpeedPointers.printList(list5);
+
+        for (int k = 1; k &lt;= 3; k++) {
+            ListNode kthNode = DifferentSpeedPointers.findKthFromEnd(list5, k);
+            System.out.printf("%dth from end: %d%n", k, kthNode.val);
+        }
+    }
+}</code></pre>
+<hr/>
+<h2 id="debugging-challenges">Debugging Challenges<a class="headerlink" href="#debugging-challenges" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Find and fix bugs in broken implementations. This tests your understanding.</p>
+<h3 id="challenge-1-broken-palindrome-checker">Challenge 1: Broken Palindrome Checker<a class="headerlink" href="#challenge-1-broken-palindrome-checker" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * This code is supposed to check if a string is a palindrome.
+ * It has 1 BUG. Find it!
+ */
+public static boolean isPalindrome_Buggy(String s) {
+    int left = 0;
+    int right = s.length();
+    while (left &lt; right) {
+        if (s.charAt(left) != s.charAt(right)) {
+            return false;
+        }
+        left++;
+        right--;
+    }
+
+    return true;
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>Bug 1: <span class="fill-in"><code>right</code> needs to start at length-1 or charAt will OOBE</span></li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug 1 (Line 7):</strong> <code>right</code> should be <code>s.length() - 1</code>, not <code>s.length()</code>. Array indices are 0-based.</p>
+</details>
+<hr/>
+<h3 id="challenge-2-broken-remove-duplicates">Challenge 2: Broken Remove Duplicates<a class="headerlink" href="#challenge-2-broken-remove-duplicates" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Remove duplicates from sorted array.
+ * This has 1 CRITICAL BUG and 1 EDGE CASE BUG.
+ */
+public static int removeDuplicates_Buggy(int[] nums) {
+    int slow = 0;
+    int fast = 1;
+
+    while (fast &lt; nums.length) {
+        if (nums[fast] != nums[slow]) {
+            nums[slow] = nums[fast];
+            slow++;
+        }
+        fast++;
+    }
+
+    return slow;
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug 1:</strong> <span class="fill-in">the 0th index gets overwritten accidentally</span></li>
+<li>
+<p><strong>Bug 1 fix:</strong> <span class="fill-in">First increment slow pointer then write</span></p>
+</li>
+<li>
+<p><strong>Bug 2:</strong> <span class="fill-in">The length of the fixed array</span></p>
+</li>
+<li><strong>Bug 2 fix:</strong> <span class="fill-in">slow+1</span></li>
+</ul>
+<p><strong>Test case to expose the bug:</strong></p>
+<ul>
+<li>Input: <code>[1, 1, 2, 2, 3]</code></li>
+<li>Expected output: <code>[1, 2, 3, ?, ?]</code> and return length = 3</li>
+<li>Actual output with buggy code: <span class="fill-in">[Trace through manually]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug 1:</strong> Should be <code>slow++</code> BEFORE <code>nums[slow] = nums[fast]</code>. Current code overwrites the unique element before
+advancing.</p>
+<p><strong>Correct:</strong></p>
+<pre class="highlight"><code class="language-java">if (nums[fast] != nums[slow]) {
+    slow++;
+    nums[slow] = nums[fast];
+}</code></pre>
+<p><strong>Bug 2:</strong> Should return <code>slow + 1</code>, not <code>slow</code>. The length is one more than the index.</p>
+</details>
+<hr/>
+<h3 id="challenge-3-broken-cycle-detection">Challenge 3: Broken Cycle Detection<a class="headerlink" href="#challenge-3-broken-cycle-detection" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Detect cycle in linked list.
+ * This has 1 SUBTLE BUG that causes infinite loop.
+ */
+public static boolean hasCycle_Buggy(ListNode head) {
+    if (head == null) return false;
+
+    ListNode slow = head;
+    ListNode fast = head;
+
+    while (fast != null &amp;&amp; fast.next != null) {
+        slow = slow.next;
+        fast = fast.next.next;
+    }
+    if (slow == fast) return true;
+    return false;
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>Bug: <span class="fill-in">slow==fast needs to be inside the loop</span></li>
+</ul>
+<p><strong>Trace through example:</strong></p>
+<ul>
+<li>List with cycle: 1 → 2 → 3 → 4 → 2 (cycle back to 2)</li>
+<li>Expected: <code>true</code></li>
+<li>Actual: <span class="fill-in">[What happens?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> The check <code>if (slow == fast)</code> should be INSIDE the while loop, not after!</p>
+<p><strong>Correct:</strong></p>
+<pre class="highlight"><code class="language-java">while (fast != null &amp;&amp; fast.next != null) {
+    slow = slow.next;
+    fast = fast.next.next;
+
+    if (slow == fast) return true;  // Check inside loop!
+}
+return false;  // No cycle found</code></pre>
+<p><strong>Why:</strong> If there's a cycle, slow and fast will meet inside the loop. Checking after means we exit the loop (which only
+happens when there's NO cycle), so we'd never detect the cycle.</p>
+</details>
+<hr/>
+<h3 id="challenge-4-move-zeroes-logic-error">Challenge 4: Move Zeroes Logic Error<a class="headerlink" href="#challenge-4-move-zeroes-logic-error" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Move all zeros to the end while maintaining order of non-zeros.
+ * This code compiles but produces WRONG output.
+ */
+public static void moveZeroes_Buggy(int[] nums) {
+    int slow = 0;
+
+    for (int fast = 0; fast &lt; nums.length; fast++) {
+        if (nums[fast] != 0) {
+            nums[slow] = nums[fast];
+            slow++;
+        }
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug:</strong> <span class="fill-in">We don't wipe the end of the array afterwards</span></li>
+<li><strong>Example:</strong> Input <code>[0, 1, 0, 3, 12]</code>, output is <span class="fill-in">[1,3,12,3,12]</span></li>
+<li><strong>Expected:</strong> <code>[1, 3, 12, 0, 0]</code></li>
+<li><strong>Actual:</strong> <span class="fill-in">[What do you get?]</span></li>
+<li><strong>Fix:</strong> <span class="fill-in">Wipe with zero's at the end</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> When <code>slow == fast</code>, we're copying a number onto itself. Then we increment slow, leaving the original position
+unchanged. We need to ZERO OUT the original position OR use a swap.</p>
+<p><strong>Fix Option 1 - Use swap:</strong></p>
+<pre class="highlight"><code class="language-java">if (nums[fast] != 0) {
+    // Swap nums[slow] and nums[fast]
+    int temp = nums[slow];
+    nums[slow] = nums[fast];
+    nums[fast] = temp;
+    slow++;
+}</code></pre>
+<p><strong>Fix Option 2 - Zero out after first pass:</strong></p>
+<pre class="highlight"><code class="language-java">// ... existing code ...
+// After the loop, fill remaining with zeros
+for (int i = slow; i &lt; nums.length; i++) {
+    nums[i] = 0;
+}</code></pre>
+</details>
+<hr/>
+<h3 id="your-debugging-scorecard">Your Debugging Scorecard<a class="headerlink" href="#your-debugging-scorecard" title="Permanent link">¶</a></h3>
+<p>After finding and fixing all bugs:</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Found all 6+ bugs across 4 challenges</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understood WHY each bug causes incorrect behavior</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could explain the fix to someone else</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Learned common two-pointer mistakes to avoid</li>
+</ul>
+<p><strong>Common mistakes you discovered:</strong></p>
+<ol>
+<li><span class="fill-in">[List the patterns you noticed]</span></li>
+<li><span class="fill-in">[Fill in]</span></li>
+<li><span class="fill-in">[Fill in]</span></li>
+</ol>
+<hr/>
+<h2 id="decision-framework">Decision Framework<a class="headerlink" href="#decision-framework" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Build decision trees for when to use two pointers.</p>
+<h3 id="question-1-is-the-data-sorted">Question 1: Is the data sorted?<a class="headerlink" href="#question-1-is-the-data-sorted" title="Permanent link">¶</a></h3>
+<p>Answer after solving problems:</p>
+<ul>
+<li><strong>Why does sorting matter?</strong> <span class="fill-in">Two pointers eliminates possibilities - we can only be sure we're
+  not eliminating valid possibilities with sorted input. Sorting establishes a predictable relationship between elements
+  and their positions.</span></li>
+<li><strong>Can two pointers work on unsorted arrays?</strong> <span class="fill-in">Yes but only when the array value is irrelevant,
+  e.g. you're working with linkedlist pointers</span></li>
+</ul>
+<h3 id="question-2-what-are-you-looking-for">Question 2: What are you looking for?<a class="headerlink" href="#question-2-what-are-you-looking-for" title="Permanent link">¶</a></h3>
+<p>Answer for each pattern:</p>
+<p><strong>Opposite direction when:</strong></p>
+<ul>
+<li>Looking for: <span class="fill-in">when you need to consider combinations from both ends of a sorted array</span></li>
+<li>Movement rule: <span class="fill-in">Start at ends, conditionally move one of the pointers in each iter</span></li>
+<li>Example problems: <span class="fill-in">Two Sum (sorted), Valid Palindrome, Container With Most Water, Trapping Rain Water, 3Sum/4Sum variants</span></li>
+</ul>
+<p><strong>Same direction when:</strong></p>
+<ul>
+<li>Looking for: <span class="fill-in">In-place array modification, partitioning (lomuto)</span></li>
+<li>Movement rule: <span class="fill-in">Read and write pointer. <strong><em>Do a write each iteration</em></strong> but conditionally move pointers</span></li>
+<li>Example problems: <span class="fill-in">Remove Duplicates from Sorted Array, Move Zeroes, Remove Element, Partition Array, Sort Colors (Dutch National Flag)</span></li>
+</ul>
+<p><strong>Different speed when:</strong>
+- Looking for: <span class="fill-in">Linked list structural properties</span>
+- Movement rule: <span class="fill-in">Slow moves 1 step per iteration, fast moves 2 steps</span>
+- Example problems: <span class="fill-in">Linked List Cycle I &amp; II, Find Middle of Linked List, Kth Node From End, Happy Number, Reorder List</span></p>
+<h3 id="your-decision-tree">Your Decision Tree<a class="headerlink" href="#your-decision-tree" title="Permanent link">¶</a></h3>
+<p>Build this after solving practice problems:
+<div class="mermaid">flowchart LR
+    Start[["Two Pointers?"]]
+
+    Start --&gt; Q1{Linked List?}
+    Q1 --&gt;|YES| DiffSpeed([Different Speed&lt;br/&gt;cycle, middle, kth])
+
+    Q1 --&gt;|NO| Q2{Goal?}
+
+    Q2 --&gt;|In-place modify&lt;br/&gt;partition, filter| SameDir([Same Direction&lt;br/&gt;slow/fast write/read])
+
+    Q2 --&gt;|Find pairs&lt;br/&gt;palindrome| Q3{Sorted or&lt;br/&gt;sortable?}
+    Q3 --&gt;|YES| OppDir([Opposite Direction&lt;br/&gt;left++, right--])
+    Q3 --&gt;|NO| Other([Use Hash Table])</div></p>
+<hr/>
+<h2 id="practice">Practice<a class="headerlink" href="#practice" title="Permanent link">¶</a></h2>
+<h3 id="leetcode-problems">LeetCode Problems<a class="headerlink" href="#leetcode-problems" title="Permanent link">¶</a></h3>
+<p><strong>Easy (Complete all 3):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/valid-palindrome/">125. Valid Palindrome</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Which one?]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/remove-duplicates-from-sorted-array/">26. Remove Duplicates from Sorted Array</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Which one?]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/move-zeroes/">283. Move Zeroes</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Which one?]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Medium (Complete 2-3):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/3sum/">15. 3Sum</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Extension of which pattern?]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+<li>Mistake made: <span class="fill-in">[Fill in if any]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/container-with-most-water/">11. Container With Most Water</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Which one?]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/">167. Two Sum II</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Which one?]</span></li>
+<li>Comparison to Two Sum I: <span class="fill-in">[How is it different?]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Hard (Optional):</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/trapping-rain-water/">42. Trapping Rain Water</a><ul>
+<li>Pattern: <span class="fill-in">[Which variant?]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+</ul>
+<hr/>
+<h2 id="review-checklist">Review Checklist<a class="headerlink" href="#review-checklist" title="Permanent link">¶</a></h2>
+<p>Before moving to the next topic:</p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Implementation</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Opposite direction: palindrome, two sum, reverse all work</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Same direction: remove duplicates, move zeros, partition all work</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Different speed: cycle detection, find middle, kth from end all work</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> All client code runs successfully</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Pattern Recognition</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can identify which pattern to use for new problems</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand when each pattern applies</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Know the movement rules for each variant</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Problem Solving</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Solved 3 easy problems</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Solved 2-3 medium problems</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Analyzed time/space complexity</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Understanding</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Filled in all ELI5 explanations</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Built decision tree</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Identified when NOT to use two pointers</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can explain trade-offs vs other approaches</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Mastery Check</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could implement all patterns from memory</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could recognize pattern in new problem</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could explain to someone else</li>
+</ul>
+</li>
+</ul>
+<hr/>
+<h3 id="mastery-certification">Mastery Certification<a class="headerlink" href="#mastery-certification" title="Permanent link">¶</a></h3>
+<p><strong>I certify that I can:</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Implement all three two-pointer patterns from memory</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Explain when and why to use each pattern</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Identify the correct pattern for new problems</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Analyze time and space complexity</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Compare trade-offs with alternative approaches</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Debug common two-pointer mistakes</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Teach this concept to someone else</li>
+</ul></div>
+</div>
+<footer class="col-md-12 text-center">
+<hr/>
+<p>
+<small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+</p>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../../js/bootstrap-3.0.3.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>var base_url = "../.."</script>
+<script src="../../js/base.js"></script>
+<script src="../../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<button class="close" data-dismiss="modal" type="button">
+<span aria-hidden="true">×</span>
+<span class="sr-only">Close</span>
+</button>
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+</div>
+<div class="modal-body">
+<p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="text"/>
+</div>
+</form>
+<div id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@10.4.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>

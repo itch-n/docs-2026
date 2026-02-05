@@ -1,0 +1,2527 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="A framework for algorithms, systems design, and infrastructure." name="description"/>
+<meta content="Richard" name="author"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>01. Storage Engines - Software Engineering Study Guide</title>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" rel="stylesheet"/>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css" rel="stylesheet"/>
+<link href="//rsms.me/inter/inter.css" rel="stylesheet" type="text/css"/>
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&amp;subset=latin-ext,latin" rel="stylesheet" type="text/css"/>
+<link href="../../css/bootstrap-custom.min.css" rel="stylesheet"/>
+<link href="../../css/base.min.css" rel="stylesheet"/>
+<link href="../../css/cinder.min.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css" rel="stylesheet"/>
+<link href="../../css/custom.css" rel="stylesheet"/>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="container">
+<!-- Collapsed navigation -->
+<div class="navbar-header">
+<!-- Expander button -->
+<button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<!-- Main title -->
+<a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+</div>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li>
+<a href="../..">Home</a>
+</li>
+<li class="dropdown active">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Systems Design <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li class="active">
+<a href="./">01. Storage Engines</a>
+</li>
+<li>
+<a href="../02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+<li>
+<a href="../03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+<li>
+<a href="../04-search-and-indexing/">04. Search &amp; Indexing</a>
+</li>
+<li>
+<a href="../05-caching-patterns/">05. Caching Patterns</a>
+</li>
+<li>
+<a href="../06-api-design/">06. API Design</a>
+</li>
+<li>
+<a href="../07-security-patterns/">07. Security Patterns</a>
+</li>
+<li>
+<a href="../08-rate-limiting/">08. Rate Limiting</a>
+</li>
+<li>
+<a href="../09-load-balancing/">09. Load Balancing</a>
+</li>
+<li>
+<a href="../10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+<li>
+<a href="../11-database-scaling/">11. Database Scaling</a>
+</li>
+<li>
+<a href="../12-message-queues/">12. Message Queues</a>
+</li>
+<li>
+<a href="../13-stream-processing/">13. Stream Processing</a>
+</li>
+<li>
+<a href="../14-observability/">14. Observability</a>
+</li>
+<li>
+<a href="../15-distributed-transactions/">15. Distributed Transactions</a>
+</li>
+<li>
+<a href="../16-consensus-patterns/">16. Consensus Patterns</a>
+</li>
+</ul>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">DSA <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../dsa/01-two-pointers/">01. Two Pointers</a>
+</li>
+<li>
+<a href="../../dsa/02-sliding-window/">02. Sliding Window</a>
+</li>
+<li>
+<a href="../../dsa/03-hash-tables/">03. Hash Tables</a>
+</li>
+<li>
+<a href="../../dsa/04-linked-lists/">04. Linked Lists</a>
+</li>
+<li>
+<a href="../../dsa/05-stacks--queues/">05. Stacks &amp; Queues</a>
+</li>
+<li>
+<a href="../../dsa/06-trees-traversals/">06. Trees - Traversals</a>
+</li>
+<li>
+<a href="../../dsa/07-trees-recursion/">07. Trees - Recursion</a>
+</li>
+<li>
+<a href="../../dsa/08-binary-search/">08. Binary Search</a>
+</li>
+<li>
+<a href="../../dsa/09-heaps/">09. Heaps</a>
+</li>
+<li>
+<a href="../../dsa/10-graphs/">10. Graphs</a>
+</li>
+<li>
+<a href="../../dsa/11-union-find/">11. Union-Find</a>
+</li>
+<li>
+<a href="../../dsa/12-advanced-graphs/">12. Advanced Graphs</a>
+</li>
+<li>
+<a href="../../dsa/13-backtracking/">13. Backtracking</a>
+</li>
+<li>
+<a href="../../dsa/14-dynamic-programming-1d/">14. Dynamic Programming 1D</a>
+</li>
+<li>
+<a href="../../dsa/15-dynamic-programming-2d/">15. Dynamic Programming 2D</a>
+</li>
+<li>
+<a href="../../dsa/16-tries/">16. Tries</a>
+</li>
+<li>
+<a href="../../dsa/17-advanced-topics/">17. Advanced Topics</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+<a data-target="#mkdocs_search_modal" data-toggle="modal" href="#">
+<i class="fas fa-search"></i> Search
+                        </a>
+</li>
+<li>
+<a href="../.." rel="prev">
+<i class="fas fa-arrow-left"></i> Previous
+                        </a>
+</li>
+<li>
+<a href="../02-row-vs-column-storage/" rel="next">
+                            Next <i class="fas fa-arrow-right"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+<ul class="nav bs-sidenav">
+<li class="first-level active"><a href="#storage-engines">Storage Engines</a></li>
+<li class="second-level"><a href="#important-notes">Important notes</a></li>
+<li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+<li class="second-level"><a href="#quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)</a></li>
+<li class="second-level"><a href="#beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters</a></li>
+<li class="second-level"><a href="#case-studies-storage-engines-in-the-wild">Case Studies: Storage Engines in the Wild</a></li>
+<li class="second-level"><a href="#core-implementation">Core Implementation</a></li>
+<li class="second-level"><a href="#debugging-challenges">Debugging Challenges</a></li>
+<li class="second-level"><a href="#decision-framework">Decision Framework</a></li>
+<li class="second-level"><a href="#practice">Practice</a></li>
+<li class="second-level"><a href="#review-checklist">Review Checklist</a></li>
+<li class="first-level"><a href="#appendix-the-historical-evolution-from-first-principles">APPENDIX: The Historical Evolution - From First Principles</a></li>
+<li class="second-level"><a href="#the-historical-truth">The Historical Truth</a></li>
+<li class="second-level"><a href="#the-evolution-starting-from-absolute-zero">The Evolution: Starting from Absolute Zero</a></li>
+<li class="second-level"><a href="#the-problem-that-necessitated-lsm-trees">The Problem That Necessitated LSM Trees</a></li>
+<li class="second-level"><a href="#first-principles-lsm-tree">First Principles → LSM Tree</a></li>
+<li class="second-level"><a href="#where-wal-write-ahead-log-fits">Where WAL (Write-Ahead Log) Fits</a></li>
+<li class="second-level"><a href="#in-memory-storage-engines-redis-memcached">In-Memory Storage Engines (Redis, Memcached)</a></li>
+<li class="second-level"><a href="#complete-comparison-table">Complete Comparison Table</a></li>
+<li class="second-level"><a href="#the-complete-historical-sequence">The Complete Historical Sequence</a></li>
+<li class="second-level"><a href="#key-takeaways">Key Takeaways</a></li>
+<li class="second-level"><a href="#real-world-examples">Real-World Examples</a></li>
+</ul>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="storage-engines">Storage Engines<a class="headerlink" href="#storage-engines" title="Permanent link">¶</a></h1>
+<blockquote>
+<p>B+Trees vs LSM Trees - The foundation of all database decisions</p>
+</blockquote>
+<hr/>
+<h2 id="important-notes">Important notes<a class="headerlink" href="#important-notes" title="Permanent link">¶</a></h2>
+<ul>
+<li>B+Trees<ul>
+<li>Leaf nodes have equal keys and values, Internal nodes have one extra value since keys are signposts (or "
+  bouncers"). Their split logic diffs slightly as a result.</li>
+</ul>
+</li>
+<li>LSM Trees<ul>
+<li>Writes are more efficient due to batched sequential writes to SSTables, reducing write amplification ~100x
+  compared to B+Trees (which rewrite entire 4KB pages per insert, even if inserting just 10B)</li>
+</ul>
+</li>
+</ul>
+<pre class="highlight"><code class="language-java">// Binary search result is tricky
+// When not found: `result = -insertionPoint - 1`
+// and extraction is: `insertionPoint = -result - 1`
+int result = Collections.binarySearch(List.of("a", "b"), "c");
+if (result &gt; 0) {
+    int foundIndex = result;
+} else {
+    int insertionPoint = -result - 1;
+}</code></pre>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After implementing and testing both storage engines, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What is a B+Tree in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">A read-optimised data structure enabling fast lookups (N-ary tree) and range
+  queries (linked leaves) by trading off slower writes (random disk access)</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Why do databases use B+Trees?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">It enables fast point and range queries</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy for B+Tree:</strong></p>
+<ul>
+<li>Your analogy: <span class="fill-in">A B+Tree is like a library - you organise your books into shelves, bays, and
+  stacks. It's fast to find your book but it takes longer to reshelve since you have to randomly walk around</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What is an LSM Tree in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">A write-optimised data structure enabling fast writes (memtable, sstable merge,
+  sequential disk access) by trading off slow reads (sstable iteration)</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Why do write-heavy databases use LSM Trees?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">To avoid B+Trees' random write bottleneck at high volume</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy for LSM Tree:</strong></p>
+<ul>
+<li>Your analogy: <span class="fill-in">An LSM Tree is like a 2nd hand bookstore - you sort a few donations, box them
+  and put them in the back. You can accept lots of books quickly but finding means searching heaps of boxes</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr/>
+<h2 id="quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)<a class="headerlink" href="#quick-quiz-do-before-implementing" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Test your intuition without looking at code. Answer these, then verify after implementation.</p>
+<h3 id="complexity-predictions">Complexity Predictions<a class="headerlink" href="#complexity-predictions" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p><strong>B+Tree insert operation:</strong></p>
+<ul>
+<li>Time complexity: <span class="fill-in">O(log(n))</span></li>
+<li>Verified after implementation: <span class="fill-in">O(log(n))</span></li>
+</ul>
+</li>
+<li>
+<p><strong>LSM Tree write operation (to MemTable):</strong></p>
+<ul>
+<li>Time complexity: <span class="fill-in">O(log(n))</span></li>
+<li>Space complexity: <span class="fill-in">O(1)</span></li>
+<li>Verified: <span class="fill-in">Time O(1) - technically O(log(memtable_height)) but height is fixed. Space O(levels)</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Performance calculation:</strong></p>
+<ul>
+<li>For 100,000 writes, B+Tree = <span class="fill-in">1,000,000</span> operations (if log base is 10)</li>
+<li>For 100,000 writes, LSM Tree = <span class="fill-in">200,000</span> operations (before flush)</li>
+<li>Speedup factor for writes: LSM is approximately <span class="fill-in">5</span> times faster</li>
+</ul>
+</li>
+</ol>
+<h3 id="scenario-predictions">Scenario Predictions<a class="headerlink" href="#scenario-predictions" title="Permanent link">¶</a></h3>
+<p><strong>Scenario 1:</strong> Time-series metrics database (1M writes/second, rare reads)</p>
+<ul>
+<li><strong>Best storage engine?</strong> <span class="fill-in">LSM Tree</span></li>
+<li><strong>Key consideration:</strong> <span class="fill-in">Write amplification</span></li>
+<li><strong>Why this choice?</strong> <span class="fill-in">LSM's are better at writes I guess</span></li>
+</ul>
+<p><strong>Scenario 2:</strong> E-commerce inventory system (100k reads/sec, 5k writes/sec)</p>
+<ul>
+<li><strong>Best storage engine?</strong> <span class="fill-in">B+Tree</span></li>
+<li><strong>What pattern benefits most?</strong> <span class="fill-in">Point lookups</span></li>
+</ul>
+<p><strong>Scenario 3:</strong> Social media analytics (read historical posts by date range)</p>
+<ul>
+<li><strong>Which handles range queries better?</strong> <span class="fill-in">B+Tree</span></li>
+<li><strong>Key data structure feature:</strong> <span class="fill-in">Linked leaves</span></li>
+</ul>
+<h3 id="trade-off-quiz">Trade-off Quiz<a class="headerlink" href="#trade-off-quiz" title="Permanent link">¶</a></h3>
+<p><strong>Question:</strong> When would B+Tree be BETTER than LSM Tree despite slower writes?</p>
+<ul>
+<li>Your answer: <span class="fill-in">When you need range queries?</span></li>
+<li>Verified answer: <span class="fill-in">High read ratio</span></li>
+</ul>
+<p><strong>Question:</strong> What's the MAIN advantage of LSM Trees for writes?</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> No tree balancing required on each write</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Better space efficiency</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Faster range queries</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Lower read amplification</li>
+</ul>
+<p>Verify after implementation: <span class="fill-in">Yes no tree balancing</span></p>
+<p><strong>Question:</strong> What happens if you never compact an LSM Tree?</p>
+<ul>
+<li>Your prediction: <span class="fill-in">Fragmentation or something</span></li>
+<li>Verified: <span class="fill-in">Reads slow to a crawl</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters<a class="headerlink" href="#beforeafter-why-this-pattern-matters" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Compare naive vs optimized storage approaches to understand the trade-offs.</p>
+<h3 id="example-write-heavy-workload">Example: Write-Heavy Workload<a class="headerlink" href="#example-write-heavy-workload" title="Permanent link">¶</a></h3>
+<p><strong>Problem:</strong> Insert 10,000 key-value pairs as quickly as possible.</p>
+<h4 id="approach-1-btree-immediate-persistence">Approach 1: B+Tree (Immediate Persistence)<a class="headerlink" href="#approach-1-btree-immediate-persistence" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Every write requires tree traversal and potential rebalancing
+BPlusTree&lt;Integer, String&gt; btree = new BPlusTree&lt;&gt;(128);
+
+long start = System.nanoTime();
+for (int i = 0; i &lt; 10000; i++) {
+    btree.insert(i, "Value" + i);  // Each insert: O(log N)
+    // Must traverse tree from root to leaf
+    // May trigger node splits (expensive)
+    // Must maintain tree balance property
+}
+long duration = System.nanoTime() - start;</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(N log N) - Each insert is O(log N)</li>
+<li>Space: O(N) - Tree structure overhead</li>
+<li>For 10,000 inserts: ~10,000 * log(10,000) = ~130,000 operations</li>
+<li>Write amplification: High (each insert may split nodes, update parent pointers)</li>
+</ul>
+<h4 id="approach-2-lsm-tree-buffered-writes">Approach 2: LSM Tree (Buffered Writes)<a class="headerlink" href="#approach-2-lsm-tree-buffered-writes" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Writes go to in-memory MemTable (just a TreeMap insert)
+LSMTree&lt;Integer, String&gt; lsm = new LSMTree&lt;&gt;(100);
+
+long start = System.nanoTime();
+for (int i = 0; i &lt; 10000; i++) {
+    lsm.put(i, "Value" + i);  // Each put: O(log M), M = memTable size
+    // Only updates in-memory TreeMap
+    // Occasional flush to disk (batched)
+}
+long duration = System.nanoTime() - start;</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(N log M) where M &lt;&lt; N (M = MemTable size)</li>
+<li>Space: O(N) - Eventually flushes to SSTables</li>
+<li>For 10,000 inserts: ~10,000 * log(100) = ~20,000 operations</li>
+<li>Write amplification: Lower (batch writes to disk)</li>
+</ul>
+<h4 id="performance-comparison">Performance Comparison<a class="headerlink" href="#performance-comparison" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>Operation Count</th>
+<th>B+Tree (O(N log N))</th>
+<th>LSM Tree (O(N log M))</th>
+<th>LSM Advantage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N = 1,000</td>
+<td>~10,000 ops</td>
+<td>~2,000 ops</td>
+<td>5x faster</td>
+</tr>
+<tr>
+<td>N = 10,000</td>
+<td>~130,000 ops</td>
+<td>~20,000 ops</td>
+<td>6.5x faster</td>
+</tr>
+<tr>
+<td>N = 100,000</td>
+<td>~1,700,000 ops</td>
+<td>~200,000 ops</td>
+<td>8.5x faster</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Your calculation:</strong> For N = 50,000 writes, LSM Tree is approximately <em>7</em> times faster.</p>
+<h4 id="why-does-lsm-win-for-writes">Why Does LSM Win for Writes?<a class="headerlink" href="#why-does-lsm-win-for-writes" title="Permanent link">¶</a></h4>
+<p><strong>Key insight to understand:</strong></p>
+<p>B+Tree: Every insert = tree traversal + potential split</p>
+<pre class="highlight"><code>Insert key=50:
+
+1. Traverse root → internal → leaf (3 disk seeks)
+2. Insert in leaf (sorted position)
+3. If leaf full, split node (expensive)
+4. Update parent pointers (more writes)
+Result: 1 logical write = 4-5 physical writes (write amplification!)</code></pre>
+<p>LSM Tree: Batched sequential writes</p>
+<pre class="highlight"><code>Insert key=50:
+
+1. Insert into MemTable (in-memory TreeMap)
+2. When MemTable full, flush entire batch to SSTable
+3. Sequential write to disk (very fast)
+Result: 1 logical write = 1 in-memory write (occasionally batched to disk)</code></pre>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>Why does B+Tree require more writes per operation? <span class="fill-in">[Your answer]</span></li>
+<li>How does LSM Tree achieve better write throughput? <span class="fill-in">[Your answer]</span></li>
+<li>What's the trade-off for read performance? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr/>
+<h3 id="example-read-heavy-workload">Example: Read-Heavy Workload<a class="headerlink" href="#example-read-heavy-workload" title="Permanent link">¶</a></h3>
+<p><strong>Problem:</strong> Perform 1,000 random lookups after loading 10,000 records.</p>
+<h4 id="approach-1-btree-single-location-read">Approach 1: B+Tree (Single Location Read)<a class="headerlink" href="#approach-1-btree-single-location-read" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">BPlusTree&lt;Integer, String&gt; btree = new BPlusTree&lt;&gt;(128);
+// Load data...
+
+long start = System.nanoTime();
+for (int i = 0; i &lt; 1000; i++) {
+    int key = random.nextInt(10000);
+    String value = btree.search(key);  // Single tree traversal: O(log N)
+    // Root → Internal → Leaf (3-4 hops)
+}
+long duration = System.nanoTime() - start;</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(log N) per read</li>
+<li>For 1,000 reads: ~1,000 * log(10,000) = ~13,000 operations</li>
+<li>Read amplification: Low (single path through tree)</li>
+</ul>
+<h4 id="approach-2-lsm-tree-multiple-location-read">Approach 2: LSM Tree (Multiple Location Read)<a class="headerlink" href="#approach-2-lsm-tree-multiple-location-read" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">LSMTree&lt;Integer, String&gt; lsm = new LSMTree&lt;&gt;(100);
+// Load data... (creates multiple SSTables)
+
+long start = System.nanoTime();
+for (int i = 0; i &lt; 1000; i++) {
+    int key = random.nextInt(10000);
+    String value = lsm.get(key);  // Check MemTable + all SSTables
+    // Must check MemTable (O(log M))
+    // Then check SSTable-5 (O(log S))
+    // Then check SSTable-4 (O(log S))
+    // ... continue until found
+}
+long duration = System.nanoTime() - start;</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(log M + K * log S) where K = number of SSTables</li>
+<li>For 1,000 reads with 10 SSTables: ~1,000 * (10 * log(1000)) = ~100,000 operations</li>
+<li>Read amplification: High (must check multiple locations)</li>
+</ul>
+<h4 id="performance-comparison_1">Performance Comparison<a class="headerlink" href="#performance-comparison_1" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>SSTable Count</th>
+<th>B+Tree (O(log N))</th>
+<th>LSM Tree (O(K * log S))</th>
+<th>B+Tree Advantage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>K = 1</td>
+<td>~13 ops/read</td>
+<td>~13 ops/read</td>
+<td>~1x (equal)</td>
+</tr>
+<tr>
+<td>K = 5</td>
+<td>~13 ops/read</td>
+<td>~65 ops/read</td>
+<td>5x faster</td>
+</tr>
+<tr>
+<td>K = 10</td>
+<td>~13 ops/read</td>
+<td>~130 ops/read</td>
+<td>10x faster</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Your calculation:</strong> With 20 SSTables, B+Tree is approximately <em>20</em> times faster for reads.</p>
+<p><strong>Key insight:</strong> This is why LSM Trees need <strong>compaction</strong> - to reduce SSTable count!</p>
+<p><strong>After benchmarking, fill in:</strong></p>
+<div class="learner-section">
+<ul>
+<li>What happens to LSM read performance as SSTables accumulate? <span class="fill-in">[Your answer]</span></li>
+<li>Why doesn't B+Tree have this problem? <span class="fill-in">[Your answer]</span></li>
+<li>How does compaction help LSM Trees? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="case-studies-storage-engines-in-the-wild">Case Studies: Storage Engines in the Wild<a class="headerlink" href="#case-studies-storage-engines-in-the-wild" title="Permanent link">¶</a></h2>
+<h3 id="mysql-innodb-the-btree-workhorse">MySQL (InnoDB): The B+Tree Workhorse<a class="headerlink" href="#mysql-innodb-the-btree-workhorse" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Engine:</strong> InnoDB, the default storage engine for MySQL.</li>
+<li><strong>Pattern:</strong> B+Tree.</li>
+<li><strong>How it works:</strong> InnoDB uses a B+Tree for its primary key index, which is a <strong>clustered index</strong>. This means the table
+  data itself is stored in the leaf nodes of the B+Tree, physically ordered by the primary key. This makes primary key
+  lookups and range scans extremely fast.</li>
+<li><strong>Key Takeaway:</strong> B+Trees are the default choice for general-purpose OLTP databases like MySQL that require strong
+  consistency, fast point lookups, and efficient range queries (e.g., fetching users in a specific ID range). The
+  trade-off is higher write amplification, as in-place updates can cause page splits.</li>
+</ul>
+<h3 id="apache-cassandra-lsm-trees-for-write-heavy-scale">Apache Cassandra: LSM Trees for Write-Heavy Scale<a class="headerlink" href="#apache-cassandra-lsm-trees-for-write-heavy-scale" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Engine:</strong> Apache Cassandra.</li>
+<li><strong>Pattern:</strong> Log-Structured Merge-Tree (LSM Tree).</li>
+<li><strong>How it works:</strong> Writes are first appended to a commit log and then written to an in-memory <code>memtable</code>. When the
+  <code>memtable</code> is full, it's flushed to disk as an immutable <code>SSTable</code>. Reads must check the <code>memtable</code> and potentially
+  multiple <code>SSTables</code>. Compaction processes merge <code>SSTables</code> in the background to improve read performance.</li>
+<li><strong>Key Takeaway:</strong> Cassandra is built for massive write throughput and high availability. By turning random writes into
+  sequential appends, LSM Trees are perfect for write-heavy workloads like time-series data, IoT metrics, and logging
+  systems, at the cost of higher read latency and eventual consistency.</li>
+</ul>
+<h3 id="rocksdb-the-embedded-lsm-engine">RocksDB: The Embedded LSM Engine<a class="headerlink" href="#rocksdb-the-embedded-lsm-engine" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Engine:</strong> RocksDB, an embeddable key-value store developed by Facebook.</li>
+<li><strong>Pattern:</strong> LSM Tree.</li>
+<li><strong>How it works:</strong> RocksDB provides an LSM-based storage engine library that other databases can build on top of. It
+  manages <code>memtables</code>, <code>SSTables</code>, and compaction, offering tunable performance for different workloads.</li>
+<li><strong>Key Takeaway:</strong> The LSM Tree pattern is so powerful that it's used as a foundational component in many modern
+  distributed databases like CockroachDB, TiDB, and YugabyteDB. It provides a robust, high-performance engine for
+  handling state in a distributed environment.</li>
+</ul>
+<hr/>
+<h2 id="core-implementation">Core Implementation<a class="headerlink" href="#core-implementation" title="Permanent link">¶</a></h2>
+<h3 id="part-1-btree">Part 1: B+Tree<a class="headerlink" href="#part-1-btree" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement a simplified in-memory B+Tree.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+/**
+ * B+Tree: Self-balancing tree optimized for range queries
+ *
+ * Properties:
+ * - All values stored in leaf nodes
+ * - Leaves are linked (for range scans)
+ * - Height kept minimal
+ * - Order K: max K keys per node
+ */
+public class BPlusTree&lt;K extends Comparable&lt;K&gt;, V&gt; {
+
+    private final int order; // Max keys per node (e.g., 4)
+    private Node root;
+
+    // Base node class
+    abstract class Node {
+        List&lt;K&gt; keys = new ArrayList&lt;&gt;(order);
+        Node parent;
+    }
+
+    /**
+     * Represents an internal node (hallway) that directs keys to the correct leaf (room).
+     * &lt;h3&gt;The Club Analogy&lt;/h3&gt;
+     * Think of this node as a hallway with "Bouncers" (Keys) and "Rooms" (Children).
+     * &lt;ul&gt;
+     * &lt;li&gt;&lt;b&gt;Bouncers (keys):&lt;/b&gt; Set the age limit for the room to their right.&lt;/li&gt;
+     * &lt;li&gt;&lt;b&gt;Rooms (children):&lt;/b&gt; There is always one more room than there are bouncers.&lt;/li&gt;
+     * &lt;/ul&gt;
+     * &lt;pre&gt;
+     *         (18)                 (21)             (50)
+     *     [ Bouncer 0 ]       [ Bouncer 1 ]     [ Bouncer 2 ]
+     *    /             \     /           \     /         \
+     * [ Room 0 ]       [ Room 1 ]       [ Room 2 ]       [ Room 3 ]
+     * (Kids)           (18+ Only)       (21+ Only)       (50+ Only)
+     * &lt;/pre&gt;
+     * &lt;h3&gt;Navigation via Binary Search&lt;/h3&gt;
+     * To find the correct room index, we look for the &lt;b&gt;first bouncer strictly greater&lt;/b&gt;
+     * than our search key.
+     * &lt;p&gt;Using {@link java.util.Collections#binarySearch(List, Object)}:&lt;/p&gt;
+     * &lt;ul&gt;
+     * &lt;li&gt;If an exact match is found (index {@code i}): You are equal to the bouncer.
+     * Per the "inclusive-right" rule, you move to the room to their right: {@code i + 1}.&lt;/li&gt;
+     * &lt;li&gt;If no match is found: The method returns {@code -(insertionPoint + 1)}.
+     * The {@code insertionPoint} is the index of the first bouncer strictly greater
+     * than you. You belong in the room at that same index.&lt;/li&gt;
+     * &lt;/ul&gt;
+     */
+    class InternalNode extends Node {
+        List&lt;Node&gt; children = new ArrayList&lt;&gt;(order);
+    }
+
+    // Leaf nodes: have values, no children, linked to prev and next leaf
+    class LeafNode extends Node {
+        List&lt;V&gt; values = new ArrayList&lt;&gt;(order);
+        LeafNode next; // For range scans
+    }
+
+    public BPlusTree(int order) {
+        this.order = order;
+        this.root = new LeafNode();
+    }
+
+    /**
+     * Insert key-value pair
+     * Time: O(log N)
+     *
+     * &lt;pre&gt;
+     * 1. Find correct leaf node
+     * 2. Insert in sorted position
+     * 3. If leaf overflows, split it
+     * 4. Propagate split up the tree
+     * &lt;/pre&gt;
+     */
+    public void insert(K key, V value) {
+        // Start by finding the leaf
+        LeafNode leaf = findLeaf(key);
+
+        int result = Collections.binarySearch(leaf.keys, key);
+        if (result &gt;= 0) { // key exists, overwrite data
+            int existingKeyIndex = result;
+            leaf.values.set(existingKeyIndex, value);
+            return;
+        }
+
+        int insertionIndex = -result - 1;
+        leaf.keys.add(insertionIndex, key);
+        leaf.values.add(insertionIndex, value);
+
+        // If full, split the leaf, then potentially split up index nodes if they're too full
+        if (leaf.keys.size() &gt; order) {
+            splitLeaf(leaf);
+            if (leaf == root) {
+                root = leaf.parent;
+            }
+
+            // leaf split may have split the parent, so recursively split up
+            InternalNode parent = (InternalNode) leaf.parent;
+            while (parent != null &amp;&amp; parent.keys.size() &gt; order) {
+                splitInternal(parent);
+
+                // If you just split the root and created a new root, update this class state
+                if (parent == root) {
+                    root = parent.parent;
+                }
+                parent = (InternalNode) parent.parent;
+            }
+        }
+    }
+
+    /**
+     * Search for a key
+     * Time: O(log N)
+     * &lt;p&gt;
+     * 1. Start at root
+     * 2. At each internal node, find correct child
+     * 3. At leaf, search for key
+     */
+    public V search(K key) {
+        LeafNode leaf = findLeaf(key);
+        int result = Collections.binarySearch(leaf.keys, key);
+        if (result &lt; 0) {
+            return null;
+        }
+        return leaf.values.get(result);
+    }
+
+    /**
+     * Range query: all values where startKey &lt;= key &lt;= endKey
+     * Time: O(log N + results)
+     * &lt;p&gt;
+     * 1. Find leaf containing startKey
+     * 2. Follow leaf.next pointers
+     * 3. Collect values until endKey
+     */
+    public List&lt;V&gt; rangeQuery(K startKey, K endKey) {
+        List&lt;V&gt; results = new ArrayList&lt;&gt;();
+        LeafNode leaf = findLeaf(startKey);
+
+        while (leaf != null) {
+            for (int i = 0; i &lt; leaf.keys.size(); i++) {
+                K key = leaf.keys.get(i);
+
+                if (key.compareTo(endKey) &gt; 0) return results;  // Past end
+                if (key.compareTo(startKey) &gt;= 0) {             // In range
+                    results.add(leaf.values.get(i));
+                }
+            }
+            leaf = leaf.next;
+        }
+
+        return results;
+    }
+
+    /**
+     * Helper: Find the leaf node where key should be
+     */
+    private LeafNode findLeaf(K key) {
+        Node current = root;
+
+        // At each internal node, pick the correct child
+        // Stop when you reach a leaf
+
+        while (current instanceof InternalNode internalNode) {
+            int result = Collections.binarySearch(internalNode.keys, key);
+
+            // special java binary search return logic
+            int childIndex;
+            if (result &lt; 0) {
+                // Not found - happy case!
+                /*
+                Given [10,100,1000]
+                5 has an insertionIndex of 0
+                50 has an insertionIndex of 1
+                500 has an insertionIndex of 2
+                5000 has an insertionIndex of 3
+
+                Which is the same as the b+tree child index!
+                 */
+                int insertionIndex = -result - 1;
+                childIndex = insertionIndex;
+            } else {
+                // Found - OOBE case
+                /*
+                Given [10,100,1000]
+                100 will be found at key index 1.
+                But because of the way b+trees work,
+                we know this key resides in child index 2
+                 */
+                childIndex = result + 1;
+            }
+            current = internalNode.children.get(childIndex);
+        }
+
+        return (LeafNode) current;
+    }
+
+    /**
+     * Helper: Split a full leaf node
+     * and add to the parent (creating a new parent if necessary)
+     */
+    private void splitLeaf(LeafNode leaf) {
+        // Build the new node and update pointers of siblings
+        int splitIndex = leaf.keys.size() / 2;
+        LeafNode newRightLeaf = new LeafNode();
+        newRightLeaf.keys.addAll(leaf.keys.subList(splitIndex, leaf.keys.size()));
+        newRightLeaf.values.addAll(leaf.values.subList(splitIndex, leaf.values.size()));
+        newRightLeaf.next = leaf.next;
+        leaf.next = newRightLeaf;
+
+        // Insert into parent
+        K promotedKey = leaf.keys.get(splitIndex);
+        insertIntoParent(leaf, promotedKey, newRightLeaf);
+
+        // Clean up old node
+        leaf.keys.subList(splitIndex, leaf.keys.size()).clear();
+        leaf.values.subList(splitIndex, leaf.values.size()).clear();
+    }
+
+    /**
+     * Helper: Split a full internal node
+     * and add to the parent (creating a new parent if necessary)
+     */
+    private void splitInternal(InternalNode node) {
+        // Build the new node and update pointers of its children
+        int promotedKeyIndex = node.keys.size() / 2;
+        InternalNode newRightNode = new InternalNode();
+        newRightNode.keys.addAll(node.keys.subList(promotedKeyIndex + 1, node.keys.size()));
+        newRightNode.children.addAll(node.children.subList(promotedKeyIndex + 1, node.children.size()));
+        for (Node child : newRightNode.children) {
+            child.parent = newRightNode;
+        }
+
+        // Insert into parent
+        K promotedKey = node.keys.get(promotedKeyIndex);
+        insertIntoParent(node, promotedKey, newRightNode);
+
+        // Clean up old node
+        node.keys.subList(promotedKeyIndex, node.keys.size()).clear();
+        node.children.subList(promotedKeyIndex + 1, node.children.size()).clear();
+    }
+
+    /**
+     * Helper: Insert promoted key and right child into parent node
+     * Creates new parent if necessary
+     */
+    private void insertIntoParent(Node leftNode, K promotedKey, Node rightNode) {
+        InternalNode parent = (InternalNode) leftNode.parent;
+
+        // Ensure parent exists
+        if (parent == null) {
+            parent = new InternalNode();
+            leftNode.parent = parent;
+            parent.children.add(leftNode);
+        }
+
+        // Insert promoted key and new right child
+        rightNode.parent = parent;
+        int keyInsertionPoint = -Collections.binarySearch(parent.keys, promotedKey) - 1;
+        parent.keys.add(keyInsertionPoint, promotedKey);
+        parent.children.add(keyInsertionPoint + 1, rightNode);
+    }
+
+    /**
+     * Print tree structure (for debugging)
+     */
+    public void printTree() {
+        printNode(root, 0);
+    }
+
+    private void printNode(Node node, int level) {
+        String indent = "  ".repeat(level);
+        System.out.println(indent + "Level " + level + ": " + node.keys);
+
+        if (node instanceof InternalNode internal) {
+            for (Node child : internal.children) {
+                printNode(child, level + 1);
+            }
+        }
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">public class BPlusTreeClient {
+
+    public static void main(String[] args) {
+        // Create B+Tree with order 4 (max 4 keys per node)
+        BPlusTree&lt;Integer, String&gt; tree = new BPlusTree&lt;&gt;(4);
+
+        System.out.println("=== B+Tree Demo ===\n");
+
+        // Test 1: Sequential inserts
+        System.out.println("Inserting keys 1-20...");
+        for (int i = 1; i &lt;= 20; i++) {
+            tree.insert(i, "Value" + i);
+        }
+
+        System.out.println("\nTree structure:");
+        tree.printTree();
+
+        // Test 2: Point lookups
+        System.out.println("\n--- Point Lookups ---");
+        System.out.println("Search(10): " + tree.search(10));
+        System.out.println("Search(15): " + tree.search(15));
+        System.out.println("Search(100): " + tree.search(100)); // Not found
+
+        // Test 3: Range queries
+        System.out.println("\n--- Range Queries ---");
+        List&lt;String&gt; range = tree.rangeQuery(5, 10);
+        System.out.println("Range [5, 10]: " + range);
+
+        range = tree.rangeQuery(15, 18);
+        System.out.println("Range [15, 18]: " + range);
+
+        // Test 4: Random inserts
+        System.out.println("\n--- Random Inserts ---");
+        BPlusTree&lt;Integer, String&gt; tree2 = new BPlusTree&lt;&gt;(4);
+        int[] randomKeys = {45, 12, 67, 23, 89, 34, 56, 78, 90, 1};
+
+        System.out.println("Inserting random keys...");
+        for (int key : randomKeys) {
+            tree2.insert(key, "Val" + key);
+        }
+
+        tree2.printTree();
+
+        // Test 5: Verify sorted order
+        System.out.println("\n--- Verify Sorted Order ---");
+        List&lt;String&gt; allValues = tree2.rangeQuery(0, 100);
+        System.out.println("All values in order: " + allValues);
+    }
+}</code></pre>
+<hr/>
+<h3 id="part-2-lsm-tree">Part 2: LSM Tree<a class="headerlink" href="#part-2-lsm-tree" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement a simplified LSM Tree with MemTable and SSTables.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+import static java.util.Comparator.comparingLong;
+
+/**
+ * LSM Tree: Log-Structured Merge Tree optimized for writes
+ * &lt;p&gt;
+ * Architecture:
+ * - Writes go to in-memory MemTable (sorted)
+ * - When MemTable full, flush to SSTable (immutable file)
+ * - Reads check MemTable, then SSTables (newest first)
+ * - Periodically compact SSTables (merge and remove duplicates)
+ */
+public class LSMTree&lt;K extends Comparable&lt;K&gt;, V&gt; {
+
+    private final int memTableSize; // Max entries before flush
+    private TreeMap&lt;K, V&gt; memTable; // In-memory sorted map
+    private List&lt;SSTable&lt;K, V&gt;&gt; sstables; // On-disk sorted tables
+
+    /**
+     * SSTable: Sorted String Table (immutable)
+     * In production: stored on disk
+     * Here: simplified in-memory representation
+     */
+    static class SSTable&lt;K extends Comparable&lt;K&gt;, V&gt; {
+        private final SortedMap&lt;K, V&gt; data;
+        private final long timestamp; // When created (for ordering)
+
+        SSTable(SortedMap&lt;K, V&gt; data) {
+            this.data = Collections.unmodifiableSortedMap(new TreeMap&lt;&gt;(data));
+            this.timestamp = System.currentTimeMillis();
+        }
+
+        V get(K key) {
+            return data.get(key);
+        }
+
+        boolean containsKey(K key) {
+            return data.containsKey(key);
+        }
+
+        Set&lt;Map.Entry&lt;K, V&gt;&gt; entrySet() {
+            return data.entrySet();
+        }
+
+        int size() {
+            return data.size();
+        }
+    }
+
+    public LSMTree(int memTableSize) {
+        this.memTableSize = memTableSize;
+        this.memTable = new TreeMap&lt;&gt;();
+        this.sstables = new ArrayList&lt;&gt;();
+    }
+
+    /**
+     * Insert/Update key-value pair
+     * Time: O(log M) where M = memTable size
+     * &lt;p&gt;
+     * 1. Insert into MemTable
+     * 2. If MemTable full, flush to SSTable
+     */
+    public void put(K key, V value) {
+        memTable.put(key, value);
+
+        if (memTable.size() &gt; memTableSize) {
+            flush();
+        }
+    }
+
+    /**
+     * Retrieve value for key
+     * Time: O(log M + N*log S) where N = number of SSTables, S = SSTable size
+     * &lt;p&gt;
+     * 1. Check MemTable first (most recent)
+     * 2. Check SSTables in reverse order (newest first)
+     * 3. Return first match
+     */
+    public V get(K key) {
+        // Check memTable first
+        if (memTable.containsKey(key)) {
+            return memTable.get(key);
+        }
+
+        // Check SSTables from newest to oldest
+        for (int i = sstables.size() - 1; i &gt;= 0; i--) {
+            SSTable&lt;K, V&gt; table = sstables.get(i);
+            if (table.containsKey(key)) {
+                return table.get(key);
+            }
+        }
+
+        return null; // Not found
+    }
+
+    /**
+     * Flush MemTable to SSTable (simulate disk write)
+     */
+    private void flush() {
+        sstables.add(new SSTable&lt;&gt;(memTable));
+        memTable.clear();
+
+        System.out.println("Flushed MemTable to SSTable. Total SSTables: " + sstables.size());
+    }
+
+    /**
+     * Compact SSTables: Merge multiple tables, remove duplicates
+     * Time: O(N * S * log S) where N = tables, S = size
+     * &lt;p&gt;
+     * 1. Merge all SSTables
+     * 2. For duplicate keys, keep newest value
+     * 3. Create new compacted SSTable
+     */
+    public void compact() {
+        int beforeSize = sstables.size();
+        if (beforeSize &lt;= 1) {
+            return; // Nothing to compact
+        }
+
+        // Iterate through SSTables from oldest to newest
+        // Later values overwrite earlier ones (keep newest)
+        TreeMap&lt;K, V&gt; merged = new TreeMap&lt;&gt;();
+        sstables.stream()
+                .sorted(comparingLong(sst -&gt; sst.timestamp))
+                .forEach(sst -&gt; merged.putAll(sst.data));
+
+        // Replace old SSTables with compacted one
+        sstables.clear();
+        sstables.add(new SSTable&lt;&gt;(merged));
+
+        System.out.println("Compacted " + beforeSize + " SSTables into 1");
+    }
+
+    /**
+     * Print current state
+     */
+    public void printState() {
+        System.out.println("MemTable size: " + memTable.size());
+        System.out.println("SSTables: " + sstables.size());
+        for (int i = 0; i &lt; sstables.size(); i++) {
+            System.out.println("  SSTable " + i + ": " + sstables.get(i).size() + " entries");
+        }
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">public class LSMTreeClient {
+
+    public static void main(String[] args) {
+        // Create LSM Tree with memTable size = 5
+        LSMTree&lt;Integer, String&gt; lsm = new LSMTree&lt;&gt;(5);
+
+        System.out.println("=== LSM Tree Demo ===\n");
+
+        // Test 1: Sequential writes (triggers flush)
+        System.out.println("--- Test 1: Sequential Writes ---");
+        for (int i = 1; i &lt;= 12; i++) {
+            lsm.put(i, "Value" + i);
+            System.out.println("Put(" + i + ", Value" + i + ")");
+        }
+
+        System.out.println("\nState after 12 inserts:");
+        lsm.printState();
+
+        // Test 2: Read values
+        System.out.println("\n--- Test 2: Reads ---");
+        System.out.println("Get(5): " + lsm.get(5));   // In SSTable
+        System.out.println("Get(11): " + lsm.get(11)); // In MemTable
+        System.out.println("Get(100): " + lsm.get(100)); // Not found
+
+        // Test 3: Update existing keys
+        System.out.println("\n--- Test 3: Updates ---");
+        lsm.put(5, "UpdatedValue5");
+        lsm.put(11, "UpdatedValue11");
+
+        System.out.println("Get(5) after update: " + lsm.get(5));
+        System.out.println("Get(11) after update: " + lsm.get(11));
+
+        // Test 4: Trigger more flushes
+        System.out.println("\n--- Test 4: More Writes ---");
+        for (int i = 20; i &lt;= 35; i++) {
+            lsm.put(i, "Value" + i);
+        }
+
+        lsm.printState();
+
+        // Test 5: Compaction
+        System.out.println("\n--- Test 5: Compaction ---");
+        lsm.compact();
+        lsm.printState();
+
+        // Test 6: Verify reads after compaction
+        System.out.println("\n--- Test 6: Verify After Compaction ---");
+        System.out.println("Get(5): " + lsm.get(5));
+        System.out.println("Get(25): " + lsm.get(25));
+    }
+}</code></pre>
+<hr/>
+<h3 id="part-3-benchmark-comparison">Part 3: Benchmark Comparison<a class="headerlink" href="#part-3-benchmark-comparison" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Compare B+Tree vs LSM Tree performance.</p>
+<pre class="highlight"><code class="language-java">public class StorageBenchmark {
+
+    public static void main(String[] args) {
+        System.out.println("=== Storage Engine Benchmark ===\n");
+
+        benchmarkWrites();
+        System.out.println();
+        benchmarkReads();
+        System.out.println();
+        benchmarkMixed();
+    }
+
+    static void benchmarkWrites() {
+        System.out.println("--- Write Performance ---");
+        int numWrites = 10000;
+
+        // B+Tree writes
+        BPlusTree&lt;Integer, String&gt; btree = new BPlusTree&lt;&gt;(128);
+        long start = System.nanoTime();
+        for (int i = 0; i &lt; numWrites; i++) {
+            btree.insert(i, "Value" + i);
+        }
+        long btreeTime = System.nanoTime() - start;
+
+        // LSM Tree writes
+        LSMTree&lt;Integer, String&gt; lsm = new LSMTree&lt;&gt;(100);
+        start = System.nanoTime();
+        for (int i = 0; i &lt; numWrites; i++) {
+            lsm.put(i, "Value" + i);
+        }
+        long lsmTime = System.nanoTime() - start;
+
+        System.out.printf("B+Tree: %.2f ms (%.0f writes/sec)%n",
+                btreeTime / 1e6, numWrites / (btreeTime / 1e9));
+        System.out.printf("LSM Tree: %.2f ms (%.0f writes/sec)%n",
+                lsmTime / 1e6, numWrites / (lsmTime / 1e9));
+        System.out.printf("LSM is %.2fx faster for writes%n",
+                (double) btreeTime / lsmTime);
+    }
+
+    static void benchmarkReads() {
+        System.out.println("--- Read Performance ---");
+        int numEntries = 10000;
+        int numReads = 1000;
+
+        // Setup B+Tree
+        BPlusTree&lt;Integer, String&gt; btree = new BPlusTree&lt;&gt;(128);
+        for (int i = 0; i &lt; numEntries; i++) {
+            btree.insert(i, "Value" + i);
+        }
+
+        // Setup LSM Tree
+        LSMTree&lt;Integer, String&gt; lsm = new LSMTree&lt;&gt;(100);
+        for (int i = 0; i &lt; numEntries; i++) {
+            lsm.put(i, "Value" + i);
+        }
+
+        // Benchmark reads
+        Random rand = new Random(42);
+
+        long start = System.nanoTime();
+        for (int i = 0; i &lt; numReads; i++) {
+            int key = rand.nextInt(numEntries);
+            btree.search(key);
+        }
+        long btreeTime = System.nanoTime() - start;
+
+        rand = new Random(42); // Same sequence
+        start = System.nanoTime();
+        for (int i = 0; i &lt; numReads; i++) {
+            int key = rand.nextInt(numEntries);
+            lsm.get(key);
+        }
+        long lsmTime = System.nanoTime() - start;
+
+        System.out.printf("B+Tree: %.2f ms (%.0f reads/sec)%n",
+                btreeTime / 1e6, numReads / (btreeTime / 1e9));
+        System.out.printf("LSM Tree: %.2f ms (%.0f reads/sec)%n",
+                lsmTime / 1e6, numReads / (lsmTime / 1e9));
+        System.out.printf("B+Tree is %.2fx faster for reads%n",
+                (double) lsmTime / btreeTime);
+    }
+
+    static void benchmarkMixed() {
+        System.out.println("--- Mixed Workload (50% reads, 50% writes) ---");
+
+        int numWrites = 1000;
+        int numReads = 1000;
+
+        // Benchmark read-writes
+        Random rand = new Random(42);
+
+        BPlusTree&lt;Integer, String&gt; btree = new BPlusTree&lt;&gt;(128);
+        long start = System.nanoTime();
+        for (int i = 0; i &lt; numWrites; i++) {
+            btree.insert(i, "Value" + i);
+        }
+        for (int i = 0; i &lt; numReads; i++) {
+            int key = rand.nextInt(numWrites);
+            btree.search(key);
+        }
+        long btreeTime = System.nanoTime() - start;
+
+        rand = new Random(42); // Same sequence
+        LSMTree&lt;Integer, String&gt; lsm = new LSMTree&lt;&gt;(100);
+        start = System.nanoTime();
+        for (int i = 0; i &lt; numWrites; i++) {
+            lsm.put(i, "Value" + i);
+        }
+        for (int i = 0; i &lt; numReads; i++) {
+            int key = rand.nextInt(numWrites);
+            lsm.get(key);
+        }
+        long lsmTime = System.nanoTime() - start;
+
+        System.out.printf("B+Tree: %.2f ms (%.0f reads/sec, %.0f writes/sec)%n",
+                btreeTime / 1e6, numReads / (btreeTime / 1e9), numWrites / (btreeTime / 1e9));
+        System.out.printf("LSM Tree: %.2f ms (%.0f reads/sec, %.0f writes/sec)%n",
+                lsmTime / 1e6, numReads / (lsmTime / 1e9), numWrites / (lsmTime / 1e9));
+    }
+}</code></pre>
+<p><strong>Must complete:</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Implement B+Tree insert, search, rangeQuery</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Implement LSM Tree put, get, flush, compact</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Run both client programs successfully</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Run benchmark and record results</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand WHY each performs better in different scenarios</li>
+</ul>
+<p><strong>Your benchmark results:</strong></p>
+<table class="benchmark-table">
+<thead>
+<tr>
+<th>Metric</th>
+<th>B+Tree</th>
+<th>LSM Tree</th>
+<th>Winner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Write Performance (ms)</td>
+<td class="blank">4180.07 ms</td>
+<td class="blank">70.15 ms</td>
+<td class="blank">LSM Tree faster by 59.59x</td>
+</tr>
+<tr>
+<td>Write Throughput (ops/sec)</td>
+<td class="blank">2392 writes/sec</td>
+<td class="blank">142560 writes/sec</td>
+<td class="blank"></td>
+</tr>
+<tr>
+<td>Read Performance (ms)</td>
+<td class="blank">391.13 ms</td>
+<td class="blank">6703.97 ms</td>
+<td class="blank">B+Tree by 17.14x</td>
+</tr>
+<tr>
+<td>Read Throughput (ops/sec)</td>
+<td class="blank">2557 reads/sec</td>
+<td class="blank">149 reads/sec</td>
+<td class="blank"></td>
+</tr>
+</tbody>
+</table>
+<div class="learner-section">
+<p><strong>Key insight:</strong> <span class="fill-in">LSM Tree writes are more efficient due to batched sequential writes to SSTables,
+reducing write amplification ~100x compared to B+Trees (which rewrite entire 4KB pages per insert, even if inserting
+just 10B). B+Tree reads are faster with no read amplification — single location lookup vs
+LSM's MemTable + K SSTables check.</span></p>
+</div>
+<hr/>
+<h2 id="debugging-challenges">Debugging Challenges<a class="headerlink" href="#debugging-challenges" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Find and fix bugs in broken storage engine implementations. This tests your deep understanding.</p>
+<h3 id="challenge-1-broken-btree-leaf-split">Challenge 1: Broken B+Tree Leaf Split<a class="headerlink" href="#challenge-1-broken-btree-leaf-split" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * This splitLeaf method is supposed to split a full leaf node.
+ * It has 3 CRITICAL BUGS. Find them!
+ */
+private void splitLeaf(LeafNode leaf) {
+    LeafNode newLeaf = new LeafNode();
+    int midpoint = leaf.keys.size() / 2;
+
+    // Move half the keys/values to new leaf
+    for (int i = midpoint; i &lt; leaf.keys.size(); i++) {
+        newLeaf.keys.add(leaf.keys.get(i));
+        newLeaf.values.add(leaf.values.get(i));
+    }
+
+    for (int i = midpoint; i &lt; leaf.keys.size(); i++) {
+        leaf.keys.remove(i);
+        leaf.values.remove(i);
+    }
+
+    // newLeaf.next = ???
+
+    InternalNode parent = (InternalNode) leaf.parent;
+    parent.keys.add(newLeaf.keys.get(0));
+    parent.children.add(newLeaf);
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>Bug 1: <span class="fill-in">Removing elements from the middle causes index issues (should remove from end)</span></li>
+<li>Bug 2: <span class="fill-in">Need to connect next pointers correctly</span></li>
+<li>Bug 3: <span class="fill-in">parent may not exist, need to create and also insert in specific position in parent (it's ordered)</span></li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug 1 (Lines 13-16):</strong> Removing elements while iterating forward breaks indices. Each removal shifts remaining
+elements left.</p>
+<p><strong>Fix:</strong></p>
+<pre class="highlight"><code class="language-java">// Remove from end to avoid index shifting
+for (int i = leaf.keys.size() - 1; i &gt;= midpoint; i--) {
+    leaf.keys.remove(i);
+    leaf.values.remove(i);
+}
+// OR use subList:
+leaf.keys.subList(midpoint, leaf.keys.size()).clear();
+leaf.values.subList(midpoint, leaf.values.size()).clear();</code></pre>
+<p><strong>Bug 2 (After line 11):</strong> Must link new leaf into the leaf chain for range queries!</p>
+<p><strong>Fix:</strong></p>
+<pre class="highlight"><code class="language-java">newLeaf.next = leaf.next;  // New leaf points to old leaf's next
+leaf.next = newLeaf;       // Old leaf points to new leaf</code></pre>
+<p><strong>Bug 3 (Lines 22-23):</strong> If leaf is root, parent is null - NullPointerException!</p>
+<p><strong>Fix:</strong></p>
+<pre class="highlight"><code class="language-java">if (leaf.parent == null) {
+    // Create new root
+    InternalNode newRoot = new InternalNode();
+    newRoot.keys.add(newLeaf.keys.get(0));
+    newRoot.children.add(leaf);
+    newRoot.children.add(newLeaf);
+    leaf.parent = newRoot;
+    newLeaf.parent = newRoot;
+    root = newRoot;
+} else {
+    InternalNode parent = (InternalNode) leaf.parent;
+    // Insert key in sorted position (not just add!)
+    // Insert newLeaf in corresponding position
+}</code></pre>
+</details>
+<hr/>
+<h3 id="challenge-2-broken-lsm-tree-compaction">Challenge 2: Broken LSM Tree Compaction<a class="headerlink" href="#challenge-2-broken-lsm-tree-compaction" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Compact all SSTables into one.
+ * This has 2 LOGIC BUGS that cause data loss and incorrect ordering.
+ */
+public void compact() {
+    if (sstables.size() &lt;= 1) return;
+
+    TreeMap&lt;K, V&gt; merged = new TreeMap&lt;&gt;();
+
+    for (int i = sstables.size() - 1; i &gt;= 0; i--) {
+        SSTable&lt;K, V&gt; table = sstables.get(i);
+        for (Map.Entry&lt;K, V&gt; entry : table.entrySet()) {
+            merged.put(entry.getKey(), entry.getValue());
+        }
+    }
+
+    // Create compacted SSTable
+    SSTable&lt;K, V&gt; compacted = new SSTable&lt;&gt;(merged);
+
+    sstables.add(compacted);
+
+    System.out.println("Compacted into 1 SSTable");
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>Bug 1: <span class="fill-in">Should iterate from oldest to newest (using timestamp) to avoid getting old data</span></li>
+<li>Bug 2: <span class="fill-in">Need to clear sstables before adding to it</span></li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug 1 (Line 9):</strong> Iterating from newest to oldest means older values overwrite newer ones!</p>
+<p>LSM Trees must keep the NEWEST value for each key. By iterating newest-to-oldest and using <code>put()</code>, when we encounter
+the key again in an older SSTable, it overwrites the newer value.</p>
+<p><strong>Fix:</strong></p>
+<pre class="highlight"><code class="language-java">// Iterate from OLDEST to NEWEST
+for (int i = 0; i &lt; sstables.size(); i++) {
+    SSTable&lt;K, V&gt; table = sstables.get(i);
+    for (Map.Entry&lt;K, V&gt; entry : table.entrySet()) {
+        merged.put(entry.getKey(), entry.getValue());  // Later puts overwrite earlier
+    }
+}</code></pre>
+<p><strong>Bug 2 (Line 18):</strong> We add the compacted SSTable but never remove the old ones! Memory leak!</p>
+<p><strong>Fix:</strong></p>
+<pre class="highlight"><code class="language-java">sstables.clear();          // Remove all old SSTables
+sstables.add(compacted);   // Add compacted one</code></pre>
+</details>
+<hr/>
+<h3 id="challenge-3-btree-search-with-wrong-child-selection">Challenge 3: B+Tree Search with Wrong Child Selection<a class="headerlink" href="#challenge-3-btree-search-with-wrong-child-selection" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Find the leaf node where key should be located.
+ * This has 1 SUBTLE BUG in binary search logic.
+ */
+private LeafNode findLeaf(K key) {
+    Node current = root;
+
+    while (!current.isLeaf()) {
+        InternalNode internal = (InternalNode) current;
+
+        int i = 0;
+        while (i &lt; internal.keys.size() &amp;&amp; key.compareTo(internal.keys.get(i)) &gt; 0) {
+            i++;
+        }
+
+        current = internal.children.get(i);
+    }
+
+    return (LeafNode) current;
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>Bug: <span class="fill-in">Well firstly it's not binary search, it's just linear scan. But also It should be &gt;= (
+  greater than or equal to) because an equal key should move on to the next room</span></li>
+</ul>
+<p><strong>Trace through manually:</strong></p>
+<pre class="highlight"><code>Internal node: keys=[20], children=[ChildA, ChildB]
+ChildA contains: [10, 15]
+ChildB contains: [20, 25, 30]
+
+Search key=20:
+
+- Line 12: i=0, key(20) &gt; keys[0](20)? NO
+- i stays 0
+- Visit children[0] = ChildA
+- BUG: Key 20 is actually in ChildB!</code></pre>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug (Line 12):</strong> Using <code>&gt;</code> instead of <code>&gt;=</code> causes keys equal to split points to go left when they should go right.</p>
+<p><strong>B+Tree invariant:</strong> Internal node key K means "left child &lt; K, right child &gt;= K"</p>
+<p><strong>Fix:</strong></p>
+<pre class="highlight"><code class="language-java">while (i &lt; internal.keys.size() &amp;&amp; key.compareTo(internal.keys.get(i)) &gt;= 0) {
+    i++;
+}</code></pre>
+<p>OR be more explicit:</p>
+<pre class="highlight"><code class="language-java">int i;
+for (i = 0; i &lt; internal.keys.size(); i++) {
+    if (key.compareTo(internal.keys.get(i)) &lt; 0) {
+        break;
+    }
+}
+current = internal.children.get(i);</code></pre>
+</details>
+<hr/>
+<h3 id="challenge-4-lsm-tree-missing-flush">Challenge 4: LSM Tree Missing Flush<a class="headerlink" href="#challenge-4-lsm-tree-missing-flush" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * This LSM Tree mysteriously loses data after many inserts.
+ * Find the CRITICAL MISSING OPERATION.
+ */
+public class LSMTree&lt;K extends Comparable&lt;K&gt;, V&gt; {
+    private TreeMap&lt;K, V&gt; memTable;
+    private List&lt;SSTable&lt;K, V&gt;&gt; sstables;
+    private final int memTableSize = 100;
+
+    public void put(K key, V value) {
+        memTable.put(key, value);
+
+        if (memTable.size() &gt;= memTableSize) {
+            flush();
+        }
+    }
+
+    private void flush() {
+        SSTable&lt;K, V&gt; newTable = new SSTable&lt;&gt;(memTable);
+        sstables.add(newTable);
+        System.out.println("Flushed to SSTable");
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>Bug: <span class="fill-in">Memtable is never cleared after flushing to the SSTable</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug (After line 20):</strong> We never clear the MemTable after flushing!</p>
+<p><strong>Result:</strong> MemTable keeps growing forever. After first flush, memTable has 100 items. After second flush, it has 200.
+Eventually OutOfMemoryError.</p>
+<p><strong>Also:</strong> Data gets duplicated across SSTables because we keep the same data in memory and keep flushing it again.</p>
+<p><strong>Fix:</strong></p>
+<pre class="highlight"><code class="language-java">private void flush() {
+    SSTable&lt;K, V&gt; newTable = new SSTable&lt;&gt;(memTable);
+    sstables.add(newTable);
+    memTable.clear();  // CRITICAL: Clear for new writes!
+    System.out.println("Flushed to SSTable");
+}</code></pre>
+<p>OR initialize a new MemTable:</p>
+<pre class="highlight"><code class="language-java">memTable = new TreeMap&lt;&gt;();</code></pre>
+</details>
+<hr/>
+<h3 id="challenge-5-range-query-doesnt-stop">Challenge 5: Range Query Doesn't Stop<a class="headerlink" href="#challenge-5-range-query-doesnt-stop" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * B+Tree range query implementation.
+ * This has 1 CRITICAL BUG causing incorrect results.
+ */
+public List&lt;V&gt; rangeQuery(K startKey, K endKey) {
+    List&lt;V&gt; results = new ArrayList&lt;&gt;();
+
+    LeafNode leaf = findLeaf(startKey);
+
+    // Traverse leaves until we exceed endKey
+    while (leaf != null) {
+        for (int i = 0; i &lt; leaf.keys.size(); i++) {
+            K key = leaf.keys.get(i);
+
+            if (key.compareTo(startKey) &gt;= 0) {
+                results.add(leaf.values.get(i));
+            }
+        }
+
+        leaf = leaf.next;
+    }
+
+    return results;
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>Bug: <span class="fill-in">We never check the endkey to start excluding results and end the traversal</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug (Lines 11-17):</strong> We check if key &gt;= startKey but never check if key &gt; endKey!</p>
+<p><strong>Result:</strong> Range query returns ALL keys from startKey to the end of the tree, ignoring endKey.</p>
+<p><strong>Fix:</strong></p>
+<pre class="highlight"><code class="language-java">while (leaf != null) {
+    for (int i = 0; i &lt; leaf.keys.size(); i++) {
+        K key = leaf.keys.get(i);
+
+        if (key.compareTo(endKey) &gt; 0) {
+            return results;  // Stop when we exceed endKey
+        }
+
+        if (key.compareTo(startKey) &gt;= 0) {
+            results.add(leaf.values.get(i));
+        }
+    }
+
+    leaf = leaf.next;
+}</code></pre>
+<p><strong>Optimization:</strong> Can also break out of outer loop:</p>
+<pre class="highlight"><code class="language-java">if (key.compareTo(endKey) &gt; 0) {
+    break;  // Exit inner loop
+}
+// After inner loop:
+if (leaf.keys.size() &gt; 0 &amp;&amp;
+    leaf.keys.get(leaf.keys.size()-1).compareTo(endKey) &gt; 0) {
+    break;  // Exit outer loop
+}</code></pre>
+</details>
+<hr/>
+<h3 id="your-debugging-scorecard">Your Debugging Scorecard<a class="headerlink" href="#your-debugging-scorecard" title="Permanent link">¶</a></h3>
+<p>After finding and fixing all bugs:</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Found all 9+ bugs across 5 challenges</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understood WHY each bug causes data corruption or incorrect results</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could explain the fix to someone else</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Learned common storage engine mistakes to avoid</li>
+</ul>
+<p><strong>Common mistakes you discovered:</strong></p>
+<ol>
+<li><span class="fill-in">[Index manipulation while iterating]</span></li>
+<li><span class="fill-in">[Missing pointer updates in tree structures]</span></li>
+<li><span class="fill-in">[Wrong iteration order in merge operations]</span></li>
+<li><span class="fill-in">[Forgetting to clear/reset data structures]</span></li>
+<li><span class="fill-in">[Incomplete boundary checks in range queries]</span></li>
+</ol>
+<hr/>
+<h2 id="decision-framework">Decision Framework<a class="headerlink" href="#decision-framework" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Build decision trees for when to use each storage engine.</p>
+<h3 id="question-1-write-heavy-or-read-heavy">Question 1: Write-heavy or Read-heavy?<a class="headerlink" href="#question-1-write-heavy-or-read-heavy" title="Permanent link">¶</a></h3>
+<p>Answer after implementing and benchmarking:</p>
+<ul>
+<li><strong>My answer:</strong> <span class="fill-in">Write-heavy needs LSM trees</span></li>
+<li><strong>Why does this matter?</strong> <span class="fill-in">B-Trees are slow in this use case due to write amplification</span></li>
+<li><strong>Performance difference I observed:</strong> <span class="fill-in">LSM trees heaps faster</span></li>
+</ul>
+<h3 id="question-2-need-range-queries">Question 2: Need range queries?<a class="headerlink" href="#question-2-need-range-queries" title="Permanent link">¶</a></h3>
+<p>Answer:</p>
+<ul>
+<li><strong>Do B+Trees support range queries?</strong> <span class="fill-in">Yes, leaf nodes are linked to each other</span></li>
+<li><strong>Do LSM Trees support range queries?</strong> <span class="fill-in">Yes technically but it's basically needing to go through
+  the memtable and every single SSTable since data is clustered by write time instead of value and there's no linkage
+  between leaf nodes</span></li>
+<li><strong>Which is faster for range queries?</strong> <span class="fill-in">B+Trees for sure</span></li>
+</ul>
+<h3 id="question-3-sequential-or-random-writes">Question 3: Sequential or random writes?<a class="headerlink" href="#question-3-sequential-or-random-writes" title="Permanent link">¶</a></h3>
+<p>Answer:</p>
+<ul>
+<li><strong>B+Tree with random writes:</strong> <span class="fill-in">Writing random data will cause write amplification and needing to
+  seek to different parts of the disk</span></li>
+<li><strong>LSM Tree with random writes:</strong> <span class="fill-in">Best because random data is first stored in the memtable and
+  then sequentially written to disk</span></li>
+<li><strong>Your observation from implementation:</strong> <span class="fill-in">LSM way faster</span></li>
+</ul>
+<h3 id="your-decision-tree">Your Decision Tree<a class="headerlink" href="#your-decision-tree" title="Permanent link">¶</a></h3>
+<p>Build this after understanding trade-offs:</p>
+<div class="mermaid">flowchart LR
+    Start["Storage Engine Selection"]
+
+    Start --&gt; Q0{"Write volume&lt;br/&gt;extreme (&gt;100K/sec)?"}
+
+    Q0 --&gt;|"YES"| A0(["LSM Tree ✓&lt;br/&gt;B+Trees won't survive"])
+    Q0 --&gt;|"NO"| Q1{"Write-heavy workload&lt;br/&gt;(&gt;70% writes)?"}
+
+    Q1 --&gt;|"YES"| Q2{"Read pattern?"}
+    Q2 --&gt;|"Rare reads&lt;br/&gt;(write-dominated)"| A1(["LSM Tree ✓&lt;br/&gt;Write optimization critical"])
+    Q2 --&gt;|"Recent data&lt;br/&gt;(temporal locality)"| A2(["LSM Tree ✓&lt;br/&gt;MemTable serves hot data"])
+    Q2 --&gt;|"Random point&lt;br/&gt;lookups"| A4(["B+Tree likely better&lt;br/&gt;LSM needs SSTable search"])
+
+    Q1 --&gt;|"NO"| A6(["B+Tree ✓&lt;br/&gt;LSM read penalty not worth"])</div>
+<h2 id="practice">Practice<a class="headerlink" href="#practice" title="Permanent link">¶</a></h2>
+<h3 id="scenario-1-social-media-posts-table">Scenario 1: Social Media Posts Table<a class="headerlink" href="#scenario-1-social-media-posts-table" title="Permanent link">¶</a></h3>
+<p>Design storage for this table:</p>
+<pre class="highlight"><code class="language-sql">CREATE TABLE posts (
+    id BIGINT PRIMARY KEY,
+    user_id BIGINT,
+    content TEXT,
+    created_at TIMESTAMP,
+    likes_count INT
+);</code></pre>
+<p><strong>Queries:</strong></p>
+<ul>
+<li>Q1: Get recent posts by user (sorted by created_at)</li>
+<li>Q2: Get top posts by likes in last 24 hours</li>
+<li>Q3: Insert new posts (10,000 posts/sec)</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<p>Storage engine choice: <span class="fill-in">B-Tree</span></p>
+<p>Reasoning:</p>
+<ul>
+<li>Write volume: <span class="fill-in">10,000 TPS</span></li>
+<li>Read patterns: <span class="fill-in">Read-heavy use case (10:1) and range queries</span></li>
+<li>Your choice: <span class="fill-in">B-Tree</span></li>
+</ul>
+<p>Index design:</p>
+<ol>
+<li>What indexes would you create? <span class="fill-in">(user_id, created_at) and (created_at, likes_count)</span></li>
+<li>Why these specific indexes? <span class="fill-in">To fulfill the two read patterns</span></li>
+<li>What's the column order and why?<span class="fill-in">Filter columns come first, then sort columns after. More
+   selective filters earlier</span></li>
+</ol>
+<h3 id="scenario-2-time-series-metrics">Scenario 2: Time-Series Metrics<a class="headerlink" href="#scenario-2-time-series-metrics" title="Permanent link">¶</a></h3>
+<p>Design storage for metrics data:</p>
+<pre class="highlight"><code class="language-sql">CREATE TABLE metrics (
+    metric_name VARCHAR(100),
+    timestamp TIMESTAMP,
+    value DOUBLE,
+    tags JSONB
+);</code></pre>
+<p><strong>Access patterns:</strong></p>
+<ul>
+<li>Writes: 1M data points/second</li>
+<li>Reads: Recent data (last 1 hour) queried frequently</li>
+<li>Older data rarely accessed</li>
+<li>Retention: 30 days</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<p>Storage engine: <span class="fill-in">LSM Tree</span></p>
+<p>Why?</p>
+<ol>
+<li><span class="fill-in">GT 70% write</span></li>
+<li><span class="fill-in">Mostly read recent data, more likely to stay in memtable</span></li>
+<li><span class="fill-in">Metrics are an append-only workload (no/few updates)</span></li>
+</ol>
+<h3 id="scenario-3-e-commerce-inventory">Scenario 3: E-commerce Inventory<a class="headerlink" href="#scenario-3-e-commerce-inventory" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-sql">CREATE TABLE inventory (
+    product_id BIGINT PRIMARY KEY,
+    quantity INT,
+    reserved INT,
+    last_updated TIMESTAMP
+);</code></pre>
+<p><strong>Access patterns:</strong></p>
+<ul>
+<li>Reads: Very frequent (1M reads/sec)</li>
+<li>Writes: Updates when orders placed (10k writes/sec)</li>
+<li>Consistency: Critical (no overselling)</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<p>Storage engine: <span class="fill-in">B-Tree</span></p>
+<p>Trade-offs you considered:</p>
+<ol>
+<li><span class="fill-in">High read frequency compared to writes</span></li>
+<li><span class="fill-in">Read patterns -&gt; mostly point lookups (LSM Trees are slower due to checking multiple
+   SSTables. LSM trees could do recent data queries or full table scans faster)</span></li>
+<li><span class="fill-in">Update-heavy workload ((LSM Trees' write advantage lessens for updates vs inserts, because
+   updates still need to search existing data first)</span></li>
+</ol>
+<hr/>
+<h2 id="review-checklist">Review Checklist<a class="headerlink" href="#review-checklist" title="Permanent link">¶</a></h2>
+<p>Before moving to the next topic:</p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Implementation</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> B+Tree insert, search, range query work correctly</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> LSM Tree put, get, flush, compact work correctly</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> All client code runs without errors</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Benchmarks completed and results recorded</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Understanding</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can explain B+Tree in simple terms (filled ELI5)</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can explain LSM Tree in simple terms (filled ELI5)</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand why writes are different speeds</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand why reads are different speeds</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Decision Making</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Built complete decision tree</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Solved all 3 practice scenarios</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can justify each design choice</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Mastery Check</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could implement both from memory</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could explain trade-offs in an interview</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Know when to use each without looking at notes</li>
+</ul>
+</li>
+</ul>
+<hr/>
+<h3 id="mastery-certification">Mastery Certification<a class="headerlink" href="#mastery-certification" title="Permanent link">¶</a></h3>
+<p><strong>I certify that I can:</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Implement B+Tree insert, search, and range query from memory</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Explain B+Tree node splitting and balancing</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Implement LSM Tree put, get, flush, and compact operations</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Explain write amplification in B+Trees vs LSM Trees</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Explain read amplification in LSM Trees</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand the role of compaction in LSM Trees</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Choose between B+Tree and LSM Tree for a given workload</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Explain when to use each storage engine</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Benchmark and analyze performance differences</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Debug common storage engine implementation issues</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Explain these concepts in a system design interview</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Teach these concepts to someone else</li>
+</ul>
+<h1 id="appendix-the-historical-evolution-from-first-principles">APPENDIX: The Historical Evolution - From First Principles<a class="headerlink" href="#appendix-the-historical-evolution-from-first-principles" title="Permanent link">¶</a></h1>
+<blockquote>
+<p><strong>Why this appendix exists</strong>: The main chapter teaches B+Trees and LSM Trees side-by-side. But historically, B+Trees
+came first and dominated for 30 years. Understanding this evolution provides deeper intuition about why these designs
+exist.</p>
+</blockquote>
+<hr/>
+<h2 id="the-historical-truth">The Historical Truth<a class="headerlink" href="#the-historical-truth" title="Permanent link">¶</a></h2>
+<p><strong>1970s-2000s</strong>: If you said "database storage engine," you meant <strong>B+Tree</strong>.</p>
+<ul>
+<li>Oracle, MySQL, PostgreSQL, SQL Server - all B+Trees</li>
+<li>Learned in every databases class</li>
+<li>The default, the standard, the only choice</li>
+</ul>
+<p><strong>2006</strong>: Google's BigTable paper changes everything</p>
+<ul>
+<li>Describes LSM-style architecture for web-scale writes</li>
+<li>Solves write amplification problem in B+Trees</li>
+</ul>
+<p><strong>2008-2012</strong>: NoSQL movement adopts LSM Trees</p>
+<ul>
+<li>Cassandra, HBase, RocksDB, LevelDB</li>
+<li>Narrative: "B+Trees are old SQL. LSM Trees are modern NoSQL."</li>
+</ul>
+<p><strong>Reality</strong>: Both solve the same problem (organizing data on disk) with different trade-offs.</p>
+<hr/>
+<h2 id="the-evolution-starting-from-absolute-zero">The Evolution: Starting from Absolute Zero<a class="headerlink" href="#the-evolution-starting-from-absolute-zero" title="Permanent link">¶</a></h2>
+<p>Let's trace the path that led to these designs, starting from the simplest possible database.</p>
+<p><strong>How to use this section:</strong> At each level, <strong>try to predict what will break</strong> before reading ahead. This builds the
+intuition for why each innovation was necessary.</p>
+<hr/>
+<h3 id="level-0-unsorted-append-only-file-heap-file">Level 0: Unsorted Append-Only File (Heap File)<a class="headerlink" href="#level-0-unsorted-append-only-file-heap-file" title="Permanent link">¶</a></h3>
+<div class="learner-section">
+<p><strong>⚠️ STOP: Before reading the code below, predict the problem:</strong></p>
+<p>You're building the simplest possible database. You decide to just append every write to a file.</p>
+<p><strong>Prediction Challenge:</strong></p>
+<ol>
+<li>What operation will become slow as the database grows? <span class="fill-in">[Reads/Writes/Both?]</span></li>
+<li>Why? <span class="fill-in">[Your reasoning]</span></li>
+<li>At what scale does it become unbearable? <span class="fill-in">[100 records? 1M records?]</span></li>
+</ol>
+<details>
+<summary>Check your prediction</summary>
+<p><strong>Answer</strong>: Reads become O(N) - must scan entire file for every lookup.</p>
+<p><strong>Math</strong>: With 1M records at 1 microsecond per comparison:</p>
+<ul>
+<li>Average search time: 500,000 comparisons = <strong>500ms</strong> 🐌</li>
+<li>This is unacceptable for any interactive application (target: &lt;100ms)</li>
+</ul>
+</details>
+</div>
+<pre class="highlight"><code class="language-java">// The simplest possible database
+public class SimpleDB {
+    File dataFile;
+
+    public void insert(K key, V value) {
+        dataFile.append(key + "," + value + "\n");  // O(1) - Fast! ✓
+    }
+
+    public V search(K key) {
+        for (String line : dataFile.readAllLines()) {  // O(N) - Slow! ✗
+            if (line.startsWith(key)) {
+                return parseValue(line);
+            }
+        }
+        return null;
+    }
+}</code></pre>
+<p><strong>Characteristics</strong>:</p>
+<ul>
+<li>✅ Writes: O(1) - just append</li>
+<li>✅ Simple to implement</li>
+<li>❌ Reads: O(N) - must scan entire file</li>
+<li>❌ Updates: O(N) - must scan to find, then append new version</li>
+</ul>
+<p><strong>Problem</strong>: With 1 million records, every search reads 1 million lines. Unbearable.</p>
+<hr/>
+<h3 id="level-1-sorted-file">Level 1: Sorted File<a class="headerlink" href="#level-1-sorted-file" title="Permanent link">¶</a></h3>
+<div class="learner-section">
+<p><strong>⚠️ STOP: Before reading the code below, predict the problem:</strong></p>
+<p>We fixed reads by keeping the file sorted (enabling binary search). But what's the cost?</p>
+<p><strong>Prediction Challenge:</strong></p>
+<ol>
+<li>How does insert performance change? <span class="fill-in">[Better/Worse/Same?]</span></li>
+<li>Why? <span class="fill-in">[What must happen to maintain sorted order?]</span></li>
+<li>For 1M records, what's the average cost of one insert? <span class="fill-in">[How many records moved?]</span></li>
+</ol>
+<details>
+<summary>Check your prediction</summary>
+<p><strong>Answer</strong>: Inserts become O(N) - must shift data to maintain sorted order.</p>
+<p><strong>Math</strong>: With 1M records:</p>
+<ul>
+<li>Binary search finds position: log₂(1M) = 20 comparisons (fast)</li>
+<li>Shift half the file on average: 500,000 records moved</li>
+<li>Each record = 100 bytes → <strong>50MB rewritten per insert</strong> 🐌</li>
+<li>This is worse than the unsorted file!</li>
+</ul>
+<p><strong>Trade-off discovered</strong>: Optimizing reads (sorting) made writes slower.</p>
+</details>
+</div>
+<pre class="highlight"><code class="language-java">// Keep file sorted by key - enables binary search
+public class SortedFileDB {
+    File sortedFile;  // Maintained in sorted order by key
+
+    public void insert(K key, V value) {
+        // 1. Binary search to find position: O(log N)
+        int position = binarySearchFile(key);
+
+        // 2. Shift everything after position right: O(N) ✗
+        shiftDataRight(position);
+
+        // 3. Insert new record
+        writeAt(position, key, value);
+
+        // Result: Must rewrite ~50% of file on average!
+    }
+
+    public V search(K key) {
+        // Binary search through file: O(log N) ✓
+        return binarySearchFile(key);
+    }
+}</code></pre>
+<p><strong>Characteristics</strong>:</p>
+<ul>
+<li>✅ Reads: O(log N) - binary search</li>
+<li>❌ Writes: O(N) - must shift data to maintain sort order</li>
+<li>❌ Every insert rewrites half the file on average</li>
+</ul>
+<p><strong>Problem</strong>: Writes went from O(1) to O(N). Optimization for reads broke writes.</p>
+<hr/>
+<h3 id="level-2-binary-search-tree-bst-in-memory">Level 2: Binary Search Tree (BST) - In-Memory<a class="headerlink" href="#level-2-binary-search-tree-bst-in-memory" title="Permanent link">¶</a></h3>
+<div class="learner-section">
+<p><strong>⚠️ STOP: Before reading the code below, predict the problem:</strong></p>
+<p>Binary Search Trees (BST) give us O(log N) for both reads and writes. Perfect! But what happens when we put this on
+disk?</p>
+<p><strong>Prediction Challenge:</strong></p>
+<ol>
+<li>How many disk seeks are needed to search a BST with 1M
+   records? <span class="fill-in">[Hint: What's the tree height?]</span></li>
+<li>If each disk seek takes 10ms, how long does one search take? <span class="fill-in">[Calculate total time]</span></li>
+<li>What's inefficient about storing each BST node on disk? <span class="fill-in">[Think about disk page sizes]</span></li>
+</ol>
+<details>
+<summary>Check your prediction</summary>
+<p><strong>Answer</strong>: BST creates a TALL tree with TINY nodes - terrible for disk I/O.</p>
+<p><strong>Math</strong>: With 1M records:</p>
+<ul>
+<li>Tree height: log₂(1M) ≈ 20 levels</li>
+<li>Each level = 1 disk seek</li>
+<li>Disk seek time: ~10ms</li>
+<li><strong>Total: 20 × 10ms = 200ms per query</strong> 🐌</li>
+</ul>
+<p><strong>Inefficiency</strong>:</p>
+<ul>
+<li>BST node size: ~32 bytes (2 pointers + key + value)</li>
+<li>Disk page size: 4KB</li>
+<li><strong>Wasting 99% of each disk read!</strong></li>
+</ul>
+<p><strong>Problem discovered</strong>: We need to pack more data per disk read to minimize seeks.</p>
+</details>
+</div>
+<pre class="highlight"><code class="language-java">class Node {
+    K key;
+    V value;
+    Node left;   // Pointer to left child
+    Node right;  // Pointer to right child
+}
+
+public class BSTDB {
+    Node root;
+
+    public void insert(K key, V value) {
+        root = insertRec(root, key, value);  // O(log N) average ✓
+    }
+
+    public V search(K key) {
+        return searchRec(root, key);  // O(log N) average ✓
+    }
+}</code></pre>
+<p><strong>Looks great! Both reads and writes are O(log N).</strong></p>
+<p><strong>But... when you put this on disk:</strong></p>
+<p><strong>Problem 1: Each node is tiny</strong></p>
+<ul>
+<li>Node size: 2 pointers (16 bytes) + key (8 bytes) + value (8 bytes) = ~32 bytes</li>
+<li>Disk page size: 4KB</li>
+<li>Wasting 99% of each disk read!</li>
+</ul>
+<p><strong>Problem 2: Tree is TALL</strong></p>
+<ul>
+<li>For 1M records: height = log₂(1M) ≈ 20 levels</li>
+<li>Each level = 1 disk seek</li>
+<li>Disk seek time on HDD: ~10ms</li>
+<li><strong>Total: 20 seeks × 10ms = 200ms per query</strong> 🐌</li>
+</ul>
+<p><strong>Problem 3: Can become unbalanced</strong></p>
+<ul>
+<li>If inserts are sorted: tree becomes linked list</li>
+<li>O(log N) becomes O(N) worst case</li>
+</ul>
+<hr/>
+<h3 id="level-3-b-tree-1972-the-breakthrough">Level 3: B-Tree (1972) - The Breakthrough<a class="headerlink" href="#level-3-b-tree-1972-the-breakthrough" title="Permanent link">¶</a></h3>
+<p><strong>Key insight</strong>: Disk I/O is expensive. <strong>Minimize disk seeks</strong> by making nodes match disk page size.</p>
+<pre class="highlight"><code class="language-java">class BTreeNode {
+    List&lt;K&gt; keys;        // 100-1000 keys per node (depending on key size)
+    List&lt;Node&gt; children; // 101-1001 children
+
+    // Each node fits in one disk page (4KB)
+}</code></pre>
+<p><strong>Why this is revolutionary</strong>:</p>
+<pre class="highlight"><code>Binary Search Tree (1M records):
+┌─────────────────────────────────┐
+│ Node size: 32 bytes             │
+│ Height: log₂(1,000,000) ≈ 20    │
+│ Disk seeks per query: 20        │
+│ Query time: 20 × 10ms = 200ms ❌ │
+└─────────────────────────────────┘
+
+B-Tree with order 100 (1M records):
+┌─────────────────────────────────┐
+│ Node size: 4KB (one disk page)  │
+│ Keys per node: ~100             │
+│ Height: log₁₀₀(1,000,000) ≈ 3   │
+│ Disk seeks per query: 3         │
+│ Query time: 3 × 10ms = 30ms ✓   │
+└─────────────────────────────────┘
+
+Result: 6-7x faster!</code></pre>
+<p><strong>The key insight</strong>: Each disk read should fetch as much useful data as possible. Wide nodes = short tree = fewer seeks.</p>
+<p><strong>B-Tree characteristics</strong>:</p>
+<ul>
+<li>✅ Reads: O(log N) with minimal disk seeks</li>
+<li>✅ Writes: O(log N) with in-place updates</li>
+<li>✅ Self-balancing</li>
+<li>⚠️ Data scattered throughout tree (internal + leaf nodes)</li>
+</ul>
+<hr/>
+<h3 id="level-4-btree-optimized-for-range-queries">Level 4: B+Tree - Optimized for Range Queries<a class="headerlink" href="#level-4-btree-optimized-for-range-queries" title="Permanent link">¶</a></h3>
+<p><strong>Problem with B-Tree</strong>: Range queries are awkward.</p>
+<pre class="highlight"><code class="language-java">// Range query in B-Tree
+public List&lt;V&gt; rangeQuery(K start, K end) {
+    List&lt;V&gt; results = new ArrayList&lt;&gt;();
+
+    // Problem: Data is scattered throughout the tree
+    // Must do tree traversal for EACH key in range
+    // Jumps around different levels - inefficient!
+
+    for (K key = start; key &lt;= end; key++) {
+        results.add(search(key));  // Each search = tree traversal
+    }
+    return results;
+}</code></pre>
+<p><strong>B+Tree solution</strong>:</p>
+<ol>
+<li><strong>All data in leaf nodes only</strong> (internal nodes = just keys for navigation)</li>
+<li><strong>Link leaf nodes together</strong> (sequential list)</li>
+</ol>
+<pre class="highlight"><code class="language-java">class LeafNode {
+    List&lt;K&gt; keys;
+    List&lt;V&gt; values;
+    LeafNode next;  // ← The magic pointer
+}
+
+public List&lt;V&gt; rangeQuery(K start, K end) {
+    LeafNode leaf = findLeaf(start);  // O(log N) to find start
+
+    List&lt;V&gt; results = new ArrayList&lt;&gt;();
+    while (leaf != null) {
+        for (int i = 0; i &lt; leaf.keys.size(); i++) {
+            K key = leaf.keys.get(i);
+            if (key &gt; end) return results;  // Done
+            if (key &gt;= start) results.add(leaf.values.get(i));
+        }
+        leaf = leaf.next;  // ← Sequential! Fast!
+    }
+    return results;
+}</code></pre>
+<p><strong>Result</strong>: Range queries are <strong>sequential</strong> after finding the start point. Perfect for databases.</p>
+<p><strong>B+Trees dominated databases for 30+ years (1972-2000s).</strong> Oracle, MySQL, PostgreSQL, SQL Server - all B+Trees.</p>
+<hr/>
+<h2 id="the-problem-that-necessitated-lsm-trees">The Problem That Necessitated LSM Trees<a class="headerlink" href="#the-problem-that-necessitated-lsm-trees" title="Permanent link">¶</a></h2>
+<h3 id="the-google-problem-mid-2000s">The Google Problem (mid-2000s)<a class="headerlink" href="#the-google-problem-mid-2000s" title="Permanent link">¶</a></h3>
+<p><strong>Workload</strong>: Indexing the web for Google Search</p>
+<ul>
+<li><strong>Write volume</strong>: Billions of page updates per day</li>
+<li><strong>Write pattern</strong>: Mostly inserts (new pages discovered)</li>
+<li><strong>Read pattern</strong>: Batch processing MapReduce jobs (can tolerate some latency)</li>
+</ul>
+<p><strong>B+Tree performance breakdown</strong>:</p>
+<pre class="highlight"><code class="language-java">// Every insert in B+Tree requires:
+public void insert(K key, V value) {
+    // 1. Read root page from disk (4KB)
+    // 2. Read internal node from disk (4KB)
+    // 3. Read leaf page from disk (4KB)
+    // 4. Modify leaf (change maybe 100 bytes of data)
+    // 5. Write entire leaf page back to disk (4KB) ← WRITE AMPLIFICATION!
+    // 6. If leaf is full, split it:
+    //    - Create new leaf page (4KB write)
+    //    - Update parent pointer (4KB read + 4KB write)
+    // 7. May cascade up the tree
+
+    // Result: 1 logical write (100 bytes)
+    //       = 5-10 physical I/O operations (20-40KB)
+    //       = 200-400x write amplification!
+}</code></pre>
+<p><strong>The math that broke B+Trees</strong>:</p>
+<ul>
+<li>1 billion inserts per day</li>
+<li>40KB average I/O per insert (due to write amplification)</li>
+<li><strong>= 40TB of disk I/O per day</strong></li>
+<li>Actual new data: <strong>~100GB</strong></li>
+<li><strong>Write amplification: 400x</strong></li>
+</ul>
+<p><strong>Additional problem</strong>:</p>
+<ul>
+<li>B+Trees do <strong>random I/O</strong> (tree traversal jumps around disk)</li>
+<li>On spinning disks: random I/O = <strong>100x slower</strong> than sequential I/O</li>
+<li>Random seeks kill throughput</li>
+</ul>
+<hr/>
+<h2 id="first-principles-lsm-tree">First Principles → LSM Tree<a class="headerlink" href="#first-principles-lsm-tree" title="Permanent link">¶</a></h2>
+<p><strong>Question</strong>: How can we optimize for massive write volume?</p>
+<h3 id="core-insight-delay-sorting">Core Insight: Delay Sorting<a class="headerlink" href="#core-insight-delay-sorting" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code>When do you pay the cost of sorting?
+┌─────────────────────────────────┐
+│                                 │
+│      On Every Write             │
+│         (B+Tree)                │
+│           vs                    │
+│      In Batches                 │
+│       (LSM Tree)                │
+│                                 │
+└─────────────────────────────────┘</code></pre>
+<p><strong>B+Tree philosophy</strong>: Keep data sorted all the time</p>
+<ul>
+<li>Insert cost: O(log N) - must maintain sort order immediately</li>
+<li>Read cost: O(log N) - data is always sorted</li>
+</ul>
+<p><strong>LSM Tree philosophy</strong>: Sort in batches, not per-write</p>
+<ul>
+<li>Insert cost: O(log M) - just update in-memory buffer (M &lt;&lt; N)</li>
+<li>Read cost: O(K × log S) - check multiple sorted files</li>
+<li>Amortize sorting cost over many writes</li>
+</ul>
+<hr/>
+<h3 id="the-lsm-tree-evolution">The LSM Tree Evolution<a class="headerlink" href="#the-lsm-tree-evolution" title="Permanent link">¶</a></h3>
+<p><strong>Step 1: Recognize append-only is fastest</strong></p>
+<pre class="highlight"><code class="language-java">// Fastest possible write: append to log
+public void write(K key, V value) {
+    log.append(key + "," + value);  // O(1), sequential I/O ✓
+}
+
+// But reads are O(N) - scan entire log ✗</code></pre>
+<hr/>
+<p><strong>Step 2: Buffer writes in memory (sorted)</strong></p>
+<pre class="highlight"><code class="language-java">TreeMap&lt;K, V&gt; memTable = new TreeMap&lt;&gt;();  // Sorted in memory
+
+public void write(K key, V value) {
+    memTable.put(key, value);  // O(log M) where M is small (e.g., 10K)
+    // Fast! In-memory operation, no disk I/O
+}
+
+public V read(K key) {
+    return memTable.get(key);  // O(log M)
+}</code></pre>
+<p><strong>Benefit</strong>: Writes are fast (in-memory), data is sorted.</p>
+<p><strong>Problem</strong>: Limited by RAM size. Need to flush to disk eventually.</p>
+<hr/>
+<p><strong>Step 3: Flush to sorted files periodically</strong></p>
+<pre class="highlight"><code class="language-java">public void write(K key, V value) {
+    memTable.put(key, value);
+
+    if (memTable.size() &gt;= threshold) {
+        // Flush to disk as sorted file (SSTable)
+        SSTable newTable = writeSSTable(memTable);  // Sequential write - FAST!
+        sstables.add(newTable);
+        memTable.clear();
+    }
+}</code></pre>
+<p><strong>Benefit</strong>:</p>
+<ul>
+<li>Batched writes: 1000 inserts → 1 sequential flush</li>
+<li><strong>100-1000x less I/O</strong> than B+Tree</li>
+<li>Sequential writes (fast on HDDs)</li>
+</ul>
+<hr/>
+<p><strong>Step 4: Read from multiple locations</strong></p>
+<pre class="highlight"><code class="language-java">public V read(K key) {
+    // Check memory first (most recent)
+    if (memTable.containsKey(key)) {
+        return memTable.get(key);
+    }
+
+    // Check on-disk files (newest to oldest)
+    for (int i = sstables.size() - 1; i &gt;= 0; i--) {
+        SSTable table = sstables.get(i);
+        V value = table.get(key);  // Binary search in sorted file
+        if (value != null) return value;
+    }
+
+    return null;  // Not found
+}</code></pre>
+<p><strong>Trade-off</strong>:</p>
+<ul>
+<li>❌ Reads are slower (check multiple places)</li>
+<li>✅ But acceptable for <strong>write-heavy</strong> workloads</li>
+</ul>
+<p><strong>This is called "read amplification"</strong>: must check K files instead of 1 tree.</p>
+<hr/>
+<p><strong>Step 5: Compact periodically</strong></p>
+<pre class="highlight"><code class="language-java">// Problem: Too many SSTables → slow reads
+// Solution: Merge files periodically
+
+public void compact() {
+    TreeMap&lt;K, V&gt; merged = new TreeMap&lt;&gt;();
+
+    // Merge all SSTables (oldest to newest)
+    for (SSTable table : sstables) {
+        for (Entry&lt;K, V&gt; entry : table.entrySet()) {
+            merged.put(entry.getKey(), entry.getValue());
+            // Newer values overwrite older ones
+        }
+    }
+
+    // Replace old SSTables with one compacted file
+    sstables.clear();
+    sstables.add(new SSTable(merged));
+}</code></pre>
+<p><strong>Result</strong>: Fewer files = faster reads. Amortize compaction cost over time.</p>
+<hr/>
+<h2 id="where-wal-write-ahead-log-fits">Where WAL (Write-Ahead Log) Fits<a class="headerlink" href="#where-wal-write-ahead-log-fits" title="Permanent link">¶</a></h2>
+<p><strong>WAL is orthogonal</strong> to your storage engine choice. It's about <strong>durability</strong>, not structure.</p>
+<p><strong>Problem</strong>: MemTable is in RAM - what if crash before flush?</p>
+<pre class="highlight"><code class="language-java">// Without WAL: Data lost on crash ❌
+public void put(K key, V value) {
+    memTable.put(key, value);  // If crash here, data is LOST!
+
+    if (memTable.size() &gt;= threshold) {
+        flushToSSTable(memTable);
+    }
+}</code></pre>
+<p><strong>Solution: WAL (Write-Ahead Log)</strong></p>
+<pre class="highlight"><code class="language-java">// With WAL: Durable ✓
+public void put(K key, V value) {
+    // 1. Write to WAL FIRST (append-only log on disk)
+    wal.append(key, value);      // Persist to disk immediately
+
+    // 2. Update in-memory MemTable
+    memTable.put(key, value);    // Fast in-memory update
+
+    if (memTable.size() &gt;= threshold) {
+        flushToSSTable(memTable);
+        wal.clear();  // Can delete WAL after successful flush
+    }
+}
+
+// On crash recovery:
+public void recover() {
+    memTable = replayWAL();  // Rebuild MemTable from WAL
+    // Then continue normal operations
+}</code></pre>
+<p><strong>WAL characteristics</strong>:</p>
+<ul>
+<li>Append-only (sequential writes - fast)</li>
+<li>Only stores recent uncommitted data</li>
+<li>Deleted after flush</li>
+<li>Used for crash recovery</li>
+</ul>
+<p><strong>Both B+Trees and LSM Trees use WAL</strong> for durability. It's a separate layer from the core storage structure.</p>
+<hr/>
+<h2 id="in-memory-storage-engines-redis-memcached">In-Memory Storage Engines (Redis, Memcached)<a class="headerlink" href="#in-memory-storage-engines-redis-memcached" title="Permanent link">¶</a></h2>
+<p><strong>Completely different trade-off</strong>: RAM vs Disk</p>
+<h3 id="redis-pure-in-memory">Redis (Pure In-Memory)<a class="headerlink" href="#redis-pure-in-memory" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">// Everything in RAM - no disk I/O for reads!
+Map&lt;K, V&gt; data = new HashMap&lt;&gt;();
+
+public void put(K key, V value) {
+    data.put(key, value);  // O(1) - instant! ⚡
+}
+
+public V get(K key) {
+    return data.get(key);  // O(1) - instant! ⚡
+}
+
+// Optional: Persist to disk asynchronously (doesn't block)
+public void backgroundSave() {
+    fork();  // Copy-on-write
+    childProcess.writeToDisk(data);  // Snapshot
+}</code></pre>
+<p><strong>Advantages</strong>:</p>
+<ul>
+<li>⚡ Extremely fast: O(1) for hash operations</li>
+<li>No disk I/O latency (microseconds vs milliseconds)</li>
+<li>Simple architecture</li>
+</ul>
+<p><strong>Disadvantages</strong>:</p>
+<ul>
+<li>💰 RAM is 30-50x more expensive than SSD</li>
+<li>📏 Limited capacity: can't store more than RAM</li>
+<li>❌ Data loss risk: if crash before persistence</li>
+<li>❌ No range queries (hash table, not sorted)</li>
+</ul>
+<p><strong>When to use</strong>:</p>
+<ul>
+<li><strong>Cache</strong> (can rebuild from database if lost)</li>
+<li><strong>Session storage</strong> (acceptable to lose some sessions)</li>
+<li><strong>Real-time counters</strong> (like/view counts)</li>
+<li><strong>Leaderboards</strong> (can reconstruct)</li>
+<li><strong>Pub/sub</strong> (transient messages)</li>
+</ul>
+<p><strong>When NOT to use</strong>:</p>
+<ul>
+<li>❌ Primary data store (too expensive, data loss risk)</li>
+<li>❌ Large datasets (&gt; available RAM)</li>
+<li>❌ Requires durability guarantees</li>
+</ul>
+<hr/>
+<h2 id="complete-comparison-table">Complete Comparison Table<a class="headerlink" href="#complete-comparison-table" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th>Storage Engine</th>
+<th>Write Speed</th>
+<th>Read Speed</th>
+<th>Range Queries</th>
+<th>Capacity</th>
+<th>Durability</th>
+<th>Best For</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Heap File</strong></td>
+<td>⚡⚡⚡ O(1)</td>
+<td>🐌 O(N)</td>
+<td>❌ No</td>
+<td>Unlimited</td>
+<td>✓</td>
+<td>Append-only logs</td>
+</tr>
+<tr>
+<td><strong>Sorted File</strong></td>
+<td>🐌 O(N)</td>
+<td>⚡⚡ O(log N)</td>
+<td>✓</td>
+<td>Unlimited</td>
+<td>✓</td>
+<td>Read-only data</td>
+</tr>
+<tr>
+<td><strong>B+Tree</strong></td>
+<td>⚡ O(log N)</td>
+<td>⚡⚡⚡ O(log N)</td>
+<td>✓✓✓ Excellent</td>
+<td>Unlimited</td>
+<td>✓ (with WAL)</td>
+<td>Read-heavy OLTP</td>
+</tr>
+<tr>
+<td><strong>LSM Tree</strong></td>
+<td>⚡⚡⚡ O(log M)</td>
+<td>⚡⚡ O(K×log S)</td>
+<td>✓✓ Good</td>
+<td>Unlimited</td>
+<td>✓ (with WAL)</td>
+<td>Write-heavy OLTP</td>
+</tr>
+<tr>
+<td><strong>Redis (RAM)</strong></td>
+<td>⚡⚡⚡ O(1)</td>
+<td>⚡⚡⚡ O(1)</td>
+<td>❌ Limited</td>
+<td>RAM-bound</td>
+<td>⚠️ Optional</td>
+<td>Cache, sessions</td>
+</tr>
+</tbody>
+</table>
+<p>Where:</p>
+<ul>
+<li>N = total number of records</li>
+<li>M = MemTable size (typically 1K-100K)</li>
+<li>K = number of SSTables</li>
+<li>S = SSTable size</li>
+</ul>
+<hr/>
+<h2 id="the-complete-historical-sequence">The Complete Historical Sequence<a class="headerlink" href="#the-complete-historical-sequence" title="Permanent link">¶</a></h2>
+<pre class="highlight"><code>1970s: B-Trees invented (Rudolf Bayer, Boeing)
+└── Goal: Minimize disk seeks on spinning disks
+
+1972: B+Trees emerge
+├── Optimize B-Trees for range queries
+└── Become standard in databases
+
+1980s-2000s: B+Trees dominate
+├── Oracle, MySQL, PostgreSQL, SQL Server
+├── Perfect for balanced read/write workloads
+└── Optimized over decades
+
+1996: LSM Trees invented (Patrick O'Neil et al.)
+├── Published in academic paper
+├── Designed for write-heavy workloads
+└── Mostly ignored by industry
+
+2006: Google BigTable paper (THE TURNING POINT)
+├── Describes LSM-style architecture
+├── Proves it works at massive scale (indexing the web)
+└── Makes LSM Trees "real" for industry
+
+2008-2012: NoSQL movement
+├── Cassandra (2008): Facebook's LSM database
+├── HBase (2008): Hadoop's BigTable clone
+├── LevelDB (2011): Google's open-source LSM
+├── RocksDB (2012): Facebook's LevelDB fork
+└── Narrative: "LSM Trees are modern, B+Trees are legacy"
+
+2010s: SSDs change the game
+├── Random I/O becomes cheaper
+├── Gap between B+Trees and LSM Trees narrows
+└── Both remain viable depending on workload
+
+Modern day: Hybrid approaches
+├── MongoDB/WiredTiger supports both engines
+├── Choice depends on workload characteristics
+└── No universal "best" - only trade-offs</code></pre>
+<hr/>
+<h2 id="key-takeaways">Key Takeaways<a class="headerlink" href="#key-takeaways" title="Permanent link">¶</a></h2>
+<ol>
+<li>
+<p><strong>B+Trees came first</strong> (1972) and dominated for 30+ years</p>
+<ul>
+<li>Optimize for disk seeks (main bottleneck on HDDs)</li>
+<li>Perfect for balanced read/write workloads</li>
+</ul>
+</li>
+<li>
+<p><strong>LSM Trees emerged</strong> (popularized 2006) to solve specific problem</p>
+<ul>
+<li>Google needed massive write throughput for web indexing</li>
+<li>B+Tree write amplification became bottleneck</li>
+<li>LSM Trees trade read performance for write performance</li>
+</ul>
+</li>
+<li>
+<p><strong>WAL is separate</strong> from storage engine choice</p>
+<ul>
+<li>Both B+Trees and LSM Trees use WAL for durability</li>
+<li>It's about crash recovery, not core structure</li>
+</ul>
+</li>
+<li>
+<p><strong>In-memory engines</strong> (Redis) are different trade-off entirely</p>
+<ul>
+<li>RAM vs disk capacity</li>
+<li>Speed vs durability</li>
+<li>Use for caching, not primary storage</li>
+</ul>
+</li>
+<li>
+<p><strong>No universal "best"</strong></p>
+<ul>
+<li>B+Tree: read-heavy, range queries, OLTP</li>
+<li>LSM Tree: write-heavy, insert-heavy, analytics ingestion</li>
+<li>Redis: extremely low latency, acceptable data loss</li>
+</ul>
+</li>
+</ol>
+<p>The lesson: <strong>Understand the workload, then choose the tool.</strong></p>
+<hr/>
+<h2 id="real-world-examples">Real-World Examples<a class="headerlink" href="#real-world-examples" title="Permanent link">¶</a></h2>
+<p><strong>B+Tree Storage Engines</strong>:</p>
+<ul>
+<li>MySQL InnoDB</li>
+<li>PostgreSQL</li>
+<li>SQLite</li>
+<li>SQL Server</li>
+<li>Oracle Database</li>
+</ul>
+<p><strong>LSM Tree Storage Engines</strong>:</p>
+<ul>
+<li>Cassandra</li>
+<li>HBase</li>
+<li>RocksDB (used by MyRocks, CockroachDB, TiDB)</li>
+<li>LevelDB</li>
+<li>ScyllaDB</li>
+</ul>
+<p><strong>Hybrid (supports both)</strong>:</p>
+<ul>
+<li>MongoDB (WiredTiger can use either)</li>
+</ul>
+<p><strong>In-Memory</strong>:</p>
+<ul>
+<li>Redis</li>
+<li>Memcached</li>
+<li>VoltDB</li>
+</ul>
+<hr/>
+<p><strong>End of Appendix</strong></p>
+<p><a href="#01-storage-engines">Return to main content</a></p></div>
+</div>
+<footer class="col-md-12 text-center">
+<hr/>
+<p>
+<small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+</p>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../../js/bootstrap-3.0.3.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>var base_url = "../.."</script>
+<script src="../../js/base.js"></script>
+<script src="../../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<button class="close" data-dismiss="modal" type="button">
+<span aria-hidden="true">×</span>
+<span class="sr-only">Close</span>
+</button>
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+</div>
+<div class="modal-body">
+<p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="text"/>
+</div>
+</form>
+<div id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@10.4.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>

@@ -1,0 +1,1618 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="A framework for algorithms, systems design, and infrastructure." name="description"/>
+<meta content="Richard" name="author"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>07. Trees - Recursion - Software Engineering Study Guide</title>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" rel="stylesheet"/>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css" rel="stylesheet"/>
+<link href="//rsms.me/inter/inter.css" rel="stylesheet" type="text/css"/>
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&amp;subset=latin-ext,latin" rel="stylesheet" type="text/css"/>
+<link href="../../css/bootstrap-custom.min.css" rel="stylesheet"/>
+<link href="../../css/base.min.css" rel="stylesheet"/>
+<link href="../../css/cinder.min.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css" rel="stylesheet"/>
+<link href="../../css/custom.css" rel="stylesheet"/>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="container">
+<!-- Collapsed navigation -->
+<div class="navbar-header">
+<!-- Expander button -->
+<button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<!-- Main title -->
+<a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+</div>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li>
+<a href="../..">Home</a>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Systems Design <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../systems/01-storage-engines/">01. Storage Engines</a>
+</li>
+<li>
+<a href="../../systems/02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+<li>
+<a href="../../systems/03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+<li>
+<a href="../../systems/04-search-and-indexing/">04. Search &amp; Indexing</a>
+</li>
+<li>
+<a href="../../systems/05-caching-patterns/">05. Caching Patterns</a>
+</li>
+<li>
+<a href="../../systems/06-api-design/">06. API Design</a>
+</li>
+<li>
+<a href="../../systems/07-security-patterns/">07. Security Patterns</a>
+</li>
+<li>
+<a href="../../systems/08-rate-limiting/">08. Rate Limiting</a>
+</li>
+<li>
+<a href="../../systems/09-load-balancing/">09. Load Balancing</a>
+</li>
+<li>
+<a href="../../systems/10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+<li>
+<a href="../../systems/11-database-scaling/">11. Database Scaling</a>
+</li>
+<li>
+<a href="../../systems/12-message-queues/">12. Message Queues</a>
+</li>
+<li>
+<a href="../../systems/13-stream-processing/">13. Stream Processing</a>
+</li>
+<li>
+<a href="../../systems/14-observability/">14. Observability</a>
+</li>
+<li>
+<a href="../../systems/15-distributed-transactions/">15. Distributed Transactions</a>
+</li>
+<li>
+<a href="../../systems/16-consensus-patterns/">16. Consensus Patterns</a>
+</li>
+</ul>
+</li>
+<li class="dropdown active">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">DSA <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../01-two-pointers/">01. Two Pointers</a>
+</li>
+<li>
+<a href="../02-sliding-window/">02. Sliding Window</a>
+</li>
+<li>
+<a href="../03-hash-tables/">03. Hash Tables</a>
+</li>
+<li>
+<a href="../04-linked-lists/">04. Linked Lists</a>
+</li>
+<li>
+<a href="../05-stacks--queues/">05. Stacks &amp; Queues</a>
+</li>
+<li>
+<a href="../06-trees-traversals/">06. Trees - Traversals</a>
+</li>
+<li class="active">
+<a href="./">07. Trees - Recursion</a>
+</li>
+<li>
+<a href="../08-binary-search/">08. Binary Search</a>
+</li>
+<li>
+<a href="../09-heaps/">09. Heaps</a>
+</li>
+<li>
+<a href="../10-graphs/">10. Graphs</a>
+</li>
+<li>
+<a href="../11-union-find/">11. Union-Find</a>
+</li>
+<li>
+<a href="../12-advanced-graphs/">12. Advanced Graphs</a>
+</li>
+<li>
+<a href="../13-backtracking/">13. Backtracking</a>
+</li>
+<li>
+<a href="../14-dynamic-programming-1d/">14. Dynamic Programming 1D</a>
+</li>
+<li>
+<a href="../15-dynamic-programming-2d/">15. Dynamic Programming 2D</a>
+</li>
+<li>
+<a href="../16-tries/">16. Tries</a>
+</li>
+<li>
+<a href="../17-advanced-topics/">17. Advanced Topics</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+<a data-target="#mkdocs_search_modal" data-toggle="modal" href="#">
+<i class="fas fa-search"></i> Search
+                        </a>
+</li>
+<li>
+<a href="../06-trees-traversals/" rel="prev">
+<i class="fas fa-arrow-left"></i> Previous
+                        </a>
+</li>
+<li>
+<a href="../08-binary-search/" rel="next">
+                            Next <i class="fas fa-arrow-right"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+<ul class="nav bs-sidenav">
+<li class="first-level active"><a href="#trees-recursion">Trees - Recursion</a></li>
+<li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+<li class="second-level"><a href="#quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)</a></li>
+<li class="second-level"><a href="#beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters</a></li>
+<li class="second-level"><a href="#core-implementation">Core Implementation</a></li>
+<li class="second-level"><a href="#debugging-challenges">Debugging Challenges</a></li>
+<li class="second-level"><a href="#decision-framework">Decision Framework</a></li>
+<li class="second-level"><a href="#practice">Practice</a></li>
+<li class="second-level"><a href="#review-checklist">Review Checklist</a></li>
+</ul>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="trees-recursion">Trees - Recursion<a class="headerlink" href="#trees-recursion" title="Permanent link">¶</a></h1>
+<blockquote>
+<p>Solve tree problems using recursive divide-and-conquer approach</p>
+</blockquote>
+<hr/>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After implementing all patterns, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What is tree recursion in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Why is recursion natural for trees?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy:</strong></p>
+<ul>
+<li>Example: "Tree recursion is like solving a puzzle by breaking it into smaller identical puzzles..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When does recursion work well for trees?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after solving problems]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What's the base case pattern for tree recursion?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr/>
+<h2 id="quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)<a class="headerlink" href="#quick-quiz-do-before-implementing" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Test your intuition without looking at code. Answer these, then verify after implementation.</p>
+<h3 id="complexity-predictions">Complexity Predictions<a class="headerlink" href="#complexity-predictions" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p><strong>Iterative tree height using level-order traversal:</strong></p>
+<ul>
+<li>Time complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Space complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Verified after learning: <span class="fill-in">[Actual: O(?)]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Recursive tree height:</strong></p>
+<ul>
+<li>Time complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Space complexity: <span class="fill-in">[Your guess: O(?)]</span></li>
+<li>Verified: <span class="fill-in">[Actual]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Space usage comparison:</strong></p>
+<ul>
+<li>For a balanced tree with n = 1,000 nodes, height h = <span class="fill-in">_____</span></li>
+<li>Recursive call stack depth = <span class="fill-in">_____</span></li>
+<li>Level-order queue max size = <span class="fill-in">_____</span></li>
+</ul>
+</li>
+</ol>
+<h3 id="scenario-predictions">Scenario Predictions<a class="headerlink" href="#scenario-predictions" title="Permanent link">¶</a></h3>
+<p><strong>Scenario 1:</strong> Calculate height of this tree:</p>
+<pre class="highlight"><code>       5
+      / \
+     3   8
+    /     \
+   1       9</code></pre>
+<ul>
+<li><strong>Base case returns:</strong> <span class="fill-in">[What value for null nodes?]</span></li>
+<li><strong>Left subtree height:</strong> <span class="fill-in">[Calculate]</span></li>
+<li><strong>Right subtree height:</strong> <span class="fill-in">[Calculate]</span></li>
+<li><strong>Total height:</strong> <span class="fill-in">[What formula combines them?]</span></li>
+</ul>
+<p><strong>Scenario 2:</strong> Find LCA of nodes 1 and 9 in the above tree</p>
+<ul>
+<li><strong>Which subtrees contain each node?</strong> <span class="fill-in">[Fill in]</span></li>
+<li><strong>Where will LCA be found?</strong> <span class="fill-in">[Node 5, 3, 8, or other?]</span></li>
+<li><strong>Why?</strong> <span class="fill-in">[Explain your reasoning]</span></li>
+</ul>
+<p><strong>Scenario 3:</strong> Calculate diameter of the same tree</p>
+<ul>
+<li><strong>What is diameter?</strong> <span class="fill-in">[Define in your words]</span></li>
+<li><strong>Diameter through root?</strong> <span class="fill-in">[Left height + right height = ?]</span></li>
+<li><strong>Could diameter be in a subtree?</strong> <span class="fill-in">[Yes/No - Why?]</span></li>
+</ul>
+<h3 id="base-case-quiz">Base Case Quiz<a class="headerlink" href="#base-case-quiz" title="Permanent link">¶</a></h3>
+<p><strong>Question:</strong> What should the base case return for tree height?</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> return 0 when root is null</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> return 1 when root is null</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> return -1 when root is null</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> return 0 when root is a leaf</li>
+</ul>
+<p>Verify after implementation: <span class="fill-in">[Which one(s)?]</span></p>
+<p><strong>Question:</strong> For path sum, what makes a valid path?</p>
+<ul>
+<li>Your answer: <span class="fill-in">[Root to leaf? Any path? Fill in]</span></li>
+<li>When is targetSum considered found? <span class="fill-in">[At leaf node? Any node?]</span></li>
+</ul>
+<h3 id="recursion-flow-quiz">Recursion Flow Quiz<a class="headerlink" href="#recursion-flow-quiz" title="Permanent link">¶</a></h3>
+<p><strong>Question:</strong> In tree diameter calculation, why do we need both height AND diameter?</p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in before implementation]</span></li>
+<li>Verified answer: <span class="fill-in">[Fill in after learning]</span></li>
+</ul>
+<p><strong>Question:</strong> What's the MAIN difference between tree recursion and array recursion?</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Trees have two recursive calls, arrays have one</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Trees need base case, arrays don't</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Trees use divide-and-conquer, arrays use iteration</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Trees always return values up, arrays modify in-place</li>
+</ul>
+<p>Verify after implementation: <span class="fill-in">[Which one(s)?]</span></p>
+</div>
+<hr/>
+<h2 id="beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters<a class="headerlink" href="#beforeafter-why-this-pattern-matters" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Compare iterative vs recursive approaches to understand the impact.</p>
+<h3 id="example-1-tree-height">Example 1: Tree Height<a class="headerlink" href="#example-1-tree-height" title="Permanent link">¶</a></h3>
+<p><strong>Problem:</strong> Calculate the height of a binary tree.</p>
+<h4 id="approach-1-iterative-level-order-traversal">Approach 1: Iterative (Level-Order Traversal)<a class="headerlink" href="#approach-1-iterative-level-order-traversal" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Iterative approach - Use queue for level-order traversal
+public static int height_Iterative(TreeNode root) {
+    if (root == null) return 0;
+
+    Queue&lt;TreeNode&gt; queue = new LinkedList&lt;&gt;();
+    queue.offer(root);
+    int height = 0;
+
+    while (!queue.isEmpty()) {
+        int levelSize = queue.size();
+        height++;
+
+        for (int i = 0; i &lt; levelSize; i++) {
+            TreeNode node = queue.poll();
+            if (node.left != null) queue.offer(node.left);
+            if (node.right != null) queue.offer(node.right);
+        }
+    }
+
+    return height;
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n) - Visit every node once</li>
+<li>Space: O(w) - Queue holds max width of tree (could be n/2 for balanced tree)</li>
+<li>Lines of code: ~15</li>
+<li>Complexity: Need to track levels explicitly with queue size</li>
+</ul>
+<h4 id="approach-2-recursive-divide-and-conquer">Approach 2: Recursive (Divide-and-Conquer)<a class="headerlink" href="#approach-2-recursive-divide-and-conquer" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Recursive approach - Natural tree structure
+public static int height_Recursive(TreeNode root) {
+    if (root == null) return 0;
+
+    int leftHeight = height_Recursive(root.left);
+    int rightHeight = height_Recursive(root.right);
+
+    return 1 + Math.max(leftHeight, rightHeight);
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n) - Visit every node once</li>
+<li>Space: O(h) - Recursion stack depth equals tree height</li>
+<li>Lines of code: ~5</li>
+<li>Complexity: Natural, elegant, follows tree structure</li>
+</ul>
+<h4 id="why-does-recursion-work-better">Why Does Recursion Work Better?<a class="headerlink" href="#why-does-recursion-work-better" title="Permanent link">¶</a></h4>
+<p><strong>Key insight to understand:</strong></p>
+<p>Trees are inherently recursive structures:</p>
+<ul>
+<li>A tree is either empty (null) OR</li>
+<li>A root node with left subtree and right subtree</li>
+</ul>
+<p>This natural recursion makes problems like height trivial:</p>
+<ol>
+<li>Height of empty tree = 0 (base case)</li>
+<li>Height of tree = 1 + max(left height, right height)</li>
+</ol>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>Why is recursion more natural for trees? <span class="fill-in">[Your answer]</span></li>
+<li>When would iterative be better? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr/>
+<h3 id="example-2-tree-diameter">Example 2: Tree Diameter<a class="headerlink" href="#example-2-tree-diameter" title="Permanent link">¶</a></h3>
+<p><strong>Problem:</strong> Find the longest path between any two nodes.</p>
+<h4 id="approach-1-brute-force-calculate-height-at-every-node">Approach 1: Brute Force (Calculate height at every node)<a class="headerlink" href="#approach-1-brute-force-calculate-height-at-every-node" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Naive approach - Calculate height at every node separately
+public static int diameter_BruteForce(TreeNode root) {
+    if (root == null) return 0;
+
+    // Option 1: Diameter passes through root
+    int leftHeight = height(root.left);
+    int rightHeight = height(root.right);
+    int diameterThroughRoot = leftHeight + rightHeight;
+
+    // Option 2: Diameter is in left subtree
+    int diameterLeft = diameter_BruteForce(root.left);
+
+    // Option 3: Diameter is in right subtree
+    int diameterRight = diameter_BruteForce(root.right);
+
+    return Math.max(diameterThroughRoot,
+                    Math.max(diameterLeft, diameterRight));
+}
+
+private static int height(TreeNode root) {
+    if (root == null) return 0;
+    return 1 + Math.max(height(root.left), height(root.right));
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n²) - For each node, calculate height (which visits subtree)</li>
+<li>Space: O(h) - Recursion stack</li>
+<li>Problem: Recalculates height multiple times</li>
+</ul>
+<h4 id="approach-2-optimized-recursion-calculate-both-at-once">Approach 2: Optimized Recursion (Calculate both at once)<a class="headerlink" href="#approach-2-optimized-recursion-calculate-both-at-once" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Optimized approach - Calculate height and update diameter in one pass
+public static int diameter_Optimized(TreeNode root) {
+    int[] maxDiameter = new int[1];
+    calculateHeight(root, maxDiameter);
+    return maxDiameter[0];
+}
+
+private static int calculateHeight(TreeNode root, int[] maxDiameter) {
+    if (root == null) return 0;
+
+    int leftHeight = calculateHeight(root.left, maxDiameter);
+    int rightHeight = calculateHeight(root.right, maxDiameter);
+
+    // Update diameter while calculating height
+    maxDiameter[0] = Math.max(maxDiameter[0], leftHeight + rightHeight);
+
+    return 1 + Math.max(leftHeight, rightHeight);
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n) - Visit every node exactly once</li>
+<li>Space: O(h) - Recursion stack</li>
+<li>Key insight: Combine height calculation with diameter tracking</li>
+</ul>
+<h4 id="performance-comparison">Performance Comparison<a class="headerlink" href="#performance-comparison" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>Tree Size</th>
+<th>Brute Force (O(n²))</th>
+<th>Optimized (O(n))</th>
+<th>Speedup</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n = 100</td>
+<td>~10,000 ops</td>
+<td>100 ops</td>
+<td>100x</td>
+</tr>
+<tr>
+<td>n = 1,000</td>
+<td>~1,000,000 ops</td>
+<td>1,000 ops</td>
+<td>1,000x</td>
+</tr>
+<tr>
+<td>n = 10,000</td>
+<td>~100,000,000 ops</td>
+<td>10,000 ops</td>
+<td>10,000x</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Your calculation:</strong> For n = 5,000, the speedup is approximately _____ times faster.</p>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>Why does the optimized version avoid recalculation? <span class="fill-in">[Your answer]</span></li>
+<li>What pattern do you see in combining calculations? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr/>
+<h3 id="example-3-path-sum">Example 3: Path Sum<a class="headerlink" href="#example-3-path-sum" title="Permanent link">¶</a></h3>
+<p><strong>Problem:</strong> Check if a root-to-leaf path exists with a given sum.</p>
+<h4 id="approach-1-collect-all-paths-then-check">Approach 1: Collect All Paths, Then Check<a class="headerlink" href="#approach-1-collect-all-paths-then-check" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Less efficient - Build all paths, then check
+public static boolean hasPathSum_Naive(TreeNode root, int targetSum) {
+    List&lt;List&lt;Integer&gt;&gt; allPaths = new ArrayList&lt;&gt;();
+    collectPaths(root, new ArrayList&lt;&gt;(), allPaths);
+
+    for (List&lt;Integer&gt; path : allPaths) {
+        int sum = 0;
+        for (int val : path) sum += val;
+        if (sum == targetSum) return true;
+    }
+
+    return false;
+}
+
+private static void collectPaths(TreeNode root, List&lt;Integer&gt; current,
+                                 List&lt;List&lt;Integer&gt;&gt; allPaths) {
+    if (root == null) return;
+
+    current.add(root.val);
+
+    if (root.left == null &amp;&amp; root.right == null) {
+        allPaths.add(new ArrayList&lt;&gt;(current));
+    } else {
+        collectPaths(root.left, current, allPaths);
+        collectPaths(root.right, current, allPaths);
+    }
+
+    current.remove(current.size() - 1);
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n) to collect + O(n) to check = O(n)</li>
+<li>Space: O(n) - Store all paths</li>
+<li>Problem: Unnecessary space usage</li>
+</ul>
+<h4 id="approach-2-check-while-traversing">Approach 2: Check While Traversing<a class="headerlink" href="#approach-2-check-while-traversing" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Efficient - Check sum during traversal
+public static boolean hasPathSum_Optimized(TreeNode root, int targetSum) {
+    if (root == null) return false;
+
+    // At leaf: check if remaining sum equals node value
+    if (root.left == null &amp;&amp; root.right == null) {
+        return root.val == targetSum;
+    }
+
+    // Recursively check left and right with reduced sum
+    int remaining = targetSum - root.val;
+    return hasPathSum_Optimized(root.left, remaining) ||
+           hasPathSum_Optimized(root.right, remaining);
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n) - May terminate early</li>
+<li>Space: O(h) - Only recursion stack</li>
+<li>Key insight: Check condition while traversing, not after</li>
+</ul>
+<p><strong>Why is the second approach better?</strong></p>
+<ul>
+<li>Early termination: Returns as soon as a path is found</li>
+<li>Less space: No need to store all paths</li>
+<li>Clearer logic: Directly expresses the problem</li>
+</ul>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>When should you check conditions during recursion vs after? <span class="fill-in">[Your answer]</span></li>
+<li>What's the benefit of reducing the target while recursing? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="core-implementation">Core Implementation<a class="headerlink" href="#core-implementation" title="Permanent link">¶</a></h2>
+<h3 id="pattern-1-height-and-depth">Pattern 1: Height and Depth<a class="headerlink" href="#pattern-1-height-and-depth" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Calculate tree metrics recursively.</p>
+<p><strong>Use case:</strong> Tree height, depth, balanced tree check.</p>
+<pre class="highlight"><code class="language-java">public class TreeHeightDepth {
+
+    static class TreeNode {
+        int val;
+        TreeNode left, right;
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+    }
+
+    /**
+     * Problem: Calculate height of tree
+     * Time: O(n), Space: O(h) for recursion stack
+     *
+     * TODO: Implement recursive height calculation
+     */
+    public static int height(TreeNode root) {
+        // TODO: Handle base case
+
+        // TODO: Recursively get left height
+        // TODO: Recursively get right height
+        // TODO: Return 1 + max(leftHeight, rightHeight)
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Check if tree is balanced
+     * Time: O(n), Space: O(h)
+     *
+     * TODO: Implement balanced tree check
+     */
+    public static boolean isBalanced(TreeNode root) {
+        // TODO: Tree is balanced if:
+
+        // TODO: Return checkBalance(root) \!= -1
+        return false; // Replace with implementation
+    }
+
+    private static int checkBalance(TreeNode root) {
+        // TODO: Base case: null returns 0
+
+        // TODO: Check left subtree balance
+        // TODO: Implement iteration/conditional logic
+
+        // TODO: Check right subtree balance
+        // TODO: Implement iteration/conditional logic
+
+        // TODO: Implement iteration/conditional logic
+        // TODO: Otherwise return 1 + max(left, right)
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Calculate minimum depth (shortest path to leaf)
+     * Time: O(n), Space: O(h)
+     *
+     * TODO: Implement minimum depth
+     */
+    public static int minDepth(TreeNode root) {
+        // TODO: Handle base case
+
+        // TODO: Implement iteration/conditional logic
+        // TODO: Implement iteration/conditional logic
+
+        // TODO: Both children exist: return 1 + min(left, right)
+
+        return 0; // Replace with implementation
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">public class TreeHeightDepthClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Tree Height and Depth ===\n");
+
+        // Create balanced tree:
+        //       4
+        //      / \
+        //     2   6
+        //    / \ / \
+        //   1  3 5  7
+        TreeNode balanced = new TreeNode(4);
+        balanced.left = new TreeNode(2);
+        balanced.right = new TreeNode(6);
+        balanced.left.left = new TreeNode(1);
+        balanced.left.right = new TreeNode(3);
+        balanced.right.left = new TreeNode(5);
+        balanced.right.right = new TreeNode(7);
+
+        System.out.println("--- Test 1: Balanced Tree ---");
+        System.out.println("Height: " + TreeHeightDepth.height(balanced));
+        System.out.println("Is balanced: " + TreeHeightDepth.isBalanced(balanced));
+        System.out.println("Min depth: " + TreeHeightDepth.minDepth(balanced));
+
+        // Create unbalanced tree:
+        //       1
+        //      /
+        //     2
+        //    /
+        //   3
+        TreeNode unbalanced = new TreeNode(1);
+        unbalanced.left = new TreeNode(2);
+        unbalanced.left.left = new TreeNode(3);
+
+        System.out.println("\n--- Test 2: Unbalanced Tree ---");
+        System.out.println("Height: " + TreeHeightDepth.height(unbalanced));
+        System.out.println("Is balanced: " + TreeHeightDepth.isBalanced(unbalanced));
+        System.out.println("Min depth: " + TreeHeightDepth.minDepth(unbalanced));
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-2-diameter-and-paths">Pattern 2: Diameter and Paths<a class="headerlink" href="#pattern-2-diameter-and-paths" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Find longest paths in tree.</p>
+<p><strong>Use case:</strong> Tree diameter, max path sum, all paths.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class TreeDiameterPaths {
+
+    static class TreeNode {
+        int val;
+        TreeNode left, right;
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+    }
+
+    /**
+     * Problem: Calculate diameter (longest path between any two nodes)
+     * Time: O(n), Space: O(h)
+     *
+     * TODO: Implement diameter calculation
+     */
+    public static int diameter(TreeNode root) {
+        int[] maxDiameter = new int[1];
+
+        // TODO: Helper function to calculate height and update diameter
+        // TODO: Implement iteration/conditional logic
+        // TODO: Track maximum diameter seen
+
+        calculateHeight(root, maxDiameter);
+        return maxDiameter[0];
+    }
+
+    private static int calculateHeight(TreeNode root, int[] maxDiameter) {
+        // TODO: Base case: null returns 0
+
+        // TODO: Get left and right heights
+        // TODO: Update maxDiameter: max(current, left + right)
+        // TODO: Return 1 + max(left, right)
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Check if path exists with given sum
+     * Time: O(n), Space: O(h)
+     *
+     * TODO: Implement path sum check
+     */
+    public static boolean hasPathSum(TreeNode root, int targetSum) {
+        // TODO: Handle base case
+
+        // TODO: Implement iteration/conditional logic
+
+        // TODO: Recursively check left and right subtrees
+        // TODO: with targetSum - root.val
+
+        return false; // Replace with implementation
+    }
+
+    /**
+     * Problem: Find all root-to-leaf paths with given sum
+     * Time: O(n), Space: O(h)
+     *
+     * TODO: Implement path sum II with backtracking
+     */
+    public static List&lt;List&lt;Integer&gt;&gt; pathSum(TreeNode root, int targetSum) {
+        List&lt;List&lt;Integer&gt;&gt; result = new ArrayList&lt;&gt;();
+
+        // TODO: Use backtracking to explore all paths
+        // TODO: Add node to path, recurse, remove node (backtrack)
+
+        return result; // Replace with implementation
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class TreeDiameterPathsClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Tree Diameter and Paths ===\n");
+
+        // Create tree:
+        //       5
+        //      / \
+        //     4   8
+        //    /   / \
+        //   11  13  4
+        //  / \      / \
+        // 7   2    5   1
+        TreeNode root = new TreeNode(5);
+        root.left = new TreeNode(4);
+        root.right = new TreeNode(8);
+        root.left.left = new TreeNode(11);
+        root.left.left.left = new TreeNode(7);
+        root.left.left.right = new TreeNode(2);
+        root.right.left = new TreeNode(13);
+        root.right.right = new TreeNode(4);
+        root.right.right.left = new TreeNode(5);
+        root.right.right.right = new TreeNode(1);
+
+        System.out.println("--- Test 1: Diameter ---");
+        System.out.println("Diameter: " + TreeDiameterPaths.diameter(root));
+
+        System.out.println("\n--- Test 2: Has Path Sum (22) ---");
+        System.out.println("Has path: " + TreeDiameterPaths.hasPathSum(root, 22));
+
+        System.out.println("\n--- Test 3: All Paths with Sum 22 ---");
+        List&lt;List&lt;Integer&gt;&gt; paths = TreeDiameterPaths.pathSum(root, 22);
+        System.out.println("Paths: " + paths);
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-3-lowest-common-ancestor-lca">Pattern 3: Lowest Common Ancestor (LCA)<a class="headerlink" href="#pattern-3-lowest-common-ancestor-lca" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Find common ancestor of two nodes.</p>
+<p><strong>Use case:</strong> LCA in binary tree, LCA in BST, distance between nodes.</p>
+<pre class="highlight"><code class="language-java">public class LowestCommonAncestor {
+
+    static class TreeNode {
+        int val;
+        TreeNode left, right;
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+    }
+
+    /**
+     * Problem: Find LCA in binary tree
+     * Time: O(n), Space: O(h)
+     *
+     * TODO: Implement LCA for binary tree
+     */
+    public static TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        // TODO: Handle base case
+
+        // TODO: Recursively search in left and right subtrees
+
+        // TODO: Implement iteration/conditional logic
+        // TODO: Implement iteration/conditional logic
+        // TODO: Implement iteration/conditional logic
+
+        return null; // Replace with implementation
+    }
+
+    /**
+     * Problem: Find LCA in BST (optimized)
+     * Time: O(h), Space: O(h)
+     *
+     * TODO: Implement LCA for BST
+     */
+    public static TreeNode lowestCommonAncestorBST(TreeNode root, TreeNode p, TreeNode q) {
+        // TODO: Implement iteration/conditional logic
+        // TODO: Implement iteration/conditional logic
+        // TODO: Otherwise, root is LCA
+
+        return null; // Replace with implementation
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">public class LowestCommonAncestorClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Lowest Common Ancestor ===\n");
+
+        // Create BST:
+        //       6
+        //      / \
+        //     2   8
+        //    / \ / \
+        //   0  4 7  9
+        //     / \
+        //    3   5
+        TreeNode root = new TreeNode(6);
+        root.left = new TreeNode(2);
+        root.right = new TreeNode(8);
+        root.left.left = new TreeNode(0);
+        root.left.right = new TreeNode(4);
+        root.left.right.left = new TreeNode(3);
+        root.left.right.right = new TreeNode(5);
+        root.right.left = new TreeNode(7);
+        root.right.right = new TreeNode(9);
+
+        TreeNode p = root.left; // Node 2
+        TreeNode q = root.right; // Node 8
+
+        System.out.println("--- Test 1: LCA of 2 and 8 ---");
+        TreeNode lca = LowestCommonAncestor.lowestCommonAncestor(root, p, q);
+        System.out.println("LCA: " + (lca \!= null ? lca.val : "null"));
+
+        p = root.left; // Node 2
+        q = root.left.right; // Node 4
+
+        System.out.println("\n--- Test 2: LCA of 2 and 4 ---");
+        lca = LowestCommonAncestor.lowestCommonAncestor(root, p, q);
+        System.out.println("LCA: " + (lca \!= null ? lca.val : "null"));
+
+        System.out.println("\n--- Test 3: LCA in BST (optimized) ---");
+        lca = LowestCommonAncestor.lowestCommonAncestorBST(root, p, q);
+        System.out.println("LCA: " + (lca \!= null ? lca.val : "null"));
+    }
+}</code></pre>
+<hr/>
+<h3 id="pattern-4-tree-construction">Pattern 4: Tree Construction<a class="headerlink" href="#pattern-4-tree-construction" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Build tree from traversal arrays.</p>
+<p><strong>Use case:</strong> Construct from inorder/preorder, inorder/postorder.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class TreeConstruction {
+
+    static class TreeNode {
+        int val;
+        TreeNode left, right;
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+    }
+
+    /**
+     * Problem: Build tree from preorder and inorder traversals
+     * Time: O(n), Space: O(n)
+     *
+     * TODO: Implement tree construction
+     */
+    public static TreeNode buildTreePreIn(int[] preorder, int[] inorder) {
+        // TODO: Create map of inorder indices for O(1) lookup
+        // TODO: Use helper with preorder index pointer
+        // TODO: Implement iteration/conditional logic
+
+        return null; // Replace with implementation
+    }
+
+    /**
+     * Problem: Build tree from postorder and inorder traversals
+     * Time: O(n), Space: O(n)
+     *
+     * TODO: Implement tree construction
+     */
+    public static TreeNode buildTreePostIn(int[] postorder, int[] inorder) {
+        // TODO: Similar to preorder approach
+        // TODO: But process postorder from right to left
+        // TODO: Build right subtree before left
+
+        return null; // Replace with implementation
+    }
+
+    // Helper: Print tree inorder
+    static void printInorder(TreeNode root) {
+        if (root == null) return;
+        printInorder(root.left);
+        System.out.print(root.val + " ");
+        printInorder(root.right);
+    }
+}</code></pre>
+<p><strong>Runnable Client Code:</strong></p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class TreeConstructionClient {
+
+    public static void main(String[] args) {
+        System.out.println("=== Tree Construction ===\n");
+
+        // Test 1: Build from preorder and inorder
+        System.out.println("--- Test 1: Build from Preorder and Inorder ---");
+        int[] preorder = {3, 9, 20, 15, 7};
+        int[] inorder = {9, 3, 15, 20, 7};
+
+        System.out.println("Preorder: " + Arrays.toString(preorder));
+        System.out.println("Inorder:  " + Arrays.toString(inorder));
+
+        TreeNode root1 = TreeConstruction.buildTreePreIn(preorder, inorder);
+        System.out.print("Built tree (inorder): ");
+        TreeConstruction.printInorder(root1);
+        System.out.println();
+
+        // Test 2: Build from postorder and inorder
+        System.out.println("\n--- Test 2: Build from Postorder and Inorder ---");
+        int[] postorder = {9, 15, 7, 20, 3};
+        int[] inorder2 = {9, 3, 15, 20, 7};
+
+        System.out.println("Postorder: " + Arrays.toString(postorder));
+        System.out.println("Inorder:   " + Arrays.toString(inorder2));
+
+        TreeNode root2 = TreeConstruction.buildTreePostIn(postorder, inorder2);
+        System.out.print("Built tree (inorder): ");
+        TreeConstruction.printInorder(root2);
+        System.out.println();
+    }
+}</code></pre>
+<hr/>
+<h2 id="debugging-challenges">Debugging Challenges<a class="headerlink" href="#debugging-challenges" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Find and fix bugs in broken tree recursion implementations. This tests your understanding of recursion
+flow.</p>
+<h3 id="challenge-1-broken-tree-height">Challenge 1: Broken Tree Height<a class="headerlink" href="#challenge-1-broken-tree-height" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Calculate height of binary tree.
+ * This has 2 BUGS. Find them!
+ */
+public static int height_Buggy(TreeNode root) {
+
+    int leftHeight = height_Buggy(root.left);
+    int rightHeight = height_Buggy(root.right);
+
+    return Math.max(leftHeight, rightHeight);}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li>
+<p>Bug 1: <span class="fill-in">[What\'s the bug?]</span></p>
+</li>
+<li>
+<p>Bug 2: <span class="fill-in">[What\'s the bug?]</span></p>
+</li>
+</ul>
+<p><strong>Test case to expose bugs:</strong></p>
+<ul>
+<li>Tree: Single node (value = 5)</li>
+<li>Expected height: 1</li>
+<li>Actual with bugs: <span class="fill-in">[What do you get? Trace through]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug 1:</strong> Missing base case! Should check <code>if (root == null) return 0;</code> at the start.</p>
+<p><strong>Bug 2:</strong> Missing the "+1" for the current node. Should be:</p>
+<pre class="highlight"><code class="language-java">return 1 + Math.max(leftHeight, rightHeight);</code></pre>
+<p><strong>Complete correct version:</strong></p>
+<pre class="highlight"><code class="language-java">public static int height(TreeNode root) {
+    if (root == null) return 0;
+
+    int leftHeight = height(root.left);
+    int rightHeight = height(root.right);
+
+    return 1 + Math.max(leftHeight, rightHeight);
+}</code></pre>
+</details>
+<hr/>
+<h3 id="challenge-2-broken-diameter-calculation">Challenge 2: Broken Diameter Calculation<a class="headerlink" href="#challenge-2-broken-diameter-calculation" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Calculate tree diameter (longest path between any two nodes).
+ * This has 1 CRITICAL BUG.
+ */
+public static int diameter_Buggy(TreeNode root) {
+    if (root == null) return 0;
+
+    int leftHeight = height(root.left);
+    int rightHeight = height(root.right);
+
+    return leftHeight + rightHeight;
+}
+
+private static int height(TreeNode root) {
+    if (root == null) return 0;
+    return 1 + Math.max(height(root.left), height(root.right));
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug explanation:</strong> <span class="fill-in">[What case is this code missing?]</span></li>
+<li><strong>Example that breaks it:</strong></li>
+</ul>
+<pre class="highlight"><code>    Tree:     1
+             /
+            2
+           / \
+          3   4</code></pre>
+<ul>
+<li>Expected diameter: <span class="fill-in">[What is it? Count the edges]</span></li>
+<li>Actual with bug: <span class="fill-in">[What does the buggy code return?]</span></li>
+</ul>
+<p><strong>Bug fix:</strong> <span class="fill-in">[What must we also check?]</span></p>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> The diameter might NOT pass through the root! It could be entirely in the left or right subtree.</p>
+<p><strong>Example:</strong></p>
+<pre class="highlight"><code>    1
+   /
+  2
+ / \
+3   4</code></pre>
+<p>The longest path is 3 → 2 → 4 (length 2), which is entirely in the left subtree of node 1.</p>
+<p><strong>Correct approach:</strong></p>
+<pre class="highlight"><code class="language-java">public static int diameter(TreeNode root) {
+    if (root == null) return 0;
+
+    int leftHeight = height(root.left);
+    int rightHeight = height(root.right);
+    int diameterThroughRoot = leftHeight + rightHeight;
+
+    // MUST also check diameter in subtrees!
+    int diameterLeft = diameter(root.left);
+    int diameterRight = diameter(root.right);
+
+    return Math.max(diameterThroughRoot,
+                    Math.max(diameterLeft, diameterRight));
+}</code></pre>
+<p><strong>Better optimization:</strong> Calculate both height and diameter in one pass (as shown in Pattern 2).</p>
+</details>
+<hr/>
+<h3 id="challenge-3-broken-path-sum">Challenge 3: Broken Path Sum<a class="headerlink" href="#challenge-3-broken-path-sum" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Check if any root-to-leaf path sums to target.
+ * This has 2 SUBTLE BUGS.
+ */
+public static boolean hasPathSum_Buggy(TreeNode root, int targetSum) {
+    if (root == null) return false;
+
+    if (root.left == null || root.right == null) {
+        return root.val == targetSum;
+    }
+
+    int remaining = targetSum - root.val;
+
+    return hasPathSum_Buggy(root.left, remaining) &amp;&amp;
+           hasPathSum_Buggy(root.right, remaining);
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug 1:</strong> <span class="fill-in">[What's wrong with the leaf check?]</span></li>
+<li>
+<p><strong>Bug 1 fix:</strong> <span class="fill-in">[How should we check if a node is a leaf?]</span></p>
+</li>
+<li>
+<p><strong>Bug 2:</strong> <span class="fill-in">[Should we use &amp;&amp; or ||? Why?]</span></p>
+</li>
+<li><strong>Bug 2 fix:</strong> <span class="fill-in">[Fill in the correct operator]</span></li>
+</ul>
+<p><strong>Test case:</strong></p>
+<pre class="highlight"><code>Tree:     5
+         / \
+        4   8
+       /
+      11</code></pre>
+<p>Target: 9 (path 5 → 4, but 4 is not a leaf!)</p>
+<ul>
+<li>Expected: false (no root-to-leaf path sums to 9)</li>
+<li>Actual with bugs: <span class="fill-in">[What happens?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answers</summary>
+<p><strong>Bug 1:</strong> Leaf check should use <code>&amp;&amp;</code> not <code>||</code>. A leaf has BOTH children null, not just one!</p>
+<p><strong>Correct:</strong> <code>if (root.left == null &amp;&amp; root.right == null)</code></p>
+<p><strong>Bug 2:</strong> Should use <code>||</code> not <code>&amp;&amp;</code>. We're checking if EITHER subtree has a valid path, not both!</p>
+<p><strong>Why:</strong> We only need ONE path that sums to target. Using <code>&amp;&amp;</code> means BOTH subtrees must have valid paths, which is
+wrong.</p>
+<p><strong>Complete correct version:</strong></p>
+<pre class="highlight"><code class="language-java">public static boolean hasPathSum(TreeNode root, int targetSum) {
+    if (root == null) return false;
+
+    // Check if leaf node and sum matches
+    if (root.left == null &amp;&amp; root.right == null) {
+        return root.val == targetSum;
+    }
+
+    int remaining = targetSum - root.val;
+    return hasPathSum(root.left, remaining) ||
+           hasPathSum(root.right, remaining);
+}</code></pre>
+</details>
+<hr/>
+<h3 id="challenge-4-broken-lca">Challenge 4: Broken LCA<a class="headerlink" href="#challenge-4-broken-lca" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Find lowest common ancestor of two nodes.
+ * This has 1 LOGIC ERROR in base case.
+ */
+public static TreeNode lowestCommonAncestor_Buggy(TreeNode root,
+                                                   TreeNode p, TreeNode q) {
+    if (root == null) return null;
+
+    TreeNode left = lowestCommonAncestor_Buggy(root.left, p, q);
+    TreeNode right = lowestCommonAncestor_Buggy(root.right, p, q);
+
+    if (left != null &amp;&amp; right != null) return root;
+    if (left != null) return left;
+    return right;
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug location:</strong> <span class="fill-in">[What's missing in the base case?]</span></li>
+<li><strong>Bug explanation:</strong> <span class="fill-in">[What should happen when root equals p or q?]</span></li>
+</ul>
+<p><strong>Test case:</strong></p>
+<pre class="highlight"><code>Tree:     3
+         / \
+        5   1
+       / \
+      6   2
+
+p = node 5, q = node 1</code></pre>
+<ul>
+<li>Expected LCA: node 3</li>
+<li>Actual with bug: <span class="fill-in">[Trace through - what happens?]</span></li>
+</ul>
+<p><strong>Bug fix:</strong> <span class="fill-in">[What condition should be added?]</span></p>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> Missing the check for when <code>root == p</code> or <code>root == q</code>!</p>
+<p><strong>Why it matters:</strong> If we find p or q, we should return it immediately. The LCA logic depends on this!</p>
+<p><strong>Correct base case:</strong></p>
+<pre class="highlight"><code class="language-java">if (root == null || root == p || root == q) return root;</code></pre>
+<p><strong>Why this works:</strong></p>
+<ul>
+<li>If root is p, then either:<ol>
+<li>q is in a subtree of p → LCA is p</li>
+<li>q is elsewhere → p will be returned up</li>
+</ol>
+</li>
+<li>When both left and right are non-null, current root is LCA</li>
+<li>When only one side is non-null, LCA is in that subtree</li>
+</ul>
+<p><strong>Complete correct version:</strong></p>
+<pre class="highlight"><code class="language-java">public static TreeNode lowestCommonAncestor(TreeNode root,
+                                            TreeNode p, TreeNode q) {
+    if (root == null || root == p || root == q) return root;
+
+    TreeNode left = lowestCommonAncestor(root.left, p, q);
+    TreeNode right = lowestCommonAncestor(root.right, p, q);
+
+    if (left != null &amp;&amp; right != null) return root;
+    return left != null ? left : right;
+}</code></pre>
+</details>
+<hr/>
+<h3 id="challenge-5-broken-balanced-tree-check">Challenge 5: Broken Balanced Tree Check<a class="headerlink" href="#challenge-5-broken-balanced-tree-check" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Check if tree is balanced (height difference &lt;= 1 at every node).
+ * This has 1 EFFICIENCY BUG.
+ */
+public static boolean isBalanced_Buggy(TreeNode root) {
+    if (root == null) return true;
+
+    int leftHeight = height(root.left);
+    int rightHeight = height(root.right);
+
+    return Math.abs(leftHeight - rightHeight) &lt;= 1 &amp;&amp;
+           isBalanced_Buggy(root.left) &amp;&amp;
+           isBalanced_Buggy(root.right);
+}
+
+private static int height(TreeNode root) {
+    if (root == null) return 0;
+    return 1 + Math.max(height(root.left), height(root.right));
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug type:</strong> <span class="fill-in">[Correctness or efficiency?]</span></li>
+<li><strong>Time complexity:</strong> <span class="fill-in">[What is it? O(n)? O(n²)? O(n log n)?]</span></li>
+<li><strong>Bug explanation:</strong> <span class="fill-in">[Why is it inefficient?]</span></li>
+</ul>
+<p><strong>Better approach:</strong> <span class="fill-in">[How can we check balance while calculating height in one pass?]</span></p>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> Time complexity is O(n²)! Same issue as the diameter brute force approach.</p>
+<p><strong>Why:</strong> For each node, we calculate height (O(n) in worst case), and we do this for all n nodes.</p>
+<p><strong>Better approach:</strong> Return -1 to signal imbalance, actual height otherwise.</p>
+<p><strong>Optimized version:</strong></p>
+<pre class="highlight"><code class="language-java">public static boolean isBalanced(TreeNode root) {
+    return checkBalance(root) != -1;
+}
+
+private static int checkBalance(TreeNode root) {
+    if (root == null) return 0;
+
+    int leftHeight = checkBalance(root.left);
+    if (leftHeight == -1) return -1;  // Left subtree unbalanced
+
+    int rightHeight = checkBalance(root.right);
+    if (rightHeight == -1) return -1;  // Right subtree unbalanced
+
+    // Check current node's balance
+    if (Math.abs(leftHeight - rightHeight) &gt; 1) return -1;
+
+    return 1 + Math.max(leftHeight, rightHeight);
+}</code></pre>
+<p><strong>Time:</strong> O(n) - Each node visited once
+<strong>Space:</strong> O(h) - Recursion stack</p>
+</details>
+<hr/>
+<h3 id="challenge-6-return-value-confusion">Challenge 6: Return Value Confusion<a class="headerlink" href="#challenge-6-return-value-confusion" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * Find minimum depth (shortest path to a leaf).
+ * This has 1 SUBTLE BUG with edge cases.
+ */
+public static int minDepth_Buggy(TreeNode root) {
+    if (root == null) return 0;
+
+    int leftDepth = minDepth_Buggy(root.left);
+    int rightDepth = minDepth_Buggy(root.right);
+
+    return 1 + Math.min(leftDepth, rightDepth);
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Edge case that breaks:</strong> <span class="fill-in">[What kind of tree structure fails?]</span></li>
+</ul>
+<p><strong>Test case:</strong></p>
+<pre class="highlight"><code>Tree:     1
+         /
+        2
+       /
+      3</code></pre>
+<ul>
+<li>Expected min depth: 3 (only path is 1 → 2 → 3)</li>
+<li>Actual with bug: <span class="fill-in">[What does the buggy code return?]</span></li>
+</ul>
+<p><strong>Bug explanation:</strong> <span class="fill-in">[Why does it return the wrong value?]</span></p>
+<p><strong>Bug fix:</strong> <span class="fill-in">[What special case must we handle?]</span></p>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> When a node has only one child, taking the min incorrectly uses 0 from the null child!</p>
+<p><strong>Example trace:</strong></p>
+<pre class="highlight"><code>Tree:  1
+      /
+     2
+    /
+   3
+
+At node 3: leftDepth=0, rightDepth=0, return 1 + min(0,0) = 1 ✓
+At node 2: leftDepth=1, rightDepth=0, return 1 + min(1,0) = 1 ✗ (WRONG!)
+At node 1: leftDepth=1, rightDepth=0, return 1 + min(1,0) = 1 ✗ (WRONG!)</code></pre>
+<p>Should return 3, but returns 1!</p>
+<p><strong>Fix:</strong> Must handle single-child case specially:</p>
+<pre class="highlight"><code class="language-java">public static int minDepth(TreeNode root) {
+    if (root == null) return 0;
+
+    int leftDepth = minDepth(root.left);
+    int rightDepth = minDepth(root.right);
+
+    // If one child is null, we must take the other path
+    if (root.left == null) return 1 + rightDepth;
+    if (root.right == null) return 1 + leftDepth;
+
+    // Both children exist, take minimum
+    return 1 + Math.min(leftDepth, rightDepth);
+}</code></pre>
+<p><strong>Key insight:</strong> Min depth must be to a LEAF node. A node with one null child is NOT a leaf!</p>
+</details>
+<hr/>
+<h3 id="your-debugging-scorecard">Your Debugging Scorecard<a class="headerlink" href="#your-debugging-scorecard" title="Permanent link">¶</a></h3>
+<p>After finding and fixing all bugs:</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Found all 8+ bugs across 6 challenges</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understood WHY each bug causes incorrect behavior</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could explain the fix to someone else</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Learned common tree recursion mistakes to avoid</li>
+</ul>
+<p><strong>Common recursion mistakes you discovered:</strong></p>
+<ol>
+<li><span class="fill-in">[Missing base cases]</span></li>
+<li><span class="fill-in">[Forgetting to add current node in calculation]</span></li>
+<li><span class="fill-in">[Using &amp;&amp; instead of || (or vice versa)]</span></li>
+<li><span class="fill-in">[Not considering all cases (diameter in subtrees, single-child nodes)]</span></li>
+<li><span class="fill-in">[Recalculating values inefficiently]</span></li>
+</ol>
+<hr/>
+<h2 id="decision-framework">Decision Framework<a class="headerlink" href="#decision-framework" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Build decision trees for tree recursion.</p>
+<h3 id="question-1-what-information-flows-up-the-tree">Question 1: What information flows up the tree?<a class="headerlink" href="#question-1-what-information-flows-up-the-tree" title="Permanent link">¶</a></h3>
+<p>Answer after solving problems:</p>
+<ul>
+<li><strong>Single value (height, count)?</strong> <span class="fill-in">[Simple recursion]</span></li>
+<li><strong>Multiple values (balanced + height)?</strong> <span class="fill-in">[Use array or class]</span></li>
+<li><strong>Path information?</strong> <span class="fill-in">[Use backtracking]</span></li>
+<li><strong>Global state?</strong> <span class="fill-in">[Use instance variable]</span></li>
+</ul>
+<h3 id="question-2-when-to-use-helper-functions">Question 2: When to use helper functions?<a class="headerlink" href="#question-2-when-to-use-helper-functions" title="Permanent link">¶</a></h3>
+<p><strong>Direct recursion:</strong></p>
+<ul>
+<li>Use when: <span class="fill-in">[Single return value, no extra state]</span></li>
+<li>Example: <span class="fill-in">[Height calculation]</span></li>
+</ul>
+<p><strong>Helper with extra parameters:</strong></p>
+<ul>
+<li>Use when: <span class="fill-in">[Need to track state, indices, ranges]</span></li>
+<li>Example: <span class="fill-in">[Tree construction from arrays]</span></li>
+</ul>
+<p><strong>Helper with global variables:</strong></p>
+<ul>
+<li>Use when: <span class="fill-in">[Need to update global max/min]</span></li>
+<li>Example: <span class="fill-in">[Diameter, max path sum]</span></li>
+</ul>
+<h3 id="your-decision-tree">Your Decision Tree<a class="headerlink" href="#your-decision-tree" title="Permanent link">¶</a></h3>
+<div class="mermaid">flowchart LR
+    Start["Tree Recursion Pattern Selection"]
+
+    Q1{"What are you calculating?"}
+    Start --&gt; Q1
+    Q2{"Single metric&lt;br/&gt;(height, count)?"}
+    Q3{"Path-based&lt;br/&gt;(sum, all paths)?"}
+    Q4{"Find node(s)&lt;br/&gt;(LCA, search)?"}
+    Q5{"Build structure?"}
+    Q6{"How to track state?"}
+    Start --&gt; Q6
+    N7["Direct recursion"]
+    Q6 --&gt;|"No extra state"| N7
+    N8["Helper with array/class"]
+    Q6 --&gt;|"Track max/min"| N8
+    N9["Backtracking with list"]
+    Q6 --&gt;|"Track path"| N9</div>
+<hr/>
+<h2 id="practice">Practice<a class="headerlink" href="#practice" title="Permanent link">¶</a></h2>
+<h3 id="leetcode-problems">LeetCode Problems<a class="headerlink" href="#leetcode-problems" title="Permanent link">¶</a></h3>
+<p><strong>Easy (Complete all 4):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/maximum-depth-of-binary-tree/">104. Maximum Depth of Binary Tree</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Height calculation]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/balanced-binary-tree/">110. Balanced Binary Tree</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Balance check]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/minimum-depth-of-binary-tree/">111. Minimum Depth of Binary Tree</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Min depth]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/path-sum/">112. Path Sum</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Path recursion]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Medium (Complete 3-4):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/diameter-of-binary-tree/">543. Diameter of Binary Tree</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Diameter calculation]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/">236. Lowest Common Ancestor of a Binary Tree</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[LCA]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/">105. Construct Binary Tree from Preorder and Inorder Traversal</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Tree construction]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/path-sum-ii/">113. Path Sum II</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Backtracking paths]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Hard (Optional):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/binary-tree-maximum-path-sum/">124. Binary Tree Maximum Path Sum</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Global max tracking]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/serialize-and-deserialize-binary-tree/">297. Serialize and Deserialize Binary Tree</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Construction/serialization]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+</ul>
+<hr/>
+<h2 id="review-checklist">Review Checklist<a class="headerlink" href="#review-checklist" title="Permanent link">¶</a></h2>
+<p>Before moving to the next topic:</p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Implementation</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Height and depth: all metrics work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Diameter and paths: calculation and search work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> LCA: binary tree and BST both work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Construction: preorder/inorder and postorder/inorder work</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> All client code runs successfully</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Pattern Recognition</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can identify when to use recursion</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand base case patterns</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Know when to use helper functions</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Recognize backtracking patterns</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Problem Solving</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Solved 4 easy problems</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Solved 3-4 medium problems</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Analyzed time/space complexity</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Handled edge cases (null, single node, leaf)</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Understanding</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Filled in all ELI5 explanations</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Built decision tree</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Identified when NOT to use recursion</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can explain recursion flow for each pattern</li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <strong>Mastery Check</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could implement all patterns from memory</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could recognize pattern in new problem</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Could explain to someone else</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand recursion stack and space complexity</li>
+</ul>
+</li>
+</ul>
+<hr/>
+<h3 id="mastery-certification">Mastery Certification<a class="headerlink" href="#mastery-certification" title="Permanent link">¶</a></h3>
+<p><strong>I certify that I can:</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Implement all tree recursion patterns from memory</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Explain when and why to use each pattern</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Write correct base cases without hesitation</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Visualize the recursion flow for any tree problem</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Optimize O(n²) solutions to O(n)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Debug common recursion mistakes</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Choose between recursion and iteration</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Teach these concepts to someone else</li>
+</ul></div>
+</div>
+<footer class="col-md-12 text-center">
+<hr/>
+<p>
+<small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+</p>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../../js/bootstrap-3.0.3.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>var base_url = "../.."</script>
+<script src="../../js/base.js"></script>
+<script src="../../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<button class="close" data-dismiss="modal" type="button">
+<span aria-hidden="true">×</span>
+<span class="sr-only">Close</span>
+</button>
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+</div>
+<div class="modal-body">
+<p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="text"/>
+</div>
+</form>
+<div id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@10.4.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>

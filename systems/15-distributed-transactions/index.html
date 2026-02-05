@@ -1,0 +1,2198 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="A framework for algorithms, systems design, and infrastructure." name="description"/>
+<meta content="Richard" name="author"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>15. Distributed Transactions - Software Engineering Study Guide</title>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" rel="stylesheet"/>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css" rel="stylesheet"/>
+<link href="//rsms.me/inter/inter.css" rel="stylesheet" type="text/css"/>
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&amp;subset=latin-ext,latin" rel="stylesheet" type="text/css"/>
+<link href="../../css/bootstrap-custom.min.css" rel="stylesheet"/>
+<link href="../../css/base.min.css" rel="stylesheet"/>
+<link href="../../css/cinder.min.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css" rel="stylesheet"/>
+<link href="../../css/custom.css" rel="stylesheet"/>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="container">
+<!-- Collapsed navigation -->
+<div class="navbar-header">
+<!-- Expander button -->
+<button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<!-- Main title -->
+<a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+</div>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li>
+<a href="../..">Home</a>
+</li>
+<li class="dropdown active">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Systems Design <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../01-storage-engines/">01. Storage Engines</a>
+</li>
+<li>
+<a href="../02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+<li>
+<a href="../03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+<li>
+<a href="../04-search-and-indexing/">04. Search &amp; Indexing</a>
+</li>
+<li>
+<a href="../05-caching-patterns/">05. Caching Patterns</a>
+</li>
+<li>
+<a href="../06-api-design/">06. API Design</a>
+</li>
+<li>
+<a href="../07-security-patterns/">07. Security Patterns</a>
+</li>
+<li>
+<a href="../08-rate-limiting/">08. Rate Limiting</a>
+</li>
+<li>
+<a href="../09-load-balancing/">09. Load Balancing</a>
+</li>
+<li>
+<a href="../10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+<li>
+<a href="../11-database-scaling/">11. Database Scaling</a>
+</li>
+<li>
+<a href="../12-message-queues/">12. Message Queues</a>
+</li>
+<li>
+<a href="../13-stream-processing/">13. Stream Processing</a>
+</li>
+<li>
+<a href="../14-observability/">14. Observability</a>
+</li>
+<li class="active">
+<a href="./">15. Distributed Transactions</a>
+</li>
+<li>
+<a href="../16-consensus-patterns/">16. Consensus Patterns</a>
+</li>
+</ul>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">DSA <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../dsa/01-two-pointers/">01. Two Pointers</a>
+</li>
+<li>
+<a href="../../dsa/02-sliding-window/">02. Sliding Window</a>
+</li>
+<li>
+<a href="../../dsa/03-hash-tables/">03. Hash Tables</a>
+</li>
+<li>
+<a href="../../dsa/04-linked-lists/">04. Linked Lists</a>
+</li>
+<li>
+<a href="../../dsa/05-stacks--queues/">05. Stacks &amp; Queues</a>
+</li>
+<li>
+<a href="../../dsa/06-trees-traversals/">06. Trees - Traversals</a>
+</li>
+<li>
+<a href="../../dsa/07-trees-recursion/">07. Trees - Recursion</a>
+</li>
+<li>
+<a href="../../dsa/08-binary-search/">08. Binary Search</a>
+</li>
+<li>
+<a href="../../dsa/09-heaps/">09. Heaps</a>
+</li>
+<li>
+<a href="../../dsa/10-graphs/">10. Graphs</a>
+</li>
+<li>
+<a href="../../dsa/11-union-find/">11. Union-Find</a>
+</li>
+<li>
+<a href="../../dsa/12-advanced-graphs/">12. Advanced Graphs</a>
+</li>
+<li>
+<a href="../../dsa/13-backtracking/">13. Backtracking</a>
+</li>
+<li>
+<a href="../../dsa/14-dynamic-programming-1d/">14. Dynamic Programming 1D</a>
+</li>
+<li>
+<a href="../../dsa/15-dynamic-programming-2d/">15. Dynamic Programming 2D</a>
+</li>
+<li>
+<a href="../../dsa/16-tries/">16. Tries</a>
+</li>
+<li>
+<a href="../../dsa/17-advanced-topics/">17. Advanced Topics</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+<a data-target="#mkdocs_search_modal" data-toggle="modal" href="#">
+<i class="fas fa-search"></i> Search
+                        </a>
+</li>
+<li>
+<a href="../14-observability/" rel="prev">
+<i class="fas fa-arrow-left"></i> Previous
+                        </a>
+</li>
+<li>
+<a href="../16-consensus-patterns/" rel="next">
+                            Next <i class="fas fa-arrow-right"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+<ul class="nav bs-sidenav">
+<li class="first-level active"><a href="#distributed-transactions">Distributed Transactions</a></li>
+<li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+<li class="second-level"><a href="#quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)</a></li>
+<li class="second-level"><a href="#beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters</a></li>
+<li class="second-level"><a href="#case-studies-distributed-transactions-in-the-wild">Case Studies: Distributed Transactions in the Wild</a></li>
+<li class="second-level"><a href="#core-implementation">Core Implementation</a></li>
+<li class="second-level"><a href="#client-code">Client Code</a></li>
+<li class="second-level"><a href="#debugging-challenges">Debugging Challenges</a></li>
+<li class="second-level"><a href="#decision-framework">Decision Framework</a></li>
+<li class="second-level"><a href="#practice">Practice</a></li>
+<li class="second-level"><a href="#review-checklist">Review Checklist</a></li>
+</ul>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="distributed-transactions">Distributed Transactions<a class="headerlink" href="#distributed-transactions" title="Permanent link">¶</a></h1>
+<blockquote>
+<p>Maintaining consistency across multiple services and databases</p>
+</blockquote>
+<hr/>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After implementing distributed transaction patterns, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What is a distributed transaction in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Why are distributed transactions hard?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy for 2PC:</strong></p>
+<ul>
+<li>Example: "Two-phase commit is like a wedding ceremony where..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What is the Saga pattern in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>How is orchestration different from choreography?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy for Saga choreography:</strong></p>
+<ul>
+<li>Example: "Saga choreography is like a relay race where..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What is compensation in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When would you use event sourcing?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr/>
+<h2 id="quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)<a class="headerlink" href="#quick-quiz-do-before-implementing" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Test your intuition without looking at code. Answer these, then verify after implementation.</p>
+<h3 id="complexity-predictions">Complexity Predictions<a class="headerlink" href="#complexity-predictions" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p><strong>Two-phase commit with 3 participants:</strong></p>
+<ul>
+<li>Network round trips: <span class="fill-in">[Your guess: ?]</span></li>
+<li>Verified after learning: <span class="fill-in">[Actual: ?]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Saga with 5 steps:</strong></p>
+<ul>
+<li>If 3rd step fails, how many compensations? <span class="fill-in">[Your guess: ?]</span></li>
+<li>Verified: <span class="fill-in">[Actual: ?]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Consistency guarantees:</strong></p>
+<ul>
+<li>2PC provides: <span class="fill-in">[Strong/Eventual consistency?]</span></li>
+<li>Saga provides: <span class="fill-in">[Strong/Eventual consistency?]</span></li>
+<li>Verified: <span class="fill-in">[Actual answers]</span></li>
+</ul>
+</li>
+</ol>
+<h3 id="scenario-predictions">Scenario Predictions<a class="headerlink" href="#scenario-predictions" title="Permanent link">¶</a></h3>
+<p><strong>Scenario 1:</strong> Transfer $100 from Account A to Account B across different databases</p>
+<ul>
+<li><strong>Can you use 2PC?</strong> <span class="fill-in">[Yes/No - Why?]</span></li>
+<li><strong>What if one database is down during commit phase?</strong> <span class="fill-in">[What happens?]</span></li>
+<li><strong>Is the transaction atomic?</strong> <span class="fill-in">[Yes/No - Explain]</span></li>
+</ul>
+<p><strong>Scenario 2:</strong> Order processing: Reserve inventory → Charge payment → Ship order</p>
+<ul>
+<li><strong>Can you use 2PC?</strong> <span class="fill-in">[Yes/No - Why?]</span></li>
+<li><strong>What if payment fails after inventory is reserved?</strong> <span class="fill-in">[How to handle?]</span></li>
+<li><strong>Should you use orchestration or choreography?</strong> <span class="fill-in">[Fill in reasoning]</span></li>
+</ul>
+<p><strong>Scenario 3:</strong> Payment service charged customer but shipping service is down</p>
+<ul>
+<li><strong>With 2PC, can this happen?</strong> <span class="fill-in">[Yes/No - Why?]</span></li>
+<li><strong>With Saga, can this happen?</strong> <span class="fill-in">[Yes/No - Why?]</span></li>
+<li><strong>How would you recover?</strong> <span class="fill-in">[Fill in your approach]</span></li>
+</ul>
+<h3 id="trade-off-quiz">Trade-off Quiz<a class="headerlink" href="#trade-off-quiz" title="Permanent link">¶</a></h3>
+<p><strong>Question:</strong> When would 2PC be WORSE than Saga for distributed transactions?</p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in before implementation]</span></li>
+<li>Verified answer: <span class="fill-in">[Fill in after learning]</span></li>
+</ul>
+<p><strong>Question:</strong> What's the MAIN challenge with compensation in Saga?</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Compensation must be idempotent</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Compensation can fail</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Order matters (reverse order)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> All of the above</li>
+</ul>
+<p>Verify after implementation: <span class="fill-in">[Which one(s)?]</span></p>
+<p><strong>Question:</strong> Why does 2PC block while Saga doesn't?</p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in before implementation]</span></li>
+<li>Verified answer: <span class="fill-in">[Fill in after learning]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters<a class="headerlink" href="#beforeafter-why-this-pattern-matters" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Compare naive vs optimized approaches to understand the impact.</p>
+<h3 id="example-e-commerce-order-processing">Example: E-Commerce Order Processing<a class="headerlink" href="#example-e-commerce-order-processing" title="Permanent link">¶</a></h3>
+<p><strong>Problem:</strong> Process an order involving inventory, payment, and shipping across 3 microservices.</p>
+<h4 id="approach-1-naive-distributed-operations-no-transaction-management">Approach 1: Naive Distributed Operations (No Transaction Management)<a class="headerlink" href="#approach-1-naive-distributed-operations-no-transaction-management" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Naive approach - Just call services, hope for the best
+public class NaiveOrderProcessing {
+
+    public boolean processOrder(Order order) {
+        // Step 1: Reserve inventory
+        inventoryService.reserve(order.items);
+
+        // Step 2: Charge payment
+        paymentService.charge(order.customerId, order.amount);
+
+        // Step 3: Create shipment
+        shippingService.createShipment(order);
+
+        return true;
+    }
+}</code></pre>
+<p><strong>Problems:</strong></p>
+<ul>
+<li><strong>No rollback:</strong> If payment fails, inventory stays reserved forever</li>
+<li><strong>Partial failures:</strong> Customer charged but shipment never created</li>
+<li><strong>No consistency:</strong> Services can be in inconsistent states</li>
+<li><strong>No retry logic:</strong> Transient failures cause permanent data corruption</li>
+<li><strong>Debugging nightmare:</strong> Can't tell which step failed or what state the system is in</li>
+</ul>
+<p><strong>Real failure scenario:</strong></p>
+<pre class="highlight"><code>Step 1: Inventory reserved ✓
+Step 2: Payment charged ✓
+Step 3: Shipping service crashes ✗
+Result: Customer charged, inventory locked, no shipment!</code></pre>
+<h4 id="approach-2-two-phase-commit-strong-consistency">Approach 2: Two-Phase Commit (Strong Consistency)<a class="headerlink" href="#approach-2-two-phase-commit-strong-consistency" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// 2PC approach - Coordinated commit across all services
+public class TwoPhaseCommitOrderProcessing {
+
+    public boolean processOrder(Order order) {
+        String txId = generateTransactionId();
+
+        // PHASE 1: PREPARE - Ask all services if they can commit
+        boolean inventoryReady = inventoryService.prepare(txId, order.items);
+        boolean paymentReady = paymentService.prepare(txId, order.customerId, order.amount);
+        boolean shippingReady = shippingService.prepare(txId, order);
+
+        // PHASE 2: COMMIT or ABORT
+        if (inventoryReady &amp;&amp; paymentReady &amp;&amp; shippingReady) {
+            // All ready - commit everywhere
+            inventoryService.commit(txId);
+            paymentService.commit(txId);
+            shippingService.commit(txId);
+            return true;
+        } else {
+            // Someone can't commit - abort everywhere
+            inventoryService.abort(txId);
+            paymentService.abort(txId);
+            shippingService.abort(txId);
+            return false;
+        }
+    }
+}</code></pre>
+<p><strong>Benefits:</strong></p>
+<ul>
+<li><strong>Atomic:</strong> Either all commit or all abort</li>
+<li><strong>Strong consistency:</strong> No partial states</li>
+<li><strong>Locks held:</strong> Resources reserved during prepare</li>
+</ul>
+<p><strong>Drawbacks:</strong></p>
+<ul>
+<li><strong>Blocking:</strong> If coordinator crashes, participants locked</li>
+<li><strong>Latency:</strong> 2 network round trips minimum</li>
+<li><strong>Availability:</strong> Any participant down = whole transaction fails</li>
+<li><strong>Not suitable for:</strong> Long-running operations, high-latency networks</li>
+</ul>
+<h4 id="approach-3-saga-pattern-eventual-consistency">Approach 3: Saga Pattern (Eventual Consistency)<a class="headerlink" href="#approach-3-saga-pattern-eventual-consistency" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Saga approach - Sequential steps with compensation
+public class SagaOrderProcessing {
+
+    public boolean processOrder(Order order) {
+        List&lt;CompletedStep&gt; completed = new ArrayList&lt;&gt;();
+
+        try {
+            // Step 1: Reserve inventory
+            inventoryService.reserve(order.items);
+            completed.add(new CompletedStep("inventory",
+                () -&gt; inventoryService.releaseReservation(order.items)));
+
+            // Step 2: Charge payment
+            paymentService.charge(order.customerId, order.amount);
+            completed.add(new CompletedStep("payment",
+                () -&gt; paymentService.refund(order.customerId, order.amount)));
+
+            // Step 3: Create shipment
+            shippingService.createShipment(order);
+            completed.add(new CompletedStep("shipping",
+                () -&gt; shippingService.cancelShipment(order)));
+
+            return true;
+
+        } catch (Exception e) {
+            // Compensate in reverse order
+            for (int i = completed.size() - 1; i &gt;= 0; i--) {
+                completed.get(i).compensate();
+            }
+            return false;
+        }
+    }
+}</code></pre>
+<p><strong>Benefits:</strong></p>
+<ul>
+<li><strong>Non-blocking:</strong> No locks held between steps</li>
+<li><strong>Eventual consistency:</strong> System reaches consistent state</li>
+<li><strong>Resilient:</strong> Can handle long-running operations</li>
+<li><strong>Suitable for:</strong> Microservices, distributed systems</li>
+</ul>
+<p><strong>Drawbacks:</strong></p>
+<ul>
+<li><strong>Compensation complexity:</strong> Must implement reverse operations</li>
+<li><strong>Intermediate states visible:</strong> Brief inconsistency possible</li>
+<li><strong>Idempotency required:</strong> Compensations may retry</li>
+<li><strong>No isolation:</strong> Other transactions may see partial state</li>
+</ul>
+<h4 id="performance-comparison">Performance Comparison<a class="headerlink" href="#performance-comparison" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Naive</th>
+<th>2PC</th>
+<th>Saga</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Consistency</strong></td>
+<td>None</td>
+<td>Strong (ACID)</td>
+<td>Eventual</td>
+</tr>
+<tr>
+<td><strong>Availability</strong></td>
+<td>High</td>
+<td>Low (any down = fail)</td>
+<td>High</td>
+</tr>
+<tr>
+<td><strong>Latency</strong></td>
+<td>1 round trip</td>
+<td>2+ round trips</td>
+<td>1 round trip per step</td>
+</tr>
+<tr>
+<td><strong>Blocking</strong></td>
+<td>No</td>
+<td>Yes (locks held)</td>
+<td>No</td>
+</tr>
+<tr>
+<td><strong>Partial failures</strong></td>
+<td>Corrupt data</td>
+<td>All abort</td>
+<td>Compensate</td>
+</tr>
+<tr>
+<td><strong>Complexity</strong></td>
+<td>Low</td>
+<td>Medium</td>
+<td>High</td>
+</tr>
+<tr>
+<td><strong>Best for</strong></td>
+<td>Nothing (unsafe)</td>
+<td>Small, fast operations</td>
+<td>Long-running, microservices</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Latency Example (3 services, 50ms network latency each):</strong></p>
+<ul>
+<li><strong>Naive:</strong> ~150ms (3 sequential calls) - but leaves data corrupt on failure</li>
+<li><strong>2PC:</strong> ~300ms (prepare phase 150ms + commit phase 150ms)</li>
+<li><strong>Saga:</strong> ~150ms (3 sequential calls) + compensation time if needed</li>
+</ul>
+<h4 id="real-world-impact">Real-World Impact<a class="headerlink" href="#real-world-impact" title="Permanent link">¶</a></h4>
+<p><strong>Scenario:</strong> E-commerce site processing 1000 orders/minute</p>
+<p><strong>With 2PC:</strong></p>
+<ul>
+<li>1 stuck participant locks 100s of transactions</li>
+<li>Average latency: 300-500ms</li>
+<li>Failure of any service stops all orders</li>
+<li>Good for: Financial transfers, small critical updates</li>
+</ul>
+<p><strong>With Saga:</strong></p>
+<ul>
+<li>Failures isolated per order</li>
+<li>Average latency: 150-200ms</li>
+<li>Partial failures compensated automatically</li>
+<li>Good for: Order processing, user onboarding, booking systems</li>
+</ul>
+<p><strong>Your calculation:</strong></p>
+<ul>
+<li>For 5 microservices with 100ms latency each, 2PC takes approximately _____ ms</li>
+<li>Saga with same services takes approximately _____ ms</li>
+<li>If one service has 10% failure rate, 2PC success rate: <span class="fill-in">___</span>_%</li>
+<li>Saga can still complete (with compensation) in: <span class="fill-in">___</span>% of cases</li>
+</ul>
+<h4 id="why-does-saga-work">Why Does Saga Work?<a class="headerlink" href="#why-does-saga-work" title="Permanent link">¶</a></h4>
+<p><strong>Key insight to understand:</strong></p>
+<p>In a long-running order process with potential failures:</p>
+<pre class="highlight"><code>Saga: Reserve → Charge → Ship (if any fails, undo previous)</code></pre>
+<p><strong>Why eventual consistency is acceptable:</strong></p>
+<ul>
+<li>Customer doesn't see intermediate states (happens in seconds)</li>
+<li>If compensation needed, appears as "order canceled" to user</li>
+<li>Each service independently consistent</li>
+<li>Auditability: Full history of actions + compensations</li>
+</ul>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>Why is compensation in reverse order critical? <span class="fill-in">[Your answer]</span></li>
+<li>What makes a good compensation operation? <span class="fill-in">[Your answer]</span></li>
+<li>When would you need orchestration vs choreography? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="case-studies-distributed-transactions-in-the-wild">Case Studies: Distributed Transactions in the Wild<a class="headerlink" href="#case-studies-distributed-transactions-in-the-wild" title="Permanent link">¶</a></h2>
+<h3 id="e-commerce-order-processing-the-saga-pattern">E-commerce Order Processing: The Saga Pattern<a class="headerlink" href="#e-commerce-order-processing-the-saga-pattern" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> Saga (Choreography-based).</li>
+<li><strong>How it works:</strong> When you place an order on a site like Amazon, multiple microservices are involved. This is not a
+  single ACID transaction. Instead, it's a <strong>Saga</strong>:<ol>
+<li>The <strong>Orders Service</strong> creates an order and saves it with a <code>PENDING</code> status. It then publishes an <code>OrderCreated</code>
+   event.</li>
+<li>The <strong>Payments Service</strong> listens for <code>OrderCreated</code>, processes the payment, and publishes a <code>PaymentSucceeded</code>
+   event.</li>
+<li>The <strong>Inventory Service</strong> listens for <code>PaymentSucceeded</code>, decrements the product stock, and publishes
+   <code>InventoryUpdated</code>.</li>
+<li><strong>Compensation:</strong> If the payment fails, the Payments Service publishes <code>PaymentFailed</code>. The Orders Service
+   listens for this and runs a <em>compensating action</em> to cancel the order.</li>
+</ol>
+</li>
+<li><strong>Key Takeaway:</strong> For long-running business processes that span multiple services, Sagas provide a way to achieve
+  eventual consistency without using slow, blocking distributed locks. The key is defining a compensating action for
+  every step that could fail.</li>
+</ul>
+<h3 id="distributed-databases-google-spanner-cockroachdb-two-phase-commit">Distributed Databases (Google Spanner, CockroachDB): Two-Phase Commit<a class="headerlink" href="#distributed-databases-google-spanner-cockroachdb-two-phase-commit" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> Two-Phase Commit (2PC) integrated with a consensus protocol like Paxos or Raft.</li>
+<li><strong>How it works:</strong> Modern distributed SQL databases like Spanner and CockroachDB provide ACID transactions across
+  multiple machines. When you <code>BEGIN TRANSACTION</code> and update records that live on different nodes (shards), the database
+  uses a 2PC-like protocol. A <strong>transaction coordinator</strong> first asks all participating nodes if they are ready to
+  commit (Phase 1: Prepare). If all nodes agree, the coordinator tells them all to commit (Phase 2: Commit). This
+  ensures the transaction is atomic, even across a global cluster.</li>
+<li><strong>Key Takeaway:</strong> While brittle in traditional applications, 2PC is a core component of modern distributed databases.
+  When tightly integrated with consensus protocols, it provides the strong consistency guarantees that developers expect
+  from a SQL database, even in a distributed environment.</li>
+</ul>
+<h3 id="ride-sharing-apps-uber-lyft-sagas-for-trip-management">Ride-Sharing Apps (Uber, Lyft): Sagas for Trip Management<a class="headerlink" href="#ride-sharing-apps-uber-lyft-sagas-for-trip-management" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> Saga (Orchestration-based).</li>
+<li><strong>How it works:</strong> A single ride is a long-running process managed by a Saga orchestrator.<ol>
+<li><strong>Request Ride:</strong> The orchestrator calls the <code>MatchingService</code> to find a driver.</li>
+<li><strong>Driver Found:</strong> The orchestrator calls the <code>NotificationService</code> to inform the user.</li>
+<li><strong>Trip Completed:</strong> The driver's app signals the end of the trip. The orchestrator calls the <code>BillingService</code> to
+   calculate the fare and charge the user.</li>
+<li><strong>Payment Processed:</strong> The orchestrator calls the <code>RatingsService</code> to prompt the user and driver for a rating.</li>
+</ol>
+</li>
+<li><strong>Key Takeaway:</strong> An orchestrator provides a centralized way to manage a complex workflow. It's easier to see the
+  state of the entire process, but it can become a single point of failure and a bottleneck if not designed carefully.
+  This contrasts with the choreography approach where services react to each other's events.</li>
+</ul>
+<hr/>
+<h2 id="core-implementation">Core Implementation<a class="headerlink" href="#core-implementation" title="Permanent link">¶</a></h2>
+<h3 id="part-1-two-phase-commit-2pc">Part 1: Two-Phase Commit (2PC)<a class="headerlink" href="#part-1-two-phase-commit-2pc" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement basic 2PC protocol.</p>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+/**
+ * Two-Phase Commit: Atomic commit across multiple participants
+ *
+ * Key principles:
+ * - Phase 1: Prepare (voting)
+ * - Phase 2: Commit/Abort (decision)
+ * - Coordinator manages protocol
+ * - All or nothing semantics
+ */
+
+public class TwoPhaseCommit {
+
+    private final List&lt;Participant&gt; participants;
+    private final TransactionLog log;
+
+    /**
+     * Initialize 2PC coordinator
+     *
+     * @param participants List of transaction participants
+     *
+     * TODO: Initialize coordinator
+     * - Store participants
+     * - Create transaction log
+     */
+    public TwoPhaseCommit(List&lt;Participant&gt; participants) {
+        // TODO: Store participants list
+
+        // TODO: Create transaction log
+
+        this.participants = null; // Replace
+        this.log = null; // Replace
+    }
+
+    /**
+     * Execute distributed transaction
+     *
+     * @param transactionId Transaction identifier
+     * @param operations Operations to execute
+     * @return Transaction result
+     *
+     * TODO: Implement 2PC protocol
+     * Phase 1: Prepare
+     *   - Send prepare to all participants
+     *   - Collect votes (YES/NO)
+     *   - If any NO, abort
+     * Phase 2: Commit/Abort
+     *   - If all YES, send commit to all
+     *   - If any NO, send abort to all
+     *   - Wait for acknowledgments
+     */
+    public TransactionResult executeTransaction(String transactionId,
+                                                Map&lt;Participant, String&gt; operations) {
+        // TODO: Log transaction start
+        log.write("START " + transactionId);
+
+        // PHASE 1: PREPARE
+        System.out.println("Phase 1: Prepare");
+
+        // TODO: Send prepare to all participants
+        Map&lt;Participant, Vote&gt; votes = new HashMap&lt;&gt;();
+        for (Map.Entry&lt;Participant, String&gt; entry : participants) {
+            // TODO: Send prepare request
+            // Vote vote = participant.prepare(transactionId, operation)
+            // Store vote
+        }
+
+        // TODO: Check if all voted YES
+        boolean allYes = true; // Calculate this
+
+        // PHASE 2: COMMIT or ABORT
+        if (allYes) {
+            System.out.println("Phase 2: Commit");
+            // TODO: Send commit to all participants
+            // TODO: Log commit
+            // TODO: Return success
+
+        } else {
+            System.out.println("Phase 2: Abort");
+            // TODO: Send abort to all participants
+            // TODO: Log abort
+            // TODO: Return failure
+        }
+
+        return null; // Replace
+    }
+
+    /**
+     * Participant in distributed transaction
+     */
+    static class Participant {
+        String id;
+        Map&lt;String, String&gt; preparedTransactions; // transactionId -&gt; data
+
+        public Participant(String id) {
+            this.id = id;
+            this.preparedTransactions = new HashMap&lt;&gt;();
+        }
+
+        /**
+         * Prepare phase: Can you commit?
+         *
+         * TODO: Prepare transaction
+         * - Check if can commit (resources available, no conflicts)
+         * - If yes, lock resources and save state
+         * - Return YES or NO vote
+         */
+        public Vote prepare(String transactionId, String operation) {
+            System.out.println(id + " preparing: " + operation);
+
+            // TODO: Check if can commit (simulate)
+
+            // Simulate: random failure 20% of time
+            if (Math.random() &lt; 0.2) {
+                System.out.println(id + " votes NO");
+                return Vote.NO;
+            }
+
+            preparedTransactions.put(transactionId, operation);
+            System.out.println(id + " votes YES");
+            return Vote.YES;
+        }
+
+        /**
+         * Commit phase: Execute the transaction
+         *
+         * TODO: Commit transaction
+         * - Apply prepared changes
+         * - Release locks
+         * - Clean up prepared state
+         */
+        public void commit(String transactionId) {
+            System.out.println(id + " committing");
+            // TODO: Apply changes
+            // TODO: Clean up prepared state
+            preparedTransactions.remove(transactionId);
+        }
+
+        /**
+         * Abort phase: Rollback the transaction
+         *
+         * TODO: Abort transaction
+         * - Discard prepared changes
+         * - Release locks
+         * - Clean up prepared state
+         */
+        public void abort(String transactionId) {
+            System.out.println(id + " aborting");
+            // TODO: Rollback changes
+            // TODO: Clean up prepared state
+            preparedTransactions.remove(transactionId);
+        }
+    }
+
+    enum Vote {
+        YES, NO
+    }
+
+    static class TransactionLog {
+        List&lt;String&gt; entries;
+
+        public TransactionLog() {
+            this.entries = new ArrayList&lt;&gt;();
+        }
+
+        public void write(String entry) {
+            entries.add(System.currentTimeMillis() + ": " + entry);
+        }
+    }
+
+    static class TransactionResult {
+        boolean success;
+        String message;
+
+        public TransactionResult(boolean success, String message) {
+            this.success = success;
+            this.message = message;
+        }
+    }
+}</code></pre>
+<h3 id="part-2-saga-pattern-orchestration">Part 2: Saga Pattern - Orchestration<a class="headerlink" href="#part-2-saga-pattern-orchestration" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement Saga with centralized orchestrator.</p>
+<pre class="highlight"><code class="language-java">/**
+ * Saga Orchestration: Centralized coordinator manages workflow
+ *
+ * Key principles:
+ * - Orchestrator controls flow
+ * - Sequential steps with compensation
+ * - Rollback on failure
+ * - Each step has compensating action
+ */
+
+public class SagaOrchestrator {
+
+    private final List&lt;SagaStep&gt; steps;
+
+    /**
+     * Initialize Saga orchestrator
+     *
+     * TODO: Initialize step list
+     */
+    public SagaOrchestrator() {
+        // TODO: Initialize steps list
+        this.steps = null; // Replace
+    }
+
+    /**
+     * Add step to saga
+     *
+     * @param step Saga step with transaction and compensation
+     */
+    public void addStep(SagaStep step) {
+        // TODO: Add step to list
+    }
+
+    /**
+     * Execute saga
+     *
+     * TODO: Execute all steps sequentially
+     * 1. Execute each step's transaction
+     * 2. If any step fails:
+     *    - Execute compensation for completed steps
+     *    - Return failure
+     * 3. If all succeed, return success
+     */
+    public SagaResult execute(SagaContext context) {
+        List&lt;SagaStep&gt; completedSteps = new ArrayList&lt;&gt;();
+
+        System.out.println("Starting Saga execution");
+
+        // TODO: Execute each step
+        for (SagaStep step : steps) {
+            try {
+                System.out.println("Executing: " + step.getName());
+                // TODO: Execute step transaction
+                // step.execute(context)
+
+                // TODO: Add to completed steps
+
+            } catch (Exception e) {
+                System.out.println("Step failed: " + step.getName());
+
+                // TODO: Compensate completed steps in reverse order
+                System.out.println("Starting compensation");
+                // for (int i = completedSteps.size() - 1; i &gt;= 0; i--):
+                //   completedSteps.get(i).compensate(context)
+
+                // TODO: Return failure
+                return new SagaResult(false, "Failed at: " + step.getName());
+            }
+        }
+
+        // TODO: All steps succeeded
+        System.out.println("Saga completed successfully");
+        return new SagaResult(true, "Success");
+    }
+
+    /**
+     * Saga step with transaction and compensation
+     */
+    static abstract class SagaStep {
+        String name;
+
+        public SagaStep(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        /**
+         * Execute forward transaction
+         */
+        public abstract void execute(SagaContext context) throws Exception;
+
+        /**
+         * Execute compensating transaction
+         */
+        public abstract void compensate(SagaContext context);
+    }
+
+    /**
+     * Saga execution context (shared state)
+     */
+    static class SagaContext {
+        Map&lt;String, Object&gt; data;
+
+        public SagaContext() {
+            this.data = new HashMap&lt;&gt;();
+        }
+
+        public void put(String key, Object value) {
+            data.put(key, value);
+        }
+
+        public Object get(String key) {
+            return data.get(key);
+        }
+    }
+
+    static class SagaResult {
+        boolean success;
+        String message;
+
+        public SagaResult(boolean success, String message) {
+            this.success = success;
+            this.message = message;
+        }
+    }
+}</code></pre>
+<h3 id="part-3-saga-pattern-choreography">Part 3: Saga Pattern - Choreography<a class="headerlink" href="#part-3-saga-pattern-choreography" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement Saga with event-based choreography.</p>
+<pre class="highlight"><code class="language-java">/**
+ * Saga Choreography: Event-driven with no central coordinator
+ *
+ * Key principles:
+ * - Services listen for events
+ * - Each service knows next step
+ * - Decentralized control
+ * - Event-driven compensation
+ */
+
+public class SagaChoreography {
+
+    private final Map&lt;String, List&lt;EventHandler&gt;&gt; eventHandlers;
+    private final EventBus eventBus;
+
+    /**
+     * Initialize choreography
+     *
+     * TODO: Initialize event system
+     * - Create event bus
+     * - Create handler registry
+     */
+    public SagaChoreography() {
+        // TODO: Initialize eventHandlers map
+
+        // TODO: Create event bus
+
+        this.eventHandlers = null; // Replace
+        this.eventBus = null; // Replace
+    }
+
+    /**
+     * Register event handler
+     *
+     * @param eventType Event type to listen for
+     * @param handler Handler to execute
+     *
+     * TODO: Register handler for event type
+     */
+    public void registerHandler(String eventType, EventHandler handler) {
+        // TODO: Get or create handler list for event type
+
+        // TODO: Add handler to list
+    }
+
+    /**
+     * Publish event
+     *
+     * TODO: Publish event to all registered handlers
+     * - Get handlers for event type
+     * - Execute each handler
+     * - Handlers may publish new events
+     */
+    public void publishEvent(Event event) {
+        System.out.println("Event published: " + event.type);
+
+        // TODO: Get handlers for event type
+
+        // TODO: Execute each handler
+    }
+
+    /**
+     * Start saga by publishing initial event
+     */
+    public void startSaga(Event initialEvent) {
+        // TODO: Publish initial event
+        publishEvent(initialEvent);
+    }
+
+    /**
+     * Event handler interface
+     */
+    interface EventHandler {
+        void handle(Event event, EventBus eventBus);
+    }
+
+    /**
+     * Event bus for publishing events
+     */
+    static class EventBus {
+        SagaChoreography choreography;
+
+        public EventBus(SagaChoreography choreography) {
+            this.choreography = choreography;
+        }
+
+        public void publish(Event event) {
+            choreography.publishEvent(event);
+        }
+    }
+
+    /**
+     * Event in the saga
+     */
+    static class Event {
+        String type;
+        Map&lt;String, Object&gt; data;
+
+        public Event(String type) {
+            this.type = type;
+            this.data = new HashMap&lt;&gt;();
+        }
+
+        public void put(String key, Object value) {
+            data.put(key, value);
+        }
+
+        public Object get(String key) {
+            return data.get(key);
+        }
+    }
+}</code></pre>
+<h3 id="part-4-compensation-pattern">Part 4: Compensation Pattern<a class="headerlink" href="#part-4-compensation-pattern" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement compensating transactions.</p>
+<pre class="highlight"><code class="language-java">/**
+ * Compensation: Undo completed operations on failure
+ *
+ * Key principles:
+ * - Each operation has compensating action
+ * - Compensation executed in reverse order
+ * - Semantic rollback (not physical)
+ * - Eventually consistent
+ */
+
+public class CompensationHandler {
+
+    private final Stack&lt;CompensatingAction&gt; completedActions;
+
+    /**
+     * Initialize compensation handler
+     *
+     * TODO: Initialize action stack
+     */
+    public CompensationHandler() {
+        // TODO: Create stack for completed actions
+        this.completedActions = null; // Replace
+    }
+
+    /**
+     * Execute action and record for compensation
+     *
+     * @param action Action to execute
+     * @return true if successful
+     *
+     * TODO: Execute and record action
+     * - Try to execute action
+     * - If success, push to stack
+     * - If failure, return false
+     */
+    public boolean executeWithCompensation(CompensatingAction action) {
+        try {
+            System.out.println("Executing: " + action.getName());
+            // TODO: Execute action
+            // action.execute()
+
+            // TODO: Push to stack for potential compensation
+
+            return true;
+
+        } catch (Exception e) {
+            System.out.println("Action failed: " + action.getName());
+            return false;
+        }
+    }
+
+    /**
+     * Compensate all completed actions
+     *
+     * TODO: Execute compensating actions in reverse order
+     * - Pop actions from stack
+     * - Execute compensation for each
+     * - Handle compensation failures
+     */
+    public void compensateAll() {
+        System.out.println("Starting compensation");
+
+        // TODO: Implement iteration/conditional logic
+
+        while (!completedActions.isEmpty()) {
+            CompensatingAction action = completedActions.pop();
+            try {
+                System.out.println("Compensating: " + action.getName());
+                // TODO: Execute compensation
+                // action.compensate()
+            } catch (Exception e) {
+                System.out.println("Compensation failed: " + action.getName());
+                // TODO: Log failure but continue compensating
+            }
+        }
+    }
+
+    /**
+     * Clear compensation stack (after successful completion)
+     */
+    public void clear() {
+        // TODO: Clear the stack
+    }
+
+    /**
+     * Action with compensating logic
+     */
+    static abstract class CompensatingAction {
+        String name;
+
+        public CompensatingAction(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        /**
+         * Execute forward action
+         */
+        public abstract void execute() throws Exception;
+
+        /**
+         * Execute compensating action
+         */
+        public abstract void compensate() throws Exception;
+    }
+}</code></pre>
+<h3 id="part-5-event-sourcing">Part 5: Event Sourcing<a class="headerlink" href="#part-5-event-sourcing" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement event sourcing for transaction history.</p>
+<pre class="highlight"><code class="language-java">/**
+ * Event Sourcing: Store events instead of current state
+ *
+ * Key principles:
+ * - All changes stored as events
+ * - Current state derived from events
+ * - Complete audit trail
+ * - Time travel (replay to any point)
+ */
+
+public class EventSourcedAggregate {
+
+    private final String aggregateId;
+    private final List&lt;DomainEvent&gt; events;
+    private int version;
+
+    /**
+     * Initialize event sourced aggregate
+     *
+     * @param aggregateId Unique identifier
+     *
+     * TODO: Initialize aggregate
+     * - Store aggregate ID
+     * - Create events list
+     * - Set version to 0
+     */
+    public EventSourcedAggregate(String aggregateId) {
+        // TODO: Store aggregateId
+
+        // TODO: Initialize events list
+
+        // TODO: Track state
+
+        this.aggregateId = null; // Replace
+        this.events = null; // Replace
+        this.version = 0;
+    }
+
+    /**
+     * Apply and record event
+     *
+     * @param event Event to apply
+     *
+     * TODO: Apply event
+     * - Add event to list
+     * - Increment version
+     * - Apply state change
+     */
+    public void applyEvent(DomainEvent event) {
+        // TODO: Set event version
+
+        // TODO: Add to events list
+
+        // TODO: Increment version
+
+        // TODO: Apply state change (handled by subclass)
+
+        System.out.println("Event applied: " + event);
+    }
+
+    /**
+     * Replay events to reconstruct state
+     *
+     * @param events Historical events
+     *
+     * TODO: Replay all events
+     * - Clear current state
+     * - Apply each event in order
+     * - Reconstruct current state
+     */
+    public void replayEvents(List&lt;DomainEvent&gt; events) {
+        System.out.println("Replaying " + events.size() + " events");
+
+        // TODO: Implement iteration/conditional logic
+    }
+
+    /**
+     * Get events after specific version
+     *
+     * TODO: Filter events by version
+     */
+    public List&lt;DomainEvent&gt; getEventsSince(int version) {
+        // TODO: Filter events where event.version &gt; version
+        return null; // Replace
+    }
+
+    /**
+     * Get all events
+     */
+    public List&lt;DomainEvent&gt; getAllEvents() {
+        return new ArrayList&lt;&gt;(events);
+    }
+
+    /**
+     * Get current version
+     */
+    public int getVersion() {
+        return version;
+    }
+
+    /**
+     * Domain event
+     */
+    static class DomainEvent {
+        String aggregateId;
+        String eventType;
+        int version;
+        long timestamp;
+        Map&lt;String, Object&gt; data;
+
+        public DomainEvent(String aggregateId, String eventType) {
+            this.aggregateId = aggregateId;
+            this.eventType = eventType;
+            this.timestamp = System.currentTimeMillis();
+            this.data = new HashMap&lt;&gt;();
+        }
+
+        public void put(String key, Object value) {
+            data.put(key, value);
+        }
+
+        public Object get(String key) {
+            return data.get(key);
+        }
+
+        @Override
+        public String toString() {
+            return "Event{type='" + eventType + "', version=" + version + "}";
+        }
+    }
+}</code></pre>
+<hr/>
+<h2 id="client-code">Client Code<a class="headerlink" href="#client-code" title="Permanent link">¶</a></h2>
+<pre class="highlight"><code class="language-java">import java.util.*;
+
+public class DistributedTransactionsClient {
+
+    public static void main(String[] args) {
+        testTwoPhaseCommit();
+        System.out.println("\n" + "=".repeat(50) + "\n");
+        testSagaOrchestration();
+        System.out.println("\n" + "=".repeat(50) + "\n");
+        testSagaChoreography();
+        System.out.println("\n" + "=".repeat(50) + "\n");
+        testCompensation();
+        System.out.println("\n" + "=".repeat(50) + "\n");
+        testEventSourcing();
+    }
+
+    static void testTwoPhaseCommit() {
+        System.out.println("=== Two-Phase Commit Test ===\n");
+
+        // Create participants
+        List&lt;TwoPhaseCommit.Participant&gt; participants = Arrays.asList(
+            new TwoPhaseCommit.Participant("Database-A"),
+            new TwoPhaseCommit.Participant("Database-B"),
+            new TwoPhaseCommit.Participant("Database-C")
+        );
+
+        TwoPhaseCommit coordinator = new TwoPhaseCommit(participants);
+
+        // Execute transaction
+        Map&lt;TwoPhaseCommit.Participant, String&gt; operations = new HashMap&lt;&gt;();
+        for (TwoPhaseCommit.Participant p : participants) {
+            operations.put(p, "UPDATE balance SET amount = amount - 100");
+        }
+
+        TwoPhaseCommit.TransactionResult result =
+            coordinator.executeTransaction("tx123", operations);
+
+        System.out.println("\nResult: " + result.message);
+    }
+
+    static void testSagaOrchestration() {
+        System.out.println("=== Saga Orchestration Test ===\n");
+
+        SagaOrchestrator saga = new SagaOrchestrator();
+
+        // Define saga steps
+        saga.addStep(new SagaOrchestrator.SagaStep("Reserve Inventory") {
+            @Override
+            public void execute(SagaOrchestrator.SagaContext context) throws Exception {
+                System.out.println("  -&gt; Reserving inventory");
+                context.put("inventoryReserved", true);
+                // Simulate occasional failure
+                if (Math.random() &lt; 0.3) {
+                    throw new Exception("Out of stock");
+                }
+            }
+
+            @Override
+            public void compensate(SagaOrchestrator.SagaContext context) {
+                System.out.println("  -&gt; Releasing inventory");
+                context.put("inventoryReserved", false);
+            }
+        });
+
+        saga.addStep(new SagaOrchestrator.SagaStep("Process Payment") {
+            @Override
+            public void execute(SagaOrchestrator.SagaContext context) throws Exception {
+                System.out.println("  -&gt; Processing payment");
+                context.put("paymentProcessed", true);
+            }
+
+            @Override
+            public void compensate(SagaOrchestrator.SagaContext context) {
+                System.out.println("  -&gt; Refunding payment");
+                context.put("paymentProcessed", false);
+            }
+        });
+
+        saga.addStep(new SagaOrchestrator.SagaStep("Ship Order") {
+            @Override
+            public void execute(SagaOrchestrator.SagaContext context) throws Exception {
+                System.out.println("  -&gt; Shipping order");
+                context.put("orderShipped", true);
+            }
+
+            @Override
+            public void compensate(SagaOrchestrator.SagaContext context) {
+                System.out.println("  -&gt; Canceling shipment");
+                context.put("orderShipped", false);
+            }
+        });
+
+        // Execute saga
+        SagaOrchestrator.SagaContext context = new SagaOrchestrator.SagaContext();
+        SagaOrchestrator.SagaResult result = saga.execute(context);
+
+        System.out.println("\nResult: " + result.message);
+    }
+
+    static void testSagaChoreography() {
+        System.out.println("=== Saga Choreography Test ===\n");
+
+        SagaChoreography choreography = new SagaChoreography();
+
+        // Register event handlers
+        choreography.registerHandler("OrderCreated", (event, bus) -&gt; {
+            System.out.println("  -&gt; Handling OrderCreated");
+            System.out.println("  -&gt; Reserving inventory");
+
+            // Publish next event
+            SagaChoreography.Event inventoryReserved =
+                new SagaChoreography.Event("InventoryReserved");
+            inventoryReserved.put("orderId", event.get("orderId"));
+            bus.publish(inventoryReserved);
+        });
+
+        choreography.registerHandler("InventoryReserved", (event, bus) -&gt; {
+            System.out.println("  -&gt; Handling InventoryReserved");
+            System.out.println("  -&gt; Processing payment");
+
+            // Publish next event
+            SagaChoreography.Event paymentProcessed =
+                new SagaChoreography.Event("PaymentProcessed");
+            paymentProcessed.put("orderId", event.get("orderId"));
+            bus.publish(paymentProcessed);
+        });
+
+        choreography.registerHandler("PaymentProcessed", (event, bus) -&gt; {
+            System.out.println("  -&gt; Handling PaymentProcessed");
+            System.out.println("  -&gt; Shipping order");
+
+            SagaChoreography.Event orderShipped =
+                new SagaChoreography.Event("OrderShipped");
+            orderShipped.put("orderId", event.get("orderId"));
+            System.out.println("  -&gt; Saga complete!");
+        });
+
+        // Start saga
+        SagaChoreography.Event orderCreated =
+            new SagaChoreography.Event("OrderCreated");
+        orderCreated.put("orderId", "order123");
+        choreography.startSaga(orderCreated);
+    }
+
+    static void testCompensation() {
+        System.out.println("=== Compensation Test ===\n");
+
+        CompensationHandler handler = new CompensationHandler();
+
+        // Define compensating actions
+        boolean success = true;
+
+        success = handler.executeWithCompensation(
+            new CompensationHandler.CompensatingAction("Deduct Balance") {
+                @Override
+                public void execute() throws Exception {
+                    System.out.println("  -&gt; Balance deducted");
+                }
+
+                @Override
+                public void compensate() throws Exception {
+                    System.out.println("  -&gt; Balance restored");
+                }
+            }
+        );
+
+        if (!success) return;
+
+        success = handler.executeWithCompensation(
+            new CompensationHandler.CompensatingAction("Send Email") {
+                @Override
+                public void execute() throws Exception {
+                    System.out.println("  -&gt; Email sent");
+                    // Simulate failure
+                    if (Math.random() &lt; 0.5) {
+                        throw new Exception("Email service down");
+                    }
+                }
+
+                @Override
+                public void compensate() throws Exception {
+                    System.out.println("  -&gt; Cancellation email sent");
+                }
+            }
+        );
+
+        if (!success) {
+            System.out.println("\nOperation failed, compensating...");
+            handler.compensateAll();
+        } else {
+            System.out.println("\nAll operations successful");
+            handler.clear();
+        }
+    }
+
+    static void testEventSourcing() {
+        System.out.println("=== Event Sourcing Test ===\n");
+
+        EventSourcedAggregate account = new EventSourcedAggregate("account123");
+
+        // Apply events
+        System.out.println("Applying events:");
+
+        EventSourcedAggregate.DomainEvent created =
+            new EventSourcedAggregate.DomainEvent("account123", "AccountCreated");
+        created.put("initialBalance", 1000);
+        account.applyEvent(created);
+
+        EventSourcedAggregate.DomainEvent deposited =
+            new EventSourcedAggregate.DomainEvent("account123", "MoneyDeposited");
+        deposited.put("amount", 500);
+        account.applyEvent(deposited);
+
+        EventSourcedAggregate.DomainEvent withdrawn =
+            new EventSourcedAggregate.DomainEvent("account123", "MoneyWithdrawn");
+        withdrawn.put("amount", 200);
+        account.applyEvent(withdrawn);
+
+        System.out.println("\nCurrent version: " + account.getVersion());
+        System.out.println("Total events: " + account.getAllEvents().size());
+
+        // Replay events
+        System.out.println("\nReplaying events:");
+        EventSourcedAggregate newAccount = new EventSourcedAggregate("account123");
+        newAccount.replayEvents(account.getAllEvents());
+
+        System.out.println("Reconstructed version: " + newAccount.getVersion());
+    }
+}</code></pre>
+<hr/>
+<h2 id="debugging-challenges">Debugging Challenges<a class="headerlink" href="#debugging-challenges" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Find and fix bugs in distributed transaction implementations. This tests your understanding of
+distributed systems pitfalls.</p>
+<h3 id="challenge-1-broken-saga-compensation-order">Challenge 1: Broken Saga Compensation Order<a class="headerlink" href="#challenge-1-broken-saga-compensation-order" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * This Saga implementation has a CRITICAL compensation bug.
+ * It will leave the system in an inconsistent state on failure.
+ */
+public class BrokenSagaCompensation {
+
+    public SagaResult executeOrderSaga(Order order) {
+        List&lt;SagaStep&gt; completedSteps = new ArrayList&lt;&gt;();
+
+        try {
+            // Step 1: Reserve inventory
+            inventoryService.reserve(order.items);
+            completedSteps.add(new InventoryStep());
+
+            // Step 2: Charge payment
+            paymentService.charge(order.amount);
+            completedSteps.add(new PaymentStep());
+
+            // Step 3: Create shipment (this might fail)
+            shippingService.createShipment(order);
+            completedSteps.add(new ShippingStep());
+
+            return SagaResult.success();
+
+        } catch (Exception e) {
+            for (SagaStep step : completedSteps) {
+                step.compensate();  // What's wrong with this?
+            }
+            return SagaResult.failure();
+        }
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug location:</strong> <span class="fill-in">[Which line?]</span></li>
+<li><strong>Bug explanation:</strong> <span class="fill-in">[Why is the compensation order wrong?]</span></li>
+<li><strong>Real-world impact:</strong> <span class="fill-in">[What could happen?]</span></li>
+<li><strong>Fix:</strong> <span class="fill-in">[How to correct it?]</span></li>
+</ul>
+<p><strong>Scenario to trace:</strong></p>
+<ul>
+<li>Inventory reserved (step 1)</li>
+<li>Payment charged (step 2)</li>
+<li>Shipping fails (step 3)</li>
+<li>Compensation runs in forward order...</li>
+<li>What happens if refund depends on shipment being canceled first?</li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> Compensating in forward order instead of reverse order (line with <code>for (SagaStep step : completedSteps)</code>).</p>
+<p><strong>Why it's wrong:</strong></p>
+<ul>
+<li>Step 3 depends on step 2, step 2 depends on step 1</li>
+<li>Must undo in reverse dependency order</li>
+<li>Forward compensation can violate business rules</li>
+</ul>
+<p><strong>Example failure:</strong></p>
+<pre class="highlight"><code>Forward order: Compensate inventory → compensate payment → compensate shipping
+Problem: Refund issued before shipment canceled (business rule violation)
+
+Reverse order: Compensate shipping → compensate payment → compensate inventory
+Correct: Cancel shipment first, then refund, then release inventory</code></pre>
+<p><strong>Fix:</strong></p>
+<pre class="highlight"><code class="language-java">for (int i = completedSteps.size() - 1; i &gt;= 0; i--) {
+    completedSteps.get(i).compensate();
+}</code></pre>
+</details>
+<hr/>
+<h3 id="challenge-2-non-idempotent-compensation">Challenge 2: Non-Idempotent Compensation<a class="headerlink" href="#challenge-2-non-idempotent-compensation" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * This compensation is NOT idempotent - running it twice causes problems!
+ * In distributed systems, compensations may retry due to network failures.
+ */
+public class NonIdempotentCompensation extends CompensatingAction {
+
+    @Override
+    public void execute() throws Exception {
+        // Deduct inventory
+        inventory.reduce(productId, quantity);
+    }
+
+    @Override
+    public void compensate() throws Exception {
+        inventory.add(productId, quantity);
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Bug:</strong> <span class="fill-in">[What happens if compensate() is called twice?]</span></li>
+<li><strong>Scenario:</strong> <span class="fill-in">[Network timeout causes retry - what's the result?]</span></li>
+<li><strong>Impact:</strong> <span class="fill-in">[What's wrong with the inventory now?]</span></li>
+<li><strong>Fix:</strong> <span class="fill-in">[How to make it idempotent?]</span></li>
+</ul>
+<p><strong>Test case:</strong></p>
+<ul>
+<li>Initial inventory: 100 units</li>
+<li>Transaction reserves: 10 units (inventory now 90)</li>
+<li>Compensation called first time: adds back 10 (inventory now 100) ✓</li>
+<li>Network timeout, retry...</li>
+<li>Compensation called second time: adds back 10 again!</li>
+<li>Current inventory: <span class="fill-in">[Fill in - is this correct?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Bug:</strong> Compensation adds inventory without checking if it was already compensated. Running twice adds 20 units instead
+of 10.</p>
+<p><strong>Impact:</strong></p>
+<ul>
+<li>Inventory count becomes incorrect (ghost inventory)</li>
+<li>Overselling possible</li>
+<li>Accounting mismatch</li>
+</ul>
+<p><strong>Fix - Make it idempotent:</strong></p>
+<pre class="highlight"><code class="language-java">@Override
+public void compensate() throws Exception {
+    // Use idempotency key
+    String compensationId = transactionId + "-inventory-compensate";
+
+    if (compensationLog.isAlreadyProcessed(compensationId)) {
+        System.out.println("Already compensated, skipping");
+        return;
+    }
+
+    inventory.add(productId, quantity);
+    compensationLog.markProcessed(compensationId);
+}</code></pre>
+<p><strong>Alternative fix - Use state machine:</strong></p>
+<pre class="highlight"><code class="language-java">if (reservation.status == COMPENSATED) {
+    return; // Already done
+}
+inventory.add(productId, quantity);
+reservation.status = COMPENSATED;</code></pre>
+</details>
+<hr/>
+<h3 id="challenge-3-orphaned-saga-lost-coordinator">Challenge 3: Orphaned Saga (Lost Coordinator)<a class="headerlink" href="#challenge-3-orphaned-saga-lost-coordinator" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * The saga coordinator crashes after step 2 completes.
+ * Steps 1 and 2 are done, but step 3 never executes.
+ * How do you detect and recover from this?
+ */
+public class OrphanedSaga {
+
+    public void executeSaga(String sagaId) {
+        sagaLog.write(sagaId, "STARTED");
+
+        // Step 1: Reserve inventory
+        inventoryService.reserve(sagaId, items);
+        sagaLog.write(sagaId, "INVENTORY_RESERVED");
+
+        // Step 2: Charge payment
+        paymentService.charge(sagaId, amount);
+        sagaLog.write(sagaId, "PAYMENT_CHARGED");
+
+        // CRASH HERE! Coordinator dies before step 3
+        // Step 3 never executes, saga never completes
+
+        // Step 3: Create shipment
+        shippingService.createShipment(sagaId, order);
+        sagaLog.write(sagaId, "COMPLETED");
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Problem:</strong> <span class="fill-in">[What's the system state after crash?]</span></li>
+<li><strong>Detection:</strong> <span class="fill-in">[How do you detect this orphaned saga?]</span></li>
+<li><strong>Recovery strategy:</strong> <span class="fill-in">[Should you complete it or compensate?]</span></li>
+<li><strong>Prevention:</strong> <span class="fill-in">[How to prevent this?]</span></li>
+</ul>
+<p><strong>Scenario:</strong></p>
+<ul>
+<li>Saga started at 10:00:00</li>
+<li>Step 1 completed at 10:00:01</li>
+<li>Step 2 completed at 10:00:02</li>
+<li>Coordinator crashed at 10:00:02.5</li>
+<li>Current time: 10:05:00 (5 minutes later)</li>
+<li>Saga status: <span class="fill-in">[What does the log show?]</span></li>
+<li>Customer charged: <span class="fill-in">[Yes/No?]</span></li>
+<li>Order shipped: <span class="fill-in">[Yes/No?]</span></li>
+</ul>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Problem:</strong> Saga is stuck in partial state - inventory reserved, payment charged, but never shipped.</p>
+<p><strong>Detection strategies:</strong></p>
+<ol>
+<li><strong>Timeout monitoring:</strong></li>
+</ol>
+<pre class="highlight"><code class="language-java">// Background job finds incomplete sagas
+List&lt;Saga&gt; stuck = sagaLog.findSagasOlderThan(5 minutes, status != COMPLETED);
+for (Saga saga : stuck) {
+    recoverOrCompensate(saga);
+}</code></pre>
+<ol>
+<li><strong>Health check pattern:</strong></li>
+</ol>
+<pre class="highlight"><code class="language-java">// Coordinator sends heartbeats
+coordinator.recordHeartbeat(sagaId, timestamp);
+
+// Monitor detects missing heartbeats
+if (timeSinceLastHeartbeat &gt; threshold) {
+    recoverSaga(sagaId);
+}</code></pre>
+<p><strong>Recovery strategy:</strong></p>
+<pre class="highlight"><code class="language-java">// Check saga log to determine recovery action
+SagaState state = sagaLog.getCurrentState(sagaId);
+
+if (state == "PAYMENT_CHARGED") {
+    // Decision point: complete or compensate?
+
+    // Option 1: Complete the saga (forward recovery)
+    shippingService.createShipment(sagaId, order);
+    sagaLog.write(sagaId, "COMPLETED");
+
+    // Option 2: Compensate (backward recovery)
+    paymentService.refund(sagaId);
+    inventoryService.release(sagaId);
+    sagaLog.write(sagaId, "COMPENSATED");
+}</code></pre>
+<p><strong>Prevention:</strong></p>
+<ul>
+<li>Persist saga state before each step</li>
+<li>Use durable message queue for step execution</li>
+<li>Implement saga recovery service</li>
+<li>Set timeouts for each step</li>
+</ul>
+</details>
+<hr/>
+<h3 id="challenge-4-compensation-failure">Challenge 4: Compensation Failure<a class="headerlink" href="#challenge-4-compensation-failure" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * What happens when compensation itself fails?
+ * This is one of the hardest distributed transaction problems!
+ */
+public class CompensationFailure {
+
+    public void executeSagaWithFailingCompensation() {
+        try {
+            // Step 1: Charge payment - succeeds
+            paymentService.charge(customerId, 100);
+
+            // Step 2: Reserve inventory - FAILS
+            inventoryService.reserve(items);
+            throw new Exception("Out of stock");
+
+        } catch (Exception e) {
+            // Try to compensate step 1
+            try {
+                paymentService.refund(customerId, 100);
+                throw new Exception("Payment gateway timeout");
+
+            } catch (Exception compensationError) {
+                // NOW WHAT? Customer charged, no order, refund failed!
+                // Your code here: &lt;span class="fill-in"&gt;[How do you handle this?]&lt;/span&gt;
+            }
+        }
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Problem:</strong> <span class="fill-in">[What's the current state?]</span></li>
+<li><strong>Can you retry?</strong> <span class="fill-in">[What if retry also fails?]</span></li>
+<li><strong>Manual intervention?</strong> <span class="fill-in">[How to flag for human review?]</span></li>
+<li><strong>Customer impact:</strong> <span class="fill-in">[What does the customer see?]</span></li>
+</ul>
+<p><strong>Failure tree:</strong></p>
+<pre class="highlight"><code>Transaction: Charge $100 → Reserve inventory
+├─ Charge succeeds ✓
+├─ Reserve fails ✗
+└─ Compensation: Refund $100
+   └─ Refund FAILS ✗ (payment gateway down)
+
+Current state:
+
+- Customer charged: $100 ✓
+- Inventory reserved: No ✗
+- Refund processed: No ✗
+- System state: INCONSISTENT!</code></pre>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>This is a real problem with no perfect solution.</strong> Here are the strategies:</p>
+<p><strong>Strategy 1: Retry with exponential backoff</strong></p>
+<pre class="highlight"><code class="language-java">catch (Exception compensationError) {
+    // Add to retry queue
+    retryQueue.add(new CompensationRetry(
+        sagaId,
+        "refund",
+        maxRetries: 10,
+        backoff: EXPONENTIAL
+    ));
+
+    // Alert monitoring
+    alerting.criticalError("Compensation failed for " + sagaId);
+}</code></pre>
+<p><strong>Strategy 2: Dead letter queue + manual intervention</strong></p>
+<pre class="highlight"><code class="language-java">catch (Exception compensationError) {
+    // Move to dead letter queue after max retries
+    if (retryCount &gt; MAX_RETRIES) {
+        deadLetterQueue.add(new FailedCompensation(
+            sagaId,
+            customerId,
+            amount: 100,
+            reason: compensationError.getMessage()
+        ));
+
+        // Create support ticket
+        ticketSystem.create(
+            priority: HIGH,
+            title: "Manual refund needed",
+            details: "Customer " + customerId + " needs $100 refund"
+        );
+    }
+}</code></pre>
+<p><strong>Strategy 3: Eventual consistency with monitoring</strong></p>
+<pre class="highlight"><code class="language-java">catch (Exception compensationError) {
+    // Mark saga as "COMPENSATION_PENDING"
+    sagaLog.write(sagaId, "COMPENSATION_PENDING", {
+        action: "refund",
+        amount: 100,
+        customerId: customerId,
+        failureReason: compensationError.getMessage(),
+        retryAfter: now + 5.minutes
+    });
+
+    // Background job will retry
+    // Dashboard shows pending compensations
+    // Alert if pending &gt; 1 hour
+}</code></pre>
+<p><strong>Key principle:</strong> Compensation failures require:</p>
+<ol>
+<li>Persistent retry mechanism</li>
+<li>Monitoring and alerting</li>
+<li>Manual intervention workflow</li>
+<li>Clear audit trail</li>
+<li>Customer communication plan</li>
+</ol>
+<p><strong>There is no automatic fix for this - it's a fundamental distributed systems problem!</strong></p>
+</details>
+<hr/>
+<h3 id="challenge-5-partial-failure-in-2pc-commit-phase">Challenge 5: Partial Failure in 2PC Commit Phase<a class="headerlink" href="#challenge-5-partial-failure-in-2pc-commit-phase" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">/**
+ * In 2PC, what happens if coordinator crashes DURING commit phase?
+ * Some participants committed, others still waiting!
+ */
+public class TwoPhaseCommitPartialFailure {
+
+    public void executeTransaction(String txId) {
+        // PHASE 1: PREPARE - All vote YES
+        List&lt;Vote&gt; votes = new ArrayList&lt;&gt;();
+        for (Participant p : participants) {
+            votes.add(p.prepare(txId));  // All return YES
+        }
+
+        // Decision: COMMIT
+        transactionLog.write(txId, "COMMIT_DECISION");
+
+        // PHASE 2: Send commit to all
+        participants.get(0).commit(txId);  // ✓ Committed
+        participants.get(1).commit(txId);  // ✓ Committed
+
+        // CRASH HERE! Coordinator dies
+
+        // participants.get(2).commit(txId);  // Never called!
+        // participants.get(3).commit(txId);  // Never called!
+
+        // NOW: 2 participants committed, 2 still waiting!
+        // What happens to the waiting participants?
+    }
+}</code></pre>
+<p><strong>Your debugging:</strong></p>
+<ul>
+<li><strong>Problem:</strong> <span class="fill-in">[What state are the waiting participants in?]</span></li>
+<li><strong>Blocking:</strong> <span class="fill-in">[Are they holding locks?]</span></li>
+<li><strong>Recovery:</strong> <span class="fill-in">[How do they know to commit or abort?]</span></li>
+<li><strong>Data consistency:</strong> <span class="fill-in">[Is data consistent across participants?]</span></li>
+</ul>
+<p><strong>Participant states:</strong></p>
+<pre class="highlight"><code>Participant 0: COMMITTED ✓
+Participant 1: COMMITTED ✓
+Participant 2: PREPARED (waiting...) ⏳
+Participant 3: PREPARED (waiting...) ⏳
+
+Time passes...
+Participant 2: Still holding locks on resources!
+Participant 3: Still holding locks on resources!
+
+Other transactions: BLOCKED waiting for locks!</code></pre>
+<details>
+<summary>Click to verify your answer</summary>
+<p><strong>Problem:</strong> This is the classic "blocking" problem of 2PC!</p>
+<p><strong>What happens:</strong></p>
+<ol>
+<li>Participants 2 &amp; 3 are in PREPARED state</li>
+<li>They're holding locks, waiting for commit/abort</li>
+<li>Coordinator is dead, can't send decision</li>
+<li>They can't commit on their own (might not be safe)</li>
+<li>They can't abort on their own (others might have committed)</li>
+<li><strong>They're STUCK!</strong></li>
+</ol>
+<p><strong>Recovery using transaction log:</strong></p>
+<pre class="highlight"><code class="language-java">// Participant timeout handler
+if (waitingTime &gt; TIMEOUT) {
+    // Ask coordinator for decision
+    Decision decision = coordinator.getDecision(txId);
+
+    if (decision == COMMIT) {
+        this.commit(txId);
+    } else if (decision == ABORT) {
+        this.abort(txId);
+    } else {
+        // Coordinator unreachable - contact other participants
+        Decision consensus = askOtherParticipants(txId);
+
+        if (consensus == COMMITTED) {
+            // Someone committed - we must commit too
+            this.commit(txId);
+        } else if (consensus == ALL_PREPARED) {
+            // Everyone waiting - check coordinator log
+            Decision loggedDecision = coordinatorLog.read(txId);
+            if (loggedDecision == COMMIT) {
+                this.commit(txId);
+            }
+        }
+    }
+}</code></pre>
+<p><strong>Why coordinator log is critical:</strong></p>
+<pre class="highlight"><code class="language-java">// Coordinator MUST log decision BEFORE sending commits
+transactionLog.write(txId, "COMMIT_DECISION");  // Durable write!
+
+// Now even if coordinator crashes, recovery can read log
+// and complete the transaction</code></pre>
+<p><strong>This is why 2PC is considered "blocking":</strong></p>
+<ul>
+<li>Participants can be stuck if coordinator fails</li>
+<li>Requires timeout + recovery protocol</li>
+<li>Modern systems prefer non-blocking alternatives (3PC, Paxos, Raft)</li>
+</ul>
+<p><strong>Prevention:</strong></p>
+<ul>
+<li>Use coordinator replicas (HA)</li>
+<li>Implement participant timeout and recovery</li>
+<li>Use 3-phase commit (reduces blocking window)</li>
+<li>Consider Saga pattern instead (no blocking)</li>
+</ul>
+</details>
+<hr/>
+<h3 id="your-debugging-scorecard">Your Debugging Scorecard<a class="headerlink" href="#your-debugging-scorecard" title="Permanent link">¶</a></h3>
+<p>After finding and fixing all bugs:</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understood why compensation order matters</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can implement idempotent operations</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Know how to detect and recover orphaned sagas</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand compensation failure handling</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Recognize 2PC blocking scenarios</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can design recovery mechanisms</li>
+</ul>
+<p><strong>Common distributed transaction bugs you discovered:</strong></p>
+<ol>
+<li><span class="fill-in">[List the patterns you noticed]</span></li>
+<li><span class="fill-in">[Fill in]</span></li>
+<li><span class="fill-in">[Fill in]</span></li>
+</ol>
+<p><strong>Real-world war stories (fill in after implementation):</strong></p>
+<ul>
+<li>Most surprising bug: <span class="fill-in">[Fill in]</span></li>
+<li>Hardest to debug: <span class="fill-in">[Fill in]</span></li>
+<li>Most dangerous if missed: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<hr/>
+<h2 id="decision-framework">Decision Framework<a class="headerlink" href="#decision-framework" title="Permanent link">¶</a></h2>
+<p><strong>Questions to answer after implementation:</strong></p>
+<h3 id="1-pattern-selection">1. Pattern Selection<a class="headerlink" href="#1-pattern-selection" title="Permanent link">¶</a></h3>
+<p><strong>When to use Two-Phase Commit?</strong></p>
+<ul>
+<li>Your scenario: <span class="fill-in">[Fill in]</span></li>
+<li>Key factors: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>When to use Saga (Orchestration)?</strong></p>
+<ul>
+<li>Your scenario: <span class="fill-in">[Fill in]</span></li>
+<li>Key factors: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>When to use Saga (Choreography)?</strong></p>
+<ul>
+<li>Your scenario: <span class="fill-in">[Fill in]</span></li>
+<li>Key factors: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>When to use Event Sourcing?</strong></p>
+<ul>
+<li>Your scenario: <span class="fill-in">[Fill in]</span></li>
+<li>Key factors: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="2-trade-offs">2. Trade-offs<a class="headerlink" href="#2-trade-offs" title="Permanent link">¶</a></h3>
+<p><strong>Two-Phase Commit:</strong></p>
+<ul>
+<li>Pros: <span class="fill-in">[Fill in after understanding]</span></li>
+<li>Cons: <span class="fill-in">[Fill in after understanding]</span></li>
+</ul>
+<p><strong>Saga (Orchestration):</strong></p>
+<ul>
+<li>Pros: <span class="fill-in">[Fill in after understanding]</span></li>
+<li>Cons: <span class="fill-in">[Fill in after understanding]</span></li>
+</ul>
+<p><strong>Saga (Choreography):</strong></p>
+<ul>
+<li>Pros: <span class="fill-in">[Fill in after understanding]</span></li>
+<li>Cons: <span class="fill-in">[Fill in after understanding]</span></li>
+</ul>
+<p><strong>Event Sourcing:</strong></p>
+<ul>
+<li>Pros: <span class="fill-in">[Fill in after understanding]</span></li>
+<li>Cons: <span class="fill-in">[Fill in after understanding]</span></li>
+</ul>
+<h3 id="3-your-decision-tree">3. Your Decision Tree<a class="headerlink" href="#3-your-decision-tree" title="Permanent link">¶</a></h3>
+<p>Build your decision tree after practicing:
+<div class="mermaid">flowchart LR
+    Start["What consistency do you need?"]
+
+    N1["?"]
+    Start --&gt;|"Strong consistency (ACID)"| N1
+    N2["?"]
+    Start --&gt;|"Eventual consistency acceptable"| N2
+    N3["?"]
+    Start --&gt;|"Long-running transactions"| N3
+    N4["?"]
+    Start --&gt;|"Need audit trail"| N4
+    N5["?"]
+    Start --&gt;|"Highly distributed services"| N5</div></p>
+<hr/>
+<h2 id="practice">Practice<a class="headerlink" href="#practice" title="Permanent link">¶</a></h2>
+<h3 id="scenario-1-banking-transfer">Scenario 1: Banking transfer<a class="headerlink" href="#scenario-1-banking-transfer" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>Transfer money between accounts</li>
+<li>Accounts in different databases</li>
+<li>Must be atomic (all or nothing)</li>
+<li>Low latency required</li>
+<li>Rare failures acceptable</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<ul>
+<li>Which pattern would you choose? <span class="fill-in">[Fill in]</span></li>
+<li>Why? <span class="fill-in">[Fill in]</span></li>
+<li>How to handle failures? <span class="fill-in">[Fill in]</span></li>
+<li>Consistency guarantees? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="scenario-2-e-commerce-order">Scenario 2: E-commerce order<a class="headerlink" href="#scenario-2-e-commerce-order" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>Order involves: inventory, payment, shipping</li>
+<li>Each service is independent</li>
+<li>Long-running process (minutes)</li>
+<li>Need to handle partial failures</li>
+<li>Must be eventually consistent</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<ul>
+<li>Which pattern would you choose? <span class="fill-in">[Fill in]</span></li>
+<li>Why? <span class="fill-in">[Fill in]</span></li>
+<li>Compensation strategy? <span class="fill-in">[Fill in]</span></li>
+<li>How to monitor progress? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="scenario-3-account-audit-system">Scenario 3: Account audit system<a class="headerlink" href="#scenario-3-account-audit-system" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>Need complete history of all changes</li>
+<li>Regulatory compliance</li>
+<li>Ability to replay transactions</li>
+<li>Time-based queries</li>
+<li>High write volume</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<ul>
+<li>Which pattern would you choose? <span class="fill-in">[Fill in]</span></li>
+<li>Why? <span class="fill-in">[Fill in]</span></li>
+<li>Storage strategy? <span class="fill-in">[Fill in]</span></li>
+<li>Query optimization? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<hr/>
+<h2 id="review-checklist">Review Checklist<a class="headerlink" href="#review-checklist" title="Permanent link">¶</a></h2>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Two-phase commit implemented with prepare and commit phases</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Saga orchestration implemented with central coordinator</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Saga choreography implemented with event-driven flow</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Compensation handler implemented for rollback</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Event sourcing implemented with event replay</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand when to use each pattern</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can explain trade-offs between patterns</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Built decision tree for pattern selection</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Completed practice scenarios</li>
+</ul>
+<hr/>
+<h3 id="mastery-certification">Mastery Certification<a class="headerlink" href="#mastery-certification" title="Permanent link">¶</a></h3>
+<p><strong>I certify that I can:</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Explain 2PC, Saga (both types), and Event Sourcing</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Identify which pattern to use for different scenarios</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Implement basic Saga orchestrator from memory</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Design compensation strategies</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Handle failure scenarios (coordinator crash, participant failure, compensation failure)</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Implement idempotent operations</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand CAP theorem trade-offs</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Debug distributed transaction issues</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Teach these concepts to someone else</li>
+</ul></div>
+</div>
+<footer class="col-md-12 text-center">
+<hr/>
+<p>
+<small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+</p>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../../js/bootstrap-3.0.3.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>var base_url = "../.."</script>
+<script src="../../js/base.js"></script>
+<script src="../../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<button class="close" data-dismiss="modal" type="button">
+<span aria-hidden="true">×</span>
+<span class="sr-only">Close</span>
+</button>
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+</div>
+<div class="modal-body">
+<p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="text"/>
+</div>
+</form>
+<div id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@10.4.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>
