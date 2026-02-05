@@ -273,6 +273,43 @@ Attack pattern:
 
 ---
 
+## Case Studies: Rate Limiting in the Wild
+
+### Stripe API: The Leaky Bucket for Smooth Traffic
+
+- **Pattern:** Leaky Bucket algorithm.
+- **How it works:** Stripe's API processes requests at a fixed, steady rate, smoothing out bursts. Imagine a bucket with
+  a small hole in the bottom. Incoming requests fill the bucket, and they are processed at the rate water "leaks" out.
+  If requests arrive too quickly, the bucket overflows, and requests are rejected with a `429 Too Many Requests` status
+  code.
+- **Key Takeaway:** The Leaky Bucket algorithm is excellent for services that require a predictable, stable load and
+  want to prevent being overwhelmed by sudden bursts of traffic. It enforces a very smooth processing rate.
+
+### GitHub API: The Token Bucket for Flexibility
+
+- **Pattern:** Token Bucket algorithm.
+- **How it works:** GitHub provides each API client with a "bucket" of tokens (e.g., 5,000) that refills over time (
+  e.g., per hour). Each API request consumes one token. This allows clients to make short, intense bursts of requests as
+  long as they have tokens remaining. The API's HTTP response headers (`X-RateLimit-Limit`, `X-RateLimit-Remaining`,
+  `X-RateLimit-Reset`) clearly communicate the client's current status, allowing applications to gracefully back off.
+- **Key Takeaway:** The Token Bucket algorithm provides more flexibility than the Leaky Bucket, as it permits bursty
+  traffic. This is user-friendly for clients who may have legitimate reasons to make many requests in a short period, as
+  long as their average rate remains within the limit.
+
+### Cloudflare: Fixed Windows for DDoS Protection
+
+- **Pattern:** Fixed Window Counters for security.
+- **How it works:** As a security company, Cloudflare's priority is blocking malicious traffic. They use simple,
+  high-performance fixed window counters at their edge locations. They might have a rule like: "Block any IP that makes
+  more than 100 requests in any 10-second window." While this can be cheated by a sophisticated attacker who distributes
+  requests across windows, it is extremely effective at stopping basic brute-force attacks and application-layer DDoS
+  attempts with very little overhead.
+- **Key Takeaway:** For security and DDoS mitigation, the raw performance and simplicity of a fixed window counter can
+  be the most effective choice. The goal isn't perfect fairness but rather the rapid identification and blocking of
+  abusive behavior.
+
+---
+
 ## Core Implementation
 
 ### Part 1: Token Bucket Algorithm

@@ -286,6 +286,44 @@ do {
 
 ---
 
+## Case Studies: Concurrency in the Wild
+
+### Relational Databases: Pessimistic Locking for Consistency
+
+- **Pattern:** Pessimistic Locking (`SELECT ... FOR UPDATE`).
+- **How it works:** In a traditional banking application, when a user initiates a money transfer, the database
+  transaction can place an exclusive lock on the user's account balance row. The transaction reads the balance, updates
+  it, and then releases the lock upon commit. If another transaction tries to access the same account balance row in the
+  meantime, it is blocked and forced to wait.
+- **Key Takeaway:** For high-contention, mission-critical operations where data integrity is paramount (e.g., financial
+  transactions, inventory management), pessimistic locking is a safe and robust strategy. It prevents conflicts from
+  happening in the first place, at the cost of reduced concurrency.
+
+### Web Frameworks (Ruby on Rails, Django): Optimistic Locking for High Concurrency
+
+- **Pattern:** Optimistic Concurrency Control (OCC) with a version column.
+- **How it works:** Imagine two admins editing the same product in an e-commerce backend. Admin A loads the product
+  page (version 42). Admin B loads the same page. Admin A saves her changes; the application updates the product and
+  increments its version to 43. When Admin B tries to save his changes, the application sees that he is trying to update
+  version 42, but the current version is 43. The update is rejected, and Admin B is shown an error: "This record was
+  modified by someone else. Please reload and try again."
+- **Key Takeaway:** Optimistic locking is ideal for web applications where conflicts are rare and high concurrency is
+  desirable. It "hopes" for the best and only deals with conflicts when they actually occur, avoiding the overhead of
+  database locks for the majority of non-conflicting operations.
+
+### PostgreSQL & Oracle: MVCC for Read/Write Isolation
+
+- **Pattern:** Multi-Version Concurrency Control (MVCC).
+- **How it works:** When you run a long analytical query (`SELECT AVG(price) FROM products`) in PostgreSQL, you get a
+  consistent "snapshot" of the database at the time your query began. If another user updates a product price while your
+  query is running, PostgreSQL creates a *new version* of that product row instead of overwriting it. Your long-running
+  query continues to see the old version, while new transactions will see the updated version.
+- **Key Takeaway:** MVCC is a powerful mechanism that allows readers and writers not to block each other. This is a
+  massive performance benefit for mixed workloads, where long-running reports or analytics can execute alongside fast
+  OLTP transactions without contention.
+
+---
+
 ## Core Implementation
 
 ### Pattern 1: Lock-Based Synchronization

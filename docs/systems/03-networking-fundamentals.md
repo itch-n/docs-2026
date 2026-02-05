@@ -153,6 +153,50 @@ Additional benefits:
 
 ---
 
+## Case Studies: Networking in the Wild
+
+### Online Gaming (Fortnite, Call of Duty): UDP for Speed
+
+- **Pattern:** UDP for real-time game data.
+- **How it works:** Player movements, actions, and shots are sent via UDP packets. If a packet is lost (e.g., showing a
+  player's position from 50ms ago), the game doesn't wait. It simply discards the old data and uses the next available
+  packet. Waiting for a TCP retransmission would cause noticeable lag (rubber-banding).
+- **Key Takeaway:** For applications where the most recent data is more important than guaranteed delivery of every
+  single piece of data, UDP is the superior choice. The trade-off is that the application layer must handle potential
+  packet loss.
+
+### Google & YouTube: HTTP/2 and HTTP/3 (QUIC) Adoption
+
+- **Pattern:** Modern HTTP protocols for web performance.
+- **How it works:** Google was a pioneer of both SPDY (the precursor to HTTP/2) and QUIC (the transport protocol for
+  HTTP/3). On sites like YouTube, QUIC significantly reduces connection and stream setup time. This is especially
+  noticeable on mobile networks, where it can seamlessly migrate a user's connection from Wi-Fi to cellular data without
+  interrupting the video stream, a major weakness of TCP.
+- **Key Takeaway:** Adopting modern protocols like HTTP/2 and HTTP/3 is critical for performance at scale. The move from
+  TCP to a UDP-based protocol (QUIC) in HTTP/3 solves fundamental transport-layer problems like Head-of-Line blocking.
+
+### Slack & Discord: WebSockets for Real-Time Chat
+
+- **Pattern:** WebSockets for persistent, bidirectional communication.
+- **How it works:** When you open Slack or Discord, your client establishes a single, long-lived WebSocket connection to
+  their servers. When a new message is sent in a channel, the server pushes that message immediately to all connected
+  clients in that channel.
+- **Key Takeaway:** Compared to old-school HTTP polling, WebSockets reduce latency from seconds to milliseconds and
+  drastically decrease unnecessary network traffic and server load, making them essential for any real-time interactive
+  application.
+
+### Netflix: DNS for Global Load Balancing
+
+- **Pattern:** DNS-based Global Server Load Balancing (GSLB).
+- **How it works:** When you press play on Netflix, your device makes a DNS request for the server hosting the video
+  content. Netflix's DNS servers don't just return a single IP address; they return the IP address of the Open Connect
+  Appliance (OCA) cache server that is geographically and topologically closest to you.
+- **Key Takeaway:** DNS is not just for finding IPs. It's a powerful tool for global traffic routing. By directing users
+  to the nearest server at the DNS level, Netflix ensures low latency, high-quality streaming and distributes load
+  across its global content delivery network.
+
+---
+
 ## Core Concepts
 
 ### Topic 1: Transport Layer - TCP vs UDP

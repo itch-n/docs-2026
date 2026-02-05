@@ -309,6 +309,45 @@ All 1000 requests handled, with 2000 req/sec headroom
 
 ---
 
+## Case Studies: Database Scaling in the Wild
+
+### Facebook's Social Graph: Sharding at Massive Scale
+
+- **Pattern:** Horizontal Sharding (by User ID).
+- **How it works:** Facebook's social graph is far too large for a single database. They partition their data, storing a
+  user and all their related data (posts, friends, messages) on a specific database server, or **shard**. The
+  application logic hashes a user's ID to determine which shard contains their data. This allows Facebook to scale
+  almost infinitely by simply adding more shards.
+- **Key Takeaway:** For applications with a massive, growing dataset that can be logically partitioned (e.g., by user,
+  by geography), sharding is the key to horizontal scalability. The main challenge becomes managing the complexity of
+  routing queries to the correct shard and handling cross-shard operations.
+
+### Instagram's Early Scaling: Read Replicas
+
+- **Pattern:** Primary-Replica Replication.
+- **How it works:** In its earlier days, Instagram scaled its PostgreSQL database to handle millions of users by using
+  read replicas. All writes (new photos, comments, likes) went to a single powerful primary database. This primary
+  database then asynchronously replicated all changes to dozens of read-only replica databases. The vast majority of
+  user traffic (reading feeds, viewing photos) was served from these replicas, spreading the read load and keeping the
+  primary free to handle writes.
+- **Key Takeaway:** For workloads that are heavily skewed towards reads, primary-replica replication is a simple and
+  highly effective scaling strategy. It's often the first and most impactful step companies take to scale their
+  database.
+
+### Slack: Scaling with Vitess
+
+- **Pattern:** Horizontal Sharding via a Database Middleware (Vitess).
+- **How it works:** Slack needed to scale its MySQL databases to handle explosive growth in users, messages, and
+  channels. They adopted Vitess, a clustering system that sits between their application and their MySQL servers. Vitess
+  automatically shards the data and routes queries, making a large cluster of small databases look like one single,
+  massive database to the application. This allowed them to scale horizontally without significant changes to their
+  application code.
+- **Key Takeaway:** Database middleware like Vitess can abstract away the complexity of sharding. It provides the
+  scalability benefits of a sharded architecture while minimizing the impact on application development, offering a
+  powerful path for scaling existing SQL databases.
+
+---
+
 ## Core Implementation
 
 ### Part 1: Hash-Based Sharding

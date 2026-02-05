@@ -429,6 +429,45 @@ public class SecureSecretsManagement {
 
 ---
 
+## Case Studies: Security Patterns in the Wild
+
+### Google & Facebook Login: OAuth 2.0 and OpenID Connect
+
+- **Pattern:** OAuth 2.0 for delegated authorization and OIDC for authentication.
+- **How it works:** When you click "Login with Google" on a third-party site (like Stack Overflow), the site (the
+  Client) redirects you to Google (the Authorization Server). You grant permission for Stack Overflow to access your
+  basic profile. Google then redirects you back with an authorization code. Stack Overflow's server exchanges this code
+  for an Access Token (a JWT). It can then use this token to fetch your profile information from Google's API. OIDC
+  provides the identity layer on top of OAuth 2.0, standardizing how profile information is shared.
+- **Key Takeaway:** OAuth 2.0 is the standard for delegated authorization, allowing users to grant limited access to
+  their data without sharing their passwords. It separates the roles of the user, the client application, and the
+  authorization server.
+
+### AWS & Google Cloud APIs: API Keys and IAM
+
+- **Pattern:** API Keys for programmatic access and IAM for fine-grained authorization.
+- **How it works:** When a developer wants to use an AWS S3 or Google Maps API from their server, they generate an API
+  Key. This key is a long, unique string that is passed in an HTTP header with each request. The API gateway validates
+  the key to authenticate the calling service. The key is linked to an **IAM (Identity and Access Management)** role,
+  which defines exactly what actions that key is authorized to perform (e.g., `s3:GetObject` but not `s3:DeleteObject`).
+- **Key Takeaway:** API keys are a simple and effective way to authenticate server-to-server communication. However,
+  authentication alone is not enough; it must be paired with a robust authorization system like IAM to enforce the
+  principle of least privilege.
+
+### Netflix Microservices: JWT Propagation for Internal Authorization
+
+- **Pattern:** Passing JWTs between internal services for user context.
+- **How it works:** When a user streams a movie, their initial request to the Netflix API Gateway includes a JWT that
+  identifies them. As that request fans out to internal microservices (e.g., the Bookmarks service, the Recommendations
+  service, the Playback service), that JWT is passed along with each internal call. Each microservice can independently
+  validate the JWT's signature (using a shared public key) and check its claims (like `userId` and `scopes`) to
+  authorize the action without needing to call an external authentication service.
+- **Key Takeaway:** JWTs are stateless and portable, making them ideal for microservice architectures. Propagating the
+  user's identity allows for decentralized authorization decisions and helps maintain user context for logging and
+  auditing throughout a distributed system.
+
+---
+
 ## Core Implementation
 
 ### Pattern 1: JWT-Based Authentication

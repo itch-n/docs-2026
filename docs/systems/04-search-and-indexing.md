@@ -175,6 +175,43 @@ User experience: Instant results ✓
 
 ---
 
+## Case Studies: Search & Indexing in the Wild
+
+### Google Search: PageRank and the Inverted Index
+
+- **Pattern:** Distributed Inverted Index combined with the PageRank ranking algorithm.
+- **How it works:** Google's crawlers build a massive inverted index of the web. When you search, your query terms are
+  used to retrieve a list of matching documents. The magic is in the ranking: PageRank analyzes the web's link
+  structure, treating a link from page A to page B as a "vote" for page B. It ranks pages higher if they are linked to
+  by many other high-ranking pages.
+- **Key Takeaway:** A fast inverted index is only half the battle. The relevance of search results is determined by
+  sophisticated ranking algorithms. PageRank revolutionized search by using the collective intelligence of the web
+  itself to determine authority and importance.
+
+### Elasticsearch: Powering Enterprise Search
+
+- **Pattern:** Distributed, Sharded Inverted Index (using Apache Lucene).
+- **How it works:** Companies like **Uber** (for searching trips), **Stack Overflow** (for finding questions), and *
+  *Netflix** (for catalog search) use Elasticsearch. It automatically builds an inverted index on JSON documents. To
+  scale, it partitions the index into multiple **shards**, and replicates them for fault tolerance. A query is sent to
+  all shards in parallel, and the results are aggregated by a coordinating node.
+- **Key Takeaway:** Elasticsearch democratized high-quality search. It packages the complex concepts of inverted
+  indexes, text analysis, and distributed systems into a scalable, easy-to-use product, making it the de-facto standard
+  for adding search capabilities to applications.
+
+### Algolia: Search-as-a-Service for Speed
+
+- **Pattern:** In-Memory, Prefix-based Trie/Index Hybrid.
+- **How it works:** Algolia is designed for "instant search" and autocomplete experiences. They store their indices
+  entirely in RAM and distribute them across multiple data centers for low latency. Their ranking is often based on a
+  tie-breaking algorithm that can be heavily customized with business metrics (e.g., for an e-commerce site, rank
+  products with more sales higher).
+- **Key Takeaway:** For user-facing search where speed is paramount, in-memory indices and pre-computed ranking can
+  provide a superior user experience. The trade-off is higher cost and a focus on prefix-matching rather than complex
+  full-text relevance ranking.
+
+---
+
 ## Core Concepts
 
 ### Topic 1: Inverted Index

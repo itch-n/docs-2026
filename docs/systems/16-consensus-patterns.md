@@ -299,6 +299,47 @@ Term 3: When partition heals, Node 5 sees Node 3 has higher term → steps down
 
 ---
 
+## Case Studies: Consensus in the Wild
+
+### Kubernetes: Cluster Coordination with etcd (Raft)
+
+- **Pattern:** Raft for consistent state replication.
+- **How it works:** Kubernetes, the container orchestration system, needs to reliably store the state of the entire
+  cluster: which nodes are active, what pods should be running, what secrets are available, etc. It uses **etcd**, a
+  distributed key-value store, for this. `etcd` forms a small cluster (typically 3 or 5 nodes) and uses the **Raft**
+  consensus algorithm to ensure that all nodes have a consistent, replicated log of all changes. The Raft leader
+  receives all writes, and a write is only considered "committed" when it has been replicated to a majority of the
+  nodes.
+- **Key Takeaway:** Raft provides the safety and consistency needed for critical infrastructure components. By requiring
+  a majority quorum for all decisions, it can tolerate node failures while preventing split-brain scenarios and
+  maintaining a consistent view of the system state.
+
+### Google's Chubby: Distributed Locking with Paxos
+
+- **Pattern:** Paxos for distributed locking and leader election.
+- **How it works:** Inside Google, many distributed systems need to elect a single primary or "leader" from a group of
+  identical replicas. They use a service called **Chubby**. A group of service replicas will attempt to acquire an
+  exclusive lock in Chubby. The one that succeeds becomes the leader. All other replicas become standbys, watching the
+  lock. If the leader crashes and its session with Chubby expires, the lock is released, and the standby replicas are
+  notified so they can attempt to acquire the lock and elect a new leader.
+- **Key Takeaway:** Consensus algorithms provide the foundation for reliable leader election, a fundamental pattern in
+  distributed systems. By using a consistent lock service, systems can ensure that there is only one active leader at
+  any given time, preventing data corruption and split-brain issues.
+
+### Apache Kafka: Cluster Management with ZooKeeper
+
+- **Pattern:** Consensus for metadata management and leader election.
+- **How it works:** Apache Kafka uses **Apache ZooKeeper** (which uses a Paxos-like protocol called Zab) to manage the
+  state of the Kafka cluster. ZooKeeper is responsible for tracking which brokers are alive, which broker is the "
+  controller" (the leader for the whole cluster), the configuration of all topics, and which replica is the leader for
+  each topic partition. If a broker fails, the controller (elected via ZooKeeper) is responsible for electing new
+  partition leaders from the available replicas.
+- **Key Takeaway:** Many distributed data systems (like Kafka, Hadoop, and HBase) delegate the complex task of consensus
+  to a dedicated coordination service like ZooKeeper. This separates the concern of data processing from the difficult
+  problem of managing distributed state and leader election.
+
+---
+
 ## Core Concepts
 
 ### Pattern 1: Leader Election

@@ -245,6 +245,45 @@ public Map<String, Double> avgSalaryByCity() {
 
 ---
 
+## Case Studies: Row vs. Column Storage in the Wild
+
+### PostgreSQL & MySQL: The Row-Oriented Champions
+
+- **Pattern:** Row-Oriented Storage.
+- **How it works:** In databases like PostgreSQL and MySQL (with InnoDB), all the values for a single row (`id`, `name`,
+  `email`, `city`, `salary`) are stored contiguously on disk.
+- **Use Case:** This is ideal for **OLTP (Online Transaction Processing)** workloads. When you query
+  `SELECT * FROM users WHERE id = 123`, the database performs a single read to fetch the entire user record, which is
+  highly efficient. Creating or updating a user is also a single write operation.
+- **Key Takeaway:** For applications where you primarily work with entire records at a time (e.g., e-commerce backends,
+  content management systems, user account services), row-oriented storage provides the best performance for read,
+  write, and update operations.
+
+### Amazon Redshift & Google BigQuery: Columnar for Analytics
+
+- **Pattern:** Column-Oriented Storage.
+- **How it works:** Data warehouses like Redshift, BigQuery, and Snowflake store data in columns. All `user_id` values
+  are stored together, all `city` values are stored together, and so on.
+- **Use Case:** This is built for **OLAP (Online Analytical Processing)**. When an analyst runs a query like
+  `SELECT city, AVG(salary) FROM users GROUP BY city`, the database only needs to read the `city` and `salary` columns.
+  It completely ignores the `id`, `name`, and `email` columns, drastically reducing the amount of data read from disk.
+- **Key Takeaway:** Columnar storage provides orders-of-magnitude performance improvements for analytical queries that
+  aggregate over a small subset of columns in a large dataset. The high compression ratios achieved also lead to
+  significant cost savings.
+
+### ClickHouse: High-Performance Real-Time Analytics
+
+- **Pattern:** Column-Oriented Storage.
+- **How it works:** ClickHouse is an open-source columnar database designed for extreme speed on analytical queries. It
+  not only uses columnar storage but also processes data in vectors using a vectorized query execution engine to
+  maximize CPU efficiency.
+- **Key Takeaway:** For use cases like real-time dashboards, log analysis, and telemetry monitoring, where you need to
+  slice and dice massive datasets interactively, a performance-focused columnar database like ClickHouse is the optimal
+  choice. It demonstrates that the benefits of columnar storage go beyond just I/O reduction to include computational
+  efficiency.
+
+---
+
 ## Core Implementation
 
 ### Part 1: Row-Oriented Storage

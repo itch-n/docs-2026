@@ -325,6 +325,44 @@ public void updateUserProfile_WriteBack(String userId, String newName) {
 
 ---
 
+## Case Studies: Caching in the Wild
+
+### Facebook's Social Graph: TAO and Memcached
+
+- **Pattern:** Cache-Aside with a custom distributed caching layer (TAO).
+- **How it works:** Facebook's social graph (friends, posts, comments) is too large and interconnected to query from a
+  database for every request. They built TAO, a geographically distributed caching system on top of Memcached. When a
+  user requests their feed, the application first queries TAO. If the data is present (cache hit), it's returned
+  instantly. If not (cache miss), TAO fetches the data from the master database (MySQL), populates the cache, and then
+  returns it.
+- **Key Takeaway:** At massive scale, a simple cache isn't enough. Facebook needed to build a custom caching *service*
+  that handles eventual consistency, replication across data centers, and the "thundering herd" problem. It showcases
+  the cache-aside pattern on a global scale.
+
+### Twitter's Timeline Cache: Redis for Real-Time Feeds
+
+- **Pattern:** Pre-computed timelines with a Cache-Aside strategy.
+- **How it works:** A user's home timeline is one of the most frequently read pieces of data. Generating it on-the-fly
+  for every request is too slow. Instead, Twitter pre-computes user timelines and stores them in a massive Redis
+  cluster. When you open Twitter, your app fetches this pre-computed list directly from the cache. When a user you
+  follow tweets, a background "fan-out" service pushes that tweet into the timeline caches of all their followers.
+- **Key Takeaway:** For read-heavy workloads with complex data generation, it's often better to do the work ahead of
+  time and cache the *results*. Redis is a perfect fit for this due to its high performance and versatile data
+  structures (like sorted lists for timelines).
+
+### Content Delivery Networks (CDNs): Caching at the Edge
+
+- **Pattern:** Multi-layered caching with LRU/LFU eviction.
+- **How it works:** A Content Delivery Network (CDN) like Cloudflare or Akamai acts as a massive, distributed cache for
+  a website's static assets (images, CSS, JS). When a user in London requests an image, it's served from the CDN's
+  London edge server, not from the origin server in California. The first request might be slow, but subsequent requests
+  from that region are served from the local cache.
+- **Key Takeaway:** Caching isn't just for databases; it's for any data that can be served closer to the user. CDNs
+  demonstrate how layered caching and intelligent eviction policies (like LRU to keep popular assets hot) can
+  dramatically improve website performance and reduce bandwidth costs for the origin server.
+
+---
+
 ## Core Implementation
 
 ### Pattern 1: LRU Cache (Least Recently Used)

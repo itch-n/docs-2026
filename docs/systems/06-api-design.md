@@ -544,6 +544,42 @@ Result: User charged $100 only once - correct!
 
 ---
 
+## Case Studies: API Design in the Wild
+
+### Stripe API: The Gold Standard for REST
+
+- **Paradigm:** REST.
+- **How it works:** Stripe's API is a model for resource-oriented design. Resources are represented as nouns (e.g.,
+  `/v1/customers`, `/v1/charges`, `/v1/subscriptions`). It uses HTTP verbs correctly (e.g., `POST /v1/charges` to create
+  a new charge, `GET /v1/charges/{id}` to retrieve it). It also excels at developer experience with clear error
+  messages, idempotent request handling, and versioning in the URL.
+- **Key Takeaway:** For a public-facing API where predictability, scalability, and a wide range of client support are
+  essential, a well-documented REST architecture is a powerful and reliable choice. It sets clear boundaries and is
+  easily explorable.
+
+### GitHub API: GraphQL for Flexibility
+
+- **Paradigm:** GraphQL.
+- **How it works:** GitHub's v4 API uses GraphQL to allow developers to craft precise queries for the exact data they
+  need. Instead of making multiple REST calls to get a repository, its pull requests, and their review comments, a
+  developer can write a single GraphQL query that specifies this nested structure.
+- **Key Takeaway:** GraphQL is ideal for applications with complex data models and varied client needs (like mobile vs.
+  web). It solves the over-fetching and under-fetching problems common in REST, but adds complexity to the server-side
+  with query parsing and execution.
+
+### Google & Netflix: gRPC for Internal Microservices
+
+- **Paradigm:** RPC (specifically, gRPC).
+- **How it works:** In a microservices architecture, services need to communicate with each other at very high speed.
+  Google developed gRPC for this purpose. Services define their interfaces using Protocol Buffers (`.proto` files),
+  which act as a strict contract. gRPC then generates client and server code, enabling efficient, low-latency, binary
+  communication over HTTP/2.
+- **Key Takeaway:** For internal service-to-service communication where performance is critical and contracts need to be
+  strictly enforced, gRPC is often superior to REST. The focus is not on human-readable resources but on
+  high-performance procedure calls.
+
+---
+
 ## Core Implementation
 
 ### Part 1: REST API Design

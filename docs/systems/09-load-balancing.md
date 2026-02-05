@@ -257,6 +257,35 @@ Result: Same server every time, session maintained
 
 ---
 
+## Case Studies: Load Balancing in the Wild
+
+### Netflix: Zuul API Gateway
+
+- **Pattern:** L7 Load Balancing.
+- **How it works:** Netflix's Zuul gateway acts as a smart L7 router. It inspects incoming HTTP requests and routes them
+  to the appropriate microservice (e.g., `api/v1/movies` -> Movie Service, `api/v1/billing` -> Billing Service).
+- **Key Takeaway:** They use it for more than just traffic distribution; it handles dynamic routing, security, and
+  monitoring, acting as the "front door" to their entire microservices architecture.
+
+### Facebook: Katran Load Balancer
+
+- **Pattern:** L4 Load Balancing.
+- **How it works:** Katran is a high-performance L4 load balancer that operates at the network packet level (TCP/UDP).
+  It uses a technique called Direct Server Return (DSR) where the backend server responds directly to the client,
+  bypassing the load balancer on the return path to reduce latency.
+- **Key Takeaway:** For massive scale, Facebook optimized at a lower level to achieve extreme performance, sacrificing
+  application-level routing logic at the edge for raw speed.
+
+### Cloudflare: Anycast and Geo-Routing
+
+- **Pattern:** Global Load Balancing (GSLB).
+- **How it works:** Cloudflare uses Anycast DNS to route users to the nearest data center based on network topology. An
+  L4/L7 load balancer within that data center then distributes traffic locally.
+- **Key Takeaway:** Load balancing isn't just for a single data center. It's a critical tool for global traffic
+  management, improving latency and providing DDoS protection by distributing traffic geographically.
+
+---
+
 ## Core Implementation
 
 ### Part 1: Round Robin Load Balancer

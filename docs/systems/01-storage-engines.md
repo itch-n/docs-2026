@@ -276,6 +276,42 @@ long duration = System.nanoTime() - start;
 
 ---
 
+## Case Studies: Storage Engines in the Wild
+
+### MySQL (InnoDB): The B+Tree Workhorse
+
+- **Engine:** InnoDB, the default storage engine for MySQL.
+- **Pattern:** B+Tree.
+- **How it works:** InnoDB uses a B+Tree for its primary key index, which is a **clustered index**. This means the table
+  data itself is stored in the leaf nodes of the B+Tree, physically ordered by the primary key. This makes primary key
+  lookups and range scans extremely fast.
+- **Key Takeaway:** B+Trees are the default choice for general-purpose OLTP databases like MySQL that require strong
+  consistency, fast point lookups, and efficient range queries (e.g., fetching users in a specific ID range). The
+  trade-off is higher write amplification, as in-place updates can cause page splits.
+
+### Apache Cassandra: LSM Trees for Write-Heavy Scale
+
+- **Engine:** Apache Cassandra.
+- **Pattern:** Log-Structured Merge-Tree (LSM Tree).
+- **How it works:** Writes are first appended to a commit log and then written to an in-memory `memtable`. When the
+  `memtable` is full, it's flushed to disk as an immutable `SSTable`. Reads must check the `memtable` and potentially
+  multiple `SSTables`. Compaction processes merge `SSTables` in the background to improve read performance.
+- **Key Takeaway:** Cassandra is built for massive write throughput and high availability. By turning random writes into
+  sequential appends, LSM Trees are perfect for write-heavy workloads like time-series data, IoT metrics, and logging
+  systems, at the cost of higher read latency and eventual consistency.
+
+### RocksDB: The Embedded LSM Engine
+
+- **Engine:** RocksDB, an embeddable key-value store developed by Facebook.
+- **Pattern:** LSM Tree.
+- **How it works:** RocksDB provides an LSM-based storage engine library that other databases can build on top of. It
+  manages `memtables`, `SSTables`, and compaction, offering tunable performance for different workloads.
+- **Key Takeaway:** The LSM Tree pattern is so powerful that it's used as a foundational component in many modern
+  distributed databases like CockroachDB, TiDB, and YugabyteDB. It provides a robust, high-performance engine for
+  handling state in a distributed environment.
+
+---
+
 ## Core Implementation
 
 ### Part 1: B+Tree

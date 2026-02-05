@@ -323,6 +323,52 @@ Saga: Reserve → Charge → Ship (if any fails, undo previous)
 
 ---
 
+## Case Studies: Distributed Transactions in the Wild
+
+### E-commerce Order Processing: The Saga Pattern
+
+- **Pattern:** Saga (Choreography-based).
+- **How it works:** When you place an order on a site like Amazon, multiple microservices are involved. This is not a
+  single ACID transaction. Instead, it's a **Saga**:
+    1. The **Orders Service** creates an order and saves it with a `PENDING` status. It then publishes an `OrderCreated`
+       event.
+    2. The **Payments Service** listens for `OrderCreated`, processes the payment, and publishes a `PaymentSucceeded`
+       event.
+    3. The **Inventory Service** listens for `PaymentSucceeded`, decrements the product stock, and publishes
+       `InventoryUpdated`.
+    4. **Compensation:** If the payment fails, the Payments Service publishes `PaymentFailed`. The Orders Service
+       listens for this and runs a *compensating action* to cancel the order.
+- **Key Takeaway:** For long-running business processes that span multiple services, Sagas provide a way to achieve
+  eventual consistency without using slow, blocking distributed locks. The key is defining a compensating action for
+  every step that could fail.
+
+### Distributed Databases (Google Spanner, CockroachDB): Two-Phase Commit
+
+- **Pattern:** Two-Phase Commit (2PC) integrated with a consensus protocol like Paxos or Raft.
+- **How it works:** Modern distributed SQL databases like Spanner and CockroachDB provide ACID transactions across
+  multiple machines. When you `BEGIN TRANSACTION` and update records that live on different nodes (shards), the database
+  uses a 2PC-like protocol. A **transaction coordinator** first asks all participating nodes if they are ready to
+  commit (Phase 1: Prepare). If all nodes agree, the coordinator tells them all to commit (Phase 2: Commit). This
+  ensures the transaction is atomic, even across a global cluster.
+- **Key Takeaway:** While brittle in traditional applications, 2PC is a core component of modern distributed databases.
+  When tightly integrated with consensus protocols, it provides the strong consistency guarantees that developers expect
+  from a SQL database, even in a distributed environment.
+
+### Ride-Sharing Apps (Uber, Lyft): Sagas for Trip Management
+
+- **Pattern:** Saga (Orchestration-based).
+- **How it works:** A single ride is a long-running process managed by a Saga orchestrator.
+    1. **Request Ride:** The orchestrator calls the `MatchingService` to find a driver.
+    2. **Driver Found:** The orchestrator calls the `NotificationService` to inform the user.
+    3. **Trip Completed:** The driver's app signals the end of the trip. The orchestrator calls the `BillingService` to
+       calculate the fare and charge the user.
+    4. **Payment Processed:** The orchestrator calls the `RatingsService` to prompt the user and driver for a rating.
+- **Key Takeaway:** An orchestrator provides a centralized way to manage a complex workflow. It's easier to see the
+  state of the entire process, but it can become a single point of failure and a bottleneck if not designed carefully.
+  This contrasts with the choreography approach where services react to each other's events.
+
+---
+
 ## Core Implementation
 
 ### Part 1: Two-Phase Commit (2PC)

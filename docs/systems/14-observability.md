@@ -271,6 +271,46 @@ With observability:
 
 ---
 
+## Case Studies: Observability in the Wild
+
+### Datadog: The Three Pillars in One Platform
+
+- **Pattern:** Unified collection of Metrics, Traces, and Logs.
+- **How it works:** A company using Datadog instruments its applications to send all three types of telemetry data. When
+  a user reports a slow API endpoint, an engineer can start with a dashboard showing a spike in latency for that
+  endpoint (**metric**). From there, they can drill down to a specific slow **trace** for that endpoint. The trace will
+  show that the database query took 3 seconds. The engineer can then pivot directly to the **logs** from the database
+  server at that exact time, which reveal a "slow query" log line, identifying the exact SQL query that needs
+  optimization.
+- **Key Takeaway:** The power of observability comes from correlating the three pillars. By seamlessly moving between
+  metrics, traces, and logs, engineers can diagnose problems orders of magnitude faster than by looking at each data
+  source in isolation.
+
+### Netflix's Distributed Tracing: Debugging Microservices
+
+- **Pattern:** Distributed Tracing with a unique Request ID.
+- **How it works:** When a user's request enters the Netflix ecosystem, it's assigned a unique ID (e.g.,
+  `Netflix-Request-Id`). This ID is passed in the header of every subsequent internal network call as the request
+  travels through dozens of microservices. If any service encounters an error, it logs the error along with this Request
+  ID. Engineers can then use this single ID to search their centralized logging platform (like ELK) and instantly
+  retrieve all logs and traces related to that specific request from every service it touched.
+- **Key Takeaway:** In a complex microservices architecture, simple log messages are not enough. Distributed tracing is
+  essential for understanding the full lifecycle of a request and quickly pinpointing which service in a long chain is
+  the source of an error or latency.
+
+### Uber's M3: High-Cardinality Metrics at Scale
+
+- **Pattern:** High-cardinality time-series metrics for business and system monitoring.
+- **How it works:** Uber needed to monitor millions of unique entities in real-time (drivers, riders, trips).
+  Traditional metrics systems struggle with this "high cardinality." They built M3, a metrics platform designed to
+  handle this scale. It allows them to ask questions like "What is the average wait time for riders in downtown San
+  Francisco right now?" (`metrics.riders.wait_time.avg{region=sf, district=downtown}`).
+- **Key Takeaway:** Metrics are not just for CPU and memory. They are a powerful tool for real-time business
+  intelligence. However, monitoring high-cardinality dimensions (like individual users or orders) requires a specialized
+  time-series database built to handle the metric explosion.
+
+---
+
 ## Core Implementation
 
 ### Pattern 1: Metrics Collection

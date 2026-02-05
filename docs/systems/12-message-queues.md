@@ -294,6 +294,44 @@ User → [Upload] → Response        (instant)
 
 ---
 
+## Case Studies: Message Queues in the Wild
+
+### Uber Ride Requests: Decoupling with a Task Queue
+
+- **Pattern:** Point-to-Point (Task Queue) using a system like RabbitMQ or Apache Kafka.
+- **How it works:** When a user requests a ride, the mobile application's API call doesn't wait for a driver to be
+  found. Instead, it publishes a `RideRequested` message to a queue and immediately returns a response to the user. A
+  separate pool of "dispatcher" microservices consumes tasks from this queue. These workers are responsible for the
+  heavy lifting: finding nearby drivers, calculating ETAs, and sending notifications, all happening asynchronously.
+- **Key Takeaway:** Message queues are fundamental for creating responsive and resilient systems. By decoupling the
+  initial request from the complex backend processing, Uber's app feels fast and can handle massive bursts of requests,
+  even if the backend services are temporarily slow.
+
+### Twitter's Fan-out Service: The Power of Pub/Sub
+
+- **Pattern:** Publish-Subscribe (Pub/Sub) for fanning out events.
+- **How it works:** When a user tweets, that action is published as a single message to a "Tweets" topic in a system
+  like Kafka. Many different downstream services subscribe to this topic. A "fan-out" service consumes the tweet and
+  injects it into the home timeline caches of all the user's followers. A "notifications" service consumes it to send
+  push notifications. A "search" service consumes it to index the tweet.
+- **Key Takeaway:** Pub/sub is incredibly powerful for building extensible, loosely-coupled systems. The original
+  tweeting service doesn't need to know about all the other services that care about new tweets. Teams can add new
+  subscribers to the topic to build new features without ever changing the original service.
+
+### Netflix Conductor: Orchestrating Workflows with Events
+
+- **Pattern:** Pub/Sub for complex workflow orchestration.
+- **How it works:** Encoding and processing a new movie is a complex, multi-step workflow. Netflix uses an event-driven
+  orchestrator called Conductor. When a video upload is complete, a `VideoUploaded` event is published. A service
+  consumes this and starts encoding, publishing a `VideoEncodingSucceeded` event on completion. This new event triggers
+  multiple parallel actions: one service starts generating thumbnails, another runs quality control, and a third updates
+  the catalog.
+- **Key Takeaway:** Complex business processes can be modeled as a series of events and subscribers. This makes the
+  system more resilient (a failed thumbnail generator doesn't stop the whole workflow) and easier to reason about than a
+  single, monolithic application.
+
+---
+
 ## Core Implementation
 
 ### Part 1: Simple Message Queue

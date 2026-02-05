@@ -339,6 +339,42 @@ Results:     ↑            ↑
 
 ---
 
+## Case Studies: Stream Processing in the Wild
+
+### Netflix: Real-time Streaming Analytics with Flink
+
+- **Pattern:** Windowed Aggregations on event streams.
+- **How it works:** Netflix's infrastructure generates a massive stream of events: every "play," "pause," "buffer,"
+  and "finish" action from millions of viewers is published to Apache Kafka. They use Apache Flink to process this
+  stream in real-time. For example, a Flink job might use a **10-second tumbling window** to count the number of
+  playback errors per region, allowing engineers to spot and react to regional outages instantly.
+- **Key Takeaway:** Stream processing is essential for real-time operational monitoring at scale. By using windowed
+  aggregations, raw event streams can be transformed into meaningful, actionable metrics for dashboards and alerting
+  systems.
+
+### LinkedIn Feed Updates: Real-time Content Delivery
+
+- **Pattern:** Stream-Table Joins.
+- **How it works:** LinkedIn's feed is a combination of real-time activity and user profile data. When a user you follow
+  shares an article, that's a real-time event on a stream. To render the feed, their stream processing system (Apache
+  Samza) must join this event stream with a table stream containing user profile data (like the user's name and
+  headline). The result is a fully enriched feed item, delivered in near real-time.
+- **Key Takeaway:** Stream processing isn't just about counting events. It's often about enriching real-time events with
+  static or slow-moving data from tables to provide context and create a complete picture for the end-user.
+
+### Cloudflare: DDoS Detection with Sliding Windows
+
+- **Pattern:** Sliding Window analysis for anomaly detection.
+- **How it works:** Cloudflare protects websites from DDoS attacks by analyzing vast streams of network request data. A
+  stream processor might use a **1-minute sliding window**, evaluated every 5 seconds, to track the request count per IP
+  address. If the count for any IP suddenly spikes and crosses a predefined threshold within that window, the system
+  automatically identifies it as a potential attack and can block the IP at the edge.
+- **Key Takeaway:** Sliding windows are perfect for detecting anomalies in real-time data. By continuously analyzing
+  recent activity, systems can identify and react to security threats or performance issues much faster than traditional
+  batch-based analysis would allow.
+
+---
+
 ## Core Implementation
 
 ### Pattern 1: Windowing (Tumbling, Sliding, Session)
