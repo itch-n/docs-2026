@@ -2,20 +2,6 @@
 
 > Apply graph traversal to solve optimization problems: topological sort, shortest paths, and MST
 
-**Prerequisites:** ⚠️ Complete "Graphs: Traversal Patterns" first (DFS, BFS, cycle detection)
-
-**Interview Priority:**
-- ⭐⭐⭐ Topological Sort - CRITICAL (Course Schedule is top 20 most common)
-- ⭐⭐ Dijkstra's Algorithm - Good to know for weighted graphs
-- ⭐ MST (Kruskal/Prim) - Low frequency, study if time permits
-- ⭐⭐ Union-Find - Important for dynamic connectivity
-
-**What you'll learn:**
-- How to order tasks with dependencies (topological sort)
-- How to find shortest paths in weighted graphs (Dijkstra)
-- How to connect nodes with minimum cost (MST)
-- How to track dynamic connectivity (Union-Find)
-
 ---
 
 ## ELI5: Explain Like I'm 5

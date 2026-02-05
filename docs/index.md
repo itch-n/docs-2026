@@ -46,10 +46,10 @@ Pattern-based approach from easy to advanced:
 - [ ] **Trees - Traversals** - Inorder, preorder, postorder, level-order (BFS)
 - [ ] **Trees - Recursion** - Height, diameter, LCA, path problems
 - [ ] **Binary Search** - Classic search, rotated arrays, 2D matrices
-- [ ] **Union-Find** - Disjoint sets for connectivity (before Graphs for MST algorithms)
-- [ ] **Graphs (DFS/BFS)** - Traversals, shortest path
-- [ ] **Advanced Graph Algorithms** - Dijkstra, MST, Topological Sort, A*, SCC
-- [ ] **Heaps** - Priority queues, top K problems
+- [ ] **Heaps** - Priority queues, top K problems (prerequisite for Dijkstra)
+- [ ] **Graphs (DFS/BFS)** - Traversals, cycle detection, connected components
+- [ ] **Union-Find** - Disjoint sets for dynamic connectivity, Kruskal's MST
+- [ ] **Advanced Graphs** - Topological Sort, Dijkstra, MST
 - [ ] **Backtracking** - Permutations, combinations, constraint satisfaction
 - [ ] **Dynamic Programming - 1D** - Fibonacci, house robber, coin change
 - [ ] **Dynamic Programming - 2D** - Knapsack, LCS, edit distance

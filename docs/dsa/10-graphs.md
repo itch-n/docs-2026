@@ -2,16 +2,6 @@
 
 > Master DFS, BFS, and cycle detection - the foundation for all graph problems
 
-**Interview Priority: ⭐⭐⭐ CRITICAL** (60% of graph interview problems use these patterns)
-
-**What you'll learn:**
-- How to explore graphs systematically (DFS vs BFS)
-- When to use each traversal technique
-- Cycle detection in directed and undirected graphs
-- Graph representation trade-offs
-
-**Next step:** After mastering this, move to "Advanced Graph Algorithms" for TopSort, Dijkstra, MST
-
 ---
 
 ## ELI5: Explain Like I'm 5

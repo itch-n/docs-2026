@@ -47,10 +47,10 @@ nav:
       - "06. Trees - Traversals": dsa/06-trees-traversals.md
       - "07. Trees - Recursion": dsa/07-trees-recursion.md
       - "08. Binary Search": dsa/08-binary-search.md
-      - "09. Union-Find": dsa/09-union-find.md
+      - "09. Heaps": dsa/09-heaps.md
       - "10. Graphs": dsa/10-graphs.md
-      - "11. Advanced Graph Algorithms": dsa/11-advanced-graph-algorithms.md
-      - "12. Heaps": dsa/12-heaps.md
+      - "11. Union-Find": dsa/11-union-find.md
+      - "12. Advanced Graphs": dsa/12-advanced-graphs.md
       - "13. Backtracking": dsa/13-backtracking.md
       - "14. Dynamic Programming 1D": dsa/14-dynamic-programming-1d.md
       - "15. Dynamic Programming 2D": dsa/15-dynamic-programming-2d.md
