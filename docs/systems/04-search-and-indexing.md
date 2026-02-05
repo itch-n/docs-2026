@@ -119,6 +119,7 @@ User experience: Loading spinner... user leaves
 ```
 
 **Problems:**
+
 - O(N × M) where N = documents, M = avg document size
 - No ranking (random order)
 - No fuzzy matching ("wireles" returns nothing)
@@ -142,6 +143,7 @@ doc12345: score = 4.1 (only "headphones" in title)
 
 **Query execution:**
 ```
+
 1. Look up "wireless" → [45234, 89123, 234556, ...] (1ms)
 2. Look up "headphones" → [12345, 45234, 67890, ...] (1ms)
 3. Intersect lists → [45234, ...] (5ms)
@@ -164,11 +166,13 @@ User experience: Instant results ✓
 | Fuzzy match | Hard | Easy | More results |
 
 **Real-world impact:**
+
 - Without indexing: 80% bounce rate (users leave)
 - With indexing: 5% bounce rate, 10x more conversions
 - Cost: $100K/month in extra servers vs $10K/month with proper indexing
 
 **Your calculation:** For 100M documents:
+
 - Linear search time: <span class="fill-in">_____</span> seconds
 - Indexed search time: <span class="fill-in">_____</span> ms
 - Users served per second: Linear <span class="fill-in">_____</span> vs Indexed <span class="fill-in">_____</span>
@@ -255,6 +259,7 @@ Search "quick" → O(1) lookup → [doc1, doc3]
 ]
 
 Phrase search "quick brown":
+
 - Find docs with both terms
 - Check if positions are adjacent
 - doc1: positions 1,2 → ✓ Match!
@@ -404,6 +409,7 @@ Trigrams: ["sea", "ear", "arc", "rch"]
 
 Use case: Fuzzy search
 Query "serch" (typo):
+
 - Trigrams: ["ser", "erc", "rch"]
 - "search" trigrams: ["sea", "ear", "arc", "rch"]
 - Overlap: ["erc", "rch"] → Possible match!
@@ -472,6 +478,7 @@ doc2 score = [calculate similarly]
 doc3 score = [calculate similarly]
 
 Ranked results:
+
 1. doc1 (0.30) ← Both terms, high frequency
 2. doc2 (0.15) ← Has "dog" only
 3. doc3 (0.10) ← Has "cat" only
@@ -481,6 +488,7 @@ Ranked results:
 
 ```
 BM25 advantages over TF-IDF:
+
 1. Diminishing returns for term frequency
    (10 occurrences not 10x better than 1)
 2. Document length normalization
@@ -555,11 +563,13 @@ Levenshtein Distance: minimum edits to transform one string into another
 
 Example: "quick" → "quik"
 Operations:
+
 1. Delete 'c' → "quik"
 Distance = 1
 
 Query: "elasticsarch" (typo)
 Fuzzy search with distance 2:
+
 - "elasticsearch" (distance 1: insert 'e')
 - "elasticcache" (too far, distance 3)
 
@@ -594,6 +604,7 @@ h
 Words: "search", "stop", "cat"
 
 Autocomplete "se":
+
 1. Traverse: root → s → e
 2. Find all descendants: "search"
 3. Return top 10 by frequency
@@ -637,6 +648,7 @@ Highlighted:
 "Introduction to <em>Machine</em> <em>Learning</em> algorithms..."
 
 Implementation:
+
 1. Find term positions from inverted index
 2. Extract surrounding context (±50 chars)
 3. Insert highlight tags
@@ -666,6 +678,7 @@ Shard 3: docs 6M-8M
 Shard 4: docs 8M-10M
 
 Query execution:
+
 1. Send query to all 5 shards (parallel)
 2. Each shard searches its 2M docs
 3. Return top 10 from each shard
@@ -688,11 +701,13 @@ Node 2: Primary 1, Replica 0
 Node 3: Replica 0, Replica 1
 
 Availability:
+
 - Node 1 fails → Node 2 has Primary 1 and Replica 0
 - All data still accessible
 - Automatic promotion of replicas
 
 Performance:
+
 - Reads can use replicas (load balancing)
 - Writes go to primary, then replicated
 ```
@@ -703,6 +718,7 @@ Performance:
 Client → Load Balancer → Coordinating Node
 
 Coordinating Node:
+
 1. Parse query
 2. Determine target shards
 3. Broadcast to all shards
@@ -735,6 +751,7 @@ PUT /users/_doc/user123?routing=tenant_A
 → Faster tenant-scoped queries
 
 Trade-off:
+
 - Better locality
 - Risk of unbalanced shards
 ```
@@ -769,6 +786,7 @@ Trade-off:
 }
 
 Effect:
+
 - Smaller index size
 - Faster indexing
 - Reduced memory usage
@@ -819,6 +837,7 @@ Query: "Average age by city"
 }
 
 Filter benefits:
+
 + Cached (reused across queries)
 + Faster (no scoring)
 + Use for: dates, categories, flags
@@ -835,6 +854,7 @@ Request cache (entire query result):
 → Subsequent identical queries instant
 
 Shard request cache:
+
 - Caches query results per shard
 - Invalidated on shard changes
 - Shared across all queries hitting shard
@@ -846,6 +866,7 @@ Deep pagination problem:
 GET /products?from=10000&size=10
 
 Process:
+
 1. Each shard returns top 10,010 results
 2. Coordinator merges (5 shards × 10,010 = 50,050 docs)
 3. Sorts all 50,050
@@ -871,11 +892,13 @@ GET /products?scroll=1m
 ### Question 1: When to build inverted index?
 
 **Build inverted index when:**
+
 - Full-text search required: <span class="fill-in">[Search within documents]</span>
 - Fast lookups critical: <span class="fill-in">[< 100ms query time]</span>
 - Dataset size > 10K docs: <span class="fill-in">[Linear search too slow]</span>
 
 **Skip inverted index when:**
+
 - Exact key lookups only: <span class="fill-in">[Use hash table]</span>
 - Tiny dataset (< 1K docs): <span class="fill-in">[Linear scan acceptable]</span>
 - Write-heavy, rare reads: <span class="fill-in">[Index overhead not worth it]</span>
@@ -883,11 +906,13 @@ GET /products?scroll=1m
 ### Question 2: TF-IDF vs BM25?
 
 **Use TF-IDF when:**
+
 - Simple implementation needed
 - Legacy system compatibility
 - Small datasets
 
 **Use BM25 when:**
+
 - Production search system
 - Varied document lengths
 - Better ranking required (modern default)
@@ -895,11 +920,13 @@ GET /products?scroll=1m
 ### Question 3: Sharding strategy?
 
 **Use hash-based sharding when:**
+
 - Uniform distribution desired
 - No co-location requirements
 - Simple setup
 
 **Use custom routing when:**
+
 - Multi-tenancy (tenant per shard)
 - Co-locate related documents
 - Optimize specific query patterns
@@ -911,6 +938,7 @@ GET /products?scroll=1m
 ### Scenario 1: E-Commerce Product Search
 
 **Requirements:**
+
 - 10M products
 - Autocomplete (< 50ms)
 - Fuzzy matching for typos
@@ -921,11 +949,13 @@ GET /products?scroll=1m
 **Your design:**
 
 Index structure:
+
 - Shards: <span class="fill-in">[How many?]</span>
 - Replicas: <span class="fill-in">[How many for HA?]</span>
 - Mapping: <span class="fill-in">[Which fields indexed?]</span>
 
 Query strategy:
+
 - Autocomplete: <span class="fill-in">[Trie? Edge n-grams?]</span>
 - Fuzzy: <span class="fill-in">[Levenshtein distance?]</span>
 - Ranking: <span class="fill-in">[BM25 + custom boost?]</span>
@@ -933,6 +963,7 @@ Query strategy:
 ### Scenario 2: Log Search (Observability)
 
 **Requirements:**
+
 - 1B log entries/day
 - Time-range queries
 - Full-text search on messages
@@ -942,11 +973,13 @@ Query strategy:
 **Your design:**
 
 Index strategy:
+
 - Time-based indices: <span class="fill-in">[Daily? Hourly?]</span>
 - Rollover policy: <span class="fill-in">[When?]</span>
 - Deletion: <span class="fill-in">[How to handle retention?]</span>
 
 Query optimization:
+
 - Filter by time: <span class="fill-in">[Use filter context?]</span>
 - Aggregations: <span class="fill-in">[Doc values?]</span>
 - Pagination: <span class="fill-in">[Scroll API?]</span>
@@ -954,6 +987,7 @@ Query optimization:
 ### Scenario 3: Knowledge Base Search
 
 **Requirements:**
+
 - 100K articles
 - Multi-language support
 - Highlight search terms
@@ -963,11 +997,13 @@ Query optimization:
 **Your design:**
 
 Text analysis:
+
 - Language detection: <span class="fill-in">[How?]</span>
 - Stemming: <span class="fill-in">[Language-specific?]</span>
 - Synonyms: <span class="fill-in">[How to implement?]</span>
 
 Features:
+
 - Highlighting: <span class="fill-in">[Unified? Plain?]</span>
 - Suggestions: <span class="fill-in">[Fuzzy + frequency?]</span>
 - Related: <span class="fill-in">[More Like This query?]</span>

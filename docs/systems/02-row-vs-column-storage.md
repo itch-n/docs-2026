@@ -103,6 +103,7 @@ CREATE TABLE users (
 **Two different queries with radically different performance:**
 
 ```sql
+
 -- Query 1: OLTP - Fetch one user by ID
 SELECT * FROM users WHERE id = 12345;
 

@@ -1907,6 +1907,7 @@ public class NonBlockingIOPattern {
 - **Limitation:** Blocking operations (CPU work, DB calls) stall entire event loop
 
 **When to Use:**
+
 - ✅ High-concurrency network servers (chat, proxies, API gateways)
 - ✅ I/O-bound workloads (network, file I/O)
 - ✅ Need to minimize thread overhead
@@ -2138,6 +2139,7 @@ public class VirtualThreadsPattern {
 - **Structured Concurrency:** Cancel child tasks when parent fails
 
 **When to Use:**
+
 - ✅ Modern Java applications (21+)
 - ✅ High concurrency (thousands+ concurrent tasks)
 - ✅ Blocking I/O operations (HTTP, DB, file I/O)
@@ -2444,6 +2446,7 @@ users = asyncio.run(fetch_all_users([1, 2, 3, 4, 5]))
 - **Cancellation:** Cancel entire hierarchy with one call
 
 **When to Use:**
+
 - ✅ Kotlin/Python/Go applications
 - ✅ High concurrency with I/O operations
 - ✅ Want readable async code (no callback hell)
@@ -2796,6 +2799,7 @@ public class ReactiveStreamsPattern {
 - **Error Handling:** Resilient with retry, fallback strategies
 
 **When to Use:**
+
 - ✅ Streaming data pipelines (Kafka, websockets)
 - ✅ High-concurrency microservices (Spring WebFlux)
 - ✅ Event-driven architectures

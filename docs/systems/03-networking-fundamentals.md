@@ -92,6 +92,7 @@
 
 ```
 Client needs to load dashboard with:
+
 - User profile (1 request)
 - 20 recent posts (20 requests)
 - 50 friend suggestions (50 requests)
@@ -101,6 +102,7 @@ Client needs to load dashboard with:
 Total: 100 requests
 
 HTTP/1.1 behavior:
+
 - Opens connection
 - Request 1 → Response 1
 - Request 2 → Response 2
@@ -109,12 +111,14 @@ HTTP/1.1 behavior:
 - Closes connection
 
 Time analysis:
+
 - Each request: ~50ms (network RTT) + processing
 - Sequential: 100 * 50ms = 5,000ms = 5 seconds!
 - User sees: Loading spinner for 5 seconds
 ```
 
 **Problems:**
+
 - Head-of-line blocking (each request waits for previous)
 - Connection overhead repeated
 - Poor mobile experience
@@ -124,29 +128,34 @@ Time analysis:
 
 ```
 HTTP/2 behavior:
+
 - Opens single connection
 - Sends all 100 requests simultaneously (multiplexed)
 - Server streams responses back as ready
 - Uses single TCP connection efficiently
 
 Time analysis:
+
 - All requests sent: ~50ms (single RTT)
 - Server processing: ~200ms (parallel)
 - Total: ~250ms vs 5,000ms
 - 20x faster!
 
 Additional benefits:
+
 - Header compression (HPACK)
 - Server push (preload resources)
 - Stream prioritization
 ```
 
 **Real-world impact:**
+
 - HTTP/1.1: 5 second load time → user abandonment
 - HTTP/2: 250ms load time → seamless experience
 - Mobile data savings: ~40% from header compression
 
 **Your calculation:** For 50 concurrent requests:
+
 - HTTP/1.1 time: <span class="fill-in">_____</span> ms
 - HTTP/2 time: <span class="fill-in">_____</span> ms
 - Speedup factor: <span class="fill-in">_____</span>x
@@ -206,6 +215,7 @@ Additional benefits:
 **Key Differences:**
 
 **TCP (Transmission Control Protocol)**
+
 - **Reliable:** Guarantees delivery, ordering, and error checking
 - **Connection-oriented:** Establishes connection before data transfer (3-way handshake)
 - **Flow control:** Prevents overwhelming receiver
@@ -214,6 +224,7 @@ Additional benefits:
 - **Use cases:** HTTP, email, file transfers, databases
 
 **UDP (User Datagram Protocol)**
+
 - **Unreliable:** Best-effort delivery, no guarantees
 - **Connectionless:** Send packets without establishing connection
 - **No flow/congestion control:** Fast but can lose packets
@@ -296,12 +307,14 @@ Timeout! Retransmit packet 5
 #### HTTP/1.1 (1997)
 
 **Features:**
+
 - Persistent connections (keep-alive)
 - Pipelining (send multiple requests without waiting)
 - Chunked transfer encoding
 - Host header (virtual hosting)
 
 **Problems:**
+
 - Head-of-line blocking (HOL blocking)
 - No multiplexing (sequential processing)
 - Redundant headers (repeated with each request)
@@ -331,6 +344,7 @@ Total time: Sequential, each waits for previous
 #### HTTP/2 (2015)
 
 **Major improvements:**
+
 - **Binary protocol:** More efficient than text-based HTTP/1.1
 - **Multiplexing:** Multiple requests/responses on single connection
 - **Server push:** Proactively send resources
@@ -383,6 +397,7 @@ Savings: 90% reduction
 #### HTTP/3 (2020)
 
 **Built on QUIC (UDP-based):**
+
 - **No HOL blocking at transport layer:** HTTP/2 still suffered from TCP HOL blocking
 - **Faster connection establishment:** 0-RTT handshake
 - **Better mobile performance:** Connection migration (IP change resilience)
@@ -600,6 +615,7 @@ Query 3: 1.2.3.6
 Query 4: 1.2.3.4 (cycles back)
 
 Poor man's load balancing:
+
 + Simple, no extra infrastructure
 - No health checks
 - Client caching interferes
@@ -669,11 +685,13 @@ All checks pass → Connection trusted
 
 ```
 HTTPS (TLS) overhead:
+
 - Initial handshake: +1 RTT (~50-100ms)
 - Encryption/decryption CPU: ~5% server CPU
 - Certificate chain: +2-4 KB per connection
 
 Mitigation strategies:
+
 - Session resumption (reuse session keys)
 - TLS 1.3 0-RTT (resume with 0 round trips)
 - OCSP stapling (reduce cert validation RTT)
@@ -701,11 +719,13 @@ L4 Load Balancer:
       Server 3: 10.0.1.7:443
 
 Pros:
+
 + Fast (no packet inspection)
 + Works for any TCP/UDP protocol
 + Low latency (simple forwarding)
 
 Cons:
+
 - Can't route based on URL/headers
 - No application-aware decisions
 - Sticky sessions require IP hashing
@@ -727,12 +747,14 @@ L7 Load Balancer:
       /admin/*   → Admin servers (10.0.4.x)
 
 Pros:
+
 + Intelligent routing (URL, headers, etc.)
 + Session affinity (cookie-based)
 + Content-based caching
 + SSL termination
 
 Cons:
+
 - Slower (packet inspection overhead)
 - More CPU intensive
 - Application-specific (HTTP/gRPC/etc.)
@@ -777,11 +799,13 @@ Unhealthy server:
 ### Question 1: Which Protocol?
 
 **Use TCP when:**
+
 - Reliability is critical: <span class="fill-in">[Financial transactions, file transfers]</span>
 - Ordering matters: <span class="fill-in">[Database replication, messaging]</span>
 - Data integrity required: <span class="fill-in">[API calls, downloads]</span>
 
 **Use UDP when:**
+
 - Low latency critical: <span class="fill-in">[Gaming, VoIP]</span>
 - Packet loss acceptable: <span class="fill-in">[Video streaming, DNS]</span>
 - Real-time more important than reliability: <span class="fill-in">[Live broadcasts]</span>
@@ -789,16 +813,19 @@ Unhealthy server:
 ### Question 2: HTTP Version?
 
 **Use HTTP/1.1 when:**
+
 - Legacy client support required
 - Simple deployment (no special infrastructure)
 - Low concurrency use case
 
 **Use HTTP/2 when:**
+
 - Modern browsers/clients
 - High concurrency (many resources)
 - API with many endpoints
 
 **Use HTTP/3 when:**
+
 - Mobile-first application
 - Global user base (varying network quality)
 - WebRTC or real-time features
@@ -806,16 +833,19 @@ Unhealthy server:
 ### Question 3: Real-Time Communication?
 
 **Use HTTP polling when:**
+
 - Infrequent updates (> 30 seconds)
 - Simple implementation required
 - Client controls update frequency
 
 **Use Server-Sent Events (SSE) when:**
+
 - Server → Client updates only
 - Text-based data (JSON)
 - Browser compatibility important
 
 **Use WebSockets when:**
+
 - Bidirectional communication required
 - Low latency critical (< 100ms)
 - High message frequency (> 1/sec)
@@ -823,11 +853,13 @@ Unhealthy server:
 ### Question 4: Load Balancer Layer?
 
 **Use L4 load balancing when:**
+
 - Protocol-agnostic (TCP/UDP)
 - Maximum performance needed
 - Simple traffic distribution
 
 **Use L7 load balancing when:**
+
 - Content-based routing required
 - SSL termination beneficial
 - Application-aware features needed
@@ -839,6 +871,7 @@ Unhealthy server:
 ### Scenario 1: E-Commerce Platform
 
 **Requirements:**
+
 - Product catalog browsing
 - Real-time inventory updates
 - Checkout process
@@ -848,22 +881,26 @@ Unhealthy server:
 **Your design:**
 
 Protocol choices:
+
 - Catalog API: <span class="fill-in">[HTTP/2 or HTTP/3? Why?]</span>
 - Inventory updates: <span class="fill-in">[WebSocket/SSE/Polling?]</span>
 - Checkout: <span class="fill-in">[HTTPS with what considerations?]</span>
 
 Load balancing:
+
 - Layer: <span class="fill-in">[L4 or L7? Why?]</span>
 - Algorithm: <span class="fill-in">[Which algorithm?]</span>
 - Sticky sessions: <span class="fill-in">[Needed?]</span>
 
 DNS strategy:
+
 - TTL: <span class="fill-in">[How long?]</span>
 - Multi-region: <span class="fill-in">[GeoDNS?]</span>
 
 ### Scenario 2: Multiplayer Game
 
 **Requirements:**
+
 - 60 tick rate (updates per second)
 - < 50ms latency requirement
 - 100 players per game
@@ -874,16 +911,19 @@ DNS strategy:
 Protocol: <span class="fill-in">[TCP or UDP? Why?]</span>
 
 Packet loss handling:
+
 - Strategy: <span class="fill-in">[How to handle?]</span>
 - Acceptable loss rate: <span class="fill-in">[X%?]</span>
 
 Latency optimization:
+
 - Connection pooling: <span class="fill-in">[Helpful?]</span>
 - Regional servers: <span class="fill-in">[Required?]</span>
 
 ### Scenario 3: Video Conferencing
 
 **Requirements:**
+
 - Real-time audio/video
 - Screen sharing
 - Chat messaging
@@ -892,11 +932,13 @@ Latency optimization:
 **Your design:**
 
 Media protocols:
+
 - Audio/Video: <span class="fill-in">[UDP/TCP/WebRTC?]</span>
 - Chat: <span class="fill-in">[WebSocket/HTTP?]</span>
 - Recording: <span class="fill-in">[How to implement?]</span>
 
 Quality vs Latency:
+
 - Packet loss: <span class="fill-in">[How to handle?]</span>
 - Bandwidth adaptation: <span class="fill-in">[Strategy?]</span>
 

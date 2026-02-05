@@ -238,6 +238,7 @@ public List<Post> getUserPosts(String userId) {
 - Users see blank screen (timeout)
 
 **Performance:**
+
 | User's Posts | Response Size | Load Time | Mobile Result |
 |--------------|---------------|-----------|---------------|
 | 100 posts | 500 KB | 0.5s | Works |
@@ -294,6 +295,7 @@ class PaginatedResponse<T> {
 - Smooth infinite scroll UX
 
 **Performance Comparison:**
+
 | Approach | Response Size | Query Time | Database Load |
 |----------|---------------|------------|---------------|
 | No pagination | 50 MB | 10s | Full scan |
@@ -411,6 +413,7 @@ class ApiError {
 - Developers debug in minutes, not hours
 
 **HTTP Status Codes Table:**
+
 | Status | Meaning | When to Use |
 |--------|---------|-------------|
 | 200 OK | Success | GET, PUT successful |
@@ -520,6 +523,7 @@ Result: User charged $100 only once - correct!
 - Works with mobile apps (common retries)
 
 **Idempotent HTTP Methods:**
+
 | Method | Idempotent? | Why? |
 |--------|-------------|------|
 | GET | Yes | Reading data multiple times = same result |

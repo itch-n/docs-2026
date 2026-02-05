@@ -350,6 +350,7 @@ exists at any time.
 **Use case:** Distributed databases, coordination services, master-worker systems.
 
 **Key Properties:**
+
 - **Safety**: At most one leader at any time
 - **Liveness**: Eventually a leader is elected if majority is available
 - **Agreement**: All nodes agree on who the leader is
@@ -357,18 +358,21 @@ exists at any time.
 **Common Algorithms:**
 
 **1. Bully Algorithm**
+
 - Highest ID node becomes leader
 - Node contacts all higher-ID nodes; if no response, declares itself leader
 - Simple but can cause message storms
 - Time: O(N²) messages in worst case
 
 **2. Ring Algorithm**
+
 - Nodes organized in logical ring
 - Election message passes around ring collecting IDs
 - Node with highest ID becomes leader
 - Time: O(N) messages, but slower latency
 
 **3. Raft Leader Election** (see Pattern 2)
+
 - Term-based elections with majority voting
 - Prevents split-brain through quorum
 - Production-ready (etcd, Consul)
@@ -450,6 +454,7 @@ election and log replication.
 
 ```
 Phase 1: Leader Election
+
 - Follower timeout → becomes Candidate
 - Candidate increments term, votes for self
 - Requests votes from all nodes
@@ -458,6 +463,7 @@ Phase 1: Leader Election
 - If election timeout → starts new election
 
 Phase 2: Log Replication
+
 - Client sends command to Leader
 - Leader appends to local log
 - Leader sends AppendEntries to all Followers
@@ -466,6 +472,7 @@ Phase 2: Log Replication
 - Leader notifies Followers of commit via next AppendEntries
 
 Phase 3: Safety
+
 - New leader contains all committed entries (election restriction)
 - Leader never commits entries from previous terms directly
 - Only commits when majority has current-term entry
@@ -542,6 +549,7 @@ Step 5: Leader notifies followers of commit in next AppendEntries
 
 ```
 If two entries in different logs have same index and term:
+
 1. They store the same command
 2. All preceding entries are identical
 
@@ -786,6 +794,7 @@ Node 1: Still valid (20s left)
 Node 2: Expired! (in the past)
 
 Solution:
+
 - Use relative time (TTL in milliseconds, not absolute timestamps)
 - Single source of truth (lock service's clock)
 - Or use logical clocks (Lamport timestamps)
@@ -816,6 +825,7 @@ Cons: Higher latency, more complex
 
 **etcd (lease-based):**
 ```
+
 1. Create lease (TTL=30s)
 2. Put key with lease
 3. Keep-alive to renew lease
@@ -825,6 +835,7 @@ Cons: More moving parts
 ```
 
 **Time Complexity:**
+
 - Acquire: O(1) - single operation
 - Release: O(1) - single operation
 - Renew: O(1) - update expiration
@@ -1150,6 +1161,7 @@ Features:
 | Read repair | O(N - R) | Update stale replicas in background |
 
 **Space Complexity:**
+
 - Per-node storage: O(K / N) where K = total keys, N = replication factor
 - Version metadata: O(K) per node (small overhead)
 - Hint storage: O(H) where H = pending hints (temporary)

@@ -198,11 +198,13 @@ Time: O((V + E) log V) with binary heap
 | Optimality | # of hops | Total weight | Correct metric |
 
 **Real-world impact:**
+
 - GPS navigation: 5-20% shorter routes with Dijkstra
 - Network routing: Lower latency paths
 - Cost: Minimal (few ms difference for practical graphs)
 
 **Your calculation:** For 1000-node graph, 5000 edges:
+
 - BFS time: <span class="fill-in">_____</span> (V + E)
 - Dijkstra time: <span class="fill-in">_____</span> (E log V)
 - Trade-off: <span class="fill-in">[Worth it?]</span>
@@ -212,6 +214,7 @@ Time: O((V + E) log V) with binary heap
 ## Core Concepts
 
 **Recommended study order:**
+
 1. ⭐⭐⭐ Topological Sort (Topic 3 below) - Most common in interviews
 2. ⭐⭐ Dijkstra's Algorithm (Topic 1 below) - Important for weighted graphs
 3. ⭐⭐ Union-Find (add after completing above) - Dynamic connectivity
@@ -404,6 +407,7 @@ v        v
 C <------+
 
 Dijkstra from A:
+
 1. Process A: dist[B]=1, dist[C]=2
 2. Process B: dist[C] = 1+(-5) = -4 (improvement!)
 3. But B already visited, won't update C!
@@ -414,6 +418,7 @@ Solution: Use Bellman-Ford for negative weights
 ```
 
 **Use Cases:**
+
 - GPS navigation (road networks)
 - Network routing (OSPF protocol)
 - Robotics path planning
@@ -431,6 +436,7 @@ Solution: Use Bellman-Ford for negative weights
 
 ```
 Given graph G = (V, E):
+
 - MST has exactly V-1 edges
 - MST is acyclic (it's a tree)
 - MST connects all vertices
@@ -444,6 +450,7 @@ Given graph G = (V, E):
 Greedy approach: Add edges in increasing weight order, skip if creates cycle
 
 Algorithm:
+
 1. Sort edges by weight (ascending)
 2. Initialize Union-Find (each vertex in its own set)
 3. For each edge (u, v, weight):
@@ -505,6 +512,7 @@ Total weight: 2 + 3 + 5 = 10
 Greedy approach: Grow MST from a starting vertex
 
 Algorithm:
+
 1. Start with arbitrary vertex s
 2. Add s to MST
 3. Repeat until all vertices in MST:
@@ -591,6 +599,7 @@ class KruskalMST {
 ```
 
 **Use Cases:**
+
 - Network design (minimize cable length)
 - Clustering algorithms (single-linkage)
 - Image segmentation
@@ -608,6 +617,7 @@ class KruskalMST {
 
 ```
 Valid only for DAGs (Directed Acyclic Graphs):
+
 - If graph has cycle → No topological ordering exists
 - Multiple valid orderings may exist
 - Used for dependency resolution, task scheduling
@@ -617,6 +627,7 @@ Valid only for DAGs (Directed Acyclic Graphs):
 
 ```
 Algorithm:
+
 1. Mark all vertices as unvisited
 2. For each unvisited vertex:
    - Perform DFS
@@ -637,6 +648,7 @@ A (Intro) → B (Data Structures) → D (Algorithms)
          → C (Databases)        → D
 
 Valid topological orders:
+
 1. A, B, C, D
 2. A, C, B, D
 Both satisfy: A before B, A before C, B before D, C before D
@@ -770,6 +782,7 @@ Cycle detected!
 ```
 
 **Use Cases:**
+
 - **Build systems:** Compile dependencies in correct order
 - **Task scheduling:** Execute tasks respecting dependencies
 - **Course prerequisites:** Determine valid course order
@@ -787,6 +800,7 @@ Cycle detected!
 **Core Operations:**
 
 ```
+
 1. Find(x): Which set does element x belong to?
    - Returns representative (root) of the set
 
@@ -914,6 +928,7 @@ for (int[] edge : edges) {
 ❌ Shortest path queries (use BFS/Dijkstra)
 
 **Use Cases:**
+
 - Network connectivity
 - Image segmentation (connected components)
 - Kruskal's MST
@@ -927,16 +942,19 @@ for (int[] edge : edges) {
 ### Question 1: Which shortest path algorithm?
 
 **Use Dijkstra when:**
+
 - Non-negative weights: <span class="fill-in">[Road networks, costs]</span>
 - Single source: <span class="fill-in">[From one node to all others]</span>
 - Dense graphs: <span class="fill-in">[Many edges]</span>
 
 **Use Bellman-Ford when:**
+
 - Negative weights allowed: <span class="fill-in">[Financial arbitrage]</span>
 - Need cycle detection: <span class="fill-in">[Negative cycles]</span>
 - Simple implementation: <span class="fill-in">[No priority queue]</span>
 
 **Use A* when:**
+
 - Point-to-point search: <span class="fill-in">[GPS navigation]</span>
 - Heuristic available: <span class="fill-in">[Euclidean distance]</span>
 - Want faster search: <span class="fill-in">[Guided by heuristic]</span>
@@ -944,11 +962,13 @@ for (int[] edge : edges) {
 ### Question 2: MST Algorithm Choice?
 
 **Use Kruskal when:**
+
 - Sparse graph: <span class="fill-in">[E << V²]</span>
 - Need simple implementation: <span class="fill-in">[Sort + Union-Find]</span>
 - Edge list representation: <span class="fill-in">[Not adjacency list]</span>
 
 **Use Prim when:**
+
 - Dense graph: <span class="fill-in">[E ≈ V²]</span>
 - Adjacency list: <span class="fill-in">[Efficient neighbor access]</span>
 - Want incremental MST: <span class="fill-in">[Grow from one vertex]</span>
@@ -956,11 +976,13 @@ for (int[] edge : edges) {
 ### Question 3: Topological Sort?
 
 **Use DFS-based when:**
+
 - Simple implementation needed
 - Want to detect cycles during sort
 - Graph fits in memory
 
 **Use Kahn's (BFS) when:**
+
 - Need explicit cycle detection
 - Want lexicographically smallest ordering
 - Parallel processing possible
@@ -968,11 +990,13 @@ for (int[] edge : edges) {
 ### Question 4: When to use Union-Find?
 
 **Use Union-Find when:**
+
 - Dynamic connectivity: <span class="fill-in">[Edges added over time]</span>
 - Detect cycles in undirected graphs: <span class="fill-in">[Kruskal's MST]</span>
 - Group by equivalence: <span class="fill-in">[Accounts merge, friend groups]</span>
 
 **Don't use Union-Find when:**
+
 - Need to remove edges: <span class="fill-in">[UF doesn't support deletion]</span>
 - Directed graph cycles: <span class="fill-in">[Use DFS with states instead]</span>
 - Need shortest paths: <span class="fill-in">[Use BFS/Dijkstra]</span>
@@ -1127,6 +1151,7 @@ for (Edge edge : edges) {
 **Why it matters:** Kruskal's algorithm relies on Union-Find to detect cycles. Without this check, we'd add all edges in weight order, creating cycles instead of a tree.
 
 **Correct behavior:**
+
 - Edge (0,1,1): Add (different components) ✓
 - Edge (1,2,2): Add (different components) ✓
 - Edge (2,0,3): Skip (0 and 2 already connected via 1) ✗
