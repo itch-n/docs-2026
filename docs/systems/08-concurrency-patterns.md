@@ -320,12 +320,6 @@ public class LockBasedSync {
          */
         public void increment() {
             // TODO: Acquire lock
-            //   lock.lock();
-            //   try {
-            //     count++;
-            //   } finally {
-            //     lock.unlock(); // Always unlock in finally
-            //   }
         }
 
         /**
@@ -336,12 +330,6 @@ public class LockBasedSync {
          */
         public int getCount() {
             // TODO: Acquire lock for reading
-            //   lock.lock();
-            //   try {
-            //     return count;
-            //   } finally {
-            //     lock.unlock();
-            //   }
             return 0; // Replace
         }
 
@@ -356,18 +344,6 @@ public class LockBasedSync {
          */
         public boolean tryIncrement(long timeoutMs) {
             // TODO: Try lock with timeout
-            //   try {
-            //     if (lock.tryLock(timeoutMs, TimeUnit.MILLISECONDS)) {
-            //       try {
-            //         count++;
-            //         return true;
-            //       } finally {
-            //         lock.unlock();
-            //       }
-            //     }
-            //   } catch (InterruptedException e) {
-            //     Thread.currentThread().interrupt();
-            //   }
             return false; // Replace
         }
 
@@ -407,12 +383,6 @@ public class LockBasedSync {
          */
         public V get(K key) {
             // TODO: Use read lock
-            //   readLock.lock();
-            //   try {
-            //     return cache.get(key);
-            //   } finally {
-            //     readLock.unlock();
-            //   }
             return null; // Replace
         }
 
@@ -427,12 +397,6 @@ public class LockBasedSync {
          */
         public void put(K key, V value) {
             // TODO: Use write lock
-            //   writeLock.lock();
-            //   try {
-            //     cache.put(key, value);
-            //   } finally {
-            //     writeLock.unlock();
-            //   }
         }
 
         /**
@@ -443,12 +407,6 @@ public class LockBasedSync {
          */
         public void clear() {
             // TODO: Use write lock to clear
-            //   writeLock.lock();
-            //   try {
-            //     cache.clear();
-            //   } finally {
-            //     writeLock.unlock();
-            //   }
         }
 
         public int size() {
@@ -491,27 +449,8 @@ public class LockBasedSync {
          */
         public static boolean transfer(BankAccount from, BankAccount to, int amount) {
             // TODO: Lock ordering - always lock lower ID first
-            //   BankAccount first = from.id < to.id ? from : to;
-            //   BankAccount second = from.id < to.id ? to : from;
 
             // TODO: Acquire locks in order
-            //   first.lock.lock();
-            //   try {
-            //     second.lock.lock();
-            //     try {
-            //       // Check balance
-            //       if (from.balance >= amount) {
-            //         from.balance -= amount;
-            //         to.balance += amount;
-            //         return true;
-            //       }
-            //       return false;
-            //     } finally {
-            //       second.lock.unlock();
-            //     }
-            //   } finally {
-            //     first.lock.unlock();
-            //   }
 
             return false; // Replace
         }
@@ -742,11 +681,6 @@ public class ProducerConsumer {
         @Override
         public void run() {
             // TODO: Produce numTasks
-            //   for (int i = 0; i < numTasks; i++) {
-            //     try {
-            //       Task task = new Task(i, name + "-data-" + i);
-            //       queue.put(task); // Blocks if queue is full
-            //       System.out.println(name + " produced: " + task);
             //
             //       // Simulate work
             //       Thread.sleep(10);
@@ -783,10 +717,6 @@ public class ProducerConsumer {
         @Override
         public void run() {
             // TODO: Consume tasks until stopped
-            //   while (running) {
-            //     try {
-            //       // poll with timeout to check running flag periodically
-            //       Task task = queue.poll(100, TimeUnit.MILLISECONDS);
             //
             //       if (task != null) {
             //         // Process task
@@ -1011,13 +941,6 @@ public class ThreadSafeDataStructures {
          */
         public V get(K key) {
             // TODO: Implement with hit/miss tracking
-            //   V value = cache.get(key);
-            //   if (value != null) {
-            //     hits.incrementAndGet(); // Atomic increment
-            //   } else {
-            //     misses.incrementAndGet();
-            //   }
-            //   return value;
             return null; // Replace
         }
 
@@ -1031,7 +954,6 @@ public class ThreadSafeDataStructures {
          */
         public V putIfAbsent(K key, V value) {
             // TODO: Use ConcurrentHashMap's putIfAbsent
-            //   return cache.putIfAbsent(key, value);
             return null; // Replace
         }
 
@@ -1044,7 +966,6 @@ public class ThreadSafeDataStructures {
          */
         public V computeIfAbsent(K key, java.util.function.Function<K, V> mappingFunction) {
             // TODO: Use computeIfAbsent
-            //   return cache.computeIfAbsent(key, mappingFunction);
             return null; // Replace
         }
 
@@ -1057,7 +978,6 @@ public class ThreadSafeDataStructures {
          */
         public V update(K key, java.util.function.BiFunction<K, V, V> remappingFunction) {
             // TODO: Use compute for atomic update
-            //   return cache.compute(key, remappingFunction);
             return null; // Replace
         }
 
@@ -1093,7 +1013,6 @@ public class ThreadSafeDataStructures {
          */
         public void addListener(T listener) {
             // TODO: Add to list
-            //   listeners.add(listener);
         }
 
         /**
@@ -1104,7 +1023,6 @@ public class ThreadSafeDataStructures {
          */
         public void removeListener(T listener) {
             // TODO: Remove from list
-            //   listeners.remove(listener);
         }
 
         /**
@@ -1117,9 +1035,6 @@ public class ThreadSafeDataStructures {
          */
         public void notifyListeners(java.util.function.Consumer<T> action) {
             // TODO: Iterate and apply action
-            //   for (T listener : listeners) {
-            //     action.accept(listener);
-            //   }
         }
 
         public int size() {
@@ -1150,7 +1065,6 @@ public class ThreadSafeDataStructures {
          */
         public long increment() {
             // TODO: Use getAndIncrement (implements CAS internally)
-            //   return count.getAndIncrement();
             return 0; // Replace
         }
 
@@ -1162,7 +1076,6 @@ public class ThreadSafeDataStructures {
          */
         public long addAndGet(long delta) {
             // TODO: Use addAndGet
-            //   return count.addAndGet(delta);
             return 0; // Replace
         }
 
@@ -1175,17 +1088,6 @@ public class ThreadSafeDataStructures {
          */
         public boolean incrementIfEven() {
             // TODO: Implement CAS loop
-            //   while (true) {
-            //     long current = count.get();
-            //     if (current % 2 != 0) {
-            //       return false; // Odd, don't increment
-            //     }
-            //     long next = current + 1;
-            //     if (count.compareAndSet(current, next)) {
-            //       return true; // Successfully incremented
-            //     }
-            //     // CAS failed, retry
-            //   }
             return false; // Replace
         }
 
@@ -1225,15 +1127,6 @@ public class ThreadSafeDataStructures {
          */
         public void push(T value) {
             // TODO: Implement CAS-based push
-            //   Node<T> newNode = new Node<>(value);
-            //   while (true) {
-            //     Node<T> current = head.get();
-            //     newNode.next = current;
-            //     if (head.compareAndSet(current, newNode)) {
-            //       return;
-            //     }
-            //     // CAS failed, retry
-            //   }
         }
 
         /**
@@ -1248,17 +1141,6 @@ public class ThreadSafeDataStructures {
          */
         public T pop() {
             // TODO: Implement CAS-based pop
-            //   while (true) {
-            //     Node<T> current = head.get();
-            //     if (current == null) {
-            //       return null; // Empty
-            //     }
-            //     Node<T> next = current.next;
-            //     if (head.compareAndSet(current, next)) {
-            //       return current.value;
-            //     }
-            //     // CAS failed, retry
-            //   }
             return null; // Replace
         }
 
@@ -1495,23 +1377,12 @@ public class ThreadPoolPatterns {
             ExecutorService executor = Executors.newFixedThreadPool(4);
 
             // TODO: Submit Callable (returns result)
-            //   Future<Integer> future = executor.submit(() -> {
-            //     Thread.sleep(100);
-            //     return 42;
-            //   });
 
             // TODO: Get result (blocks until complete)
-            //   Integer result = future.get();
-            //   System.out.println("Result: " + result);
 
             // TODO: Submit Runnable (no result)
-            //   executor.submit(() -> {
-            //     System.out.println("Task executed");
-            //   });
 
             // TODO: Shutdown
-            //   executor.shutdown();
-            //   executor.awaitTermination(1, TimeUnit.MINUTES);
         }
     }
 
@@ -1534,13 +1405,6 @@ public class ThreadPoolPatterns {
          */
         public CustomThreadPool(int corePoolSize, int maxPoolSize, int queueSize) {
             // TODO: Create ThreadPoolExecutor
-            //   this.executor = new ThreadPoolExecutor(
-            //     corePoolSize,
-            //     maxPoolSize,
-            //     60L, TimeUnit.SECONDS,
-            //     new ArrayBlockingQueue<>(queueSize),
-            //     new ThreadPoolExecutor.CallerRunsPolicy() // Rejection policy
-            //   );
 
             this.executor = null; // Replace
         }
@@ -1553,7 +1417,6 @@ public class ThreadPoolPatterns {
          */
         public Future<?> submit(Runnable task) {
             // TODO: Submit task
-            //   return executor.submit(task);
             return null; // Replace
         }
 
@@ -1564,10 +1427,6 @@ public class ThreadPoolPatterns {
          */
         public void printStats() {
             // TODO: Print executor statistics
-            //   System.out.println("Pool Size: " + executor.getPoolSize());
-            //   System.out.println("Active Threads: " + executor.getActiveCount());
-            //   System.out.println("Completed Tasks: " + executor.getCompletedTaskCount());
-            //   System.out.println("Queue Size: " + executor.getQueue().size());
         }
 
         /**
@@ -1580,7 +1439,6 @@ public class ThreadPoolPatterns {
          */
         public void shutdown() throws InterruptedException {
             // TODO: Graceful shutdown
-            //   executor.shutdown();
             //
             //   if (!executor.awaitTermination(60, TimeUnit.SECONDS)) {
             //     // Timeout - force shutdown
@@ -1620,14 +1478,6 @@ public class ThreadPoolPatterns {
             @Override
             protected Long compute() {
                 // TODO: Implement fork-join logic
-                //   if (end - start <= THRESHOLD) {
-                //     // Small enough - compute directly
-                //     long sum = 0;
-                //     for (int i = start; i < end; i++) {
-                //       sum += array[i];
-                //     }
-                //     return sum;
-                //   }
                 //
                 //   // Split task
                 //   int mid = start + (end - start) / 2;
@@ -1646,9 +1496,6 @@ public class ThreadPoolPatterns {
 
         public static long parallelSum(int[] array) {
             // TODO: Execute fork-join task
-            //   ForkJoinPool pool = new ForkJoinPool();
-            //   SumTask task = new SumTask(array, 0, array.length);
-            //   return pool.invoke(task);
             return 0L; // Replace
         }
     }
@@ -1667,19 +1514,10 @@ public class ThreadPoolPatterns {
             ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(2);
 
             // TODO: Schedule one-time delayed task
-            //   scheduler.schedule(() -> {
-            //     System.out.println("Executed after 1 second");
-            //   }, 1, TimeUnit.SECONDS);
 
             // TODO: Schedule periodic task (fixed rate)
-            //   scheduler.scheduleAtFixedRate(() -> {
-            //     System.out.println("Periodic task (fixed rate)");
-            //   }, 0, 2, TimeUnit.SECONDS);
 
             // TODO: Schedule periodic task (fixed delay)
-            //   scheduler.scheduleWithFixedDelay(() -> {
-            //     System.out.println("Periodic task (fixed delay)");
-            //   }, 0, 2, TimeUnit.SECONDS);
 
             System.out.println("Scheduled tasks started");
         }

@@ -312,7 +312,7 @@ public class TokenBucketRateLimiter {
      * - Record current time
      */
     public TokenBucketRateLimiter(int capacity, double refillRate) {
-        // TODO: Store capacity and refill rate
+        // TODO: Track state
 
         // TODO: Initialize tokens to capacity (bucket starts full)
 
@@ -345,7 +345,7 @@ public class TokenBucketRateLimiter {
 
         // TODO: Update lastRefillTime to now
 
-        // TODO: If tokens >= 1, consume one and return true
+        // TODO: Implement iteration/conditional logic
 
         // TODO: Otherwise return false (rate limited)
 
@@ -368,7 +368,7 @@ public class TokenBucketRateLimiter {
 
         // TODO: Check if tokens >= tokensNeeded
 
-        // TODO: If yes, consume tokensNeeded and return true
+        // TODO: Implement iteration/conditional logic
 
         // TODO: Otherwise return false
 
@@ -431,7 +431,7 @@ public class LeakyBucketRateLimiter {
      * - Record current time
      */
     public LeakyBucketRateLimiter(int capacity, double leakRate) {
-        // TODO: Store capacity and leak rate
+        // TODO: Track state
 
         // TODO: Initialize queue (LinkedList)
 
@@ -456,12 +456,11 @@ public class LeakyBucketRateLimiter {
      */
     public synchronized boolean tryAcquire() {
         // TODO: Leak out processed requests
-        // Calculate how many requests should have leaked
         // requests_to_leak = elapsed_seconds * leakRate
 
         // TODO: Remove that many requests from queue
 
-        // TODO: If bucket.size() < capacity, add current time and return true
+        // TODO: Implement iteration/conditional logic
 
         // TODO: Otherwise return false (bucket full)
 
@@ -530,11 +529,11 @@ public class FixedWindowRateLimiter {
      * - Record window start time
      */
     public FixedWindowRateLimiter(int maxRequests, long windowSizeMs) {
-        // TODO: Store maxRequests and windowSizeMs
+        // TODO: Track state
 
         // TODO: Initialize counter to 0
 
-        // TODO: Set windowStart to current time
+        // TODO: Track state
 
         this.maxRequests = 0; // Replace
         this.windowSizeMs = 0; // Replace
@@ -553,13 +552,9 @@ public class FixedWindowRateLimiter {
     public synchronized boolean tryAcquire() {
         long now = System.currentTimeMillis();
 
-        // TODO: If (now - windowStart) >= windowSizeMs:
-        //   Reset counter to 0
-        //   Set windowStart to now
+        // TODO: Implement iteration/conditional logic
 
-        // TODO: If counter < maxRequests:
-        //   Increment counter
-        //   Return true
+        // TODO: Implement iteration/conditional logic
 
         // TODO: Otherwise return false
 
@@ -619,7 +614,7 @@ public class SlidingWindowLogRateLimiter {
      * - Create queue for timestamps
      */
     public SlidingWindowLogRateLimiter(int maxRequests, long windowSizeMs) {
-        // TODO: Store maxRequests and windowSizeMs
+        // TODO: Track state
 
         // TODO: Initialize LinkedList for request log
 
@@ -644,11 +639,8 @@ public class SlidingWindowLogRateLimiter {
         long now = System.currentTimeMillis();
 
         // TODO: Remove timestamps older than (now - windowSizeMs)
-        // while (!requestLog.isEmpty() && requestLog.peek() <= now - windowSizeMs)
 
-        // TODO: If requestLog.size() < maxRequests:
-        //   Add current timestamp
-        //   Return true
+        // TODO: Implement iteration/conditional logic
 
         // TODO: Otherwise return false
 
@@ -703,13 +695,13 @@ public class SlidingWindowCounterRateLimiter {
      * - Record window start
      */
     public SlidingWindowCounterRateLimiter(int maxRequests, long windowSizeMs) {
-        // TODO: Store maxRequests and windowSizeMs
+        // TODO: Track state
 
         // TODO: Initialize currentWindowCount to 0
 
         // TODO: Initialize previousWindowCount to 0
 
-        // TODO: Set currentWindowStart to now
+        // TODO: Track state
 
         this.maxRequests = 0; // Replace
         this.windowSizeMs = 0; // Replace
@@ -733,10 +725,6 @@ public class SlidingWindowCounterRateLimiter {
         long now = System.currentTimeMillis();
 
         // TODO: Check if window expired
-        // If (now - currentWindowStart) >= windowSizeMs:
-        //   previousWindowCount = currentWindowCount
-        //   currentWindowCount = 0
-        //   currentWindowStart = now
 
         // TODO: Calculate time elapsed in current window
         // elapsedRatio = (now - currentWindowStart) / windowSizeMs
@@ -744,9 +732,7 @@ public class SlidingWindowCounterRateLimiter {
         // TODO: Calculate weighted count
         // weightedCount = previousWindowCount * (1 - elapsedRatio) + currentWindowCount
 
-        // TODO: If weightedCount < maxRequests:
-        //   currentWindowCount++
-        //   Return true
+        // TODO: Implement iteration/conditional logic
 
         // TODO: Otherwise return false
 

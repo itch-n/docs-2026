@@ -380,27 +380,12 @@ public class LeaderElection {
      */
     public void startElection(int nodeId) {
         // TODO: Check if node is active
-        //   if (!nodeActive.get(nodeId)) return;
 
-        // TODO: Set node to CANDIDATE state
-        //   Node node = nodes.get(nodeId);
-        //   node.state = NodeState.CANDIDATE;
+        // TODO: Track state
 
         // TODO: Send election messages to higher nodes
-        //   Set<Integer> respondingNodes = new HashSet<>();
-        //   for (int higherId : node.higherNodes) {
-        //     if (nodeActive.get(higherId)) {
-        //       respondingNodes.add(higherId);
-        //       // In real system: send network message
-        //       // Recursively trigger election in higher nodes
-        //       startElection(higherId);
-        //     }
-        //   }
 
-        // TODO: If no higher nodes active, become leader
-        //   if (respondingNodes.isEmpty()) {
-        //     becomeLeader(nodeId);
-        //   }
+        // TODO: Implement iteration/conditional logic
     }
 
     /**
@@ -414,22 +399,10 @@ public class LeaderElection {
      */
     private void becomeLeader(int nodeId) {
         // TODO: Update node state
-        //   Node node = nodes.get(nodeId);
-        //   node.state = NodeState.LEADER;
-        //   node.leaderId = nodeId;
 
         // TODO: Broadcast victory to all nodes
-        //   for (Map.Entry<Integer, Node> entry : nodes.entrySet()) {
-        //     if (entry.getKey() != nodeId && nodeActive.get(entry.getKey())) {
-        //       Node follower = entry.getValue();
-        //       follower.state = NodeState.FOLLOWER;
-        //       follower.leaderId = nodeId;
-        //       follower.lastHeartbeat = System.currentTimeMillis();
-        //     }
-        //   }
 
         // TODO: Start heartbeat thread
-        //   startHeartbeat(nodeId);
 
         System.out.println("Node " + nodeId + " became LEADER");
     }
@@ -444,10 +417,6 @@ public class LeaderElection {
      */
     private void startHeartbeat(int leaderId) {
         // TODO: Schedule periodic heartbeat
-        //   scheduler.scheduleAtFixedRate(() -> {
-        //     if (!nodeActive.get(leaderId)) {
-        //       return; // Leader died, stop heartbeats
-        //     }
         //
         //     Node leader = nodes.get(leaderId);
         //     if (leader.state != NodeState.LEADER) {
@@ -474,10 +443,6 @@ public class LeaderElection {
      */
     public void checkLeaderHealth(int nodeId) {
         // TODO: Check heartbeat timeout
-        //   Node node = nodes.get(nodeId);
-        //   if (node.state == NodeState.LEADER) {
-        //     return; // Leader doesn't check itself
-        //   }
         //
         //   long now = System.currentTimeMillis();
         //   if (now - node.lastHeartbeat > heartbeatTimeout) {
@@ -687,16 +652,10 @@ public class RaftConsensus {
      */
     public void startElection(int candidateId) {
         // TODO: Check if node is active
-        //   if (!nodeActive.get(candidateId)) return;
 
         // TODO: Transition to CANDIDATE
-        //   RaftNode candidate = nodes.get(candidateId);
-        //   candidate.role = NodeRole.CANDIDATE;
-        //   candidate.currentTerm++;
-        //   candidate.votedFor = candidateId;
 
         // TODO: Request votes from all other nodes
-        //   int votesReceived = 1; // Vote for self
         //
         //   for (Map.Entry<Integer, RaftNode> entry : nodes.entrySet()) {
         //     int nodeId = entry.getKey();
@@ -710,9 +669,6 @@ public class RaftConsensus {
         //   }
 
         // TODO: Check if majority reached
-        //   if (votesReceived >= majoritySize) {
-        //     becomeLeader(candidateId);
-        //   }
 
         System.out.println("Node " + candidateId + " started election for term " +
             nodes.get(candidateId).currentTerm);
@@ -731,25 +687,12 @@ public class RaftConsensus {
     private boolean requestVote(int voterId, int candidateId, int candidateTerm,
                                  int lastLogIndex, int lastLogTerm) {
         // TODO: Get voter node
-        //   RaftNode voter = nodes.get(voterId);
 
         // TODO: Check term
-        //   if (candidateTerm < voter.currentTerm) {
-        //     return false; // Reject if candidate term is outdated
-        //   }
 
         // TODO: Update term if candidate has higher term
-        //   if (candidateTerm > voter.currentTerm) {
-        //     voter.currentTerm = candidateTerm;
-        //     voter.votedFor = -1;
-        //     voter.role = NodeRole.FOLLOWER;
-        //   }
 
         // TODO: Check if can vote
-        //   if (voter.votedFor == -1 || voter.votedFor == candidateId) {
-        //     // Check if candidate's log is at least as up-to-date
-        //     boolean logUpToDate = lastLogTerm > voter.getLastLogTerm() ||
-        //         (lastLogTerm == voter.getLastLogTerm() && lastLogIndex >= voter.getLastLogIndex());
         //
         //     if (logUpToDate) {
         //       voter.votedFor = candidateId;
@@ -771,17 +714,8 @@ public class RaftConsensus {
      */
     private void becomeLeader(int nodeId) {
         // TODO: Update role
-        //   RaftNode leader = nodes.get(nodeId);
-        //   leader.role = NodeRole.LEADER;
 
         // TODO: Initialize leader state
-        //   int lastLogIndex = leader.getLastLogIndex();
-        //   for (int id : nodes.keySet()) {
-        //     if (id != nodeId) {
-        //       leader.nextIndex.put(id, lastLogIndex + 1);
-        //       leader.matchIndex.put(id, 0);
-        //     }
-        //   }
 
         System.out.println("Node " + nodeId + " became LEADER for term " +
             nodes.get(nodeId).currentTerm);
@@ -798,31 +732,12 @@ public class RaftConsensus {
      */
     public boolean appendEntry(int leaderId, String command) {
         // TODO: Check if node is leader
-        //   RaftNode leader = nodes.get(leaderId);
-        //   if (leader.role != NodeRole.LEADER) {
-        //     return false; // Not leader
-        //   }
 
         // TODO: Create log entry
-        //   int newIndex = leader.getLastLogIndex() + 1;
-        //   LogEntry entry = new LogEntry(leader.currentTerm, command, newIndex);
-        //   leader.log.add(entry);
 
         // TODO: Replicate to followers
-        //   int replicatedCount = 1; // Leader has it
-        //   for (Map.Entry<Integer, RaftNode> e : nodes.entrySet()) {
-        //     int nodeId = e.getKey();
-        //     if (nodeId != leaderId && nodeActive.get(nodeId)) {
-        //       boolean success = sendAppendEntries(leaderId, nodeId);
-        //       if (success) replicatedCount++;
-        //     }
-        //   }
 
         // TODO: Commit if majority replicated
-        //   if (replicatedCount >= majoritySize) {
-        //     leader.commitIndex = newIndex;
-        //     return true;
-        //   }
 
         return false; // Replace
     }
@@ -839,29 +754,12 @@ public class RaftConsensus {
      */
     private boolean sendAppendEntries(int leaderId, int followerId) {
         // TODO: Get leader and follower
-        //   RaftNode leader = nodes.get(leaderId);
-        //   RaftNode follower = nodes.get(followerId);
 
         // TODO: Get entries to send
-        //   int nextIdx = leader.nextIndex.get(followerId);
-        //   List<LogEntry> entries = new ArrayList<>();
-        //   for (int i = nextIdx; i <= leader.getLastLogIndex(); i++) {
-        //     entries.add(leader.log.get(i - 1)); // Assuming 1-indexed
-        //   }
 
         // TODO: Send AppendEntries
-        //   boolean success = appendEntries(followerId, leader.currentTerm,
-        //       leaderId, nextIdx - 1,
-        //       nextIdx > 1 ? leader.log.get(nextIdx - 2).term : 0,
-        //       entries, leader.commitIndex);
 
         // TODO: Update nextIndex and matchIndex
-        //   if (success) {
-        //     leader.nextIndex.put(followerId, leader.getLastLogIndex() + 1);
-        //     leader.matchIndex.put(followerId, leader.getLastLogIndex());
-        //   } else {
-        //     leader.nextIndex.put(followerId, Math.max(1, nextIdx - 1));
-        //   }
 
         return false; // Replace
     }
@@ -879,48 +777,16 @@ public class RaftConsensus {
                                    int prevLogIndex, int prevLogTerm,
                                    List<LogEntry> entries, int leaderCommit) {
         // TODO: Get follower
-        //   RaftNode follower = nodes.get(followerId);
 
         // TODO: Check term
-        //   if (leaderTerm < follower.currentTerm) {
-        //     return false; // Reject outdated leader
-        //   }
 
         // TODO: Update term and reset election timer
-        //   follower.lastHeartbeat = System.currentTimeMillis();
-        //   if (leaderTerm > follower.currentTerm) {
-        //     follower.currentTerm = leaderTerm;
-        //     follower.votedFor = -1;
-        //   }
-        //   follower.role = NodeRole.FOLLOWER;
 
         // TODO: Check log consistency
-        //   if (prevLogIndex > 0) {
-        //     if (prevLogIndex > follower.getLastLogIndex() ||
-        //         follower.log.get(prevLogIndex - 1).term != prevLogTerm) {
-        //       return false; // Log inconsistent
-        //     }
-        //   }
 
         // TODO: Append entries
-        //   int idx = prevLogIndex;
-        //   for (LogEntry entry : entries) {
-        //     idx++;
-        //     if (idx <= follower.log.size()) {
-        //       if (follower.log.get(idx - 1).term != entry.term) {
-        //         // Conflict: remove this and all following entries
-        //         follower.log.subList(idx - 1, follower.log.size()).clear();
-        //         follower.log.add(entry);
-        //       }
-        //     } else {
-        //       follower.log.add(entry);
-        //     }
-        //   }
 
         // TODO: Update commit index
-        //   if (leaderCommit > follower.commitIndex) {
-        //     follower.commitIndex = Math.min(leaderCommit, follower.getLastLogIndex());
-        //   }
 
         return true; // Replace
     }
@@ -1099,7 +965,6 @@ public class DistributedLock {
 
     public Lock tryAcquire(String resourceId, String ownerId, long ttlMs) {
         // TODO: Check existing lock
-        //   Lock existingLock = locks.get(resourceId);
         //
         //   if (existingLock != null && !existingLock.isExpired()) {
         //     // Lock is held by another owner
@@ -1110,9 +975,6 @@ public class DistributedLock {
         //   }
 
         // TODO: Acquire lock with new fencing token
-        //   long fencingToken = tokenCounter.incrementAndGet();
-        //   Lock newLock = new Lock(resourceId, ownerId, fencingToken, ttlMs);
-        //   locks.put(resourceId, newLock);
         //
         //   return newLock;
 
@@ -1130,14 +992,8 @@ public class DistributedLock {
      */
     public Lock acquire(String resourceId, String ownerId, long timeoutMs) {
         // TODO: Calculate deadline
-        //   long deadline = System.currentTimeMillis() + timeoutMs;
 
         // TODO: Retry loop
-        //   while (System.currentTimeMillis() < deadline) {
-        //     Lock lock = tryAcquire(resourceId, ownerId);
-        //     if (lock != null) {
-        //       return lock; // Success
-        //     }
         //
         //     // Wait before retry
         //     try {
@@ -1162,23 +1018,14 @@ public class DistributedLock {
      */
     public boolean release(String resourceId, String ownerId, long fencingToken) {
         // TODO: Check if lock exists
-        //   Lock lock = locks.get(resourceId);
-        //   if (lock == null) {
-        //     return false; // Lock doesn't exist
-        //   }
 
         // TODO: Verify owner and token
-        //   if (!lock.ownerId.equals(ownerId)) {
-        //     return false; // Not the owner
-        //   }
         //
         //   if (lock.fencingToken != fencingToken) {
         //     return false; // Stale token
         //   }
 
         // TODO: Release lock
-        //   locks.remove(resourceId);
-        //   return true;
 
         return false; // Replace
     }
@@ -1198,19 +1045,10 @@ public class DistributedLock {
 
     public boolean renew(String resourceId, String ownerId, long fencingToken, long ttlMs) {
         // TODO: Get lock
-        //   Lock lock = locks.get(resourceId);
-        //   if (lock == null || lock.isExpired()) {
-        //     return false; // Lock doesn't exist or expired
-        //   }
 
         // TODO: Verify owner and token
-        //   if (!lock.ownerId.equals(ownerId) || lock.fencingToken != fencingToken) {
-        //     return false; // Not authorized
-        //   }
 
         // TODO: Renew lease
-        //   lock.renew(ttlMs);
-        //   return true;
 
         return false; // Replace
     }
@@ -1237,7 +1075,6 @@ public class DistributedLock {
     private void startCleanupTask() {
         cleanupScheduler.scheduleAtFixedRate(() -> {
             // TODO: Remove expired locks
-            //   locks.entrySet().removeIf(entry -> entry.getValue().isExpired());
         }, defaultTTL, defaultTTL / 2, TimeUnit.MILLISECONDS);
     }
 
@@ -1468,18 +1305,10 @@ public class QuorumConsensus {
      */
     public boolean write(String key, String value) {
         // TODO: Select replica nodes
-        //   List<Node> replicas = selectNodes(key, replicationFactor);
 
         // TODO: Create versioned value
-        //   Version version = new Version(
-        //       System.currentTimeMillis(),
-        //       versionCounter.incrementAndGet()
-        //   );
-        //   VersionedValue versionedValue = new VersionedValue(value, version);
 
         // TODO: Write to nodes concurrently
-        //   CountDownLatch latch = new CountDownLatch(writeQuorum);
-        //   AtomicInteger successCount = new AtomicInteger(0);
         //
         //   for (Node node : replicas) {
         //     executor.submit(() -> {
@@ -1495,11 +1324,6 @@ public class QuorumConsensus {
         //   }
 
         // TODO: Wait for quorum
-        //   try {
-        //     latch.await(1, TimeUnit.SECONDS);
-        //   } catch (InterruptedException e) {
-        //     return false;
-        //   }
         //
         //   return successCount.get() >= writeQuorum;
 
@@ -1519,11 +1343,8 @@ public class QuorumConsensus {
      */
     public VersionedValue read(String key) {
         // TODO: Select replica nodes
-        //   List<Node> replicas = selectNodes(key, replicationFactor);
 
         // TODO: Read from nodes concurrently
-        //   List<VersionedValue> responses = new ArrayList<>();
-        //   CountDownLatch latch = new CountDownLatch(Math.min(readQuorum, replicas.size()));
         //
         //   for (Node node : replicas) {
         //     executor.submit(() -> {
@@ -1543,16 +1364,8 @@ public class QuorumConsensus {
         //   }
 
         // TODO: Wait for quorum responses
-        //   try {
-        //     latch.await(1, TimeUnit.SECONDS);
-        //   } catch (InterruptedException e) {
-        //     return null;
-        //   }
 
         // TODO: Resolve conflicts - pick latest version
-        //   if (responses.size() >= readQuorum) {
-        //     return resolveConflicts(responses);
-        //   }
 
         return null; // Replace
     }
@@ -1568,7 +1381,6 @@ public class QuorumConsensus {
      */
     private VersionedValue resolveConflicts(List<VersionedValue> values) {
         // TODO: Find latest version
-        //   VersionedValue latest = null;
         //
         //   for (VersionedValue v : values) {
         //     if (latest == null) {
@@ -1601,8 +1413,6 @@ public class QuorumConsensus {
      */
     private List<Node> selectNodes(String key, int count) {
         // TODO: Simple implementation - use key hash
-        //   int hash = Math.abs(key.hashCode());
-        //   List<Node> selected = new ArrayList<>();
         //
         //   List<Node> activeNodes = new ArrayList<>();
         //   for (Node node : nodes.values()) {
@@ -1632,11 +1442,8 @@ public class QuorumConsensus {
      */
     private void readRepair(String key, VersionedValue latestValue) {
         // TODO: Get all replicas
-        //   List<Node> replicas = selectNodes(key, replicationFactor);
 
         // TODO: Update stale replicas
-        //   for (Node node : replicas) {
-        //     if (!node.active) continue;
         //
         //     VersionedValue current = node.get(key);
         //     if (current == null ||

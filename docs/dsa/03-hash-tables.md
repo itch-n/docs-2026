@@ -292,12 +292,8 @@ public class BasicHashMap {
      * TODO: Implement using HashMap for O(1) lookup
      */
     public static int[] twoSum(int[] nums, int target) {
-        // TODO: Create HashMap<Integer, Integer> to store value -> index
-
-        // TODO: For each num in nums:
-        //   Calculate complement = target - num
-        //   If map contains complement, return [map.get(complement), currentIndex]
-        //   Otherwise, put num -> currentIndex in map
+        // TODO: Use a map to remember what you've seen
+        // What should be stored as the key? As the value?
 
         return new int[] {-1, -1}; // Replace with implementation
     }
@@ -309,10 +305,8 @@ public class BasicHashMap {
      * TODO: Implement frequency counter
      */
     public static Map<Character, Integer> countCharacters(String s) {
-        // TODO: Create HashMap<Character, Integer>
-
-        // TODO: For each char in s:
-        //   map.put(char, map.getOrDefault(char, 0) + 1)
+        // TODO: Track how many times each character appears
+        // Consider using getOrDefault for cleaner code
 
         return new HashMap<>(); // Replace with implementation
     }
@@ -324,13 +318,8 @@ public class BasicHashMap {
      * TODO: Implement using HashSet
      */
     public static boolean containsDuplicate(int[] nums) {
-        // TODO: Create HashSet<Integer>
-
-        // TODO: For each num in nums:
-        //   If set contains num, return true
-        //   Otherwise, add num to set
-
-        // TODO: Return false if no duplicates found
+        // TODO: Use a set to track seen elements
+        // What indicates a duplicate has been found?
 
         return false; // Replace with implementation
     }
@@ -409,13 +398,8 @@ public class HashSetOperations {
      * TODO: Implement using HashSet
      */
     public static int[] intersection(int[] nums1, int[] nums2) {
-        // TODO: Add all elements from nums1 to HashSet
-
-        // TODO: Create result set to store intersection
-        // TODO: For each element in nums2:
-        //   If set1 contains element, add to result set
-
-        // TODO: Convert result set to array and return
+        // TODO: Store one array in a set for fast lookup
+        // How do you find common elements?
 
         return new int[0]; // Replace with implementation
     }
@@ -427,10 +411,8 @@ public class HashSetOperations {
      * TODO: Implement using HashSet
      */
     public static int missingNumber(int[] nums) {
-        // TODO: Add all nums to HashSet
-
-        // TODO: For i from 0 to nums.length:
-        //   If set doesn't contain i, return i
+        // TODO: Store all present numbers
+        // How do you check which number is missing?
 
         return -1; // Replace with implementation
     }
@@ -442,12 +424,9 @@ public class HashSetOperations {
      * TODO: Implement using HashSet
      */
     public static int longestConsecutive(int[] nums) {
-        // TODO: Add all nums to HashSet
-
-        // TODO: For each num in set:
-        //   If num-1 not in set (it's a sequence start):
-        //     Count consecutive numbers (num+1, num+2, ...)
-        //     Track maximum length
+        // TODO: Store all numbers in a set for O(1) lookup
+        // How do you identify the start of a sequence?
+        // How do you count consecutive numbers?
 
         return 0; // Replace with implementation
     }
@@ -533,13 +512,8 @@ public class HashMapGrouping {
      * TODO: Implement using HashMap with sorted string as key
      */
     public static List<List<String>> groupAnagrams(String[] strs) {
-        // TODO: Create HashMap<String, List<String>>
-
-        // TODO: For each string:
-        //   Sort characters to create key
-        //   Add original string to list for that key
-
-        // TODO: Return all values from map
+        // TODO: What makes anagrams have the same key?
+        // How can you transform each string into a unique key?
 
         return new ArrayList<>(); // Replace with implementation
     }
@@ -551,11 +525,8 @@ public class HashMapGrouping {
      * TODO: Implement custom grouping
      */
     public static Map<Integer, List<Integer>> groupByDigitSum(int[] nums) {
-        // TODO: Create HashMap<Integer, List<Integer>>
-
-        // TODO: For each num:
-        //   Calculate sum of digits
-        //   Add num to list for that sum
+        // TODO: Compute a key for each number based on its digits
+        // Group numbers with the same key together
 
         return new HashMap<>(); // Replace with implementation
     }
@@ -567,11 +538,8 @@ public class HashMapGrouping {
      * TODO: Implement grouping by first character
      */
     public static Map<Character, List<String>> groupByFirstChar(String[] words) {
-        // TODO: Create HashMap<Character, List<String>>
-
-        // TODO: For each word:
-        //   Get first character
-        //   Add word to list for that character
+        // TODO: Extract the grouping criterion from each word
+        // Store words with the same criterion together
 
         return new HashMap<>(); // Replace with implementation
     }
@@ -655,12 +623,8 @@ public class HashMapWindow {
      * TODO: Implement using HashMap to track frequencies
      */
     public static String minWindow(String s, String t) {
-        // TODO: Create frequency map for target string t
-
-        // TODO: Use sliding window with two pointers
-        // TODO: Expand right until all chars found
-        // TODO: Contract left while valid
-        // TODO: Track minimum window
+        // TODO: Track character frequencies in the target string
+        // Use a sliding window to find the minimum valid window
 
         return ""; // Replace with implementation
     }
@@ -672,10 +636,8 @@ public class HashMapWindow {
      * TODO: Implement using frequency comparison
      */
     public static boolean checkInclusion(String s1, String s2) {
-        // TODO: Create frequency map for s1
-
-        // TODO: Use fixed window of size s1.length()
-        // TODO: Compare frequencies
+        // TODO: How can you detect a permutation using frequencies?
+        // Consider using a fixed-size window
 
         return false; // Replace with implementation
     }

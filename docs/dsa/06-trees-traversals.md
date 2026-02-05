@@ -311,7 +311,7 @@ public class InorderTraversal {
     public static List<Integer> inorderRecursive(TreeNode root) {
         List<Integer> result = new ArrayList<>();
 
-        // TODO: Base case: if root is null, return
+        // TODO: Handle base case
 
         // TODO: Recursively traverse left subtree
         // TODO: Visit root (add to result)
@@ -331,13 +331,7 @@ public class InorderTraversal {
         // TODO: Create Stack<TreeNode>
 
         // TODO: curr = root
-        // TODO: While curr != null OR stack not empty:
-        //   While curr != null:
-        //     Push curr to stack
-        //     Move curr = curr.left
-        //   Pop curr from stack
-        //   Visit curr (add to result)
-        //   Move curr = curr.right
+        // TODO: Implement iteration/conditional logic
 
         return result; // Replace with implementation
     }
@@ -352,16 +346,7 @@ public class InorderTraversal {
         List<Integer> result = new ArrayList<>();
 
         // TODO: curr = root
-        // TODO: While curr != null:
-        //   If curr.left is null:
-        //     Visit curr, move curr = curr.right
-        //   Else:
-        //     Find predecessor (rightmost in left subtree)
-        //     If predecessor.right is null:
-        //       Make predecessor.right = curr (thread)
-        //       Move curr = curr.left
-        //     Else:
-        //       Remove thread, visit curr, move curr = curr.right
+        // TODO: Implement iteration/conditional logic
 
         return result; // Replace with implementation
     }
@@ -450,7 +435,7 @@ public class PreorderTraversal {
     public static List<Integer> preorderRecursive(TreeNode root) {
         List<Integer> result = new ArrayList<>();
 
-        // TODO: Base case: if root is null, return
+        // TODO: Handle base case
 
         // TODO: Visit root (add to result)
         // TODO: Recursively traverse left subtree
@@ -468,14 +453,10 @@ public class PreorderTraversal {
     public static List<Integer> preorderIterative(TreeNode root) {
         List<Integer> result = new ArrayList<>();
 
-        // TODO: If root is null, return empty
+        // TODO: Implement iteration/conditional logic
         // TODO: Create Stack<TreeNode>, push root
 
-        // TODO: While stack not empty:
-        //   Pop node
-        //   Visit node (add to result)
-        //   Push right child (if exists)
-        //   Push left child (if exists)
+        // TODO: Implement iteration/conditional logic
 
         return result; // Replace with implementation
     }
@@ -559,7 +540,7 @@ public class PostorderTraversal {
     public static List<Integer> postorderRecursive(TreeNode root) {
         List<Integer> result = new ArrayList<>();
 
-        // TODO: Base case: if root is null, return
+        // TODO: Handle base case
 
         // TODO: Recursively traverse left subtree
         // TODO: Recursively traverse right subtree
@@ -577,15 +558,11 @@ public class PostorderTraversal {
     public static List<Integer> postorderIterative(TreeNode root) {
         List<Integer> result = new ArrayList<>();
 
-        // TODO: If root is null, return empty
+        // TODO: Implement iteration/conditional logic
         // TODO: Create two stacks: stack1 and stack2
         // TODO: Push root to stack1
 
-        // TODO: While stack1 not empty:
-        //   Pop node from stack1
-        //   Push node to stack2
-        //   Push left child to stack1 (if exists)
-        //   Push right child to stack1 (if exists)
+        // TODO: Implement iteration/conditional logic
 
         // TODO: Pop all from stack2 to result
 
@@ -671,18 +648,10 @@ public class LevelOrderTraversal {
     public static List<List<Integer>> levelOrder(TreeNode root) {
         List<List<Integer>> result = new ArrayList<>();
 
-        // TODO: If root is null, return empty
+        // TODO: Implement iteration/conditional logic
         // TODO: Create Queue<TreeNode>, add root
 
-        // TODO: While queue not empty:
-        //   Get level size = queue.size()
-        //   Create level list
-        //   For i from 0 to level size:
-        //     Poll node
-        //     Add node.val to level list
-        //     Add left child to queue (if exists)
-        //     Add right child to queue (if exists)
-        //   Add level list to result
+        // TODO: Implement iteration/conditional logic
 
         return result; // Replace with implementation
     }

@@ -301,7 +301,7 @@ public class UnionFind {
         public DSU(int n) {
             // TODO: Initialize parent array: parent[i] = i
             // TODO: Initialize rank array: rank[i] = 0
-            // TODO: Initialize components = n
+            // TODO: Initialize components
         }
 
         /**
@@ -311,7 +311,7 @@ public class UnionFind {
          * TODO: Implement find with path compression
          */
         public int find(int x) {
-            // TODO: If parent[x] != x, recursively find root
+            // TODO: Implement iteration/conditional logic
             // TODO: Path compression: parent[x] = find(parent[x])
             // TODO: Return parent[x]
             return 0; // Replace with implementation
@@ -325,9 +325,9 @@ public class UnionFind {
          */
         public boolean union(int x, int y) {
             // TODO: Find roots of x and y
-            // TODO: If same root, already connected, return false
+            // TODO: Implement iteration/conditional logic
             // TODO: Attach smaller rank tree under larger rank tree
-            // TODO: If same rank, increment rank of new root
+            // TODO: Implement iteration/conditional logic
             // TODO: Decrement components count
             // TODO: Return true (successful union)
             return false; // Replace with implementation
@@ -356,7 +356,7 @@ public class UnionFind {
          * Time: O(α(n))
          */
         public int getSize(int x) {
-            // TODO: If using size array, return size[find(x)]
+            // TODO: Implement iteration/conditional logic
             // TODO: Otherwise, count elements with same root
             return 0; // Replace with implementation
         }
@@ -370,7 +370,7 @@ public class UnionFind {
      */
     public static int countComponents(int n, int[][] edges) {
         // TODO: Initialize DSU with n nodes
-        // TODO: For each edge, union the two nodes
+        // TODO: Implement iteration/conditional logic
         // TODO: Return number of components
 
         return 0; // Replace with implementation
@@ -447,9 +447,7 @@ public class CycleDetection {
      */
     public static boolean hasCycle(int n, int[][] edges) {
         // TODO: Initialize union-find
-        // TODO: For each edge (u, v):
-        //   If find(u) == find(v), cycle detected
-        //   Otherwise, union(u, v)
+        // TODO: Implement iteration/conditional logic
         // TODO: Return false if no cycle
 
         return false; // Replace with implementation
@@ -463,10 +461,7 @@ public class CycleDetection {
      */
     public static int[] findRedundantConnection(int[][] edges) {
         // TODO: Initialize union-find
-        // TODO: For each edge (u, v):
-        //   If find(u) == find(v), this edge creates cycle
-        //   Return this edge
-        //   Otherwise, union(u, v)
+        // TODO: Implement iteration/conditional logic
 
         return new int[]{-1, -1}; // Replace with implementation
     }
@@ -493,8 +488,6 @@ public class CycleDetection {
      */
     public static int[] findRedundantDirectedConnection(int[][] edges) {
         // TODO: More complex - need to handle:
-        //   Case 1: Node with two parents
-        //   Case 2: Cycle
         // TODO: Try removing each candidate edge
 
         return new int[]{-1, -1}; // Replace with implementation
@@ -580,8 +573,7 @@ public class ConnectedComponents {
      */
     public static int numIslands(char[][] grid) {
         // TODO: Initialize union-find for all cells
-        // TODO: For each land cell ('1'):
-        //   Union with adjacent land cells
+        // TODO: Implement iteration/conditional logic
         // TODO: Count unique components of land cells
 
         return 0; // Replace with implementation
@@ -595,8 +587,7 @@ public class ConnectedComponents {
      */
     public static int findCircleNum(int[][] isConnected) {
         // TODO: Initialize union-find with n people
-        // TODO: For each connection isConnected[i][j] == 1:
-        //   Union i and j
+        // TODO: Implement iteration/conditional logic
         // TODO: Return number of components
 
         return 0; // Replace with implementation
@@ -737,7 +728,6 @@ public class AdvancedUnionFind {
         // TODO: Initialize union-find for 26 letters
         // TODO: First pass: union all equal variables (==)
         // TODO: Second pass: check all inequalities (!=)
-        //   If find(a) == find(b) but a != b, contradiction
         // TODO: Return true if no contradictions
 
         return false; // Replace with implementation
@@ -753,7 +743,7 @@ public class AdvancedUnionFind {
                                        double[] values,
                                        List<List<String>> queries) {
         // TODO: Build graph with division relationships
-        // TODO: For each query, find path and multiply values
+        // TODO: Implement iteration/conditional logic
         // TODO: Or use weighted union-find with ratios
 
         return new double[0]; // Replace with implementation
@@ -767,7 +757,7 @@ public class AdvancedUnionFind {
      */
     public static boolean areSentencesSimilar(String[] words1, String[] words2,
                                              List<List<String>> pairs) {
-        // TODO: If different lengths, not similar
+        // TODO: Implement iteration/conditional logic
         // TODO: Union similar word pairs
         // TODO: Check if words1[i] and words2[i] in same component
 
@@ -782,8 +772,7 @@ public class AdvancedUnionFind {
      */
     public static int minMalwareSpread(int[][] graph, int[] initial) {
         // TODO: Union all connected nodes
-        // TODO: For each initially infected node:
-        //   Count how many nodes would be saved if removed
+        // TODO: Implement iteration/conditional logic
         // TODO: Return node whose removal saves most nodes
 
         return 0; // Replace with implementation

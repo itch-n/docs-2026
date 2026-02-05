@@ -492,9 +492,6 @@ public class RangeBasedSharding {
         // TODO: Initialize rangeMap and shards
 
         // TODO: Create shard for each range
-        // for i in 0 to ranges.size():
-        //   Create shard
-        //   Put range boundary -> shard in map
 
         this.rangeMap = null; // Replace
         this.shards = null; // Replace
@@ -515,7 +512,7 @@ public class RangeBasedSharding {
         // TODO: Look up range in TreeMap
         // entry = rangeMap.ceilingEntry(key)
 
-        // TODO: If entry found, return its shard
+        // TODO: Implement iteration/conditional logic
 
         // TODO: Otherwise return last shard (for keys >= last boundary)
 
@@ -620,8 +617,6 @@ public class MasterSlaveReplication {
         // TODO: Write to master
 
         // TODO: Replicate to all slaves
-        // for each slave:
-        //   slave.write(key, value)
     }
 
     /**
@@ -639,7 +634,7 @@ public class MasterSlaveReplication {
 
         // TODO: Read from slave
 
-        // TODO: If slave fails, fallback to master
+        // TODO: Implement iteration/conditional logic
 
         return null; // Replace
     }
@@ -899,7 +894,7 @@ public class ConsistentHashSharding {
 
         // TODO: Find next shard on ring (ceilingEntry)
 
-        // TODO: If null, wrap to first shard
+        // TODO: Implement iteration/conditional logic
 
         return null; // Replace
     }

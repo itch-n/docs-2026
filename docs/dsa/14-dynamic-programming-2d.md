@@ -340,7 +340,7 @@ public class GridPathProblems {
      */
     public static int uniquePathsWithObstacles(int[][] obstacleGrid) {
         // TODO: Similar to uniquePaths
-        // TODO: If obstacleGrid[i][j] == 1, dp[i][j] = 0
+        // TODO: Implement iteration/conditional logic
         // TODO: Handle obstacles in first row/column
 
         return 0; // Replace with implementation
@@ -458,7 +458,7 @@ public class StringMatching {
      */
     public static int longestCommonSubsequence(String text1, String text2) {
         // TODO: dp[i][j] = LCS of text1[0..i] and text2[0..j]
-        // TODO: If text1[i] == text2[j]: dp[i][j] = dp[i-1][j-1] + 1
+        // TODO: Implement iteration/conditional logic
         // TODO: Else: dp[i][j] = max(dp[i-1][j], dp[i][j-1])
 
         return 0; // Replace with implementation
@@ -471,12 +471,9 @@ public class StringMatching {
      * TODO: Implement edit distance
      */
     public static int minDistance(String word1, String word2) {
-        // TODO: dp[i][j] = min edits to transform word1[0..i] to word2[0..j]
-        // TODO: If word1[i] == word2[j]: dp[i][j] = dp[i-1][j-1]
+        // TODO: Implement logic
+        // TODO: Implement iteration/conditional logic
         // TODO: Else: dp[i][j] = 1 + min(insert, delete, replace)
-        //   Insert: dp[i][j-1]
-        //   Delete: dp[i-1][j]
-        //   Replace: dp[i-1][j-1]
 
         return 0; // Replace with implementation
     }
@@ -489,7 +486,7 @@ public class StringMatching {
      */
     public static int longestPalindromeSubseq(String s) {
         // TODO: dp[i][j] = LPS length in s[i..j]
-        // TODO: If s[i] == s[j]: dp[i][j] = dp[i+1][j-1] + 2
+        // TODO: Implement iteration/conditional logic
         // TODO: Else: dp[i][j] = max(dp[i+1][j], dp[i][j-1])
         // TODO: Fill diagonal first, then expand
 
@@ -593,8 +590,6 @@ public class KnapsackProblems {
     public static int knapsack(int[] weights, int[] values, int capacity) {
         // TODO: dp[i][w] = max value using first i items with capacity w
         // TODO: dp[i][w] = max(
-        //   dp[i-1][w],  // don't take item i
-        //   dp[i-1][w-weight[i]] + value[i]  // take item i
         // )
         // TODO: Can optimize to 1D by iterating backwards
 
@@ -608,7 +603,7 @@ public class KnapsackProblems {
      * TODO: Implement partition check
      */
     public static boolean canPartitionKSubsets(int[] nums, int k) {
-        // TODO: If sum % k != 0, return false
+        // TODO: Implement iteration/conditional logic
         // TODO: Target = sum / k
         // TODO: Use backtracking or DP to check if k subsets possible
 
@@ -639,7 +634,7 @@ public class KnapsackProblems {
      */
     public static int findMaxForm(String[] strs, int m, int n) {
         // TODO: dp[i][j] = max strings with i zeros and j ones
-        // TODO: For each string, count zeros and ones
+        // TODO: Implement iteration/conditional logic
         // TODO: Update DP backwards (0/1 knapsack style)
 
         return 0; // Replace with implementation
@@ -724,8 +719,6 @@ public class GameTheory {
     public static boolean stoneGame(int[] piles) {
         // TODO: dp[i][j] = max stones first player gets from piles[i..j]
         // TODO: Player chooses max of:
-        //   piles[i] + min(dp[i+2][j], dp[i+1][j-1])  // take left
-        //   piles[j] + min(dp[i+1][j-1], dp[i][j-2])  // take right
         // TODO: First player wins if dp[0][n-1] > sum/2
 
         return false; // Replace with implementation
@@ -755,7 +748,7 @@ public class GameTheory {
         // TODO: Add virtual balloons with value 1 at both ends
         // TODO: dp[i][j] = max coins from bursting balloons (i..j)
         // TODO: Try each balloon k as last to burst in range [i,j]
-        // TODO: dp[i][j] = max(dp[i][k] + dp[k][j] + nums[i]*nums[k]*nums[j])
+        // TODO: Implement logic
 
         return 0; // Replace with implementation
     }

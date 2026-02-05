@@ -475,25 +475,12 @@ public class JWTAuthenticator {
      */
     public String generateToken(String userId) {
         // TODO: Create header
-        //   String header = """
-        //     {"alg":"HS256","typ":"JWT"}
-        //     """;
-        //   String headerBase64 = base64UrlEncode(header);
 
         // TODO: Create payload with expiration
-        //   long now = System.currentTimeMillis();
-        //   long exp = now + expirationMs;
-        //   String payload = String.format("""
-        //     {"sub":"%s","exp":%d,"iat":%d}
-        //     """, userId, exp / 1000, now / 1000);
-        //   String payloadBase64 = base64UrlEncode(payload);
 
         // TODO: Create signature
-        //   String toSign = headerBase64 + "." + payloadBase64;
-        //   String signature = hmacSha256(toSign, secret);
 
         // TODO: Return JWT
-        //   return toSign + "." + signature;
 
         return null; // Replace
     }
@@ -510,17 +497,10 @@ public class JWTAuthenticator {
      */
     public String validateToken(String token) {
         // TODO: Split token
-        //   String[] parts = token.split("\\.");
-        //   if (parts.length != 3) return null;
 
         // TODO: Verify signature
-        //   String toVerify = parts[0] + "." + parts[1];
-        //   String expectedSig = hmacSha256(toVerify, secret);
-        //   if (!expectedSig.equals(parts[2])) return null;
 
         // TODO: Decode and check expiration
-        //   String payload = base64UrlDecode(parts[1]);
-        //   // Parse JSON, check exp field
 
         // TODO: Return userId from payload
         return null; // Replace
@@ -533,7 +513,6 @@ public class JWTAuthenticator {
      */
     private String base64UrlEncode(String input) {
         // TODO: Encode and make URL-safe
-        //   Remove padding (=), replace + with -, / with _
         return null; // Replace
     }
 
@@ -544,11 +523,6 @@ public class JWTAuthenticator {
      */
     private String hmacSha256(String data, String key) {
         // TODO: Use Mac with HmacSHA256
-        //   Mac mac = Mac.getInstance("HmacSHA256");
-        //   SecretKeySpec secretKey = new SecretKeySpec(key.getBytes(), "HmacSHA256");
-        //   mac.init(secretKey);
-        //   byte[] hash = mac.doFinal(data.getBytes());
-        //   return base64UrlEncode(new String(hash));
         return null; // Replace
     }
 }
@@ -637,15 +611,10 @@ public class RBACAuthorizer {
      */
     private void initializeRolePermissions() {
         // TODO: Define ADMIN permissions
-        //   rolePermissions.put(Role.ADMIN, EnumSet.allOf(Permission.class));
 
         // TODO: Define EDITOR permissions
-        //   rolePermissions.put(Role.EDITOR,
-        //     EnumSet.of(Permission.READ, Permission.WRITE));
 
         // TODO: Define VIEWER permissions
-        //   rolePermissions.put(Role.VIEWER,
-        //     EnumSet.of(Permission.READ));
     }
 
     /**
@@ -656,8 +625,6 @@ public class RBACAuthorizer {
      */
     public void assignRole(String userId, Role role) {
         // TODO: Add role to user's role set
-        //   userRoles.computeIfAbsent(userId, k -> new HashSet<>())
-        //            .add(role);
     }
 
     /**
@@ -671,16 +638,8 @@ public class RBACAuthorizer {
      */
     public boolean hasPermission(String userId, Permission permission) {
         // TODO: Get user roles
-        //   Set<Role> roles = userRoles.get(userId);
-        //   if (roles == null) return false;
 
         // TODO: Check each role's permissions
-        //   for (Role role : roles) {
-        //     Set<Permission> perms = rolePermissions.get(role);
-        //     if (perms != null && perms.contains(permission)) {
-        //       return true;
-        //     }
-        //   }
 
         return false; // Replace
     }
@@ -695,13 +654,6 @@ public class RBACAuthorizer {
         Set<Permission> allPermissions = new HashSet<>();
 
         // TODO: Aggregate permissions from all roles
-        //   Set<Role> roles = userRoles.get(userId);
-        //   if (roles != null) {
-        //     for (Role role : roles) {
-        //       Set<Permission> perms = rolePermissions.get(role);
-        //       if (perms != null) allPermissions.addAll(perms);
-        //     }
-        //   }
 
         return allPermissions; // Replace
     }
@@ -714,8 +666,6 @@ public class RBACAuthorizer {
      */
     public void revokeRole(String userId, Role role) {
         // TODO: Remove role from user
-        //   Set<Role> roles = userRoles.get(userId);
-        //   if (roles != null) roles.remove(role);
     }
 }
 ```
@@ -817,13 +767,8 @@ public class APIKeyAuth {
      */
     public String generateKey(String userId, Set<String> scopes) {
         // TODO: Generate secure random key
-        //   byte[] bytes = new byte[32];
-        //   random.nextBytes(bytes);
-        //   String key = bytesToHex(bytes);
 
         // TODO: Store key
-        //   APIKey apiKey = new APIKey(key, userId, scopes);
-        //   keys.put(key, apiKey);
 
         return null; // Replace
     }
@@ -840,15 +785,10 @@ public class APIKeyAuth {
      */
     public String validateKey(String key, String requiredScope) {
         // TODO: Lookup key
-        //   APIKey apiKey = keys.get(key);
-        //   if (apiKey == null) return null;
 
         // TODO: Check scope
-        //   if (!apiKey.scopes.contains(requiredScope)) return null;
 
         // TODO: Update usage
-        //   apiKey.lastUsedAt = System.currentTimeMillis();
-        //   apiKey.usageCount++;
 
         return null; // Replace
     }
@@ -861,7 +801,6 @@ public class APIKeyAuth {
      */
     public boolean revokeKey(String key) {
         // TODO: Remove key from storage
-        //   return keys.remove(key) != null;
         return false; // Replace
     }
 
@@ -875,12 +814,6 @@ public class APIKeyAuth {
         Map<String, Object> stats = new HashMap<>();
 
         // TODO: Return key statistics
-        //   APIKey apiKey = keys.get(key);
-        //   if (apiKey != null) {
-        //     stats.put("usageCount", apiKey.usageCount);
-        //     stats.put("lastUsedAt", apiKey.lastUsedAt);
-        //     stats.put("createdAt", apiKey.createdAt);
-        //   }
 
         return stats; // Replace
     }
@@ -1001,13 +934,8 @@ public class SecretsManager {
      */
     public void storeSecret(String name, String value, Set<String> authorizedUsers) {
         // TODO: Encrypt secret value
-        //   byte[] encrypted = encrypt(value.getBytes(), masterKey);
 
         // TODO: Create new version
-        //   List<Secret> versions = secrets.computeIfAbsent(name, k -> new ArrayList<>());
-        //   int version = versions.size() + 1;
-        //   Secret secret = new Secret(name, encrypted, version, authorizedUsers);
-        //   versions.add(secret);
     }
 
     /**
@@ -1021,18 +949,10 @@ public class SecretsManager {
      */
     public String getSecret(String name, String userId) {
         // TODO: Get latest version
-        //   List<Secret> versions = secrets.get(name);
-        //   if (versions == null || versions.isEmpty()) return null;
-        //   Secret latest = versions.get(versions.size() - 1);
 
         // TODO: Check authorization
-        //   if (!latest.authorizedUsers.contains(userId)) {
-        //     throw new SecurityException("Unauthorized access");
-        //   }
 
         // TODO: Decrypt and return
-        //   byte[] decrypted = decrypt(latest.encryptedValue, masterKey);
-        //   return new String(decrypted);
 
         return null; // Replace
     }
@@ -1056,9 +976,6 @@ public class SecretsManager {
      */
     private byte[] encrypt(byte[] data, SecretKey key) {
         // TODO: Use AES/GCM for authenticated encryption
-        //   Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
-        //   cipher.init(Cipher.ENCRYPT_MODE, key);
-        //   return cipher.doFinal(data);
         return null; // Replace
     }
 

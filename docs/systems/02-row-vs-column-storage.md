@@ -286,63 +286,51 @@ public class RowStore {
     /**
      * Insert: O(1) - single write
      * All columns written together in one operation
+     *
+     * TODO: Implement insert
      */
     public void insert(Row row) {
-        rows.put(row.id, row);  // Single write operation
+        // TODO: Store entire row in map
         // In reality: Write entire row to one disk location
     }
 
     /**
      * Point lookup: O(1) - optimal!
      * Single disk read gets all columns
+     *
+     * TODO: Implement point lookup
      */
     public Row getById(int id) {
-        return rows.get(id);  // Single read operation
+        // TODO: Retrieve row from map
         // In reality: One disk seek, read entire row
+        return null;
     }
 
     /**
      * Column scan: O(N) - inefficient!
      * Must read entire rows even though we only need one column
+     *
+     * TODO: Implement column scan
      */
     public double avgSalary() {
-        long sum = 0;
-        int count = 0;
+        // TODO: Calculate average salary
+        // Note: You're reading ALL columns just to get salary
+        // This is the key inefficiency of row storage for analytics!
 
-        // Problem: Reading ALL columns just to get salary
-        for (Row row : rows.values()) {
-            // Read entire row: id, name, email, age, city, salary
-            // But only use: salary
-            // Waste: ~95% of data read is unused!
-            sum += row.salary;
-            count++;
-        }
-
-        return (double) sum / count;
+        return 0.0;
     }
 
     /**
      * Multi-column aggregation
      * Still reads full rows
+     *
+     * TODO: Implement aggregation by city
      */
     public Map<String, Double> avgSalaryByCity() {
-        Map<String, List<Integer>> salariesByCity = new HashMap<>();
+        // TODO: Group salaries by city and calculate averages
+        // Note: Still reading entire rows even though only using 2 columns
 
-        for (Row row : rows.values()) {
-            // Again: reading entire row
-            // Using only: city, salary (2 fields out of 6)
-            salariesByCity
-                .computeIfAbsent(row.city, k -> new ArrayList<>())
-                .add(row.salary);
-        }
-
-        Map<String, Double> result = new HashMap<>();
-        salariesByCity.forEach((city, salaries) -> {
-            double avg = salaries.stream().mapToInt(i -> i).average().orElse(0);
-            result.put(city, avg);
-        });
-
-        return result;
+        return new HashMap<>();
     }
 }
 ```
@@ -393,108 +381,68 @@ public class ColumnStore {
     /**
      * Insert: O(C) where C = number of columns - slower!
      * Must write to each column separately
+     *
+     * TODO: Implement insert
      */
     public void insert(Row row) {
-        // Must write to 6 separate column files
-        idColumn.add(row.id);
-        nameColumn.add(row.name);
-        emailColumn.add(row.email);
-        ageColumn.add(row.age);
-        cityColumn.add(row.city);
-        salaryColumn.add(row.salary);
-
-        // In reality: 6 separate disk writes
-        // Write amplification compared to row store!
+        // TODO: Add each field to its corresponding column
+        // Must write to 6 separate column lists
+        // In reality: 6 separate disk writes - write amplification!
     }
 
     /**
      * Point lookup: O(C) - inefficient!
      * Must read from each column file
+     *
+     * TODO: Implement point lookup
      */
     public Row getById(int id) {
-        // Find index of this ID
-        int index = idColumn.indexOf(id);
-        if (index == -1) return null;
-
-        // Must read from each column file
-        return new Row(
-            idColumn.get(index),      // Read from id column
-            nameColumn.get(index),    // Read from name column
-            emailColumn.get(index),   // Read from email column
-            ageColumn.get(index),     // Read from age column
-            cityColumn.get(index),    // Read from city column
-            salaryColumn.get(index)   // Read from salary column
-        );
+        // TODO: Find the index for this ID
+        // TODO: Read from each column at that index
         // In reality: 6 disk seeks (one per column)
+
+        return null;
     }
 
     /**
      * Column scan: O(N) - optimal!
      * Only read the column we need
+     *
+     * TODO: Implement column scan
      */
     public double avgSalary() {
-        // Only read salary column - ignore all other columns!
-        long sum = 0;
-        for (int salary : salaryColumn) {
-            sum += salary;
-        }
-        return (double) sum / salaryColumn.size();
+        // TODO: Calculate average of salary column only
+        // Key advantage: Ignore all other columns!
+        // If 1M rows: Column store reads 4MB, Row store reads 200MB
 
-        // In reality: Read only salary column file
-        // If salaries are 4 bytes each and 1M rows:
-        //   Column store: 4MB read
-        //   Row store: 200MB read (entire rows)
-        // 50x less I/O!
+        return 0.0;
     }
 
     /**
      * Multi-column aggregation - still efficient!
      * Only read the columns we need
+     *
+     * TODO: Implement aggregation by city
      */
     public Map<String, Double> avgSalaryByCity() {
-        Map<String, List<Integer>> salariesByCity = new HashMap<>();
+        // TODO: Read only city and salary columns
+        // TODO: Group by city and calculate averages
+        // Key advantage: Only 2 columns read instead of all 6
 
-        // Only read 2 columns: city, salary
-        // Ignore: id, name, email, age
-        for (int i = 0; i < cityColumn.size(); i++) {
-            String city = cityColumn.get(i);
-            int salary = salaryColumn.get(i);
-
-            salariesByCity
-                .computeIfAbsent(city, k -> new ArrayList<>())
-                .add(salary);
-        }
-
-        Map<String, Double> result = new HashMap<>();
-        salariesByCity.forEach((city, salaries) -> {
-            double avg = salaries.stream().mapToInt(i -> i).average().orElse(0);
-            result.put(city, avg);
-        });
-
-        return result;
-
-        // In reality: Read city + salary columns only
-        // Column store: 54MB (city: 50MB, salary: 4MB)
-        // Row store: 200MB (entire rows)
-        // 3.7x less I/O!
+        return new HashMap<>();
     }
 
     /**
      * Column pruning: Read only what's needed
      * This is the killer feature of column stores
+     *
+     * TODO: Implement selective column query
      */
     public List<Integer> getSalariesInCity(String targetCity) {
-        List<Integer> result = new ArrayList<>();
+        // TODO: Filter city column and return matching salaries
+        // Only read city and salary columns - ignore the other 4!
 
-        // Only read city and salary columns
-        for (int i = 0; i < cityColumn.size(); i++) {
-            if (cityColumn.get(i).equals(targetCity)) {
-                result.add(salaryColumn.get(i));
-            }
-        }
-
-        return result;
-        // Row store would read all 6 columns!
+        return new ArrayList<>();
     }
 }
 ```
@@ -526,26 +474,16 @@ public class StorageLayoutBenchmark {
         System.out.println("--- Insert Performance ---");
         int numRows = 100000;
 
-        // Row store inserts
+        // TODO: Benchmark row store inserts
         RowStore rowStore = new RowStore();
         long start = System.nanoTime();
-        for (int i = 0; i < numRows; i++) {
-            rowStore.insert(new RowStore.Row(
-                i, "User" + i, "user" + i + "@example.com",
-                20 + i % 50, "City" + (i % 10), 50000 + i % 100000
-            ));
-        }
+        // TODO: Insert numRows rows into rowStore
         long rowTime = System.nanoTime() - start;
 
-        // Column store inserts
+        // TODO: Benchmark column store inserts
         ColumnStore colStore = new ColumnStore();
         start = System.nanoTime();
-        for (int i = 0; i < numRows; i++) {
-            colStore.insert(new ColumnStore.Row(
-                i, "User" + i, "user" + i + "@example.com",
-                20 + i % 50, "City" + (i % 10), 50000 + i % 100000
-            ));
-        }
+        // TODO: Insert numRows rows into colStore
         long colTime = System.nanoTime() - start;
 
         System.out.printf("Row Store: %.2f ms (%.0f inserts/sec)%n",
@@ -561,36 +499,21 @@ public class StorageLayoutBenchmark {
         int numRows = 100000;
         int numLookups = 1000;
 
-        // Setup
+        // TODO: Setup - populate both stores
         RowStore rowStore = new RowStore();
         ColumnStore colStore = new ColumnStore();
-        for (int i = 0; i < numRows; i++) {
-            RowStore.Row row = new RowStore.Row(
-                i, "User" + i, "user" + i + "@example.com",
-                20 + i % 50, "City" + (i % 10), 50000 + i % 100000
-            );
-            rowStore.insert(row);
-            colStore.insert(new ColumnStore.Row(
-                row.id, row.name, row.email, row.age, row.city, row.salary
-            ));
-        }
+        // TODO: Insert numRows into both stores
 
-        // Benchmark row store lookups
+        // TODO: Benchmark row store lookups
         Random rand = new Random(42);
         long start = System.nanoTime();
-        for (int i = 0; i < numLookups; i++) {
-            int id = rand.nextInt(numRows);
-            rowStore.getById(id);
-        }
+        // TODO: Perform numLookups random getById calls on rowStore
         long rowTime = System.nanoTime() - start;
 
-        // Benchmark column store lookups
+        // TODO: Benchmark column store lookups
         rand = new Random(42);
         start = System.nanoTime();
-        for (int i = 0; i < numLookups; i++) {
-            int id = rand.nextInt(numRows);
-            colStore.getById(id);
-        }
+        // TODO: Perform numLookups random getById calls on colStore
         long colTime = System.nanoTime() - start;
 
         System.out.printf("Row Store: %.2f ms (%.0f lookups/sec)%n",
@@ -605,28 +528,19 @@ public class StorageLayoutBenchmark {
         System.out.println("--- Column Scan Performance (avg salary) ---");
         int numRows = 100000;
 
-        // Setup
+        // TODO: Setup - populate both stores
         RowStore rowStore = new RowStore();
         ColumnStore colStore = new ColumnStore();
-        for (int i = 0; i < numRows; i++) {
-            RowStore.Row row = new RowStore.Row(
-                i, "User" + i, "user" + i + "@example.com",
-                20 + i % 50, "City" + (i % 10), 50000 + i % 100000
-            );
-            rowStore.insert(row);
-            colStore.insert(new ColumnStore.Row(
-                row.id, row.name, row.email, row.age, row.city, row.salary
-            ));
-        }
+        // TODO: Insert numRows into both stores
 
-        // Benchmark row store
+        // TODO: Benchmark row store column scan
         long start = System.nanoTime();
-        double rowAvg = rowStore.avgSalary();
+        double rowAvg = 0.0; // TODO: Call rowStore.avgSalary()
         long rowTime = System.nanoTime() - start;
 
-        // Benchmark column store
+        // TODO: Benchmark column store column scan
         start = System.nanoTime();
-        double colAvg = colStore.avgSalary();
+        double colAvg = 0.0; // TODO: Call colStore.avgSalary()
         long colTime = System.nanoTime() - start;
 
         System.out.printf("Row Store: %.2f ms (result: %.2f)%n",
@@ -641,28 +555,19 @@ public class StorageLayoutBenchmark {
         System.out.println("--- Aggregation Performance (avg salary by city) ---");
         int numRows = 100000;
 
-        // Setup
+        // TODO: Setup - populate both stores
         RowStore rowStore = new RowStore();
         ColumnStore colStore = new ColumnStore();
-        for (int i = 0; i < numRows; i++) {
-            RowStore.Row row = new RowStore.Row(
-                i, "User" + i, "user" + i + "@example.com",
-                20 + i % 50, "City" + (i % 10), 50000 + i % 100000
-            );
-            rowStore.insert(row);
-            colStore.insert(new ColumnStore.Row(
-                row.id, row.name, row.email, row.age, row.city, row.salary
-            ));
-        }
+        // TODO: Insert numRows into both stores
 
-        // Benchmark row store
+        // TODO: Benchmark row store aggregation
         long start = System.nanoTime();
-        Map<String, Double> rowResult = rowStore.avgSalaryByCity();
+        Map<String, Double> rowResult = null; // TODO: Call rowStore.avgSalaryByCity()
         long rowTime = System.nanoTime() - start;
 
-        // Benchmark column store
+        // TODO: Benchmark column store aggregation
         start = System.nanoTime();
-        Map<String, Double> colResult = colStore.avgSalaryByCity();
+        Map<String, Double> colResult = null; // TODO: Call colStore.avgSalaryByCity()
         long colTime = System.nanoTime() - start;
 
         System.out.printf("Row Store: %.2f ms%n", rowTime / 1e6);

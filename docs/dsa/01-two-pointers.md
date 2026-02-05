@@ -213,14 +213,8 @@ public class OppositeDirectionPointers {
      * TODO: Implement using two pointers from opposite ends
      */
     public static boolean isPalindrome(String s) {
-        // TODO: Initialize left = 0, right = s.length() - 1
-
-        // TODO: While left < right
-        //   Compare s.charAt(left) with s.charAt(right)
-        //   If different, return false
-        //   Move pointers: left++, right--
-
-        // TODO: If loop completes, return true
+        // TODO: Use two pointers moving towards each other
+        // Consider the loop termination condition
 
         return false; // Replace with implementation
     }
@@ -232,13 +226,8 @@ public class OppositeDirectionPointers {
      * TODO: Implement two-pointer pair sum
      */
     public static int[] twoSum(int[] nums, int target) {
-        // TODO: Initialize left = 0, right = nums.length - 1
-
-        // TODO: While left < right
-        //   Calculate sum = nums[left] + nums[right]
-        //   If sum == target, return [left, right]
-        //   If sum < target, move left++ (need larger sum)
-        //   If sum > target, move right-- (need smaller sum)
+        // TODO: Start pointers at opposite ends
+        // How should pointers move based on current sum vs target?
 
         return new int[] {-1, -1}; // Replace with implementation
     }
@@ -250,9 +239,8 @@ public class OppositeDirectionPointers {
      * TODO: Implement using two pointers
      */
     public static void reverseArray(int[] arr) {
-        // TODO: left = 0, right = arr.length - 1
-        // TODO: While left < right, swap arr[left] with arr[right]
-        // TODO: left++, right--
+        // TODO: Use two pointers to swap elements
+        // What positions should they start at?
     }
 }
 ```
@@ -319,16 +307,8 @@ public class SameDirectionPointers {
     public static int removeDuplicates(int[] nums) {
         if (nums.length == 0) return 0;
 
-        // TODO: slow = 0 (tracks position of last unique element)
-        // TODO: fast = 1 (explores array)
-
-        // TODO: While fast < nums.length
-        //   If nums[fast] != nums[slow]
-        //     slow++
-        //     nums[slow] = nums[fast]
-        //   fast++
-
-        // TODO: Return slow + 1 (new length)
+        // TODO: One pointer tracks unique elements, other explores
+        // When should you copy a value? What should be returned?
 
         return 0; // Replace with implementation
     }
@@ -340,14 +320,8 @@ public class SameDirectionPointers {
      * TODO: Implement using slow/fast pointers
      */
     public static void moveZeroes(int[] nums) {
-        // TODO: slow = 0 (position to place next non-zero)
-        // TODO: fast = 0 (explores array)
-
-        // TODO: While fast < nums.length
-        //   If nums[fast] != 0
-        //     Swap nums[slow] with nums[fast]
-        //     slow++
-        //   fast++
+        // TODO: Track position for non-zero elements
+        // How can swapping help maintain order?
     }
 
     /**
@@ -357,16 +331,8 @@ public class SameDirectionPointers {
      * TODO: Implement partition logic
      */
     public static int partition(int[] arr, int pivot) {
-        // TODO: slow = 0 (boundary between < pivot and >= pivot)
-        // TODO: fast = 0 (explores array)
-
-        // TODO: While fast < arr.length
-        //   If arr[fast] < pivot
-        //     Swap arr[slow] with arr[fast]
-        //     slow++
-        //   fast++
-
-        // TODO: Return slow (partition index)
+        // TODO: Maintain a boundary between partitions
+        // What determines when to swap elements?
 
         return 0; // Replace with implementation
     }
@@ -440,14 +406,8 @@ public class DifferentSpeedPointers {
      * TODO: Implement using slow/fast pointers
      */
     public static boolean hasCycle(ListNode head) {
-        // TODO: slow = head, fast = head
-
-        // TODO: While fast != null && fast.next != null
-        //   slow = slow.next (move 1 step)
-        //   fast = fast.next.next (move 2 steps)
-        //   If slow == fast, return true (cycle detected)
-
-        // TODO: Return false (no cycle)
+        // TODO: Move pointers at different speeds
+        // What happens when they meet?
 
         return false; // Replace with implementation
     }
@@ -460,13 +420,8 @@ public class DifferentSpeedPointers {
      * TODO: Implement using slow/fast pointers
      */
     public static ListNode findMiddle(ListNode head) {
-        // TODO: slow = head, fast = head
-
-        // TODO: While fast != null && fast.next != null
-        //   slow = slow.next
-        //   fast = fast.next.next
-
-        // TODO: Return slow (it's at middle when fast reaches end)
+        // TODO: Use different pointer speeds
+        // Where is the slow pointer when fast reaches the end?
 
         return null; // Replace with implementation
     }
@@ -478,18 +433,8 @@ public class DifferentSpeedPointers {
      * TODO: Implement using two pointers with gap
      */
     public static ListNode findKthFromEnd(ListNode head, int k) {
-        // TODO: fast = head, slow = head
-
-        // TODO: Move fast k steps ahead
-        //   For i = 0 to k-1: fast = fast.next
-        //   If fast becomes null, k is too large
-
-        // TODO: Move both pointers until fast reaches end
-        //   While fast.next != null:
-        //     slow = slow.next
-        //     fast = fast.next
-
-        // TODO: Return slow (it's k nodes from end)
+        // TODO: Create a fixed gap between pointers
+        // When one reaches the end, where is the other?
 
         return null; // Replace with implementation
     }

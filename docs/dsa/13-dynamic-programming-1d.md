@@ -332,9 +332,6 @@ public class FibonacciStyle {
         // TODO: Base cases: n=1 -> 1, n=2 -> 2
 
         // TODO: DP approach (bottom-up):
-        //   dp[i] = ways to reach step i
-        //   dp[i] = dp[i-1] + dp[i-2]
-        //   Optimize space: only need last 2 values
 
         return 0; // Replace with implementation
     }
@@ -348,7 +345,6 @@ public class FibonacciStyle {
     public static int rob(int[] nums) {
         // TODO: dp[i] = max money robbing up to house i
         // TODO: dp[i] = max(dp[i-1], dp[i-2] + nums[i])
-        //   Either skip house i or rob it (can't rob i-1)
         // TODO: Optimize space: only need last 2 values
 
         return 0; // Replace with implementation
@@ -363,8 +359,6 @@ public class FibonacciStyle {
     public static int robCircular(int[] nums) {
         // TODO: Can't rob both first and last house
         // TODO: Try two scenarios:
-        //   1. Rob houses 0 to n-2
-        //   2. Rob houses 1 to n-1
         // TODO: Return max of both
 
         return 0; // Replace with implementation
@@ -484,7 +478,7 @@ public class DecisionProblems {
      */
     public static int change(int amount, int[] coins) {
         // TODO: dp[i] = ways to make amount i
-        // TODO: For each coin, update all amounts >= coin
+        // TODO: Implement iteration/conditional logic
         // TODO: dp[i] += dp[i - coin]
 
         return 0; // Replace with implementation
@@ -511,10 +505,10 @@ public class DecisionProblems {
      * TODO: Implement subset sum DP
      */
     public static boolean canPartition(int[] nums) {
-        // TODO: If total sum is odd, return false
+        // TODO: Implement iteration/conditional logic
         // TODO: Problem becomes: can we make sum/2?
         // TODO: dp[i] = can we make sum i?
-        // TODO: For each num, update dp array backwards
+        // TODO: Implement iteration/conditional logic
 
         return false; // Replace with implementation
     }
@@ -628,7 +622,7 @@ public class StringDP {
      */
     public static int lengthOfLIS(int[] nums) {
         // TODO: dp[i] = length of LIS ending at i
-        // TODO: dp[i] = max(dp[j] + 1) for all j < i where nums[j] < nums[i]
+        // TODO: Implement logic
         // TODO: Return max value in dp array
 
         return 0; // Replace with implementation
@@ -752,9 +746,6 @@ public class StockProblems {
      */
     public static int maxProfitCooldown(int[] prices) {
         // TODO: Track three states:
-        //   hold: max profit with stock
-        //   sold: max profit just sold
-        //   rest: max profit resting (not holding)
         // TODO: Transitions: hold -> sold -> rest -> hold
 
         return 0; // Replace with implementation

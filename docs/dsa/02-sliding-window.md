@@ -240,16 +240,8 @@ public class FixedWindow {
     public static double maxAverageSubarray(int[] nums, int k) {
         if (nums.length < k) return 0.0;
 
-        // TODO: Calculate sum of first k elements
-        //   int windowSum = 0;
-        //   for (int i = 0; i < k; i++) windowSum += nums[i];
-        //   double maxAvg = windowSum / (double) k;
-
-        // TODO: Slide window:
-        //   for (int i = k; i < nums.length; i++)
-        //     Remove nums[i-k] from windowSum
-        //     Add nums[i] to windowSum
-        //     Update maxAvg if needed
+        // TODO: Calculate initial window sum
+        // Slide the window and update max as you go
 
         return 0.0; // Replace with implementation
     }
@@ -261,13 +253,7 @@ public class FixedWindow {
      * TODO: Implement using HashSet as fixed window
      */
     public static boolean containsNearbyDuplicate(int[] nums, int k) {
-        // TODO: Create HashSet for window
-        //   Set<Integer> window = new HashSet<>();
-
-        // TODO: For each index i:
-        //   If window contains nums[i], return true
-        //   Add nums[i] to window
-        //   If window.size() > k, remove nums[i-k]
+        // TODO: Use a set to track elements in current window
 
         return false; // Replace with implementation
     }
@@ -279,9 +265,8 @@ public class FixedWindow {
      * TODO: Implement using deque for efficient max tracking
      */
     public static int[] maxSlidingWindow(int[] nums, int k) {
-        // TODO: Use Deque<Integer> to store indices
-        //   Deque stores indices in decreasing order of values
-        //   Front of deque always has index of maximum in current window
+        // TODO: Use a deque to maintain useful elements in window
+        // Keep elements in decreasing order for easy max access
 
         return new int[0]; // Replace with implementation
     }
@@ -359,13 +344,7 @@ public class DynamicWindow {
         Set<Character> window = new HashSet<>();
         int left = 0, maxLen = 0;
 
-        // TODO: For each right pointer (0 to s.length()):
-        //   char c = s.charAt(right)
-        //   While window contains c:
-        //     Remove s.charAt(left) from window
-        //     left++
-        //   Add c to window
-        //   Update maxLen = Math.max(maxLen, right - left + 1)
+        // TODO: Implement iteration/conditional logic
 
         return 0; // Replace with implementation
     }
@@ -382,13 +361,7 @@ public class DynamicWindow {
         Map<Character, Integer> window = new HashMap<>();
         int left = 0, maxLen = 0;
 
-        // TODO: For each right pointer:
-        //   Add s.charAt(right) to window (increment frequency)
-        //   While window.size() > k:
-        //     Decrease frequency of s.charAt(left)
-        //     If frequency becomes 0, remove from window
-        //     left++
-        //   Update maxLen
+        // TODO: Implement iteration/conditional logic
 
         return 0; // Replace with implementation
     }
@@ -402,12 +375,7 @@ public class DynamicWindow {
     public static int minSubArrayLen(int target, int[] nums) {
         int left = 0, sum = 0, minLen = Integer.MAX_VALUE;
 
-        // TODO: For each right pointer:
-        //   Add nums[right] to sum
-        //   While sum >= target:
-        //     Update minLen = Math.min(minLen, right - left + 1)
-        //     Subtract nums[left] from sum
-        //     left++
+        // TODO: Implement iteration/conditional logic
 
         // TODO: Return minLen == Integer.MAX_VALUE ? 0 : minLen
 
@@ -487,16 +455,10 @@ public class StringWindow {
         if (s.length() < p.length()) return result;
 
         // TODO: Create frequency array for pattern p
-        //   int[] pCount = new int[26];
-        //   for (char c : p.toCharArray()) pCount[c - 'a']++;
 
         // TODO: Create frequency array for current window
-        //   int[] sCount = new int[26];
 
         // TODO: Fixed window of size p.length()
-        //   Build first window
-        //   Compare counts, if match add index 0
-        //   Slide window: remove left, add right, compare
 
         return result; // Replace with implementation
     }
@@ -525,13 +487,10 @@ public class StringWindow {
         if (s.isEmpty() || t.isEmpty()) return "";
 
         // TODO: Create frequency map for t
-        //   Map<Character, Integer> required = new HashMap<>();
 
         // TODO: Track matched characters
-        //   int matched = 0, required_size = required.size()
 
         // TODO: Expand right, shrink left when valid
-        //   Track minimum window start and length
 
         return ""; // Replace with implementation
     }
@@ -615,14 +574,7 @@ public class HybridWindow {
         int[] count = new int[26];
         int left = 0, maxCount = 0, maxLen = 0;
 
-        // TODO: For each right pointer:
-        //   Increment count[s.charAt(right) - 'A']
-        //   Update maxCount (most frequent char in window)
-        //   If (window_size - maxCount) > k:
-        //     Need to shrink window
-        //     Decrement count[s.charAt(left) - 'A']
-        //     left++
-        //   Update maxLen
+        // TODO: Implement iteration/conditional logic
 
         return 0; // Replace with implementation
     }
@@ -636,12 +588,7 @@ public class HybridWindow {
     public static int longestOnes(int[] nums, int k) {
         int left = 0, zeros = 0, maxLen = 0;
 
-        // TODO: For each right pointer:
-        //   If nums[right] == 0, increment zeros
-        //   While zeros > k:
-        //     If nums[left] == 0, decrement zeros
-        //     left++
-        //   Update maxLen
+        // TODO: Implement iteration/conditional logic
 
         return 0; // Replace with implementation
     }
@@ -656,12 +603,7 @@ public class HybridWindow {
         Map<Integer, Integer> basket = new HashMap<>();
         int left = 0, maxFruits = 0;
 
-        // TODO: For each right pointer:
-        //   Add fruits[right] to basket
-        //   While basket.size() > 2:
-        //     Remove fruits[left] from basket
-        //     left++
-        //   Update maxFruits
+        // TODO: Implement iteration/conditional logic
 
         return 0; // Replace with implementation
     }

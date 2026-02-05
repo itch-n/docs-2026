@@ -362,55 +362,35 @@ public class LRUCache<K, V> {
         Node<K, V> head, tail;
 
         DoublyLinkedList() {
-            // TODO: Initialize dummy head and tail
-            //   head = new Node<>(null, null);
-            //   tail = new Node<>(null, null);
-            //   head.next = tail;
-            //   tail.prev = head;
+            // TODO: Initialize sentinel nodes for cleaner edge case handling
         }
 
         /**
          * Add node to front (most recently used position)
          *
          * TODO: Implement addToFront
-         * - Insert node right after head
-         * - Update node.next, node.prev
-         * - Update head.next.prev and head.next
          */
         void addToFront(Node<K, V> node) {
-            // TODO: Insert after head
-            //   node.next = head.next;
-            //   node.prev = head;
-            //   head.next.prev = node;
-            //   head.next = node;
+            // TODO: Insert node right after head
         }
 
         /**
          * Remove node from list
          *
          * TODO: Implement remove
-         * - Update prev and next pointers to bypass node
          */
         void remove(Node<K, V> node) {
-            // TODO: Bypass node
-            //   node.prev.next = node.next;
-            //   node.next.prev = node.prev;
+            // TODO: Update prev/next pointers to bypass this node
         }
 
         /**
          * Remove and return least recently used (node before tail)
          *
          * TODO: Implement removeLast
-         * - Check if list is empty (tail.prev == head)
-         * - Remove tail.prev
-         * - Return removed node
          */
         Node<K, V> removeLast() {
-            // TODO: Remove LRU node
-            //   if (tail.prev == head) return null;
-            //   Node<K, V> last = tail.prev;
-            //   remove(last);
-            //   return last;
+            // TODO: Remove the node closest to tail
+            // Handle empty list case
 
             return null; // Replace
         }
@@ -419,13 +399,9 @@ public class LRUCache<K, V> {
          * Move existing node to front
          *
          * TODO: Implement moveToFront
-         * - Remove node from current position
-         * - Add to front
          */
         void moveToFront(Node<K, V> node) {
-            // TODO: Move to front
-            //   remove(node);
-            //   addToFront(node);
+            // TODO: Reposition node to mark it as most recently used
         }
     }
 
@@ -440,18 +416,9 @@ public class LRUCache<K, V> {
      * Time: O(1)
      *
      * TODO: Implement get
-     * - Lookup in cache HashMap
-     * - If found, move to front (mark as recently used)
-     * - Return value or null
      */
     public V get(K key) {
-        // TODO: Lookup in cache
-        //   Node<K, V> node = cache.get(key);
-        //   if (node == null) return null;
-
-        // TODO: Move to front (most recently used)
-        //   list.moveToFront(node);
-        //   return node.value;
+        // TODO: Lookup and update recency
 
         return null; // Replace
     }
@@ -461,34 +428,11 @@ public class LRUCache<K, V> {
      * Time: O(1)
      *
      * TODO: Implement put
-     * 1. If key exists, update value and move to front
-     * 2. If key is new:
-     *    - Check if at capacity, evict LRU if needed
-     *    - Create new node
-     *    - Add to front of list
-     *    - Add to cache HashMap
      */
     public void put(K key, V value) {
-        // TODO: Check if key exists
-        //   Node<K, V> node = cache.get(key);
-
-        // TODO: If exists, update and move to front
-        //   if (node != null) {
-        //     node.value = value;
-        //     list.moveToFront(node);
-        //     return;
-        //   }
-
-        // TODO: Check capacity and evict if needed
-        //   if (cache.size() >= capacity) {
-        //     Node<K, V> lru = list.removeLast();
-        //     if (lru != null) cache.remove(lru.key);
-        //   }
-
-        // TODO: Add new node
-        //   Node<K, V> newNode = new Node<>(key, value);
-        //   list.addToFront(newNode);
-        //   cache.put(key, newNode);
+        // TODO: Handle updates to existing keys
+        // Handle eviction when at capacity
+        // Add new entries appropriately
     }
 
     public int size() {
@@ -537,25 +481,24 @@ public class LFUCache<K, V> {
         Node<K, V> head, tail;
 
         DoublyLinkedList() {
-            // TODO: Same as LRU - initialize dummy nodes
+            // TODO: Initialize sentinel nodes
         }
 
         void addToFront(Node<K, V> node) {
-            // TODO: Same as LRU
+            // TODO: Add to front of list
         }
 
         void remove(Node<K, V> node) {
-            // TODO: Same as LRU
+            // TODO: Remove from list
         }
 
         Node<K, V> removeLast() {
-            // TODO: Same as LRU
+            // TODO: Remove least frequently used
             return null;
         }
 
         boolean isEmpty() {
-            // TODO: Check if list is empty
-            //   return head.next == tail;
+            // TODO: Check if list has any nodes
             return true;
         }
     }
@@ -572,18 +515,9 @@ public class LFUCache<K, V> {
      * Time: O(1)
      *
      * TODO: Implement get
-     * - Lookup in cache
-     * - If found, update frequency (move to next freq list)
-     * - Return value
      */
     public V get(K key) {
-        // TODO: Lookup node
-        //   Node<K, V> node = cache.get(key);
-        //   if (node == null) return null;
-
-        // TODO: Update frequency
-        //   updateFrequency(node);
-        //   return node.value;
+        // TODO: Lookup and update frequency tracking
 
         return null; // Replace
     }
@@ -593,67 +527,22 @@ public class LFUCache<K, V> {
      * Time: O(1)
      *
      * TODO: Implement put
-     * 1. If key exists, update value and frequency
-     * 2. If key is new:
-     *    - Check capacity, evict LFU if needed
-     *    - Create node with freq=1
-     *    - Add to freq=1 list
-     *    - Set minFreq=1
      */
     public void put(K key, V value) {
         if (capacity <= 0) return;
 
-        // TODO: Check if key exists
-        //   Node<K, V> node = cache.get(key);
-
-        // TODO: If exists, update
-        //   if (node != null) {
-        //     node.value = value;
-        //     updateFrequency(node);
-        //     return;
-        //   }
-
-        // TODO: Evict if at capacity
-        //   if (cache.size() >= capacity) {
-        //     DoublyLinkedList<K, V> minFreqList = freqMap.get(minFreq);
-        //     Node<K, V> lfu = minFreqList.removeLast();
-        //     if (lfu != null) cache.remove(lfu.key);
-        //   }
-
-        // TODO: Add new node
-        //   Node<K, V> newNode = new Node<>(key, value);
-        //   cache.put(key, newNode);
-        //   minFreq = 1;
-        //   freqMap.computeIfAbsent(1, k -> new DoublyLinkedList<>())
-        //          .addToFront(newNode);
+        // TODO: Handle updates and new insertions
+        // Evict least frequently used when at capacity
+        // Manage frequency tracking structures
     }
 
     /**
      * Update frequency of node
      *
      * TODO: Implement updateFrequency
-     * 1. Remove node from current frequency list
-     * 2. If that was the only node at minFreq, increment minFreq
-     * 3. Increment node.freq
-     * 4. Add node to new frequency list
      */
     private void updateFrequency(Node<K, V> node) {
-        // TODO: Get current frequency list
-        //   int freq = node.freq;
-        //   DoublyLinkedList<K, V> list = freqMap.get(freq);
-
-        // TODO: Remove from current list
-        //   list.remove(node);
-
-        // TODO: Update minFreq if needed
-        //   if (freq == minFreq && list.isEmpty()) {
-        //     minFreq++;
-        //   }
-
-        // TODO: Increment frequency and add to new list
-        //   node.freq++;
-        //   freqMap.computeIfAbsent(node.freq, k -> new DoublyLinkedList<>())
-        //          .addToFront(node);
+        // TODO: Move node from current frequency list to next
     }
 }
 ```
@@ -690,22 +579,9 @@ public class WriteThroughCache<K, V> {
      * Get value
      *
      * TODO: Implement cache-aside pattern
-     * 1. Try cache first
-     * 2. On miss, read from database
-     * 3. Populate cache
-     * 4. Return value
      */
     public V get(K key) {
-        // TODO: Try cache
-        //   V value = cache.get(key);
-        //   if (value != null) return value;
-
-        // TODO: Cache miss - read from database
-        //   value = database.read(key);
-        //   if (value != null) {
-        //     cache.put(key, value);
-        //   }
-        //   return value;
+        // TODO: Check cache first, then fallback to database
 
         return null; // Replace
     }
@@ -714,14 +590,9 @@ public class WriteThroughCache<K, V> {
      * Put value
      *
      * TODO: Implement write-through
-     * - Write to cache
-     * - Write to database (synchronously)
-     * - Both must succeed
      */
     public void put(K key, V value) {
-        // TODO: Write to both
-        //   cache.put(key, value);
-        //   database.write(key, value);
+        // TODO: Update both cache and database synchronously
     }
 }
 ```
@@ -760,36 +631,16 @@ public class WriteBackCache<K, V> {
         this.dirtyEntries = new ConcurrentHashMap<>();
         this.flusher = Executors.newSingleThreadScheduledExecutor();
 
-        // TODO: Schedule periodic flush
-        //   flusher.scheduleAtFixedRate(
-        //     this::flushDirtyEntries,
-        //     flushIntervalMs,
-        //     flushIntervalMs,
-        //     TimeUnit.MILLISECONDS
-        //   );
+        // TODO: Schedule background flush task
     }
 
     /**
      * Get value
      *
      * TODO: Implement get
-     * 1. Try cache
-     * 2. Try dirty entries (not yet flushed)
-     * 3. Try database
      */
     public V get(K key) {
-        // TODO: Try cache first
-        //   V value = cache.get(key);
-        //   if (value != null) return value;
-
-        // TODO: Check dirty entries
-        //   value = dirtyEntries.get(key);
-        //   if (value != null) return value;
-
-        // TODO: Read from database
-        //   value = database.read(key);
-        //   if (value != null) cache.put(key, value);
-        //   return value;
+        // TODO: Check cache, dirty entries, then database
 
         return null; // Replace
     }
@@ -798,42 +649,24 @@ public class WriteBackCache<K, V> {
      * Put value
      *
      * TODO: Implement write-back
-     * - Write to cache immediately (fast)
-     * - Mark as dirty for later flush
-     * - Don't wait for database write
      */
     public void put(K key, V value) {
-        // TODO: Write to cache immediately
-        //   cache.put(key, value);
-
-        // TODO: Mark as dirty
-        //   dirtyEntries.put(key, value);
+        // TODO: Update cache immediately
+        // Mark for later database flush
     }
 
     /**
      * Flush dirty entries to database
      *
      * TODO: Implement flush
-     * - For each dirty entry, write to database
-     * - Handle failures (retry, log, etc.)
-     * - Clear dirty entries on success
      */
     private void flushDirtyEntries() {
-        // TODO: Flush all dirty entries
-        //   for (Map.Entry<K, V> entry : dirtyEntries.entrySet()) {
-        //     try {
-        //       database.write(entry.getKey(), entry.getValue());
-        //     } catch (Exception e) {
-        //       System.err.println("Failed to flush: " + entry.getKey());
-        //     }
-        //   }
-        //   dirtyEntries.clear();
+        // TODO: Write all dirty entries to database
+        // Handle failures appropriately
     }
 
     public void shutdown() {
-        // TODO: Final flush before shutdown
-        //   flushDirtyEntries();
-        //   flusher.shutdown();
+        // TODO: Ensure all data is flushed before shutdown
     }
 }
 ```

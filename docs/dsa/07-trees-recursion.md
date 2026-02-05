@@ -409,7 +409,7 @@ public class TreeHeightDepth {
      * TODO: Implement recursive height calculation
      */
     public static int height(TreeNode root) {
-        // TODO: Base case: if root is null, return 0
+        // TODO: Handle base case
 
         // TODO: Recursively get left height
         // TODO: Recursively get right height
@@ -426,9 +426,6 @@ public class TreeHeightDepth {
      */
     public static boolean isBalanced(TreeNode root) {
         // TODO: Tree is balanced if:
-        //   1. Left subtree is balanced
-        //   2. Right subtree is balanced
-        //   3. Height difference <= 1
 
         // TODO: Return checkBalance(root) \!= -1
         return false; // Replace with implementation
@@ -438,12 +435,12 @@ public class TreeHeightDepth {
         // TODO: Base case: null returns 0
 
         // TODO: Check left subtree balance
-        // TODO: If left returns -1, return -1 (unbalanced)
+        // TODO: Implement iteration/conditional logic
 
         // TODO: Check right subtree balance
-        // TODO: If right returns -1, return -1 (unbalanced)
+        // TODO: Implement iteration/conditional logic
 
-        // TODO: If abs(left - right) > 1, return -1
+        // TODO: Implement iteration/conditional logic
         // TODO: Otherwise return 1 + max(left, right)
 
         return 0; // Replace with implementation
@@ -456,10 +453,10 @@ public class TreeHeightDepth {
      * TODO: Implement minimum depth
      */
     public static int minDepth(TreeNode root) {
-        // TODO: Base case: if root is null, return 0
+        // TODO: Handle base case
 
-        // TODO: If no left child, return 1 + minDepth(right)
-        // TODO: If no right child, return 1 + minDepth(left)
+        // TODO: Implement iteration/conditional logic
+        // TODO: Implement iteration/conditional logic
 
         // TODO: Both children exist: return 1 + min(left, right)
 
@@ -545,7 +542,7 @@ public class TreeDiameterPaths {
         int[] maxDiameter = new int[1];
 
         // TODO: Helper function to calculate height and update diameter
-        // TODO: For each node, diameter through it = leftHeight + rightHeight
+        // TODO: Implement iteration/conditional logic
         // TODO: Track maximum diameter seen
 
         calculateHeight(root, maxDiameter);
@@ -569,9 +566,9 @@ public class TreeDiameterPaths {
      * TODO: Implement path sum check
      */
     public static boolean hasPathSum(TreeNode root, int targetSum) {
-        // TODO: Base case: if root is null, return false
+        // TODO: Handle base case
 
-        // TODO: If leaf node, check if val == targetSum
+        // TODO: Implement iteration/conditional logic
 
         // TODO: Recursively check left and right subtrees
         // TODO: with targetSum - root.val
@@ -665,13 +662,13 @@ public class LowestCommonAncestor {
      * TODO: Implement LCA for binary tree
      */
     public static TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        // TODO: Base case: if root is null or matches p or q, return root
+        // TODO: Handle base case
 
         // TODO: Recursively search in left and right subtrees
 
-        // TODO: If both left and right found nodes, root is LCA
-        // TODO: If only left found, return left
-        // TODO: If only right found, return right
+        // TODO: Implement iteration/conditional logic
+        // TODO: Implement iteration/conditional logic
+        // TODO: Implement iteration/conditional logic
 
         return null; // Replace with implementation
     }
@@ -683,8 +680,8 @@ public class LowestCommonAncestor {
      * TODO: Implement LCA for BST
      */
     public static TreeNode lowestCommonAncestorBST(TreeNode root, TreeNode p, TreeNode q) {
-        // TODO: If both p and q are less than root, search left
-        // TODO: If both p and q are greater than root, search right
+        // TODO: Implement iteration/conditional logic
+        // TODO: Implement iteration/conditional logic
         // TODO: Otherwise, root is LCA
 
         return null; // Replace with implementation
@@ -770,10 +767,7 @@ public class TreeConstruction {
     public static TreeNode buildTreePreIn(int[] preorder, int[] inorder) {
         // TODO: Create map of inorder indices for O(1) lookup
         // TODO: Use helper with preorder index pointer
-        // TODO: For each preorder element:
-        //   Find position in inorder
-        //   Elements left of position = left subtree
-        //   Elements right of position = right subtree
+        // TODO: Implement iteration/conditional logic
 
         return null; // Replace with implementation
     }

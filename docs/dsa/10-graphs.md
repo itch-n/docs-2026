@@ -500,27 +500,17 @@ public class DFS {
 
         int count = 0;
 
-        // TODO: For each cell in grid:
-        //   If cell is '1' (land) and not visited:
-        //     Increment count
-        //     Call dfs(grid, i, j) to mark entire island
+        // TODO: Implement iteration/conditional logic
 
         return 0; // Replace with implementation
     }
 
     private static void dfs(char[][] grid, int i, int j) {
         // TODO: Base cases
-        //   If out of bounds: return
-        //   If water ('0'): return
 
-        // TODO: Mark current cell as visited (change '1' to '0' or use visited set)
-        //   grid[i][j] = '0';
+        // TODO: Implement logic
 
         // TODO: Recursively visit 4 neighbors
-        //   dfs(grid, i+1, j);  // down
-        //   dfs(grid, i-1, j);  // up
-        //   dfs(grid, i, j+1);  // right
-        //   dfs(grid, i, j-1);  // left
     }
 
     /**
@@ -538,15 +528,13 @@ public class DFS {
 
     private static boolean dfsPath(Map<Integer, List<Integer>> graph,
                                    int current, int target, Set<Integer> visited) {
-        // TODO: If current == target, return true
+        // TODO: Implement iteration/conditional logic
 
-        // TODO: If visited contains current, return false
+        // TODO: Implement iteration/conditional logic
 
         // TODO: Mark current as visited
 
-        // TODO: For each neighbor of current:
-        //   If dfsPath(graph, neighbor, target, visited) returns true:
-        //     Return true
+        // TODO: Implement iteration/conditional logic
 
         // TODO: Return false if no path found
 
@@ -620,18 +608,8 @@ public class BFS {
         int steps = 0;
 
         // TODO: Add start to queue and visited
-        //   queue.offer(start);
-        //   visited.add(start);
 
-        // TODO: While queue not empty:
-        //   int size = queue.size();
-        //   For each node in current level:
-        //     int node = queue.poll();
-        //     If node == end, return steps
-        //     For each neighbor:
-        //       If not visited:
-        //         Add to queue and visited
-        //   Increment steps
+        // TODO: Implement iteration/conditional logic
 
         return -1; // Not found
     }
@@ -650,18 +628,10 @@ public class BFS {
         Set<String> visited = new HashSet<>();
 
         // TODO: Start from (0, 0)
-        //   queue.offer(new int[]{0, 0});
-        //   visited.add("0,0");
 
         int moves = 0;
 
-        // TODO: While queue not empty:
-        //   Process all positions at current distance
-        //   For each position:
-        //     If reached target, return moves
-        //     Try all 8 knight moves
-        //     Add unvisited positions to queue
-        //   Increment moves
+        // TODO: Implement iteration/conditional logic
 
         return -1; // Replace
     }
@@ -678,16 +648,8 @@ public class BFS {
         int minutes = 0;
 
         // TODO: Count fresh oranges and add rotten to queue
-        //   For each cell in grid:
-        //     If grid[i][j] == 1, increment fresh
-        //     If grid[i][j] == 2, add (i, j) to queue
 
         // TODO: BFS to rot adjacent oranges
-        //   While queue not empty and fresh > 0:
-        //     Process all rotten at current minute
-        //     For each rotten, check 4 neighbors
-        //     If neighbor is fresh, rot it and add to queue
-        //     Increment minutes
 
         // TODO: Return minutes if all fresh rotted, else -1
 
@@ -768,28 +730,14 @@ public class TopologicalSort {
         int[] inDegree = new int[numCourses];
 
         // TODO: Initialize graph
-        //   for (int i = 0; i < numCourses; i++)
-        //     graph.add(new ArrayList<>());
 
         // TODO: Build graph from prerequisites
-        //   For each [course, prereq]:
-        //     graph.get(prereq).add(course);
-        //     inDegree[course]++;
 
         // TODO: Add all courses with inDegree 0 to queue
-        //   Queue<Integer> queue = new LinkedList<>();
-        //   for (int i = 0; i < numCourses; i++)
-        //     if (inDegree[i] == 0) queue.offer(i);
 
         int completed = 0;
 
         // TODO: Process courses in topological order
-        //   While queue not empty:
-        //     int course = queue.poll();
-        //     completed++;
-        //     For each dependent course:
-        //       Decrement inDegree
-        //       If inDegree becomes 0, add to queue
 
         // TODO: Return true if completed == numCourses
 
@@ -808,17 +756,10 @@ public class TopologicalSort {
         Stack<Integer> stack = new Stack<>();
 
         // TODO: Initialize graph
-        //   for (int i = 0; i < numCourses; i++)
-        //     graph.add(new ArrayList<>());
 
         // TODO: Build graph
-        //   For each [course, prereq]:
-        //     graph.get(prereq).add(course);
 
         // TODO: DFS from each unvisited node
-        //   For each course:
-        //     If dfs returns false (cycle detected):
-        //       Return empty array
 
         // TODO: Build result from stack (reverse order)
 
@@ -827,20 +768,15 @@ public class TopologicalSort {
 
     private static boolean dfsTopSort(List<List<Integer>> graph, int node,
                                      int[] visited, Stack<Integer> stack) {
-        // TODO: If node is being visited (1), cycle detected, return false
+        // TODO: Implement iteration/conditional logic
 
-        // TODO: If node already visited (2), return true
+        // TODO: Implement iteration/conditional logic
 
         // TODO: Mark as being visited
-        //   visited[node] = 1;
 
         // TODO: Visit all neighbors
-        //   For each neighbor:
-        //     If dfs fails, return false
 
         // TODO: Mark as visited and push to stack
-        //   visited[node] = 2;
-        //   stack.push(node);
 
         return true; // Replace
     }
@@ -902,26 +838,20 @@ public class CycleDetection {
         // TODO: Build graph
 
         // TODO: DFS from each unvisited node
-        //   For each node:
-        //     If dfs detects cycle, return true
 
         return false; // Replace
     }
 
     private static boolean dfsCycleDirected(List<List<Integer>> graph, int node, int[] state) {
-        // TODO: If state[node] == 1 (visiting), cycle found, return true
+        // TODO: Implement iteration/conditional logic
 
-        // TODO: If state[node] == 2 (visited), no cycle from here, return false
+        // TODO: Implement iteration/conditional logic
 
         // TODO: Mark as visiting
-        //   state[node] = 1;
 
         // TODO: Visit all neighbors
-        //   For each neighbor:
-        //     If dfs finds cycle, return true
 
         // TODO: Mark as visited
-        //   state[node] = 2;
 
         return false; // Replace
     }
@@ -939,8 +869,6 @@ public class CycleDetection {
         // TODO: Build graph (both directions for undirected)
 
         // TODO: DFS from each unvisited component
-        //   For each node:
-        //     If not visited and dfs finds cycle, return true
 
         return false; // Replace
     }
@@ -950,10 +878,6 @@ public class CycleDetection {
         // TODO: Mark as visited
 
         // TODO: Visit all neighbors
-        //   For each neighbor:
-        //     If neighbor == parent, skip (came from here)
-        //     If neighbor is visited, cycle found, return true
-        //     If dfs from neighbor finds cycle, return true
 
         return false; // Replace
     }
@@ -1018,24 +942,12 @@ public class DijkstraAlgorithm {
         Map<Integer, List<int[]>> graph = new HashMap<>();
 
         // TODO: Build graph from times array
-        //   for (int[] time : times) {
-        //     int src = time[0], dst = time[1], weight = time[2];
-        //     graph.computeIfAbsent(src, x -> new ArrayList<>()).add(new int[]{dst, weight});
-        //   }
 
         // TODO: Initialize distances array
-        //   int[] dist = new int[n + 1];
-        //   Arrays.fill(dist, Integer.MAX_VALUE);
-        //   dist[k] = 0;
 
         // TODO: Use PriorityQueue (min-heap) to track [distance, node]
-        //   PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[0] - b[0]);
-        //   pq.offer(new int[]{0, k});
 
         // TODO: Process nodes in order of distance
-        //   While pq not empty:
-        //     int[] curr = pq.poll();
-        //     int d = curr[0], node = curr[1];
         //
         //     If d > dist[node], skip (already processed)
         //
@@ -1045,13 +957,7 @@ public class DijkstraAlgorithm {
         //         dist[neighbor] = newDist;
         //         pq.offer(new int[]{newDist, neighbor});
 
-        // TODO: Find maximum distance (time for all nodes to receive signal)
-        //   int maxTime = 0;
-        //   for (int i = 1; i <= n; i++) {
-        //     if (dist[i] == Integer.MAX_VALUE) return -1;
-        //     maxTime = Math.max(maxTime, dist[i]);
-        //   }
-        //   return maxTime;
+        // TODO: Implement logic
 
         return -1; // Replace
     }
@@ -1068,11 +974,8 @@ public class DijkstraAlgorithm {
         dist[start] = 0;
 
         // TODO: Use PriorityQueue for efficient minimum extraction
-        //   PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[0] - b[0]);
-        //   pq.offer(new int[]{0, start});
 
         // TODO: Process each node once
-        //   Set<Integer> visited = new HashSet<>();
         //
         //   While pq not empty:
         //     int[] curr = pq.poll();
@@ -1149,30 +1052,12 @@ public class MinimumSpanningTree {
         int n = points.length;
 
         // TODO: Build adjacency list with Manhattan distances
-        //   Map<Integer, List<int[]>> graph = new HashMap<>();
-        //   for (int i = 0; i < n; i++) {
-        //     graph.put(i, new ArrayList<>());
-        //     for (int j = 0; j < n; j++) {
-        //       if (i != j) {
-        //         int dist = Math.abs(points[i][0] - points[j][0]) +
-        //                    Math.abs(points[i][1] - points[j][1]);
-        //         graph.get(i).add(new int[]{j, dist});
-        //       }
-        //     }
-        //   }
 
         // TODO: Use PriorityQueue to track [cost, node]
-        //   PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[0] - b[0]);
-        //   pq.offer(new int[]{0, 0}); // Start from node 0 with cost 0
 
         // TODO: Track visited nodes and total cost
-        //   Set<Integer> visited = new HashSet<>();
-        //   int totalCost = 0;
 
         // TODO: Greedily add minimum cost edges
-        //   While visited.size() < n:
-        //     int[] curr = pq.poll();
-        //     int cost = curr[0], node = curr[1];
         //
         //     If visited contains node, skip
         //
@@ -1194,19 +1079,13 @@ public class MinimumSpanningTree {
      */
     public static int primMST(Map<Integer, List<int[]>> graph, int n) {
         // TODO: Use PriorityQueue for minimum edge selection
-        //   PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[0] - b[0]);
 
         // TODO: Start from node 0
-        //   Set<Integer> visited = new HashSet<>();
-        //   int totalCost = 0;
         //
         //   Add all edges from node 0 to pq
         //   visited.add(0);
 
         // TODO: Process edges in order of weight
-        //   While visited.size() < n and pq not empty:
-        //     int[] edge = pq.poll();
-        //     int cost = edge[0], node = edge[1];
         //
         //     If visited contains node, skip
         //

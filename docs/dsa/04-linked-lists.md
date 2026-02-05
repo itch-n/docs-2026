@@ -322,15 +322,11 @@ public class ReverseLinkedList {
      * TODO: Implement iteratively using three pointers
      */
     public static ListNode reverseList(ListNode head) {
-        // TODO: prev = null, curr = head
+        // TODO: Initialize pointers/variables
 
-        // TODO: While curr != null:
-        //   Save next = curr.next
-        //   Reverse pointer: curr.next = prev
-        //   Move prev = curr
-        //   Move curr = next
+        // TODO: Implement iteration/conditional logic
 
-        // TODO: Return prev (new head)
+        // TODO: Return result
 
         return null; // Replace with implementation
     }
@@ -342,11 +338,11 @@ public class ReverseLinkedList {
      * TODO: Implement recursive reversal
      */
     public static ListNode reverseListRecursive(ListNode head) {
-        // TODO: Base case: if head == null or head.next == null, return head
+        // TODO: Handle base case
 
         // TODO: Recursively reverse rest: newHead = reverse(head.next)
 
-        // TODO: Reverse current: head.next.next = head
+        // TODO: Update state
         // TODO: Set head.next = null
 
         // TODO: Return newHead
@@ -466,12 +462,9 @@ public class CycleDetection {
      * TODO: Implement Floyd's cycle detection
      */
     public static boolean hasCycle(ListNode head) {
-        // TODO: slow = head, fast = head
+        // TODO: Initialize pointers/variables
 
-        // TODO: While fast != null && fast.next != null:
-        //   slow = slow.next (1 step)
-        //   fast = fast.next.next (2 steps)
-        //   If slow == fast, return true
+        // TODO: Implement iteration/conditional logic
 
         // TODO: Return false
 
@@ -487,10 +480,7 @@ public class CycleDetection {
     public static ListNode detectCycle(ListNode head) {
         // TODO: First detect if cycle exists (same as hasCycle)
 
-        // TODO: If cycle found:
-        //   Reset slow to head
-        //   Move both slow and fast one step at a time
-        //   They meet at cycle start
+        // TODO: Implement iteration/conditional logic
 
         return null; // Replace with implementation
     }
@@ -504,7 +494,7 @@ public class CycleDetection {
     public static void removeCycle(ListNode head) {
         // TODO: Find cycle start
         // TODO: Traverse to find node before cycle start
-        // TODO: Set that node's next to null
+        // TODO: Track state
     }
 
     // Helper: Create list from array
@@ -595,10 +585,7 @@ public class MergeLists {
     public static ListNode mergeTwoLists(ListNode l1, ListNode l2) {
         // TODO: Create dummy node to simplify edge cases
 
-        // TODO: While both lists have nodes:
-        //   Compare values
-        //   Attach smaller node to result
-        //   Advance pointer
+        // TODO: Implement iteration/conditional logic
 
         // TODO: Attach remaining nodes from non-empty list
 
@@ -617,12 +604,6 @@ public class MergeLists {
         // TODO: Base cases: if l1 null return l2, if l2 null return l1
 
         // TODO: Compare values:
-        //   If l1.val < l2.val:
-        //     l1.next = merge(l1.next, l2)
-        //     return l1
-        //   Else:
-        //     l2.next = merge(l1, l2.next)
-        //     return l2
 
         return null; // Replace with implementation
     }
@@ -641,10 +622,7 @@ public class MergeLists {
 
         // TODO: Create dummy node
 
-        // TODO: While queue not empty:
-        //   Poll minimum node
-        //   Add to result
-        //   If polled node has next, add next to queue
+        // TODO: Implement iteration/conditional logic
 
         // TODO: Return dummy.next
 
@@ -762,7 +740,7 @@ public class RemoveNode {
     public static ListNode removeNthFromEnd(ListNode head, int n) {
         // TODO: Create dummy node pointing to head (handles edge case)
 
-        // TODO: fast = dummy, slow = dummy
+        // TODO: Initialize pointers/variables
 
         // TODO: Move fast n+1 steps ahead
 
@@ -784,11 +762,7 @@ public class RemoveNode {
     public static ListNode deleteDuplicates(ListNode head) {
         // TODO: current = head
 
-        // TODO: While current and current.next exist:
-        //   If current.val == current.next.val:
-        //     Skip next node
-        //   Else:
-        //     Move to next
+        // TODO: Implement iteration/conditional logic
 
         return null; // Replace with implementation
     }

@@ -405,16 +405,12 @@ public class TwoPhaseCommit {
         if (allYes) {
             System.out.println("Phase 2: Commit");
             // TODO: Send commit to all participants
-            // for participant:
-            //   participant.commit(transactionId)
             // TODO: Log commit
             // TODO: Return success
 
         } else {
             System.out.println("Phase 2: Abort");
             // TODO: Send abort to all participants
-            // for participant:
-            //   participant.abort(transactionId)
             // TODO: Log abort
             // TODO: Return failure
         }
@@ -446,8 +442,6 @@ public class TwoPhaseCommit {
             System.out.println(id + " preparing: " + operation);
 
             // TODO: Check if can commit (simulate)
-            // Save prepared state
-            // Return vote
 
             // Simulate: random failure 20% of time
             if (Math.random() < 0.2) {
@@ -719,8 +713,6 @@ public class SagaChoreography {
         // TODO: Get handlers for event type
 
         // TODO: Execute each handler
-        // for handler in handlers:
-        //   handler.handle(event, eventBus)
     }
 
     /**
@@ -843,10 +835,7 @@ public class CompensationHandler {
     public void compensateAll() {
         System.out.println("Starting compensation");
 
-        // TODO: While stack not empty:
-        //   Pop action
-        //   Execute compensation
-        //   Handle errors (log but continue)
+        // TODO: Implement iteration/conditional logic
 
         while (!completedActions.isEmpty()) {
             CompensatingAction action = completedActions.pop();
@@ -931,7 +920,7 @@ public class EventSourcedAggregate {
 
         // TODO: Initialize events list
 
-        // TODO: Set version to 0
+        // TODO: Track state
 
         this.aggregateId = null; // Replace
         this.events = null; // Replace
@@ -973,9 +962,7 @@ public class EventSourcedAggregate {
     public void replayEvents(List<DomainEvent> events) {
         System.out.println("Replaying " + events.size() + " events");
 
-        // TODO: For each event:
-        //   Apply event
-        //   Update version
+        // TODO: Implement iteration/conditional logic
     }
 
     /**

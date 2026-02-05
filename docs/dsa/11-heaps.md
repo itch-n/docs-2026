@@ -331,9 +331,7 @@ public class BasicHeapOperations {
      */
     public static int findKthLargest(int[] nums, int k) {
         // TODO: Create PriorityQueue (min-heap) of size k
-        // TODO: For each num in nums:
-        //   Add num to heap
-        //   If heap size > k, remove smallest (poll)
+        // TODO: Implement iteration/conditional logic
         // TODO: Return heap.peek() (kth largest)
 
         return 0; // Replace with implementation
@@ -439,10 +437,7 @@ public class MergeKSorted {
     public static ListNode mergeKLists(ListNode[] lists) {
         // TODO: Create min-heap with comparator on node.val
         // TODO: Add first node from each list to heap
-        // TODO: While heap not empty:
-        //   Extract min node
-        //   Add to result
-        //   If min node has next, add next to heap
+        // TODO: Implement iteration/conditional logic
 
         return null; // Replace with implementation
     }
@@ -580,9 +575,7 @@ public class TopKFrequent {
     public static List<Integer> topKFrequent(int[] nums, int k) {
         // TODO: Count frequencies with HashMap
         // TODO: Create min-heap of size k, ordered by frequency
-        // TODO: For each entry in frequency map:
-        //   Add to heap
-        //   If size > k, remove min frequency
+        // TODO: Implement iteration/conditional logic
         // TODO: Return heap contents
 
         return new ArrayList<>(); // Replace with implementation
@@ -701,8 +694,8 @@ public class TwoHeaps {
         }
 
         public double findMedian() {
-            // TODO: If heaps same size: average of two tops
-            // TODO: If different size: top of larger heap
+            // TODO: Implement iteration/conditional logic
+            // TODO: Implement iteration/conditional logic
             return 0.0; // Replace with implementation
         }
     }

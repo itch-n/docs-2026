@@ -359,10 +359,7 @@ public class BasicTrie {
          */
         public void insert(String word) {
             // TODO: Start from root
-            // TODO: For each character:
-            //   Calculate index (char - 'a')
-            //   If child doesn't exist, create new node
-            //   Move to child node
+            // TODO: Implement iteration/conditional logic
             // TODO: Mark last node as end of word
         }
 
@@ -375,8 +372,6 @@ public class BasicTrie {
         public boolean search(String word) {
             // TODO: Traverse trie following characters
             // TODO: Return true only if:
-            //   - All characters found
-            //   - Last node is marked as end of word
             return false; // Replace with implementation
         }
 
@@ -389,7 +384,6 @@ public class BasicTrie {
         public boolean startsWith(String prefix) {
             // TODO: Similar to search
             // TODO: Return true if all characters found
-            //   (don't check isEndOfWord)
             return false; // Replace with implementation
         }
 
@@ -407,16 +401,8 @@ public class BasicTrie {
 
         private boolean deleteHelper(TrieNode node, String word, int index) {
             // TODO: Base case: reached end of word
-            //   If not end of word, return false
-            //   Mark isEndOfWord = false
-            //   Return true if node has no children (can be deleted)
 
             // TODO: Recursive case:
-            //   Get child for current character
-            //   If child null, word doesn't exist
-            //   Recursively delete from child
-            //   If child should be deleted and has no other children,
-            //   remove child and return true
 
             return false; // Replace with implementation
         }
@@ -519,7 +505,7 @@ public class WordSearchTrie {
         // TODO: Check bounds and visited
         // TODO: Get character at current position
         // TODO: Check if character exists in trie children
-        // TODO: If node has word, add to result
+        // TODO: Implement iteration/conditional logic
         // TODO: Mark visited
         // TODO: DFS in 4 directions
         // TODO: Unmark visited (backtrack)
@@ -638,7 +624,7 @@ public class Autocomplete {
             List<String> results = new ArrayList<>();
 
             // TODO: Navigate to end of prefix
-            // TODO: If prefix not found, return empty list
+            // TODO: Implement iteration/conditional logic
             // TODO: DFS from prefix node to collect all words
             // TODO: Return results
 
@@ -646,7 +632,7 @@ public class Autocomplete {
         }
 
         private void collectWords(TrieNode node, List<String> results) {
-            // TODO: If node is end of word, add to results
+            // TODO: Implement iteration/conditional logic
             // TODO: DFS all children
         }
 
@@ -673,8 +659,7 @@ public class Autocomplete {
      */
     public static List<List<String>> suggestedProducts(String[] products, String searchWord) {
         // TODO: Build trie from products
-        // TODO: For each prefix of searchWord:
-        //   Find up to 3 lexicographically smallest products
+        // TODO: Implement iteration/conditional logic
         // TODO: Return list of suggestions for each prefix
 
         return new ArrayList<>(); // Replace with implementation
@@ -754,8 +739,6 @@ public class AdvancedTrie {
     public static String longestCommonPrefix(String[] strs) {
         // TODO: Build trie from all strings
         // TODO: Traverse trie while:
-        //   - Only one child exists
-        //   - Not end of word
         // TODO: Return prefix
 
         return ""; // Replace with implementation
@@ -811,9 +794,7 @@ public class AdvancedTrie {
      */
     public static String replaceWords(List<String> dictionary, String sentence) {
         // TODO: Build trie from dictionary
-        // TODO: For each word in sentence:
-        //   Find shortest prefix that's in trie
-        //   Replace word with prefix if found
+        // TODO: Implement iteration/conditional logic
         // TODO: Return modified sentence
 
         return ""; // Replace with implementation

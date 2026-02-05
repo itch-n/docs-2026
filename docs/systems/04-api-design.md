@@ -611,10 +611,10 @@ public class RESTAPIServer {
     public Response getUser(String userId) {
         // TODO: Lookup user in users map
 
-        // TODO: If found, return 200 with user data
+        // TODO: Implement iteration/conditional logic
         // Include links: { "posts": "/users/{id}/posts" }
 
-        // TODO: If not found, return 404
+        // TODO: Implement iteration/conditional logic
 
         return null; // Replace
     }
@@ -778,9 +778,7 @@ public class GraphQLResolver {
 
         // TODO: Resolve root field (user, users, post)
 
-        // TODO: For each requested field:
-        //   - Resolve scalar fields (id, name, email)
-        //   - Resolve nested objects (posts, author)
+        // TODO: Implement iteration/conditional logic
 
         // TODO: Return only requested data
 

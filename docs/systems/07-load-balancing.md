@@ -408,7 +408,6 @@ public class LeastConnectionsLoadBalancer {
         // TODO: Check if servers list is empty
 
         // TODO: Find server with minimum connections
-        // Iterate through servers, track min
 
         // TODO: Increment connection count for selected server
 
@@ -521,13 +520,9 @@ public class WeightedRoundRobinLoadBalancer {
             // TODO: Move to next index (wraparound)
             // currentIndex = (currentIndex + 1) % servers.size()
 
-            // TODO: If back to start, decrease currentWeight
-            // if (currentIndex == 0):
-            //   currentWeight = currentWeight - gcd
-            //   if (currentWeight <= 0):
-            //     currentWeight = maxWeight
+            // TODO: Implement iteration/conditional logic
 
-            // TODO: If current server weight >= currentWeight, return it
+            // TODO: Implement iteration/conditional logic
 
         }
     }
@@ -546,10 +541,6 @@ public class WeightedRoundRobinLoadBalancer {
      */
     private int gcd(int a, int b) {
         // TODO: Implement Euclidean algorithm
-        // while b != 0:
-        //   temp = b
-        //   b = a % b
-        //   a = temp
         return 0; // Replace
     }
 
@@ -623,7 +614,6 @@ public class ConsistentHashingLoadBalancer {
         // TODO: Hash key to integer position
 
         // TODO: Find next entry on ring (ceilingEntry)
-        // If null, wrap to first entry (firstEntry)
 
         // TODO: Return server
 
@@ -640,10 +630,6 @@ public class ConsistentHashingLoadBalancer {
      */
     public void addServer(RoundRobinLoadBalancer.Server server) {
         // TODO: Add virtualNodesPerServer copies of this server
-        // for i in 0..virtualNodesPerServer:
-        //   key = server.id + "-" + i
-        //   hash = hash(key)
-        //   ring.put(hash, server)
     }
 
     /**
@@ -653,10 +639,6 @@ public class ConsistentHashingLoadBalancer {
      */
     public void removeServer(RoundRobinLoadBalancer.Server server) {
         // TODO: Remove all virtual nodes
-        // for i in 0..virtualNodesPerServer:
-        //   key = server.id + "-" + i
-        //   hash = hash(key)
-        //   ring.remove(hash)
     }
 
     /**

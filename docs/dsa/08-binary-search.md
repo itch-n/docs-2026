@@ -342,13 +342,9 @@ public class ClassicBinarySearch {
      * TODO: Implement classic binary search
      */
     public static int binarySearch(int[] nums, int target) {
-        // TODO: left = 0, right = nums.length - 1
+        // TODO: Initialize pointers/variables
 
-        // TODO: While left <= right:
-        //   mid = left + (right - left) / 2
-        //   If nums[mid] == target, return mid
-        //   If nums[mid] < target, left = mid + 1
-        //   If nums[mid] > target, right = mid - 1
+        // TODO: Implement iteration/conditional logic
 
         // TODO: Return -1 if not found
 
@@ -460,11 +456,9 @@ public class RotatedArraySearch {
      * TODO: Implement rotated array search
      */
     public static int search(int[] nums, int target) {
-        // TODO: left = 0, right = nums.length - 1
+        // TODO: Initialize pointers/variables
 
-        // TODO: While left <= right:
-        //   mid = left + (right - left) / 2
-        //   If nums[mid] == target, return mid
+        // TODO: Implement iteration/conditional logic
         //
         //   Determine which half is sorted:
         //   If nums[left] <= nums[mid]: left half sorted
@@ -482,14 +476,9 @@ public class RotatedArraySearch {
      * TODO: Implement find minimum
      */
     public static int findMin(int[] nums) {
-        // TODO: left = 0, right = nums.length - 1
+        // TODO: Initialize pointers/variables
 
-        // TODO: While left < right:
-        //   mid = left + (right - left) / 2
-        //   If nums[mid] > nums[right]:
-        //     Minimum is in right half: left = mid + 1
-        //   Else:
-        //     Minimum is in left half or mid: right = mid
+        // TODO: Implement iteration/conditional logic
 
         // TODO: Return nums[left]
 
@@ -587,8 +576,8 @@ public class Search2DMatrix {
      */
     public static boolean searchMatrix2(int[][] matrix, int target) {
         // TODO: Treat matrix as 1D array
-        // TODO: left = 0, right = rows * cols - 1
-        // TODO: Convert mid to [row, col]: row = mid / cols, col = mid % cols
+        // TODO: Initialize pointers/variables
+        // TODO: Implement logic
 
         return false; // Replace with implementation
     }
@@ -601,9 +590,9 @@ public class Search2DMatrix {
      */
     public static boolean searchMatrixStaircase(int[][] matrix, int target) {
         // TODO: Start from top-right corner
-        // TODO: If target < current, move left
-        // TODO: If target > current, move down
-        // TODO: If target == current, found
+        // TODO: Implement iteration/conditional logic
+        // TODO: Implement iteration/conditional logic
+        // TODO: Implement iteration/conditional logic
 
         return false; // Replace with implementation
     }
@@ -697,7 +686,7 @@ public class BinarySearchOnAnswer {
      */
     public static int shipWithinDays(int[] weights, int days) {
         // TODO: Binary search on capacity
-        // TODO: left = max(weights), right = sum(weights)
+        // TODO: Initialize pointers/variables
         // TODO: Check if capacity allows shipping in D days
 
         return 0; // Replace with implementation

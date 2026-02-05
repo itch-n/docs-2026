@@ -353,9 +353,7 @@ public class SimpleMessageQueue {
      */
     public void send(Message message) throws InterruptedException {
         synchronized (lock) {
-            // TODO: While queue is full, wait
-            // while (queue.size() >= capacity):
-            //   lock.wait()
+            // TODO: Implement iteration/conditional logic
 
             // TODO: Add message to queue
 
@@ -377,9 +375,7 @@ public class SimpleMessageQueue {
      */
     public Message receive() throws InterruptedException {
         synchronized (lock) {
-            // TODO: While queue is empty, wait
-            // while (queue.isEmpty()):
-            //   lock.wait()
+            // TODO: Implement iteration/conditional logic
 
             // TODO: Remove message from queue
 
@@ -403,11 +399,8 @@ public class SimpleMessageQueue {
             long deadline = System.currentTimeMillis() + timeoutMs;
 
             // TODO: Wait until message available or timeout
-            // while (queue.isEmpty() && timeRemaining > 0):
-            //   lock.wait(timeRemaining)
-            //   timeRemaining = deadline - currentTime
 
-            // TODO: If queue not empty, remove and return message
+            // TODO: Implement iteration/conditional logic
 
             return null; // Replace (or message)
         }
@@ -483,7 +476,7 @@ public class ProducerConsumer {
 
         // TODO: Initialize consumer threads list
 
-        // TODO: Set running to true
+        // TODO: Track state
 
         this.queue = null; // Replace
         this.consumerThreads = null; // Replace
@@ -498,14 +491,7 @@ public class ProducerConsumer {
      * - Check running flag
      */
     public void start() {
-        // TODO: For each consumer:
-        //   Create thread that:
-        //     - Runs while 'running' is true
-        //     - Receives message from queue
-        //     - Processes message
-        //     - Handles exceptions
-        //   Start thread
-        //   Add to consumerThreads list
+        // TODO: Implement iteration/conditional logic
     }
 
     /**
@@ -546,7 +532,7 @@ public class ProducerConsumer {
      * - Wait for consumers to finish
      */
     public void shutdown() throws InterruptedException {
-        // TODO: Set running to false
+        // TODO: Track state
 
         // TODO: Interrupt all consumer threads
 
@@ -649,8 +635,7 @@ public class PubSubMessageQueue {
         synchronized (lock) {
             // TODO: Get subscribers for topic
 
-            // TODO: For each subscriber:
-            //   Add message to subscriber's queue
+            // TODO: Implement iteration/conditional logic
 
             System.out.println("Published to " + topic + ": " + message);
         }
@@ -794,7 +779,6 @@ public class PriorityMessageQueue {
         @Override
         public int compareTo(PriorityMessage other) {
             // TODO: Compare by priority first (higher priority first)
-            // Then by timestamp (earlier first)
 
             // Hint:
             // int priorityCompare = other.priority.value - this.priority.value;
@@ -901,15 +885,9 @@ public class DeadLetterQueue {
         } catch (Exception e) {
             // TODO: Get current retry count
 
-            // TODO: If under max retries:
-            //   Increment retry count
-            //   Send back to main queue
-            //   Return false
+            // TODO: Implement iteration/conditional logic
 
-            // TODO: If at max retries:
-            //   Send to DLQ
-            //   Remove from retry count
-            //   Return false
+            // TODO: Implement iteration/conditional logic
         }
 
         return false; // Replace

@@ -352,23 +352,11 @@ public class BPlusTree<K extends Comparable<K>, V> {
      * Time: O(log N)
      *
      * TODO: Implement insertion logic
-     * 1. Find correct leaf node
-     * 2. Insert in sorted position
-     * 3. If leaf overflows, split it
-     * 4. Propagate split up the tree
      */
     public void insert(K key, V value) {
-        // TODO: Your implementation here
-
-        // Hint: Start by finding the leaf
-        LeafNode leaf = findLeaf(key);
-
-        // TODO: Insert key-value in sorted order
-
-        // TODO: Check if leaf is full (keys.size() >= order)
-        // If full, split the leaf
-
-        // TODO: If split causes root to split, create new root
+        // TODO: Navigate to the appropriate leaf node
+        // Handle node splits when capacity is exceeded
+        // Consider how splits propagate up the tree
     }
 
     /**
@@ -376,17 +364,10 @@ public class BPlusTree<K extends Comparable<K>, V> {
      * Time: O(log N)
      *
      * TODO: Implement search logic
-     * 1. Start at root
-     * 2. At each internal node, find correct child
-     * 3. At leaf, search for key
      */
     public V search(K key) {
-        // TODO: Your implementation here
-
-        LeafNode leaf = findLeaf(key);
-
-        // TODO: Search for key in leaf.keys
-        // Return corresponding value from leaf.values
+        // TODO: Navigate from root to the appropriate leaf
+        // Search for the key in the leaf node
 
         return null; // Replace with actual implementation
     }
@@ -396,18 +377,12 @@ public class BPlusTree<K extends Comparable<K>, V> {
      * Time: O(log N + results)
      *
      * TODO: Implement range query
-     * 1. Find leaf containing startKey
-     * 2. Follow leaf.next pointers
-     * 3. Collect values until endKey
      */
     public List<V> rangeQuery(K startKey, K endKey) {
         List<V> results = new ArrayList<>();
 
-        // TODO: Find starting leaf
-        LeafNode leaf = findLeaf(startKey);
-
-        // TODO: Traverse leaves via next pointers
-        // Collect all values in range
+        // TODO: Find starting point and traverse leaf chain
+        // Use the linked structure of leaves for efficiency
 
         return results;
     }
@@ -418,16 +393,13 @@ public class BPlusTree<K extends Comparable<K>, V> {
     private LeafNode findLeaf(K key) {
         Node current = root;
 
-        // TODO: Traverse down the tree
-        // At each internal node, pick the correct child
-        // Stop when you reach a leaf
+        // TODO: Traverse down using binary search at each internal node
+        // Stop at the appropriate leaf
 
         while (!current.isLeaf()) {
             InternalNode internal = (InternalNode) current;
 
-            // TODO: Binary search to find correct child
-            // If key < keys[i], go to children[i]
-            // Else continue
+            // TODO: Find correct child based on key comparisons
         }
 
         return (LeafNode) current;
@@ -437,19 +409,14 @@ public class BPlusTree<K extends Comparable<K>, V> {
      * Helper: Split a full leaf node
      */
     private void splitLeaf(LeafNode leaf) {
-        // TODO: Create new leaf
-        // Move half the keys/values to new leaf
-        // Update next pointers
-        // Insert middle key into parent (may cause parent split)
+        // TODO: Distribute keys/values to a new leaf node
     }
 
     /**
      * Helper: Split a full internal node
      */
     private void splitInternal(InternalNode node) {
-        // TODO: Similar to splitLeaf
-        // Move half keys/children to new node
-        // Push middle key up to parent
+        // TODO: Distribute keys/children to a new internal node
     }
 
     /**
@@ -593,14 +560,10 @@ public class LSMTree<K extends Comparable<K>, V> {
      * Time: O(log M) where M = memTable size
      *
      * TODO: Implement write logic
-     * 1. Insert into MemTable
-     * 2. If MemTable full, flush to SSTable
      */
     public void put(K key, V value) {
-        // TODO: Insert into memTable
-
-        // TODO: Check if memTable.size() >= memTableSize
-        // If so, flush to SSTable
+        // TODO: Add to in-memory sorted structure
+        // Flush to disk when threshold is reached
     }
 
     /**
@@ -608,14 +571,9 @@ public class LSMTree<K extends Comparable<K>, V> {
      * Time: O(log M + N*log S) where N = number of SSTables, S = SSTable size
      *
      * TODO: Implement read logic
-     * 1. Check MemTable first (most recent)
-     * 2. Check SSTables in reverse order (newest first)
-     * 3. Return first match
      */
     public V get(K key) {
-        // TODO: Check memTable first
-
-        // TODO: Check SSTables from newest to oldest
+        // TODO: Check memory first, then SSTables in order
 
         return null; // Not found
     }
@@ -624,11 +582,8 @@ public class LSMTree<K extends Comparable<K>, V> {
      * Flush MemTable to SSTable (simulate disk write)
      */
     private void flush() {
-        // TODO: Create new SSTable from current memTable
-
-        // TODO: Add to sstables list
-
-        // TODO: Clear memTable
+        // TODO: Create immutable SSTable from current MemTable
+        // Clear MemTable for new writes
 
         System.out.println("Flushed MemTable to SSTable. Total SSTables: " + sstables.size());
     }
@@ -638,24 +593,14 @@ public class LSMTree<K extends Comparable<K>, V> {
      * Time: O(N * S * log S) where N = tables, S = size
      *
      * TODO: Implement compaction
-     * 1. Merge all SSTables
-     * 2. For duplicate keys, keep newest value
-     * 3. Create new compacted SSTable
      */
     public void compact() {
         if (sstables.size() <= 1) {
             return; // Nothing to compact
         }
 
-        // TODO: Merge all SSTables into one
-        TreeMap<K, V> merged = new TreeMap<>();
-
-        // TODO: Iterate through SSTables from oldest to newest
-        // Later values overwrite earlier ones (keep newest)
-
-        // TODO: Create new compacted SSTable
-
-        // TODO: Replace old SSTables with compacted one
+        // TODO: Merge all SSTables, keeping newest values
+        // Replace old SSTables with single compacted one
 
         System.out.println("Compacted " + sstables.size() + " SSTables into 1");
     }

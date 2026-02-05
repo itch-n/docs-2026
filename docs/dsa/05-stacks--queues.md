@@ -369,11 +369,7 @@ public class BasicStack {
     public static boolean isValid(String s) {
         // TODO: Create Stack<Character>
 
-        // TODO: For each char in s:
-        //   If opening bracket: push to stack
-        //   If closing bracket:
-        //     Check if stack empty (return false)
-        //     Pop and verify it matches
+        // TODO: Implement iteration/conditional logic
 
         // TODO: Return stack.isEmpty()
 
@@ -389,12 +385,7 @@ public class BasicStack {
     public static int evalRPN(String[] tokens) {
         // TODO: Create Stack<Integer>
 
-        // TODO: For each token:
-        //   If number: push to stack
-        //   If operator:
-        //     Pop two operands
-        //     Apply operation
-        //     Push result
+        // TODO: Implement iteration/conditional logic
 
         // TODO: Return stack.peek()
 
@@ -512,10 +503,7 @@ public class MonotonicStack {
         // TODO: Create result array initialized to -1
         // TODO: Create Stack<Integer> to store indices
 
-        // TODO: For i from 0 to nums.length-1:
-        //   While stack not empty AND nums[i] > nums[stack.peek()]:
-        //     Pop index and set result[index] = nums[i]
-        //   Push i to stack
+        // TODO: Implement iteration/conditional logic
 
         return new int[0]; // Replace with implementation
     }
@@ -613,13 +601,13 @@ public class BasicQueue {
         }
 
         public int dequeue() {
-            // TODO: If outbox empty, transfer from inbox
+            // TODO: Implement iteration/conditional logic
             // TODO: Pop from outbox
             return 0;
         }
 
         public int peek() {
-            // TODO: If outbox empty, transfer from inbox
+            // TODO: Implement iteration/conditional logic
             // TODO: Peek outbox
             return 0;
         }
@@ -735,11 +723,7 @@ public class DequeOperations {
         // TODO: Use Deque<Integer> to store indices
         // TODO: Maintain decreasing order in deque
 
-        // TODO: For each window:
-        //   Remove indices outside window
-        //   Remove smaller elements from back
-        //   Add current index
-        //   Record front element as max
+        // TODO: Implement iteration/conditional logic
 
         return new int[0]; // Replace with implementation
     }

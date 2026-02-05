@@ -243,17 +243,9 @@ public class PermutationsPattern {
 
     private static void backtrack(int[] nums, List<Integer> current,
                                   boolean[] used, List<List<Integer>> result) {
-        // TODO: Base case: if current.size() == nums.length
-        //   Add copy of current to result
-        //   Return
+        // TODO: Handle base case
 
-        // TODO: For each index i in nums:
-        //   If used[i], skip (already in current path)
-        //   Mark used[i] = true
-        //   Add nums[i] to current
-        //   Recursively backtrack
-        //   Remove nums[i] from current (backtrack)
-        //   Mark used[i] = false (backtrack)
+        // TODO: Implement iteration/conditional logic
     }
 
     /**
@@ -277,7 +269,7 @@ public class PermutationsPattern {
      * TODO: Implement next permutation in-place
      */
     public static void nextPermutation(int[] nums) {
-        // TODO: Find rightmost ascending pair (i < j where nums[i] < nums[j])
+        // TODO: Implement logic
         // TODO: Find smallest element greater than nums[i] to the right
         // TODO: Swap them
         // TODO: Reverse suffix after i
@@ -359,10 +351,7 @@ public class CombinationsPattern {
                                         List<List<Integer>> result) {
         // TODO: Add current subset to result (valid at every step)
 
-        // TODO: For i from start to nums.length:
-        //   Add nums[i] to current
-        //   Recursively backtrack from i+1
-        //   Remove nums[i] from current (backtrack)
+        // TODO: Implement iteration/conditional logic
     }
 
     /**
@@ -494,19 +483,9 @@ public class ConstraintSatisfaction {
     private static void backtrackQueens(int row, int n, char[][] board,
                                        Set<Integer> cols, Set<Integer> diag1,
                                        Set<Integer> diag2, List<List<String>> result) {
-        // TODO: Base case: if row == n, found solution
-        //   Convert board to list of strings
-        //   Add to result
-        //   Return
+        // TODO: Handle base case
 
-        // TODO: For each column in current row:
-        //   Check if column, diag1, diag2 are safe
-        //   If safe:
-        //     Place queen
-        //     Add to cols, diag1 (row-col), diag2 (row+col)
-        //     Recursively solve next row
-        //     Remove queen (backtrack)
-        //     Remove from cols, diag1, diag2 (backtrack)
+        // TODO: Implement iteration/conditional logic
     }
 
     /**
@@ -638,14 +617,14 @@ public class GridSearch {
 
     private static boolean dfs(char[][] board, String word, int index,
                               int row, int col, boolean[][] visited) {
-        // TODO: Base case: if index == word.length(), found word
+        // TODO: Handle base case
 
         // TODO: Check bounds and visited
         // TODO: Check if board[row][col] == word.charAt(index)
 
         // TODO: Mark visited
         // TODO: Explore 4 directions (up, down, left, right)
-        // TODO: If any direction succeeds, return true
+        // TODO: Implement iteration/conditional logic
         // TODO: Unmark visited (backtrack)
 
         return false; // Replace with implementation

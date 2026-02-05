@@ -409,9 +409,6 @@ public class StreamWindow<K, V> {
         Map<Long, Map<K, Long>> windows = new TreeMap<>();
 
         // TODO: Process each event
-        //   for (Event<K, V> event : events) {
-        //     // Calculate window start
-        //     long windowStart = (event.timestamp / windowSizeMs) * windowSizeMs;
         //
         //     // Get or create window
         //     Map<K, Long> window = windows.computeIfAbsent(windowStart, k -> new HashMap<>());
@@ -441,10 +438,6 @@ public class StreamWindow<K, V> {
         Map<Long, Map<K, Long>> windows = new TreeMap<>();
 
         // TODO: Process each event
-        //   for (Event<K, V> event : events) {
-        //     // Calculate all window starts this event belongs to
-        //     long firstWindowStart = ((event.timestamp - windowSizeMs + slideMs) / slideMs) * slideMs;
-        //     long lastWindowStart = (event.timestamp / slideMs) * slideMs;
         //
         //     // Add event to all overlapping windows
         //     for (long windowStart = firstWindowStart;
@@ -475,16 +468,8 @@ public class StreamWindow<K, V> {
         List<WindowResult<K>> results = new ArrayList<>();
 
         // TODO: Group events by key
-        //   Map<K, List<Event<K, V>>> eventsByKey = new HashMap<>();
-        //   for (Event<K, V> event : events) {
-        //     eventsByKey.computeIfAbsent(event.key, k -> new ArrayList<>())
-        //                .add(event);
-        //   }
 
-        // TODO: For each key, create sessions based on gap
-        //   for (Map.Entry<K, List<Event<K, V>>> entry : eventsByKey.entrySet()) {
-        //     K key = entry.getKey();
-        //     List<Event<K, V>> keyEvents = entry.getValue();
+        // TODO: Implement iteration/conditional logic
         //
         //     // Sort by timestamp
         //     keyEvents.sort(Comparator.comparingLong(e -> e.timestamp));
@@ -666,34 +651,16 @@ public class WatermarkProcessor<K, V> {
      */
     public void processEvent(Event<K, V> event) {
         // TODO: Update watermark (typically: eventTime - maxDelay)
-        //   // Simple watermark: use event time directly
-        //   if (event.eventTime > currentWatermark) {
-        //     currentWatermark = event.eventTime;
-        //   }
 
         // TODO: Calculate window for this event
-        //   long windowStart = (event.eventTime / windowSize) * windowSize;
-        //   long windowEnd = windowStart + windowSize;
 
         // TODO: Check if event is too late
-        //   if (event.eventTime < currentWatermark - allowedLateness) {
-        //     System.out.println("LATE DATA: " + event.key + " at " + event.eventTime);
-        //     lateEventCount++;
-        //     return; // Drop or send to dead letter queue
-        //   }
 
         // TODO: Get or create window state
-        //   Map<K, WindowState<K>> window = windows.computeIfAbsent(windowStart, k -> new HashMap<>());
-        //   WindowState<K> state = window.computeIfAbsent(event.key,
-        //     k -> new WindowState<>(event.key, windowStart, windowEnd));
 
         // TODO: Update state if window not closed
-        //   if (!state.closed) {
-        //     state.count++;
-        //   }
 
         // TODO: Close windows that are ready
-        //   closeCompletedWindows();
     }
 
     /**
@@ -706,9 +673,6 @@ public class WatermarkProcessor<K, V> {
         List<Long> toRemove = new ArrayList<>();
 
         // TODO: Check each window
-        //   for (Map.Entry<Long, Map<K, WindowState<K>>> entry : windows.entrySet()) {
-        //     long windowStart = entry.getKey();
-        //     long windowEnd = windowStart + windowSize;
         //
         //     // Close if watermark passed windowEnd + allowedLateness
         //     if (currentWatermark >= windowEnd + allowedLateness) {
@@ -727,9 +691,6 @@ public class WatermarkProcessor<K, V> {
         //   }
 
         // TODO: Remove closed windows
-        //   for (Long windowStart : toRemove) {
-        //     windows.remove(windowStart);
-        //   }
     }
 
     /**
@@ -748,10 +709,6 @@ public class WatermarkProcessor<K, V> {
      */
     public void generatePeriodicWatermark(long timestamp) {
         // TODO: Advance watermark
-        //   if (timestamp > currentWatermark) {
-        //     currentWatermark = timestamp;
-        //     closeCompletedWindows();
-        //   }
     }
 
     /**
@@ -919,16 +876,6 @@ public class StatefulProcessor<K, V> {
          */
         public S get(K key, long currentTime) {
             // TODO: Check expiration
-            //   if (state.containsKey(key)) {
-            //     Long lastTime = lastAccess.get(key);
-            //     if (currentTime - lastTime > ttlMs) {
-            //       // State expired
-            //       state.remove(key);
-            //       lastAccess.remove(key);
-            //       return null;
-            //     }
-            //     return state.get(key);
-            //   }
             return null; // Replace
         }
 
@@ -939,8 +886,6 @@ public class StatefulProcessor<K, V> {
          */
         public void update(K key, S value, long currentTime) {
             // TODO: Update state and last access time
-            //   state.put(key, value);
-            //   lastAccess.put(key, currentTime);
         }
 
         /**
@@ -974,8 +919,6 @@ public class StatefulProcessor<K, V> {
          */
         public void append(K key, S value, long currentTime) {
             // TODO: Get or create list and append
-            //   state.computeIfAbsent(key, k -> new ArrayList<>()).add(value);
-            //   lastAccess.put(key, currentTime);
         }
 
         /**
@@ -1013,19 +956,12 @@ public class StatefulProcessor<K, V> {
          */
         public long process(Event<String, Long> event) {
             // TODO: Get current sum
-            //   Long currentSum = sumState.get(event.key, event.timestamp);
-            //   if (currentSum == null) {
-            //     currentSum = 0L;
-            //   }
 
             // TODO: Add new value
-            //   long newSum = currentSum + event.value;
 
             // TODO: Update state
-            //   sumState.update(event.key, newSum, event.timestamp);
 
             // TODO: Return result
-            //   return newSum;
 
             return 0L; // Replace
         }
@@ -1064,18 +1000,8 @@ public class StatefulProcessor<K, V> {
             List<String> results = new ArrayList<>();
 
             // TODO: Store in left state
-            //   leftState.append(event.key, event, event.timestamp);
 
             // TODO: Find matches in right state
-            //   List<Event<String, String>> rightEvents = rightState.get(event.key, event.timestamp);
-            //   if (rightEvents != null) {
-            //     for (Event<String, String> right : rightEvents) {
-            //       // Check if within join window
-            //       if (Math.abs(event.timestamp - right.timestamp) <= joinWindowMs) {
-            //         results.add(event.value + "+" + right.value);
-            //       }
-            //     }
-            //   }
 
             return results; // Replace
         }
@@ -1265,11 +1191,6 @@ public class ExactlyOnceProcessor<K, V> {
          */
         public boolean isDuplicate(String eventId) {
             // TODO: Check and add
-            //   if (processedEventIds.contains(eventId)) {
-            //     return true; // Duplicate
-            //   }
-            //   processedEventIds.add(eventId);
-            //   return false; // First time seeing this
 
             return false; // Replace
         }
@@ -1320,15 +1241,8 @@ public class ExactlyOnceProcessor<K, V> {
          */
         public void process(Event<K, Long> event) {
             // TODO: Check if already processed
-            //   String lastEventId = lastEventIds.get(event.key);
-            //   if (event.eventId.equals(lastEventId)) {
-            //     // Already processed this exact event
-            //     return;
-            //   }
 
             // TODO: Update value (idempotent SET operation)
-            //   values.put(event.key, event.value);
-            //   lastEventIds.put(event.key, event.eventId);
         }
 
         public Long getValue(K key) {
@@ -1359,8 +1273,6 @@ public class ExactlyOnceProcessor<K, V> {
          */
         public void beginTransaction(String txnId) {
             // TODO: Create new transaction
-            //   currentTransaction = new Transaction(txnId, System.currentTimeMillis());
-            //   pendingWrites.clear();
         }
 
         /**
@@ -1370,11 +1282,6 @@ public class ExactlyOnceProcessor<K, V> {
          */
         public void write(T value, String eventId) {
             // TODO: Add to pending writes
-            //   if (currentTransaction == null) {
-            //     throw new IllegalStateException("No active transaction");
-            //   }
-            //   pendingWrites.add(value);
-            //   currentTransaction.processedEventIds.add(eventId);
         }
 
         /**
@@ -1387,9 +1294,6 @@ public class ExactlyOnceProcessor<K, V> {
          */
         public void commit() {
             // TODO: Commit if not already done
-            //   if (currentTransaction == null) {
-            //     throw new IllegalStateException("No active transaction");
-            //   }
             //
             //   if (committedTransactions.contains(currentTransaction.transactionId)) {
             //     // Already committed (idempotent)
@@ -1411,8 +1315,6 @@ public class ExactlyOnceProcessor<K, V> {
          */
         public void abort() {
             // TODO: Clear pending writes
-            //   pendingWrites.clear();
-            //   currentTransaction = null;
         }
 
         public int getPendingCount() {
@@ -1446,11 +1348,6 @@ public class ExactlyOnceProcessor<K, V> {
          */
         public long triggerCheckpoint(Map<String, Object> state) {
             // TODO: Create checkpoint
-            //   long checkpointId = ++lastCheckpointId;
-            //   Map<String, Object> snapshot = new HashMap<>(state);
-            //   checkpoints.put(checkpointId, snapshot);
-            //   System.out.println("Checkpoint " + checkpointId + " completed");
-            //   return checkpointId;
 
             return 0; // Replace
         }
@@ -1462,7 +1359,6 @@ public class ExactlyOnceProcessor<K, V> {
          */
         public Map<String, Object> restore(long checkpointId) {
             // TODO: Restore state
-            //   return checkpoints.get(checkpointId);
             return null; // Replace
         }
     }

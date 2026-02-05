@@ -322,7 +322,6 @@ public class MetricsCollector {
          */
         public void inc() {
             // TODO: Increment value atomically
-            //   value.incrementAndGet();
         }
 
         /**
@@ -333,7 +332,6 @@ public class MetricsCollector {
          */
         public void inc(long delta) {
             // TODO: Add delta to value atomically
-            //   value.addAndGet(delta);
         }
 
         public long get() {
@@ -365,7 +363,6 @@ public class MetricsCollector {
          */
         public void set(double val) {
             // TODO: Set value atomically
-            //   value.set(val);
         }
 
         /**
@@ -376,7 +373,6 @@ public class MetricsCollector {
          */
         public void inc(double delta) {
             // TODO: Add delta atomically
-            //   value.addAndGet(delta);
         }
 
         public void dec(double delta) {
@@ -424,12 +420,8 @@ public class MetricsCollector {
          */
         public void observe(double value) {
             // TODO: Find bucket using binary search
-            //   int bucketIndex = findBucket(value);
-            //   counts.incrementAndGet(bucketIndex);
 
             // TODO: Update sum and count
-            //   sum.addAndGet((long)(value * 1000)); // Store as millis
-            //   count.incrementAndGet();
         }
 
         /**
@@ -439,10 +431,6 @@ public class MetricsCollector {
          */
         private int findBucket(double value) {
             // TODO: Binary search in buckets array
-            //   for (int i = 0; i < buckets.length; i++) {
-            //     if (value <= buckets[i]) return i;
-            //   }
-            //   return buckets.length; // +Inf bucket
             return 0; // Replace
         }
 
@@ -457,14 +445,6 @@ public class MetricsCollector {
             if (totalCount == 0) return 0.0;
 
             // TODO: Find bucket containing percentile
-            //   long targetCount = (long)(totalCount * percentile);
-            //   long cumulative = 0;
-            //   for (int i = 0; i < counts.length(); i++) {
-            //     cumulative += counts.get(i);
-            //     if (cumulative >= targetCount) {
-            //       return i < buckets.length ? buckets[i] : Double.POSITIVE_INFINITY;
-            //     }
-            //   }
 
             return 0.0; // Replace
         }
@@ -502,10 +482,8 @@ public class MetricsCollector {
          */
         public void recordRequest(double durationSeconds) {
             // TODO: Increment request count
-            //   requestCount.inc();
 
             // TODO: Record duration
-            //   duration.observe(durationSeconds);
         }
 
         /**
@@ -515,11 +493,8 @@ public class MetricsCollector {
          */
         public void recordError(double durationSeconds) {
             // TODO: Increment request and error counts
-            //   requestCount.inc();
-            //   errorCount.inc();
 
             // TODO: Record duration
-            //   duration.observe(durationSeconds);
         }
 
         public double getErrorRate() {
@@ -561,7 +536,6 @@ public class MetricsCollector {
          */
         public void setUtilization(double percent) {
             // TODO: Set gauge value
-            //   utilization.set(percent);
         }
 
         /**
@@ -571,7 +545,6 @@ public class MetricsCollector {
          */
         public void setSaturation(double queueDepth) {
             // TODO: Set gauge value
-            //   saturation.set(queueDepth);
         }
 
         /**
@@ -581,7 +554,6 @@ public class MetricsCollector {
          */
         public void recordError() {
             // TODO: Increment errors
-            //   errors.inc();
         }
     }
 
@@ -771,7 +743,6 @@ public class StructuredLogger {
      */
     public void addContext(String key, Object value) {
         // TODO: Add to thread-local context
-        //   context.get().put(key, value);
     }
 
     /**
@@ -782,7 +753,6 @@ public class StructuredLogger {
      */
     public void clearContext() {
         // TODO: Clear thread-local context
-        //   context.get().clear();
     }
 
     /**
@@ -845,21 +815,10 @@ public class StructuredLogger {
      */
     private void log(LogLevel level, String message, Map<String, Object> fields) {
         // TODO: Check if level should be logged
-        //   if (level.priority < minLevel.priority) return;
 
         // TODO: Create log entry
-        //   LogEntry entry = new LogEntry(
-        //     service, level, message,
-        //     context.get(), fields
-        //   );
 
         // TODO: Serialize to JSON and output
-        //   try {
-        //     String json = mapper.writeValueAsString(entry);
-        //     System.out.println(json);
-        //   } catch (Exception e) {
-        //     System.err.println("Failed to serialize log: " + e.getMessage());
-        //   }
     }
 
     /**
@@ -869,10 +828,6 @@ public class StructuredLogger {
      */
     private String getStackTrace(Throwable t) {
         // TODO: Convert stack trace to string
-        //   StringWriter sw = new StringWriter();
-        //   PrintWriter pw = new PrintWriter(sw);
-        //   t.printStackTrace(pw);
-        //   return sw.toString();
         return null; // Replace
     }
 
@@ -883,8 +838,6 @@ public class StructuredLogger {
      */
     public static LogEntry parseLog(String json) {
         // TODO: Parse JSON string back to LogEntry
-        //   ObjectMapper mapper = new ObjectMapper();
-        //   return mapper.readValue(json, LogEntry.class);
         return null; // Replace
     }
 
@@ -896,9 +849,6 @@ public class StructuredLogger {
      */
     public static List<LogEntry> filterByLevel(List<LogEntry> logs, LogLevel level) {
         // TODO: Filter logs by minimum level
-        //   return logs.stream()
-        //     .filter(log -> LogLevel.valueOf(log.level).priority >= level.priority)
-        //     .collect(Collectors.toList());
         return null; // Replace
     }
 
@@ -911,9 +861,6 @@ public class StructuredLogger {
     public static List<LogEntry> findByContext(List<LogEntry> logs,
                                                String key, Object value) {
         // TODO: Filter logs by context field
-        //   return logs.stream()
-        //     .filter(log -> value.equals(log.context.get(key)))
-        //     .collect(Collectors.toList());
         return null; // Replace
     }
 }
@@ -1030,9 +977,6 @@ public class DistributedTracer {
          */
         public static TraceContext createRoot() {
             // TODO: Generate unique trace ID
-            //   String traceId = UUID.randomUUID().toString();
-            //   String spanId = UUID.randomUUID().toString();
-            //   return new TraceContext(traceId, spanId, null);
             return null; // Replace
         }
 
@@ -1043,8 +987,6 @@ public class DistributedTracer {
          */
         public TraceContext createChild() {
             // TODO: Keep same trace ID, new span ID
-            //   String childSpanId = UUID.randomUUID().toString();
-            //   return new TraceContext(traceId, childSpanId, spanId);
             return null; // Replace
         }
     }
@@ -1082,7 +1024,6 @@ public class DistributedTracer {
          */
         public void setTag(String key, String value) {
             // TODO: Add to tags map
-            //   tags.put(key, value);
         }
 
         /**
@@ -1092,8 +1033,6 @@ public class DistributedTracer {
          */
         public void log(String message) {
             // TODO: Add timestamped log
-            //   String timestamp = Instant.now().toString();
-            //   logs.add(timestamp + ": " + message);
         }
 
         /**
@@ -1103,7 +1042,6 @@ public class DistributedTracer {
          */
         public void finish() {
             // TODO: Set end time
-            //   endTimeMicros = System.nanoTime() / 1000;
         }
 
         public long getDurationMicros() {
@@ -1132,11 +1070,6 @@ public class DistributedTracer {
      */
     public Span startSpan(String operationName) {
         // TODO: Create root context and span
-        //   TraceContext context = TraceContext.createRoot();
-        //   Span span = new Span(context, operationName);
-        //   span.setTag("service", serviceName);
-        //   activeSpans.get().push(span);
-        //   return span;
         return null; // Replace
     }
 
@@ -1148,8 +1081,6 @@ public class DistributedTracer {
      */
     public Span startChildSpan(String operationName) {
         // TODO: Get current span, create child context
-        //   Deque<Span> stack = activeSpans.get();
-        //   if (stack.isEmpty()) return startSpan(operationName);
         //
         //   Span parent = stack.peek();
         //   TraceContext parentContext = new TraceContext(
@@ -1171,12 +1102,6 @@ public class DistributedTracer {
      */
     public void finishSpan() {
         // TODO: Pop span from stack, finish it, store it
-        //   Deque<Span> stack = activeSpans.get();
-        //   if (!stack.isEmpty()) {
-        //     Span span = stack.pop();
-        //     span.finish();
-        //     completedSpans.add(span);
-        //   }
     }
 
     /**
@@ -1187,7 +1112,6 @@ public class DistributedTracer {
      */
     public Span getCurrentSpan() {
         // TODO: Peek at top of stack
-        //   return activeSpans.get().peek();
         return null; // Replace
     }
 
@@ -1199,10 +1123,6 @@ public class DistributedTracer {
      */
     public List<Span> getTrace(String traceId) {
         // TODO: Filter completed spans by trace ID
-        //   return completedSpans.stream()
-        //     .filter(span -> span.traceId.equals(traceId))
-        //     .sorted(Comparator.comparingLong(s -> s.startTimeMicros))
-        //     .collect(Collectors.toList());
         return null; // Replace
     }
 
@@ -1214,8 +1134,6 @@ public class DistributedTracer {
      */
     public String visualizeTrace(String traceId) {
         // TODO: Build tree structure from parent-child relationships
-        //   List<Span> spans = getTrace(traceId);
-        //   Map<String, List<Span>> childrenMap = new HashMap<>();
         //
         //   // Group by parent
         //   for (Span span : spans) {
@@ -1240,12 +1158,6 @@ public class DistributedTracer {
     private void buildTraceString(Span span, Map<String, List<Span>> childrenMap,
                                    StringBuilder sb, int depth) {
         // TODO: Recursively build tree string
-        //   String indent = "  ".repeat(depth);
-        //   sb.append(indent)
-        //     .append(span.operationName)
-        //     .append(" (")
-        //     .append(span.getDurationMicros() / 1000.0)
-        //     .append("ms)\n");
         //
         //   List<Span> children = childrenMap.get(span.spanId);
         //   if (children != null) {
@@ -1433,7 +1345,6 @@ public class SLOManager {
          */
         public void record(double value) {
             // TODO: Add measurement with timestamp
-            //   measurements.add(new DataPoint(Instant.now(), value));
         }
 
         /**
@@ -1444,10 +1355,6 @@ public class SLOManager {
          */
         public double calculate() {
             // TODO: Filter measurements within window
-            //   Instant cutoff = Instant.now().minus(slo.window);
-            //   List<DataPoint> recent = measurements.stream()
-            //     .filter(dp -> dp.timestamp.isAfter(cutoff))
-            //     .collect(Collectors.toList());
             //
             //   if (recent.isEmpty()) return 1.0;
             //
@@ -1476,8 +1383,6 @@ public class SLOManager {
          */
         public double getErrorBudget() {
             // TODO: Calculate error budget
-            //   double current = calculate();
-            //   if (current >= slo.target) return 1.0; // Fully within budget
             //
             //   double allowed = 1.0 - slo.target;  // Allowed failure rate
             //   double actual = 1.0 - current;       // Actual failure rate
@@ -1495,8 +1400,6 @@ public class SLOManager {
          */
         public boolean shouldAlert() {
             // TODO: Check if error budget below threshold
-            //   double budget = getErrorBudget();
-            //   return budget < slo.alertThreshold;
             return false; // Replace
         }
     }
@@ -1546,7 +1449,6 @@ public class SLOManager {
          */
         public void addRule(AlertRule rule) {
             // TODO: Add to rules list
-            //   rules.add(rule);
         }
 
         /**
@@ -1558,9 +1460,7 @@ public class SLOManager {
         public List<Alert> evaluate(Map<String, Double> metrics) {
             List<Alert> alerts = new ArrayList<>();
 
-            // TODO: For each rule, evaluate condition
-            //   for (AlertRule rule : rules) {
-            //     boolean condition = evaluateQuery(rule.query, metrics);
+            // TODO: Implement iteration/conditional logic
             //
             //     if (condition) {
             //       // Check if been firing long enough
@@ -1588,8 +1488,6 @@ public class SLOManager {
          */
         private boolean evaluateQuery(String query, Map<String, Double> metrics) {
             // TODO: Parse query like "error_rate > 0.01"
-            //   String[] parts = query.split(" ");
-            //   if (parts.length != 3) return false;
             //
             //   String metric = parts[0];
             //   String operator = parts[1];

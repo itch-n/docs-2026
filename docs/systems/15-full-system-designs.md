@@ -409,7 +409,6 @@ public class URLShortener {
         // url = database.get(shortCode)
 
         // TODO: Update cache
-        // if (url != null) cache.put(shortCode, url)
 
         // TODO: Track click analytics (async)
         // analytics.trackClick(shortCode)
@@ -440,9 +439,6 @@ public class URLShortener {
         StringBuilder sb = new StringBuilder();
 
         // TODO: Convert id to base62
-        // while (id > 0):
-        //   sb.append(alphabet.charAt(id % 62))
-        //   id /= 62
 
         // TODO: Pad to 7 characters if needed
 
@@ -537,7 +533,7 @@ public class URLShortener {
         public synchronized long next() {
             long timestamp = System.currentTimeMillis();
 
-            // TODO: If same millisecond, increment sequence
+            // TODO: Implement iteration/conditional logic
             if (timestamp == lastTimestamp) {
                 sequence = (sequence + 1) & 4095; // 12 bits
                 if (sequence == 0) {
@@ -1044,8 +1040,6 @@ public class Pastebin {
         // metadataStore.save(metadata)
 
         // TODO: Cache if public
-        // if (!options.isPrivate):
-        //   cache.put(key, content)
 
         // TODO: Return URL
         return null; // Replace
@@ -1070,18 +1064,11 @@ public class Pastebin {
         // if (metadata == null) return null
 
         // TODO: Check expiration
-        // if (metadata.isExpired()):
-        //   deletePaste(key)
-        //   return null
 
         // TODO: Check cache
         // String content = cache.get(key)
 
-        // TODO: If miss, load from storage
-        // if (content == null):
-        //   content = objectStorage.load(key)
-        //   if (!metadata.isPrivate):
-        //     cache.put(key, content)
+        // TODO: Implement iteration/conditional logic
 
         // TODO: Increment views (async)
         // metadata.incrementViews()

@@ -616,7 +616,7 @@ public class Intervals {
     public static int[][] merge(int[][] intervals) {
         // TODO: Sort by start time
         // TODO: Iterate and merge overlapping intervals
-        // TODO: If current.start <= previous.end, merge
+        // TODO: Implement iteration/conditional logic
         // TODO: Otherwise, add previous to result
 
         return new int[0][0]; // Replace with implementation
@@ -672,7 +672,7 @@ public class Intervals {
     public static int removeCoveredIntervals(int[][] intervals) {
         // TODO: Sort by start (ascending), then end (descending)
         // TODO: Track current max end
-        // TODO: If current.end <= maxEnd, it's covered
+        // TODO: Implement iteration/conditional logic
 
         return 0; // Replace with implementation
     }
@@ -686,7 +686,7 @@ public class Intervals {
     public static int eraseOverlapIntervals(int[][] intervals) {
         // TODO: Sort by end time (greedy)
         // TODO: Keep track of last end time
-        // TODO: If overlap, increment removal count
+        // TODO: Implement iteration/conditional logic
 
         return 0; // Replace with implementation
     }
@@ -793,10 +793,7 @@ public class PrefixSum {
      */
     public static int subarraySum(int[] nums, int k) {
         // TODO: Use HashMap<prefixSum, frequency>
-        // TODO: For each prefix sum:
-        //   Check if (currentSum - k) exists in map
-        //   Add count to result
-        //   Update map with currentSum
+        // TODO: Implement iteration/conditional logic
 
         return 0; // Replace with implementation
     }
@@ -811,7 +808,7 @@ public class PrefixSum {
         // TODO: Convert 0s to -1s
         // TODO: Problem becomes: longest subarray with sum 0
         // TODO: Use HashMap<prefixSum, firstIndex>
-        // TODO: If same prefix sum seen before, found zero-sum subarray
+        // TODO: Implement iteration/conditional logic
 
         return 0; // Replace with implementation
     }
@@ -846,7 +843,6 @@ public class PrefixSum {
 
         public int sumRegion(int row1, int col1, int row2, int col2) {
             // TODO: Use inclusion-exclusion:
-            //   sum = total - top - left + top-left
             return 0; // Replace with implementation
         }
     }
@@ -999,9 +995,7 @@ public class MonotonicStack {
      */
     public static int trap(int[] height) {
         // TODO: Method 1: Two pointers
-        //   Track leftMax and rightMax
         // TODO: Method 2: Monotonic stack
-        //   Stack stores indices of decreasing heights
 
         return 0; // Replace with implementation
     }
