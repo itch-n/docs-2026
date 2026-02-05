@@ -779,6 +779,25 @@ Before moving to the next topic:
     - [ ] Know when to use each storage layout
     - [ ] Understand the trade-offs
 
+---
+
+### Mastery Certification
+
+**I certify that I can:**
+
+- [ ] Implement row-oriented storage (insert, point lookup, column scan)
+- [ ] Implement column-oriented storage (insert, point lookup, column scan)
+- [ ] Explain why row storage is faster for point lookups
+- [ ] Explain why column storage is faster for aggregations
+- [ ] Understand compression advantages of column storage
+- [ ] Identify OLTP vs OLAP workloads from requirements
+- [ ] Choose appropriate storage layout for a given workload
+- [ ] Explain the fundamental read/write trade-offs
+- [ ] Understand when to use each storage representation
+- [ ] Benchmark and analyze performance differences
+- [ ] Debug storage layout issues
+- [ ] Explain these concepts in a system design interview
+
 # APPENDIX
 
 ## Real world technologies

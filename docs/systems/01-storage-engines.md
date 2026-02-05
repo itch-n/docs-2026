@@ -1395,6 +1395,25 @@ Before moving to the next topic:
     - [ ] Could explain trade-offs in an interview
     - [ ] Know when to use each without looking at notes
 
+---
+
+### Mastery Certification
+
+**I certify that I can:**
+
+- [ ] Implement B+Tree insert, search, and range query from memory
+- [ ] Explain B+Tree node splitting and balancing
+- [ ] Implement LSM Tree put, get, flush, and compact operations
+- [ ] Explain write amplification in B+Trees vs LSM Trees
+- [ ] Explain read amplification in LSM Trees
+- [ ] Understand the role of compaction in LSM Trees
+- [ ] Choose between B+Tree and LSM Tree for a given workload
+- [ ] Explain when to use each storage engine
+- [ ] Benchmark and analyze performance differences
+- [ ] Debug common storage engine implementation issues
+- [ ] Explain these concepts in a system design interview
+- [ ] Teach these concepts to someone else
+
 # APPENDIX: The Historical Evolution - From First Principles
 
 > **Why this appendix exists**: The main chapter teaches B+Trees and LSM Trees side-by-side. But historically, B+Trees
