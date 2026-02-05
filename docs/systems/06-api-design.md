@@ -1,4 +1,4 @@
-# 04. API Design
+# 06. API Design
 
 > REST, GraphQL, and RPC - Choosing the right API paradigm
 

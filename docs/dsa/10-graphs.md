@@ -1,4 +1,4 @@
-# 09. Graphs
+# 10. Graphs
 
 > Traverse and search graph structures using DFS, BFS, and specialized algorithms
 

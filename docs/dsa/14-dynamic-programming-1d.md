@@ -1,4 +1,4 @@
-# 12. Dynamic Programming (1D)
+# 14. Dynamic Programming (1D)
 
 > Turn exponential recursion into polynomial iteration by caching subproblem results
 

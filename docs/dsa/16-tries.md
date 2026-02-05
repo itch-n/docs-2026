@@ -1,4 +1,4 @@
-# 14. Tries (Prefix Trees)
+# 16. Tries (Prefix Trees)
 
 > Efficient storage and retrieval of strings with common prefixes using tree structure
 

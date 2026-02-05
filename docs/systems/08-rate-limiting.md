@@ -1,4 +1,4 @@
-# 05. Rate Limiting
+# 08. Rate Limiting
 
 > Protecting APIs from abuse and ensuring fair resource usage
 

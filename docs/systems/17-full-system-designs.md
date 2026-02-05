@@ -1,4 +1,4 @@
-# 10. Full System Designs
+# 17. Full System Designs
 
 > End-to-end system design examples with architecture, implementation, and trade-offs
 

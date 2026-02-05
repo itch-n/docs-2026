@@ -12,12 +12,14 @@ Numbered sequences you work through at your own pace. Each topic follows the sam
 
 ## Two Paths
 
-### [Systems Design](systems/01-storage-engines.md) (15 Topics)
+### [Systems Design](systems/01-storage-engines.md) (17 Topics)
 
 Build real implementations to understand how systems work:
 
 - [ ] **Storage Engines** - Implement B+Trees & LSM Trees
 - [ ] **Row vs Column Storage** - OLTP vs OLAP, columnar formats, compression
+- [ ] **Networking Fundamentals** - TCP/UDP, HTTP versions, WebSockets, DNS, TLS
+- [ ] **Search & Indexing** - Inverted indexes, full-text search, ranking algorithms
 - [ ] **Caching Patterns** - LRU, LFU, cache-aside, write-through
 - [ ] **API Design** - REST principles, versioning, pagination
 - [ ] **Security Patterns** - JWT, RBAC, API keys, secrets management
@@ -32,7 +34,7 @@ Build real implementations to understand how systems work:
 - [ ] **Consensus Patterns** - Raft, leader election, distributed locks
 - [ ] **Full System Designs** - Apply everything (Instagram, Uber, etc.)
 
-### [DSA](dsa/01-two-pointers.md) (16 Topics)
+### [DSA](dsa/01-two-pointers.md) (17 Topics)
 
 Pattern-based approach from easy to advanced:
 
@@ -46,6 +48,7 @@ Pattern-based approach from easy to advanced:
 - [ ] **Binary Search** - Classic search, rotated arrays, 2D matrices
 - [ ] **Union-Find** - Disjoint sets for connectivity (before Graphs for MST algorithms)
 - [ ] **Graphs (DFS/BFS)** - Traversals, shortest path, MST
+- [ ] **Advanced Graph Algorithms** - Dijkstra, MST, Topological Sort, A*, SCC
 - [ ] **Heaps** - Priority queues, top K problems
 - [ ] **Backtracking** - Permutations, combinations, constraint satisfaction
 - [ ] **Dynamic Programming - 1D** - Fibonacci, house robber, coin change

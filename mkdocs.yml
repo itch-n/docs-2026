@@ -22,19 +22,21 @@ nav:
   - Systems Design:
       - "01. Storage Engines": systems/01-storage-engines.md
       - "02. Row vs Column Storage": systems/02-row-vs-column-storage.md
-      - "03. Caching Patterns": systems/03-caching-patterns.md
-      - "04. API Design": systems/04-api-design.md
-      - "05. Security Patterns": systems/05-security-patterns.md
-      - "06. Rate Limiting": systems/06-rate-limiting.md
-      - "07. Load Balancing": systems/07-load-balancing.md
-      - "08. Concurrency Patterns": systems/08-concurrency-patterns.md
-      - "09. Database Scaling": systems/09-database-scaling.md
-      - "10. Message Queues": systems/10-message-queues.md
-      - "11. Stream Processing": systems/11-stream-processing.md
-      - "12. Observability": systems/12-observability.md
-      - "13. Distributed Transactions": systems/13-distributed-transactions.md
-      - "14. Consensus Patterns": systems/14-consensus-patterns.md
-      - "15. Full System Designs": systems/15-full-system-designs.md
+      - "03. Networking Fundamentals": systems/03-networking-fundamentals.md
+      - "04. Search & Indexing": systems/04-search-and-indexing.md
+      - "05. Caching Patterns": systems/05-caching-patterns.md
+      - "06. API Design": systems/06-api-design.md
+      - "07. Security Patterns": systems/07-security-patterns.md
+      - "08. Rate Limiting": systems/08-rate-limiting.md
+      - "09. Load Balancing": systems/09-load-balancing.md
+      - "10. Concurrency Patterns": systems/10-concurrency-patterns.md
+      - "11. Database Scaling": systems/11-database-scaling.md
+      - "12. Message Queues": systems/12-message-queues.md
+      - "13. Stream Processing": systems/13-stream-processing.md
+      - "14. Observability": systems/14-observability.md
+      - "15. Distributed Transactions": systems/15-distributed-transactions.md
+      - "16. Consensus Patterns": systems/16-consensus-patterns.md
+      - "17. Full System Designs": systems/17-full-system-designs.md
 
   - DSA:
       - "01. Two Pointers": dsa/01-two-pointers.md
@@ -47,12 +49,13 @@ nav:
       - "08. Binary Search": dsa/08-binary-search.md
       - "09. Union-Find": dsa/09-union-find.md
       - "10. Graphs": dsa/10-graphs.md
-      - "11. Heaps": dsa/11-heaps.md
-      - "12. Backtracking": dsa/12-backtracking.md
-      - "13. Dynamic Programming 1D": dsa/13-dynamic-programming-1d.md
-      - "14. Dynamic Programming 2D": dsa/14-dynamic-programming-2d.md
-      - "15. Tries": dsa/15-tries.md
-      - "16. Advanced Topics": dsa/16-advanced-topics.md
+      - "11. Advanced Graph Algorithms": dsa/11-advanced-graph-algorithms.md
+      - "12. Heaps": dsa/12-heaps.md
+      - "13. Backtracking": dsa/13-backtracking.md
+      - "14. Dynamic Programming 1D": dsa/14-dynamic-programming-1d.md
+      - "15. Dynamic Programming 2D": dsa/15-dynamic-programming-2d.md
+      - "16. Tries": dsa/16-tries.md
+      - "17. Advanced Topics": dsa/17-advanced-topics.md
 
 markdown_extensions:
   - codehilite

@@ -1,4 +1,4 @@
-# 15. Union-Find (Disjoint Set Union)
+# 09. Union-Find (Disjoint Set Union)
 
 > Efficiently track and merge disjoint sets with near-constant time operations
 

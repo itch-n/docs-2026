@@ -1,4 +1,4 @@
-# 12. Observability
+# 14. Observability
 
 > Metrics, Logging, Tracing - Understanding what your distributed system is doing
 

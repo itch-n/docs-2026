@@ -1,4 +1,4 @@
-# 07. Database Scaling
+# 11. Database Scaling
 
 > Strategies for handling growing data and traffic through sharding, replication, and partitioning
 

@@ -1,6 +1,6 @@
-# 08. Concurrency Patterns
+# 10. Concurrency Patterns
 
-> Locks, thread pools, and synchronization - The foundation of multi-threaded systems
+> Locks, thread pools, synchronization, and async patterns - From threads to coroutines to reactive streams
 
 ---
 
@@ -31,6 +31,19 @@
 6. **Real-world analogy for BlockingQueue:**
     - Example: "A BlockingQueue is like a conveyor belt in a factory..."
     - Your analogy: <span class="fill-in">[Fill in]</span>
+
+7. **What is an event loop in one sentence?**
+    - Your answer: <span class="fill-in">[Fill in after learning]</span>
+
+8. **How are virtual threads different from platform threads?**
+    - Your answer: <span class="fill-in">[Fill in after learning]</span>
+
+9. **Real-world analogy for virtual threads:**
+    - Example: "Virtual threads are like lightweight workers that..."
+    - Your analogy: <span class="fill-in">[Fill in]</span>
+
+10. **What is backpressure in reactive streams?**
+    - Your answer: <span class="fill-in">[Fill in after learning]</span>
 
 </div>
 
@@ -1673,6 +1686,1088 @@ public class ThreadPoolPatternsClient {
 
 ---
 
+### Pattern 5: Non-Blocking I/O (Event Loop)
+
+**Concept:** Handle many concurrent I/O operations with a single thread using event loops and callbacks.
+
+**Use case:** High-concurrency network servers (Node.js, Netty, Nginx), chat servers, API gateways.
+
+```java
+import java.nio.*;
+import java.nio.channels.*;
+import java.net.*;
+import java.util.*;
+
+/**
+ * Non-Blocking I/O Pattern using Java NIO
+ *
+ * Key Concepts:
+ * - Selector: Multiplexes multiple channels
+ * - SelectionKey: Represents channel registration
+ * - Event-driven: React to I/O events (accept, read, write)
+ * - Single thread handles thousands of connections
+ *
+ * Architecture:
+ * - Reactor Pattern: Single thread event loop
+ * - Proactor Pattern: OS handles I/O, notifies completion
+ */
+public class NonBlockingIOPattern {
+
+    /**
+     * Simple non-blocking echo server
+     * Time: O(1) per event, Space: O(N) where N = connections
+     *
+     * TODO: Implement event loop with Selector
+     */
+    static class EchoServer {
+        private Selector selector;
+        private ServerSocketChannel serverSocket;
+        private final int port;
+
+        public EchoServer(int port) throws IOException {
+            this.port = port;
+            // TODO: Initialize selector and server socket
+            this.selector = Selector.open();
+            this.serverSocket = ServerSocketChannel.open();
+
+            // TODO: Configure non-blocking mode
+            serverSocket.configureBlocking(false);
+            serverSocket.bind(new InetSocketAddress(port));
+
+            // TODO: Register for ACCEPT events
+            serverSocket.register(selector, SelectionKey.OP_ACCEPT);
+
+            System.out.println("Non-blocking server started on port " + port);
+        }
+
+        /**
+         * Event loop: process I/O events
+         */
+        public void start() throws IOException {
+            while (true) {
+                // TODO: Wait for events (blocking call)
+                selector.select();
+
+                Set<SelectionKey> selectedKeys = selector.selectedKeys();
+                Iterator<SelectionKey> iterator = selectedKeys.iterator();
+
+                while (iterator.hasNext()) {
+                    SelectionKey key = iterator.next();
+                    iterator.remove();
+
+                    // TODO: Handle different event types
+                    if (key.isAcceptable()) {
+                        handleAccept(key);
+                    } else if (key.isReadable()) {
+                        handleRead(key);
+                    } else if (key.isWritable()) {
+                        handleWrite(key);
+                    }
+                }
+            }
+        }
+
+        /**
+         * Accept new connection
+         */
+        private void handleAccept(SelectionKey key) throws IOException {
+            ServerSocketChannel server = (ServerSocketChannel) key.channel();
+            SocketChannel client = server.accept();
+
+            if (client != null) {
+                // TODO: Configure client socket as non-blocking
+                client.configureBlocking(false);
+
+                // TODO: Register for READ events
+                client.register(selector, SelectionKey.OP_READ);
+
+                System.out.println("Accepted connection from " + client.getRemoteAddress());
+            }
+        }
+
+        /**
+         * Read data from client
+         */
+        private void handleRead(SelectionKey key) throws IOException {
+            SocketChannel client = (SocketChannel) key.channel();
+            ByteBuffer buffer = ByteBuffer.allocate(1024);
+
+            int bytesRead = client.read(buffer);
+
+            if (bytesRead == -1) {
+                // Connection closed by client
+                client.close();
+                key.cancel();
+                return;
+            }
+
+            if (bytesRead > 0) {
+                // TODO: Echo back (attach buffer to key for writing)
+                buffer.flip();
+                key.attach(buffer);
+                key.interestOps(SelectionKey.OP_WRITE);
+            }
+        }
+
+        /**
+         * Write data to client
+         */
+        private void handleWrite(SelectionKey key) throws IOException {
+            SocketChannel client = (SocketChannel) key.channel();
+            ByteBuffer buffer = (ByteBuffer) key.attachment();
+
+            client.write(buffer);
+
+            if (!buffer.hasRemaining()) {
+                // TODO: All data written, switch back to READ
+                key.attach(null);
+                key.interestOps(SelectionKey.OP_READ);
+            }
+        }
+    }
+
+    /**
+     * Comparison: Blocking vs Non-Blocking
+     */
+    static void compareApproaches() {
+        System.out.println("Blocking I/O:");
+        System.out.println("  - One thread per connection");
+        System.out.println("  - 10,000 connections = 10,000 threads");
+        System.out.println("  - Thread overhead: ~1MB per thread = 10GB!");
+        System.out.println("  - Context switching overhead");
+        System.out.println();
+
+        System.out.println("Non-Blocking I/O:");
+        System.out.println("  - Single thread with event loop");
+        System.out.println("  - 10,000 connections = 1 thread");
+        System.out.println("  - Memory: ~few MB total");
+        System.out.println("  - No context switching between I/O operations");
+        System.out.println("  - Perfect for I/O-bound workloads");
+        System.out.println();
+
+        System.out.println("Trade-offs:");
+        System.out.println("  - Non-blocking: Complex callback-based code");
+        System.out.println("  - Non-blocking: Single thread = no CPU parallelism");
+        System.out.println("  - Non-blocking: Best for network I/O, not CPU work");
+    }
+
+    public static void main(String[] args) throws IOException {
+        compareApproaches();
+
+        // Start echo server
+        EchoServer server = new EchoServer(8080);
+        server.start();
+    }
+}
+```
+
+**Key Insights:**
+
+- **Event Loop:** Single thread waits for I/O events using `select()`/`epoll`/`kqueue`
+- **Scalability:** Handle 10K+ connections with 1 thread (C10K problem solution)
+- **No Context Switching:** Eliminates thread scheduling overhead for I/O
+- **Limitation:** Blocking operations (CPU work, DB calls) stall entire event loop
+
+**When to Use:**
+- ✅ High-concurrency network servers (chat, proxies, API gateways)
+- ✅ I/O-bound workloads (network, file I/O)
+- ✅ Need to minimize thread overhead
+- ❌ CPU-intensive tasks (blocks event loop)
+- ❌ Simple request-response patterns (thread-per-request easier)
+
+---
+
+### Pattern 6: Virtual Threads (Lightweight Concurrency)
+
+**Concept:** Millions of lightweight threads managed by JVM, not OS. Write blocking-style code with async performance.
+
+**Use case:** Modern Java services (Java 21+), high-concurrency applications, microservices.
+
+```java
+import java.util.concurrent.*;
+import java.time.Duration;
+
+/**
+ * Virtual Threads Pattern (Java 21+ Project Loom)
+ *
+ * Key Concepts:
+ * - Virtual threads: Lightweight, managed by JVM
+ * - Platform threads: Traditional OS threads
+ * - Carrier threads: OS threads that run virtual threads
+ * - Continuation: Save/restore execution state
+ *
+ * Benefits:
+ * - Write synchronous code, get async performance
+ * - Million+ concurrent tasks without million threads
+ * - No callback hell, readable code
+ */
+public class VirtualThreadsPattern {
+
+    /**
+     * Create and run virtual threads
+     */
+    static class BasicVirtualThreads {
+
+        /**
+         * Traditional platform thread (heavyweight)
+         */
+        public static void platformThreadExample() throws InterruptedException {
+            Thread platformThread = Thread.ofPlatform()
+                .name("platform-thread")
+                .start(() -> {
+                    System.out.println("Running on platform thread: " + Thread.currentThread());
+                });
+
+            platformThread.join();
+        }
+
+        /**
+         * Virtual thread (lightweight)
+         */
+        public static void virtualThreadExample() throws InterruptedException {
+            Thread virtualThread = Thread.ofVirtual()
+                .name("virtual-thread")
+                .start(() -> {
+                    System.out.println("Running on virtual thread: " + Thread.currentThread());
+                    System.out.println("Is virtual? " + Thread.currentThread().isVirtual());
+                });
+
+            virtualThread.join();
+        }
+
+        /**
+         * Executor with virtual threads
+         */
+        public static void virtualThreadExecutor() throws InterruptedException {
+            // TODO: Create virtual thread executor
+            try (ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor()) {
+                // Submit 10,000 tasks (would be expensive with platform threads!)
+                for (int i = 0; i < 10_000; i++) {
+                    int taskId = i;
+                    executor.submit(() -> {
+                        try {
+                            Thread.sleep(Duration.ofMillis(100));
+                            if (taskId % 1000 == 0) {
+                                System.out.println("Task " + taskId + " completed");
+                            }
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                        }
+                    });
+                }
+
+                // Wait for completion (executor implements AutoCloseable)
+                System.out.println("All 10,000 tasks submitted");
+            }
+
+            System.out.println("All tasks completed");
+        }
+    }
+
+    /**
+     * Blocking operations become non-blocking with virtual threads
+     */
+    static class BlockingWithVirtualThreads {
+
+        /**
+         * Simulate HTTP call (blocking I/O)
+         */
+        static String fetchData(String url) {
+            try {
+                // Simulated network call (blocking)
+                Thread.sleep(Duration.ofMillis(100));
+                return "Data from " + url;
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                return "Error";
+            }
+        }
+
+        /**
+         * Make many concurrent HTTP calls
+         */
+        public static void concurrentHttpCalls() throws InterruptedException {
+            long start = System.currentTimeMillis();
+
+            try (ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor()) {
+                // Launch 1000 concurrent HTTP calls
+                var futures = new ArrayList<Future<String>>();
+
+                for (int i = 0; i < 1000; i++) {
+                    Future<String> future = executor.submit(() ->
+                        fetchData("https://api.example.com/data")
+                    );
+                    futures.add(future);
+                }
+
+                // Wait for all results
+                for (Future<String> future : futures) {
+                    try {
+                        future.get();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            long elapsed = System.currentTimeMillis() - start;
+            System.out.println("1000 HTTP calls completed in " + elapsed + "ms");
+            System.out.println("With platform threads: would need 1000 threads (~1GB memory)");
+            System.out.println("With virtual threads: ~few MB memory");
+        }
+    }
+
+    /**
+     * Structured Concurrency (Java 21+)
+     */
+    static class StructuredConcurrencyExample {
+
+        record User(String id, String name) {}
+        record Order(String id, double amount) {}
+        record Response(User user, Order order) {}
+
+        /**
+         * Fetch user and order concurrently
+         */
+        public static Response fetchUserData(String userId) throws InterruptedException, ExecutionException {
+            try (var scope = new StructuredTaskScope.ShutdownOnFailure()) {
+
+                // Launch concurrent tasks
+                Future<User> userFuture = scope.fork(() -> fetchUser(userId));
+                Future<Order> orderFuture = scope.fork(() -> fetchOrder(userId));
+
+                // Wait for both to complete (or first failure)
+                scope.join();
+                scope.throwIfFailed();
+
+                // Both succeeded, get results
+                return new Response(userFuture.resultNow(), orderFuture.resultNow());
+            }
+        }
+
+        static User fetchUser(String userId) throws InterruptedException {
+            Thread.sleep(Duration.ofMillis(100));
+            return new User(userId, "John Doe");
+        }
+
+        static Order fetchOrder(String userId) throws InterruptedException {
+            Thread.sleep(Duration.ofMillis(150));
+            return new Order("order-123", 99.99);
+        }
+    }
+
+    /**
+     * Performance comparison
+     */
+    static void compareVirtualVsPlatform() {
+        System.out.println("Platform Threads:");
+        System.out.println("  - OS-managed, 1:1 mapping to OS threads");
+        System.out.println("  - Heavy: ~1MB stack per thread");
+        System.out.println("  - Limited: Typically 1000-10000 threads max");
+        System.out.println("  - Context switch: expensive (OS scheduler)");
+        System.out.println();
+
+        System.out.println("Virtual Threads:");
+        System.out.println("  - JVM-managed, M:N mapping to carrier threads");
+        System.out.println("  - Lightweight: Few KB per virtual thread");
+        System.out.println("  - Scalable: Million+ virtual threads possible");
+        System.out.println("  - Context switch: cheap (JVM scheduler)");
+        System.out.println("  - Blocking I/O: Automatically unmounts from carrier");
+        System.out.println();
+
+        System.out.println("When Virtual Thread Blocks:");
+        System.out.println("  1. Virtual thread calls blocking I/O");
+        System.out.println("  2. JVM detects block, unmounts virtual thread");
+        System.out.println("  3. Carrier thread freed to run other virtual threads");
+        System.out.println("  4. When I/O completes, virtual thread remounts");
+    }
+
+    public static void main(String[] args) throws Exception {
+        compareVirtualVsPlatform();
+
+        BasicVirtualThreads.virtualThreadExample();
+        BasicVirtualThreads.virtualThreadExecutor();
+        BlockingWithVirtualThreads.concurrentHttpCalls();
+    }
+}
+```
+
+**Key Insights:**
+
+- **Write Blocking, Get Async:** No callback hell, readable synchronous code
+- **Scalability:** Handle million+ concurrent operations
+- **Automatic Yielding:** JVM unmounts virtual threads during I/O
+- **Structured Concurrency:** Cancel child tasks when parent fails
+
+**When to Use:**
+- ✅ Modern Java applications (21+)
+- ✅ High concurrency (thousands+ concurrent tasks)
+- ✅ Blocking I/O operations (HTTP, DB, file I/O)
+- ✅ Want simple, readable code without callbacks
+- ❌ Java < 21 (use thread pools or reactive)
+- ❌ CPU-bound tasks (use platform threads + parallelism)
+
+---
+
+### Pattern 7: Coroutines (Cooperative Multitasking)
+
+**Concept:** Suspendable functions that can pause and resume execution. Lightweight concurrency without threads.
+
+**Use case:** Kotlin backends, Python async/await, Go services.
+
+```kotlin
+import kotlinx.coroutines.*
+import kotlin.system.measureTimeMillis
+
+/**
+ * Coroutines Pattern (Kotlin)
+ *
+ * Key Concepts:
+ * - suspend function: Can pause and resume
+ * - CoroutineScope: Manages coroutine lifecycle
+ * - Dispatcher: Determines which thread runs coroutine
+ * - Structured concurrency: Parent waits for children
+ *
+ * Coroutine vs Thread:
+ * - Coroutine: Lightweight (bytes), million+ possible
+ * - Thread: Heavyweight (MB), thousands max
+ */
+
+/**
+ * Basic coroutine examples
+ */
+object BasicCoroutines {
+
+    /**
+     * Simple suspend function
+     */
+    suspend fun fetchData(): String {
+        delay(1000) // Suspends coroutine, doesn't block thread
+        return "Data fetched"
+    }
+
+    /**
+     * Launch coroutine
+     */
+    fun launchExample() = runBlocking {
+        println("Main program starts: ${Thread.currentThread().name}")
+
+        // Launch coroutine (fire and forget)
+        launch {
+            println("Coroutine starts: ${Thread.currentThread().name}")
+            delay(500)
+            println("Coroutine ends")
+        }
+
+        println("Main program continues")
+        delay(1000) // Wait for coroutine
+        println("Main program ends")
+    }
+
+    /**
+     * Async/await for results
+     */
+    fun asyncExample() = runBlocking {
+        val deferred = async {
+            delay(1000)
+            "Result from async"
+        }
+
+        println("Doing other work...")
+        val result = deferred.await() // Suspends until result ready
+        println("Got result: $result")
+    }
+
+    /**
+     * Structured concurrency
+     */
+    fun structuredExample() = runBlocking {
+        println("Parent starts")
+
+        coroutineScope {
+            launch {
+                delay(500)
+                println("Child 1 completes")
+            }
+
+            launch {
+                delay(1000)
+                println("Child 2 completes")
+            }
+
+            println("Waiting for children...")
+        } // Suspends until all children complete
+
+        println("All children completed, parent continues")
+    }
+}
+
+/**
+ * Concurrent HTTP calls with coroutines
+ */
+object ConcurrentRequests {
+
+    suspend fun fetchUser(id: Int): String {
+        delay(100) // Simulate HTTP call
+        return "User $id"
+    }
+
+    /**
+     * Sequential vs concurrent fetching
+     */
+    fun compareSequentialVsConcurrent() = runBlocking {
+        // Sequential: 10 * 100ms = 1000ms
+        val sequentialTime = measureTimeMillis {
+            repeat(10) {
+                fetchUser(it)
+            }
+        }
+        println("Sequential: ${sequentialTime}ms")
+
+        // Concurrent: max(100ms) = 100ms
+        val concurrentTime = measureTimeMillis {
+            val deferreds = (0 until 10).map { id ->
+                async { fetchUser(id) }
+            }
+            deferreds.awaitAll() // Wait for all
+        }
+        println("Concurrent: ${concurrentTime}ms")
+    }
+
+    /**
+     * Concurrent with limit (semaphore)
+     */
+    fun concurrentWithLimit() = runBlocking {
+        val semaphore = Semaphore(3) // Max 3 concurrent requests
+
+        val results = (0 until 10).map { id ->
+            async {
+                semaphore.withPermit {
+                    println("Fetching user $id")
+                    fetchUser(id)
+                }
+            }
+        }
+
+        results.awaitAll()
+        println("All fetched with max 3 concurrent")
+    }
+}
+
+/**
+ * Dispatchers: Control execution context
+ */
+object DispatcherExamples {
+
+    fun demonstrateDispatchers() = runBlocking {
+        // Default: Shared thread pool for CPU-intensive work
+        launch(Dispatchers.Default) {
+            println("CPU work: ${Thread.currentThread().name}")
+        }
+
+        // IO: Optimized for blocking I/O operations
+        launch(Dispatchers.IO) {
+            println("I/O work: ${Thread.currentThread().name}")
+            // Good for: File I/O, network calls, database
+        }
+
+        // Main: UI thread (Android)
+        // launch(Dispatchers.Main) { }
+
+        // Unconfined: Starts in caller thread, resumes in any thread
+        launch(Dispatchers.Unconfined) {
+            println("Unconfined: ${Thread.currentThread().name}")
+            delay(100)
+            println("After delay: ${Thread.currentThread().name}") // May change
+        }
+
+        delay(200)
+    }
+}
+
+/**
+ * Error handling and cancellation
+ */
+object ErrorHandling {
+
+    suspend fun fetchWithRetry(id: Int, maxRetries: Int = 3): String {
+        repeat(maxRetries) { attempt ->
+            try {
+                delay(100)
+                if (attempt < 2) throw Exception("Network error")
+                return "User $id fetched on attempt ${attempt + 1}"
+            } catch (e: Exception) {
+                if (attempt == maxRetries - 1) throw e
+                println("Retry $attempt for user $id")
+            }
+        }
+        error("Unreachable")
+    }
+
+    fun cancellationExample() = runBlocking {
+        val job = launch {
+            repeat(1000) { i ->
+                if (!isActive) return@launch // Check cancellation
+                println("Working $i...")
+                delay(100)
+            }
+        }
+
+        delay(500)
+        println("Cancelling...")
+        job.cancel() // Cancel coroutine
+        job.join() // Wait for cancellation
+        println("Cancelled")
+    }
+
+    fun timeoutExample() = runBlocking {
+        try {
+            withTimeout(1000) { // Timeout after 1 second
+                repeat(10) {
+                    println("Working...")
+                    delay(200)
+                }
+            }
+        } catch (e: TimeoutCancellationException) {
+            println("Timed out!")
+        }
+    }
+}
+
+/**
+ * Comparison: Coroutines vs Threads
+ */
+fun compareCoroutinesVsThreads() {
+    println("Threads:")
+    println("  - Preemptive: OS scheduler decides when to switch")
+    println("  - Heavy: ~1MB per thread")
+    println("  - Blocking: Thread blocked during I/O")
+    println("  - Limited: Thousands max")
+    println()
+
+    println("Coroutines:")
+    println("  - Cooperative: Coroutine voluntarily suspends (delay, await)")
+    println("  - Lightweight: Few bytes per coroutine")
+    println("  - Non-blocking: Thread freed during suspend")
+    println("  - Scalable: Million+ coroutines possible")
+    println()
+
+    println("Python async/await:")
+    println("  - Similar to Kotlin coroutines")
+    println("  - Single-threaded event loop")
+    println("  - await keyword suspends coroutine")
+    println()
+
+    println("Go goroutines:")
+    println("  - Lighter than threads, heavier than coroutines")
+    println("  - Preemptive (Go 1.14+)")
+    println("  - Million+ goroutines possible")
+}
+
+fun main() {
+    compareCoroutinesVsThreads()
+    BasicCoroutines.launchExample()
+    BasicCoroutines.asyncExample()
+    ConcurrentRequests.compareSequentialVsConcurrent()
+}
+```
+
+**Python async/await equivalent:**
+
+```python
+import asyncio
+import aiohttp
+from typing import List
+
+async def fetch_user(session, user_id: int) -> dict:
+    """Suspendable function (coroutine)"""
+    async with session.get(f'https://api.example.com/users/{user_id}') as response:
+        return await response.json()  # await suspends coroutine
+
+async def fetch_all_users(user_ids: List[int]):
+    """Concurrent HTTP requests"""
+    async with aiohttp.ClientSession() as session:
+        # Create tasks (coroutines scheduled on event loop)
+        tasks = [fetch_user(session, uid) for uid in user_ids]
+
+        # Wait for all to complete
+        results = await asyncio.gather(*tasks)
+        return results
+
+# Run event loop
+users = asyncio.run(fetch_all_users([1, 2, 3, 4, 5]))
+```
+
+**Key Insights:**
+
+- **Suspend/Resume:** Functions can pause without blocking threads
+- **Event Loop:** Single thread manages many coroutines (like Node.js)
+- **Structured Concurrency:** Parent scope waits for children
+- **Cancellation:** Cancel entire hierarchy with one call
+
+**When to Use:**
+- ✅ Kotlin/Python/Go applications
+- ✅ High concurrency with I/O operations
+- ✅ Want readable async code (no callback hell)
+- ✅ Mobile apps (Android Kotlin)
+- ❌ Java (use virtual threads instead)
+- ❌ Need true parallelism for CPU work (use threads)
+
+---
+
+### Pattern 8: Reactive Streams (Backpressure-Aware)
+
+**Concept:** Asynchronous stream processing with backpressure control. Publisher produces data, subscriber consumes with flow control.
+
+**Use case:** Real-time data pipelines, streaming APIs, event-driven systems.
+
+```java
+import reactor.core.publisher.*;
+import reactor.core.scheduler.Schedulers;
+import java.time.Duration;
+import java.util.concurrent.atomic.AtomicInteger;
+
+/**
+ * Reactive Streams Pattern (Project Reactor)
+ *
+ * Key Concepts:
+ * - Publisher: Produces data (Flux = 0..N, Mono = 0..1)
+ * - Subscriber: Consumes data
+ * - Backpressure: Subscriber controls production rate
+ * - Operators: Transform, filter, combine streams
+ *
+ * Benefits:
+ * - Non-blocking, event-driven
+ * - Backpressure prevents overwhelming consumers
+ * - Composable async operations
+ */
+public class ReactiveStreamsPattern {
+
+    /**
+     * Basic Flux and Mono
+     */
+    static class BasicReactive {
+
+        /**
+         * Flux: 0 to N elements
+         */
+        public static void fluxExample() {
+            Flux<Integer> flux = Flux.range(1, 5);
+
+            flux.subscribe(
+                item -> System.out.println("Received: " + item),
+                error -> System.err.println("Error: " + error),
+                () -> System.out.println("Complete")
+            );
+        }
+
+        /**
+         * Mono: 0 or 1 element
+         */
+        public static void monoExample() {
+            Mono<String> mono = Mono.just("Hello Reactive");
+
+            mono.subscribe(System.out::println);
+        }
+
+        /**
+         * Create Flux from various sources
+         */
+        public static void createFlux() {
+            // From collection
+            Flux<String> fromList = Flux.fromIterable(
+                java.util.List.of("A", "B", "C")
+            );
+
+            // From range
+            Flux<Integer> range = Flux.range(1, 10);
+
+            // From interval (infinite stream)
+            Flux<Long> interval = Flux.interval(Duration.ofMillis(100));
+
+            // Custom generator
+            Flux<Integer> generated = Flux.generate(
+                () -> 0, // Initial state
+                (state, sink) -> {
+                    sink.next(state);
+                    if (state == 10) sink.complete();
+                    return state + 1;
+                }
+            );
+        }
+    }
+
+    /**
+     * Stream operators: transform, filter, combine
+     */
+    static class Operators {
+
+        /**
+         * Transform operators
+         */
+        public static void transformOperators() {
+            Flux.range(1, 5)
+                .map(x -> x * 2)          // Transform each element
+                .filter(x -> x > 5)       // Filter elements
+                .take(2)                  // Take first 2
+                .subscribe(System.out::println);
+            // Output: 6, 8
+        }
+
+        /**
+         * FlatMap: Async transformation (1 → many)
+         */
+        public static void flatMapExample() {
+            Flux.range(1, 3)
+                .flatMap(id -> fetchUser(id))  // Concurrent calls
+                .subscribe(user -> System.out.println("User: " + user));
+        }
+
+        static Mono<String> fetchUser(int id) {
+            return Mono.delay(Duration.ofMillis(100))
+                .map(__ -> "User" + id);
+        }
+
+        /**
+         * Combining streams
+         */
+        public static void combineStreams() {
+            Flux<Integer> flux1 = Flux.range(1, 3);
+            Flux<Integer> flux2 = Flux.range(10, 3);
+
+            // Merge: Interleave both streams
+            Flux.merge(flux1, flux2)
+                .subscribe(System.out::println);
+
+            // Zip: Combine corresponding elements
+            Flux.zip(flux1, flux2, (a, b) -> a + b)
+                .subscribe(sum -> System.out.println("Sum: " + sum));
+            // Output: 11, 13, 15
+        }
+
+        /**
+         * Error handling
+         */
+        public static void errorHandling() {
+            Flux.range(1, 5)
+                .map(i -> {
+                    if (i == 3) throw new RuntimeException("Error at 3");
+                    return i;
+                })
+                .onErrorReturn(-1)        // Fallback value
+                .subscribe(System.out::println);
+            // Output: 1, 2, -1
+
+            // Retry
+            Flux.range(1, 3)
+                .map(i -> {
+                    if (i < 3) throw new RuntimeException("Retry me");
+                    return i;
+                })
+                .retry(2)                 // Retry up to 2 times
+                .subscribe(
+                    System.out::println,
+                    err -> System.err.println("Failed: " + err)
+                );
+        }
+    }
+
+    /**
+     * Backpressure: Subscriber controls production rate
+     */
+    static class BackpressureExample {
+
+        /**
+         * Without backpressure: Overflow
+         */
+        public static void noBackpressure() {
+            Flux.range(1, 1000)
+                .doOnNext(i -> System.out.println("Producing: " + i))
+                .subscribeOn(Schedulers.parallel())
+                .publishOn(Schedulers.single())
+                .subscribe(
+                    i -> {
+                        // Slow consumer
+                        try { Thread.sleep(10); } catch (InterruptedException e) {}
+                        System.out.println("Consuming: " + i);
+                    },
+                    Throwable::printStackTrace
+                );
+
+            // Problem: Producer overwhelms consumer!
+        }
+
+        /**
+         * With backpressure: Controlled flow
+         */
+        public static void withBackpressure() {
+            Flux.range(1, 1000)
+                .doOnNext(i -> System.out.println("Producing: " + i))
+                .onBackpressureBuffer(10)  // Buffer up to 10 items
+                .subscribeOn(Schedulers.parallel())
+                .publishOn(Schedulers.single())
+                .subscribe(
+                    i -> {
+                        try { Thread.sleep(10); } catch (InterruptedException e) {}
+                        System.out.println("Consuming: " + i);
+                    }
+                );
+
+            // Producer waits when buffer full
+        }
+
+        /**
+         * Backpressure strategies
+         */
+        public static void backpressureStrategies() {
+            Flux<Integer> fast = Flux.range(1, 100);
+
+            // Buffer: Store items in queue
+            fast.onBackpressureBuffer(10);
+
+            // Drop: Drop new items when overwhelmed
+            fast.onBackpressureDrop();
+
+            // Latest: Keep only latest item
+            fast.onBackpressureLatest();
+
+            // Error: Fail when overwhelmed
+            fast.onBackpressureError();
+        }
+    }
+
+    /**
+     * Schedulers: Control execution context
+     */
+    static class SchedulerExamples {
+
+        public static void demonstrateSchedulers() {
+            // Immediate: Current thread
+            Flux.range(1, 3)
+                .subscribeOn(Schedulers.immediate())
+                .subscribe(i -> System.out.println("Immediate: " + Thread.currentThread().getName()));
+
+            // Single: Single reusable thread
+            Flux.range(1, 3)
+                .subscribeOn(Schedulers.single())
+                .subscribe(i -> System.out.println("Single: " + Thread.currentThread().getName()));
+
+            // Parallel: Fixed pool for CPU-bound work
+            Flux.range(1, 3)
+                .subscribeOn(Schedulers.parallel())
+                .subscribe(i -> System.out.println("Parallel: " + Thread.currentThread().getName()));
+
+            // Bounded Elastic: Bounded pool for blocking I/O
+            Flux.range(1, 3)
+                .subscribeOn(Schedulers.boundedElastic())
+                .subscribe(i -> System.out.println("BoundedElastic: " + Thread.currentThread().getName()));
+        }
+    }
+
+    /**
+     * Real-world example: HTTP API with reactive streams
+     */
+    static class ReactiveAPI {
+
+        record User(int id, String name) {}
+        record Order(int id, int userId, double amount) {}
+        record UserWithOrders(User user, java.util.List<Order> orders) {}
+
+        /**
+         * Fetch user with orders (reactive)
+         */
+        public static Mono<UserWithOrders> fetchUserWithOrders(int userId) {
+            Mono<User> userMono = fetchUser(userId);
+            Flux<Order> ordersFlux = fetchOrders(userId);
+
+            return Mono.zip(
+                userMono,
+                ordersFlux.collectList(),
+                UserWithOrders::new
+            );
+        }
+
+        static Mono<User> fetchUser(int userId) {
+            return Mono.delay(Duration.ofMillis(100))
+                .map(__ -> new User(userId, "User" + userId));
+        }
+
+        static Flux<Order> fetchOrders(int userId) {
+            return Flux.range(1, 3)
+                .delayElements(Duration.ofMillis(50))
+                .map(i -> new Order(i, userId, i * 10.0));
+        }
+
+        /**
+         * Process stream of users
+         */
+        public static Flux<UserWithOrders> processUserStream(Flux<Integer> userIds) {
+            return userIds
+                .flatMap(ReactiveAPI::fetchUserWithOrders, 5) // Max 5 concurrent
+                .onErrorContinue((err, val) ->
+                    System.err.println("Error processing " + val + ": " + err)
+                );
+        }
+    }
+
+    /**
+     * Comparison: Reactive vs Imperative
+     */
+    static void compareApproaches() {
+        System.out.println("Imperative (Blocking):");
+        System.out.println("  - Sequential execution");
+        System.out.println("  - Thread blocked during I/O");
+        System.out.println("  - Simple to understand");
+        System.out.println("  - Limited concurrency");
+        System.out.println();
+
+        System.out.println("Reactive (Non-blocking):");
+        System.out.println("  - Asynchronous execution");
+        System.out.println("  - Threads not blocked");
+        System.out.println("  - Backpressure control");
+        System.out.println("  - High concurrency");
+        System.out.println("  - Steeper learning curve");
+        System.out.println();
+
+        System.out.println("When to use Reactive:");
+        System.out.println("  ✓ High-concurrency services");
+        System.out.println("  ✓ Streaming data pipelines");
+        System.out.println("  ✓ Event-driven architectures");
+        System.out.println("  ✓ Need backpressure control");
+        System.out.println("  ✗ Simple CRUD APIs (overkill)");
+        System.out.println("  ✗ Team unfamiliar with reactive");
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        compareApproaches();
+
+        BasicReactive.fluxExample();
+        Operators.transformOperators();
+        BackpressureExample.withBackpressure();
+
+        Thread.sleep(2000); // Wait for async operations
+    }
+}
+```
+
+**Key Insights:**
+
+- **Backpressure:** Consumer tells producer to slow down
+- **Non-blocking:** Threads freed during I/O operations
+- **Composable:** Chain operators to build complex pipelines
+- **Error Handling:** Resilient with retry, fallback strategies
+
+**When to Use:**
+- ✅ Streaming data pipelines (Kafka, websockets)
+- ✅ High-concurrency microservices (Spring WebFlux)
+- ✅ Event-driven architectures
+- ✅ Need backpressure control
+- ❌ Simple REST APIs (virtual threads simpler)
+- ❌ Team unfamiliar with reactive (steep learning curve)
+- ❌ Blocking libraries (defeats the purpose)
+
+---
+
 ## Debugging Challenges
 
 **Your task:** Find and fix concurrency bugs in broken implementations. This tests your understanding of thread safety.
@@ -2271,6 +3366,65 @@ Answer after implementation:
 - Fairness: <span class="fill-in">[FIFO lock acquisition]</span>
 - Condition variables: <span class="fill-in">[Complex waiting conditions]</span>
 
+### Question 4: When to use async/non-blocking patterns?
+
+**Use Non-Blocking I/O (Event Loop) when:**
+
+- Extreme concurrency: <span class="fill-in">[10K+ connections]</span>
+- I/O-bound: <span class="fill-in">[Network I/O, minimal CPU work]</span>
+- Single-threaded efficiency: <span class="fill-in">[Want event loop pattern]</span>
+- Examples: <span class="fill-in">[Chat servers, proxies, API gateways]</span>
+
+**Use Virtual Threads (Java 21+) when:**
+
+- Modern Java: <span class="fill-in">[Java 21+]</span>
+- High concurrency + readability: <span class="fill-in">[Want blocking-style code]</span>
+- Blocking I/O: <span class="fill-in">[HTTP, database, file I/O]</span>
+- Avoid callback hell: <span class="fill-in">[Simpler than reactive]</span>
+
+**Use Coroutines (Kotlin/Python/Go) when:**
+
+- Kotlin/Python/Go: <span class="fill-in">[Language supports coroutines]</span>
+- Async/await model: <span class="fill-in">[Want structured concurrency]</span>
+- Mobile apps: <span class="fill-in">[Android Kotlin]</span>
+- Lightweight concurrency: <span class="fill-in">[Million+ concurrent operations]</span>
+
+**Use Reactive Streams when:**
+
+- Streaming pipelines: <span class="fill-in">[Kafka, WebSockets, event streams]</span>
+- Backpressure critical: <span class="fill-in">[Prevent consumer overload]</span>
+- Complex transformations: <span class="fill-in">[Chain operators, error handling]</span>
+- Spring WebFlux: <span class="fill-in">[Reactive microservices]</span>
+
+### Question 5: Traditional Threads vs Modern Async?
+
+**Platform Threads when:**
+
+- True parallelism: <span class="fill-in">[CPU-bound work]</span>
+- Simple requirements: <span class="fill-in">[Few concurrent tasks]</span>
+- Blocking libraries: <span class="fill-in">[Can't avoid blocking calls]</span>
+- Thread count acceptable: <span class="fill-in">[< 1000 threads]</span>
+
+**Virtual Threads/Coroutines when:**
+
+- High concurrency: <span class="fill-in">[Thousands+ operations]</span>
+- I/O-bound: <span class="fill-in">[Waiting for network/disk]</span>
+- Modern platforms: <span class="fill-in">[Java 21+, Kotlin, Go]</span>
+- Readable code: <span class="fill-in">[No callbacks needed]</span>
+
+**Event Loop when:**
+
+- Extreme scale: <span class="fill-in">[10K+ connections]</span>
+- JavaScript-style: <span class="fill-in">[Node.js, single-threaded]</span>
+- Callback acceptable: <span class="fill-in">[Team comfortable with callbacks]</span>
+
+**Reactive when:**
+
+- Streaming data: <span class="fill-in">[Real-time pipelines]</span>
+- Backpressure: <span class="fill-in">[Producer-consumer rate control]</span>
+- Complex flows: <span class="fill-in">[Many transformations]</span>
+- Team expertise: <span class="fill-in">[Learning curve steep]</span>
+
 ### Your Decision Tree
 
 Build this after solving practice scenarios:
@@ -2414,6 +3568,8 @@ Before moving to the next topic:
     - [ ] ConcurrentHashMap cache operations work
     - [ ] Lock-free counter with CAS works
     - [ ] Thread pool executors work correctly
+    - [ ] Non-blocking echo server handles concurrent connections
+    - [ ] Virtual threads handle 10K+ concurrent operations
     - [ ] All client code runs successfully
 
 - [ ] **Understanding**
@@ -2424,6 +3580,10 @@ Before moving to the next topic:
     - [ ] Understand BlockingQueue blocking behavior
     - [ ] Understand CAS and ABA problem
     - [ ] Understand thread pool sizing principles
+    - [ ] Understand event loop vs threaded I/O
+    - [ ] Understand virtual threads vs platform threads
+    - [ ] Understand coroutine suspend/resume mechanism
+    - [ ] Understand reactive backpressure
 
 - [ ] **Concurrency Principles**
     - [ ] Always release locks in finally blocks
@@ -2433,18 +3593,29 @@ Before moving to the next topic:
     - [ ] Shutdown thread pools gracefully
     - [ ] Prefer higher-level abstractions (BlockingQueue, Atomic)
     - [ ] Measure contention before optimizing
+    - [ ] Choose async pattern based on workload
+    - [ ] Event loops don't block on CPU work
+    - [ ] Virtual threads excellent for blocking I/O
 
 - [ ] **Decision Making**
     - [ ] Know when to use locks vs lock-free
     - [ ] Know how to size thread pools
+    - [ ] Know when to use event loops vs threads
+    - [ ] Know when virtual threads better than reactive
+    - [ ] Know when coroutines appropriate
+    - [ ] Know when reactive streams needed
     - [ ] Completed practice scenarios
     - [ ] Can explain synchronization trade-offs
+    - [ ] Can explain async pattern trade-offs
 
 - [ ] **Mastery Check**
     - [ ] Could implement thread-safe cache from memory
     - [ ] Could design thread pool configuration for given workload
+    - [ ] Could build non-blocking server with NIO
+    - [ ] Could migrate app to virtual threads
     - [ ] Understand concurrency bugs (deadlock, race conditions, starvation)
     - [ ] Know how to debug concurrency issues
+    - [ ] Can choose appropriate async pattern for requirements
 
 ---
 
@@ -2456,9 +3627,15 @@ Before moving to the next topic:
 - [ ] Implement lock-free algorithms with CAS
 - [ ] Design producer-consumer pipelines with BlockingQueue
 - [ ] Configure and use thread pools appropriately
+- [ ] Build non-blocking I/O servers with NIO
+- [ ] Use virtual threads for high-concurrency applications
+- [ ] Write coroutines with async/await patterns
+- [ ] Build reactive streams with backpressure control
 - [ ] Debug race conditions, deadlocks, and visibility issues
 - [ ] Size thread pools based on workload characteristics
+- [ ] Choose between sync and async patterns for requirements
 - [ ] Compare trade-offs: locks vs lock-free vs immutable
+- [ ] Compare trade-offs: threads vs virtual threads vs event loops vs reactive
 - [ ] Explain concurrency concepts to others
 
 **Self-assessment score:** ___/10

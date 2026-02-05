@@ -1,4 +1,4 @@
-# 09. Distributed Transactions
+# 15. Distributed Transactions
 
 > Maintaining consistency across multiple services and databases
 
