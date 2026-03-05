@@ -12,7 +12,7 @@ Numbered sequences you work through at your own pace. Each topic follows the sam
 
 ## Two Paths
 
-### [Systems Design](systems/01-storage-engines.md) (16 Topics)
+### [Systems Design](systems/01-storage-engines.md) (20 Topics)
 
 Build real implementations to understand how systems work:
 
@@ -28,12 +28,16 @@ Build real implementations to understand how systems work:
 - [ ] **Concurrency Patterns** - Locks, producer-consumer, thread safety
 - [ ] **Database Scaling** - Replication, sharding, partitioning
 - [ ] **Message Queues** - Queue vs pub/sub, delivery guarantees
+- [ ] **Event Sourcing & CQRS** - Append-only event log, projections, read/write model separation
 - [ ] **Stream Processing** - Windowing patterns for real-time event aggregation
 - [ ] **Observability** - Metrics, logging, tracing, SLOs
+- [ ] **Resilience Patterns** - Circuit breaker, bulkhead, retry/backoff, graceful degradation
 - [ ] **Distributed Transactions** - Saga pattern, idempotency
 - [ ] **Consensus Patterns** - Raft, leader election, distributed locks
+- [ ] **Microservices Patterns** - API gateway, service discovery, service mesh, decomposition
+- [ ] **Multi-Region Architecture** - Active-active/passive, conflict resolution, geo-routing
 
-### [DSA](dsa/01-two-pointers.md) (14 Topics)
+### [DSA](dsa/01-two-pointers.md) (15 Topics)
 
 Pattern-based approach from easy to advanced:
 
@@ -48,6 +52,7 @@ Pattern-based approach from easy to advanced:
 - [ ] **Union-Find** - Disjoint sets for dynamic connectivity, Kruskal's MST
 - [ ] **Graphs (DFS/BFS)** - Traversals, cycle detection, connected components
 - [ ] **Advanced Graphs** - Topological Sort, Dijkstra, MST
+- [ ] **Backtracking** - Subsets, combinations, permutations, constraint satisfaction
 - [ ] **Dynamic Programming** - Fibonacci, house robber, coin change
 - [ ] **Prefix Sums** - Range queries, subarray sum with HashMap, 2D prefix sum
 - [ ] **Intervals** - Merge, insert, meeting rooms, greedy removal

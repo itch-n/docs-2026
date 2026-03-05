@@ -2029,4 +2029,4 @@ Complete this checklist after implementing and studying both traversal and recur
 
     - **08. Heaps** — a binary heap is a complete binary tree stored as an array; tree height reasoning applies directly to heap operations → [08. Heaps](08-heaps.md)
     - **10. Graphs** — trees are acyclic connected graphs; tree traversals (DFS/BFS) generalise directly to graph traversals → [10. Graphs](10-graphs.md)
-    - **12. Dynamic Programming** — many tree DP problems (diameter, path sum, LCA) use post-order traversal to propagate subproblem results up the tree → [12. Dynamic Programming](12-dynamic-programming.md)
+    - **13. Dynamic Programming** — many tree DP problems (diameter, path sum, LCA) use post-order traversal to propagate subproblem results up the tree → [13. Dynamic Programming](13-dynamic-programming.md)

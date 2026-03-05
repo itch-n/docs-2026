@@ -17,6 +17,11 @@ By the end of this topic you will be able to:
 
 ---
 
+!!! warning "Operational reality"
+    Premature sharding is one of the most common and expensive architectural mistakes in backend engineering. Sharding decisions are very difficult to reverse — choosing the wrong shard key, or sharding before you understand your query patterns, creates distributed systems problems at a fraction of the scale that would actually justify them. A well-tuned Postgres instance with read replicas handles tens of thousands of queries per second and terabytes of data. Most applications never need to shard.
+
+    Read replicas are also not free queries. Replication lag means replicas serve stale reads, and applications that don't account for this produce subtle consistency bugs — a user creates a record, is redirected, and the page showing the new record reads from a replica that hasn't caught up yet. Shard when you must, replicate carefully, and measure before you scale.
+
 ## ELI5: Explain Like I'm 5
 
 <div class="learner-section" markdown>
@@ -1895,5 +1900,5 @@ Answer these without referring to your notes or implementation.
 !!! info "Where this topic connects"
 
     - **01. Storage Engines** — sharding distributes storage engine instances; the engine's write-ahead log and compaction strategy shape which replication approaches are practical → [01. Storage Engines](01-storage-engines.md)
-    - **15. Distributed Transactions** — cross-shard writes cannot be made atomic by a single database engine; distributed transaction protocols are required → [15. Distributed Transactions](15-distributed-transactions.md)
-    - **16. Consensus Patterns** — leader election for primary replica failover uses Raft or similar consensus; without it, split-brain allows two nodes to accept writes simultaneously → [16. Consensus Patterns](16-consensus-patterns.md)
+    - **17. Distributed Transactions** — cross-shard writes cannot be made atomic by a single database engine; distributed transaction protocols are required → [17. Distributed Transactions](17-distributed-transactions.md)
+    - **18. Consensus Patterns** — leader election for primary replica failover uses Raft or similar consensus; without it, split-brain allows two nodes to accept writes simultaneously → [18. Consensus Patterns](18-consensus-patterns.md)

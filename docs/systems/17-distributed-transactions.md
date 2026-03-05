@@ -17,6 +17,11 @@ By the end of this section you should be able to:
 
 ---
 
+!!! warning "Operational reality"
+    Sagas are the correct pattern for distributed transactions — 2PC is genuinely problematic at scale — but debugging a saga that has half-compensated across four services at 3am is a special kind of difficult. Compensating transactions assume compensation is always possible and idempotent, which it often is not (you cannot un-send an email). The saga coordinator or choreography event chain tends to become the most critical and least-understood component in the system.
+
+    Most teams benefit more from designing for idempotency and accepting eventual consistency than from building a full saga framework. Study the pattern to understand the tradeoffs; reach for it sparingly.
+
 ## ELI5: Explain Like I'm 5
 
 <div class="learner-section" markdown>
@@ -1556,4 +1561,4 @@ Answer these questions without looking at your implementation. They are designed
 
     - **11. Database Scaling** — sharding makes cross-shard transactions the canonical saga use case; distributed transactions exist because single-node ACID doesn't scale horizontally → [11. Database Scaling](11-database-scaling.md)
     - **12. Message Queues** — saga choreography uses message queues as the backbone; exactly-once delivery semantics directly affect saga correctness → [12. Message Queues](12-message-queues.md)
-    - **16. Consensus Patterns** — two-phase commit requires a coordinator; consensus (Raft/Paxos) is the mechanism used to make that coordinator fault-tolerant → [16. Consensus Patterns](16-consensus-patterns.md)
+    - **18. Consensus Patterns** — two-phase commit requires a coordinator; consensus (Raft/Paxos) is the mechanism used to make that coordinator fault-tolerant → [18. Consensus Patterns](18-consensus-patterns.md)

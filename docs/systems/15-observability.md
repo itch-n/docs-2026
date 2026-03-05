@@ -17,6 +17,11 @@ By the end of this section you should be able to:
 
 ---
 
+!!! warning "Operational reality"
+    Most observability implementations are SLO theater: SLOs are defined, dashboards are built, and then neither is meaningfully enforced or acted on. Teams instrument everything — hundreds of metrics, gigabytes of logs — and then alert on so many things that alert fatigue sets in and on-call engineers learn to dismiss pages. The result is worse than no alerting, because it creates false confidence.
+
+    "Alert on symptoms, not causes" is the correct principle and almost universally violated. A symptom alert fires when users are affected (error rate up, latency up, success rate down). A cause alert fires when a CPU is at 80% — which may or may not matter. High-cardinality labels (user IDs, request IDs as metric dimensions) are another common production incident: they cause metric storage to explode and query engines to OOM. Observability tooling is cheap to add and expensive to operate well.
+
 ## ELI5: Explain Like I'm 5
 
 <div class="learner-section" markdown>
@@ -1888,4 +1893,4 @@ Answer these questions without looking at your implementation. They are designed
 
     - **08. Rate Limiting** — rate limiting decisions depend on real-time counters that are part of the observability surface; SLO alerting fires when rate-limited traffic exceeds thresholds → [08. Rate Limiting](08-rate-limiting.md)
     - **09. Load Balancing** — load balancer health checks and request-rate metrics are core observability signals; SLO dashboards typically visualise per-backend latency → [09. Load Balancing](09-load-balancing.md)
-    - **15. Distributed Transactions** — distributed tracing is essential for diagnosing saga failures; correlation IDs span both observability and transaction coordination → [15. Distributed Transactions](15-distributed-transactions.md)
+    - **17. Distributed Transactions** — distributed tracing is essential for diagnosing saga failures; correlation IDs span both observability and transaction coordination → [17. Distributed Transactions](17-distributed-transactions.md)

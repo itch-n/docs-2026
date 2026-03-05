@@ -17,6 +17,13 @@ By the end of this topic you will be able to:
 
 ---
 
+!!! warning "Operational reality"
+    **On Kafka and message brokers:** Kafka is genuinely the right tool when you need fan-out (multiple independent consumers reading the same events at different offsets) or durable replay ("reprocess all orders from last Tuesday"). For task processing — jobs with one consumer, one outcome — a database-backed job queue (Postgres `SELECT FOR UPDATE SKIP LOCKED`, Sidekiq, Faktory) is simpler, transactionally correct, and already uses infrastructure you are already operating. Many teams adopt Kafka because it is "industry standard" and spend months managing consumer group lag, partition rebalancing, and offset semantics that a job table would have avoided entirely.
+
+    **On event-driven architecture:** Pub/sub is the building block of event-driven architecture (EDA), where services react to events rather than calling each other directly. EDA's appeal is loose coupling; its cost is that reasoning about system behaviour becomes significantly harder. At-least-once delivery means every consumer must handle duplicates. Ordering is only guaranteed within a partition. Debugging a business transaction that touched six services via events requires distributed tracing to reconstruct. Fan-out amplifies unexpectedly — one upstream event can trigger a cascade of downstream events across services that is very difficult to predict or throttle. Schema evolution ("can I change this event?") requires auditing every consumer first.
+
+    Reach for pub/sub when producers genuinely should not know their consumers. Use a direct call or a job queue when one service needs one thing done.
+
 ## ELI5: Explain Like I'm 5
 
 <div class="learner-section" markdown>
@@ -1449,5 +1456,5 @@ Answer these without referring to your notes or implementation.
 !!! info "Where this topic connects"
 
     - **10. Concurrency Patterns** — distributed producer-consumer extends the in-process blocking queue pattern; the same backpressure and ordering concerns apply at scale → [10. Concurrency Patterns](10-concurrency-patterns.md)
-    - **13. Stream Processing** — Kafka functions as both a message queue and the event source for stream processors; queue delivery guarantees determine stream processing consistency → [13. Stream Processing](13-stream-processing.md)
-    - **15. Distributed Transactions** — the transactional outbox pattern uses a message queue to guarantee that a database write and a downstream event are published atomically → [15. Distributed Transactions](15-distributed-transactions.md)
+    - **14. Stream Processing** — Kafka functions as both a message queue and the event source for stream processors; queue delivery guarantees determine stream processing consistency → [14. Stream Processing](14-stream-processing.md)
+    - **17. Distributed Transactions** — the transactional outbox pattern uses a message queue to guarantee that a database write and a downstream event are published atomically → [17. Distributed Transactions](17-distributed-transactions.md)

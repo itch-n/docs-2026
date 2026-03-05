@@ -950,4 +950,4 @@ Answer these questions without looking at your notes. Write a sentence or two fo
 
     - **01. Two Pointers** — the sliding window left/right boundary IS a two-pointer pattern; understanding opposite-direction pointers first builds intuition for same-direction window pointers → [01. Two Pointers](01-two-pointers.md)
     - **03. Hash Tables** — variable-size sliding windows use a HashMap to track element frequencies inside the window in O(1) → [03. Hash Tables](03-hash-tables.md)
-    - **13. Prefix Sums** — both patterns answer range-query questions; prefix sums are better for static arrays with many queries, sliding window for single-pass streaming problems → [13. Prefix Sums](13-prefix-sums.md)
+    - **14. Prefix Sums** — both patterns answer range-query questions; prefix sums are better for static arrays with many queries, sliding window for single-pass streaming problems → [14. Prefix Sums](14-prefix-sums.md)

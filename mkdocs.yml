@@ -32,10 +32,14 @@ nav:
       - "10. Concurrency Patterns": systems/10-concurrency-patterns.md
       - "11. Database Scaling": systems/11-database-scaling.md
       - "12. Message Queues": systems/12-message-queues.md
-      - "13. Stream Processing": systems/13-stream-processing.md
-      - "14. Observability": systems/14-observability.md
-      - "15. Distributed Transactions": systems/15-distributed-transactions.md
-      - "16. Consensus Patterns": systems/16-consensus-patterns.md
+      - "13. Event Sourcing & CQRS": systems/13-event-sourcing-cqrs.md
+      - "14. Stream Processing": systems/14-stream-processing.md
+      - "15. Observability": systems/15-observability.md
+      - "16. Resilience Patterns": systems/16-resilience-patterns.md
+      - "17. Distributed Transactions": systems/17-distributed-transactions.md
+      - "18. Consensus Patterns": systems/18-consensus-patterns.md
+      - "19. Microservices Patterns": systems/19-microservices-patterns.md
+      - "20. Multi-Region Architecture": systems/20-multi-region.md
 
   - DSA:
       - "01. Two Pointers": dsa/01-two-pointers.md
@@ -49,9 +53,10 @@ nav:
       - "09. Union-Find": dsa/09-union-find.md
       - "10. Graphs": dsa/10-graphs.md
       - "11. Advanced Graphs": dsa/11-advanced-graphs.md
-      - "12. Dynamic Programming": dsa/12-dynamic-programming.md
-      - "13. Prefix Sums": dsa/13-prefix-sums.md
-      - "14. Intervals": dsa/14-intervals.md
+      - "12. Backtracking": dsa/12-backtracking.md
+      - "13. Dynamic Programming": dsa/13-dynamic-programming.md
+      - "14. Prefix Sums": dsa/14-prefix-sums.md
+      - "15. Intervals": dsa/15-intervals.md
 
 markdown_extensions:
   - admonition

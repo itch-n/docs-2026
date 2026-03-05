@@ -1361,4 +1361,4 @@ Answer these without referring to your notes or implementation.
 
     - **06. API Design** — rate limiting is applied at the API layer to protect endpoints; the rate limit unit (per user, per IP, per API key) aligns with the API authentication scheme → [06. API Design](06-api-design.md)
     - **09. Load Balancing** — rate limiting is commonly implemented at the load balancer or API gateway level, before requests reach backend services → [09. Load Balancing](09-load-balancing.md)
-    - **14. Observability** — rate limit hit rate and remaining quota are key metrics; tracking them with counters reveals abuse patterns and helps tune thresholds → [14. Observability](14-observability.md)
+    - **15. Observability** — rate limit hit rate and remaining quota are key metrics; tracking them with counters reveals abuse patterns and helps tune thresholds → [15. Observability](15-observability.md)

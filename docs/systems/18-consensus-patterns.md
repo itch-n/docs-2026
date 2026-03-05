@@ -17,6 +17,11 @@ By the end of this section you should be able to:
 
 ---
 
+!!! warning "Operational reality"
+    You will almost certainly never implement Raft or Paxos directly. The practical skill is knowing when to reach for etcd, ZooKeeper, or your cloud provider's managed coordination service — and understanding the consistency, latency, and availability tradeoffs well enough to use them correctly. The algorithm details matter for interviews because they reveal *why* consensus is expensive (leader election, quorum writes, log replication) and what failure modes to expect.
+
+    Distributed locks in particular have a long history of subtle bugs in production. "We use Redis for distributed locking" is a phrase that appears in a disproportionate number of postmortems.
+
 ## ELI5: Explain Like I'm 5
 
 <div class="learner-section" markdown>
@@ -1497,5 +1502,5 @@ Complete this checklist after implementing and studying consensus patterns.
 !!! info "Where this topic connects"
 
     - **11. Database Scaling** — leader election via consensus is how distributed databases elect a primary for replication → [11. Database Scaling](11-database-scaling.md)
-    - **15. Distributed Transactions** — the coordinator in 2PC must be made fault-tolerant using a consensus protocol; Raft underpins Spanner-style distributed transactions → [15. Distributed Transactions](15-distributed-transactions.md)
+    - **17. Distributed Transactions** — the coordinator in 2PC must be made fault-tolerant using a consensus protocol; Raft underpins Spanner-style distributed transactions → [17. Distributed Transactions](17-distributed-transactions.md)
     - **10. Concurrency Patterns** — distributed locks (built on consensus) are the distributed analogue of local mutex/semaphore patterns → [10. Concurrency Patterns](10-concurrency-patterns.md)

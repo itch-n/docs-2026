@@ -2555,5 +2555,5 @@ Answer these without referring to your notes or implementation.
 !!! info "Where this topic connects"
 
     - **12. Message Queues** — the producer-consumer pattern implemented here with threads and blocking queues is the same pattern message queues implement across distributed services → [12. Message Queues](12-message-queues.md)
-    - **15. Distributed Transactions** — distributed locking extends per-process lock patterns to span multiple machines; the same race conditions occur but are harder to detect and diagnose → [15. Distributed Transactions](15-distributed-transactions.md)
-    - **16. Consensus Patterns** — consensus state machines require the same thread-safe design as the monitor pattern here, applied across multiple nodes → [16. Consensus Patterns](16-consensus-patterns.md)
+    - **17. Distributed Transactions** — distributed locking extends per-process lock patterns to span multiple machines; the same race conditions occur but are harder to detect and diagnose → [17. Distributed Transactions](17-distributed-transactions.md)
+    - **18. Consensus Patterns** — consensus state machines require the same thread-safe design as the monitor pattern here, applied across multiple nodes → [18. Consensus Patterns](18-consensus-patterns.md)

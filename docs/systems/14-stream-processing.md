@@ -13,6 +13,11 @@ By the end of this section you should be able to:
 
 ---
 
+!!! warning "Operational reality"
+    Stateful stream processing is significantly harder to operate than it appears. Watermarks require careful tuning and still produce late-data surprises; stateful operators accumulate state that must be snapshotted, replayed on restart, and pruned to prevent OOM failures; exactly-once semantics requires both source and sink to support it — one weak link breaks the guarantee. Many teams that adopted Flink or Kafka Streams for complex stateful pipelines quietly replaced specific use cases with scheduled batch jobs when the operational cost became clear.
+
+    This topic covers the concepts needed to reason about real-time data architectures in interviews. The implementation details are for the teams whose job it is to run Flink at scale.
+
 ## ELI5: Explain Like I'm 5
 
 <div class="learner-section" markdown>
@@ -737,4 +742,4 @@ Answer these questions without looking at your implementation. They are designed
 !!! info "Where this topic connects"
 
     - **12. Message Queues** — stream processors consume from queues; understanding delivery guarantees is prerequisite to windowing correctness → [12. Message Queues](12-message-queues.md)
-    - **14. Observability** — windowed aggregations are a primary source of real-time metrics; observability pipelines often use stream processing internally → [14. Observability](14-observability.md)
+    - **15. Observability** — windowed aggregations are a primary source of real-time metrics; observability pipelines often use stream processing internally → [15. Observability](15-observability.md)

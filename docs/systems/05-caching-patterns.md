@@ -17,6 +17,11 @@ By the end of this topic you will be able to:
 
 ---
 
+!!! warning "Operational reality"
+    Cache invalidation is famously one of the two hard problems in computer science for good reason. The gap between "add a cache" and "run a reliable cache" is significant. The thundering herd problem — where a popular cache entry expires and thousands of requests simultaneously hit the database — is underappreciated until it takes down production. Probabilistic early expiration and cache stampede locks exist precisely because TTL-based expiry does not compose well with high traffic.
+
+    Redis used as a primary data store (not a cache) is a data loss risk: the default configuration is not crash-safe, and AOF persistence adds latency. Teams regularly discover this after an unexpected restart. Cache-aside sounds simple in interviews; in production it requires careful thought about consistency windows, cold-start behaviour, and what happens when the cache is unavailable.
+
 ## ELI5: Explain Like I'm 5
 
 <div class="learner-section" markdown>
@@ -1624,4 +1629,4 @@ Answer these without referring to your notes or implementation.
 
     - **09. Load Balancing** — consistent hashing is used in both caching (distributing cache keys) and load balancing (distributing requests); the algorithm is identical → [09. Load Balancing](09-load-balancing.md)
     - **11. Database Scaling** — caching reduces read load on primary replicas; write strategy (write-through vs write-behind) affects database durability guarantees → [11. Database Scaling](11-database-scaling.md)
-    - **15. Distributed Transactions** — cache invalidation across multiple nodes is a distributed consistency problem; cache + database writes together require careful coordination → [15. Distributed Transactions](15-distributed-transactions.md)
+    - **17. Distributed Transactions** — cache invalidation across multiple nodes is a distributed consistency problem; cache + database writes together require careful coordination → [17. Distributed Transactions](17-distributed-transactions.md)

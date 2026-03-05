@@ -953,5 +953,5 @@ Answer these questions without looking at your notes. Write a sentence or two fo
 !!! info "Where this topic connects"
 
     - **02. Sliding Window** — HashMap frequency counting is the standard inner data structure for variable-size sliding window problems → [02. Sliding Window](02-sliding-window.md)
-    - **13. Prefix Sums** — HashMap + prefix sum is the canonical pattern for subarray-sum-equals-k; the hash table stores prefix sum frequencies → [13. Prefix Sums](13-prefix-sums.md)
-    - **12. Dynamic Programming** — bottom-up DP often uses a HashMap to memoize subproblems when keys are non-integer or sparse → [12. Dynamic Programming](12-dynamic-programming.md)
+    - **14. Prefix Sums** — HashMap + prefix sum is the canonical pattern for subarray-sum-equals-k; the hash table stores prefix sum frequencies → [14. Prefix Sums](14-prefix-sums.md)
+    - **13. Dynamic Programming** — bottom-up DP often uses a HashMap to memoize subproblems when keys are non-integer or sparse → [13. Dynamic Programming](13-dynamic-programming.md)

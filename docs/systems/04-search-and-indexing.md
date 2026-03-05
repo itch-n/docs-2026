@@ -17,6 +17,11 @@ By the end of this topic you will be able to:
 
 ---
 
+!!! warning "Operational reality"
+    Elasticsearch is significantly over-adopted. Postgres full-text search (`tsvector`, `GIN` indexes, `ts_rank`) handles the majority of "we need search" use cases without taking on a new distributed system to operate. Elasticsearch's practical issues are non-trivial: heap sizing is fiddly and getting it wrong causes OOM failures; mapping explosions (too many dynamic fields) degrade performance silently; reindexing a live index requires building a parallel index and swapping an alias — there is no in-place schema migration. Older clusters had split-brain failure modes that were a rite of passage for many backend teams.
+
+    Reach for Elasticsearch (or OpenSearch, Typesense, Meilisearch) when you need relevance ranking, faceted search, or query complexity that genuinely exceeds what Postgres can express. For "search this table by name or description," check Postgres first.
+
 ## ELI5: Explain Like I'm 5
 
 <div class="learner-section" markdown>
