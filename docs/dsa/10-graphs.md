@@ -1027,5 +1027,5 @@ Answer these without referring to your notes or implementation.
 !!! info "Where this topic connects"
 
     - **[06. Trees](06-trees.md)** — trees are acyclic connected graphs; every tree traversal (DFS/BFS) is a special case of graph traversal with no cycle handling needed → [06. Trees](06-trees.md)
-    - **[10. Union-Find](10-union-find.md)** — Union-Find detects connectivity and cycles without explicit graph traversal; compare with DFS-based cycle detection → [10. Union-Find](10-union-find.md)
+    - **[09. Union-Find](09-union-find.md)** — Union-Find detects connectivity and cycles without explicit graph traversal; compare with DFS-based cycle detection → [09. Union-Find](09-union-find.md)
     - **[11. Advanced Graphs](11-advanced-graphs.md)** — DFS/BFS are the building blocks; Advanced Graphs adds weighted edges, directed acyclic graphs, and shortest-path guarantees → [11. Advanced Graphs](11-advanced-graphs.md)

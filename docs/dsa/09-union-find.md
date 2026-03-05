@@ -1140,5 +1140,5 @@ Answer these without referring to your notes or implementation.
 
 !!! info "Where this topic connects"
 
-    - **[09. Graphs](09-graphs.md)** — Union-Find solves dynamic connectivity queries that would otherwise require repeated BFS/DFS; the two approaches trade off preprocessing vs query cost → [09. Graphs](09-graphs.md)
+    - **[10. Graphs](10-graphs.md)** — Union-Find solves dynamic connectivity queries that would otherwise require repeated BFS/DFS; the two approaches trade off preprocessing vs query cost → [10. Graphs](10-graphs.md)
     - **[11. Advanced Graphs](11-advanced-graphs.md)** — Kruskal's MST algorithm uses Union-Find to detect cycles when greedily adding edges → [11. Advanced Graphs](11-advanced-graphs.md)
