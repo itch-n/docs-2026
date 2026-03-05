@@ -16,7 +16,7 @@ Numbered sequences you work through at your own pace. Each topic follows the sam
 
 Build real implementations to understand how systems work:
 
-- [ ] **Storage Engines** - Implement B+Trees & LSM Trees
+- [x] **Storage Engines** - Implement B+Trees & LSM Trees
 - [ ] **Row vs Column Storage** - OLTP vs OLAP, columnar formats, compression
 - [ ] **Networking Fundamentals** - TCP/UDP, HTTP versions, WebSockets, DNS, TLS
 - [ ] **Search & Indexing** - Inverted indexes, full-text search, ranking algorithms
@@ -37,7 +37,7 @@ Build real implementations to understand how systems work:
 
 Pattern-based approach from easy to advanced:
 
-- [ ] **Two Pointers** - Opposite directions, same direction, different speeds
+- [x] **Two Pointers** - Opposite directions, same direction, different speeds
 - [ ] **Sliding Window** - Fixed and variable window sizes for subarray problems
 - [ ] **Hash Tables** - Fast lookups, grouping, frequency counting
 - [ ] **Linked Lists** - Reversal, cycle detection, fast/slow pointers
