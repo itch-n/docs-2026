@@ -43,18 +43,15 @@ nav:
       - "03. Hash Tables": dsa/03-hash-tables.md
       - "04. Linked Lists": dsa/04-linked-lists.md
       - "05. Stacks & Queues": dsa/05-stacks--queues.md
-      - "06. Trees - Traversals": dsa/06-trees-traversals.md
-      - "07. Trees - Recursion": dsa/07-trees-recursion.md
-      - "08. Binary Search": dsa/08-binary-search.md
-      - "09. Heaps": dsa/09-heaps.md
-      - "10. Graphs": dsa/10-graphs.md
-      - "11. Union-Find": dsa/11-union-find.md
-      - "12. Advanced Graphs": dsa/12-advanced-graphs.md
-      - "13. Backtracking": dsa/13-backtracking.md
-      - "14. Dynamic Programming 1D": dsa/14-dynamic-programming-1d.md
-      - "15. Dynamic Programming 2D": dsa/15-dynamic-programming-2d.md
-      - "16. Tries": dsa/16-tries.md
-      - "17. Advanced Topics": dsa/17-advanced-topics.md
+      - "06. Trees": dsa/06-trees.md
+      - "07. Binary Search": dsa/07-binary-search.md
+      - "08. Heaps": dsa/08-heaps.md
+      - "09. Graphs": dsa/09-graphs.md
+      - "10. Union-Find": dsa/10-union-find.md
+      - "11. Advanced Graphs": dsa/11-advanced-graphs.md
+      - "12. Dynamic Programming": dsa/12-dynamic-programming.md
+      - "13. Prefix Sums": dsa/13-prefix-sums.md
+      - "14. Intervals": dsa/14-intervals.md
 
 markdown_extensions:
   - admonition

@@ -33,7 +33,7 @@ Build real implementations to understand how systems work:
 - [ ] **Distributed Transactions** - Saga pattern, idempotency
 - [ ] **Consensus Patterns** - Raft, leader election, distributed locks
 
-### [DSA](dsa/01-two-pointers.md) (17 Topics)
+### [DSA](dsa/01-two-pointers.md) (14 Topics)
 
 Pattern-based approach from easy to advanced:
 
@@ -42,18 +42,15 @@ Pattern-based approach from easy to advanced:
 - [ ] **Hash Tables** - Fast lookups, grouping, frequency counting
 - [ ] **Linked Lists** - Reversal, cycle detection, fast/slow pointers
 - [ ] **Stacks & Queues** - LIFO/FIFO, monotonic stacks, deque operations
-- [ ] **Trees - Traversals** - Inorder, preorder, postorder, level-order (BFS)
-- [ ] **Trees - Recursion** - Height, diameter, LCA, path problems
+- [ ] **Trees** - Traversals (inorder/preorder/postorder/BFS) and recursive patterns (height, diameter, LCA)
 - [ ] **Binary Search** - Classic search, rotated arrays, 2D matrices
 - [ ] **Heaps** - Priority queues, top K problems (prerequisite for Dijkstra)
 - [ ] **Graphs (DFS/BFS)** - Traversals, cycle detection, connected components
 - [ ] **Union-Find** - Disjoint sets for dynamic connectivity, Kruskal's MST
 - [ ] **Advanced Graphs** - Topological Sort, Dijkstra, MST
-- [ ] **Backtracking** - Permutations, combinations, constraint satisfaction
-- [ ] **Dynamic Programming - 1D** - Fibonacci, house robber, coin change
-- [ ] **Dynamic Programming - 2D** - Knapsack, LCS, edit distance
-- [ ] **Tries** - Prefix trees for string problems
-- [ ] **Advanced Topics** - Bit manipulation, intervals, prefix sums
+- [ ] **Dynamic Programming** - Fibonacci, house robber, coin change
+- [ ] **Prefix Sums** - Range queries, subarray sum with HashMap, 2D prefix sum
+- [ ] **Intervals** - Merge, insert, meeting rooms, greedy removal
 
 ---
 
