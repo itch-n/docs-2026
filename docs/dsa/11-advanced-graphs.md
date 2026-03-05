@@ -1326,6 +1326,6 @@ Answer these without referring to your notes or implementation.
 
 !!! info "Where this topic connects"
 
-    - **[09. Graphs](09-graphs.md)** — Advanced Graphs builds directly on BFS/DFS; topological sort IS DFS post-order on a DAG → [09. Graphs](09-graphs.md)
-    - **[10. Union-Find](10-union-find.md)** — Kruskal's MST (covered here) uses Union-Find for cycle detection; compare with Prim's which uses a heap → [10. Union-Find](10-union-find.md)
+    - **[10. Graphs](10-graphs.md)** — Advanced Graphs builds directly on BFS/DFS; topological sort IS DFS post-order on a DAG → [10. Graphs](10-graphs.md)
+    - **[09. Union-Find](09-union-find.md)** — Kruskal's MST (covered here) uses Union-Find for cycle detection; compare with Prim's which uses a heap → [09. Union-Find](09-union-find.md)
     - **[08. Heaps](08-heaps.md)** — Dijkstra's algorithm requires a min-heap; the heap's extract-min operation is what gives Dijkstra O((V+E) log V) → [08. Heaps](08-heaps.md)

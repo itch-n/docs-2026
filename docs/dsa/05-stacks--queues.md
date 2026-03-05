@@ -1070,4 +1070,4 @@ flowchart LR
 !!! info "Where this topic connects"
 
     - **06. Trees** — tree traversal using an explicit stack (iterative DFS) replaces the call stack used in recursive traversal; BFS of a tree uses a queue → [06. Trees](06-trees.md)
-    - **09. Graphs** — iterative DFS of a graph uses an explicit stack; BFS uses a queue; monotonic stacks appear in graph shortest-path preprocessing → [09. Graphs](09-graphs.md)
+    - **10. Graphs** — iterative DFS of a graph uses an explicit stack; BFS uses a queue; monotonic stacks appear in graph shortest-path preprocessing → [10. Graphs](10-graphs.md)

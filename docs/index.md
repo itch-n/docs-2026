@@ -45,8 +45,8 @@ Pattern-based approach from easy to advanced:
 - [ ] **Trees** - Traversals (inorder/preorder/postorder/BFS) and recursive patterns (height, diameter, LCA)
 - [ ] **Binary Search** - Classic search, rotated arrays, 2D matrices
 - [ ] **Heaps** - Priority queues, top K problems (prerequisite for Dijkstra)
-- [ ] **Graphs (DFS/BFS)** - Traversals, cycle detection, connected components
 - [ ] **Union-Find** - Disjoint sets for dynamic connectivity, Kruskal's MST
+- [ ] **Graphs (DFS/BFS)** - Traversals, cycle detection, connected components
 - [ ] **Advanced Graphs** - Topological Sort, Dijkstra, MST
 - [ ] **Dynamic Programming** - Fibonacci, house robber, coin change
 - [ ] **Prefix Sums** - Range queries, subarray sum with HashMap, 2D prefix sum
