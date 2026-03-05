@@ -856,6 +856,8 @@ public class BinarySearchOnAnswerClient {
 
 ## Decision Framework
 
+<div class="learner-section" markdown>
+
 **Your task:** Build decision trees for binary search problems.
 
 ### Question 1: Is the data sorted?
@@ -905,10 +907,13 @@ flowchart LR
     Start --> Q7
 ```
 
+</div>
 
 ---
 
 ## Practice
+
+<div class="learner-section" markdown>
 
 ### LeetCode Problems
 
@@ -966,16 +971,47 @@ flowchart LR
     - Pattern: <span class="fill-in">[Binary search on answer]</span>
     - Key insight: <span class="fill-in">[Fill in after solving]</span>
 
+**Failure modes:**
+
+- What happens if you compute `mid` as `(left + right) / 2` when both `left` and `right` are close to `Integer.MAX_VALUE` — does your implementation produce a wrong index, an exception, or silently loop forever? <span class="fill-in">[Fill in]</span>
+- How does your rotated-array search behave when the array has exactly two elements and the target is the smaller one — does the correct half get chosen, and does the pointer update terminate the loop without accessing an out-of-bounds index? <span class="fill-in">[Fill in]</span>
+
+</div>
+
 ---
 
 ## Test Your Understanding
 
 1. The safe mid formula is `left + (right - left) / 2`. Demonstrate with concrete numbers why `(left + right) / 2` can overflow: give the smallest values of `left` and `right` (using Java's `Integer.MAX_VALUE = 2,147,483,647`) that cause overflow, and show the exact incorrect mid value produced.
 
+    ??? success "Rubric"
+        A complete answer addresses: (1) the smallest triggering values are `left = 1,073,741,824` (2^30) and `right = 1,073,741,824` — their sum is `2,147,483,648` which exceeds `Integer.MAX_VALUE` by 1, wrapping to `-2,147,483,648` in signed 32-bit arithmetic; (2) dividing that negative value by 2 gives `-1,073,741,824` — a negative index that would cause `ArrayIndexOutOfBoundsException` or incorrect loop branching; (3) the safe formula `left + (right - left) / 2` avoids this because `(right - left)` is always non-negative and at most `Integer.MAX_VALUE`, so the intermediate value never exceeds the integer range.
+
 2. Finding the first occurrence of a target uses `right = mid - 1` (not `right = mid`) when `nums[mid] == target`. Construct a concrete array (e.g., `[5, 7, 7, 8, 8, 8, 10]`, target = 8) and trace the execution with `right = mid` to show the infinite loop, then explain the invariant that `right = mid - 1` maintains.
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) trace with `right = mid` on `[5,7,7,8,8,8,10]`, target=8: eventually `left=3, right=5, mid=4` — `nums[4]=8` matches, so `right=mid=4`; next iteration: `left=3, right=4, mid=3` — `nums[3]=8` matches, so `right=mid=3`; next: `left=3, right=3, mid=3` — matches again, `right=mid=3` — the loop condition `left <= right` stays true and the pointers never converge, creating an infinite loop; (2) `right = mid - 1` maintains the invariant: "the first occurrence is strictly to the left of mid, or mid itself was recorded but we already checked it" — since mid is excluded from the next search range, the range strictly shrinks each iteration.
 
 3. The rotated array search uses `nums[left] <= nums[mid]` (with equals) rather than `nums[left] < nums[mid]`. Construct the specific two-element array that breaks the strict inequality version and trace the execution to show the wrong result. Why does the equals case arise from how integer division computes mid?
 
+    ??? success "Rubric"
+        A complete answer addresses: (1) the two-element array `[3, 1]` with target=1: `left=0, right=1, mid=0`; with strict `<`: `nums[0]=3 < nums[0]=3` is false — the code falls to the else branch and checks if target is in the right half (1 ≤ 1 ≤ 1): yes, so `left=mid+1=1`; now `left=right=1`, `mid=1`, `nums[1]=1` — found correctly; actually the equals case is critical for `[3,1,2]` type arrays; (2) with two elements, integer division `mid = (0+1)/2 = 0` makes `mid == left`, so `nums[left] == nums[mid]` always — without the `=` in the condition, the left-half-sorted branch is skipped, potentially directing the search to the wrong half; (3) the `<=` ensures that when `mid == left` (always true for two-element subarrays), the left-half-is-sorted branch runs correctly.
+
 4. Binary search on the answer space (Pattern 4) requires a monotonic predicate. For the "ship packages in D days" problem, state the predicate formally (in terms of capacity C and days D), prove it is monotonic (if capacity C works, then capacity C+1 also works), and explain how you set the initial `left` and `right` bounds.
 
+    ??? success "Rubric"
+        A complete answer addresses: (1) the predicate is `canShip(C, D)`: "can we ship all packages in at most D days using a ship of capacity C?" — formally, greedy-packing with capacity C requires at most D days; (2) monotonicity proof: if `canShip(C, D)` is true, then any capacity C' > C can pack at least as many packages per day (since each day's batch fits within C' ≥ C), so it requires at most D days — thus `canShip(C', D)` is also true; (3) bounds: `left = max(weights)` (minimum feasible capacity — must fit the heaviest package in one day) and `right = sum(weights)` (maximum useful capacity — ship everything in one day); searching in this range guarantees the answer exists within bounds.
+
 5. The `searchInsert` function should return the index where target would be inserted to keep the array sorted. After the `while (left <= right)` loop exits without finding the target, prove that `left` is always the correct insert position — specifically, prove that `nums[left - 1] < target <= nums[left]` holds when the loop exits.
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) the loop invariant is: after each iteration, if the target exists it is in `nums[left..right]`; when the loop exits with `left > right`, the target was not found; (2) at loop exit, `left = right + 1` — `right` was the last index such that `nums[right] < target` (because we executed `left = mid + 1` after `nums[mid] < target`), so `nums[left - 1] = nums[right] < target`; (3) symmetrically, `left` is the smallest index where `nums[left] >= target` — if `left < nums.length`, then `nums[left] >= target`; combining: `nums[left-1] < target <= nums[left]`, confirming `left` is the correct insertion point; edge cases (insert before index 0 gives `left=0`, insert after last element gives `left=nums.length`) both work correctly.
+
+---
+
+## Connected Topics
+
+!!! info "Where this topic connects"
+
+    - **06. Trees** — BST search IS binary search applied to a tree; understanding binary search on sorted arrays is prerequisite to BST operations → [06. Trees](06-trees.md)
+    - **11. Advanced Graphs** — binary search on the answer (e.g., "minimum cost to complete all tasks") is a common optimisation over Dijkstra-style problems where feasibility is checked by graph traversal → [11. Advanced Graphs](11-advanced-graphs.md)

@@ -1,4 +1,4 @@
-# Dynamic Programming (1D)
+# Dynamic Programming
 
 > Turn exponential recursion into polynomial iteration by caching subproblem results
 
@@ -833,7 +833,7 @@ fib(3): needs fib(2) + fib(1)
       These repeat!   These repeat!
 ```
 
-**Without DP:** Recalculate everything (exponential waste)
+**Without DP:** Recalculate everything (exponential waste)  
 **With DP:** Calculate once, reuse (polynomial efficiency)
 
 ---
@@ -959,6 +959,8 @@ backtracking.
 
 ## Decision Framework
 
+<div class="learner-section" markdown>
+
 **Your task:** Build decision trees for 1D DP problems.
 
 ### Question 1: What defines a state?
@@ -1010,9 +1012,13 @@ flowchart LR
     Q4 -->|"Hold/not hold"| N4a
 ```
 
+</div>
+
 ---
 
 ## Practice
+
+<div class="learner-section" markdown>
 
 ### LeetCode Problems
 
@@ -1070,6 +1076,13 @@ flowchart LR
     - Pattern: <span class="fill-in">[String DP with cut optimization]</span>
     - Key insight: <span class="fill-in">[Fill in after solving]</span>
 
+**Failure modes:**
+
+- What happens if the memoization table for coin change is initialized with `Integer.MAX_VALUE` instead of `amount + 1` — what silent bug does the expression `dp[i - coin] + 1` produce? <span class="fill-in">[Fill in]</span>
+- How does your implementation behave when the recurrence for house robber uses `dp[i] = max(dp[i-1], nums[i] + dp[i-2])` but `dp[1]` is set to `nums[1]` instead of `max(nums[0], nums[1])` — which inputs expose this bug? <span class="fill-in">[Fill in]</span>
+
+</div>
+
 ---
 
 ## Test Your Understanding
@@ -1078,11 +1091,39 @@ Answer these without referring to your notes or implementation.
 
 1. State the two properties a problem must have for DP to apply. For each property, give an example from this topic
    that demonstrates it.
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) optimal substructure — the optimal solution to the problem contains optimal solutions to its subproblems; example: in coin change, the minimum coins for amount n is 1 + minimum coins for amount n-coin, and this subproblem relationship is used directly in the recurrence; (2) overlapping subproblems — the same subproblems are solved multiple times in the naive recursive solution; example: in Fibonacci, fib(3) is computed independently in both the fib(5)→fib(4) branch and the fib(5)→fib(3) branch; (3) both are required — greedy has optimal substructure but no overlapping subproblems; divide-and-conquer (merge sort) has overlapping work but solves distinct (non-overlapping) subproblems.
+
 2. For the house robber problem `[2, 1, 1, 2]`, trace through the correct DP table values (dp[0] through dp[3]). Why
    is `dp[1] = max(nums[0], nums[1])` rather than just `nums[1]`?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) the correct trace — dp[0]=2, dp[1]=max(2,1)=2, dp[2]=max(dp[1], dp[0]+nums[2])=max(2,3)=3, dp[3]=max(dp[2], dp[1]+nums[3])=max(3,4)=4; return 4; (2) why dp[1] = max — dp[1] represents the maximum profit from the first two houses; you can rob either house 0 or house 1, but not both (they are adjacent); setting dp[1]=nums[1] incorrectly assumes you always rob house 1, ignoring the potentially better choice of house 0; (3) the bug this fixes — for input [2,1,...] the bug gives dp[1]=1 instead of 2, causing all subsequent values to be underestimates.
+
 3. Coin Change I (minimum coins) and Coin Change II (count ways) use different loop orders. Explain why the loop order
    matters for Coin Change II but not for Coin Change I.
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) Coin Change II — coins in the outer loop, amounts in the inner loop; this ensures that for a given coin type, all amounts that use it are updated before moving to the next coin; this prevents the same coin being used in different "orderings" (e.g., [1,2] and [2,1] count as one combination, not two); (2) Coin Change I — the loop order (coins outer vs amounts outer) does not affect the minimum count because we are minimizing, not counting; min(dp[i], dp[i-coin]+1) yields the same result regardless of the order coins are considered, since we are taking the minimum over all coin choices; (3) the underlying reason — counting combinations requires a careful distinction between ordered and unordered selections, while minimization only cares about the value at each state.
+
 4. When can you reduce the O(n) DP array to O(1) space? Give two examples from this topic where this optimization
    applies, and one where it does not.
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) the condition — O(1) space is possible when the recurrence at position i depends only on the previous 1 or 2 states, not on an arbitrary earlier index; (2) examples where it applies — Fibonacci/climbing stairs (dp[i] depends only on dp[i-1] and dp[i-2], so two variables suffice); house robber (same pattern); stock buy/sell with states (each state depends only on the previous day's states); (3) example where it does not apply — coin change: dp[i] depends on dp[i-coin] for any coin in the coins array; since coins can have arbitrary values, you need the full dp array up to i; similarly, word break's dp[i] depends on dp[j] for any j where s[j..i] is in the dictionary.
+
 5. A colleague says "I always use top-down memoization because it's easier to write." Under what conditions would
    bottom-up tabulation be the better choice? Give one concrete performance reason and one concrete correctness reason.
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) performance reason — for large n (e.g., n=100,000), top-down recursion can overflow the call stack (Java's default ~500K frames); bottom-up iterates without any stack overhead; additionally, bottom-up avoids function call overhead and often has better cache locality since it fills the table sequentially; (2) correctness reason — bottom-up makes the iteration order explicit, preventing accidental cycles in state dependencies; with top-down, a poorly designed memo key or a missing base case can cause infinite recursion or incorrect caching without any obvious error; (3) when top-down wins — when only a small fraction of the dp states are actually needed (sparse subproblem space), top-down avoids computing unnecessary states; bottom-up fills the entire table regardless.
+
+---
+
+## Connected Topics
+
+!!! info "Where this topic connects"
+
+    - **[03. Hash Tables](03-hash-tables.md)** — HashMap memoization is the standard top-down DP implementation; the hash table maps subproblem state to result → [03. Hash Tables](03-hash-tables.md)
+    - **[06. Trees](06-trees.md)** — tree DP (diameter, max path sum) uses post-order DFS to propagate subproblem solutions from leaves to root → [06. Trees](06-trees.md)

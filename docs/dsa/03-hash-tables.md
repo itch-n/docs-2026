@@ -787,6 +787,8 @@ public static boolean containsDuplicate_HashSet(int[] nums) {
 
 ## Decision Framework
 
+<div class="learner-section" markdown>
+
 **Your task:** Build decision trees for when to use hash tables.
 
 ### Question 1: What operation do you need?
@@ -842,10 +844,13 @@ flowchart LR
     Q7 -->|"No"| N9
 ```
 
+</div>
 
 ---
 
 ## Practice
+
+<div class="learner-section" markdown>
 
 ### LeetCode Problems
 
@@ -903,6 +908,13 @@ flowchart LR
     - Pattern: <span class="fill-in">[Which variant?]</span>
     - Key insight: <span class="fill-in">[Fill in after solving]</span>
 
+**Failure modes:**
+
+- What happens when two keys collide at extreme scale — does your HashMap still return correct values, and what is the actual worst-case time complexity when all n keys hash to the same bucket? <span class="fill-in">[Fill in]</span>
+- How does your implementation behave when `getOrDefault` is replaced by a raw `get` call and the key is absent for the first time — specifically, what runtime error occurs and on which line? <span class="fill-in">[Fill in]</span>
+
+</div>
+
 ---
 
 ## Test Your Understanding
@@ -911,11 +923,35 @@ Answer these questions without looking at your notes. Write a sentence or two fo
 
 1. **Two Sum can be solved with O(n²) time and O(1) space (nested loops) or O(n) time and O(n) space (HashMap). Describe a real scenario where you would deliberately choose the slower O(n²) approach, and justify your choice.**
 
+    ??? success "Rubric"
+        A complete answer addresses: (1) the clearest justification is extreme memory pressure — if n is large and the system has very limited RAM (embedded systems, memory-mapped files), the O(n) extra space for a HashMap may be impractical while O(1) space is free; (2) a second valid scenario is when the array is extremely small (n < 10) — the constant-factor overhead of HashMap (boxing, hashing, bucket allocation) makes nested loops faster in practice; (3) a strong answer also notes that if the array is sorted, two pointers give O(n) time AND O(1) space, making the HashMap trade-off moot.
+
 2. **Your `groupAnagrams` implementation passes most tests but fails on `["", ""]`. Trace through what happens with empty strings and identify the bug. What does the sorted empty string key look like?**
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) sorting an empty char array produces an empty char array, and `new String(new char[]{})` produces `""` — so both empty strings produce the same key `""` and should correctly group together; (2) if the implementation fails, the most likely bug is that it returns all groups including a group for `""` but the test expects them merged — the algorithm itself is correct; (3) a subtler bug is using `s.toCharArray()` on an empty string, then calling `Arrays.sort`, then trying to access the array — this is safe in Java because `Arrays.sort` on a zero-length array is a no-op; the real check is whether the grouping map handles duplicate keys correctly.
 
 3. **Explain what happens to HashMap performance when a custom object is used as a key but only `equals()` is overridden without `hashCode()`. What is the Java contract between `equals` and `hashCode`, and what breaks when you violate it?**
 
+    ??? success "Rubric"
+        A complete answer addresses: (1) Java's contract: if `a.equals(b)` is true, then `a.hashCode() == b.hashCode()` must also be true — violating this means two logically equal objects hash to different buckets; (2) without overriding `hashCode`, Java uses the identity hash (memory address), so two distinct objects that are `equals` land in different buckets — `map.get(equalKey)` returns `null` even though the key is logically present; (3) the symptom is that `containsKey` returns false for an equal-but-not-identical object, causing silent logic errors rather than exceptions.
+
 4. **Longest Consecutive Sequence (LeetCode 128) requires O(n) time. Why does storing all numbers in a HashSet and then only starting counts from sequence-start elements achieve O(n) even though each sequence is traversed fully? Why doesn't this give O(n²) in the worst case?**
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) a number `n` is a sequence-start only if `n-1` is NOT in the set — this check is O(1); (2) each number in the array is visited at most twice: once to check if it is a start, and at most once as part of counting from a start; the total work across all sequences is O(n), not O(n) per sequence; (3) the key insight is that the inner `while` loop only runs for sequence-start elements — non-start elements are never inner-loop heads, so the amortised cost per element is O(1).
 
 5. **You are implementing a frequency counter using a `HashMap<Character, Integer>`. A colleague suggests using an `int[26]` array instead. Under what conditions is the array strictly better, and what does it assume about the input?**
 
+    ??? success "Rubric"
+        A complete answer addresses: (1) the array is strictly better when the key space is small and known at compile time — for lowercase ASCII letters, `int[26]` has O(1) access with no boxing, no hashing, and no collision handling; (2) the array assumes the input contains only lowercase English letters (or whatever range it covers) — passing a character outside this range causes an `ArrayIndexOutOfBoundsException`; (3) the HashMap is necessary when the key space is large, unknown, or non-integer (e.g., Unicode strings, arbitrary objects), or when you need to iterate only over keys that actually appeared rather than all 26 slots.
+
+---
+
+## Connected Topics
+
+!!! info "Where this topic connects"
+
+    - **02. Sliding Window** — HashMap frequency counting is the standard inner data structure for variable-size sliding window problems → [02. Sliding Window](02-sliding-window.md)
+    - **13. Prefix Sums** — HashMap + prefix sum is the canonical pattern for subarray-sum-equals-k; the hash table stores prefix sum frequencies → [13. Prefix Sums](13-prefix-sums.md)
+    - **12. Dynamic Programming** — bottom-up DP often uses a HashMap to memoize subproblems when keys are non-integer or sparse → [12. Dynamic Programming](12-dynamic-programming.md)

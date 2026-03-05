@@ -795,6 +795,8 @@ Space saved: 6 ints (24 bytes) → 1 int + 5 bytes (9 bytes) = 62% reduction
 
 ## Decision Framework
 
+<div class="learner-section" markdown>
+
 **Your task:** Build decision trees for when to use each storage layout.
 
 ### Question 1: OLTP or OLAP Workload?
@@ -846,9 +848,13 @@ flowchart LR
     A3 --> A6["Benchmark with<br/>real queries"]
 ```
 
+</div>
+
 ---
 
 ## Practice
+
+<div class="learner-section" markdown>
 
 ### Scenario 1: E-Commerce Order Table
 
@@ -881,6 +887,11 @@ Reasoning:
 - Read patterns: <span class="fill-in">[Fill in]</span>
 - Your choice: <span class="fill-in">[Fill in]</span>
 
+**Failure modes:**
+
+- What happens if the row storage node serving order lookups becomes unavailable when 5,000 orders/sec are being inserted? <span class="fill-in">[Fill in]</span>
+- How does your design behave when an analytics query (`total revenue per product`) runs concurrently with high-throughput inserts and causes lock contention on the orders table? <span class="fill-in">[Fill in]</span>
+
 ### Scenario 2: Analytics Event Table
 
 ```sql
@@ -910,6 +921,13 @@ Why?
 2. <span class="fill-in">[Read characteristics]</span>
 3. <span class="fill-in">[Compression opportunities]</span>
 
+**Failure modes:**
+
+- What happens if the column storage node becomes unavailable mid-way through a nightly aggregation query over weeks of event data? <span class="fill-in">[Fill in]</span>
+- How does your design behave when the daily write volume spikes to 100M events and column file compaction cannot keep up with the ingestion rate? <span class="fill-in">[Fill in]</span>
+
+</div>
+
 ---
 
 ## Test Your Understanding
@@ -917,10 +935,29 @@ Why?
 Answer these without referring to your notes or implementation.
 
 1. A query reads only 2 out of 50 columns across 10 million rows. Explain quantitatively why column storage outperforms row storage for this query.
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) row storage must read the full row width (50 columns × row size) for all 10M rows, wasting 96% of I/O on unused columns, (2) column storage reads only the 2 needed column files, reducing I/O by approximately 50×, and (3) column files also compress better (homogeneous data), further amplifying the advantage.
+
 2. Why does inserting a single row require writing to more locations in a column store than in a row store? What is the consequence at high insert throughput?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) a column store must append the new value to each separate column file (N writes for N columns vs. 1 write in a row store), (2) this write amplification means more disk seeks and I/O per insert, and (3) at high insert throughput this bottleneck causes latency spikes and higher storage I/O cost, making column stores unsuitable as the primary store for OLTP workloads.
+
 3. A team is building a system that must both process individual customer orders in real time AND generate nightly revenue reports. How would you approach the storage layout decision, and what is the key trade-off?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) OLTP order processing requires row storage for fast point lookups and single-write inserts, (2) nightly analytics require columnar storage for efficient aggregations across millions of rows, and (3) the practical approach is to use separate purpose-built stores — a row-oriented OLTP database for transactions and a columnar data warehouse populated by ETL, accepting the replication lag that entails.
+
 4. Dictionary encoding reduces a `city` column of 1 million strings to integers. Why is this compression technique only practical for column stores and not for row stores?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) dictionary encoding requires all values of a column to share the same dictionary, which is natural when a column's values are stored contiguously, (2) in a row store, city values are scattered across heterogeneous row pages with other data types, making it impractical to build and maintain a shared dictionary across all pages, and (3) the decompression overhead for random row-level access in a row store would negate any space savings.
+
 5. A colleague says "We migrated to a columnar database and our dashboard queries are 50x faster, so we should use it for our transactional order-processing system too." What is wrong with this reasoning?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) the 50× speedup applies to column-scan analytics, not to point lookups or single-row operations which are the dominant pattern in transactional systems, (2) inserting an order in a columnar store requires writing to every column file, making write throughput significantly worse than a row store, and (3) columnar databases typically lack row-level locking and ACID transaction support at the granularity required for order processing.
 
 ---
 
@@ -986,3 +1023,12 @@ Answer these without referring to your notes or implementation.
 - **TimescaleDB** - PostgreSQL extension with columnar compression
 
 </details>
+
+---
+
+## Connected Topics
+
+!!! info "Where this topic connects"
+
+    - **01. Storage Engines** — row and columnar formats are implemented on top of a storage engine; engine choice affects compression and write amplification trade-offs → [01. Storage Engines](01-storage-engines.md)
+    - **04. Search & Indexing** — inverted indexes use columnar-like techniques; columnar storage is the physical foundation for analytical query engines → [04. Search & Indexing](04-search-and-indexing.md)

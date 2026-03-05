@@ -760,6 +760,8 @@ Sliding window: Previous sum (7) - 1 + 10 = 16 (2 operations)
 
 ## Decision Framework
 
+<div class="learner-section" markdown>
+
 **Your task:** Build decision trees for when to use sliding window.
 
 ### Question 1: Is the subarray/substring contiguous?
@@ -838,10 +840,13 @@ flowchart LR
     Start --> Q12
 ```
 
+</div>
 
 ---
 
 ## Practice
+
+<div class="learner-section" markdown>
 
 ### LeetCode Problems
 
@@ -899,6 +904,13 @@ flowchart LR
     - Pattern: <span class="fill-in">[Fixed window with deque]</span>
     - Key insight: <span class="fill-in">[Monotonic deque technique]</span>
 
+**Failure modes:**
+
+- What happens if the window condition is never satisfied — does your dynamic window correctly return 0 or an empty string, or does it return a sentinel value like `Integer.MAX_VALUE`? <span class="fill-in">[Fill in]</span>
+- How does your implementation behave when the entire input string consists of a single repeated character and `k = 0` distinct characters are allowed? <span class="fill-in">[Fill in]</span>
+
+</div>
+
 ---
 
 ## Test Your Understanding
@@ -907,11 +919,35 @@ Answer these questions without looking at your notes. Write a sentence or two fo
 
 1. **A fixed window of size k is sliding across an array. The brute-force approach recomputes the sum from scratch each step. Explain exactly why the sliding window only needs two operations (one add, one subtract) per step, and what property of the problem makes this possible.**
 
+    ??? success "Rubric"
+        A complete answer addresses: (1) consecutive windows of size k overlap in k-1 elements — the new window is the old window minus the leftmost element plus one new rightmost element; (2) this reuse is safe because the problem asks about a contiguous subarray, so the shared elements contribute identically to both windows; (3) non-contiguous problems (e.g., "maximum sum of any k elements") cannot use this trick because there is no guaranteed overlap between optimal selections.
+
 2. **You write a dynamic window solution for "longest substring with at most k distinct characters." It works on most inputs but fails on `"aab"` with `k = 1`. You suspect the shrink logic. Describe the most likely bug and trace through the failing case to confirm it.**
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) the most likely bug is using `if` instead of `while` for the shrink loop — after removing one character from the left, the window may still have more than k distinct characters and must shrink again; (2) tracing `"aab"`, `k=1`: right=0 (`a`, size=1 ok), right=1 (`a`, size=1 ok), right=2 (`b`, size=2 > 1) — one `if`-shrink removes the first `a` but leaves the second `a` and `b` still in the map, so the window is still invalid; (3) `while` ensures the window shrinks until the invariant is restored.
 
 3. **Minimum Window Substring (LeetCode 76) requires tracking "how many required characters are currently satisfied." Explain why simply comparing two frequency maps at each step would be too slow, and what optimisation the standard O(n) solution uses instead.**
 
+    ??? success "Rubric"
+        A complete answer addresses: (1) comparing two HashMaps costs O(|t|) per step — multiplied by O(n) steps this gives O(n × |t|), which is quadratic when |t| is large; (2) the standard optimisation maintains a single integer `formed` — a counter incremented when a character's window count reaches the required count, and decremented when it falls below; (3) when `formed == required` (number of distinct characters in t that are fully satisfied), the window is valid — this check is O(1) per step, giving overall O(n + |t|) time.
+
 4. **When should you use a monotonic deque instead of a plain variable to track the window maximum? What does the deque store, and what is the invariant it maintains?**
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) a plain `max` variable cannot efficiently update when the maximum element leaves the window — you would need an O(k) scan to find the new max, making the algorithm O(nk); (2) the deque stores indices of elements in decreasing order of their values — the front of the deque always holds the index of the current window maximum; (3) the invariant is that elements in the deque are in strictly decreasing order, so any element smaller than a newly added element is popped from the back (it can never be the future maximum while the larger element is still in the window).
 
 5. **Sliding window and two-pointer techniques both use two indices. Give a concrete example of a problem that is naturally a sliding window problem, and explain why framing it as a two-pointer pair-search would not work.**
 
+    ??? success "Rubric"
+        A complete answer addresses: (1) a canonical example is "Minimum Window Substring" — the goal is to find a contiguous substring satisfying a character coverage constraint, not to find a pair of elements with a numeric relationship; (2) two-pointer pair-search relies on sorted order and a monotone sum relationship to know which pointer to advance; in sliding window the "value" of the window is multi-dimensional (a frequency map), so there is no scalar comparison that tells you which end to move; (3) the sliding window's shrink condition is driven by a constraint violation, not by a comparison of two element values.
+
+---
+
+## Connected Topics
+
+!!! info "Where this topic connects"
+
+    - **01. Two Pointers** — the sliding window left/right boundary IS a two-pointer pattern; understanding opposite-direction pointers first builds intuition for same-direction window pointers → [01. Two Pointers](01-two-pointers.md)
+    - **03. Hash Tables** — variable-size sliding windows use a HashMap to track element frequencies inside the window in O(1) → [03. Hash Tables](03-hash-tables.md)
+    - **13. Prefix Sums** — both patterns answer range-query questions; prefix sums are better for static arrays with many queries, sliding window for single-pass streaming problems → [13. Prefix Sums](13-prefix-sums.md)

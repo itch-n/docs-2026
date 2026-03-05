@@ -1,6 +1,6 @@
 # Networking Fundamentals
 
-> TCP/IP vs UDP, HTTP versions, WebSockets, DNS, TLS, and load balancing
+> TCP/IP vs UDP, HTTP versions, WebSockets, DNS, and TLS
 
 ---
 
@@ -13,7 +13,6 @@ By the end of this topic you will be able to:
 - Choose between HTTP polling, Server-Sent Events, and WebSockets given a real-time communication requirement
 - Explain the DNS resolution chain and how TTL affects both performance and failover speed
 - Describe the TLS 1.3 handshake and the strategies used to reduce its latency overhead
-- Choose between L4 and L7 load balancing and select an appropriate load-balancing algorithm for a given workload
 
 ---
 
@@ -44,16 +43,11 @@ By the end of this topic you will be able to:
     - Think about the difference between sending text messages (each a separate round trip) vs staying on an open phone call.
     - Your analogy: <span class="fill-in">[Fill in]</span>
 
-6. **Why do we need load balancers?**
-    - Load balancers are needed when <span class="fill-in">[a single server can no longer handle ___, so traffic must be ___ across multiple servers — and the load balancer decides ___ based on ___]</span>
-
 </div>
 
 ---
 
 ## Quick Quiz (Do BEFORE learning)
-
-!!! tip "How to use this section"
     Complete your predictions now, before reading further. You will revisit and verify each answer after working through the core concepts.
 
 <div class="learner-section" markdown>
@@ -80,7 +74,6 @@ By the end of this topic you will be able to:
 
 - **Protocol choice:** <span class="fill-in">[TCP/UDP - Why?]</span>
 - **DNS strategy:** <span class="fill-in">[How to handle this scale?]</span>
-- **Load balancing:** <span class="fill-in">[L4 or L7?]</span>
 
 **Scenario 2:** Real-time multiplayer game with low latency requirement
 
@@ -596,117 +589,8 @@ Mitigation strategies:
 - Connection pooling (amortize handshake cost)
 ```
 
----
-
-### Topic 6: Load Balancing (L4 vs L7)
-
-**Concept:** Distribute traffic across multiple servers for reliability and performance.
-
-**Layer 4 (Transport Layer) Load Balancing:**
-
-```
-Client connects to: lb.example.com:443
-
-L4 Load Balancer:
-  ┌─ Looks at: IP address, Port, Protocol
-  │  Does NOT look at: HTTP headers, cookies, URLs
-  │
-  └─ Forwards TCP connection to backend:
-      Server 1: 10.0.1.5:443
-      Server 2: 10.0.1.6:443
-      Server 3: 10.0.1.7:443
-
-Pros:
-
-+ Fast (no packet inspection)
-+ Works for any TCP/UDP protocol
-+ Low latency (simple forwarding)
-
-Cons:
-
-- Can't route based on URL/headers
-- No application-aware decisions
-- Sticky sessions require IP hashing
-```
-
-**Layer 7 (Application Layer) Load Balancing:**
-
-```
-Client request: https://example.com/api/users
-
-L7 Load Balancer:
-  ┌─ Terminates TLS connection
-  │  Reads full HTTP request
-  │  Inspects: URL path, headers, cookies
-  │
-  └─ Routes based on rules:
-      /api/*     → API servers (10.0.2.x)
-      /static/*  → CDN servers (10.0.3.x)
-      /admin/*   → Admin servers (10.0.4.x)
-
-Pros:
-
-+ Intelligent routing (URL, headers, etc.)
-+ Session affinity (cookie-based)
-+ Content-based caching
-+ SSL termination
-
-Cons:
-
-- Slower (packet inspection overhead)
-- More CPU intensive
-- Application-specific (HTTP/gRPC/etc.)
-```
-
-**Load Balancing Algorithms:**
-
-| Algorithm | How It Works | Use Case |
-|-----------|-------------|----------|
-| Round Robin | Cycle through servers 1→2→3→1 | Uniform workload |
-| Least Connections | Send to server with fewest active connections | Varied request duration |
-| IP Hash | Hash client IP to pick server | Session persistence |
-| Least Response Time | Route to fastest server | Performance-critical |
-| Weighted Round Robin | More traffic to powerful servers | Heterogeneous servers |
-
-**Health Checks:**
-
-```
-Load balancer → Server health check
-
-Active checks (periodic):
-  Every 10s: GET /health
-  If 3 consecutive failures → Mark unhealthy
-  If 2 consecutive successes → Mark healthy
-
-Passive checks (observed):
-  Track response times, error rates
-  If error rate > 5% → Reduce traffic
-  If response time > 1s → Reduce traffic
-
-Unhealthy server:
-  ┌─ Stop sending new requests
-  └─ Drain existing connections (graceful)
-```
-
-!!! warning "Debugging Challenge — Silent DNS Caching Bug"
-
-    A team changes their load balancer's IP address and updates the DNS A record. Some users continue hitting the old server for over an hour after the change. No code was changed.
-
-    ```
-    Before: api.example.com → 1.2.3.4  (TTL: 3600)
-    After:  api.example.com → 1.2.3.5  (TTL: 3600)
-
-    User A: resolves immediately to 1.2.3.5 ✓
-    User B: still hitting 1.2.3.4 60 minutes later ✗
-    ```
-
-    What is causing User B's problem and how should the team have prepared for this?
-
-    ??? success "Answer"
-
-        **Cause:** User B's resolver (or their OS cache) cached the old A record with a 1-hour TTL before the change was made. DNS caches honour the TTL that was in place at the time of the lookup — the new record's TTL only starts counting for resolvers that query after the change.
-
-        **Preparation:** Lower the TTL to 60 seconds at least 24–48 hours *before* any planned IP change, so existing caches expire quickly. After the migration is stable, raise the TTL again.
+!!! info "TCP and HTTP as load balancing layers"
+    TCP (Layer 4) and HTTP (Layer 7) are also the two layers at which load balancers operate. A Layer 4 load balancer routes based on IP address and port without reading the payload; a Layer 7 load balancer reads HTTP headers and URLs and can make content-aware routing decisions. The choice between them and when each is appropriate is covered in [09. Load Balancing](09-load-balancing.md).
 
 ---
 
@@ -854,6 +738,8 @@ Additional benefits:
 
 ## Decision Framework
 
+<div class="learner-section" markdown>
+
 **Your task:** Build decision trees for when to use each networking approach.
 
 ### Question 1: Which Protocol?
@@ -910,23 +796,13 @@ Additional benefits:
 - Low latency critical (< 100ms)
 - High message frequency (> 1/sec)
 
-### Question 4: Load Balancer Layer?
-
-**Use L4 load balancing when:**
-
-- Protocol-agnostic (TCP/UDP)
-- Maximum performance needed
-- Simple traffic distribution
-
-**Use L7 load balancing when:**
-
-- Content-based routing required
-- SSL termination beneficial
-- Application-aware features needed
+</div>
 
 ---
 
 ## Practice Scenarios
+
+<div class="learner-section" markdown>
 
 ### Scenario 1: E-Commerce Platform
 
@@ -946,16 +822,15 @@ Protocol choices:
 - Inventory updates: <span class="fill-in">[WebSocket/SSE/Polling?]</span>
 - Checkout: <span class="fill-in">[HTTPS with what considerations?]</span>
 
-Load balancing:
-
-- Layer: <span class="fill-in">[L4 or L7? Why?]</span>
-- Algorithm: <span class="fill-in">[Which algorithm?]</span>
-- Sticky sessions: <span class="fill-in">[Needed?]</span>
-
 DNS strategy:
 
 - TTL: <span class="fill-in">[How long?]</span>
 - Multi-region: <span class="fill-in">[GeoDNS?]</span>
+
+**Failure modes:**
+
+- What happens if the WebSocket server handling real-time inventory updates crashes while 10K users are connected during a flash sale? <span class="fill-in">[Fill in]</span>
+- How does your design behave when GeoDNS misconfiguration routes all global users to a single region, overloading that data centre? <span class="fill-in">[Fill in]</span>
 
 ### Scenario 2: Multiplayer Game
 
@@ -980,6 +855,11 @@ Latency optimization:
 - Connection pooling: <span class="fill-in">[Helpful?]</span>
 - Regional servers: <span class="fill-in">[Required?]</span>
 
+**Failure modes:**
+
+- What happens if a regional game server becomes unavailable mid-match for 20 of the 100 players due to a network partition? <span class="fill-in">[Fill in]</span>
+- How does your design behave when mobile network jitter pushes packet loss above your acceptable rate and the UDP-based game state diverges between clients? <span class="fill-in">[Fill in]</span>
+
 ### Scenario 3: Video Conferencing
 
 **Requirements:**
@@ -1002,6 +882,13 @@ Quality vs Latency:
 - Packet loss: <span class="fill-in">[How to handle?]</span>
 - Bandwidth adaptation: <span class="fill-in">[Strategy?]</span>
 
+**Failure modes:**
+
+- What happens if the TURN relay server (used for NAT traversal) becomes unavailable for participants behind strict firewalls? <span class="fill-in">[Fill in]</span>
+- How does your design behave when a participant's available bandwidth drops sharply mid-call and the system cannot adapt quickly enough to prevent audio/video freeze? <span class="fill-in">[Fill in]</span>
+
+</div>
+
 ---
 
 ## Test Your Understanding
@@ -1009,7 +896,47 @@ Quality vs Latency:
 Answer these without referring to your notes or implementation.
 
 1. A TCP packet is lost mid-stream on an HTTP/2 connection carrying four multiplexed streams. Describe precisely what happens to each of the four streams and explain why HTTP/3 behaves differently.
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) when TCP detects the lost packet, it halts delivery of all data in the receive buffer to the application — all four HTTP/2 streams stall even if their data arrived intact, because TCP guarantees in-order delivery, (2) this is transport-layer head-of-line blocking, distinct from the application-layer HOL blocking that HTTP/2 already solved, and (3) HTTP/3 over QUIC handles each stream independently at the transport layer so a lost packet for stream 2 only blocks stream 2; streams 1, 3, and 4 continue uninterrupted.
+
 2. You need to reduce the time it takes to fail over a service to a new IP address from 1 hour to under 2 minutes. What change do you make and when must you make it relative to the failover event?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) the 1-hour delay is caused by a DNS TTL of 3600 seconds — cached resolvers and clients will not query for a new IP until the TTL expires, (2) the fix is to lower the TTL (e.g., to 60 seconds) *before* the planned failover — ideally hours or days in advance, so old caches expire the long TTL before it matters, and (3) lowering TTL after the incident has already started does not help because caches are already holding the old value for up to the original TTL duration.
+
 3. A chat application currently polls the server every 2 seconds. At 50,000 concurrent users, calculate the approximate number of HTTP requests per minute this generates, then explain what switching to WebSockets changes.
-4. An L4 load balancer and an L7 load balancer are both available. A request comes in for `/api/users` and another for `/static/logo.png`. Which load balancer can route these to different server pools, and why?
-5. A colleague says "We use TLS everywhere so our API is secure." What important security concern does TLS *not* address?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) 50,000 users × 30 polls/minute = 1,500,000 HTTP requests per minute, regardless of whether there are any new messages, (2) switching to WebSockets replaces this constant polling load with a persistent connection per user — the server only pushes data when a message actually exists, reducing request volume to approximately the actual message rate, and (3) WebSockets also eliminate the per-request HTTP overhead (headers, connection setup) and reduce server CPU and bandwidth proportionally.
+
+4. A colleague says "We use TLS everywhere so our API is secure." What important security concern does TLS *not* address?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) TLS protects data *in transit* — it prevents eavesdropping and tampering on the network — but does nothing about data at rest, (2) TLS does not provide authentication or authorisation of the caller: it proves the server's identity via its certificate but does not verify that the authenticated server-side principal is *authorised* to perform the requested operation, and (3) TLS does not protect against application-layer vulnerabilities such as SQL injection, broken access control, or a compromised client sending valid but malicious requests.
+
+---
+
+## Review Checklist
+
+<div class="learner-section" markdown>
+
+Complete this checklist after implementing and studying all networking topics.
+
+- [ ] Can explain TCP vs UDP trade-offs and cite concrete use cases for each
+- [ ] Can describe HTTP/1.1 → HTTP/2 → HTTP/3 improvements and when each is preferred
+- [ ] Can explain how WebSockets differ from HTTP polling and describe the upgrade handshake
+- [ ] Can trace a DNS resolution from browser to IP address, including recursive vs iterative queries
+- [ ] Can describe the TLS handshake steps and explain the performance cost
+
+</div>
+
+---
+
+## Connected Topics
+
+!!! info "Where this topic connects"
+
+    - **06. API Design** — HTTP/1.1, HTTP/2, and HTTP/3 directly shape API design choices for latency, multiplexing, and connection management → [06. API Design](06-api-design.md)
+    - **07. Security Patterns** — TLS (covered here) is the transport layer that makes token-based authentication safe; without it, JWTs and API keys are exposed in transit → [07. Security Patterns](07-security-patterns.md)
+    - **09. Load Balancing** — TCP (Layer 4) and HTTP (Layer 7) are the two layers at which load balancers operate; the protocol coverage here provides context for that routing decision → [09. Load Balancing](09-load-balancing.md)

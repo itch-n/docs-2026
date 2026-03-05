@@ -1430,6 +1430,8 @@ public void updateUserProfile_WriteBack(String userId, String newName) {
 
 ## Decision Framework
 
+<div class="learner-section" markdown>
+
 **Questions to answer after implementation:**
 
 ### 1. When to use LRU vs LFU?
@@ -1497,10 +1499,13 @@ flowchart LR
     Q9 -->|"Failure tolerance"| N12
 ```
 
+</div>
 
 ---
 
 ## Practice
+
+<div class="learner-section" markdown>
 
 ### Scenario 1: E-commerce Product Catalog
 
@@ -1517,6 +1522,11 @@ flowchart LR
 - Capacity: <span class="fill-in">[How much?]</span>
 - TTL: <span class="fill-in">[Time-to-live strategy?]</span>
 - Invalidation: <span class="fill-in">[When to invalidate?]</span>
+
+**Failure modes:**
+
+- What happens if the cache node becomes unavailable during a high-traffic flash sale? <span class="fill-in">[Fill in]</span>
+- How does your design behave when a popular product is updated and cache invalidation is delayed? <span class="fill-in">[Fill in]</span>
 
 ### Scenario 2: Social Media Feed
 
@@ -1535,6 +1545,11 @@ flowchart LR
 - Invalidation strategy: <span class="fill-in">[Fill in]</span>
 - Capacity planning: <span class="fill-in">[Fill in]</span>
 
+**Failure modes:**
+
+- What happens if the Redis cluster storing pre-computed feeds goes down during peak usage? <span class="fill-in">[Fill in]</span>
+- How does your design behave when a user with 10,000 followers posts and the fan-out write overwhelms the cache layer? <span class="fill-in">[Fill in]</span>
+
 ### Scenario 3: Session Store
 
 **Requirements:**
@@ -1551,6 +1566,11 @@ flowchart LR
 - TTL strategy: <span class="fill-in">[Fill in]</span>
 - Persistence: <span class="fill-in">[How to ensure durability?]</span>
 
+**Failure modes:**
+
+- What happens if the session cache crashes and users are logged out mid-session at scale? <span class="fill-in">[Fill in]</span>
+- How does your design behave when a Write-Back flush to the persistent store fails after a cache node restart? <span class="fill-in">[Fill in]</span>
+
 ### LeetCode Problem
 
 **Problem:** [146. LRU Cache](https://leetcode.com/problems/lru-cache/)
@@ -1563,6 +1583,8 @@ Design and implement a data structure for Least Recently Used (LRU) cache.
 2. <span class="fill-in">[How to achieve O(1) for both get and put?]</span>
 3. <span class="fill-in">[Edge cases to handle?]</span>
 
+</div>
+
 ---
 
 ## Test Your Understanding
@@ -1570,7 +1592,36 @@ Design and implement a data structure for Least Recently Used (LRU) cache.
 Answer these without referring to your notes or implementation.
 
 1. Explain why an LRU cache requires both a HashMap *and* a doubly linked list. What does each structure contribute, and why can neither alone achieve O(1) for all operations?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) the HashMap provides O(1) key lookup to find a node's position, (2) the doubly linked list provides O(1) move-to-front and remove operations using prev/next pointers, (3) a HashMap alone cannot reorder elements in O(1), and a linked list alone cannot locate a node without O(n) traversal.
+
 2. A Write-Back cache has 500 dirty entries when the application crashes. What data is lost, and what design decision controls how much data can be lost in this scenario?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) all 500 dirty entries not yet flushed to the database are permanently lost, (2) the flush interval (or dirty-entry threshold) determines the maximum loss window, (3) a write-ahead log (WAL) or periodic snapshot can bound the loss to a configurable number of seconds of writes.
+
 3. Your product page cache has a 60% hit rate. DB queries take 80ms and cache hits take 1ms. Calculate the average latency at 60% and at 90% hit rate. What business case does this support?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) at 60%: (0.6 × 1ms) + (0.4 × 80ms) = 32.6ms average; at 90%: (0.9 × 1ms) + (0.1 × 80ms) = 8.9ms average, (2) moving from 60% to 90% hit rate yields a ~3.7x latency improvement, (3) the business case is faster page loads, higher conversion rates, and reduced database cost.
+
 4. You are choosing between LRU and LFU for a news aggregator where articles trend for 2–3 hours and then go cold. Which eviction policy fits better, and why?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) LRU fits better because it evicts based on recency, naturally expiring cold articles that haven't been accessed recently, (2) LFU would retain old viral articles long after they've gone cold because their historical frequency count remains high, (3) LRU's temporal locality assumption matches the trending-then-cold access pattern.
+
 5. A colleague says "Cache invalidation is easy — just delete the key when the data changes." Describe a specific race condition that this simple approach fails to prevent, and what a safer alternative looks like.
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) the race condition: Thread A deletes the key, Thread B reads from DB and populates the cache with stale data before Thread A's DB write completes, leaving stale data in cache, (2) a safer alternative is cache-aside with compare-and-swap (CAS) or versioned keys so a write only populates the cache if the version matches, (3) event-driven invalidation (publish a cache-bust event after the DB write commits) further reduces the race window.
+
+---
+
+## Connected Topics
+
+!!! info "Where this topic connects"
+
+    - **09. Load Balancing** — consistent hashing is used in both caching (distributing cache keys) and load balancing (distributing requests); the algorithm is identical → [09. Load Balancing](09-load-balancing.md)
+    - **11. Database Scaling** — caching reduces read load on primary replicas; write strategy (write-through vs write-behind) affects database durability guarantees → [11. Database Scaling](11-database-scaling.md)
+    - **15. Distributed Transactions** — cache invalidation across multiple nodes is a distributed consistency problem; cache + database writes together require careful coordination → [15. Distributed Transactions](15-distributed-transactions.md)

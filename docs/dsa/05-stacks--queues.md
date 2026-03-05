@@ -919,6 +919,8 @@ public static int[] maxSlidingWindow_Deque(int[] nums, int k) {
 
 ## Decision Framework
 
+<div class="learner-section" markdown>
+
 **Your task:** Build decision trees for stack/queue selection.
 
 ### Question 1: LIFO vs FIFO?
@@ -961,10 +963,13 @@ flowchart LR
     Start --> Q5
 ```
 
+</div>
 
 ---
 
 ## Practice
+
+<div class="learner-section" markdown>
 
 ### LeetCode Problems
 
@@ -1022,16 +1027,47 @@ flowchart LR
     - Pattern: <span class="fill-in">[Monotonic deque]</span>
     - Key insight: <span class="fill-in">[Fill in after solving]</span>
 
+**Failure modes:**
+
+- What happens if your stack is empty when a closing bracket is encountered and you call `pop()` without first checking `isEmpty()` — which exception is thrown and on which line of `isValid`? <span class="fill-in">[Fill in]</span>
+- How does your monotonic stack behave when the entire input array is strictly decreasing (e.g., `[5, 4, 3, 2, 1]`) — how many elements remain on the stack at the end, and are their result entries correctly left as -1? <span class="fill-in">[Fill in]</span>
+
+</div>
+
 ---
 
 ## Test Your Understanding
 
 1. You write a `isValid_Buggy` that returns `true` instead of `stack.isEmpty()`. Give a concrete input string that produces the wrong answer, trace the execution to show why, and explain which invariant the correct implementation enforces that the buggy one breaks.
 
+    ??? success "Rubric"
+        A complete answer addresses: (1) the concrete failing input is any string with unmatched opening brackets, e.g., `"((("` — the loop pushes three `(` characters, the buggy code returns `true`, but the correct answer is `false`; (2) the invariant the correct implementation enforces is that the stack must be empty after the entire string is processed — every opening bracket must have been matched and popped; (3) returning `true` hardcoded skips this final check entirely, so any input ending with leftover openers passes incorrectly.
+
 2. A colleague implements queue-with-stacks by always transferring all elements from the inbox to the outbox on every `dequeue()` call. They test it with `enqueue(1), enqueue(2), dequeue(), dequeue()` and get correct results. Why does their implementation appear to work on this test case but is still O(n) per dequeue? Construct a sequence of operations that exposes the quadratic behaviour.
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) the test sequence happens to work because the inbox has exactly 2 elements before each dequeue — each transfer cost is O(2), which is not visible at small n; (2) a sequence that exposes quadratic behaviour: `enqueue(1)` through `enqueue(n)`, then `dequeue()` n times — each dequeue transfers all remaining elements back and forth, giving O(n) work per call and O(n²) total; (3) the lazy approach avoids this by only transferring when the outbox is empty — each element crosses from inbox to outbox at most once in its lifetime, amortising the transfer cost to O(1) per operation.
 
 3. In the monotonic deque for sliding-window maximum, the eviction condition is `deque.peekFirst() < i - k + 1` (strictly less than). What would happen if you changed `<` to `<=`? Give a concrete example showing which window would produce the wrong maximum.
 
+    ??? success "Rubric"
+        A complete answer addresses: (1) changing `<` to `<=` would evict the element at index `i - k + 1`, which is still inside the current window (the window spans indices `i - k + 1` through `i` inclusive); (2) concrete example: `nums = [3, 1, 3]`, `k = 3` — at `i = 2`, the valid window covers all three elements and the maximum is 3 (at index 0); the eviction condition `<= 2 - 3 + 1 = 0` would remove index 0 from the deque, leaving only index 2 (value 3) — this happens to be correct here, but with `nums = [3, 1, 2]`, the deque front at index 0 (value 3) would be incorrectly evicted, reporting 2 instead of 3; (3) the boundary is inclusive precisely because the element at `i - k + 1` contributes to the current window.
+
 4. When implementing a monotonic stack for the "next greater element" problem, you must push the **index** rather than the **value**. Describe a problem (distinct from next-greater-element) where you could get away with pushing values, and explain what structural property of that problem makes index tracking unnecessary.
 
+    ??? success "Rubric"
+        A complete answer addresses: (1) a valid example is checking whether a stack of operations is valid in a purely value-comparison context where you never need to write answers at specific positions — e.g., determining if a sequence of push/pop operations could produce a given output sequence; (2) the structural property is that the problem only asks for a boolean or a count, not for indexed output — when there is no result array to fill at specific positions, the index is never needed; (3) another valid case: "stock span" problems where you only need to count how many consecutive preceding days had lower or equal price — you could push values and compare directly, since you are counting, not indexing into a result array.
+
 5. A monotonic stack problem sometimes needs an **increasing** stack and sometimes a **decreasing** stack. Explain the rule: for "next greater element" you use a decreasing stack, and for "largest rectangle in histogram" you use an increasing stack. Why does each problem require the opposite ordering?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) for next-greater-element, you want to be triggered when a LARGER element arrives — a decreasing stack keeps candidates in decreasing order so that any new element larger than the top is the answer for the top; (2) for largest rectangle, you want to be triggered when a SMALLER element arrives — an increasing stack keeps bars in increasing order of height, and when a shorter bar arrives it reveals the maximum rectangle that could be formed with each taller bar that gets popped; (3) the general rule: use a decreasing stack when you need the next GREATER element (pop on increase), and an increasing stack when you need the next SMALLER element (pop on decrease).
+
+---
+
+## Connected Topics
+
+!!! info "Where this topic connects"
+
+    - **06. Trees** — tree traversal using an explicit stack (iterative DFS) replaces the call stack used in recursive traversal; BFS of a tree uses a queue → [06. Trees](06-trees.md)
+    - **09. Graphs** — iterative DFS of a graph uses an explicit stack; BFS uses a queue; monotonic stacks appear in graph shortest-path preprocessing → [09. Graphs](09-graphs.md)

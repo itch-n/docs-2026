@@ -447,30 +447,6 @@ public class MetricsCollector {
         }
     }
 
-    // Helper class for atomic double operations
-    static class AtomicDouble {
-        private final AtomicLong bits = new AtomicLong();
-
-        public void set(double value) {
-            bits.set(Double.doubleToLongBits(value));
-        }
-
-        public double get() {
-            return Double.longBitsToDouble(bits.get());
-        }
-
-        public void addAndGet(double delta) {
-            while (true) {
-                long current = bits.get();
-                double currentVal = Double.longBitsToDouble(current);
-                double newVal = currentVal + delta;
-                long newBits = Double.doubleToLongBits(newVal);
-                if (bits.compareAndSet(current, newBits)) {
-                    return;
-                }
-            }
-        }
-    }
 }
 ```
 
@@ -514,90 +490,6 @@ public class MetricsCollector {
         ```
 
         **Rule:** Metric labels must have **bounded cardinality** (fewer than ~100 unique values per label).
-
-**Runnable Client Code:**
-
-```java
-import java.util.*;
-
-public class MetricsClient {
-
-    public static void main(String[] args) throws InterruptedException {
-        System.out.println("=== Metrics Collection ===\n");
-
-        // Test 1: Counter
-        System.out.println("--- Test 1: Counter ---");
-        MetricsCollector.Counter requests = new MetricsCollector.Counter(
-            "http_requests_total",
-            Map.of("method", "GET", "endpoint", "/api/users")
-        );
-
-        for (int i = 0; i < 100; i++) {
-            requests.inc();
-        }
-        System.out.println("Total requests: " + requests.get());
-
-        // Test 2: Gauge
-        System.out.println("\n--- Test 2: Gauge ---");
-        MetricsCollector.Gauge cpuUsage = new MetricsCollector.Gauge(
-            "cpu_usage_percent",
-            Map.of("core", "0")
-        );
-
-        cpuUsage.set(45.5);
-        System.out.println("CPU usage: " + cpuUsage.get() + "%");
-        cpuUsage.inc(10.2);
-        System.out.println("CPU usage after increase: " + cpuUsage.get() + "%");
-
-        // Test 3: Histogram
-        System.out.println("\n--- Test 3: Histogram ---");
-        MetricsCollector.Histogram latency = new MetricsCollector.Histogram(
-            "request_duration_seconds",
-            new double[]{0.01, 0.05, 0.1, 0.5, 1.0, 5.0}
-        );
-
-        Random rand = new Random(42);
-        for (int i = 0; i < 1000; i++) {
-            double duration = rand.nextGaussian() * 0.2 + 0.3; // Mean 300ms
-            latency.observe(Math.max(0, duration));
-        }
-
-        System.out.println("Average latency: " + latency.getAverage() + "s");
-        System.out.println("P50 latency: " + latency.getPercentile(0.50) + "s");
-        System.out.println("P99 latency: " + latency.getPercentile(0.99) + "s");
-
-        // Test 4: RED Method
-        System.out.println("\n--- Test 4: RED Method ---");
-        MetricsCollector.REDMetrics red = new MetricsCollector.REDMetrics("user-service");
-
-        for (int i = 0; i < 95; i++) {
-            double duration = rand.nextDouble() * 0.5;
-            red.recordRequest(duration);
-        }
-        for (int i = 0; i < 5; i++) {
-            double duration = rand.nextDouble() * 2.0;
-            red.recordError(duration);
-        }
-
-        System.out.println("Error rate: " + (red.getErrorRate() * 100) + "%");
-        System.out.println("P50 latency: " + red.getP50Latency() + "s");
-        System.out.println("P99 latency: " + red.getP99Latency() + "s");
-
-        // Test 5: USE Method
-        System.out.println("\n--- Test 5: USE Method ---");
-        MetricsCollector.USEMetrics use = new MetricsCollector.USEMetrics("database_pool");
-
-        use.setUtilization(0.75); // 75% of connections in use
-        use.setSaturation(12.0);  // 12 requests waiting
-        use.recordError();
-        use.recordError();
-
-        System.out.println("Pool utilization: 75%");
-        System.out.println("Queue saturation: 12 waiting requests");
-        System.out.println("Errors recorded: 2");
-    }
-}
-```
 
 ---
 
@@ -762,103 +654,6 @@ public class StructuredLogger {
         return null; // Replace
     }
 
-    /**
-     * Log aggregation helper: Parse JSON logs
-     *
-     * TODO: Implement log parsing for aggregation
-     */
-    public static LogEntry parseLog(String json) {
-        // TODO: Parse JSON string back to LogEntry
-        return null; // Replace
-    }
-
-    /**
-     * Filter logs by level
-     * Time: O(N) where N = logs
-     *
-     * TODO: Implement log filtering
-     */
-    public static List<LogEntry> filterByLevel(List<LogEntry> logs, LogLevel level) {
-        // TODO: Filter logs by minimum level
-        return null; // Replace
-    }
-
-    /**
-     * Find logs by context (e.g., trace_id)
-     * Time: O(N)
-     *
-     * TODO: Implement context-based search
-     */
-    public static List<LogEntry> findByContext(List<LogEntry> logs,
-                                               String key, Object value) {
-        // TODO: Filter logs by context field
-        return null; // Replace
-    }
-}
-```
-
-**Runnable Client Code:**
-
-```java
-import java.util.*;
-
-public class StructuredLoggerClient {
-
-    public static void main(String[] args) {
-        System.out.println("=== Structured Logging ===\n");
-
-        StructuredLogger logger = new StructuredLogger(
-            "order-service",
-            StructuredLogger.LogLevel.INFO
-        );
-
-        // Test 1: Basic logging
-        System.out.println("--- Test 1: Basic Logging ---");
-        logger.info("Service started");
-        logger.info("Processing order", Map.of("order_id", "12345", "amount", 99.99));
-        logger.warn("High memory usage", Map.of("memory_percent", 85));
-
-        // Test 2: Context propagation
-        System.out.println("\n--- Test 2: Context Propagation ---");
-        logger.addContext("trace_id", "abc-123-def");
-        logger.addContext("user_id", "user_456");
-
-        logger.info("User logged in");
-        logger.info("Fetching user data", Map.of("user_id", "user_456"));
-        logger.info("Order created", Map.of("order_id", "67890"));
-
-        logger.clearContext();
-
-        // Test 3: Error logging
-        System.out.println("\n--- Test 3: Error Logging ---");
-        try {
-            throw new RuntimeException("Database connection failed");
-        } catch (Exception e) {
-            logger.error("Failed to process order", e);
-        }
-
-        // Test 4: Different log levels
-        System.out.println("\n--- Test 4: Log Levels ---");
-        StructuredLogger debugLogger = new StructuredLogger(
-            "debug-service",
-            StructuredLogger.LogLevel.DEBUG
-        );
-
-        debugLogger.info("This appears");
-        // debugLogger.debug("This also appears"); // Would need debug method
-        debugLogger.warn("Warning message");
-        debugLogger.error("Error message");
-
-        // Test 5: Structured fields
-        System.out.println("\n--- Test 5: Structured Fields ---");
-        Map<String, Object> orderFields = new HashMap<>();
-        orderFields.put("order_id", "ORDER-123");
-        orderFields.put("customer_id", "CUST-456");
-        orderFields.put("total", 149.99);
-        orderFields.put("items_count", 3);
-
-        logger.info("Order completed", orderFields);
-    }
 }
 ```
 
@@ -1821,6 +1616,8 @@ With observability:
 
 ## Decision Framework
 
+<div class="learner-section" markdown>
+
 **Your task:** Build decision trees for observability patterns.
 
 ### Question 1: Metrics vs Logs vs Traces?
@@ -1929,10 +1726,13 @@ flowchart LR
     Q15 -->|"Trending (months)"| N19
 ```
 
+</div>
 
 ---
 
 ## Practice
+
+<div class="learner-section" markdown>
 
 ### Scenario 1: Monitor E-commerce API
 
@@ -1969,6 +1769,11 @@ Alerts to configure:
 2. <span class="fill-in">[Error budget alerts?]</span>
 3. <span class="fill-in">[Runbook for each alert?]</span>
 
+**Failure modes:**
+
+- What happens if the metrics collection agent on a host crashes and stops shipping data — how does your alerting distinguish a genuine outage from a silent monitoring gap? <span class="fill-in">[Fill in]</span>
+- How does your design behave when the centralised log aggregation pipeline falls behind under peak traffic and log records are dropped or delayed by several minutes? <span class="fill-in">[Fill in]</span>
+
 ### Scenario 2: Debug Distributed Payment System
 
 **Context:**
@@ -2004,6 +1809,11 @@ Root cause:
 - What would you change to fix it? <span class="fill-in">[Your answer]</span>
 - What observability would you add? <span class="fill-in">[Your answer]</span>
 
+**Failure modes:**
+
+- What happens if the distributed tracing pipeline is overloaded and begins dropping spans for the 1% of slow requests you are trying to investigate? <span class="fill-in">[Fill in]</span>
+- How does your debugging approach change when the fraud-service does not propagate the trace context header, breaking the trace chain mid-flight? <span class="fill-in">[Fill in]</span>
+
 ### Scenario 3: Capacity Planning for Growth
 
 **Situation:**
@@ -2032,6 +1842,13 @@ Planning:
 2. <span class="fill-in">[What needs to be scaled (compute, db, cache)?]</span>
 3. <span class="fill-in">[What are the cost implications?]</span>
 
+**Failure modes:**
+
+- What happens if a key capacity metric (e.g. database connection pool utilisation) has been incorrectly instrumented and is reporting lower than actual values, causing your projections to underestimate the scaling deadline? <span class="fill-in">[Fill in]</span>
+- How does your capacity planning model behave when traffic growth is non-linear — for example, a sudden viral event causes 10x load in one week rather than six months? <span class="fill-in">[Fill in]</span>
+
+</div>
+
 ---
 
 ## Test Your Understanding
@@ -2040,10 +1857,35 @@ Answer these questions without looking at your implementation. They are designed
 
 1. **Your P50 latency is 80ms and your P99 latency is 4 seconds. Users are not complaining. Should you be concerned? Why or why not?**
 
+    ??? success "Rubric"
+        A complete answer addresses: (1) yes, be concerned — P99 at 4 seconds means roughly 1% of requests are extremely slow, which at 10K req/sec is 100 slow requests every second affecting real users; (2) absence of user complaints is a lagging indicator, not evidence of no problem — users often abandon rather than complain; (3) the 50x gap between P50 and P99 indicates the tail is pathological, pointing to a specific cause such as GC pauses, lock contention, or slow database queries on particular code paths worth investigating immediately.
+
 2. **An engineer proposes adding a `user_id` label to your HTTP request counter metric so the team can track per-user request rates. What is the likely consequence in a system with 500K monthly active users, and what alternative approach achieves the same monitoring goal?**
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) adding a high-cardinality label like `user_id` creates 500K unique time series for a single metric — this causes metric store memory explosion, slow queries, and can crash Prometheus or equivalent systems; (2) the alternative is to keep the counter without `user_id` for aggregate monitoring, and instead use logs (with user_id as a structured field, queried on demand) or a separate per-user analytics store for the per-user tracking use case; (3) a good answer also mentions that cardinality should be bounded at label design time, not discovered reactively.
 
 3. **A distributed trace shows the total request took 2 seconds, but the sum of all child span durations adds up to only 800ms. What does this gap represent, and what is the most likely cause?**
 
+    ??? success "Rubric"
+        A complete answer addresses: (1) the 1.2-second gap represents time not accounted for by any instrumented span — this is uninstrumented work; (2) the most common causes are: network transit time between services that is not wrapped in a span, serialisation/deserialisation overhead, connection pool wait time, or middleware/framework code that runs outside the application spans; (3) the fix is to add spans around the suspected uninstrumented regions — connection acquisition, request queuing, and serialisation are the first places to look.
+
 4. **Your SLO is 99.9% availability over 30 days. You have consumed 80% of your error budget in the first 10 days. Should you stop all feature work immediately? Describe how you would use the error budget to make a rational engineering decision.**
 
+    ??? success "Rubric"
+        A complete answer addresses: (1) stopping all feature work immediately is an overreaction if the incident causing the burn is already resolved — the budget is consumed but the rate may now be nominal; (2) the rational response is to calculate the current burn rate: if you consumed 80% in 10 days you had a roughly 8x normal burn rate; assess whether that rate is ongoing or was a one-time event; (3) if the burn rate remains elevated, halt risky deployments and prioritise reliability work; if it has returned to baseline, proceed with feature work but with heightened caution and smaller deployment batches, accepting you have little remaining budget for the month.
+
 5. **Design decision: You are adding observability to a new microservice that processes financial transactions. For each of the three pillars (metrics, logs, traces), name one specific piece of data you would capture and explain why that specific data item is more valuable than alternatives you considered.**
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) for metrics — transaction success/failure rate by payment provider (not just overall error rate) because provider-specific failure rates reveal integration issues that aggregate counts hide; (2) for logs — a structured log entry at transaction completion containing amount, currency, provider, outcome, and correlation ID (not a raw string log) because structured fields enable forensic queries like "all failed USD transactions over $1000 in the last hour"; (3) for traces — a span wrapping each external payment gateway call with the gateway's response code as a tag, because this makes gateway latency and error rates visible without requiring log parsing, and lets you correlate slow transactions to a specific provider call.
+
+---
+
+## Connected Topics
+
+!!! info "Where this topic connects"
+
+    - **08. Rate Limiting** — rate limiting decisions depend on real-time counters that are part of the observability surface; SLO alerting fires when rate-limited traffic exceeds thresholds → [08. Rate Limiting](08-rate-limiting.md)
+    - **09. Load Balancing** — load balancer health checks and request-rate metrics are core observability signals; SLO dashboards typically visualise per-backend latency → [09. Load Balancing](09-load-balancing.md)
+    - **15. Distributed Transactions** — distributed tracing is essential for diagnosing saga failures; correlation IDs span both observability and transaction coordination → [15. Distributed Transactions](15-distributed-transactions.md)

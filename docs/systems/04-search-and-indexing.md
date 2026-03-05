@@ -966,6 +966,8 @@ User experience: Instant results ✓
 
 ## Decision Framework
 
+<div class="learner-section" markdown>
+
 ### Question 1: When to build inverted index?
 
 **Build inverted index when:**
@@ -1008,9 +1010,13 @@ User experience: Instant results ✓
 - Co-locate related documents
 - Optimize specific query patterns
 
+</div>
+
 ---
 
 ## Practice Scenarios
+
+<div class="learner-section" markdown>
 
 ### Scenario 1: E-Commerce Product Search
 
@@ -1037,6 +1043,11 @@ Query strategy:
 - Fuzzy: <span class="fill-in">[Levenshtein distance?]</span>
 - Ranking: <span class="fill-in">[BM25 + custom boost?]</span>
 
+**Failure modes:**
+
+- What happens if the primary shard for a heavily-queried product category becomes unavailable during a peak shopping period? <span class="fill-in">[Fill in]</span>
+- How does your design behave when the autocomplete index becomes stale because real-time indexing falls behind a burst of 10,000 new product listings? <span class="fill-in">[Fill in]</span>
+
 ### Scenario 2: Log Search (Observability)
 
 **Requirements:**
@@ -1060,6 +1071,11 @@ Query optimization:
 - Filter by time: <span class="fill-in">[Use filter context?]</span>
 - Aggregations: <span class="fill-in">[Doc values?]</span>
 - Pagination: <span class="fill-in">[Scroll API?]</span>
+
+**Failure modes:**
+
+- What happens if the log ingestion pipeline falls behind during an incident, causing a 30-minute gap in the time-based indices when an on-call engineer is searching for error patterns? <span class="fill-in">[Fill in]</span>
+- How does your design behave when the 30-day retention policy deletion job runs and accidentally removes an entire index alias rather than just the expired daily index? <span class="fill-in">[Fill in]</span>
 
 ### Scenario 3: Knowledge Base Search
 
@@ -1085,6 +1101,13 @@ Features:
 - Suggestions: <span class="fill-in">[Fuzzy + frequency?]</span>
 - Related: <span class="fill-in">[More Like This query?]</span>
 
+**Failure modes:**
+
+- What happens if the language detection service becomes unavailable and all new articles are indexed with the wrong analyzer, corrupting stemming and synonym expansion for one language? <span class="fill-in">[Fill in]</span>
+- How does your design behave when a full re-index of 100K articles is triggered and the in-progress index swap causes a period where search returns zero results for all queries? <span class="fill-in">[Fill in]</span>
+
+</div>
+
 ---
 
 ## Test Your Understanding
@@ -1092,7 +1115,43 @@ Features:
 Answer these without referring to your notes or implementation.
 
 1. A term appears 10 times in document A (500 words) and 10 times in document B (5,000 words). Which document receives a higher TF score for that term, and why does this matter for ranking quality?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) raw TF treats both documents equally (10 occurrences each), but normalised TF (term count divided by document length) gives document A a score 10× higher because the term density is much greater in the shorter document, (2) BM25 applies length normalisation to prevent long documents from being artificially inflated simply by mentioning a term many times, and (3) without length normalisation, a 10,000-word article mentioning "price" 10 times would unfairly outrank a 100-word product title that also mentions "price" 10 times.
+
 2. You have an Elasticsearch cluster with 5 shards. A query must return the top 10 results globally. Explain exactly how many documents are transferred between shards and the coordinator, and why deep pagination (page 1000) is expensive.
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) each of the 5 shards returns its local top 10 candidates to the coordinator, so 50 documents are transferred for a single "top 10" query, (2) for deep pagination to page 1000 with 10 results per page, each shard must return its top 10,010 candidates — 50,050 documents transferred and re-ranked by the coordinator, and (3) this grows linearly with page depth, making the Scroll API or search_after the correct solution for deep or iterative result retrieval.
+
 3. A product search returns zero results when a user types "wireles headphone" (two typos). What text analysis or query configuration change would fix this, and what is the performance trade-off?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) enabling fuzzy matching (e.g., `fuzziness: AUTO` in Elasticsearch) allows matches within an edit distance of 1–2 characters, catching both "wireles" and "headphone" as matches for the correct terms, (2) alternatively, edge n-gram indexing at ingest time pre-generates partial token variants so lookups remain exact-match speed at query time, and (3) the performance trade-off is that fuzzy matching increases query time and CPU usage because the engine must evaluate many candidate tokens, while n-gram indexing trades query speed for significantly increased index size.
+
 4. Your team wants to add a filter for `status = "published"` to every search query. Should this go in `must` (query context) or `filter` (filter context)? Explain the difference in how Elasticsearch handles each.
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) `status = "published"` should go in filter context because it is a binary yes/no condition with no meaningful relevance score contribution, (2) query context (`must`) calculates a relevance score for each matching document, which is wasted CPU for a boolean filter — filter context skips scoring entirely, and (3) filter context results are cached by Elasticsearch at the shard level using a bitset, so the same status filter used repeatedly across queries is served from cache after the first execution, dramatically reducing repeated query cost.
+
 5. A colleague says "Our index has 200 shards across 5 nodes — more shards means more parallelism and faster queries." What is wrong with this reasoning, and what is the actual recommended guidance?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) each query is sent to all 200 shards, and the coordinator must collect and merge 200 sets of results — the coordination overhead grows with shard count and can easily dominate the parallelism benefit for small shards, (2) with 200 shards on 5 nodes each node handles 40 shard threads per query, competing for CPU and memory, and (3) Elasticsearch's guidance is to keep individual shard sizes between 10–50 GB and avoid having many shards smaller than a few GB; fewer, appropriately-sized shards typically outperform a large number of tiny ones.
+
+---
+
+## Review Checklist
+
+<div class="learner-section" markdown>
+
+Complete this checklist after implementing and studying search and indexing.
+
+- [ ] Can explain how an inverted index is built and why it enables fast full-text search
+- [ ] Can describe TF-IDF scoring and explain why IDF prevents common words from dominating results
+- [ ] Can explain how Elasticsearch distributes a query across shards and coordinates the results
+- [ ] Can describe fuzzy matching and articulate its accuracy/performance trade-off
+- [ ] Can explain the difference between query context and filter context, and when to use each
+- [ ] Can design a text analysis pipeline: tokenization, normalization, stemming, synonym expansion
+
+</div>

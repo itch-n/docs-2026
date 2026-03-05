@@ -1263,6 +1263,8 @@ User → [Upload] → Response        (instant)
 
 ## Decision Framework
 
+<div class="learner-section" markdown>
+
 **Questions to answer after implementation:**
 
 ### 1. Pattern Selection
@@ -1333,9 +1335,13 @@ flowchart LR
     Start -->|"Need retry and failure handling"| N5
 ```
 
+</div>
+
 ---
 
 ## Practice
+
+<div class="learner-section" markdown>
 
 ### Scenario 1: Process uploaded images
 
@@ -1354,6 +1360,11 @@ flowchart LR
 - How many workers? <span class="fill-in">[Fill in]</span>
 - Failure handling strategy? <span class="fill-in">[Fill in]</span>
 
+**Failure modes:**
+
+- What happens if an image processing worker crashes mid-job after dequeuing the message but before acknowledging it? <span class="fill-in">[Fill in]</span>
+- How does your design behave when the queue fills up because processing is slower than the upload rate? <span class="fill-in">[Fill in]</span>
+
 ### Scenario 2: Notification system
 
 **Requirements:**
@@ -1370,6 +1381,11 @@ flowchart LR
 - Why? <span class="fill-in">[Fill in]</span>
 - How to handle different channels? <span class="fill-in">[Fill in]</span>
 - Priority strategy? <span class="fill-in">[Fill in]</span>
+
+**Failure modes:**
+
+- What happens if the SMS delivery service is down and the subscriber for that channel cannot process messages? <span class="fill-in">[Fill in]</span>
+- How does your design behave when an urgent notification is published but the subscriber queue is backed up with non-urgent messages? <span class="fill-in">[Fill in]</span>
 
 ### Scenario 3: Order processing system
 
@@ -1388,6 +1404,13 @@ flowchart LR
 - How to handle priorities? <span class="fill-in">[Fill in]</span>
 - Retry strategy? <span class="fill-in">[Fill in]</span>
 
+**Failure modes:**
+
+- What happens if a payment processing failure causes a message to be retried indefinitely, blocking the worker? <span class="fill-in">[Fill in]</span>
+- How does your design behave when the dead letter queue itself fills up because failed orders are not being investigated and resolved? <span class="fill-in">[Fill in]</span>
+
+</div>
+
 ---
 
 ## Test Your Understanding
@@ -1395,7 +1418,36 @@ flowchart LR
 Answer these without referring to your notes or implementation.
 
 1. A `SimpleMessageQueue.receive()` returns `null` when the queue is empty instead of blocking. What concurrency problem does this cause for a consumer that loops calling `receive()`, and what is the correct fix?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) a tight spin loop calling `receive()` in a busy-wait wastes CPU cycles and can starve other threads — all CPU time goes to polling rather than doing useful work, (2) the correct fix is to use `BlockingQueue.take()` or `wait()`/`notify()` so the consumer thread sleeps until a message is available, releasing the CPU during idle periods, (3) `BlockingQueue` is the idiomatic Java solution: it handles all synchronisation internally, so the consumer naturally blocks on `take()` and wakes up when a producer calls `put()`.
+
 2. Explain why at-least-once delivery requires idempotent consumers. Give a concrete example of what goes wrong when a consumer is not idempotent.
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) at-least-once delivery guarantees the message will be delivered, but may deliver it more than once — this happens when a consumer processes the message but crashes before sending the acknowledgement, so the broker redelivers it, (2) concrete non-idempotent example: a consumer charges a user's credit card upon receiving an order message; if the message is delivered twice, the customer is charged twice even though only one order was placed, (3) to make the consumer idempotent, check whether the order ID has already been processed (e.g., via a deduplication table keyed on message ID) before performing the side effect.
+
 3. You have a notification service that must send email, SMS, and push notification for every user event. Which queue pattern do you choose and why? What changes if only one channel should process each event?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) fan-out publish-subscribe: the event is published once to a topic, and three separate subscriber queues (one per channel) each receive a copy — every channel processes every event independently, (2) why pub-sub: point-to-point would require the producer to send three separate messages, coupling it to knowledge of all channel types; pub-sub decouples producer from consumers, (3) if only one channel should process each event (competing consumers), use a single point-to-point queue where each consumer competes for the same message — whichever channel picks it up first processes it, and the message is acknowledged and gone.
+
 4. A priority queue processes HIGH messages before LOW messages. After 10 minutes of high traffic, the LOW messages have never been processed. What is this problem called, and describe two strategies to mitigate it.
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) this is priority starvation (or priority inversion at the queue level) — lower priority messages are indefinitely blocked by a continuous stream of higher priority work, (2) mitigation 1: priority aging — track how long each message has been waiting and increase its effective priority over time, so a LOW message that has waited 5 minutes eventually gets promoted to HIGH priority and is processed, (3) mitigation 2: reserved capacity — allocate a fraction of worker threads (e.g., 10–20%) exclusively to LOW priority messages so they always make some progress regardless of HIGH queue depth.
+
 5. A colleague says "We should use pub-sub everywhere — it's more flexible than point-to-point queues." What trade-offs are they ignoring, and what scenario would make point-to-point the clearly better choice?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) pub-sub trade-offs: every subscriber must independently consume and acknowledge messages — if a slow subscriber falls behind, its queue grows unboundedly; there is no back-pressure from consumers to producers across subscribers, (2) pub-sub also makes it harder to guarantee that exactly one consumer processes each work item — all active subscribers receive every message, so work deduplication must be managed by the application, (3) point-to-point is clearly better for task queues (work distribution) where a job should be processed by exactly one worker — e.g., image resizing, order fulfilment, payment processing — competing consumers naturally distribute load without duplication.
+
+---
+
+## Connected Topics
+
+!!! info "Where this topic connects"
+
+    - **10. Concurrency Patterns** — distributed producer-consumer extends the in-process blocking queue pattern; the same backpressure and ordering concerns apply at scale → [10. Concurrency Patterns](10-concurrency-patterns.md)
+    - **13. Stream Processing** — Kafka functions as both a message queue and the event source for stream processors; queue delivery guarantees determine stream processing consistency → [13. Stream Processing](13-stream-processing.md)
+    - **15. Distributed Transactions** — the transactional outbox pattern uses a message queue to guarantee that a database write and a downstream event are published atomically → [15. Distributed Transactions](15-distributed-transactions.md)

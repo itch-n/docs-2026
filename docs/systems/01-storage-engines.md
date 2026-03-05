@@ -1189,6 +1189,8 @@ long duration = System.nanoTime() - start;
 
 ## Decision Framework
 
+<div class="learner-section" markdown>
+
 **Your task:** Build decision trees for when to use each storage engine.
 
 ### Question 1: Write-heavy or Read-heavy?
@@ -1240,9 +1242,13 @@ flowchart LR
     Q1 -->|"NO"| A6(["B+Tree ✓<br/>LSM read penalty not worth"])
 ```
 
+</div>
+
 ---
 
 ## Practice
+
+<div class="learner-section" markdown>
 
 ### Scenario 1: Social Media Posts Table
 
@@ -1281,6 +1287,11 @@ Index design:
 3. What's the column order and why?<span class="fill-in">Filter columns come first, then sort columns after. More
    selective filters earlier</span>
 
+**Failure modes:**
+
+- What happens if the primary storage node for this posts table becomes unavailable during a write burst of 10,000 posts/sec? <span class="fill-in">[Fill in]</span>
+- How does your design behave when index updates lag behind writes and a user queries posts they just created? <span class="fill-in">[Fill in]</span>
+
 ### Scenario 2: Time-Series Metrics
 
 Design storage for metrics data:
@@ -1311,6 +1322,11 @@ Why?
 2. <span class="fill-in">Mostly read recent data, more likely to stay in memtable</span>
 3. <span class="fill-in">Metrics are an append-only workload (no/few updates)</span>
 
+**Failure modes:**
+
+- What happens if the MemTable is full and the flush-to-SSTable process stalls (e.g., disk I/O saturation at 1M writes/sec)? <span class="fill-in">[Fill in]</span>
+- How does your design behave when compaction falls behind and SSTable count grows unbounded over the 30-day retention window? <span class="fill-in">[Fill in]</span>
+
 ### Scenario 3: E-commerce Inventory
 
 ```sql
@@ -1340,6 +1356,13 @@ Trade-offs you considered:
 3. <span class="fill-in">Update-heavy workload ((LSM Trees' write advantage lessens for updates vs inserts, because
    updates still need to search existing data first)</span>
 
+**Failure modes:**
+
+- What happens if the storage node serving inventory reads becomes unavailable while 1M reads/sec are in flight? <span class="fill-in">[Fill in]</span>
+- How does your design behave when a high-traffic flash sale causes write contention on the same product_id rows, potentially exhausting B+Tree leaf-page lock slots? <span class="fill-in">[Fill in]</span>
+
+</div>
+
 ---
 
 ## Test Your Understanding
@@ -1347,10 +1370,29 @@ Trade-offs you considered:
 Answer these without referring to your notes or implementation.
 
 1. What causes write amplification in a B+Tree? Describe the physical I/O operations that occur for a single logical insert.
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) each insert requires reading the target leaf page from disk, (2) modifying it in memory and writing the entire page back (even if only a few bytes changed), and (3) potential node splits cascade up the tree, triggering additional reads and writes of parent pages.
+
 2. Why does an LSM Tree need compaction? What specifically breaks if you skip it indefinitely?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) each flush creates a new SSTable, so without compaction the SSTable count grows without bound, (2) read performance degrades as O(K × log S) where K is unbounded — every read must check every SSTable, and (3) disk space is wasted because outdated and deleted values are never reclaimed.
+
 3. A metrics pipeline ingests 500k events/second and queries the last hour of data every 30 seconds. Which engine, and why?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) the 500k/sec write rate strongly favours LSM Tree due to its append-to-MemTable write path and lower write amplification, (2) the infrequent range read (every 30 seconds) makes LSM's higher read amplification acceptable, and (3) compaction should be tuned to keep recent SSTables small so the "last hour" queries remain fast.
+
 4. What structural difference between B-Tree and B+Tree makes range queries significantly more efficient?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) in a B-Tree, data values are stored in both internal and leaf nodes, so a range scan must traverse back up and down the tree for each key, (2) in a B+Tree, all values are stored only in leaf nodes, and (3) leaf nodes are linked in a doubly- or singly-linked list, so after finding the start of a range the scan proceeds sequentially without re-traversing the tree.
+
 5. A colleague says "We should use LSM Trees — they're faster." What is incomplete about this statement?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) LSM Trees are faster for writes but slower for reads, especially point lookups and worst-case range scans with many SSTables, (2) "faster" must be qualified by workload read/write ratio, and (3) LSM Trees introduce operational complexity (compaction tuning, read amplification management) that B+Trees do not require.
 
 ---
 
@@ -1957,3 +1999,13 @@ Modern day: Hybrid approaches
 ```
 
 </details>
+
+---
+
+## Connected Topics
+
+!!! info "Where this topic connects"
+
+    - **02. Row vs Column Storage** — both address physical data layout; B+Tree suits row access, LSM suits append-heavy columnar writes → [02. Row vs Column Storage](02-row-vs-column-storage.md)
+    - **05. Caching Patterns** — the buffer pool in a storage engine is a cache; the same LRU eviction logic applies → [05. Caching Patterns](05-caching-patterns.md)
+    - **11. Database Scaling** — sharding distributes storage engine instances; the engine's write path (WAL vs memtable) shapes which replication strategies are practical → [11. Database Scaling](11-database-scaling.md)

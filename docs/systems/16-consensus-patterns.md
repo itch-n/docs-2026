@@ -1243,6 +1243,8 @@ Term 3: When partition heals, Node 5 sees Node 3 has higher term → steps down
 
 ## Decision Framework
 
+<div class="learner-section" markdown>
+
 **Your task:** Build decision trees for when to use each consensus pattern.
 
 ### Question 1: Leader Election vs Leaderless?
@@ -1336,10 +1338,13 @@ flowchart LR
     Q14 -->|"Cache invalidation"| N18
 ```
 
+</div>
 
 ---
 
 ## Practice
+
+<div class="learner-section" markdown>
 
 ### Scenario 1: Distributed Database Leader Election
 
@@ -1367,6 +1372,11 @@ Implementation details:
 2. <span class="fill-in">[How to handle network partition]</span>
 3. <span class="fill-in">[Fencing mechanism to prevent dual-primary]</span>
 
+**Failure modes:**
+
+- What happens if a network partition splits the 5-node cluster into a 3-node and a 2-node partition — which side can elect a leader, and what does the other side do? <span class="fill-in">[Fill in]</span>
+- How does your design behave when a previously isolated primary rejoins the cluster and still believes it is the leader, having not yet received a new term from the successor? <span class="fill-in">[Fill in]</span>
+
 ### Scenario 2: Distributed Job Scheduler
 
 **Requirements:**
@@ -1392,6 +1402,11 @@ Lock implementation:
 - TTL: <span class="fill-in">[How long?]</span>
 - Renewal: <span class="fill-in">[When and how often?]</span>
 - Fencing: <span class="fill-in">[Prevent duplicate execution how?]</span>
+
+**Failure modes:**
+
+- What happens if the lock holder crashes mid-job after 45 seconds with a 30-second TTL — the TTL has already expired, another scheduler has acquired the lock and started the job, and now the original holder's process restarts and resumes? <span class="fill-in">[Fill in]</span>
+- How does your design behave when the distributed lock store itself (e.g. ZooKeeper or etcd) loses quorum and becomes unavailable while 50 jobs are actively running with held locks? <span class="fill-in">[Fill in]</span>
 
 ### Scenario 3: Multi-Region Key-Value Store
 
@@ -1420,6 +1435,13 @@ Trade-offs:
 2. <span class="fill-in">[Cross-DC write latency]</span>
 3. <span class="fill-in">[Conflict resolution strategy]</span>
 
+**Failure modes:**
+
+- What happens if the Asia datacenter becomes completely unreachable — can the US and EU nodes still satisfy your R and W quorum requirements, and does this cause any reads or writes to fail? <span class="fill-in">[Fill in]</span>
+- How does your design behave when a network partition heals and the Asia datacenter rejoins with a set of writes that conflict with writes accepted by US and EU during the partition? <span class="fill-in">[Fill in]</span>
+
+</div>
+
 ---
 
 ## Test Your Understanding
@@ -1428,10 +1450,52 @@ Answer these questions without looking at your notes. They are designed to probe
 
 1. **Prove mathematically that a 5-node Raft cluster can tolerate exactly 2 simultaneous node failures without losing the ability to elect a leader. Show your work using the majority formula.**
 
+    ??? success "Rubric"
+        A complete answer addresses: (1) the majority quorum formula is ⌊N/2⌋ + 1; for N=5 this is ⌊5/2⌋ + 1 = 3 — a majority requires 3 votes; (2) with 2 failures, 3 nodes remain operational, which exactly meets the majority threshold, so an election can succeed; (3) with 3 failures only 2 nodes remain, which is less than 3, so no majority can be formed and no leader can be elected — the cluster is unavailable for writes; (4) the general rule is that a cluster of 2f+1 nodes tolerates f failures: 5 = 2(2)+1, so f=2.
+
 2. **A distributed lock uses a 30-second TTL. The lock holder's JVM experiences a GC pause of 45 seconds while holding the lock. Describe the exact sequence of events that occurs, and explain what happens when the GC pause ends and the original holder resumes execution. How do fencing tokens prevent data corruption in this scenario?**
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) at T+30s the TTL expires and the lock store releases the lock; another client (Client B) acquires the lock at T+31s and begins its work; (2) at T+45s the original holder (Client A) resumes from GC pause, still believes it holds the lock, and proceeds to write to the shared resource — now both A and B believe they are the authorised writer; (3) fencing tokens solve this: the lock store issues a monotonically increasing token on each acquisition (e.g. token 1 to A, token 2 to B); every write to the shared resource includes the token; the resource rejects any write with a token lower than the highest it has seen — Client A's token 1 is rejected because Client B's token 2 has already been accepted.
 
 3. **You are configuring a Cassandra cluster with N=5 replicas (replication factor = 5). Your team wants to maximize write availability while still guaranteeing strong consistency. What are the minimum values of R and W? Show that R + W > N holds.**
 
+    ??? success "Rubric"
+        A complete answer addresses: (1) strong consistency requires R + W > N to ensure read and write quorums overlap, guaranteeing every read sees the most recent write; (2) to maximise write availability, minimise W; the minimum W that satisfies R + W > 5 with integer values is W=2, which requires R=4 (since 4+2=6 > 5); (3) alternatively W=3, R=3 (quorum/quorum) is the most common balanced choice: 3+3=6 > 5; (4) W=1, R=5 satisfies the formula and gives maximum write availability (any single replica accepts writes) but requires reading all 5 replicas, which is slow and fails if any replica is down — so W=2, R=4 or W=3, R=3 are the practical answers.
+
 4. **In Raft, why is it necessary to reset `votedFor = null` when a node's term is updated to a higher value? Construct a concrete 3-node example where failing to reset `votedFor` causes two leaders to be elected in the same term.**
 
+    ??? success "Rubric"
+        A complete answer addresses: (1) `votedFor` records which candidate a node has already voted for in the current term; resetting to null when the term advances ensures that the node can cast a fresh vote in the new term rather than erroneously claiming it has already voted for someone in a term it just learned about; (2) example: term 1, nodes A, B, C — A votes for itself (votedFor=A) and becomes leader; A is partitioned; B and C increment to term 2 and elect B as leader; A rejoins in term 2 — if A does not reset votedFor, it still has votedFor=A from term 1, but term 1 ≠ term 2 so this is not directly the bug; (3) the actual bug: if a node updates its term to T but doesn't reset votedFor, a candidate in term T could receive a "yes" vote from a node that already voted for a different candidate in term T (because the node's persisted votedFor was set before the term update was persisted) — allowing two candidates to each accumulate a majority by receiving the same vote twice across a crash-recovery cycle.
+
 5. **Design decision: You are building a distributed job scheduler where jobs must run exactly once, and jobs can take between 1 and 60 minutes. You plan to use distributed locks to prevent duplicate execution. What TTL would you set, and how would you prevent a crashed job runner from blocking the job for the full TTL period? Justify the specific numbers you choose.**
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) setting TTL = 60 minutes (the maximum job duration) is wrong — if a runner crashes at T+1m, the job is blocked for 59 minutes; a very short TTL is also wrong — if the job takes 60 minutes, the lock expires mid-run and another runner starts a duplicate; (2) the correct pattern is a short TTL (e.g. 30 seconds) combined with active lease renewal: the job runner refreshes the lock every 10-15 seconds while the job is running; (3) if the runner crashes, it stops renewing, and the TTL expires after 30 seconds — another runner can then acquire the lock and restart the job; (4) to handle duplicate starts after a crash, each job execution must be idempotent or use a fencing token passed to the job logic so that any partial work from the crashed runner is overwritten or ignored.
+
+---
+
+## Review Checklist
+
+<div class="learner-section" markdown>
+
+Complete this checklist after implementing and studying consensus patterns.
+
+- [ ] Can trace a Raft leader election step-by-step, including term numbers and vote counting
+- [ ] Can explain why a majority quorum (⌊n/2⌋ + 1) guarantees at most one leader per term
+- [ ] Can describe how distributed locks use TTLs and explain the role of fencing tokens
+- [ ] Can apply CAP theorem: identify which guarantees a consensus algorithm sacrifices
+- [ ] Can choose an appropriate cluster size for a given fault-tolerance requirement
+- [ ] Can explain the performance cost of strong consistency and when eventual consistency is acceptable
+
+</div>
+
+---
+
+## Connected Topics
+
+!!! info "Where this topic connects"
+
+    - **11. Database Scaling** — leader election via consensus is how distributed databases elect a primary for replication → [11. Database Scaling](11-database-scaling.md)
+    - **15. Distributed Transactions** — the coordinator in 2PC must be made fault-tolerant using a consensus protocol; Raft underpins Spanner-style distributed transactions → [15. Distributed Transactions](15-distributed-transactions.md)
+    - **10. Concurrency Patterns** — distributed locks (built on consensus) are the distributed analogue of local mutex/semaphore patterns → [10. Concurrency Patterns](10-concurrency-patterns.md)

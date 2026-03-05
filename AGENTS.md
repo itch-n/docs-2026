@@ -42,7 +42,7 @@ Every topic file follows this section pattern:
 Topics live in two sections:
 
 - `docs/systems/` — 16 topics: storage engines, networking, caching, API design, security, rate limiting, load balancing, concurrency, database scaling, message queues, stream processing, observability, distributed transactions, consensus
-- `docs/dsa/` — 17 topics: two pointers, sliding window, hash tables, linked lists, stacks & queues, trees (traversals + recursion), binary search, heaps, graphs, union-find, advanced graphs, backtracking, DP 1D, DP 2D, tries, advanced topics
+- `docs/dsa/` — 14 topics: two pointers, sliding window, hash tables, linked lists, stacks & queues, trees (traversals + recursion), binary search, heaps, graphs, union-find, advanced graphs, dynamic programming, prefix sums, intervals
 
 ---
 
@@ -152,4 +152,50 @@ AI-generated markdown often omits trailing spaces on consecutive labelled lines,
 
 ---
 
-## [Offering] Runbook Generation Context
+## Persisting Learnings
+
+When working in this repo, track patterns worth adding here. A good repo-level learning:
+
+- Would have saved time if known at the start of the session
+- Applies to future contributors, not just this specific task
+- Is a decision, convention, or gotcha — not a one-off fix
+- Isn't already captured in this file
+
+At natural pause points, offer: *"I noticed [X pattern]. Should I add this to AGENTS.md?"*
+
+---
+
+## Editing Conventions (Learned from Past Sessions)
+
+### Large section deletions — use Python, not Edit
+
+The Edit tool fails when `old_string` spans many lines or is very long. For cuts of 50+ lines, use an inline Python script:
+
+```python
+with open('docs/systems/file.md', 'r') as f:
+    lines = f.readlines()
+out = lines[:start_line] + lines[end_line:]  # 0-indexed
+with open('docs/systems/file.md', 'w') as f:
+    f.writelines(out)
+```
+
+Or with content-based markers:
+
+```python
+start_idx = content.find('\n### Section to cut')
+end_idx = content.find('\n## Next section to keep')
+new_content = content[:start_idx] + content[end_idx:]
+```
+
+### Runnable client code is trimmable boilerplate
+
+Each implementation pattern may end with a `public class XClient { public static void main(String[] args) {...} }` test harness. These are **not learner content** — they just exercise the TODO stubs. When trimming a file for length, always remove these first (typical savings: 60–100 lines per pattern).
+
+### Case Studies sections — always preserve
+
+User explicitly wants all `## Case Studies:` sections kept in every file. Never remove or shorten them, even when cutting for length.
+
+### After "file has been modified since read" error — re-read before editing
+
+If the Edit tool returns "file has been modified since read," re-read the file first, then retry the edit. This happens after Python-based deletions that change line offsets.
+

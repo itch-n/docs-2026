@@ -869,333 +869,6 @@ public class SecretsManagerClient {
 
 ---
 
----
-
-## Before/After: Why Security Patterns Matter
-
-**Your task:** Compare insecure vs secure approaches to understand the security impact.
-
-### Example 1: Authentication - Insecure vs Secure
-
-**Problem:** Implement user authentication for an API.
-
-#### Approach 1: Insecure - Username/Password in Every Request
-
-```java
-// INSECURE: Sending credentials with every request
-public class InsecureAuth {
-
-    public boolean authenticateRequest(String username, String password) {
-        // Problem: Credentials sent with EVERY API call
-        // - Exposed in logs, network traffic
-        // - No expiration mechanism
-        // - Can't revoke access without changing password
-        return checkDatabase(username, password);
-    }
-
-    // Client code
-    public void makeAPICall() {
-        // INSECURE: Username and password in every request
-        String response = httpClient.get("/api/data",
-            "username=john",
-            "password=secret123");  // Exposed!
-    }
-}
-```
-
-**Security Issues:**
-
-- Credentials exposed in every request (logs, network, proxy)
-- No way to revoke access without password change
-- Password transmitted repeatedly (more attack surface)
-- Can't implement session timeout
-- Difficult to audit (which requests from which session?)
-
-#### Approach 2: Secure - JWT Token-Based Auth
-
-```java
-// SECURE: Token-based authentication
-public class SecureJWTAuth {
-
-    private final String secret = System.getenv("JWT_SECRET");  // From environment
-    private final long expirationMs = 3600000;  // 1 hour
-
-    // Step 1: Login once to get token
-    public String login(String username, String password) {
-        if (!validateCredentials(username, password)) {
-            return null;
-        }
-
-        // Generate short-lived token
-        return generateJWT(username, expirationMs);
-    }
-
-    // Step 2: Use token for subsequent requests
-    public boolean authenticateRequest(String token) {
-        try {
-            String userId = validateJWT(token);
-            // Check expiration
-            if (isExpired(token)) {
-                return false;  // Must re-login
-            }
-            return userId != null;
-        } catch (SecurityException e) {
-            return false;  // Invalid signature
-        }
-    }
-
-    // Client code
-    public void makeAPICall() {
-        // SECURE: Token in Authorization header
-        String token = loginOnce("john", "secret123");
-        String response = httpClient.get("/api/data",
-            headers: {"Authorization": "Bearer " + token});
-        // Password only sent once during login!
-    }
-}
-```
-
-**Security Improvements:**
-
-- Credentials only sent once during login
-- Token expires automatically (limited exposure window)
-- Can revoke tokens without password change
-- Signature prevents tampering
-- Stateless (scales horizontally)
-- Audit-friendly (track token usage)
-
-#### Performance & Security Comparison
-
-| Aspect               | Insecure (Creds Every Request) | Secure (JWT)       | Improvement    |
-|----------------------|--------------------------------|--------------------|----------------|
-| Credential exposure  | Every request                  | Login only         | 100x less      |
-| Revocation           | Change password                | Revoke token       | Immediate      |
-| Expiration           | None                           | Built-in           | Auto-logout    |
-| Tampering protection | None                           | HMAC signature     | Detectable     |
-| Scalability          | Database hit every request     | No database lookup | 10-100x faster |
-| Audit trail          | Difficult                      | Token ID trackable | Complete       |
-
-**Your calculation:** If a user makes 1,000 API calls per day:
-
-- Insecure approach exposes credentials _____ times
-- Secure approach exposes credentials _____ time(s)
-- Security improvement: <span class="fill-in">_____</span> x safer
-
----
-
-### Example 2: Authorization - No Checks vs RBAC
-
-**Problem:** Control who can delete blog posts.
-
-#### Approach 1: No Authorization Checks
-
-```java
-// INSECURE: No authorization, anyone can delete
-public class NoAuthzBlog {
-
-    public boolean deletePost(String postId, String userId) {
-        // Any authenticated user can delete any post
-        database.delete("posts", postId);
-        return true;
-    }
-
-    // Security hole: Attacker can delete all posts
-    public void attackExample() {
-        // Even a VIEWER role can do this!
-        deletePost("important-post", "attacker-user-id");
-    }
-}
-```
-
-**Security Issues:**
-
-- Any authenticated user can perform any action
-- No distinction between roles (viewer, editor, admin)
-- Privilege escalation: viewer acts as admin
-- No audit trail of who did what
-- Cannot implement least privilege principle
-
-#### Approach 2: RBAC Authorization
-
-```java
-// SECURE: Role-Based Access Control
-public class RBACBlog {
-
-    private final RBACAuthorizer rbac;
-
-    public boolean deletePost(String postId, String userId) {
-        // Step 1: Check authorization BEFORE action
-        if (!rbac.hasPermission(userId, Permission.DELETE)) {
-            auditLog.warn("Unauthorized delete attempt", userId, postId);
-            throw new SecurityException("Insufficient permissions");
-        }
-
-        // Step 2: Additional check - can only delete own posts (unless admin)
-        Post post = database.getPost(postId);
-        if (!post.authorId.equals(userId) &&
-            !rbac.hasRole(userId, Role.ADMIN)) {
-            throw new SecurityException("Can only delete own posts");
-        }
-
-        // Step 3: Perform action with audit logging
-        database.delete("posts", postId);
-        auditLog.info("Post deleted", userId, postId);
-        return true;
-    }
-
-    // Secure example: Permission properly checked
-    public void secureExample() {
-        try {
-            deletePost("important-post", "viewer-user-id");
-        } catch (SecurityException e) {
-            // Blocked! Viewer doesn't have DELETE permission
-            System.out.println("Access denied: " + e.getMessage());
-        }
-    }
-}
-```
-
-**Security Improvements:**
-
-- Explicit permission check before every sensitive action
-- Role-based hierarchy (viewer < editor < admin)
-- Audit logging for security events
-- Fail-secure (deny by default)
-- Least privilege principle enforced
-
-#### Security Comparison
-
-| Attack Vector                | No Authorization | With RBAC  | Prevented? |
-|------------------------------|------------------|------------|------------|
-| Viewer deletes posts         | Succeeds         | Blocked    | ✓          |
-| Editor deletes other's posts | Succeeds         | Blocked    | ✓          |
-| User promotes self to admin  | Succeeds         | Blocked    | ✓          |
-| Audit trail of actions       | None             | Complete   | ✓          |
-| Privilege escalation         | Easy             | Impossible | ✓          |
-
-**After implementing, explain in your own words:**
-
-<div class="learner-section" markdown>
-
-- Why is "deny by default" important? <span class="fill-in">[Your answer]</span>
-- What happens if you forget one authorization check? <span class="fill-in">[Your answer]</span>
-- How does RBAC prevent privilege escalation? <span class="fill-in">[Your answer]</span>
-
-</div>
-
----
-
-### Example 3: Secrets Management - Hardcoded vs Encrypted
-
-**Problem:** Store database password for application use.
-
-#### Approach 1: Hardcoded Credentials
-
-```java
-// INSECURE: Hardcoded credentials in source code
-public class HardcodedSecrets {
-
-    private static final String DB_PASSWORD = "super-secret-pwd-123";
-
-    public Connection connectToDatabase() {
-        // Problems:
-        // 1. Password in version control (git history)
-        // 2. Visible to anyone with code access
-        // 3. Can't rotate without redeploying
-        // 4. Same password in dev, staging, prod
-        return DriverManager.getConnection(
-            "jdbc:postgresql://db.example.com/mydb",
-            "dbuser",
-            DB_PASSWORD  // EXPOSED!
-        );
-    }
-}
-```
-
-**Security Issues:**
-
-- Secret in git history (can't remove)
-- Visible in source code reviews
-- Leaked in compiled binaries/JAR files
-- Can't rotate without code changes + redeployment
-- Same secret across all environments
-- Exposed in logs, stack traces, debugging
-
-#### Approach 2: Encrypted Secrets Management
-
-```java
-// SECURE: Encrypted secrets with rotation
-public class SecureSecretsManagement {
-
-    private final SecretsManager secretsManager;
-
-    public Connection connectToDatabase() {
-        // Step 1: Retrieve secret from encrypted store
-        // - Master key stored in environment/HSM
-        // - Secrets encrypted at rest
-        // - Access controlled per service
-        String dbPassword = secretsManager.getSecret(
-            "db_password",
-            getCurrentServiceId()
-        );
-
-        // Step 2: Use secret (never log it!)
-        return DriverManager.getConnection(
-            "jdbc:postgresql://db.example.com/mydb",
-            "dbuser",
-            dbPassword  // Retrieved securely
-        );
-        // Step 3: dbPassword cleared from memory after use
-    }
-
-    // Rotation without downtime
-    public void rotatePassword() {
-        // 1. Generate new password
-        String newPassword = generateSecurePassword();
-
-        // 2. Update database with new password
-        database.updateUserPassword("dbuser", newPassword);
-
-        // 3. Store new version in secrets manager
-        secretsManager.rotateSecret("db_password", newPassword);
-
-        // 4. Old version still valid for grace period
-        // 5. After grace period, old version deleted
-    }
-}
-```
-
-**Security Improvements:**
-
-- Secrets never in source code or version control
-- Encrypted at rest with master key
-- Access control (only authorized services can read)
-- Audit logging (who accessed what secret when)
-- Rotation without code changes or redeployment
-- Different secrets per environment (dev/staging/prod)
-- Automatic expiration and rotation
-
-#### Security Impact Analysis
-
-| Risk                 | Hardcoded         | Secrets Manager  | Mitigation |
-|----------------------|-------------------|------------------|------------|
-| Git leak             | Exposed forever   | Not in git       | ✓          |
-| Code review leak     | Visible           | Not visible      | ✓          |
-| Rotation cost        | Redeploy          | API call         | ✓          |
-| Audit capability     | None              | Full logging     | ✓          |
-| Blast radius         | All environments  | Isolated         | ✓          |
-| Post-breach response | Manual everywhere | Rotate instantly | ✓          |
-
-**Real-world impact:** In 2019, 50,000+ hardcoded secrets leaked on GitHub led to major breaches.
-
-**Your reflection after implementation:**
-
-- How would you rotate a leaked hardcoded password? <span class="fill-in">[Your answer]</span>
-- What's the blast radius if secrets manager is breached vs. hardcoded? <span class="fill-in">[Your answer]</span>
-- Why is "secrets in environment variables" better than hardcoded but still not ideal? <span class="fill-in">[Your answer]</span>
-
----
-
 ## Common Misconceptions
 
 !!! warning "JWT tokens are encrypted, so the payload is private"
@@ -1210,6 +883,8 @@ public class SecureSecretsManagement {
 ---
 
 ## Decision Framework
+
+<div class="learner-section" markdown>
 
 **Your task:** Build decision trees for when to use each security pattern.
 
@@ -1300,10 +975,13 @@ flowchart LR
     Q13 -->|"Offline support"| N16
 ```
 
+</div>
 
 ---
 
 ## Practice
+
+<div class="learner-section" markdown>
 
 ### Scenario 1: E-commerce API Security
 
@@ -1322,6 +1000,11 @@ flowchart LR
 - Token expiry: <span class="fill-in">[Short-lived or long-lived? Refresh strategy?]</span>
 - Rate limiting: <span class="fill-in">[Per user? Per API key?]</span>
 
+**Failure modes:**
+
+- What happens if the JWT signing secret is accidentally committed to a public GitHub repository? <span class="fill-in">[Fill in]</span>
+- How does your design behave when the token validation service becomes unavailable and 10K users try to authenticate simultaneously? <span class="fill-in">[Fill in]</span>
+
 ### Scenario 2: Multi-Tenant SaaS Platform
 
 **Requirements:**
@@ -1338,6 +1021,11 @@ flowchart LR
 - SSO integration: <span class="fill-in">[SAML, OAuth2, or both?]</span>
 - Token claims: <span class="fill-in">[What to include in JWT?]</span>
 - Cross-tenant attacks: <span class="fill-in">[How to prevent?]</span>
+
+**Failure modes:**
+
+- What happens if a misconfigured RBAC rule grants a tenant-admin role access to another tenant's data? <span class="fill-in">[Fill in]</span>
+- How does your design behave when an SSO provider goes down and enterprise customers cannot authenticate? <span class="fill-in">[Fill in]</span>
 
 ### Scenario 3: Microservices Internal Auth
 
@@ -1356,6 +1044,13 @@ flowchart LR
 - Secret distribution: <span class="fill-in">[How do services get credentials?]</span>
 - Rotation: <span class="fill-in">[How to rotate without downtime?]</span>
 
+**Failure modes:**
+
+- What happens if a service's mTLS certificate expires and is not rotated in time, blocking all inter-service calls? <span class="fill-in">[Fill in]</span>
+- How does your design behave when the secrets manager is unavailable and services cannot retrieve their credentials on startup? <span class="fill-in">[Fill in]</span>
+
+</div>
+
 ---
 
 ## Test Your Understanding
@@ -1363,7 +1058,35 @@ flowchart LR
 Answer these without referring to your notes or implementation.
 
 1. A JWT token arrives with a valid HMAC signature but the `exp` claim is 10 minutes in the past. Should the request be allowed? Explain what would happen in a high-traffic system if you skipped the expiration check and tokens were never refreshed.
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) the request must be rejected — a valid signature only proves the token was issued by the correct server, not that it is still valid; expiration is a separate and mandatory check, (2) without expiration checks, stolen tokens remain valid forever — a token leaked via a compromised client or log file becomes a permanent backdoor, (3) in a high-traffic system with no expiration, token revocation becomes impossible without a centralized blocklist, defeating the statelessness that makes JWT attractive.
+
 2. You are implementing `hasPermission(userId, permission)` for a user who has three roles. Walk through the algorithm step by step and explain what data structures you would choose and why.
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) step-by-step: look up the user's role set in a HashMap<String, Set<Role>>, iterate over each role, look up each role's permissions in a HashMap<Role, Set<Permission>>, return true on first match, (2) HashSet for both roles and permissions gives O(1) contains checks so the overall algorithm is O(R) where R is the number of roles, (3) null-safety: return false immediately if the user has no roles or a role has no permission mapping — never default to allow.
+
 3. Your team wants to store the JWT signing secret as an environment variable set at deploy time. Compare this to using a dedicated secrets manager. What are the specific risks of the environment-variable approach that a secrets manager would eliminate?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) environment variables are often readable by any process on the host and can appear in crash dumps, `/proc` listings, or CI logs — a secrets manager restricts access to authorised callers only, (2) environment variables have no rotation mechanism; rotating the secret requires a full redeployment, whereas a secrets manager supports versioned rotation with zero downtime, (3) a secrets manager provides audit logs showing who accessed the secret and when, which is impossible with environment variables.
+
 4. A colleague proposes using `String.equals()` to validate an API key submitted by a client. What is the security flaw, and how would you fix it while still keeping the comparison O(n)?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) `String.equals()` short-circuits on the first differing character, leaking timing information — an attacker measuring response times can determine the correct key one character at a time (timing attack), (2) the fix is a constant-time comparison that always examines every character regardless of where a mismatch occurs (e.g., `MessageDigest.isEqual()` or a custom loop with XOR accumulator), (3) constant-time comparison is still O(n) — it processes all n characters every time — it just removes the early-exit that enables timing attacks.
+
 5. A colleague says "we don't need RBAC because we only have two user types: admin and regular user." What would you say to convince them that a proper role-permission mapping is worth implementing even now, before the system grows?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) two hardcoded roles with scattered `if (isAdmin)` checks become brittle as the system grows — adding a third role (e.g., moderator) requires hunting down every check in the codebase, (2) a role-permission mapping separates the definition of access rules from the enforcement, making it easy to add or modify roles without changing business logic, (3) a proper RBAC foundation also enables audit logging, per-operation permission checks, and future ABAC extensions without a ground-up rewrite.
+
+---
+
+## Connected Topics
+
+!!! info "Where this topic connects"
+
+    - **06. API Design** — JWTs and API keys are the standard authentication mechanisms for REST APIs; idempotency and versioning affect token refresh and revocation strategies → [06. API Design](06-api-design.md)
+    - **03. Networking Fundamentals** — TLS provides transport-layer security that makes token-based authentication safe; without it, all tokens are exposed in plaintext → [03. Networking Fundamentals](03-networking-fundamentals.md)

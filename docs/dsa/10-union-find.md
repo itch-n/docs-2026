@@ -985,6 +985,8 @@ groups edits into connected revision chains before merging, enabling efficient c
 
 ## Decision Framework
 
+<div class="learner-section" markdown>
+
 **Your task:** Build decision trees for union-find problems.
 
 ### Question 1: What do you need to track?
@@ -1040,10 +1042,13 @@ flowchart LR
     Q9 -->|"Equality constraints"| N12
 ```
 
+</div>
 
 ---
 
 ## Practice
+
+<div class="learner-section" markdown>
 
 ### LeetCode Problems
 
@@ -1091,6 +1096,13 @@ flowchart LR
     - Pattern: <span class="fill-in">[Weighted union-find]</span>
     - Key insight: <span class="fill-in">[Fill in after solving]</span>
 
+**Failure modes:**
+
+- What happens if `find()` is called with a node index that was never initialized in the parent array — does your implementation throw an exception or silently return a wrong root? <span class="fill-in">[Fill in]</span>
+- How does your union-find behave when `union(x, x)` is called (union of a node with itself) — does the component count incorrectly decrement? <span class="fill-in">[Fill in]</span>
+
+</div>
+
 ---
 
 ## Test Your Understanding
@@ -1098,10 +1110,35 @@ flowchart LR
 Answer these without referring to your notes or implementation.
 
 1. What two optimizations make union-find nearly O(1) per operation, and what does each one do?
-2. Given a graph with edges [(0,1), (1,2), (2,3), (3,1)], trace which edge is detected as the redundant connection and
-   why.
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) path compression — during `find(x)`, every node on the path from x to the root is pointed directly to the root, flattening the tree so future finds on those nodes take O(1); (2) union by rank — when merging two trees, the root of the shorter tree is attached under the root of the taller tree, preventing the tree from degenerating into a linked list; (3) the combined effect — with both optimizations, every sequence of m operations on n elements runs in O(m α(n)) total time, where α(n) is the inverse Ackermann function which is at most 4 for any n that can be stored in the observable universe.
+
+2. Given a graph with edges [(0,1), (1,2), (2,3), (3,1)], trace which edge is detected as the redundant connection and why.
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) the trace — process (0,1): union 0 and 1, roots differ, merge; process (1,2): union 1 and 2, roots differ, merge; process (2,3): union 2 and 3, roots differ, merge; process (3,1): find(3) and find(1) return the same root (all four nodes are now in the same component), so this edge creates a cycle; (2) the answer — edge (3,1) is the redundant connection; (3) the general principle — the first edge whose two endpoints already share a root is the cycle-creating edge.
+
 3. Why does union-find only increment rank when two trees of equal rank are merged, and not in the other two cases?
-4. You need to check whether 10,000 pairs of nodes are connected in a graph that has 1,000 nodes and 5,000 edges.
-   Compare DFS/BFS per query versus union-find. Which is faster, and by approximately how much?
-5. A colleague says "I can use union-find to find cycles in a directed graph — I'll just ignore edge direction." What
-   is wrong with this approach? Give a concrete counterexample.
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) the three cases — when rank[rootX] < rank[rootY], attach rootX under rootY; rootY's rank is unchanged because the resulting tree is no taller than rootY's tree was; when rank[rootX] > rank[rootY], attach rootY under rootX; rootX's rank is unchanged for the same reason; when equal, attaching either under the other increases the height by exactly 1, so rank must increment; (2) why rank bounds height — rank is an upper bound on tree height; attaching a shorter tree under a taller one cannot increase the taller tree's height, so no increment is needed; (3) the consequence — this guarantee ensures the tree height is at most O(log n) without path compression, giving O(log n) worst-case find even without compression.
+
+4. You need to check whether 10,000 pairs of nodes are connected in a graph that has 1,000 nodes and 5,000 edges. Compare DFS/BFS per query versus union-find. Which is faster, and by approximately how much?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) DFS/BFS cost — each query requires traversing up to O(V + E) = O(6,000) nodes and edges; 10,000 queries cost ~60,000,000 operations; (2) union-find cost — preprocessing: 5,000 union operations at O(α(n)) ≈ O(1) each ≈ 5,000 operations; query phase: 10,000 connected checks at O(α(n)) ≈ 10,000 operations; total ≈ 15,000 operations; (3) speedup — approximately 4,000x faster; (4) the key tradeoff — union-find pays a one-time O(E α(V)) preprocessing cost and then answers queries in O(α(V)) each, while DFS/BFS has no preprocessing but pays O(V + E) per query; union-find wins whenever query count × (V + E) >> E.
+
+5. A colleague says "I can use union-find to find cycles in a directed graph — I'll just ignore edge direction." What is wrong with this approach? Give a concrete counterexample.
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) the problem — ignoring edge direction treats a directed graph as undirected; in an undirected graph, any two edges sharing a node can appear to form a cycle; (2) the counterexample — consider edges A→B and C→B; these have no cycle (B has in-degree 2, which is valid in a directed graph); but union-find treating them as undirected would find that A and C are both connected to B and might incorrectly report a cycle when processing the second edge depending on implementation; better counterexample: A→B, A→C, B→C — no directed cycle exists, but union-find sees a triangle and reports a cycle on the third edge; (3) the correct approach — for directed graph cycle detection, use DFS with three-color visited tracking (white/gray/black) where a back edge to a gray node signals a directed cycle.
+
+---
+
+## Connected Topics
+
+!!! info "Where this topic connects"
+
+    - **[09. Graphs](09-graphs.md)** — Union-Find solves dynamic connectivity queries that would otherwise require repeated BFS/DFS; the two approaches trade off preprocessing vs query cost → [09. Graphs](09-graphs.md)
+    - **[11. Advanced Graphs](11-advanced-graphs.md)** — Kruskal's MST algorithm uses Union-Find to detect cycles when greedily adding edges → [11. Advanced Graphs](11-advanced-graphs.md)

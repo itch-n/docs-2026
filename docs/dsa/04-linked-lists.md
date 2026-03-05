@@ -927,6 +927,8 @@ Step 3: Continue
 
 ## Decision Framework
 
+<div class="learner-section" markdown>
+
 **Your task:** Build decision trees for linked list operations.
 
 ### Question 1: What operation do you need?
@@ -976,10 +978,13 @@ flowchart LR
     Start --> Q7
 ```
 
+</div>
 
 ---
 
 ## Practice
+
+<div class="learner-section" markdown>
 
 ### LeetCode Problems
 
@@ -1037,6 +1042,13 @@ flowchart LR
     - Pattern: <span class="fill-in">[Extension of reversal]</span>
     - Key insight: <span class="fill-in">[Fill in after solving]</span>
 
+**Failure modes:**
+
+- What happens if the fast pointer in cycle detection advances past `null` because you check `fast.next != null` without first checking `fast != null` — which specific exception is thrown and on which condition? <span class="fill-in">[Fill in]</span>
+- How does your `removeNthFromEnd` behave when `n` equals the list length (i.e., removing the head node) — does it crash, return null, or return the correct second node? <span class="fill-in">[Fill in]</span>
+
+</div>
+
 ---
 
 ## Test Your Understanding
@@ -1045,11 +1057,34 @@ Answer these questions without looking at your notes. Write a sentence or two fo
 
 1. **Explain exactly why three pointers (prev, curr, next) are needed to reverse a linked list iteratively. What specific information would be lost if you used only two pointers?**
 
+    ??? success "Rubric"
+        A complete answer addresses: (1) `curr.next = prev` destroys the original forward link — without saving `next = curr.next` beforehand, the rest of the list becomes unreachable (memory leak / incorrect traversal); (2) `prev` is needed to track the already-reversed portion so each node can point backwards; (3) a two-pointer approach (just `prev` and `curr`) fails because setting `curr.next = prev` immediately before advancing means `curr` cannot move forward — the `next` save is the only bridge to the rest of the unprocessed list.
+
 2. **Floyd's cycle detection resets `slow` to `head` after the first meeting and then moves both pointers one step at a time. Prove informally why they must meet at the cycle entry node — what mathematical property guarantees this?**
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) let F = distance from head to cycle entry, C = cycle length, k = distance from cycle entry to meeting point; when the pointers first meet, the slow pointer has travelled F + k steps and the fast pointer has travelled F + k + mC steps for some integer m; since fast travels twice as far, 2(F + k) = F + k + mC, giving F = mC - k; (2) this means F and (C - k) are congruent modulo C — advancing one pointer from head and one from the meeting point each by one step causes them to traverse exactly F more steps and land simultaneously at the cycle entry; (3) a complete informal summary: the meeting point is exactly C - k steps before the entry, which is the same distance as F modulo the cycle length.
 
 3. **You are asked to remove the Nth node from the end of a list in one pass. Your implementation works for all inputs except when N equals the list length (removing the head). What causes this edge case and how does a dummy node fix it?**
 
+    ??? success "Rubric"
+        A complete answer addresses: (1) when N equals the list length, the node to remove is the head — the `slow` pointer would need to point to a node *before* the head, which does not exist in a standard implementation; (2) a dummy node prepended before the head gives `slow` a valid predecessor to land on; after removal, `dummy.next` correctly returns the new head (the original second node); (3) without the dummy node you need a special case `if (head == nodeToRemove) return head.next`, which works but is error-prone — the dummy node eliminates the special case entirely.
+
 4. **A colleague implements `mergeKLists` by repeatedly calling `mergeTwoLists` on adjacent pairs. Compare this approach's time complexity with the min-heap approach. For what value of k does the difference become significant?**
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) the naive repeated-merge approach costs O(N × k) in the worst case — each of the k merge passes touches all N nodes, giving O(Nk) total; (2) the min-heap approach costs O(N log k) — each node is inserted and extracted from a heap of size k once, and heap operations cost O(log k); (3) the crossover point is where N × k > N × log k, i.e., k > log k, which is true for all k ≥ 3 — so the heap is better for essentially any real workload; the difference becomes dramatic when k is in the hundreds or thousands.
 
 5. **Describe a real-world application where a singly linked list is clearly the right data structure and arrays would be significantly worse. Explain which specific operation drives that choice.**
 
+    ??? success "Rubric"
+        A complete answer addresses: (1) a strong example is implementing an undo history or a message queue where elements are always added and removed from one end — O(1) prepend/removal with no shifting; (2) another canonical case is adjacency lists in sparse graphs — the number of edges per node varies, and linked lists avoid wasted space that would occur with a fixed-size 2D array; (3) the key operation is O(1) insertion or deletion at a known pointer position — any application where random-access reads are rare and structural modifications are frequent favours linked lists over arrays.
+
+---
+
+## Connected Topics
+
+!!! info "Where this topic connects"
+
+    - **01. Two Pointers** — fast/slow pointer (Floyd's cycle detection, finding middle node) is the two-pointer pattern applied to linked lists → [01. Two Pointers](01-two-pointers.md)
+    - **08. Heaps** — merging K sorted linked lists is the canonical heap problem; understanding list traversal is prerequisite → [08. Heaps](08-heaps.md)

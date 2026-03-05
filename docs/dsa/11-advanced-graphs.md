@@ -1152,6 +1152,8 @@ failover route between any two sites if a cable is cut.
 
 ## Decision Framework
 
+<div class="learner-section" markdown>
+
 ### Question 1: Which shortest path algorithm?
 
 **Use Dijkstra when:**
@@ -1214,9 +1216,13 @@ failover route between any two sites if a cable is cut.
 - Directed graph cycles: <span class="fill-in">[Use DFS with states instead]</span>
 - Need shortest paths: <span class="fill-in">[Use BFS/Dijkstra]</span>
 
+</div>
+
 ---
 
 ## Practice
+
+<div class="learner-section" markdown>
 
 ### LeetCode Problems
 
@@ -1271,6 +1277,13 @@ failover route between any two sites if a cable is cut.
     - Difficulty: <span class="fill-in">[Rate 1-10]</span>
     - Note: Low frequency — only if you have extra time
 
+**Failure modes:**
+
+- What happens when Dijkstra encounters a graph with a negative edge weight — does it silently return a wrong shortest path or throw an error? <span class="fill-in">[Fill in]</span>
+- How does your topological sort implementation behave when the input graph contains a cycle — does Kahn's algorithm or DFS-based sort signal the failure, and how? <span class="fill-in">[Fill in]</span>
+
+</div>
+
 ---
 
 ## Test Your Understanding
@@ -1279,11 +1292,40 @@ Answer these without referring to your notes or implementation.
 
 1. Trace Kahn's topological sort algorithm on this graph: nodes 0–3, edges 0→2, 0→3, 1→3, 2→3. What is the processing
    order? What would happen if you added edge 3→0?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) the trace — in-degrees: 0:0, 1:0, 2:1, 3:3; queue starts with [0,1] (both in-degree 0); process 0: decrement in-degree of 2 (→0) and 3 (→2), add 2 to queue; process 1: decrement in-degree of 3 (→1), do not add 3 yet; process 2: decrement in-degree of 3 (→0), add 3; process 3: done; result [0,1,2,3] or [1,0,2,3]; (2) adding edge 3→0 creates a cycle 0→3→0; all nodes eventually have in-degree > 0 and are never added to the queue; Kahn's detects this because result.size() < n (result contains fewer than 4 nodes).
+
 2. Why does Dijkstra's algorithm use a min-heap (priority queue) rather than a regular queue, and why does BFS (which
    uses a regular queue) give wrong answers for weighted graphs?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) the min-heap's role — Dijkstra must always process the globally nearest unvisited node next; a min-heap extracts the node with the minimum cumulative distance in O(log V), ensuring the greedy selection property; (2) why a regular queue fails — BFS processes nodes in FIFO order (by arrival time), which is correct only when all edges have equal cost; with different edge weights, a node reachable in 2 hops with total cost 3 might be processed after a node reachable in 1 hop with total cost 100, causing BFS to finalize the wrong "shortest" path; (3) the formal reason — Dijkstra's correctness proof relies on the fact that when a node is extracted, its distance is optimal; this holds only if we always extract the minimum-distance node, which requires a min-heap.
+
 3. In Kruskal's MST algorithm, what does the union-find check guarantee? Why is this check insufficient for directed
    graphs?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) the guarantee — before adding edge (u, v), union-find checks if u and v already share a root; if they do, adding the edge would create a cycle in the MST, so it is skipped; this ensures the MST property: V-1 edges, no cycles, all vertices connected; (2) why it fails for directed graphs — union-find ignores edge direction; in a directed graph, edges A→B and C→B are valid without a cycle, but union-find would treat them as connecting the same pair and might skip the second edge; for directed cycle detection you need three-color DFS because a cycle requires a directed path that loops back, not just shared connectivity.
+
 4. You need to detect a cycle in a directed graph. A colleague suggests using union-find because "it works for
    undirected graphs." Give a concrete directed graph where union-find gives the wrong answer.
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) the counterexample — graph with edges A→B, A→C, B→C; this is a valid DAG with no directed cycle; but union-find processing edge (A,B) unions A and B; edge (A,C) unions A and C; edge (B,C): find(B) and find(C) both return the root of {A,B,C}, so union-find reports a cycle — which is wrong; (2) why it fails — union-find treats the graph as undirected, conflating "B and C are both reachable from A" with "there is a cycle"; in the undirected interpretation, A-B-C-A would be a cycle, but in the directed interpretation B→C is just another forward edge; (3) the correct approach — three-color DFS where a back edge to an in-progress (gray) node is the only true cycle signal.
+
 5. Comparing DFS topological sort vs Kahn's algorithm: under what conditions does each one fail to produce a result,
    and how does each one signal the failure?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) both fail on graphs with directed cycles — topological sort is only defined for DAGs; (2) DFS-based signaling — the three-color DFS detects a cycle when it encounters a back edge to a gray (in-progress) node; the recursive `dfs()` returns false, and the failure propagates up; without three-color tracking, DFS-based topological sort may silently produce a wrong ordering; (3) Kahn's signaling — if a cycle exists, all nodes in the cycle maintain in-degree > 0 and are never enqueued; after the algorithm terminates, `result.size() < n` is the explicit, reliable cycle signal; (4) practical preference — Kahn's cycle detection is more reliable and easier to implement correctly than DFS-based detection, which is why it is preferred in interview settings.
+
+---
+
+## Connected Topics
+
+!!! info "Where this topic connects"
+
+    - **[09. Graphs](09-graphs.md)** — Advanced Graphs builds directly on BFS/DFS; topological sort IS DFS post-order on a DAG → [09. Graphs](09-graphs.md)
+    - **[10. Union-Find](10-union-find.md)** — Kruskal's MST (covered here) uses Union-Find for cycle detection; compare with Prim's which uses a heap → [10. Union-Find](10-union-find.md)
+    - **[08. Heaps](08-heaps.md)** — Dijkstra's algorithm requires a min-heap; the heap's extract-min operation is what gives Dijkstra O((V+E) log V) → [08. Heaps](08-heaps.md)

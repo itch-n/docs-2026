@@ -859,6 +859,8 @@ When a transit app calculates the route with the fewest transfers (not the faste
 
 ## Decision Framework
 
+<div class="learner-section" markdown>
+
 **Your task:** Build decision trees for when to use each graph algorithm.
 
 ### Question 1: DFS vs BFS - Which to use?
@@ -921,10 +923,13 @@ flowchart TD
 
 **Note:** For weighted graphs, topological sort, and MST problems, see "Advanced Graph Algorithms"
 
+</div>
 
 ---
 
 ## Practice
+
+<div class="learner-section" markdown>
 
 ### LeetCode Problems
 
@@ -977,6 +982,13 @@ flowchart TD
 
 **Next step:** After mastering these, move to "Advanced Graph Algorithms" for Course Schedule, Dijkstra, MST
 
+**Failure modes:**
+
+- What happens if the graph has no edges (only isolated nodes) and you run DFS to count connected components — does your algorithm still return the correct count? <span class="fill-in">[Fill in]</span>
+- How does your BFS shortest-path implementation behave when all nodes in the graph are disconnected components and the target node is unreachable? <span class="fill-in">[Fill in]</span>
+
+</div>
+
 ---
 
 ## Test Your Understanding
@@ -984,7 +996,36 @@ flowchart TD
 Answer these without referring to your notes or implementation.
 
 1. Why does BFS guarantee the shortest path in an unweighted graph, but DFS does not? Describe the structural reason, not just the rule.
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) BFS's level-order property — it explores all nodes at distance k before any node at distance k+1, so the first time a target node is dequeued its distance is definitionally the minimum; (2) DFS has no such ordering guarantee — it may descend deep into one branch and find a long path before discovering a shorter path in a sibling branch; (3) the structural cause — BFS uses a FIFO queue that enforces breadth-first ordering, while DFS uses a stack (or recursion) that enforces depth-first ordering with no distance guarantee.
+
 2. What is the difference between the visited-state arrays needed for directed vs undirected cycle detection? Why does a directed graph require a three-state system?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) undirected cycle detection uses a boolean visited array and a parent parameter — a back edge to any node other than the immediate parent indicates a cycle; (2) directed cycle detection uses a three-state system: unvisited (0), in current DFS path / "gray" (1), fully explored / "black" (2); (3) why three states are needed — in a directed graph, a back edge to a "gray" node means we've found a cycle on the current path, but a back edge to a "black" node is just a cross-edge and is not a cycle; collapsing these two states would produce false positives (reporting a cycle when the edge is merely a cross-edge to an already-completed DFS subtree).
+
 3. A social network has 500 million users and each user averages 200 connections. You need to check if two arbitrary users are connected within 3 hops. Which representation and algorithm do you choose, and what is the approximate cost?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) representation — adjacency list, because E ≈ 500M × 200 / 2 = 50 billion edges and an adjacency matrix would require 500M² cells (completely infeasible); (2) algorithm — BFS with a depth limit of 3, starting from one user and stopping when the depth exceeds 3 or the target is found; (3) approximate cost — in the worst case BFS explores up to 200³ = 8 million nodes at depth 3 per query; in practice bidirectional BFS (starting from both endpoints) reduces this to roughly 2 × 200^1.5 ≈ 5,600 nodes; (4) practical consideration — distributed graph engines (like Facebook's TAO) shard the graph across machines, so a naive single-machine BFS is not feasible at this scale.
+
 4. An adjacency matrix and an adjacency list both store the same graph. Which supports faster "does edge (u,v) exist?" checks, and which supports faster "iterate all neighbours of u" operations?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) edge existence — adjacency matrix wins with O(1) by direct indexing `matrix[u][v]`; adjacency list requires O(degree(u)) to scan the neighbour list; (2) iterate all neighbours — adjacency list wins with O(degree(u)) by directly returning the stored list; adjacency matrix requires O(V) to scan the entire row even if the node has only 2 neighbours; (3) the implication — for sparse graphs where most rows in the matrix are nearly empty, the adjacency list dominates; for dense graphs the gap narrows.
+
 5. A colleague says "I always use DFS because it uses less memory than BFS." When is this statement wrong, and what is the actual space complexity comparison?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) when DFS is worse — on a wide, shallow graph (e.g. a star graph with one hub and V-1 leaves), BFS uses O(V) queue space but DFS uses only O(depth) ≈ O(1) stack space, so here DFS is better; but on a long chain graph, DFS uses O(V) recursion stack space while BFS uses O(1) queue space (only a few nodes at each level); (2) the actual complexities — both DFS and BFS are O(V) space in the worst case; (3) the nuance — for very deep graphs, DFS's recursion stack can overflow (Java's default stack is ~500K frames), while BFS's queue is heap-allocated and much safer; so the colleague's rule of thumb can lead to stack overflow bugs on deep graphs.
+
+---
+
+## Connected Topics
+
+!!! info "Where this topic connects"
+
+    - **[06. Trees](06-trees.md)** — trees are acyclic connected graphs; every tree traversal (DFS/BFS) is a special case of graph traversal with no cycle handling needed → [06. Trees](06-trees.md)
+    - **[10. Union-Find](10-union-find.md)** — Union-Find detects connectivity and cycles without explicit graph traversal; compare with DFS-based cycle detection → [10. Union-Find](10-union-find.md)
+    - **[11. Advanced Graphs](11-advanced-graphs.md)** — DFS/BFS are the building blocks; Advanced Graphs adds weighted edges, directed acyclic graphs, and shortest-path guarantees → [11. Advanced Graphs](11-advanced-graphs.md)

@@ -1712,6 +1712,8 @@ After finding and fixing all bugs:
 
 ## Decision Framework
 
+<div class="learner-section" markdown>
+
 **Questions to answer after implementation:**
 
 ### 1. Scaling Strategy Selection
@@ -1782,9 +1784,13 @@ flowchart LR
     Start -->|"Operational complexity"| N5
 ```
 
+</div>
+
 ---
 
 ## Practice
+
+<div class="learner-section" markdown>
 
 ### Scenario 1: Scale read-heavy application
 
@@ -1802,6 +1808,11 @@ flowchart LR
 - How many replicas? <span class="fill-in">[Fill in]</span>
 - Consistency guarantees? <span class="fill-in">[Fill in]</span>
 
+**Failure modes:**
+
+- What happens if the primary database fails before replication lag is resolved on the replicas? <span class="fill-in">[Fill in]</span>
+- How does your design behave when a replica falls significantly behind the primary during a write spike? <span class="fill-in">[Fill in]</span>
+
 ### Scenario 2: Scale social media platform
 
 **Requirements:**
@@ -1817,6 +1828,11 @@ flowchart LR
 - What's the shard key? <span class="fill-in">[Fill in]</span>
 - How to handle hot users (celebrities)? <span class="fill-in">[Fill in]</span>
 - Cross-shard queries? <span class="fill-in">[Fill in]</span>
+
+**Failure modes:**
+
+- What happens if the shard holding a celebrity's data becomes unavailable? <span class="fill-in">[Fill in]</span>
+- How does your design behave when adding a new shard requires resharding existing data while the system is serving live traffic? <span class="fill-in">[Fill in]</span>
 
 ### Scenario 3: Time-series data storage
 
@@ -1834,6 +1850,13 @@ flowchart LR
 - Archival strategy? <span class="fill-in">[Fill in]</span>
 - Query optimization? <span class="fill-in">[Fill in]</span>
 
+**Failure modes:**
+
+- What happens if the partition holding the most recent time range (the hot partition) becomes unavailable during peak ingestion? <span class="fill-in">[Fill in]</span>
+- How does your design behave when a time range query spans multiple partitions and one of those partitions is temporarily slow? <span class="fill-in">[Fill in]</span>
+
+</div>
+
 ---
 
 ## Test Your Understanding
@@ -1841,7 +1864,36 @@ flowchart LR
 Answer these without referring to your notes or implementation.
 
 1. Your e-commerce platform shards users by `user_id`. The marketing team wants to run a query: "find all users who made a purchase in the last 7 days." Why is this expensive in a sharded setup, and what would you change in the architecture to make it cheaper?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) the query must be broadcast to all shards and results merged (scatter-gather), because the shard key is user_id but the query predicate is on purchase date — there is no way to route to a single shard, (2) mitigation options: add a secondary index shard or materialized view keyed by date so analytics queries can be served from a dedicated store (e.g., a data warehouse or Elasticsearch), or use dual-write to an analytics database with a different partitioning key, (3) the fundamental trade-off: sharding by user_id optimises single-user lookups but makes cross-dimensional queries expensive; no single shard key can optimise all query patterns.
+
 2. You implement master-slave replication with 4 read replicas. A user updates their profile picture and immediately refreshes the page — they see the old picture. Explain exactly why this happens and describe two ways to fix it without removing replicas.
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) asynchronous replication lag: the write goes to the master, but the replica serving the subsequent read has not yet received or applied the replication event, so it returns stale data, (2) fix 1: read-after-write consistency — route reads that immediately follow a write for the same user back to the primary for a short window (e.g., 1–5 seconds or until a replication checkpoint), (3) fix 2: synchronous replication for the write — wait for at least one replica to confirm the write before acknowledging success to the client, at the cost of higher write latency.
+
 3. A social media app shards by `user_id`. A celebrity account with 50 million followers causes one shard to receive 95% of all queries. What is the name of this problem, and give two structural approaches to fix it?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) this is the hot-shard (or hot-spot) problem — one shard handles a disproportionate fraction of load because the data distribution is uneven relative to request frequency, (2) fix 1: shard splitting — create sub-shards for the hot user's data, or move the celebrity's records to a dedicated shard with higher capacity, (3) fix 2: read replicas per shard — add additional read replicas specifically for the hot shard so the read load is distributed across several nodes while writes still go to one primary.
+
 4. You are choosing between hash-based sharding and range-based sharding for a time-series sensor dataset where the most common query is "all readings from device X between 2:00 PM and 3:00 PM." Which would you choose and why? What hot-spot risk do you need to address with your choice?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) range-based sharding by time enables efficient range scans — the query touches only the partition(s) covering that time window rather than broadcasting to all shards, (2) the hot-spot risk with range sharding on time: all current writes go to the newest time-range shard (the "right edge" of the ring), creating a write hot-spot while older shards are idle — this is called the monotonically increasing key problem, (3) mitigation: use compound shard keys (device_id + time bucket) to spread writes across multiple shards while preserving time locality, or pre-split partitions and rotate them.
+
 5. A colleague proposes solving all database scaling problems by "just adding more RAM to the primary database server." In what scenario is this the right answer? In what scenario does it completely fail to help, and what should be done instead?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) vertical scaling (adding RAM) helps when the bottleneck is I/O caused by buffer pool misses — more RAM means more data fits in the database buffer cache, reducing disk reads and improving read performance, (2) vertical scaling does not help when the bottleneck is write throughput: a single primary can only commit transactions as fast as its WAL can be flushed — adding RAM does not increase sequential write IOPS, (3) for write scaling, horizontal approaches are required: sharding distributes write load across multiple primaries, or CQRS/event sourcing offloads read queries so the primary handles only writes.
+
+---
+
+## Connected Topics
+
+!!! info "Where this topic connects"
+
+    - **01. Storage Engines** — sharding distributes storage engine instances; the engine's write-ahead log and compaction strategy shape which replication approaches are practical → [01. Storage Engines](01-storage-engines.md)
+    - **15. Distributed Transactions** — cross-shard writes cannot be made atomic by a single database engine; distributed transaction protocols are required → [15. Distributed Transactions](15-distributed-transactions.md)
+    - **16. Consensus Patterns** — leader election for primary replica failover uses Raft or similar consensus; without it, split-brain allows two nodes to accept writes simultaneously → [16. Consensus Patterns](16-consensus-patterns.md)

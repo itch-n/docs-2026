@@ -860,6 +860,8 @@ Add 3:  maxHeap=[5,3,1], minHeap=[15] → rebalance → maxHeap=[5,3], minHeap=[
 
 ## Decision Framework
 
+<div class="learner-section" markdown>
+
 **Your task:** Build decision trees for when to use heaps.
 
 ### Question 1: What do you need to track?
@@ -918,10 +920,13 @@ flowchart LR
     Start --> Q5
 ```
 
+</div>
 
 ---
 
 ## Practice
+
+<div class="learner-section" markdown>
 
 ### LeetCode Problems
 
@@ -974,16 +979,47 @@ flowchart LR
     - Pattern: <span class="fill-in">[Two heaps with removal]</span>
     - Key insight: <span class="fill-in">[Fill in after solving]</span>
 
+**Failure modes:**
+
+- What happens if all elements in the array are equal and you run the Kth largest algorithm — does the min-heap of size K still return the correct answer? <span class="fill-in">[Fill in]</span>
+- How does your implementation behave when k > n (k is larger than the total number of elements) in a top-K problem? <span class="fill-in">[Fill in]</span>
+
+</div>
+
 ---
 
 ## Test Your Understanding
 
 1. The min-heap-for-K-largest rule feels counterintuitive. Prove it is correct from first principles: state what invariant the heap maintains after each element is processed, show that the invariant holds after processing element i+1 given that it held after element i, and explain why `heap.peek()` at the end of the loop is exactly the Kth largest element.
 
+    ??? success "Rubric"
+        A complete answer addresses: (1) the invariant — after processing each element, the min-heap of size K contains exactly the K largest elements seen so far, with the smallest of those K at the root; (2) the inductive step — when a new element arrives, if it is larger than the root (heap's current minimum), it replaces the root via poll+offer, maintaining the invariant; if it is smaller or equal, it is discarded by the overflow eviction, also maintaining the invariant; (3) at the end, the root is the smallest of the K largest elements seen, which by definition is the Kth largest overall.
+
 2. The two-heap median algorithm uses this insertion strategy: always add to maxHeap first, then move the root to minHeap; then if maxHeap is smaller than minHeap, move the root of minHeap back. Trace this algorithm on the stream `[5, 15, 1, 3]` step by step, showing the state of both heaps and the median after each insertion. Then explain what invariant guarantees that `findMedian()` is always correct.
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) the traced states — add 5: maxHeap=[5], minHeap=[], median=5.0; add 15: maxHeap=[5], minHeap=[15], median=10.0; add 1: maxHeap=[5,1], minHeap=[15], median=5.0; add 3: maxHeap=[5,3,1], minHeap=[15], rebalance → maxHeap=[5,3], minHeap=[15] does NOT match — correct trace shows maxHeap=[5,3], minHeap=[15] is still unbalanced, so move 5 to minHeap, giving maxHeap=[3], minHeap=[5,15], then rebalance back to maxHeap=[5,3], minHeap=[15]; (2) the invariant — all elements in maxHeap ≤ all elements in minHeap, and |maxHeap.size() - minHeap.size()| ≤ 1; (3) why this guarantees correctness — when sizes are equal the median is the average of the two roots; when maxHeap is larger by 1 it holds the middle element.
 
 3. `mergeKLists` achieves O(n log k) time by using a min-heap of size K. Explain why merging K sorted lists by repeatedly merging two lists at a time (K-1 merge operations) gives O(nK) time in the worst case, and confirm that the heap approach is strictly better when K is large relative to n.
 
+    ??? success "Rubric"
+        A complete answer addresses: (1) the naive analysis — the first merge combines two lists of size n/K each (O(n/K)), the second merge combines the result with the next list (O(2n/K)), and so on; summing gives O(n/K + 2n/K + ... + n) = O(nK/2) = O(nK); (2) the heap analysis — each of the n total elements is inserted into and extracted from the heap once, each operation costing O(log k), giving O(n log k) total; (3) the comparison — O(n log k) < O(nK) when log k < K, which is true for all K ≥ 2, so the heap is always better or equal, and dramatically better as K grows.
+
 4. The 0-indexed heap formulas are `parent(i) = (i-1)/2`, `leftChild(i) = 2*i+1`, `rightChild(i) = 2*i+2`. Verify these formulas for the first 7 positions (indices 0–6) by drawing the heap tree and confirming that each formula gives the correct index. Then show what happens if you accidentally use the 1-indexed formula `parent(i) = i/2` on a 0-indexed array (what incorrect parent does node 2 compute?).
 
+    ??? success "Rubric"
+        A complete answer addresses: (1) verification for indices 0–6 — index 0 is root (no parent), children are 1 and 2; index 1's parent is (1-1)/2=0, children are 3 and 4; index 2's parent is (2-1)/2=0, children are 5 and 6; (2) the bug — with the 1-indexed formula on a 0-indexed array, node at index 2 computes parent as 2/2=1, but the actual parent is at index 0; this means sift-up operations compare against the wrong node and the heap property may be violated without any error being thrown; (3) the root cause — 1-indexed arrays waste index 0, enabling the clean division-by-2 formula, but 0-indexed arrays shift all indices down by 1, requiring the subtract-1 adjustment.
+
 5. For "K closest points to origin" we use a max-heap (evict the farthest point when size exceeds K). Apply the same logic to a different problem: "find the K strings with the shortest length from a stream." State which heap type to use, what the comparator compares, and what the invariant maintained by the heap is. Then explain how this generalises to any "K smallest by some metric" problem.
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) the heap type — a max-heap ordered by string length (longest string at root), size capped at K; (2) the comparator — `(a, b) -> b.length() - a.length()` (or `Comparator.comparingInt(String::length).reversed()`); (3) the invariant — after each insertion, the heap holds exactly the K shortest strings seen so far, with the longest of them at the root; when a new string arrives, if its length is less than the root's length, the root is evicted and the new string is added; (4) the generalisation — "K smallest by metric M" always uses a max-heap ordered by M; the root is the largest-M element among the K candidates and is the one most eligible for eviction when a better (smaller-M) element arrives.
+
+---
+
+## Connected Topics
+
+!!! info "Where this topic connects"
+
+    - **[06. Trees](06-trees.md)** — a binary heap is a complete binary tree stored as an array; sift-up and sift-down use the same parent/child index arithmetic as tree traversal → [06. Trees](06-trees.md)
+    - **[11. Advanced Graphs](11-advanced-graphs.md)** — Dijkstra's shortest-path algorithm requires a min-heap (priority queue) as its core data structure → [11. Advanced Graphs](11-advanced-graphs.md)

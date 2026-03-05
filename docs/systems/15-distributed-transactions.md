@@ -1374,6 +1374,8 @@ Saga: Reserve → Charge → Ship (if any fails, undo previous)
 
 ## Decision Framework
 
+<div class="learner-section" markdown>
+
 **Questions to answer after implementation:**
 
 ### 1. Pattern Selection
@@ -1439,9 +1441,13 @@ flowchart LR
     Start -->|"Highly distributed services"| N5
 ```
 
+</div>
+
 ---
 
 ## Practice
+
+<div class="learner-section" markdown>
 
 ### Scenario 1: Banking transfer
 
@@ -1460,6 +1466,11 @@ flowchart LR
 - How to handle failures? <span class="fill-in">[Fill in]</span>
 - Consistency guarantees? <span class="fill-in">[Fill in]</span>
 
+**Failure modes:**
+
+- What happens if the 2PC coordinator crashes after sending "prepare" to both databases but before sending "commit" — can either database unilaterally decide to proceed? <span class="fill-in">[Fill in]</span>
+- How does your design behave when the debit succeeds on the source account but the network drops before the credit is confirmed on the destination account? <span class="fill-in">[Fill in]</span>
+
 ### Scenario 2: E-commerce order
 
 **Requirements:**
@@ -1476,6 +1487,11 @@ flowchart LR
 - Why? <span class="fill-in">[Fill in]</span>
 - Compensation strategy? <span class="fill-in">[Fill in]</span>
 - How to monitor progress? <span class="fill-in">[Fill in]</span>
+
+**Failure modes:**
+
+- What happens if the inventory reservation step succeeds but the saga orchestrator crashes before issuing the payment step — will inventory be held indefinitely? <span class="fill-in">[Fill in]</span>
+- How does your design behave when the compensation for "charge payment" (i.e. issue refund) itself fails due to a transient payment gateway error? <span class="fill-in">[Fill in]</span>
 
 ### Scenario 3: Account audit system
 
@@ -1494,6 +1510,13 @@ flowchart LR
 - Storage strategy? <span class="fill-in">[Fill in]</span>
 - Query optimization? <span class="fill-in">[Fill in]</span>
 
+**Failure modes:**
+
+- What happens if an event is written to the event log but the projection that builds the read model crashes before consuming it — is the audit record permanently missing? <span class="fill-in">[Fill in]</span>
+- How does your design behave when a consumer replays the event log but the same event is delivered twice due to an at-least-once message broker — will the aggregate state be corrupted? <span class="fill-in">[Fill in]</span>
+
+</div>
+
 ---
 
 ## Test Your Understanding
@@ -1502,10 +1525,35 @@ Answer these questions without looking at your implementation. They are designed
 
 1. **A Saga orchestrator crashes after completing steps 1 and 2 of a 4-step Saga. When it restarts, should it re-execute steps 1 and 2, or skip to step 3? What property of each step determines whether re-execution is safe?**
 
+    ??? success "Rubric"
+        A complete answer addresses: (1) the orchestrator should skip to step 3 — it should record completed steps in durable state (e.g. a saga log) before proceeding so it can resume from the correct position after restart; (2) idempotency is the property that makes re-execution safe: if a step is idempotent, running it twice produces the same result as running it once; (3) if steps 1 and 2 are not idempotent, re-executing them after restart would cause double-processing (e.g. double-charging), which is why the saga log / checkpoint pattern is essential and not optional.
+
 2. **Your compensation for "charge payment" is "issue refund." The refund call times out due to a network error. Describe the exact sequence of events that could result in a customer being double-refunded, and explain how you would prevent it.**
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) the sequence: (a) saga issues refund, (b) refund succeeds at the payment service but the response is lost in transit, (c) saga times out, marks refund as failed, and retries, (d) second refund also succeeds — customer receives two refunds; (2) prevention requires the refund operation to be idempotent: the saga must generate a stable idempotency key (e.g. derived from the original transaction ID) and pass it on every attempt; the payment service deduplicates on this key so that the second call with the same key is a no-op; (3) bonus: the saga must also persist the idempotency key before the first attempt so it survives a coordinator crash.
 
 3. **You are choosing between 2PC and Saga for a booking system that reserves hotel, flight, and car rental across three third-party APIs. The booking process takes 3-8 seconds. Which pattern is more appropriate, and what is the single most important reason for your choice?**
 
+    ??? success "Rubric"
+        A complete answer addresses: (1) Saga is the correct choice; (2) the single most important reason is that 2PC requires all participants to hold locks for the entire duration of the transaction — 3-8 seconds of lock holding across third-party APIs is operationally infeasible and would cause timeout failures and cascading lock contention; (3) a secondary correct point is that third-party APIs do not implement the 2PC protocol (they expose REST endpoints, not distributed transaction participants), so 2PC is architecturally impossible in this context regardless of lock duration.
+
 4. **In event sourcing, a bug was deployed that caused 100 events to be recorded with incorrect data. How do you fix the current state of the aggregate without deleting any events from the event log?**
 
+    ??? success "Rubric"
+        A complete answer addresses: (1) do not delete or mutate the incorrect events — the log is append-only and immutable; (2) append corrective events (compensating events) that semantically undo the effect of the bad events, then append the correct events; (3) rebuild (replay) the aggregate's read model/projection from the full event log including the corrective events — the current state will then reflect the corrected history; (4) optionally, flag the erroneous events with metadata for audit purposes; the key insight is that in event sourcing correctness is achieved by appending, not by modifying.
+
 5. **Design decision: You are building a multi-step onboarding flow: create account → send welcome email → assign free credits → notify analytics. If the credits step fails, should you compensate by deleting the account? Justify your answer by discussing what "compensation" means semantically for each completed step.**
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) no — deleting the account is almost certainly the wrong compensation; (2) compensation must be semantically meaningful: "create account" compensation would be "delete account", but the account creation is valuable on its own and the credits failure is an independent problem; (3) "send welcome email" has no practical compensation — you cannot un-send an email, so this step is inherently not compensatable and the saga design must accept this; (4) the correct approach is to make the credits assignment retryable (with a background job) rather than rolling back upstream steps that completed successfully; (5) this illustrates that not every saga step has a meaningful compensation and saga design requires reasoning about semantic reversibility, not just mechanical undo.
+
+---
+
+## Connected Topics
+
+!!! info "Where this topic connects"
+
+    - **11. Database Scaling** — sharding makes cross-shard transactions the canonical saga use case; distributed transactions exist because single-node ACID doesn't scale horizontally → [11. Database Scaling](11-database-scaling.md)
+    - **12. Message Queues** — saga choreography uses message queues as the backbone; exactly-once delivery semantics directly affect saga correctness → [12. Message Queues](12-message-queues.md)
+    - **16. Consensus Patterns** — two-phase commit requires a coordinator; consensus (Raft/Paxos) is the mechanism used to make that coordinator fault-tolerant → [16. Consensus Patterns](16-consensus-patterns.md)

@@ -824,6 +824,27 @@ public class LoadBalancingClient {
 
 ---
 
+## Layer 4 vs Layer 7
+
+The five algorithms above answer *how* requests are distributed. A separate question is *where* in the network stack the load balancer sits.
+
+| | L4 — Transport layer | L7 — Application layer |
+|---|---|---|
+| **Sees** | IP address, port, protocol | HTTP headers, URL path, cookies |
+| **SSL termination** | No — TLS passes through opaque | Yes — LB decrypts, inspects, re-encrypts |
+| **Routing basis** | IP + port only | URL path, hostname, header values, cookies |
+| **Overhead** | Low — no protocol parsing | Higher — full HTTP parsing per request |
+| **Typical use** | Raw TCP, non-HTTP protocols | HTTP/HTTPS, microservices, API gateways |
+
+**Choose L4 when** you need minimum overhead, are balancing non-HTTP protocols (game servers, MQTT, raw gRPC), or don't need to inspect request content.
+
+**Choose L7 when** you need URL-based routing (e.g., `/api/*` → service-A, `/static/*` → CDN), SSL termination at the load balancer, cookie-based sticky sessions, or canary/A-B deployments.
+
+!!! warning "L7 doesn't replace algorithm choice — it stacks on top of it"
+    Choosing L7 determines what information the load balancer can use. You still need to choose *which algorithm* routes those requests. An L7 load balancer commonly runs round robin or least connections across the backend pool, while using URL path or headers to decide *which pool* to send to at all.
+
+---
+
 ## Common Misconceptions
 
 !!! warning "Least connections always outperforms round robin"
@@ -838,6 +859,8 @@ public class LoadBalancingClient {
 ---
 
 ## Decision Framework
+
+<div class="learner-section" markdown>
 
 **Questions to answer after implementation:**
 
@@ -909,9 +932,25 @@ flowchart LR
     Start -->|"Minimal redistribution on changes"| N5
 ```
 
+### 4. Layer selection
+
+**Use L4 when:**
+
+- Your scenario: <span class="fill-in">[Fill in]</span>
+- Key signals: <span class="fill-in">[Fill in]</span>
+
+**Use L7 when:**
+
+- Your scenario: <span class="fill-in">[Fill in]</span>
+- Key signals: <span class="fill-in">[Fill in]</span>
+
+</div>
+
 ---
 
 ## Practice
+
+<div class="learner-section" markdown>
 
 ### Scenario 1: Load balance web application
 
@@ -929,6 +968,11 @@ flowchart LR
 - How to handle server failures? <span class="fill-in">[Fill in]</span>
 - Health check strategy? <span class="fill-in">[Fill in]</span>
 
+**Failure modes:**
+
+- What happens if one of the 5 web servers becomes unavailable mid-rotation? <span class="fill-in">[Fill in]</span>
+- How does your design behave when all 5 servers are overloaded simultaneously and new requests arrive? <span class="fill-in">[Fill in]</span>
+
 ### Scenario 2: Load balance with session state
 
 **Requirements:**
@@ -944,6 +988,11 @@ flowchart LR
 - Why? <span class="fill-in">[Fill in]</span>
 - How to handle server additions? <span class="fill-in">[Fill in]</span>
 - Alternative to sticky sessions? <span class="fill-in">[Fill in]</span>
+
+**Failure modes:**
+
+- What happens if the server holding a user's in-memory cart goes down? <span class="fill-in">[Fill in]</span>
+- How does your design behave when a server is removed from the pool while users have active sessions mapped to it? <span class="fill-in">[Fill in]</span>
 
 ### Scenario 3: Distributed cache cluster
 
@@ -961,6 +1010,13 @@ flowchart LR
 - How many virtual nodes? <span class="fill-in">[Fill in]</span>
 - Replication strategy? <span class="fill-in">[Fill in]</span>
 
+**Failure modes:**
+
+- What happens if a cache node is removed suddenly and the hash ring is not updated immediately? <span class="fill-in">[Fill in]</span>
+- How does your design behave when a hot key causes a single node to receive a disproportionate share of requests? <span class="fill-in">[Fill in]</span>
+
+</div>
+
 ---
 
 ## Test Your Understanding
@@ -968,7 +1024,41 @@ flowchart LR
 Answer these without referring to your notes or implementation.
 
 1. You have a cluster of 10 cache servers using simple modulo hashing (`key % 10`). You add one more server, making it 11. Approximately what percentage of cached keys will need to move? Now explain how consistent hashing reduces this. Show the math for both.
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) with modulo hashing, ~10/11 ≈ 91% of keys map to a different server when N changes from 10 to 11, (2) with consistent hashing, only ~1/11 ≈ 9% of keys move because only the keys between the new node and its predecessor on the ring are affected, (3) the derivation: modulo redistributes nearly everything; consistent hashing bounds redistribution to the fraction of the ring the new node occupies.
+
 2. Your least-connections load balancer is supposed to be thread-safe because every method is `synchronized`. A colleague points out a race condition in `releaseConnection`. Describe a scenario with two threads that produces an incorrect connection count despite `synchronized` methods.
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) the race window: two threads each call `releaseConnection` for the same server near-simultaneously — each reads count=1, each decrements to 0, result is 0 not -1 but the decrement may produce a negative value if not guarded, (2) `synchronized` prevents interleaved execution within a single method call but does not prevent a thread from reading a stale value if the method re-reads the field after another thread's decrement has been committed, (3) the correct fix is to guard against going below zero and confirm the atomicity of read-modify-write within the synchronized block.
+
 3. A user complains their shopping cart disappears randomly. Your load balancer uses round robin. Explain precisely why this happens and describe two solutions — one that keeps round robin and one that does not.
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) round robin sends successive requests from the same user to different servers; in-memory cart is only on the server that first received the add-to-cart request, (2) solution keeping round robin: externalise session state to a shared store (Redis/Memcached) so any server can read the cart regardless of which one is chosen, (3) solution replacing round robin: use IP hash or consistent hashing by session ID to ensure the same user always routes to the same server (with the caveats about what happens on server changes).
+
 4. You are configuring consistent hashing for a cache cluster. The documentation says to use 150 virtual nodes per server. Your manager asks why not just 1, since that's simpler. Give a concrete explanation with an example showing what goes wrong with 1 virtual node and why 150 fixes it.
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) with 1 virtual node per server, the physical placement on the ring is random; if three servers happen to land at hash positions 10, 12, and 900 on a 1000-point ring, the third server owns 898/1000 of the key space — extremely uneven, (2) with 150 virtual nodes per server, each physical server occupies 150 positions scattered across the ring, averaging out placement variance so each server ends up owning close to 1/N of the key space, (3) the trade-off is memory for the ring data structure, which is negligible in practice.
+
 5. A colleague says "IP hash is strictly better than round robin for any application that has user sessions, because it keeps users on the same server." What is wrong with this claim? Describe at least two real-world scenarios where IP hash would give worse results than round robin plus externalised sessions.
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) NAT: many users behind a corporate gateway or mobile carrier share one public IP, so all those users hash to the same server — creating a hot server while others sit idle, (2) server pool change: adding or removing a server reshuffles all IP-to-server mappings because modulo arithmetic changes, breaking session persistence for every user simultaneously, (3) IP instability: mobile users or users on DHCP change IPs between requests, so IP hash provides no persistence guarantee for these clients.
+
+6. Your team needs to route `/api/*` requests to a backend service cluster and `/static/*` requests to an object-storage CDN, while also terminating TLS at the load balancer. Should this be an L4 or L7 load balancer? What specifically breaks if you use the other layer instead?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) L7 is required because URL path inspection (`/api/*` vs `/static/*`) requires parsing the HTTP request, which is only available at the application layer, (2) TLS termination is also an L7 concern — L4 passes opaque TLS bytes through without decrypting, so the load balancer cannot read the URL path at all, (3) an L4 balancer sees only IP address and port; it cannot distinguish request types or terminate TLS, making both URL-based routing and SSL offloading impossible.
+
+---
+
+## Connected Topics
+
+!!! info "Where this topic connects"
+
+    - **05. Caching Patterns** — consistent hashing was developed for distributed caching; load balancing reuses the same algorithm to minimise key redistribution when servers change → [05. Caching Patterns](05-caching-patterns.md)
+    - **11. Database Scaling** — read replicas use load balancing to distribute query traffic; round robin and least-connections apply directly to database proxy routing → [11. Database Scaling](11-database-scaling.md)
+    - **03. Networking Fundamentals** — the L4/L7 distinction (transport vs application layer) determines what information the load balancer can use for routing decisions → [03. Networking Fundamentals](03-networking-fundamentals.md)

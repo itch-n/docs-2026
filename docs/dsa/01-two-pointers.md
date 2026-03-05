@@ -713,6 +713,8 @@ Step 2: left=1 (val=3), right=4 (val=9), sum=12 → FOUND!
 
 ## Decision Framework
 
+<div class="learner-section" markdown>
+
 **Your task:** Build decision trees for when to use two pointers.
 
 ### Question 1: Is the data sorted?
@@ -765,10 +767,13 @@ flowchart LR
     Q3 -->|NO| Other([Use Hash Table])
 ```
 
+</div>
 
 ---
 
 ## Practice
+
+<div class="learner-section" markdown>
 
 ### LeetCode Problems
 
@@ -812,6 +817,13 @@ flowchart LR
     - Pattern: <span class="fill-in">[Which variant?]</span>
     - Key insight: <span class="fill-in">[Fill in after solving]</span>
 
+**Failure modes:**
+
+- What happens if both pointers converge without finding a valid pair — does your loop terminate correctly or does it overshoot and access out-of-bounds indices? <span class="fill-in">[Fill in]</span>
+- How does your implementation behave when the array has exactly two elements and neither pointer can advance past the other? <span class="fill-in">[Fill in]</span>
+
+</div>
+
 ---
 
 ## Test Your Understanding
@@ -820,11 +832,34 @@ Answer these questions without looking at your notes. Write a sentence or two fo
 
 1. **You are given an unsorted array and asked to find whether any two elements sum to a target. A colleague suggests two pointers. Is that correct? What must be done first, and what is the total time complexity including that step?**
 
+    ??? success "Rubric"
+        A complete answer addresses: (1) two pointers for pair-sum requires sorted order for the convergence proof to hold — without it, skipping a pointer position is not safe; (2) sorting costs O(n log n), which dominates the O(n) pointer scan, giving a total of O(n log n); (3) a HashSet alternative achieves O(n) time with O(n) space and does not require sorting, so the choice depends on whether extra space is acceptable.
+
 2. **Explain in your own words why Floyd's cycle detection (slow/fast pointers) is guaranteed to detect a cycle if one exists. What happens to the gap between the pointers inside a cycle?**
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) once both pointers enter the cycle, the fast pointer gains one position on the slow pointer per step (it moves 2, slow moves 1, so the gap closes by 1 each round); (2) because the gap decreases by 1 each step modulo the cycle length, the pointers must eventually occupy the same node — they cannot skip past each other; (3) if there is no cycle, fast reaches null in finite time, terminating the algorithm without a false positive.
 
 3. **You implement `removeDuplicates` and get the wrong length back. You print the array and the values look correct. What is the most likely bug, and why does the array look right even though the length is wrong?**
 
+    ??? success "Rubric"
+        A complete answer addresses: (1) the most likely bug is returning `slow` instead of `slow + 1` — the slow pointer is an index, and the count of unique elements is always one more than the last index written; (2) the array "looks correct" because the in-place writes are done properly — the bug is purely in the return value, not the element placement; (3) a related bug is advancing slow before writing, which shifts the first unique element, but this produces a visibly wrong array, not just a wrong length.
+
 4. **A friend says "same-direction pointers are just a slower version of sliding window." What is the key distinction? Give one problem that clearly belongs to same-direction two pointers but not sliding window.**
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) same-direction two pointers track two specific element positions and perform in-place writes between them; sliding window tracks aggregate state (sum, frequency count) across a contiguous subarray; (2) same-direction pointers do not maintain a running window value — the "fast" pointer is a scout, not a window boundary; (3) `moveZeroes` or `partition` are canonical same-direction problems — there is no window value to aggregate, only positional logic.
 
 5. **Trapping Rain Water (LeetCode 42) can be solved with O(n) space using prefix arrays, or with O(1) space using two pointers. Describe the core insight that lets the two-pointer solution avoid the prefix arrays.**
 
+    ??? success "Rubric"
+        A complete answer addresses: (1) the water at any index is bounded by `min(maxLeft, maxRight)` — the two-pointer solution observes that whichever side has the smaller current max fully determines the water at that pointer without needing the other side's full prefix array; (2) if `maxLeft < maxRight`, you can safely compute water at `left` because the right side is guaranteed to be at least as tall, so move left inward; (3) the two pointers maintain running max-left and max-right variables, replacing the O(n) prefix arrays with O(1) accumulators.
+
+---
+
+## Connected Topics
+
+!!! info "Where this topic connects"
+
+    - **02. Sliding Window** — sliding window is a specialised two-pointer technique where both pointers advance in the same direction to maintain a window → [02. Sliding Window](02-sliding-window.md)
+    - **04. Linked Lists** — fast/slow pointer (Floyd's cycle detection) is a direct application of the two-pointer pattern to linked structures → [04. Linked Lists](04-linked-lists.md)

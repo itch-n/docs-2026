@@ -1184,6 +1184,8 @@ Attack pattern:
 
 ## Decision Framework
 
+<div class="learner-section" markdown>
+
 **Questions to answer after implementation:**
 
 ### 1. Algorithm Selection
@@ -1247,9 +1249,13 @@ flowchart LR
     Start -->|"Accurate rate limiting"| N4
 ```
 
+</div>
+
 ---
 
 ## Practice
+
+<div class="learner-section" markdown>
 
 ### Scenario 1: Rate limit public API
 
@@ -1267,6 +1273,11 @@ flowchart LR
 - How to handle different user tiers? <span class="fill-in">[Fill in]</span>
 - How to handle distributed servers? <span class="fill-in">[Fill in]</span>
 
+**Failure modes:**
+
+- What happens if the shared Redis store used for rate limit counters becomes unavailable across all API servers? <span class="fill-in">[Fill in]</span>
+- How does your design behave when a premium user's quota misconfiguration allows unlimited requests and floods the backend? <span class="fill-in">[Fill in]</span>
+
 ### Scenario 2: Rate limit login attempts
 
 **Requirements:**
@@ -1282,6 +1293,11 @@ flowchart LR
 - Why? <span class="fill-in">[Fill in]</span>
 - How to implement blocking? <span class="fill-in">[Fill in]</span>
 - How to handle false positives? <span class="fill-in">[Fill in]</span>
+
+**Failure modes:**
+
+- What happens if the rate limiter state is stored only in memory and the server restarts, resetting all block counters mid-attack? <span class="fill-in">[Fill in]</span>
+- How does your design behave when a legitimate user is behind a shared NAT and their IP is blocked due to another user's brute-force attempts? <span class="fill-in">[Fill in]</span>
 
 ### Scenario 3: Rate limit microservice calls
 
@@ -1299,6 +1315,13 @@ flowchart LR
 - How to handle backpressure? <span class="fill-in">[Fill in]</span>
 - Circuit breaker integration? <span class="fill-in">[Fill in]</span>
 
+**Failure modes:**
+
+- What happens if Service B's rate limiter is bypassed because Service A retries aggressively after 429 responses without exponential backoff? <span class="fill-in">[Fill in]</span>
+- How does your design behave when a thundering herd of retries from multiple service instances overwhelms Service B after a brief outage? <span class="fill-in">[Fill in]</span>
+
+</div>
+
 ---
 
 ## Test Your Understanding
@@ -1306,7 +1329,36 @@ flowchart LR
 Answer these without referring to your notes or implementation.
 
 1. A token bucket has capacity 100 and refill rate 10 tokens/sec. At T=0 the bucket is full. A client sends 100 requests instantly, then sends 1 more request 500ms later. Is that 101st request allowed? Show your calculation.
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) at T=500ms, elapsed time is 0.5 seconds, so tokens refilled = 0.5 × 10 = 5 tokens, (2) the bucket therefore has 5 tokens, so the 101st request (which costs 1 token) is allowed — 4 tokens remain, (3) the key insight is that the bucket refills continuously from the last refill timestamp, not only at discrete intervals.
+
 2. Explain the fixed-window boundary attack in concrete terms. If a limit is 10 requests/minute, what is the maximum number of requests an attacker can send in any 2-second window using this attack?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) the attacker sends 10 requests at 11:59:59 (fills window 1) and 10 more at 12:00:01 (starts fresh window 2), achieving 20 requests in 2 seconds — double the stated rate, (2) this works because each window resets independently with no memory of the previous window's traffic, (3) token bucket or sliding window log prevents this because they track actual elapsed time rather than resetting on a fixed schedule.
+
 3. You need to rate-limit 50 million users at 100 requests/minute each. Compare the memory footprint of fixed window, sliding window log, and token bucket approaches for this scale. Which would you choose and why?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) fixed window: ~12 bytes per user × 50M = ~600 MB total; token bucket: ~16 bytes per user × 50M = ~800 MB total; sliding window log: up to 100 timestamps × 8 bytes × 50M = ~40 GB — impractical, (2) token bucket is the best choice: it is memory-efficient, handles bursts fairly, and avoids the boundary attack that affects fixed window, (3) sliding window log is eliminated at this scale because storing per-request timestamps for 50 million users exhausts available memory.
+
 4. Your leaky bucket implementation passes unit tests but behaves incorrectly under load in production. The bucket appears to allow far more requests than configured. What time-unit bug should you look for first?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) the most common bug is a units mismatch: computing elapsed time in milliseconds but using a drain rate configured in seconds (or vice versa), causing the bucket to drain 1000x slower or faster than intended, (2) a secondary bug is integer truncation when computing fractional drain amounts — if elapsed time is stored as a long in milliseconds and the rate is tokens/second, the division must be floating-point, (3) the fix is to enforce consistent time units throughout (use nanoseconds or milliseconds everywhere) and use double arithmetic for the drain calculation.
+
 5. A colleague proposes using a single in-memory counter for rate limiting on a horizontally-scaled API with 10 servers. What is the problem with this approach, and what storage backend would you recommend instead?
+
+    ??? success "Rubric"
+        A complete answer addresses: (1) each server maintains its own in-memory counter, so a client sending 10 requests distributed across 10 servers consumes only 1 request per counter — effectively bypassing the limit by a factor of N servers, (2) the correct approach is a shared atomic counter in a centralised store such as Redis, using INCR and EXPIRE commands which are atomic on a single-threaded Redis server, (3) Redis also enables sliding window counter via sorted sets and supports Lua scripts for atomic multi-step operations, making it the standard backend for distributed rate limiting.
+
+---
+
+## Connected Topics
+
+!!! info "Where this topic connects"
+
+    - **06. API Design** — rate limiting is applied at the API layer to protect endpoints; the rate limit unit (per user, per IP, per API key) aligns with the API authentication scheme → [06. API Design](06-api-design.md)
+    - **09. Load Balancing** — rate limiting is commonly implemented at the load balancer or API gateway level, before requests reach backend services → [09. Load Balancing](09-load-balancing.md)
+    - **14. Observability** — rate limit hit rate and remaining quota are key metrics; tracking them with counters reveals abuse patterns and helps tune thresholds → [14. Observability](14-observability.md)
