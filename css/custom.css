@@ -1,0 +1,207 @@
+/* ==========================================
+   COLLAPSIBLE DETAILS (Solutions/Answers)
+   ========================================== */
+
+/* Style for the container */
+details {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    padding: 10px 15px;
+    background-color: #f9f9f9;
+}
+
+/* Style for the clickable summary */
+details summary {
+    font-weight: bold;
+    cursor: pointer;
+    color: #337ab7; /* Cinder's default link blue */
+    outline: none;
+}
+
+details summary:hover {
+    color: #23527c;
+    text-decoration: underline;
+}
+
+/* Content spacing when expanded */
+details[open] summary {
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+/* Remove default marker (optional) */
+details summary::-webkit-details-marker {
+    display: none;
+}
+
+details summary::before {
+    content: "▶ ";
+    font-size: 0.8em;
+}
+
+details[open] summary::before {
+    content: "▼ ";
+}
+
+/* ==========================================
+   LEARNER-SPECIFIC CLASSES (Opt-in styling)
+   ========================================== */
+
+/* .learner-section - Wrap areas where learner fills in content */
+.learner-section {
+    background-color: #fffbf0;
+    border-left: 4px solid #f9c74f;
+    padding: 15px 20px;
+    margin: 15px 0;
+    border-radius: 4px;
+}
+
+.learner-section p {
+    margin: 0.5em 0;
+}
+
+/* .fill-in - Individual fill-in-the-blank prompts */
+.fill-in {
+    font-weight: bold;
+    color: #ea580c;
+    font-style: italic;
+    background-color: #fff7ed;
+    padding: 2px 6px;
+    border-radius: 3px;
+    border: 1px solid #fed7aa;
+    display: inline-block;
+    min-width: 100px;
+}
+
+/* .learner-prompt - For list items with prompts */
+.learner-prompt {
+    background-color: #fffbf0;
+    border-left: 3px solid #fbbf24;
+    padding: 10px 15px;
+    margin: 8px 0;
+    border-radius: 3px;
+}
+
+/* .benchmark-table - Tables where learners record results */
+.benchmark-table {
+    background-color: #fffbf0;
+    border: 2px solid #fbbf24;
+    margin: 20px 0;
+}
+
+.benchmark-table td,
+.benchmark-table th {
+    padding: 10px;
+}
+
+.benchmark-table thead {
+    background-color: #fef3c7;
+}
+
+/* Blank cells in benchmark tables */
+.benchmark-table .blank {
+    font-weight: bold;
+    color: #ea580c;
+    background-color: #fff7ed;
+}
+
+/* ==========================================
+   CODE REFERENCE CLASSES
+   ========================================== */
+
+/* .code-reference - Auto-generated code examples */
+.code-reference {
+    background-color: #f8f9fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    padding: 15px;
+    margin: 15px 0;
+}
+
+.code-reference pre {
+    margin: 0;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+}
+
+/* ==========================================
+   TASK LIST CHECKBOXES
+   ========================================== */
+
+/* Remove default list styling for task lists */
+.task-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+/* Task list items */
+.task-list-item {
+    list-style: none;
+    margin-bottom: 0.5em;
+}
+
+/* Hide the actual checkbox input */
+.task-list-control input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* Style the custom checkbox indicator */
+.task-list-indicator {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    margin-right: 0.5em;
+    vertical-align: middle;
+    border: 2px solid #666;
+    border-radius: 3px;
+    background-color: #fff;
+    position: relative;
+    top: -0.1em;
+}
+
+/* Checked checkbox - add checkmark */
+.task-list-control input[type="checkbox"]:checked + .task-list-indicator {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.task-list-control input[type="checkbox"]:checked + .task-list-indicator::after {
+    content: "";
+    position: absolute;
+    left: 0.25em;
+    top: 0.05em;
+    width: 0.35em;
+    height: 0.65em;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+/* ====== COMPLETED ITEM STYLING ====== */
+
+.task-list-item:has(input[type="checkbox"]:checked) {
+    background-color: #d4edda;
+    padding: 0.25em 0.5em;
+    margin-left: -0.5em;
+    margin-right: -0.5em;
+    border-radius: 4px;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+.task-list-item:has(input[type="checkbox"]:checked) {
+    color: #155724;
+    text-decoration: line-through;
+}
+
+/* Hover effect for satisfaction */
+.task-list-item:has(input[type="checkbox"]:checked):hover {
+    opacity: 1;
+    background-color: #c3e6cb;
+}

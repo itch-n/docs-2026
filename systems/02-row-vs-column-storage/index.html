@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="A framework for algorithms, systems design, and infrastructure." name="description"/>
+<meta content="Richard" name="author"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>02. Row vs Column Storage - Software Engineering Study Guide</title>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" rel="stylesheet"/>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css" rel="stylesheet"/>
+<link href="//rsms.me/inter/inter.css" rel="stylesheet" type="text/css"/>
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&amp;subset=latin-ext,latin" rel="stylesheet" type="text/css"/>
+<link href="../../css/bootstrap-custom.min.css" rel="stylesheet"/>
+<link href="../../css/base.min.css" rel="stylesheet"/>
+<link href="../../css/cinder.min.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css" rel="stylesheet"/>
+<link href="../../css/custom.css" rel="stylesheet"/>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="container">
+<!-- Collapsed navigation -->
+<div class="navbar-header">
+<!-- Expander button -->
+<button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<!-- Main title -->
+<a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+</div>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li>
+<a href="../..">Home</a>
+</li>
+<li class="dropdown active">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Systems Design <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../01-storage-engines/">01. Storage Engines</a>
+</li>
+<li class="active">
+<a href="./">02. Row vs Column Storage</a>
+</li>
+<li>
+<a href="../03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+<li>
+<a href="../04-search-and-indexing/">04. Search &amp; Indexing</a>
+</li>
+<li>
+<a href="../05-caching-patterns/">05. Caching Patterns</a>
+</li>
+<li>
+<a href="../06-api-design/">06. API Design</a>
+</li>
+<li>
+<a href="../07-security-patterns/">07. Security Patterns</a>
+</li>
+<li>
+<a href="../08-rate-limiting/">08. Rate Limiting</a>
+</li>
+<li>
+<a href="../09-load-balancing/">09. Load Balancing</a>
+</li>
+<li>
+<a href="../10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+<li>
+<a href="../11-database-scaling/">11. Database Scaling</a>
+</li>
+<li>
+<a href="../12-message-queues/">12. Message Queues</a>
+</li>
+<li>
+<a href="../13-event-sourcing-cqrs/">13. Event Sourcing &amp; CQRS</a>
+</li>
+<li>
+<a href="../14-stream-processing/">14. Stream Processing</a>
+</li>
+<li>
+<a href="../15-observability/">15. Observability</a>
+</li>
+<li>
+<a href="../16-resilience-patterns/">16. Resilience Patterns</a>
+</li>
+<li>
+<a href="../17-distributed-transactions/">17. Distributed Transactions</a>
+</li>
+<li>
+<a href="../18-consensus-patterns/">18. Consensus Patterns</a>
+</li>
+<li>
+<a href="../19-microservices-patterns/">19. Microservices Patterns</a>
+</li>
+<li>
+<a href="../20-multi-region/">20. Multi-Region Architecture</a>
+</li>
+</ul>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">DSA <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../dsa/01-two-pointers/">01. Two Pointers</a>
+</li>
+<li>
+<a href="../../dsa/02-sliding-window/">02. Sliding Window</a>
+</li>
+<li>
+<a href="../../dsa/03-hash-tables/">03. Hash Tables</a>
+</li>
+<li>
+<a href="../../dsa/04-linked-lists/">04. Linked Lists</a>
+</li>
+<li>
+<a href="../../dsa/05-stacks--queues/">05. Stacks &amp; Queues</a>
+</li>
+<li>
+<a href="../../dsa/06-trees/">06. Trees</a>
+</li>
+<li>
+<a href="../../dsa/07-binary-search/">07. Binary Search</a>
+</li>
+<li>
+<a href="../../dsa/08-heaps/">08. Heaps</a>
+</li>
+<li>
+<a href="../../dsa/09-union-find/">09. Union-Find</a>
+</li>
+<li>
+<a href="../../dsa/10-graphs/">10. Graphs</a>
+</li>
+<li>
+<a href="../../dsa/11-advanced-graphs/">11. Advanced Graphs</a>
+</li>
+<li>
+<a href="../../dsa/12-backtracking/">12. Backtracking</a>
+</li>
+<li>
+<a href="../../dsa/13-dynamic-programming/">13. Dynamic Programming</a>
+</li>
+<li>
+<a href="../../dsa/14-prefix-sums/">14. Prefix Sums</a>
+</li>
+<li>
+<a href="../../dsa/15-intervals/">15. Intervals</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+<a data-target="#mkdocs_search_modal" data-toggle="modal" href="#">
+<i class="fas fa-search"></i> Search
+                        </a>
+</li>
+<li>
+<a href="../01-storage-engines/" rel="prev">
+<i class="fas fa-arrow-left"></i> Previous
+                        </a>
+</li>
+<li>
+<a href="../03-networking-fundamentals/" rel="next">
+                            Next <i class="fas fa-arrow-right"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+<ul class="nav bs-sidenav">
+<li class="first-level active"><a href="#row-vs-column-storage">Row vs Column Storage</a></li>
+<li class="second-level"><a href="#important-notes">Important notes</a></li>
+<li class="second-level"><a href="#learning-objectives">Learning Objectives</a></li>
+<li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+<li class="second-level"><a href="#quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)</a></li>
+<li class="second-level"><a href="#core-implementation">Core Implementation</a></li>
+<li class="second-level"><a href="#beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters</a></li>
+<li class="second-level"><a href="#the-fundamental-trade-off">The Fundamental Trade-off</a></li>
+<li class="second-level"><a href="#compression-the-hidden-superpower-of-column-stores">Compression: The Hidden Superpower of Column Stores</a></li>
+<li class="second-level"><a href="#case-studies-row-vs-column-storage-in-the-wild">Case Studies: Row vs. Column Storage in the Wild</a></li>
+<li class="second-level"><a href="#common-misconceptions">Common Misconceptions</a></li>
+<li class="second-level"><a href="#decision-framework">Decision Framework</a></li>
+<li class="second-level"><a href="#practice">Practice</a></li>
+<li class="second-level"><a href="#test-your-understanding">Test Your Understanding</a></li>
+<li class="second-level"><a href="#connected-topics">Connected Topics</a></li>
+</ul>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="row-vs-column-storage">Row vs Column Storage<a class="headerlink" href="#row-vs-column-storage" title="Permanent link">¶</a></h1>
+<blockquote>
+<p>OLTP vs OLAP - Why your database layout fundamentally changes the game</p>
+</blockquote>
+<hr/>
+<h2 id="important-notes">Important notes<a class="headerlink" href="#important-notes" title="Permanent link">¶</a></h2>
+<ul>
+<li>Column stores win for queries that touch a small fraction of columns. If you're doing <code>SELECT *</code> you may not improve. The gain comes from column <em>pruning</em>, not from columnar layout alone.</li>
+<li>Postgres (with <code>citus</code> columnar extension) supports hybrid layouts. The choice is per-table (or even per-partition), not per-database.</li>
+</ul>
+<hr/>
+<h2 id="learning-objectives">Learning Objectives<a class="headerlink" href="#learning-objectives" title="Permanent link">¶</a></h2>
+<p>By the end of this topic you will be able to:</p>
+<ul>
+<li>Explain why row-oriented and column-oriented layouts produce opposite performance profiles for the same data</li>
+<li>Implement a row store and a column store with insert, point lookup, and aggregation operations</li>
+<li>Benchmark and interpret performance differences across insert, lookup, and column-scan workloads</li>
+<li>Identify whether a given query benefits from row or column storage by analysing its access pattern</li>
+<li>Choose the appropriate storage layout for OLTP vs OLAP workloads based on measured trade-offs</li>
+<li>Explain how column stores achieve compression ratios that row stores cannot, and why that matters at scale</li>
+</ul>
+<hr/>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After implementing and testing both storage layouts, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What is row-oriented storage in one sentence?</strong></p>
+<ul>
+<li>Row storage is a layout where <span class="fill-in">each record's fields are stored together on disk, so reading one record requires a single disk operation</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What is column-oriented storage in one sentence?</strong></p>
+<ul>
+<li>Column storage is a layout where <span class="fill-in">all values for a single field are stored together in one column file, so analytics queries only need to read the columns they use</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy for row storage:</strong></p>
+<ul>
+<li>Example: "Row storage is like filing cabinets where each drawer contains one person's complete file..."</li>
+<li>Think about how a HR department keeps employee folders — everything about one person in one place.</li>
+<li>Your analogy: <span class="fill-in">Row storage is like a filing cabinet where each drawer holds one employee’s complete folder — name, salary, reviews, benefits all together. One pull of the drawer and you have everything.</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy for column storage:</strong></p>
+<ul>
+<li>Example: "Column storage is like having separate filing cabinets for each attribute..."</li>
+<li>Think about how a payroll department might keep one binder of just salaries, another of just departments.</li>
+<li>Your analogy: <span class="fill-in">Column storage is like having a separate binder per attribute — one binder of just salaries, one of just cities. The payroll team grabs only the salary binder without touching anything else.</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When would you use row storage?</strong></p>
+<ul>
+<li>Row storage is preferred when you need to read or write complete individual records, because it avoids the cost of <span class="fill-in">N separate column reads just to reconstruct one row</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When would you use column storage?</strong></p>
+<ul>
+<li>Column storage is preferred when you run aggregations over millions of rows but only need a few columns, because it avoids the cost of <span class="fill-in">reading hundreds of bytes of unneeded columns per row just to aggregate one field</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr/>
+<h2 id="quick-quiz-do-before-implementing">Quick Quiz (Do BEFORE implementing)<a class="headerlink" href="#quick-quiz-do-before-implementing" title="Permanent link">¶</a></h2>
+<div class="admonition tip">
+<p class="admonition-title">How to use this section</p>
+<p>Complete your predictions now, before reading further. You will revisit and verify each answer after running the benchmark.</p>
+</div>
+<div class="learner-section">
+<p><strong>Your task:</strong> Test your intuition without looking at code. Answer these, then verify after implementation.</p>
+<h3 id="performance-predictions">Performance Predictions<a class="headerlink" href="#performance-predictions" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p><strong>Row storage: Fetch one complete user record</strong></p>
+<ul>
+<li>Expected I/O operations: <span class="fill-in">2</span></li>
+<li>Verified after implementation: <span class="fill-in">1 — HashMap.get() is O(1); a single lookup returns the whole row</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Column storage: Fetch one complete user record</strong></p>
+<ul>
+<li>Expected I/O operations: <span class="fill-in">20</span></li>
+<li>Verified: <span class="fill-in">6 — one read per column to reconstruct the full row (O(N) scan without an index)</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Row storage: Calculate average of one column across 1M rows</strong></p>
+<ul>
+<li>Expected I/O: <span class="fill-in">1M</span></li>
+<li>Verified: <span class="fill-in">1M row objects touched — every row read even though only salary is needed</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Column storage: Calculate average of one column across 1M rows</strong></p>
+<ul>
+<li>Expected I/O: <span class="fill-in">1000</span></li>
+<li>Verified: <span class="fill-in">1M salary values only — contiguous int[] scan, no other column touched</span></li>
+</ul>
+</li>
+</ol>
+<h3 id="scenario-predictions">Scenario Predictions<a class="headerlink" href="#scenario-predictions" title="Permanent link">¶</a></h3>
+<p><strong>Scenario 1:</strong> E-commerce order processing (insert orders, fetch by order_id)</p>
+<ul>
+<li><strong>Best storage layout?</strong> <span class="fill-in">Row</span></li>
+<li><strong>Why?</strong> <span class="fill-in">Usually get the complete record for an individual entity</span></li>
+</ul>
+<p><strong>Scenario 2:</strong> Business intelligence dashboard (revenue by month, top products)</p>
+<ul>
+<li><strong>Best storage layout?</strong> <span class="fill-in">Column</span></li>
+<li><strong>Why?</strong> <span class="fill-in">Lots of aggregation operations</span></li>
+</ul>
+<p><strong>Scenario 3:</strong> Social media user profiles (lookup by user_id, update profile)</p>
+<ul>
+<li><strong>Best storage layout?</strong> <span class="fill-in">Row</span></li>
+<li><strong>Why?</strong> <span class="fill-in">Fetching individual entities</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="core-implementation">Core Implementation<a class="headerlink" href="#core-implementation" title="Permanent link">¶</a></h2>
+<h3 id="part-1-row-oriented-storage">Part 1: Row-Oriented Storage<a class="headerlink" href="#part-1-row-oriented-storage" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement a simple row-oriented storage engine.</p>
+<pre class="highlight"><code class="language-java">package com.study.systems.columnstorage;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Row-Oriented Storage: All columns for a row stored together
+ * &lt;p&gt;
+ * Use case: OLTP - transactional workloads
+ * Optimized for: Point lookups, full row access
+ */
+public class RowStore {
+
+    // Each row stored as a complete unit
+    private Map&lt;Integer, Row&gt; rows = new HashMap&lt;&gt;();
+
+    static class Row {
+        int id;
+        String name;
+        String email;
+        int age;
+        String city;
+        int salary;
+
+        Row(int id, String name, String email, int age, String city, int salary) {
+            this.id = id;
+            this.name = name;
+            this.email = email;
+            this.age = age;
+            this.city = city;
+            this.salary = salary;
+        }
+    }
+
+    /**
+     * Insert: O(1) - single write
+     * All columns written together in one operation
+     */
+    public void insert(Row row) {
+        // In reality: Write entire row to one disk location
+        rows.put(row.id, row);
+    }
+
+    /**
+     * Point lookup: O(1) - optimal!
+     * Single disk read gets all columns
+     */
+    public Row getById(int id) {
+        // In reality: One disk seek, read entire row
+        return rows.get(id);
+    }
+
+    /**
+     * Column scan: O(N) - inefficient!
+     * Must read entire rows even though we only need one column
+     */
+    public double avgSalary() {
+        // Note: You're reading ALL columns just to get salary
+        // This is the key inefficiency of row storage for analytics!
+        double sum = 0.0;
+        int count = 0;
+        for (Map.Entry&lt;Integer, Row&gt; entry : rows.entrySet()) {
+            sum += entry.getValue().salary;
+            count++;
+
+        }
+        return sum / count;
+    }
+
+    /**
+     * Multi-column aggregation
+     * Still reads full rows
+     */
+    public Map&lt;String, Double&gt; avgSalaryByCity() {
+        // Note: Still reading entire rows even though only using 2 columns
+        Map&lt;String, Double&gt; salaryByCity = new HashMap&lt;&gt;();
+        for (Map.Entry&lt;Integer, Row&gt; entry : rows.entrySet()) {
+            Row row = entry.getValue();
+            salaryByCity.put(row.city, salaryByCity.getOrDefault(row.city, 0d) + row.salary);
+        }
+        return salaryByCity;
+    }
+}
+</code></pre>
+<div class="admonition warning">
+<p class="admonition-title">Debugging Challenge — Column Scan Wastes Reads</p>
+<p>The <code>avgSalary()</code> implementation below compiles and runs, but contains a subtle correctness bug when the row set is empty.</p>
+<pre class="highlight"><code class="language-java">public double avgSalary() {
+    int total = 0;
+    for (Row row : rows.values()) {
+        total += row.salary;
+    }
+    return total / rows.size();
+}</code></pre>
+<p>Consider what happens when <code>rows</code> is empty.</p>
+<details class="success">
+<summary>Answer</summary>
+<p><strong>Bug:</strong> Integer division by zero when the map is empty. <code>rows.size()</code> returns 0, causing <code>ArithmeticException</code>.</p>
+<p><strong>Fix:</strong> Guard against the empty case and use floating-point division:
+<pre class="highlight"><code class="language-java">if (rows.isEmpty()) return 0.0;
+double total = 0;
+for (Row row : rows.values()) {
+    total += row.salary;
+}
+return total / rows.size();</code></pre></p>
+</details>
+</div>
+<hr/>
+<h3 id="part-2-column-oriented-storage">Part 2: Column-Oriented Storage<a class="headerlink" href="#part-2-column-oriented-storage" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement a simple column-oriented storage engine.</p>
+<pre class="highlight"><code class="language-java">package com.study.systems.columnstorage;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Column-Oriented Storage: Each column stored separately
+ * &lt;p&gt;
+ * Use case: OLAP - analytical workloads
+ * Optimized for: Column scans, aggregations
+ * &lt;p&gt;
+ * Key implementation detail: numeric columns use int[] (not ArrayList&lt;Integer&gt;)
+ * so values are stored contiguously in memory. This gives the CPU prefetcher
+ * something to work with during scans — the hardware advantage that makes real
+ * column stores fast, not just the algorithmic one.
+ */
+public class ColumnStore {
+
+    private static final int INITIAL_CAPACITY = 1024;
+
+    // Numeric columns: contiguous int[] for cache locality
+    private int[] idColumn     = new int[INITIAL_CAPACITY];
+    private int[] ageColumn    = new int[INITIAL_CAPACITY];
+    private int[] salaryColumn = new int[INITIAL_CAPACITY];
+
+    // String columns remain as lists (no primitive equivalent)
+    private List&lt;String&gt; nameColumn  = new ArrayList&lt;&gt;(INITIAL_CAPACITY);
+    private List&lt;String&gt; emailColumn = new ArrayList&lt;&gt;(INITIAL_CAPACITY);
+    private List&lt;String&gt; cityColumn  = new ArrayList&lt;&gt;(INITIAL_CAPACITY);
+
+    private int size = 0;
+
+    private void ensureCapacity() {
+        if (size == idColumn.length) {
+            int newCapacity = idColumn.length * 2;
+            idColumn     = Arrays.copyOf(idColumn,     newCapacity);
+            ageColumn    = Arrays.copyOf(ageColumn,    newCapacity);
+            salaryColumn = Arrays.copyOf(salaryColumn, newCapacity);
+        }
+    }
+
+    static class Row {
+        int id;
+        String name;
+        String email;
+        int age;
+        String city;
+        int salary;
+
+        Row(int id, String name, String email, int age, String city, int salary) {
+            this.id = id;
+            this.name = name;
+            this.email = email;
+            this.age = age;
+            this.city = city;
+            this.salary = salary;
+        }
+    }
+
+    /**
+     * Insert: O(C) where C = number of columns - slower!
+     * Must write to each column separately
+     */
+    public void insert(Row row) {
+        // Must write to 6 separate column stores
+        // In reality: 6 separate disk writes - write amplification!
+        ensureCapacity();
+        idColumn[size]     = row.id;
+        ageColumn[size]    = row.age;
+        salaryColumn[size] = row.salary;
+        nameColumn.add(row.name);
+        emailColumn.add(row.email);
+        cityColumn.add(row.city);
+        size++;
+    }
+
+    /**
+     * Point lookup: O(N) - inefficient!
+     * Must scan id column then read from each column
+     */
+    public Row getById(int id) {
+        for (int i = 0; i &lt; size; i++) {
+            if (idColumn[i] == id) {
+                return new Row(
+                        idColumn[i],
+                        nameColumn.get(i),
+                        emailColumn.get(i),
+                        ageColumn[i],
+                        cityColumn.get(i),
+                        salaryColumn[i]
+                );
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Column scan: O(N) - optimal!
+     * Only reads the salary int[] — one contiguous memory region
+     * CPU prefetcher loads cache lines ahead; no pointer chasing
+     */
+    public double avgSalary() {
+        // Key advantage: touch only salaryColumn, ignore everything else.
+        // All values are adjacent ints — one cache line holds 16 of them.
+        double sum = 0.0;
+        for (int i = 0; i &lt; size; i++) {
+            sum += salaryColumn[i];
+        }
+        return sum / size;
+    }
+
+    /**
+     * Multi-column aggregation - still efficient!
+     * Only reads cityColumn + salaryColumn; ignores name/email/age/id
+     */
+    public Map&lt;String, Double&gt; avgSalaryByCity() {
+        Map&lt;String, Double&gt; salaryByCity = new HashMap&lt;&gt;();
+        for (int i = 0; i &lt; size; i++) {
+            String city = cityColumn.get(i);
+            salaryByCity.put(city, salaryByCity.getOrDefault(city, 0d) + salaryColumn[i]);
+        }
+        return salaryByCity;
+    }
+
+    /**
+     * Column pruning: Read only what's needed
+     * This is the killer feature of column stores
+     */
+    public List&lt;Integer&gt; getSalariesInCity(String targetCity) {
+        // Only reads cityColumn + salaryColumn — ignores the other 4
+        List&lt;Integer&gt; salaries = new ArrayList&lt;&gt;();
+        for (int i = 0; i &lt; size; i++) {
+            if (cityColumn.get(i).equals(targetCity)) {
+                salaries.add(salaryColumn[i]);
+            }
+        }
+        return salaries;
+    }
+}
+</code></pre>
+<hr/>
+<h3 id="part-3-benchmark-comparison">Part 3: Benchmark Comparison<a class="headerlink" href="#part-3-benchmark-comparison" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Compare row vs column storage for different workloads.</p>
+<pre class="highlight"><code class="language-java">package com.study.systems.columnstorage;
+
+import java.util.Map;
+import java.util.Random;
+
+/**
+ * Benchmarks row-oriented vs column-oriented storage across four workloads.
+ *
+ * Uses SimulatedRowStore and SimulatedColumnStore (inner classes below), which
+ * inject Thread.sleep calls proportional to the I/O each operation would issue
+ * on NVMe hardware:
+ *
+ *   Sequential write/read:  1 ms per 4 KB page   (NVMe ~50 µs, scaled ×20)
+ *   Random read (seek):     2 ms per operation    (NVMe ~100 µs, scaled ×20)
+ *
+ * Wall time is driven entirely by the injected sleeps, so the ratios reliably
+ * reflect real I/O patterns rather than JVM overhead (HashMap costs, GC, JIT).
+ */
+public class StorageLayoutBenchmark {
+
+    // I/O model
+    static final int  PAGE_BYTES    = 4_096;
+    static final long SEQ_SLEEP_MS  = 1L;   // 1 ms/page  (NVMe ~50 µs, ×20)
+    static final long RAND_SLEEP_MS = 2L;   // 2 ms/seek  (NVMe ~100 µs, ×20)
+
+    // Column byte sizes (VARCHAR widths match schema in the docs)
+    static final int BYTES_PER_ROW = 212;   // id(4) + name(50) + email(100) + age(4) + city(50) + salary(4)
+    static final int BYTES_SALARY  = 4;
+    static final int BYTES_CITY    = 50;
+    static final int NUM_COLUMNS   = 6;
+
+    private static final String[] CITIES = {"New York", "San Francisco", "Chicago", "Austin", "Seattle"};
+
+    public static void main(String[] args) {
+        System.out.println("=== Row vs Column Storage Benchmark ===");
+        System.out.printf("I/O model: %d ms/page sequential   %d ms random (NVMe ×20 scale)%n%n",
+                SEQ_SLEEP_MS, RAND_SLEEP_MS);
+
+        benchmarkInserts();
+        System.out.println();
+        benchmarkPointLookups();
+        System.out.println();
+        benchmarkColumnScans();
+        System.out.println();
+        benchmarkAggregations();
+    }
+
+    // -------------------------------------------------------------------------
+    // Benchmark 1: Inserts
+    // Row store: 1 sequential write per row
+    // Column store: NUM_COLUMNS sequential writes per row (write amplification)
+    // -------------------------------------------------------------------------
+    static void benchmarkInserts() {
+        System.out.println("--- Insert Performance (100 rows) ---");
+        int numRows = 100;
+
+        SimulatedRowStore rowStore = new SimulatedRowStore();
+        long start = System.nanoTime();
+        for (int i = 0; i &lt; numRows; i++) rowStore.insert(rowStoreRow(i));
+        long rowMs = msElapsed(start);
+
+        SimulatedColumnStore colStore = new SimulatedColumnStore();
+        start = System.nanoTime();
+        for (int i = 0; i &lt; numRows; i++) colStore.insert(colStoreRow(i));
+        long colMs = msElapsed(start);
+
+        printRow("Row Store",    rowMs, numRows,             "writes");
+        printRow("Column Store", colMs, numRows * NUM_COLUMNS, "writes");
+        System.out.printf("  Column Store does %dx more writes (write amplification: %d column files per row)%n",
+                NUM_COLUMNS, NUM_COLUMNS);
+    }
+
+    // -------------------------------------------------------------------------
+    // Benchmark 2: Point lookups
+    // Row store: 1 random read (index → full row in one place)
+    // Column store: NUM_COLUMNS random reads (one seek per column file)
+    // -------------------------------------------------------------------------
+    static void benchmarkPointLookups() {
+        System.out.println("--- Point Lookup Performance (10 lookups, 100 rows) ---");
+        int numRows    = 100;
+        int numLookups = 10;
+
+        SimulatedRowStore rowStore = new SimulatedRowStore();
+        SimulatedColumnStore colStore = new SimulatedColumnStore();
+        for (int i = 0; i &lt; numRows; i++) {
+            rowStore.preload(rowStoreRow(i));
+            colStore.preload(colStoreRow(i));
+        }
+
+        Random rand = new Random(42);
+        long start = System.nanoTime();
+        for (int i = 0; i &lt; numLookups; i++) rowStore.getById(rand.nextInt(numRows));
+        long rowMs = msElapsed(start);
+
+        rand = new Random(42);
+        start = System.nanoTime();
+        for (int i = 0; i &lt; numLookups; i++) colStore.getById(rand.nextInt(numRows));
+        long colMs = msElapsed(start);
+
+        printRow("Row Store",    rowMs, numLookups,             "reads");
+        printRow("Column Store", colMs, numLookups * NUM_COLUMNS, "reads");
+        System.out.printf("  Column Store does %dx more seeks (must visit each column file)%n",
+                NUM_COLUMNS);
+    }
+
+    // -------------------------------------------------------------------------
+    // Benchmark 3: Column scan (avgSalary)
+    // Row store: scans all 212 bytes/row — reads name, email, age, city too
+    // Column store: scans only salary column (4 bytes/row)
+    // -------------------------------------------------------------------------
+    static void benchmarkColumnScans() {
+        System.out.println("--- Column Scan: avgSalary (100 rows) ---");
+        int numRows = 100;
+
+        SimulatedRowStore rowStore = new SimulatedRowStore();
+        SimulatedColumnStore colStore = new SimulatedColumnStore();
+        for (int i = 0; i &lt; numRows; i++) {
+            rowStore.preload(rowStoreRow(i));
+            colStore.preload(colStoreRow(i));
+        }
+
+        long start = System.nanoTime();
+        double rowAvg = rowStore.avgSalary();
+        long rowMs = msElapsed(start);
+
+        start = System.nanoTime();
+        double colAvg = colStore.avgSalary();
+        long colMs = msElapsed(start);
+
+        int rowPages = rowStore.pageCount(BYTES_PER_ROW);
+        int colPages = colStore.pageCount(BYTES_SALARY);
+        printRow("Row Store",    rowMs, rowPages, "page reads");
+        printRow("Column Store", colMs, colPages, "page reads");
+        System.out.printf("  Column Store reads %.0fx fewer pages (skips name/email/age/city — salary only)%n",
+                (double) rowPages / colPages);
+        System.out.printf("  Result check: row=%.2f col=%.2f (should match)%n", rowAvg, colAvg);
+    }
+
+    // -------------------------------------------------------------------------
+    // Benchmark 4: Aggregation (avgSalaryByCity)
+    // Row store: scans all columns even though only city + salary are needed
+    // Column store: scans only city (50 bytes) + salary (4 bytes) columns
+    // -------------------------------------------------------------------------
+    static void benchmarkAggregations() {
+        System.out.println("--- Aggregation: avgSalaryByCity (100 rows) ---");
+        int numRows = 100;
+
+        SimulatedRowStore rowStore = new SimulatedRowStore();
+        SimulatedColumnStore colStore = new SimulatedColumnStore();
+        for (int i = 0; i &lt; numRows; i++) {
+            rowStore.preload(rowStoreRow(i));
+            colStore.preload(colStoreRow(i));
+        }
+
+        long start = System.nanoTime();
+        rowStore.avgSalaryByCity();
+        long rowMs = msElapsed(start);
+
+        start = System.nanoTime();
+        colStore.avgSalaryByCity();
+        long colMs = msElapsed(start);
+
+        int rowPages = rowStore.pageCount(BYTES_PER_ROW);
+        int colPages = colStore.pageCount(BYTES_CITY + BYTES_SALARY);
+        printRow("Row Store",    rowMs, rowPages, "page reads");
+        printRow("Column Store", colMs, colPages, "page reads");
+        System.out.printf("  Column Store reads %.1fx fewer pages (skips id/name/email/age)%n",
+                (double) rowPages / colPages);
+    }
+
+    // -------------------------------------------------------------------------
+    // Simulated stores
+    // -------------------------------------------------------------------------
+
+    /**
+     * Row store instrumented with realistic NVMe latencies via Thread.sleep.
+     * 1 sequential write per insert, 1 random read per lookup,
+     * full-row page scan for any column query.
+     */
+    static class SimulatedRowStore extends RowStore {
+        private int rowCount = 0;
+
+        /** Inserts without sleeping. Use this to populate before benchmarking. */
+        public void preload(Row row) { rowCount++; super.insert(row); }
+
+        @Override public void insert(Row row) {
+            sleep(SEQ_SLEEP_MS);        // 1 write: all columns in one location
+            rowCount++; super.insert(row);
+        }
+        @Override public Row getById(int id) {
+            sleep(RAND_SLEEP_MS);       // 1 seek: index → full row
+            return super.getById(id);
+        }
+        @Override public double avgSalary() {
+            scanPages(BYTES_PER_ROW);   // must read all columns to find salary
+            return super.avgSalary();
+        }
+        @Override public Map&lt;String, Double&gt; avgSalaryByCity() {
+            scanPages(BYTES_PER_ROW);   // must read all columns even though only 2 are used
+            return super.avgSalaryByCity();
+        }
+
+        public int pageCount(int bytesPerRow) {
+            return Math.max(1, (int) Math.ceil((double) rowCount * bytesPerRow / PAGE_BYTES));
+        }
+        private void scanPages(int bytesPerRow) {
+            for (int p = 0; p &lt; pageCount(bytesPerRow); p++) sleep(SEQ_SLEEP_MS);
+        }
+    }
+
+    /**
+     * Column store instrumented with realistic NVMe latencies via Thread.sleep.
+     * NUM_COLUMNS writes per insert (write amplification), NUM_COLUMNS seeks per
+     * lookup, but only the needed columns are scanned for analytical queries.
+     */
+    static class SimulatedColumnStore extends ColumnStore {
+        private int rowCount = 0;
+
+        /** Inserts without sleeping. Use this to populate before benchmarking. */
+        public void preload(Row row) { rowCount++; super.insert(row); }
+
+        @Override public void insert(Row row) {
+            for (int c = 0; c &lt; NUM_COLUMNS; c++) sleep(SEQ_SLEEP_MS); // 1 write per column file
+            rowCount++; super.insert(row);
+        }
+        @Override public Row getById(int id) {
+            for (int c = 0; c &lt; NUM_COLUMNS; c++) sleep(RAND_SLEEP_MS); // 1 seek per column file
+            return super.getById(id);
+        }
+        @Override public double avgSalary() {
+            scanPages(BYTES_SALARY);                // column pruning: salary only
+            return super.avgSalary();
+        }
+        @Override public Map&lt;String, Double&gt; avgSalaryByCity() {
+            scanPages(BYTES_CITY + BYTES_SALARY);   // column pruning: city + salary only
+            return super.avgSalaryByCity();
+        }
+
+        public int pageCount(int bytesPerValue) {
+            return Math.max(1, (int) Math.ceil((double) rowCount * bytesPerValue / PAGE_BYTES));
+        }
+        private void scanPages(int bytesPerValue) {
+            for (int p = 0; p &lt; pageCount(bytesPerValue); p++) sleep(SEQ_SLEEP_MS);
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // Helpers
+    // -------------------------------------------------------------------------
+
+    private static void sleep(long ms) {
+        try { Thread.sleep(ms); } catch (InterruptedException e) { Thread.currentThread().interrupt(); }
+    }
+
+    private static void printRow(String label, long wallMs, int ops, String opLabel) {
+        System.out.printf("  %-14s  %4d ms   %3d %s%n", label + ":", wallMs, ops, opLabel);
+    }
+
+    private static long msElapsed(long startNs) {
+        return (System.nanoTime() - startNs) / 1_000_000L;
+    }
+
+    private static RowStore.Row rowStoreRow(int i) {
+        return new RowStore.Row(i, "User" + i, "user" + i + "@example.com",
+                25 + (i % 40), CITIES[i % CITIES.length], 50_000 + (i * 7) % 100_000);
+    }
+
+    private static ColumnStore.Row colStoreRow(int i) {
+        return new ColumnStore.Row(i, "User" + i, "user" + i + "@example.com",
+                25 + (i % 40), CITIES[i % CITIES.length], 50_000 + (i * 7) % 100_000);
+    }
+}
+</code></pre>
+<p><strong>Must complete:</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Implement RowStore insert, getById, avgSalary, avgSalaryByCity</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Implement ColumnStore insert, getById, avgSalary, avgSalaryByCity</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Run benchmarks and record results</li>
+<li class="task-list-item"><label class="task-list-control"><input checked="" disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Understand WHY each performs better for different workloads</li>
+</ul>
+<p><strong>Your benchmark results:</strong></p>
+<table class="benchmark-table">
+<thead>
+<tr>
+<th>Operation</th>
+<th>Row Store</th>
+<th>Column Store</th>
+<th>Winner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Inserts (100 rows)</td>
+<td class="blank">127 ms</td>
+<td class="blank">756 ms</td>
+<td class="blank">Row</td>
+</tr>
+<tr>
+<td>Point Lookups (10)</td>
+<td class="blank">25 ms</td>
+<td class="blank">149 ms</td>
+<td class="blank">Row</td>
+</tr>
+<tr>
+<td>Column Scan (avg salary)</td>
+<td class="blank">7 ms</td>
+<td class="blank">1 ms</td>
+<td class="blank">Column</td>
+</tr>
+<tr>
+<td>Aggregation (by city)</td>
+<td class="blank">7 ms</td>
+<td class="blank">2 ms</td>
+<td class="blank">Column... but only just? it's a bad benchmark</td>
+</tr>
+</tbody>
+</table>
+<div class="learner-section">
+<p><strong>Key insight:</strong> <span class="fill-in">It can compute aggregates with fewer IO operations</span></p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Loop back</p>
+<p>Return to the Quick Quiz now and fill in your verified answers.</p>
+</div>
+<hr/>
+<h2 id="beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters<a class="headerlink" href="#beforeafter-why-this-pattern-matters" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Understand the fundamental trade-off between row and column layouts.</p>
+<h3 id="the-core-problem">The Core Problem<a class="headerlink" href="#the-core-problem" title="Permanent link">¶</a></h3>
+<p>You have a table with 1 million users:</p>
+<pre class="highlight"><code class="language-sql">CREATE TABLE users (
+    id INT,
+    name VARCHAR(100),
+    email VARCHAR(100),
+    age INT,
+    city VARCHAR(50),
+    salary INT
+);</code></pre>
+<p><strong>Two different queries with radically different performance:</strong></p>
+<pre class="highlight"><code class="language-sql">
+-- Query 1: OLTP - Fetch one user by ID
+SELECT * FROM users WHERE id = 12345;
+
+-- Query 2: OLAP - Analytics across millions
+SELECT AVG(salary), city FROM users GROUP BY city;</code></pre>
+<p><strong>The question:</strong> How should you physically store this data on disk?</p>
+<hr/>
+<h3 id="approach-1-row-oriented-storage">Approach 1: Row-Oriented Storage<a class="headerlink" href="#approach-1-row-oriented-storage" title="Permanent link">¶</a></h3>
+<p><strong>Physical layout:</strong> Store entire rows together</p>
+<pre class="highlight"><code>Disk layout (row-oriented):
+┌──────────────────────────────────────────────┐
+│ [1, "Alice", "a@x.com", 30, "NYC", 100000]   │  ← Row 1
+│ [2, "Bob", "b@x.com", 25, "SF", 120000]      │  ← Row 2
+│ [3, "Carol", "c@x.com", 35, "LA", 90000]     │  ← Row 3
+│ ...                                           │
+└──────────────────────────────────────────────┘</code></pre>
+<p><strong>Query 1 performance (fetch one user):</strong></p>
+<pre class="highlight"><code class="language-java">// Single disk read gets entire row
+public User getUser(int id) {
+    // 1 disk seek to row location
+    // Read entire row (~200 bytes)
+    return parseRow(diskRead(rowOffset(id)));  // O(1) - FAST! ✓
+}</code></pre>
+<p><strong>Query 2 performance (aggregate salary by city):</strong></p>
+<pre class="highlight"><code class="language-java">// Must read ALL rows to get salary + city columns
+public Map&lt;String, Double&gt; avgSalaryByCity() {
+    for (int i = 0; i &lt; 1_000_000; i++) {
+        byte[] row = diskRead(rowOffset(i));  // Read entire row (~200 bytes)
+        // But only need salary (4 bytes) + city (50 bytes)
+        // Wasting 146 bytes per row!
+    }
+    // Total read: 1M * 200 bytes = 200MB
+    // Actual needed: 1M * 54 bytes = 54MB
+    // Waste: 73% of I/O! ✗
+}</code></pre>
+<p><strong>Row storage characteristics:</strong></p>
+<ul>
+<li>✅ Point lookups: Excellent (single disk read)</li>
+<li>✅ Insert/Update full row: Excellent (single write)</li>
+<li>❌ Column scans: Poor (read unnecessary data)</li>
+<li>❌ Compression: Limited (mixed data types per row)</li>
+</ul>
+<hr/>
+<h3 id="approach-2-column-oriented-storage">Approach 2: Column-Oriented Storage<a class="headerlink" href="#approach-2-column-oriented-storage" title="Permanent link">¶</a></h3>
+<p><strong>Physical layout:</strong> Store each column separately</p>
+<pre class="highlight"><code>Disk layout (column-oriented):
+┌─────────────────┐
+│ id:      [1,2,3,...]           │  ← All IDs together
+│ name:    ["Alice","Bob",...]   │  ← All names together
+│ email:   ["a@x","b@x",...]     │  ← All emails together
+│ age:     [30,25,35,...]        │  ← All ages together
+│ city:    ["NYC","SF","LA",...] │  ← All cities together
+│ salary:  [100000,120000,...]   │  ← All salaries together
+└─────────────────┘</code></pre>
+<p><strong>Query 1 performance (fetch one user):</strong></p>
+<pre class="highlight"><code class="language-java">// Must read from EACH column file
+public User getUser(int id) {
+    // 6 disk seeks (one per column)
+    int userId = idColumn.read(id);
+    String name = nameColumn.read(id);
+    String email = emailColumn.read(id);
+    int age = ageColumn.read(id);
+    String city = cityColumn.read(id);
+    int salary = salaryColumn.read(id);
+    return new User(userId, name, email, age, city, salary);
+    // 6 disk seeks - SLOW! ✗
+}</code></pre>
+<p><strong>Query 2 performance (aggregate salary by city):</strong></p>
+<pre class="highlight"><code class="language-java">// Only read the columns we need!
+public Map&lt;String, Double&gt; avgSalaryByCity() {
+    int[] salaries = salaryColumn.readAll();  // 1M * 4 bytes = 4MB
+    String[] cities = cityColumn.readAll();   // 1M * 50 bytes = 50MB
+
+    // Total read: 54MB (only what we need!)
+    // vs 200MB with row storage
+    // 73% less I/O! ✓
+
+    // Bonus: Columns compress MUCH better
+    // salary: All integers, similar range
+    // city: Many duplicates ("NYC", "SF", "LA"...)
+    // With compression: 54MB → ~10MB! ✓✓
+}</code></pre>
+<p><strong>Column storage characteristics:</strong></p>
+<ul>
+<li>❌ Point lookups: Poor (must read from N columns)</li>
+<li>❌ Insert/Update: Complex (update N separate files)</li>
+<li>✅ Column scans: Excellent (only read needed columns)</li>
+<li>✅ Compression: Excellent (similar data types)</li>
+<li>✅ SIMD/Vectorization: Possible (homogeneous data)</li>
+</ul>
+<hr/>
+<h2 id="the-fundamental-trade-off">The Fundamental Trade-off<a class="headerlink" href="#the-fundamental-trade-off" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Row Storage</th>
+<th>Column Storage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Point Lookups</strong></td>
+<td>⚡⚡⚡ (1 read)</td>
+<td>🐌 (N reads)</td>
+</tr>
+<tr>
+<td><strong>Full Row Scans</strong></td>
+<td>🐌 (wasted I/O)</td>
+<td>🐌 (N files)</td>
+</tr>
+<tr>
+<td><strong>Column Scans</strong></td>
+<td>🐌 (wasted I/O)</td>
+<td>⚡⚡⚡ (targeted)</td>
+</tr>
+<tr>
+<td><strong>Compression</strong></td>
+<td>⚡ (limited)</td>
+<td>⚡⚡⚡ (excellent)</td>
+</tr>
+<tr>
+<td><strong>Inserts</strong></td>
+<td>⚡⚡⚡ (single write)</td>
+<td>🐌 (N writes)</td>
+</tr>
+<tr>
+<td><strong>Updates</strong></td>
+<td>⚡⚡ (single write)</td>
+<td>🐌 (N writes)</td>
+</tr>
+<tr>
+<td><strong>Best For</strong></td>
+<td><strong>OLTP</strong> (Transactions)</td>
+<td><strong>OLAP</strong> (Analytics)</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Key insight</p>
+<ul>
+<li><strong>OLTP:</strong> "Give me order #12345" → Need entire row → Use row storage</li>
+<li><strong>OLAP:</strong> "Show revenue by category" → Need specific columns → Use column storage</li>
+</ul>
+</div>
+<hr/>
+<h2 id="compression-the-hidden-superpower-of-column-stores">Compression: The Hidden Superpower of Column Stores<a class="headerlink" href="#compression-the-hidden-superpower-of-column-stores" title="Permanent link">¶</a></h2>
+<p><strong>Why column stores compress better:</strong></p>
+<pre class="highlight"><code>Row-oriented (mixed data types per row):
+┌────────────────────────────────────────────┐
+│ [1, "Alice", "a@x.com", 30, "NYC", 100000] │
+│ [2, "Bob", "b@x.com", 25, "SF", 120000]    │
+│ [3, "Carol", "c@x.com", 35, "LA", 90000]   │
+└────────────────────────────────────────────┘
+Hard to compress: Different data types, no patterns
+
+Column-oriented (homogeneous data):
+┌────────────────────┐
+│ id:     [1,2,3,4,5,6,7,8,9,10,...]        │ ← Sequential integers
+│ city:   ["NYC","NYC","SF","SF","LA",...]  │ ← Many duplicates
+│ salary: [100000,120000,90000,95000,...]   │ ← Similar ranges
+└────────────────────┘
+Easy to compress: Patterns, repetition, similar types</code></pre>
+<h3 id="compression-techniques-for-columns">Compression Techniques for Columns<a class="headerlink" href="#compression-techniques-for-columns" title="Permanent link">¶</a></h3>
+<p><strong>1. Run-Length Encoding (RLE)</strong> - Great for sorted/repeated values</p>
+<pre class="highlight"><code>Before: ["NYC", "NYC", "NYC", "SF", "SF", "LA", "LA", "LA", "LA"]
+After:  [(NYC, 3), (SF, 2), (LA, 4)]
+
+Space saved: 9 strings → 3 tuples = 67% reduction</code></pre>
+<p><strong>2. Dictionary Encoding</strong> - Great for low-cardinality columns</p>
+<pre class="highlight"><code>Before: ["NYC", "SF", "NYC", "LA", "NYC", "SF"]
+Dictionary: {0: "NYC", 1: "SF", 2: "LA"}
+After: [0, 1, 0, 2, 0, 1]
+
+Space saved: 6 strings (18 bytes) → 6 integers (24 bits) = 87% reduction</code></pre>
+<p><strong>3. Delta Encoding</strong> - Great for sequential/timestamp columns</p>
+<pre class="highlight"><code>Before: [1000, 1001, 1002, 1003, 1004, 1005]
+Base: 1000
+After: [0, 1, 1, 1, 1, 1]  (store differences)
+
+Space saved: 6 ints (24 bytes) → 1 int + 5 bytes (9 bytes) = 62% reduction</code></pre>
+<div class="admonition tip">
+<p class="admonition-title">Real-world compression impact</p>
+<p>1 billion rows, 10 columns with row storage (uncompressed) ≈ 200 GB. The same dataset in a column store with dictionary and delta encoding typically compresses to ~50 GB — a 75% reduction that directly translates to cheaper storage and faster network transfers.</p>
+</div>
+<hr/>
+<h2 id="case-studies-row-vs-column-storage-in-the-wild">Case Studies: Row vs. Column Storage in the Wild<a class="headerlink" href="#case-studies-row-vs-column-storage-in-the-wild" title="Permanent link">¶</a></h2>
+<h3 id="postgresql-mysql-the-row-oriented-champions">PostgreSQL &amp; MySQL: The Row-Oriented Champions<a class="headerlink" href="#postgresql-mysql-the-row-oriented-champions" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> Row-Oriented Storage.</li>
+<li><strong>How it works:</strong> In databases like PostgreSQL and MySQL (with InnoDB), all the values for a single row (<code>id</code>, <code>name</code>,
+  <code>email</code>, <code>city</code>, <code>salary</code>) are stored contiguously on disk.</li>
+<li><strong>Use Case:</strong> This is ideal for <strong>OLTP (Online Transaction Processing)</strong> workloads. When you query
+  <code>SELECT * FROM users WHERE id = 123</code>, the database performs a single read to fetch the entire user record, which is
+  highly efficient. Creating or updating a user is also a single write operation.</li>
+<li><strong>Key Takeaway:</strong> For applications where you primarily work with entire records at a time (e.g., e-commerce backends,
+  content management systems, user account services), row-oriented storage provides the best performance for read,
+  write, and update operations.</li>
+</ul>
+<h3 id="amazon-redshift-google-bigquery-columnar-for-analytics">Amazon Redshift &amp; Google BigQuery: Columnar for Analytics<a class="headerlink" href="#amazon-redshift-google-bigquery-columnar-for-analytics" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> Column-Oriented Storage.</li>
+<li><strong>How it works:</strong> Data warehouses like Redshift, BigQuery, and Snowflake store data in columns. All <code>user_id</code> values
+  are stored together, all <code>city</code> values are stored together, and so on.</li>
+<li><strong>Use Case:</strong> This is built for <strong>OLAP (Online Analytical Processing)</strong>. When an analyst runs a query like
+  <code>SELECT city, AVG(salary) FROM users GROUP BY city</code>, the database only needs to read the <code>city</code> and <code>salary</code> columns.
+  It completely ignores the <code>id</code>, <code>name</code>, and <code>email</code> columns, drastically reducing the amount of data read from disk.</li>
+<li><strong>Key Takeaway:</strong> Columnar storage provides orders-of-magnitude performance improvements for analytical queries that
+  aggregate over a small subset of columns in a large dataset. The high compression ratios achieved also lead to
+  significant cost savings.</li>
+</ul>
+<h3 id="clickhouse-high-performance-real-time-analytics">ClickHouse: High-Performance Real-Time Analytics<a class="headerlink" href="#clickhouse-high-performance-real-time-analytics" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> Column-Oriented Storage.</li>
+<li><strong>How it works:</strong> ClickHouse is an open-source columnar database designed for extreme speed on analytical queries. It
+  not only uses columnar storage but also processes data in vectors using a vectorized query execution engine to
+  maximize CPU efficiency.</li>
+<li><strong>Key Takeaway:</strong> For use cases like real-time dashboards, log analysis, and telemetry monitoring, where you need to
+  slice and dice massive datasets interactively, a performance-focused columnar database like ClickHouse is the optimal
+  choice. It demonstrates that the benefits of columnar storage go beyond just I/O reduction to include computational
+  efficiency.</li>
+</ul>
+<hr/>
+<h2 id="common-misconceptions">Common Misconceptions<a class="headerlink" href="#common-misconceptions" title="Permanent link">¶</a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Column stores are always better for analytics</p>
+<p>Column stores win for queries that touch a small fraction of columns. If your analytics query selects nearly every column (e.g., <code>SELECT *</code> with a WHERE filter), row storage may outperform column storage because the column store must still make one disk seek per column. The gain comes from column <em>pruning</em>, not from columnar layout alone.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Row stores cannot compress data</p>
+<p>Row stores can use general-purpose compression (gzip, LZ4) on pages or blocks. What they cannot do efficiently is apply column-specific compression algorithms like dictionary encoding or RLE, because each disk page contains mixed data types from many columns. Column stores win on compression <em>ratio</em>, not on whether compression is possible.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">You must choose one layout for the entire database</p>
+<p>Modern systems like PostgreSQL (with <code>citus</code> columnar extension), TimescaleDB, and Apache Kudu support hybrid layouts. OLTP tables can be row-oriented while analytical tables in the same cluster use columnar storage. The choice is per-table (or even per-partition), not per-database.</p>
+</div>
+<hr/>
+<h2 id="decision-framework">Decision Framework<a class="headerlink" href="#decision-framework" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Build decision trees for when to use each storage layout.</p>
+<h3 id="question-1-oltp-or-olap-workload">Question 1: OLTP or OLAP Workload?<a class="headerlink" href="#question-1-oltp-or-olap-workload" title="Permanent link">¶</a></h3>
+<p>Answer after implementing and benchmarking:</p>
+<ul>
+<li><strong>My workload type:</strong> <span class="fill-in">OLTP for transactional apps (point lookups, inserts), OLAP for analytics (aggregations over large datasets)</span></li>
+<li><strong>Why does this matter?</strong> <span class="fill-in">The access pattern determines where you pay the cost — row stores waste I/O on analytics queries, column stores waste I/O on inserts</span></li>
+<li><strong>Performance difference I observed:</strong> <span class="fill-in">Column scans (avgSalary) were ~2× faster on the column store; point lookups were orders of magnitude faster on the row store</span></li>
+</ul>
+<h3 id="question-2-query-patterns">Question 2: Query Patterns<a class="headerlink" href="#question-2-query-patterns" title="Permanent link">¶</a></h3>
+<p>Answer:</p>
+<ul>
+<li><strong>Do I need full rows?</strong> <span class="fill-in">Yes for OLTP — fetching a user, order, or record always needs all fields</span></li>
+<li><strong>Do I need selective columns?</strong> <span class="fill-in">Yes for analytics — aggregations typically touch 2–5 columns out of 20–100</span></li>
+<li><strong>Which is faster for my queries?</strong> <span class="fill-in">Row store for point lookups; column store for aggregations over large datasets</span></li>
+</ul>
+<h3 id="question-3-data-volume-and-compression">Question 3: Data Volume and Compression<a class="headerlink" href="#question-3-data-volume-and-compression" title="Permanent link">¶</a></h3>
+<p>Answer:</p>
+<ul>
+<li><strong>Table size:</strong> <span class="fill-in">Column store advantage grows with table size — below ~1M rows either works; above 100M rows the I/O savings are dramatic</span></li>
+<li><strong>Column cardinality:</strong> <span class="fill-in">Low cardinality (city, status, event_type) compresses extremely well with dictionary encoding; high cardinality (email, UUID) compresses less</span></li>
+<li><strong>Compression benefits observed:</strong> <span class="fill-in">City (5 unique values across 100k rows) is a textbook dictionary encoding candidate — 1M strings down to 1M small integers plus a 5-entry lookup table</span></li>
+</ul>
+<h3 id="your-decision-tree">Your Decision Tree<a class="headerlink" href="#your-decision-tree" title="Permanent link">¶</a></h3>
+<p>Build this after understanding trade-offs:</p>
+<div class="mermaid">flowchart LR
+    Start["Storage Layout Selection"]
+
+    Start --&gt; Q1{"What's the primary&lt;br/&gt;workload?"}
+    Q1 --&gt;|"OLTP&lt;br/&gt;(Transactions)"| Q2{"Query pattern?"}
+    Q1 --&gt;|"OLAP&lt;br/&gt;(Analytics)"| Q3{"Data volume?"}
+
+    Q2 --&gt;|"Point lookups&lt;br/&gt;(by key)"| A1(["Use Row Storage ✓"])
+    Q2 --&gt;|"Full row scans"| A2(["Use Row Storage ✓"])
+    Q2 --&gt;|"Few columns&lt;br/&gt;from many rows"| Q3
+
+    Q3 --&gt;|"&lt; 1M rows"| A3["Either works&lt;br/&gt;(test both)"]
+    Q3 --&gt;|"&gt; 1M rows"| Q4{"How many columns&lt;br/&gt;accessed?"}
+
+    Q4 --&gt;|"Most/All columns"| A4["Row Storage&lt;br/&gt;(less overhead)"]
+    Q4 --&gt;|"Few columns&lt;br/&gt;(&lt; 20%)"| A5(["Use Column Storage ✓"])
+
+    A3 --&gt; A6["Benchmark with&lt;br/&gt;real queries"]</div>
+</div>
+<hr/>
+<h2 id="practice">Practice<a class="headerlink" href="#practice" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<h3 id="scenario-1-e-commerce-order-table">Scenario 1: E-Commerce Order Table<a class="headerlink" href="#scenario-1-e-commerce-order-table" title="Permanent link">¶</a></h3>
+<p>Design storage for this table:</p>
+<pre class="highlight"><code class="language-sql">CREATE TABLE orders (
+    id BIGINT PRIMARY KEY,
+    user_id BIGINT,
+    product_id BIGINT,
+    quantity INT,
+    total_price DECIMAL,
+    created_at TIMESTAMP
+);</code></pre>
+<p><strong>Queries:</strong></p>
+<ul>
+<li>Q1: Get order details by order ID</li>
+<li>Q2: Total revenue per product for last 30 days</li>
+<li>Q3: Insert new orders (5,000 orders/sec)</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<p>Storage layout choice: <span class="fill-in">Row store for OLTP; separate columnar warehouse for the revenue analytics query</span></p>
+<p>Reasoning:</p>
+<ul>
+<li>Write volume: <span class="fill-in">5,000 inserts/sec is high — row store handles this with single-write appends; a column store writes to 6 separate files per insert</span></li>
+<li>Read patterns: <span class="fill-in">Q1 (order by ID) is a point lookup — row store is O(1). Q2 (revenue per product) is a multi-row aggregation — better served by a columnar store fed via ETL</span></li>
+<li>Your choice: <span class="fill-in">Row store (PostgreSQL) as primary; feed analytics to a columnar warehouse (Redshift/BigQuery) with acceptable replication lag</span></li>
+</ul>
+<p><strong>Failure modes:</strong></p>
+<ul>
+<li>What happens if the row storage node serving order lookups becomes unavailable when 5,000 orders/sec are being inserted? <span class="fill-in">Inserts queue or fail and orders are lost without replication failover. A multi-AZ replica or write-ahead log replay is needed; otherwise the single node is a hard dependency for every order.</span></li>
+<li>How does your design behave when an analytics query (<code>total revenue per product</code>) runs concurrently with high-throughput inserts and causes lock contention on the orders table? <span class="fill-in">The analytics query holds shared locks that delay inserts, degrading order throughput. Fix: route analytics to a read replica, use MVCC snapshot isolation, or offload analytics entirely to a separate columnar store so OLTP and OLAP never compete for the same locks.</span></li>
+</ul>
+<h3 id="scenario-2-analytics-event-table">Scenario 2: Analytics Event Table<a class="headerlink" href="#scenario-2-analytics-event-table" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-sql">CREATE TABLE events (
+    event_id BIGINT,
+    user_id BIGINT,
+    event_type VARCHAR(50),
+    timestamp TIMESTAMP,
+    page VARCHAR(100),
+    session_id VARCHAR(50)
+);</code></pre>
+<p><strong>Access patterns:</strong></p>
+<ul>
+<li>Writes: 10M events/day</li>
+<li>Reads: Daily aggregation queries over weeks of data</li>
+<li>Common query: <code>SELECT event_type, COUNT(*) FROM events WHERE timestamp &gt; ? GROUP BY event_type</code></li>
+</ul>
+<p><strong>Your design:</strong></p>
+<p>Storage layout: <span class="fill-in">Column store (ClickHouse, Druid, or BigQuery)</span></p>
+<p>Why?</p>
+<ol>
+<li><span class="fill-in">Writes are append-only bulk events (10M/day ≈ 115/sec) — column stores buffer inserts before flushing to column files, keeping write amplification manageable at this rate</span></li>
+<li><span class="fill-in">Reads are aggregations over weeks of data touching only event_type, timestamp, and COUNT(*) — the query skips user_id, page, and session_id entirely, the exact I/O reduction column stores are built for</span></li>
+<li><span class="fill-in">event_type is low-cardinality (10–50 distinct values) — ideal for dictionary encoding. timestamp is sequential — delta encoding compresses it to tiny deltas. session_id repeats heavily per session — RLE applies.</span></li>
+</ol>
+<p><strong>Failure modes:</strong></p>
+<ul>
+<li>What happens if the column storage node becomes unavailable mid-way through a nightly aggregation query over weeks of event data? <span class="fill-in">The query fails and must restart from scratch — no partial results are saved. Mitigate with distributed execution across multiple nodes, or partition by day so only the failed partition needs rerunning.</span></li>
+<li>How does your design behave when the daily write volume spikes to 100M events and column file compaction cannot keep up with the ingestion rate? <span class="fill-in">Uncompacted small files accumulate, read performance degrades as queries must merge many files, and I/O becomes the bottleneck. Mitigate by buffering ingestion through a message queue (Kafka) and tuning compaction parallelism to handle spikes.</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="test-your-understanding">Test Your Understanding<a class="headerlink" href="#test-your-understanding" title="Permanent link">¶</a></h2>
+<p>Answer these without referring to your notes or implementation.</p>
+<ol>
+<li>
+<p>A query reads only 2 out of 50 columns across 10 million rows. Explain quantitatively why column storage outperforms row storage for this query.</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) row storage must read the full row width (50 columns × row size) for all 10M rows, wasting 96% of I/O on unused columns, (2) column storage reads only the 2 needed column files, reducing I/O by approximately 50×, and (3) column files also compress better (homogeneous data), further amplifying the advantage.</p>
+</details>
+</li>
+<li>
+<p>Why does inserting a single row require writing to more locations in a column store than in a row store? What is the consequence at high insert throughput?</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) a column store must append the new value to each separate column file (N writes for N columns vs. 1 write in a row store), (2) this write amplification means more disk seeks and I/O per insert, and (3) at high insert throughput this bottleneck causes latency spikes and higher storage I/O cost, making column stores unsuitable as the primary store for OLTP workloads.</p>
+</details>
+</li>
+<li>
+<p>A team is building a system that must both process individual customer orders in real time AND generate nightly revenue reports. How would you approach the storage layout decision, and what is the key trade-off?</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) OLTP order processing requires row storage for fast point lookups and single-write inserts, (2) nightly analytics require columnar storage for efficient aggregations across millions of rows, and (3) the practical approach is to use separate purpose-built stores — a row-oriented OLTP database for transactions and a columnar data warehouse populated by ETL, accepting the replication lag that entails.</p>
+</details>
+</li>
+<li>
+<p>Dictionary encoding reduces a <code>city</code> column of 1 million strings to integers. Why is this compression technique only practical for column stores and not for row stores?</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) dictionary encoding requires all values of a column to share the same dictionary, which is natural when a column's values are stored contiguously, (2) in a row store, city values are scattered across heterogeneous row pages with other data types, making it impractical to build and maintain a shared dictionary across all pages, and (3) the decompression overhead for random row-level access in a row store would negate any space savings.</p>
+</details>
+</li>
+<li>
+<p>A colleague says "We migrated to a columnar database and our dashboard queries are 50x faster, so we should use it for our transactional order-processing system too." What is wrong with this reasoning?</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) the 50× speedup applies to column-scan analytics, not to point lookups or single-row operations which are the dominant pattern in transactional systems, (2) inserting an order in a columnar store requires writing to every column file, making write throughput significantly worse than a row store, and (3) columnar databases typically lack row-level locking and ACID transaction support at the granularity required for order processing.</p>
+</details>
+</li>
+</ol>
+<hr/>
+<details>
+<summary>Appendix: Real-World Technology Reference</summary>
+<h3 id="when-to-use-row-storage">When to Use Row Storage<a class="headerlink" href="#when-to-use-row-storage" title="Permanent link">¶</a></h3>
+<p><strong>Use row storage when:</strong></p>
+<ul>
+<li>✅ <strong>Point lookups by key</strong> ("Get user #12345")</li>
+<li>✅ <strong>Insert/update full records</strong> (OLTP transactions)</li>
+<li>✅ <strong>Need full row access</strong> (most queries touch all columns)</li>
+<li>✅ <strong>Small table scans</strong> (&lt; 100k rows)</li>
+</ul>
+<p><strong>Real-world examples:</strong></p>
+<ul>
+<li>E-commerce order processing → MySQL InnoDB, PostgreSQL</li>
+<li>User authentication/sessions → PostgreSQL, MongoDB</li>
+<li>Banking transactions → Oracle, SQL Server</li>
+<li>Social media user profiles → MySQL, MongoDB</li>
+</ul>
+<h3 id="when-to-use-column-storage">When to Use Column Storage<a class="headerlink" href="#when-to-use-column-storage" title="Permanent link">¶</a></h3>
+<p><strong>Use column storage when:</strong></p>
+<ul>
+<li>✅ <strong>Aggregate queries</strong> ("AVG salary by department")</li>
+<li>✅ <strong>Selective column access</strong> (only need 2-3 out of 50 columns)</li>
+<li>✅ <strong>Large table scans</strong> (millions+ rows)</li>
+<li>✅ <strong>Read-heavy analytics</strong> (dashboards, reports)</li>
+<li>✅ <strong>Time-series data</strong> (metrics, logs, events)</li>
+</ul>
+<p><strong>Real-world examples:</strong></p>
+<ul>
+<li>Business intelligence dashboards → ClickHouse, Redshift</li>
+<li>Data warehouse analytics → Snowflake, BigQuery</li>
+<li>Log analysis → ClickHouse, Druid</li>
+<li>Metrics/monitoring → Prometheus, InfluxDB</li>
+<li>Machine learning feature stores → Parquet files</li>
+</ul>
+<h3 id="database-examples">Database Examples<a class="headerlink" href="#database-examples" title="Permanent link">¶</a></h3>
+<p><strong>Row-Oriented:</strong></p>
+<ul>
+<li><strong>MySQL InnoDB</strong> - OLTP transactions</li>
+<li><strong>PostgreSQL</strong> - General-purpose OLTP</li>
+<li><strong>MongoDB</strong> - Document store (row-like)</li>
+<li><strong>Cassandra</strong> - Wide column store (row-oriented within partition)</li>
+</ul>
+<p><strong>Column-Oriented:</strong></p>
+<ul>
+<li><strong>Apache Parquet</strong> - File format for Hadoop/Spark</li>
+<li><strong>ClickHouse</strong> - Real-time analytics</li>
+<li><strong>Amazon Redshift</strong> - Data warehouse</li>
+<li><strong>Google BigQuery</strong> - Serverless data warehouse</li>
+<li><strong>Apache Druid</strong> - Real-time analytics</li>
+<li><strong>Snowflake</strong> - Cloud data warehouse</li>
+</ul>
+<p><strong>Hybrid Approaches:</strong></p>
+<ul>
+<li><strong>Apache Kudu</strong> - Supports both row and column scans</li>
+<li><strong>InfluxDB</strong> - Time-series with column-like storage</li>
+<li><strong>TimescaleDB</strong> - PostgreSQL extension with columnar compression</li>
+</ul>
+</details>
+<hr/>
+<h2 id="connected-topics">Connected Topics<a class="headerlink" href="#connected-topics" title="Permanent link">¶</a></h2>
+<div class="admonition info">
+<p class="admonition-title">Where this topic connects</p>
+<ul>
+<li><strong>01. Storage Engines</strong> — row and columnar formats are implemented on top of a storage engine; engine choice affects compression and write amplification trade-offs → <a href="../01-storage-engines/">01. Storage Engines</a></li>
+<li><strong>04. Search &amp; Indexing</strong> — inverted indexes use columnar-like techniques; columnar storage is the physical foundation for analytical query engines → <a href="../04-search-and-indexing/">04. Search &amp; Indexing</a></li>
+</ul>
+</div></div>
+</div>
+<footer class="col-md-12 text-center">
+<hr/>
+<p>
+<small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+</p>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../../js/bootstrap-3.0.3.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>var base_url = "../.."</script>
+<script src="../../js/base.js"></script>
+<script src="../../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<button class="close" data-dismiss="modal" type="button">
+<span aria-hidden="true">×</span>
+<span class="sr-only">Close</span>
+</button>
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+</div>
+<div class="modal-body">
+<p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="text"/>
+</div>
+</form>
+<div id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@10.4.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>
