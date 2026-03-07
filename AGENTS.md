@@ -10,7 +10,7 @@ Context for Claude Code sessions working in this repository.
 
 - Site name: "Software Engineering Study Guide"
 - Author: Richard
-- Deployed to GitHub Pages via GitHub Actions on push to `main`
+- Deployed to GitHub Pages via GitHub Actions on push to `rpn` branch (see `.github/workflows/deploy.yml`)
 
 ---
 
@@ -41,8 +41,44 @@ Every topic file follows this section pattern:
 
 Topics live in two sections:
 
-- `docs/systems/` — 16 topics: storage engines, networking, caching, API design, security, rate limiting, load balancing, concurrency, database scaling, message queues, stream processing, observability, distributed transactions, consensus
-- `docs/dsa/` — 14 topics: two pointers, sliding window, hash tables, linked lists, stacks & queues, trees (traversals + recursion), binary search, heaps, graphs, union-find, advanced graphs, dynamic programming, prefix sums, intervals
+- `docs/systems/` — 20 topics (files `01`–`20`):
+  - `01-storage-engines.md` — B+Tree, LSM Tree *(canonical styling example)*
+  - `02-row-vs-column-storage.md` — OLTP vs OLAP, columnar formats
+  - `03-networking-fundamentals.md` — TCP/UDP, HTTP, WebSockets, DNS, TLS
+  - `04-search-and-indexing.md` — Inverted indexes, full-text search
+  - `05-caching-patterns.md` — LRU, LFU, cache-aside, write-through
+  - `06-api-design.md` — REST, versioning, pagination
+  - `07-security-patterns.md` — JWT, RBAC, API keys
+  - `08-rate-limiting.md` — Token bucket, sliding window
+  - `09-load-balancing.md` — Consistent hashing, health checks
+  - `10-concurrency-patterns.md` — Locks, producer-consumer, thread safety
+  - `11-database-scaling.md` — Replication, sharding, partitioning
+  - `12-message-queues.md` — Queue vs pub/sub, delivery guarantees
+  - `13-event-sourcing-cqrs.md` — Append-only event log, projections
+  - `14-stream-processing.md` — Windowing patterns, real-time aggregation
+  - `15-observability.md` — Metrics, logging, tracing, SLOs
+  - `16-resilience-patterns.md` — Circuit breaker, bulkhead, retry/backoff
+  - `17-distributed-transactions.md` — Saga pattern, idempotency
+  - `18-consensus-patterns.md` — Raft, leader election, distributed locks
+  - `19-microservices-patterns.md` — API gateway, service discovery
+  - `20-multi-region.md` — Active-active/passive, conflict resolution
+
+- `docs/dsa/` — 15 topics (files `01`–`15`):
+  - `01-two-pointers.md` — Opposite directions, same direction, fast/slow
+  - `02-sliding-window.md` — Fixed/variable window subarray problems
+  - `03-hash-tables.md` — Lookups, grouping, frequency counting
+  - `04-linked-lists.md` — Reversal, cycle detection
+  - `05-stacks--queues.md` — LIFO/FIFO, monotonic stacks, deque
+  - `06-trees.md` — Inorder/preorder/postorder/BFS, recursion
+  - `07-binary-search.md` — Classic, rotated arrays, 2D matrices
+  - `08-heaps.md` — Priority queues, top-K, Dijkstra prep
+  - `09-union-find.md` — Disjoint sets, dynamic connectivity, Kruskal's MST
+  - `10-graphs.md` — DFS/BFS, cycle detection, connected components
+  - `11-advanced-graphs.md` — Topological sort, Dijkstra, MST
+  - `12-backtracking.md` — Subsets, combinations, permutations
+  - `13-dynamic-programming.md` — Fibonacci, house robber, coin change
+  - `14-prefix-sums.md` — Range queries, subarray sum, 2D prefix sum
+  - `15-intervals.md` — Merge, insert, meeting rooms, greedy removal
 
 ---
 
@@ -65,6 +101,7 @@ Learner-fillable content uses specific CSS classes defined in `docs/css/custom.c
 | `.learner-section` | Wraps entire fill-in sections | Yellow/orange background |
 | `.fill-in` | Inline blank prompts | Bold orange text |
 | `.benchmark-table` | Tables for recording results | Yellow-bordered |
+| `.benchmark-table .blank` | Individual blank cells in benchmark tables | Bold orange text, light bg |
 | `.learner-prompt` | Individual list item prompts | Yellow background |
 | `.code-reference` | Reference/example code | Gray background |
 
@@ -165,6 +202,33 @@ At natural pause points, offer: *"I noticed [X pattern]. Should I add this to AG
 
 ---
 
+## Java Source Structure
+
+All Java lives under `src/main/java/com/study/`. No test files exist yet (JUnit 5 is configured but unused). Base package: `com.study`.
+
+```
+src/main/java/com/study/
+├── dsa/
+│   └── twopointers/
+│       ├── DifferentSpeedPointers.java   # Cycle detection, meeting point
+│       ├── OppositeDirectionPointers.java # Two-sum, palindrome, max water
+│       └── SameDirectionPointers.java    # Remove duplicates, rotate, move zeros
+└── systems/
+    ├── columnstorage/
+    │   ├── ColumnStore.java              # Column-oriented (OLAP) implementation
+    │   ├── RowStore.java                 # Row-oriented (OLTP) implementation
+    │   └── StorageLayoutBenchmark.java   # Row vs column performance comparison
+    └── storage/
+        ├── BPlusTree.java                # Self-balancing tree, range queries
+        ├── DiskSimulator.java            # Simulates disk I/O latency
+        ├── LSMTree.java                  # Log-Structured Merge tree
+        └── StorageBenchmark.java         # B+Tree vs LSM performance comparison
+```
+
+When adding a new systems topic with Java examples, create a new package under `com.study.systems.<topicname>` matching the docs file number (e.g. `com.study.systems.ratelimiting`).
+
+---
+
 ## Editing Conventions (Learned from Past Sessions)
 
 ### Large section deletions — use Python, not Edit
@@ -191,9 +255,13 @@ new_content = content[:start_idx] + content[end_idx:]
 
 Each implementation pattern may end with a `public class XClient { public static void main(String[] args) {...} }` test harness. These are **not learner content** — they just exercise the TODO stubs. When trimming a file for length, always remove these first (typical savings: 60–100 lines per pattern).
 
-### Case Studies sections — always preserve
+### High-value sections — always preserve
 
-User explicitly wants all `## Case Studies:` sections kept in every file. Never remove or shorten them, even when cutting for length.
+Two section types carry significant editorial value and must never be removed or shortened, even when trimming a file for length:
+
+**`## Case Studies: … in the Wild`** (bottom of systems files, `## Case Studies` in DSA files) — real-world examples grounding the theory. Pattern: `## Case Studies: X in the Wild`.
+
+**`!!! warning "Operational reality"`** (admonition block near top of file, after front matter) — production gotchas and failure modes not covered in interview prep. These appear in ~10 systems files and are uniquely hard to reconstruct.
 
 ### After "file has been modified since read" error — re-read before editing
 
