@@ -15,41 +15,67 @@ public class DifferentSpeedPointers {
     /**
      * Problem: Detect cycle in linked list
      * Time: O(n), Space: O(1)
-     *
-     * TODO: Implement using slow/fast pointers
      */
     public static boolean hasCycle(ListNode head) {
-        // TODO: Move pointers at different speeds
-        // What happens when they meet?
+        if (head == null) return false;
 
-        return false; // Replace with implementation
+        ListNode slow = head;
+        ListNode fast = head;
+
+        while (fast != null) {
+            slow = slow.next;
+            fast = fast.next;
+            if (fast != null) {
+                fast = fast.next;
+            }
+            if (slow == fast) return true;
+        }
+
+        return false;
     }
 
     /**
      * Problem: Find middle of linked list
      * If even length, return second middle node
      * Time: O(n), Space: O(1)
-     *
-     * TODO: Implement using slow/fast pointers
      */
     public static ListNode findMiddle(ListNode head) {
-        // TODO: Use different pointer speeds
-        // Where is the slow pointer when fast reaches the end?
+        // this handles the "rounding up" behavior
+        ListNode sentinel = new ListNode(-1);
+        sentinel.next = head;
 
-        return null; // Replace with implementation
+        ListNode slow = sentinel;
+        ListNode fast = sentinel;
+
+        while (fast != null) {
+            slow = slow.next;
+            fast = fast.next;
+            if (fast != null) {
+                fast = fast.next;
+            }
+        }
+        return slow ;
     }
 
     /**
      * Problem: Find kth node from end
      * Time: O(n), Space: O(1)
-     *
-     * TODO: Implement using two pointers with gap
      */
     public static ListNode findKthFromEnd(ListNode head, int k) {
-        // TODO: Create a fixed gap between pointers
-        // When one reaches the end, where is the other?
+        if (head == null) throw new IllegalArgumentException();
+        if (k <= 0) throw new IllegalArgumentException();
 
-        return null; // Replace with implementation
+        ListNode boat = head;
+        for (int i = 0; i <= k; i++) {
+            boat = boat.next;
+        }
+
+        ListNode waterskiier = head;
+        while (boat != null) {
+            boat = boat.next;
+            waterskiier = waterskiier.next;
+        }
+        return waterskiier;
     }
 
     // Helper: Create linked list from array

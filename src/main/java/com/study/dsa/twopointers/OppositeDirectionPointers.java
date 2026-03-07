@@ -5,37 +5,55 @@ public class OppositeDirectionPointers {
     /**
      * Problem: Check if string is a palindrome
      * Time: O(n), Space: O(1)
-     *
-     * TODO: Implement using two pointers from opposite ends
      */
     public static boolean isPalindrome(String s) {
-        // TODO: Use two pointers moving towards each other
-        // Consider the loop termination condition
-
-        return false; // Replace with implementation
+        int l = 0;
+        int r = s.length() - 1;
+        while (l < r) {
+            if (s.charAt(l) != s.charAt(r)) {
+                return false;
+            }
+            l++;
+            r--;
+        }
+        return true; // Replace with implementation
     }
 
     /**
      * Problem: Find pair in sorted array that sums to target
      * Time: O(n), Space: O(1)
-     *
-     * TODO: Implement two-pointer pair sum
+     * <p>
      */
     public static int[] twoSum(int[] nums, int target) {
-        // TODO: Start pointers at opposite ends
-        // How should pointers move based on current sum vs target?
-
-        return new int[] {-1, -1}; // Replace with implementation
+        int l = 0;
+        int r = nums.length - 1;
+        while (l < r) {
+            int sum = nums[l] + nums[r];
+            if (sum == target) {
+                return new int[]{l, r};
+            } else if (sum < target) {
+                l++;
+            } else {
+                r--;
+            }
+        }
+        throw new IllegalArgumentException("No two sum solution");
     }
 
     /**
      * Problem: Reverse array in-place
      * Time: O(n), Space: O(1)
-     *
-     * TODO: Implement using two pointers
+     * <p>
      */
     public static void reverseArray(int[] arr) {
-        // TODO: Use two pointers to swap elements
-        // What positions should they start at?
+        int l = 0;
+        int r = arr.length - 1;
+        while (l < r) {
+            int tmp = arr[l];
+            arr[l] = arr[r];
+            arr[r] = tmp;
+            l++;
+            r--;
+        }
     }
 }

@@ -2,9 +2,11 @@ package com.study.systems.storage;
 
 import java.util.*;
 
+import static java.util.Comparator.comparingLong;
+
 /**
  * LSM Tree: Log-Structured Merge Tree optimized for writes
- *
+ * <p>
  * Architecture:
  * - Writes go to in-memory MemTable (sorted)
  * - When MemTable full, flush to SSTable (immutable file)
@@ -23,11 +25,11 @@ public class LSMTree<K extends Comparable<K>, V> {
      * Here: simplified in-memory representation
      */
     static class SSTable<K extends Comparable<K>, V> {
-        private final TreeMap<K, V> data;
+        private final SortedMap<K, V> data;
         private final long timestamp; // When created (for ordering)
 
-        SSTable(TreeMap<K, V> data) {
-            this.data = new TreeMap<>(data); // Copy
+        SSTable(SortedMap<K, V> data) {
+            this.data = Collections.unmodifiableSortedMap(new TreeMap<>(data));
             this.timestamp = System.currentTimeMillis();
         }
 
@@ -57,22 +59,39 @@ public class LSMTree<K extends Comparable<K>, V> {
     /**
      * Insert/Update key-value pair
      * Time: O(log M) where M = memTable size
-     *
-     * TODO: Implement write logic
+     * <p>
+     * 1. Insert into MemTable
+     * 2. If MemTable full, flush to SSTable
      */
     public void put(K key, V value) {
-        // TODO: Add to in-memory sorted structure
-        // Flush to disk when threshold is reached
+        memTable.put(key, value);
+
+        if (memTable.size() > memTableSize) {
+            flush();
+        }
     }
 
     /**
      * Retrieve value for key
      * Time: O(log M + N*log S) where N = number of SSTables, S = SSTable size
-     *
-     * TODO: Implement read logic
+     * <p>
+     * 1. Check MemTable first (most recent)
+     * 2. Check SSTables in reverse order (newest first)
+     * 3. Return first match
      */
     public V get(K key) {
-        // TODO: Check memory first, then SSTables in order
+        // Check memTable first
+        if (memTable.containsKey(key)) {
+            return memTable.get(key);
+        }
+
+        // Check SSTables from newest to oldest
+        for (int i = sstables.size() - 1; i >= 0; i--) {
+            SSTable<K, V> table = sstables.get(i);
+            if (table.containsKey(key)) {
+                return table.get(key);
+            }
+        }
 
         return null; // Not found
     }
@@ -81,8 +100,8 @@ public class LSMTree<K extends Comparable<K>, V> {
      * Flush MemTable to SSTable (simulate disk write)
      */
     private void flush() {
-        // TODO: Create immutable SSTable from current MemTable
-        // Clear MemTable for new writes
+        sstables.add(new SSTable<>(memTable));
+        memTable.clear();
 
         System.out.println("Flushed MemTable to SSTable. Total SSTables: " + sstables.size());
     }
@@ -90,18 +109,29 @@ public class LSMTree<K extends Comparable<K>, V> {
     /**
      * Compact SSTables: Merge multiple tables, remove duplicates
      * Time: O(N * S * log S) where N = tables, S = size
-     *
-     * TODO: Implement compaction
+     * <p>
+     * 1. Merge all SSTables
+     * 2. For duplicate keys, keep newest value
+     * 3. Create new compacted SSTable
      */
     public void compact() {
-        if (sstables.size() <= 1) {
+        int beforeSize = sstables.size();
+        if (beforeSize <= 1) {
             return; // Nothing to compact
         }
 
-        // TODO: Merge all SSTables, keeping newest values
-        // Replace old SSTables with single compacted one
+        // Iterate through SSTables from oldest to newest
+        // Later values overwrite earlier ones (keep newest)
+        TreeMap<K, V> merged = new TreeMap<>();
+        sstables.stream()
+                .sorted(comparingLong(sst -> sst.timestamp))
+                .forEach(sst -> merged.putAll(sst.data));
 
-        System.out.println("Compacted " + sstables.size() + " SSTables into 1");
+        // Replace old SSTables with compacted one
+        sstables.clear();
+        sstables.add(new SSTable<>(merged));
+
+        System.out.println("Compacted " + beforeSize + " SSTables into 1");
     }
 
     /**

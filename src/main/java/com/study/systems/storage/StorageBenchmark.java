@@ -35,11 +35,11 @@ public class StorageBenchmark {
         long lsmTime = System.nanoTime() - start;
 
         System.out.printf("B+Tree: %.2f ms (%.0f writes/sec)%n",
-            btreeTime/1e6, numWrites/(btreeTime/1e9));
+                btreeTime / 1e6, numWrites / (btreeTime / 1e9));
         System.out.printf("LSM Tree: %.2f ms (%.0f writes/sec)%n",
-            lsmTime/1e6, numWrites/(lsmTime/1e9));
+                lsmTime / 1e6, numWrites / (lsmTime / 1e9));
         System.out.printf("LSM is %.2fx faster for writes%n",
-            (double)btreeTime/lsmTime);
+                (double) btreeTime / lsmTime);
     }
 
     static void benchmarkReads() {
@@ -78,20 +78,48 @@ public class StorageBenchmark {
         long lsmTime = System.nanoTime() - start;
 
         System.out.printf("B+Tree: %.2f ms (%.0f reads/sec)%n",
-            btreeTime/1e6, numReads/(btreeTime/1e9));
+                btreeTime / 1e6, numReads / (btreeTime / 1e9));
         System.out.printf("LSM Tree: %.2f ms (%.0f reads/sec)%n",
-            lsmTime/1e6, numReads/(lsmTime/1e9));
+                lsmTime / 1e6, numReads / (lsmTime / 1e9));
         System.out.printf("B+Tree is %.2fx faster for reads%n",
-            (double)lsmTime/btreeTime);
+                (double) lsmTime / btreeTime);
     }
 
     static void benchmarkMixed() {
         System.out.println("--- Mixed Workload (50% reads, 50% writes) ---");
 
-        // TODO: Implement mixed workload benchmark
-        // Interleave reads and writes
-        // Compare performance
+        int numWrites = 1000;
+        int numReads = 1000;
 
-        System.out.println("TODO: Implement this benchmark");
+        // Benchmark read-writes
+        Random rand = new Random(42);
+
+        BPlusTree<Integer, String> btree = new BPlusTree<>(128);
+        long start = System.nanoTime();
+        for (int i = 0; i < numWrites; i++) {
+            btree.insert(i, "Value" + i);
+        }
+        for (int i = 0; i < numReads; i++) {
+            int key = rand.nextInt(numWrites);
+            btree.search(key);
+        }
+        long btreeTime = System.nanoTime() - start;
+
+        rand = new Random(42); // Same sequence
+        LSMTree<Integer, String> lsm = new LSMTree<>(100);
+        start = System.nanoTime();
+        for (int i = 0; i < numWrites; i++) {
+            lsm.put(i, "Value" + i);
+        }
+        for (int i = 0; i < numReads; i++) {
+            int key = rand.nextInt(numWrites);
+            lsm.get(key);
+        }
+        long lsmTime = System.nanoTime() - start;
+
+        System.out.printf("B+Tree: %.2f ms (%.0f reads/sec, %.0f writes/sec)%n",
+                btreeTime / 1e6, numReads / (btreeTime / 1e9), numWrites / (btreeTime / 1e9));
+        System.out.printf("LSM Tree: %.2f ms (%.0f reads/sec, %.0f writes/sec)%n",
+                lsmTime / 1e6, numReads / (lsmTime / 1e9), numWrites / (lsmTime / 1e9));
     }
 }
