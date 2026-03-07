@@ -510,6 +510,22 @@ public interface SnapshotStore {
 
 ---
 
+## Common Misconceptions
+
+!!! warning "Misconception 1: Event sourcing is just an audit log"
+    The audit log framing has it backwards. In event sourcing the event log **is the source of truth**; the current-state table is a derived materialised view. An audit log is a side effect appended after a mutation. An event store is the primary write target — no mutation ever touches a state row directly. The difference matters when you need to rebuild state after a bug: an audit log can't help you reconstruct correct state because the corrupted row was the truth; an event store lets you fix the projection and replay.
+
+!!! warning "Misconception 2: CQRS requires event sourcing (and vice versa)"
+    They are independent patterns that are often combined because they complement each other, but neither requires the other. CQRS can be applied on top of a plain relational write model: write path updates normalised tables, read path queries denormalised views. Event sourcing can be used without separate read models: the aggregate replays its event stream for every command. The combination is common but not mandatory.
+
+!!! warning "Misconception 3: You can correct a past event by editing it"
+    Events are immutable once written. If an event was appended with incorrect data, the correct approach is to append a compensating event — `OrderCorrected`, `AddressAmended` — that overrides the earlier fact. Editing stored event bytes breaks every replay that was ever run against that stream and violates the audit guarantee. Schema migrations use upcasting (transform at read time) not mutation of stored data.
+
+!!! warning "Misconception 4: Read models (projections) are always up to date"
+    Projections are eventually consistent with the write model. A command that appends events successfully may not be reflected in the read model for milliseconds to seconds, depending on event propagation lag and projection throughput. Callers expecting read-your-own-writes consistency must either read from the write model directly (bypassing CQRS for that operation) or pass the expected version to the query and wait for the projection to catch up.
+
+---
+
 ## Decision Framework
 
 <div class="learner-section" markdown>

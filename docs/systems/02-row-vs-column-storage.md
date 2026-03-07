@@ -4,6 +4,13 @@
 
 ---
 
+## Important notes
+
+- Column stores win for queries that touch a small fraction of columns. If you're doing `SELECT *` you may not improve. The gain comes from column *pruning*, not from columnar layout alone.
+- Postgres (with `citus` columnar extension) supports hybrid layouts. The choice is per-table (or even per-partition), not per-database.
+
+---
+
 ## Learning Objectives
 
 By the end of this topic you will be able to:
@@ -26,26 +33,26 @@ By the end of this topic you will be able to:
 **Prompts to guide you:**
 
 1. **What is row-oriented storage in one sentence?**
-    - Row storage is a layout where <span class="fill-in">[each record's fields are stored ___ on disk, so reading one record requires ___ disk operation(s)]</span>
+    - Row storage is a layout where <span class="fill-in">each record's fields are stored together on disk, so reading one record requires a single disk operation</span>
 
 2. **What is column-oriented storage in one sentence?**
-    - Column storage is a layout where <span class="fill-in">[all values for a single field are stored ___, so analytics queries only need to read ___]</span>
+    - Column storage is a layout where <span class="fill-in">all values for a single field are stored together in one column file, so analytics queries only need to read the columns they use</span>
 
 3. **Real-world analogy for row storage:**
     - Example: "Row storage is like filing cabinets where each drawer contains one person's complete file..."
     - Think about how a HR department keeps employee folders — everything about one person in one place.
-    - Your analogy: <span class="fill-in">[Fill in]</span>
+    - Your analogy: <span class="fill-in">Row storage is like a filing cabinet where each drawer holds one employee’s complete folder — name, salary, reviews, benefits all together. One pull of the drawer and you have everything.</span>
 
 4. **Real-world analogy for column storage:**
     - Example: "Column storage is like having separate filing cabinets for each attribute..."
     - Think about how a payroll department might keep one binder of just salaries, another of just departments.
-    - Your analogy: <span class="fill-in">[Fill in]</span>
+    - Your analogy: <span class="fill-in">Column storage is like having a separate binder per attribute — one binder of just salaries, one of just cities. The payroll team grabs only the salary binder without touching anything else.</span>
 
 5. **When would you use row storage?**
-    - Row storage is preferred when ___ because it avoids the cost of <span class="fill-in">[___ separate reads just to reconstruct one ___]</span>
+    - Row storage is preferred when you need to read or write complete individual records, because it avoids the cost of <span class="fill-in">N separate column reads just to reconstruct one row</span>
 
 6. **When would you use column storage?**
-    - Column storage is preferred when ___ because it avoids the cost of <span class="fill-in">[reading ___ bytes of unneeded columns just to aggregate one ___]</span>
+    - Column storage is preferred when you run aggregations over millions of rows but only need a few columns, because it avoids the cost of <span class="fill-in">reading hundreds of bytes of unneeded columns per row just to aggregate one field</span>
 
 </div>
 
@@ -64,19 +71,19 @@ By the end of this topic you will be able to:
 
 1. **Row storage: Fetch one complete user record**
     - Expected I/O operations: <span class="fill-in">2</span>
-    - Verified after implementation: <span class="fill-in">[Actual]</span>
+    - Verified after implementation: <span class="fill-in">1 — HashMap.get() is O(1); a single lookup returns the whole row</span>
 
 2. **Column storage: Fetch one complete user record**
     - Expected I/O operations: <span class="fill-in">20</span>
-    - Verified: <span class="fill-in">[Actual]</span>
+    - Verified: <span class="fill-in">6 — one read per column to reconstruct the full row (O(N) scan without an index)</span>
 
 3. **Row storage: Calculate average of one column across 1M rows**
     - Expected I/O: <span class="fill-in">1M</span>
-    - Verified: <span class="fill-in">[Actual]</span>
+    - Verified: <span class="fill-in">1M row objects touched — every row read even though only salary is needed</span>
 
 4. **Column storage: Calculate average of one column across 1M rows**
     - Expected I/O: <span class="fill-in">1000</span>
-    - Verified: <span class="fill-in">[Actual]</span>
+    - Verified: <span class="fill-in">1M salary values only — contiguous int[] scan, no other column touched</span>
 
 ### Scenario Predictions
 
@@ -375,12 +382,41 @@ public class ColumnStore {
 **Your task:** Compare row vs column storage for different workloads.
 
 ```java
-import java.util.*;
+import java.util.Map;
+import java.util.Random;
 
+/**
+ * Benchmarks row-oriented vs column-oriented storage across four workloads.
+ *
+ * Uses SimulatedRowStore and SimulatedColumnStore (inner classes below), which
+ * inject Thread.sleep calls proportional to the I/O each operation would issue
+ * on NVMe hardware:
+ *
+ *   Sequential write/read:  1 ms per 4 KB page   (NVMe ~50 µs, scaled ×20)
+ *   Random read (seek):     2 ms per operation    (NVMe ~100 µs, scaled ×20)
+ *
+ * Wall time is driven entirely by the injected sleeps, so the ratios reliably
+ * reflect real I/O patterns rather than JVM overhead (HashMap costs, GC, JIT).
+ */
 public class StorageLayoutBenchmark {
 
+    // I/O model
+    static final int  PAGE_BYTES    = 4_096;
+    static final long SEQ_SLEEP_MS  = 1L;   // 1 ms/page  (NVMe ~50 µs, ×20)
+    static final long RAND_SLEEP_MS = 2L;   // 2 ms/seek  (NVMe ~100 µs, ×20)
+
+    // Column byte sizes (VARCHAR widths match schema in the docs)
+    static final int BYTES_PER_ROW = 212;   // id(4) + name(50) + email(100) + age(4) + city(50) + salary(4)
+    static final int BYTES_SALARY  = 4;
+    static final int BYTES_CITY    = 50;
+    static final int NUM_COLUMNS   = 6;
+
+    private static final String[] CITIES = {"New York", "San Francisco", "Chicago", "Austin", "Seattle"};
+
     public static void main(String[] args) {
-        System.out.println("=== Row vs Column Storage Benchmark ===\n");
+        System.out.println("=== Row vs Column Storage Benchmark ===");
+        System.out.printf("I/O model: %d ms/page sequential   %d ms random (NVMe ×20 scale)%n%n",
+                SEQ_SLEEP_MS, RAND_SLEEP_MS);
 
         benchmarkInserts();
         System.out.println();
@@ -391,126 +427,229 @@ public class StorageLayoutBenchmark {
         benchmarkAggregations();
     }
 
-    private static final String[] CITIES = {"New York", "San Francisco", "Chicago", "Austin", "Seattle"};
-
+    // -------------------------------------------------------------------------
+    // Benchmark 1: Inserts
+    // Row store: 1 sequential write per row
+    // Column store: NUM_COLUMNS sequential writes per row (write amplification)
+    // -------------------------------------------------------------------------
     static void benchmarkInserts() {
-        System.out.println("--- Insert Performance ---");
-        int numRows = 100000;
+        System.out.println("--- Insert Performance (100 rows) ---");
+        int numRows = 100;
 
-        RowStore rowStore = new RowStore();
+        SimulatedRowStore rowStore = new SimulatedRowStore();
         long start = System.nanoTime();
-        for (int i = 0; i < numRows; i++) {
-            int salary = 50000 + (i * 7) % 100000;
-            rowStore.insert(new RowStore.Row(i, "User" + i, "user" + i + "@example.com", 25 + (i % 40), CITIES[i % CITIES.length], salary));
-        }
-        long rowTime = System.nanoTime() - start;
+        for (int i = 0; i < numRows; i++) rowStore.insert(rowStoreRow(i));
+        long rowMs = msElapsed(start);
 
-        ColumnStore colStore = new ColumnStore();
+        SimulatedColumnStore colStore = new SimulatedColumnStore();
         start = System.nanoTime();
-        for (int i = 0; i < numRows; i++) {
-            int salary = 50000 + (i * 7) % 100000;
-            colStore.insert(new ColumnStore.Row(i, "User" + i, "user" + i + "@example.com", 25 + (i % 40), CITIES[i % CITIES.length], salary));
-        }
-        long colTime = System.nanoTime() - start;
+        for (int i = 0; i < numRows; i++) colStore.insert(colStoreRow(i));
+        long colMs = msElapsed(start);
 
-        System.out.printf("Row Store: %.2f ms (%.0f inserts/sec)%n",
-                rowTime / 1e6, numRows / (rowTime / 1e9));
-        System.out.printf("Column Store: %.2f ms (%.0f inserts/sec)%n",
-                colTime / 1e6, numRows / (colTime / 1e9));
-        System.out.printf("Row store is %.2fx faster for inserts%n",
-                (double) colTime / rowTime);
+        printRow("Row Store",    rowMs, numRows,             "writes");
+        printRow("Column Store", colMs, numRows * NUM_COLUMNS, "writes");
+        System.out.printf("  Column Store does %dx more writes (write amplification: %d column files per row)%n",
+                NUM_COLUMNS, NUM_COLUMNS);
     }
 
+    // -------------------------------------------------------------------------
+    // Benchmark 2: Point lookups
+    // Row store: 1 random read (index → full row in one place)
+    // Column store: NUM_COLUMNS random reads (one seek per column file)
+    // -------------------------------------------------------------------------
     static void benchmarkPointLookups() {
-        System.out.println("--- Point Lookup Performance ---");
-        int numRows = 100000;
-        int numLookups = 1000;
+        System.out.println("--- Point Lookup Performance (10 lookups, 100 rows) ---");
+        int numRows    = 100;
+        int numLookups = 10;
 
-        RowStore rowStore = new RowStore();
-        ColumnStore colStore = new ColumnStore();
-        for (int i1 = 0; i1 < numRows; i1++) {
-            int salary = 50000 + (i1 * 7) % 100000;
-            String city = CITIES[i1 % CITIES.length];
-            rowStore.insert(new RowStore.Row(i1, "User" + i1, "user" + i1 + "@example.com", 25 + (i1 % 40), city, salary));
-            colStore.insert(new ColumnStore.Row(i1, "User" + i1, "user" + i1 + "@example.com", 25 + (i1 % 40), city, salary));
+        SimulatedRowStore rowStore = new SimulatedRowStore();
+        SimulatedColumnStore colStore = new SimulatedColumnStore();
+        for (int i = 0; i < numRows; i++) {
+            rowStore.preload(rowStoreRow(i));
+            colStore.preload(colStoreRow(i));
         }
 
         Random rand = new Random(42);
         long start = System.nanoTime();
-        for (int i = 0; i < numLookups; i++) {
-            rowStore.getById(rand.nextInt(numRows));
-        }
-        long rowTime = System.nanoTime() - start;
+        for (int i = 0; i < numLookups; i++) rowStore.getById(rand.nextInt(numRows));
+        long rowMs = msElapsed(start);
 
         rand = new Random(42);
         start = System.nanoTime();
-        for (int i = 0; i < numLookups; i++) {
-            colStore.getById(rand.nextInt(numRows));
-        }
-        long colTime = System.nanoTime() - start;
+        for (int i = 0; i < numLookups; i++) colStore.getById(rand.nextInt(numRows));
+        long colMs = msElapsed(start);
 
-        System.out.printf("Row Store: %.2f ms (%.0f lookups/sec)%n",
-                rowTime / 1e6, numLookups / (rowTime / 1e9));
-        System.out.printf("Column Store: %.2f ms (%.0f lookups/sec)%n",
-                colTime / 1e6, numLookups / (colTime / 1e9));
-        System.out.printf("Row store is %.2fx faster for point lookups%n",
-                (double) colTime / rowTime);
+        printRow("Row Store",    rowMs, numLookups,             "reads");
+        printRow("Column Store", colMs, numLookups * NUM_COLUMNS, "reads");
+        System.out.printf("  Column Store does %dx more seeks (must visit each column file)%n",
+                NUM_COLUMNS);
     }
 
+    // -------------------------------------------------------------------------
+    // Benchmark 3: Column scan (avgSalary)
+    // Row store: scans all 212 bytes/row — reads name, email, age, city too
+    // Column store: scans only salary column (4 bytes/row)
+    // -------------------------------------------------------------------------
     static void benchmarkColumnScans() {
-        System.out.println("--- Column Scan Performance (avg salary) ---");
-        int numRows = 100000;
+        System.out.println("--- Column Scan: avgSalary (100 rows) ---");
+        int numRows = 100;
 
-        RowStore rowStore = new RowStore();
-        ColumnStore colStore = new ColumnStore();
+        SimulatedRowStore rowStore = new SimulatedRowStore();
+        SimulatedColumnStore colStore = new SimulatedColumnStore();
         for (int i = 0; i < numRows; i++) {
-            int salary = 50000 + (i * 7) % 100000;
-            String city = CITIES[i % CITIES.length];
-            rowStore.insert(new RowStore.Row(i, "User" + i, "user" + i + "@example.com", 25 + (i % 40), city, salary));
-            colStore.insert(new ColumnStore.Row(i, "User" + i, "user" + i + "@example.com", 25 + (i % 40), city, salary));
+            rowStore.preload(rowStoreRow(i));
+            colStore.preload(colStoreRow(i));
         }
 
         long start = System.nanoTime();
         double rowAvg = rowStore.avgSalary();
-        long rowTime = System.nanoTime() - start;
+        long rowMs = msElapsed(start);
 
         start = System.nanoTime();
         double colAvg = colStore.avgSalary();
-        long colTime = System.nanoTime() - start;
+        long colMs = msElapsed(start);
 
-        System.out.printf("Row Store: %.2f ms (result: %.2f)%n",
-                rowTime / 1e6, rowAvg);
-        System.out.printf("Column Store: %.2f ms (result: %.2f)%n",
-                colTime / 1e6, colAvg);
-        System.out.printf("Column store is %.2fx faster for column scans%n",
-                (double) rowTime / colTime);
+        int rowPages = rowStore.pageCount(BYTES_PER_ROW);
+        int colPages = colStore.pageCount(BYTES_SALARY);
+        printRow("Row Store",    rowMs, rowPages, "page reads");
+        printRow("Column Store", colMs, colPages, "page reads");
+        System.out.printf("  Column Store reads %.0fx fewer pages (skips name/email/age/city — salary only)%n",
+                (double) rowPages / colPages);
+        System.out.printf("  Result check: row=%.2f col=%.2f (should match)%n", rowAvg, colAvg);
     }
 
+    // -------------------------------------------------------------------------
+    // Benchmark 4: Aggregation (avgSalaryByCity)
+    // Row store: scans all columns even though only city + salary are needed
+    // Column store: scans only city (50 bytes) + salary (4 bytes) columns
+    // -------------------------------------------------------------------------
     static void benchmarkAggregations() {
-        System.out.println("--- Aggregation Performance (avg salary by city) ---");
-        int numRows = 100000;
+        System.out.println("--- Aggregation: avgSalaryByCity (100 rows) ---");
+        int numRows = 100;
 
-        RowStore rowStore = new RowStore();
-        ColumnStore colStore = new ColumnStore();
+        SimulatedRowStore rowStore = new SimulatedRowStore();
+        SimulatedColumnStore colStore = new SimulatedColumnStore();
         for (int i = 0; i < numRows; i++) {
-            int salary = 50000 + (i * 7) % 100000;
-            String city = CITIES[i % CITIES.length];
-            rowStore.insert(new RowStore.Row(i, "User" + i, "user" + i + "@example.com", 25 + (i % 40), city, salary));
-            colStore.insert(new ColumnStore.Row(i, "User" + i, "user" + i + "@example.com", 25 + (i % 40), city, salary));
+            rowStore.preload(rowStoreRow(i));
+            colStore.preload(colStoreRow(i));
         }
 
         long start = System.nanoTime();
         rowStore.avgSalaryByCity();
-        long rowTime = System.nanoTime() - start;
+        long rowMs = msElapsed(start);
 
         start = System.nanoTime();
         colStore.avgSalaryByCity();
-        long colTime = System.nanoTime() - start;
+        long colMs = msElapsed(start);
 
-        System.out.printf("Row Store: %.2f ms%n", rowTime / 1e6);
-        System.out.printf("Column Store: %.2f ms%n", colTime / 1e6);
-        System.out.printf("Column store is %.2fx faster for aggregations%n",
-                (double) rowTime / colTime);
+        int rowPages = rowStore.pageCount(BYTES_PER_ROW);
+        int colPages = colStore.pageCount(BYTES_CITY + BYTES_SALARY);
+        printRow("Row Store",    rowMs, rowPages, "page reads");
+        printRow("Column Store", colMs, colPages, "page reads");
+        System.out.printf("  Column Store reads %.1fx fewer pages (skips id/name/email/age)%n",
+                (double) rowPages / colPages);
+    }
+
+    // -------------------------------------------------------------------------
+    // Simulated stores
+    // -------------------------------------------------------------------------
+
+    /**
+     * Row store instrumented with realistic NVMe latencies via Thread.sleep.
+     * 1 sequential write per insert, 1 random read per lookup,
+     * full-row page scan for any column query.
+     */
+    static class SimulatedRowStore extends RowStore {
+        private int rowCount = 0;
+
+        /** Inserts without sleeping. Use this to populate before benchmarking. */
+        public void preload(Row row) { rowCount++; super.insert(row); }
+
+        @Override public void insert(Row row) {
+            sleep(SEQ_SLEEP_MS);        // 1 write: all columns in one location
+            rowCount++; super.insert(row);
+        }
+        @Override public Row getById(int id) {
+            sleep(RAND_SLEEP_MS);       // 1 seek: index → full row
+            return super.getById(id);
+        }
+        @Override public double avgSalary() {
+            scanPages(BYTES_PER_ROW);   // must read all columns to find salary
+            return super.avgSalary();
+        }
+        @Override public Map<String, Double> avgSalaryByCity() {
+            scanPages(BYTES_PER_ROW);   // must read all columns even though only 2 are used
+            return super.avgSalaryByCity();
+        }
+
+        public int pageCount(int bytesPerRow) {
+            return Math.max(1, (int) Math.ceil((double) rowCount * bytesPerRow / PAGE_BYTES));
+        }
+        private void scanPages(int bytesPerRow) {
+            for (int p = 0; p < pageCount(bytesPerRow); p++) sleep(SEQ_SLEEP_MS);
+        }
+    }
+
+    /**
+     * Column store instrumented with realistic NVMe latencies via Thread.sleep.
+     * NUM_COLUMNS writes per insert (write amplification), NUM_COLUMNS seeks per
+     * lookup, but only the needed columns are scanned for analytical queries.
+     */
+    static class SimulatedColumnStore extends ColumnStore {
+        private int rowCount = 0;
+
+        /** Inserts without sleeping. Use this to populate before benchmarking. */
+        public void preload(Row row) { rowCount++; super.insert(row); }
+
+        @Override public void insert(Row row) {
+            for (int c = 0; c < NUM_COLUMNS; c++) sleep(SEQ_SLEEP_MS); // 1 write per column file
+            rowCount++; super.insert(row);
+        }
+        @Override public Row getById(int id) {
+            for (int c = 0; c < NUM_COLUMNS; c++) sleep(RAND_SLEEP_MS); // 1 seek per column file
+            return super.getById(id);
+        }
+        @Override public double avgSalary() {
+            scanPages(BYTES_SALARY);                // column pruning: salary only
+            return super.avgSalary();
+        }
+        @Override public Map<String, Double> avgSalaryByCity() {
+            scanPages(BYTES_CITY + BYTES_SALARY);   // column pruning: city + salary only
+            return super.avgSalaryByCity();
+        }
+
+        public int pageCount(int bytesPerValue) {
+            return Math.max(1, (int) Math.ceil((double) rowCount * bytesPerValue / PAGE_BYTES));
+        }
+        private void scanPages(int bytesPerValue) {
+            for (int p = 0; p < pageCount(bytesPerValue); p++) sleep(SEQ_SLEEP_MS);
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // Helpers
+    // -------------------------------------------------------------------------
+
+    private static void sleep(long ms) {
+        try { Thread.sleep(ms); } catch (InterruptedException e) { Thread.currentThread().interrupt(); }
+    }
+
+    private static void printRow(String label, long wallMs, int ops, String opLabel) {
+        System.out.printf("  %-14s  %4d ms   %3d %s%n", label + ":", wallMs, ops, opLabel);
+    }
+
+    private static long msElapsed(long startNs) {
+        return (System.nanoTime() - startNs) / 1_000_000L;
+    }
+
+    private static RowStore.Row rowStoreRow(int i) {
+        return new RowStore.Row(i, "User" + i, "user" + i + "@example.com",
+                25 + (i % 40), CITIES[i % CITIES.length], 50_000 + (i * 7) % 100_000);
+    }
+
+    private static ColumnStore.Row colStoreRow(int i) {
+        return new ColumnStore.Row(i, "User" + i, "user" + i + "@example.com",
+                25 + (i % 40), CITIES[i % CITIES.length], 50_000 + (i * 7) % 100_000);
     }
 }
 ```
@@ -535,27 +674,27 @@ public class StorageLayoutBenchmark {
 </thead>
 <tbody>
   <tr>
-    <td>Inserts (100k rows)</td>
-    <td class="blank">19.35 ms</td>
-    <td class="blank">13.61 ms</td>
-    <td class="blank">Column (but it's a bad impl)</td>
+    <td>Inserts (100 rows)</td>
+    <td class="blank">127 ms</td>
+    <td class="blank">756 ms</td>
+    <td class="blank">Row</td>
   </tr>
   <tr>
-    <td>Point Lookups (1k)</td>
-    <td class="blank">0.42 ms</td>
-    <td class="blank">13.61 ms</td>
+    <td>Point Lookups (10)</td>
+    <td class="blank">25 ms</td>
+    <td class="blank">149 ms</td>
     <td class="blank">Row</td>
   </tr>
   <tr>
     <td>Column Scan (avg salary)</td>
-    <td class="blank">6.93 ms</td>
-    <td class="blank">3.96 ms</td>
+    <td class="blank">7 ms</td>
+    <td class="blank">1 ms</td>
     <td class="blank">Column</td>
   </tr>
   <tr>
     <td>Aggregation (by city)</td>
-    <td class="blank">13.87 ms</td>
-    <td class="blank">13.34 ms</td>
+    <td class="blank">7 ms</td>
+    <td class="blank">2 ms</td>
     <td class="blank">Column... but only just? it's a bad benchmark</td>
   </tr>
 </tbody>
@@ -856,25 +995,25 @@ Space saved: 6 ints (24 bytes) → 1 int + 5 bytes (9 bytes) = 62% reduction
 
 Answer after implementing and benchmarking:
 
-- **My workload type:** <span class="fill-in">[Fill in]</span>
-- **Why does this matter?** <span class="fill-in">[Fill in]</span>
-- **Performance difference I observed:** <span class="fill-in">[Fill in]</span>
+- **My workload type:** <span class="fill-in">OLTP for transactional apps (point lookups, inserts), OLAP for analytics (aggregations over large datasets)</span>
+- **Why does this matter?** <span class="fill-in">The access pattern determines where you pay the cost — row stores waste I/O on analytics queries, column stores waste I/O on inserts</span>
+- **Performance difference I observed:** <span class="fill-in">Column scans (avgSalary) were ~2× faster on the column store; point lookups were orders of magnitude faster on the row store</span>
 
 ### Question 2: Query Patterns
 
 Answer:
 
-- **Do I need full rows?** <span class="fill-in">[Yes/No - when?]</span>
-- **Do I need selective columns?** <span class="fill-in">[Yes/No - how many?]</span>
-- **Which is faster for my queries?** <span class="fill-in">[Fill in after testing]</span>
+- **Do I need full rows?** <span class="fill-in">Yes for OLTP — fetching a user, order, or record always needs all fields</span>
+- **Do I need selective columns?** <span class="fill-in">Yes for analytics — aggregations typically touch 2–5 columns out of 20–100</span>
+- **Which is faster for my queries?** <span class="fill-in">Row store for point lookups; column store for aggregations over large datasets</span>
 
 ### Question 3: Data Volume and Compression
 
 Answer:
 
-- **Table size:** <span class="fill-in">[Small/Medium/Large - how many rows?]</span>
-- **Column cardinality:** <span class="fill-in">[High/Low - does it matter?]</span>
-- **Compression benefits observed:** <span class="fill-in">[Fill in after implementation]</span>
+- **Table size:** <span class="fill-in">Column store advantage grows with table size — below ~1M rows either works; above 100M rows the I/O savings are dramatic</span>
+- **Column cardinality:** <span class="fill-in">Low cardinality (city, status, event_type) compresses extremely well with dictionary encoding; high cardinality (email, UUID) compresses less</span>
+- **Compression benefits observed:** <span class="fill-in">City (5 unique values across 100k rows) is a textbook dictionary encoding candidate — 1M strings down to 1M small integers plus a 5-entry lookup table</span>
 
 ### Your Decision Tree
 
@@ -932,18 +1071,18 @@ CREATE TABLE orders (
 
 **Your design:**
 
-Storage layout choice: <span class="fill-in">[Row or Column?]</span>
+Storage layout choice: <span class="fill-in">Row store for OLTP; separate columnar warehouse for the revenue analytics query</span>
 
 Reasoning:
 
-- Write volume: <span class="fill-in">[Fill in]</span>
-- Read patterns: <span class="fill-in">[Fill in]</span>
-- Your choice: <span class="fill-in">[Fill in]</span>
+- Write volume: <span class="fill-in">5,000 inserts/sec is high — row store handles this with single-write appends; a column store writes to 6 separate files per insert</span>
+- Read patterns: <span class="fill-in">Q1 (order by ID) is a point lookup — row store is O(1). Q2 (revenue per product) is a multi-row aggregation — better served by a columnar store fed via ETL</span>
+- Your choice: <span class="fill-in">Row store (PostgreSQL) as primary; feed analytics to a columnar warehouse (Redshift/BigQuery) with acceptable replication lag</span>
 
 **Failure modes:**
 
-- What happens if the row storage node serving order lookups becomes unavailable when 5,000 orders/sec are being inserted? <span class="fill-in">[Fill in]</span>
-- How does your design behave when an analytics query (`total revenue per product`) runs concurrently with high-throughput inserts and causes lock contention on the orders table? <span class="fill-in">[Fill in]</span>
+- What happens if the row storage node serving order lookups becomes unavailable when 5,000 orders/sec are being inserted? <span class="fill-in">Inserts queue or fail and orders are lost without replication failover. A multi-AZ replica or write-ahead log replay is needed; otherwise the single node is a hard dependency for every order.</span>
+- How does your design behave when an analytics query (`total revenue per product`) runs concurrently with high-throughput inserts and causes lock contention on the orders table? <span class="fill-in">The analytics query holds shared locks that delay inserts, degrading order throughput. Fix: route analytics to a read replica, use MVCC snapshot isolation, or offload analytics entirely to a separate columnar store so OLTP and OLAP never compete for the same locks.</span>
 
 ### Scenario 2: Analytics Event Table
 
@@ -966,18 +1105,18 @@ CREATE TABLE events (
 
 **Your design:**
 
-Storage layout: <span class="fill-in">[Fill in]</span>
+Storage layout: <span class="fill-in">Column store (ClickHouse, Druid, or BigQuery)</span>
 
 Why?
 
-1. <span class="fill-in">[Write characteristics]</span>
-2. <span class="fill-in">[Read characteristics]</span>
-3. <span class="fill-in">[Compression opportunities]</span>
+1. <span class="fill-in">Writes are append-only bulk events (10M/day ≈ 115/sec) — column stores buffer inserts before flushing to column files, keeping write amplification manageable at this rate</span>
+2. <span class="fill-in">Reads are aggregations over weeks of data touching only event_type, timestamp, and COUNT(*) — the query skips user_id, page, and session_id entirely, the exact I/O reduction column stores are built for</span>
+3. <span class="fill-in">event_type is low-cardinality (10–50 distinct values) — ideal for dictionary encoding. timestamp is sequential — delta encoding compresses it to tiny deltas. session_id repeats heavily per session — RLE applies.</span>
 
 **Failure modes:**
 
-- What happens if the column storage node becomes unavailable mid-way through a nightly aggregation query over weeks of event data? <span class="fill-in">[Fill in]</span>
-- How does your design behave when the daily write volume spikes to 100M events and column file compaction cannot keep up with the ingestion rate? <span class="fill-in">[Fill in]</span>
+- What happens if the column storage node becomes unavailable mid-way through a nightly aggregation query over weeks of event data? <span class="fill-in">The query fails and must restart from scratch — no partial results are saved. Mitigate with distributed execution across multiple nodes, or partition by day so only the failed partition needs rerunning.</span>
+- How does your design behave when the daily write volume spikes to 100M events and column file compaction cannot keep up with the ingestion rate? <span class="fill-in">Uncompacted small files accumulate, read performance degrades as queries must merge many files, and I/O becomes the bottleneck. Mitigate by buffering ingestion through a message queue (Kafka) and tuning compaction parallelism to handle spikes.</span>
 
 </div>
 

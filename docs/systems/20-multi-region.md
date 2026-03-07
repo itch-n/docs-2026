@@ -541,6 +541,22 @@ public class VectorClock {
 
 ---
 
+## Common Misconceptions
+
+!!! warning "Misconception 1: Active-active guarantees RPO = 0"
+    Active-active with **asynchronous** replication has a non-zero RPO. If Region A accepts a write and crashes before it replicates to Region B, that write is lost. The active-active topology eliminates the *failover ceremony* but does not eliminate *replication lag*. RPO = 0 requires synchronous replication to at least one other region before acknowledging the client — which adds cross-region round-trip latency (typically 50–200 ms intercontinentally) to every write.
+
+!!! warning "Misconception 2: Conflicts only happen with truly simultaneous writes"
+    Conflicts arise from replication lag, not just concurrency. Two writes to the same record from two different regions, seconds apart, can arrive at each other's region out of order. A write at T=100ms in Region A arrives at Region B at T=250ms; a write at T=200ms in Region B arrives at Region A at T=350ms. Neither writer was aware of the other — both thought they were writing to the latest version. The conflict window is as wide as the replication lag, not just the microsecond window of true simultaneity.
+
+!!! warning "Misconception 3: Multi-region deployment automatically provides high availability"
+    Deploying to multiple regions and *automatically failing over between them* are separate capabilities. Without automated health checks, traffic rerouting, and runbook validation, a second region is a warm standby you must manually activate under pressure — exactly when mistakes happen. High availability at the multi-region level requires: health monitoring that detects regional degradation, a routing layer that can redirect traffic (Route 53 health checks, anycast, etc.), and regular failover drills that validate the process actually works.
+
+!!! warning "Misconception 4: Last-write-wins is a safe default for conflict resolution"
+    LWW silently discards data. Two users concurrently incrementing a counter (+1 from Region A, +1 from Region B) resolve to +1 under LWW, not +2. Two users editing different fields of the same record lose one user's changes entirely. LWW is only safe for workloads where exactly one of the conflicting writes is logically authoritative — for example, user profile updates where the user's most recent intent should win. For any commutative or accumulative operation, use CRDTs; for any record where both writes carry valid information, use application-level merge logic.
+
+---
+
 ## Decision Framework
 
 <div class="learner-section" markdown>
