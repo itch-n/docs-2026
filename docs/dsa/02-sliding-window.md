@@ -125,48 +125,7 @@ Verify after implementation: <span class="fill-in">[Which one(s)?]</span>
 **Use case:** Maximum/minimum of k consecutive elements, average of subarrays.
 
 ```java
-public class FixedWindow {
-
-    /**
-     * Problem: Maximum sum of K consecutive elements
-     * Time: O(n), Space: O(1)
-     *
-     * TODO: Implement fixed window
-     */
-    public static double maxAverageSubarray(int[] nums, int k) {
-        if (nums.length < k) return 0.0;
-
-        // TODO: Calculate initial window sum
-        // Slide the window and update max as you go
-
-        return 0.0; // Replace with implementation
-    }
-
-    /**
-     * Problem: Contains nearby duplicate within k distance
-     * Time: O(n), Space: O(k)
-     *
-     * TODO: Implement using HashSet as fixed window
-     */
-    public static boolean containsNearbyDuplicate(int[] nums, int k) {
-        // TODO: Use a set to track elements in current window
-
-        return false; // Replace with implementation
-    }
-
-    /**
-     * Problem: Maximum of all subarrays of size k
-     * Time: O(n), Space: O(k) using deque
-     *
-     * TODO: Implement using deque for efficient max tracking
-     */
-    public static int[] maxSlidingWindow(int[] nums, int k) {
-        // TODO: Use a deque to maintain useful elements in window
-        // Keep elements in decreasing order for easy max access
-
-        return new int[0]; // Replace with implementation
-    }
-}
+--8<-- "com/study/dsa/slidingwindow/FixedWindow.java"
 ```
 
 **Runnable Client Code:**
@@ -258,58 +217,7 @@ public class FixedWindowClient {
 **Use case:** Longest/shortest substring with constraint, subarray sum.
 
 ```java
-import java.util.*;
-
-public class DynamicWindow {
-
-    /**
-     * Problem: Longest substring without repeating characters
-     * Time: O(n), Space: O(k) where k = unique chars
-     *
-     * TODO: Implement dynamic window with HashSet
-     */
-    public static int lengthOfLongestSubstring(String s) {
-        Set<Character> window = new HashSet<>();
-        int left = 0, maxLen = 0;
-
-        // TODO: Implement iteration/conditional logic
-
-        return 0; // Replace with implementation
-    }
-
-    /**
-     * Problem: Longest substring with at most K distinct characters
-     * Time: O(n), Space: O(k)
-     *
-     * TODO: Implement with HashMap for frequency counting
-     */
-    public static int lengthOfLongestSubstringKDistinct(String s, int k) {
-        if (k == 0) return 0;
-
-        Map<Character, Integer> window = new HashMap<>();
-        int left = 0, maxLen = 0;
-
-        // TODO: Implement iteration/conditional logic
-
-        return 0; // Replace with implementation
-    }
-
-    /**
-     * Problem: Minimum size subarray sum >= target
-     * Time: O(n), Space: O(1)
-     *
-     * TODO: Implement shrinking window
-     */
-    public static int minSubArrayLen(int target, int[] nums) {
-        int left = 0, sum = 0, minLen = Integer.MAX_VALUE;
-
-        // TODO: Implement iteration/conditional logic
-
-        // TODO: Return minLen == Integer.MAX_VALUE ? 0 : minLen
-
-        return 0; // Replace with implementation
-    }
-}
+--8<-- "com/study/dsa/slidingwindow/DynamicWindow.java"
 ```
 
 **Runnable Client Code:**
@@ -401,61 +309,7 @@ public class DynamicWindowClient {
 **Use case:** Anagram problems, substring with all characters.
 
 ```java
-import java.util.*;
-
-public class StringWindow {
-
-    /**
-     * Problem: Find all anagrams of pattern in string
-     * Time: O(n), Space: O(1) - only 26 letters
-     *
-     * TODO: Implement using frequency arrays
-     */
-    public static List<Integer> findAnagrams(String s, String p) {
-        List<Integer> result = new ArrayList<>();
-        if (s.length() < p.length()) return result;
-
-        // TODO: Create frequency array for pattern p
-
-        // TODO: Create frequency array for current window
-
-        // TODO: Fixed window of size p.length()
-
-        return result; // Replace with implementation
-    }
-
-    /**
-     * Problem: Permutation in string (s2 contains permutation of s1)
-     * Time: O(n), Space: O(1)
-     *
-     * TODO: Implement using sliding window comparison
-     */
-    public static boolean checkInclusion(String s1, String s2) {
-        if (s1.length() > s2.length()) return false;
-
-        // TODO: Similar to findAnagrams but return true on first match
-
-        return false; // Replace with implementation
-    }
-
-    /**
-     * Problem: Minimum window substring containing all chars of t
-     * Time: O(n + m), Space: O(k) where k = unique chars
-     *
-     * TODO: Implement using two frequency maps
-     */
-    public static String minWindow(String s, String t) {
-        if (s.isEmpty() || t.isEmpty()) return "";
-
-        // TODO: Create frequency map for t
-
-        // TODO: Track matched characters
-
-        // TODO: Expand right, shrink left when valid
-
-        return ""; // Replace with implementation
-    }
-}
+--8<-- "com/study/dsa/slidingwindow/StringWindow.java"
 ```
 
 **Runnable Client Code:**
@@ -521,54 +375,7 @@ public class StringWindowClient {
 **Use case:** Character replacement, fruit baskets, longest repeating replacement.
 
 ```java
-import java.util.*;
-
-public class HybridWindow {
-
-    /**
-     * Problem: Longest repeating character replacement
-     * Time: O(n), Space: O(1) - only 26 letters
-     *
-     * TODO: Implement window with character replacement
-     */
-    public static int characterReplacement(String s, int k) {
-        int[] count = new int[26];
-        int left = 0, maxCount = 0, maxLen = 0;
-
-        // TODO: Implement iteration/conditional logic
-
-        return 0; // Replace with implementation
-    }
-
-    /**
-     * Problem: Max consecutive ones with k flips
-     * Time: O(n), Space: O(1)
-     *
-     * TODO: Implement window tracking flips
-     */
-    public static int longestOnes(int[] nums, int k) {
-        int left = 0, zeros = 0, maxLen = 0;
-
-        // TODO: Implement iteration/conditional logic
-
-        return 0; // Replace with implementation
-    }
-
-    /**
-     * Problem: Fruits into baskets (at most 2 types)
-     * Time: O(n), Space: O(1)
-     *
-     * TODO: Implement window with at most 2 distinct elements
-     */
-    public static int totalFruit(int[] fruits) {
-        Map<Integer, Integer> basket = new HashMap<>();
-        int left = 0, maxFruits = 0;
-
-        // TODO: Implement iteration/conditional logic
-
-        return 0; // Replace with implementation
-    }
-}
+--8<-- "com/study/dsa/slidingwindow/HybridWindow.java"
 ```
 
 **Runnable Client Code:**

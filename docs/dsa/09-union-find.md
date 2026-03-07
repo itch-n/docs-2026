@@ -132,98 +132,7 @@ Verify after implementation: <span class="fill-in">[Which one(s)?]</span>
 **Use case:** Dynamic connectivity, detecting cycles, network connections.
 
 ```java
-public class UnionFind {
-
-    /**
-     * Union-Find Data Structure
-     * Time: O(α(n)) ≈ O(1) per operation with optimizations
-     * Space: O(n)
-     *
-     * TODO: Implement with path compression and union by rank
-     */
-    static class DSU {
-        private int[] parent;
-        private int[] rank; // or size, depending on optimization
-        private int components; // Track number of disjoint sets
-
-        public DSU(int n) {
-            // TODO: Initialize parent array: parent[i] = i
-            // TODO: Initialize rank array: rank[i] = 0
-            // TODO: Initialize components
-        }
-
-        /**
-         * Find with path compression
-         * Time: O(α(n)) amortized
-         *
-         * TODO: Implement find with path compression
-         */
-        public int find(int x) {
-            // TODO: Implement iteration/conditional logic
-            // TODO: Path compression: parent[x] = find(parent[x])
-            // TODO: Return parent[x]
-            return 0; // Replace with implementation
-        }
-
-        /**
-         * Union by rank
-         * Time: O(α(n)) amortized
-         *
-         * TODO: Implement union by rank
-         */
-        public boolean union(int x, int y) {
-            // TODO: Find roots of x and y
-            // TODO: Implement iteration/conditional logic
-            // TODO: Attach smaller rank tree under larger rank tree
-            // TODO: Implement iteration/conditional logic
-            // TODO: Decrement components count
-            // TODO: Return true (successful union)
-            return false; // Replace with implementation
-        }
-
-        /**
-         * Check if connected
-         * Time: O(α(n))
-         */
-        public boolean connected(int x, int y) {
-            // TODO: Return find(x) == find(y)
-            return false; // Replace with implementation
-        }
-
-        /**
-         * Get number of disjoint components
-         * Time: O(1)
-         */
-        public int getComponents() {
-            // TODO: Return components count
-            return 0; // Replace with implementation
-        }
-
-        /**
-         * Get size of component containing x
-         * Time: O(α(n))
-         */
-        public int getSize(int x) {
-            // TODO: Implement iteration/conditional logic
-            // TODO: Otherwise, count elements with same root
-            return 0; // Replace with implementation
-        }
-    }
-
-    /**
-     * Problem: Number of connected components in undirected graph
-     * Time: O(E * α(V)), Space: O(V)
-     *
-     * TODO: Implement using union-find
-     */
-    public static int countComponents(int n, int[][] edges) {
-        // TODO: Initialize DSU with n nodes
-        // TODO: Implement iteration/conditional logic
-        // TODO: Return number of components
-
-        return 0; // Replace with implementation
-    }
-}
+--8<-- "com/study/dsa/unionfind/UnionFind.java"
 ```
 
 **Runnable Client Code:**
@@ -309,64 +218,7 @@ public class UnionFindClient {
 **Use case:** Redundant connection, graph valid tree.
 
 ```java
-import java.util.*;
-
-public class CycleDetection {
-
-    /**
-     * Problem: Detect if undirected graph has a cycle
-     * Time: O(E * α(V)), Space: O(V)
-     *
-     * TODO: Implement cycle detection
-     */
-    public static boolean hasCycle(int n, int[][] edges) {
-        // TODO: Initialize union-find
-        // TODO: Implement iteration/conditional logic
-        // TODO: Return false if no cycle
-
-        return false; // Replace with implementation
-    }
-
-    /**
-     * Problem: Find redundant connection (edge that creates cycle)
-     * Time: O(E * α(V)), Space: O(V)
-     *
-     * TODO: Implement redundant connection
-     */
-    public static int[] findRedundantConnection(int[][] edges) {
-        // TODO: Initialize union-find
-        // TODO: Implement iteration/conditional logic
-
-        return new int[]{-1, -1}; // Replace with implementation
-    }
-
-    /**
-     * Problem: Check if graph is a valid tree
-     * Time: O(E * α(V)), Space: O(V)
-     *
-     * TODO: Implement tree validation
-     */
-    public static boolean validTree(int n, int[][] edges) {
-        // TODO: Tree must have exactly n-1 edges
-        // TODO: Must have no cycles
-        // TODO: Must be fully connected (1 component)
-
-        return false; // Replace with implementation
-    }
-
-    /**
-     * Problem: Find redundant directed connection
-     * Time: O(E * α(V)), Space: O(V)
-     *
-     * TODO: Implement for directed graph
-     */
-    public static int[] findRedundantDirectedConnection(int[][] edges) {
-        // TODO: More complex - need to handle:
-        // TODO: Try removing each candidate edge
-
-        return new int[]{-1, -1}; // Replace with implementation
-    }
-}
+--8<-- "com/study/dsa/unionfind/CycleDetection.java"
 ```
 
 **Runnable Client Code:**
@@ -475,68 +327,7 @@ public class CycleDetectionClient {
 **Use case:** Number of islands, accounts merge, provinces.
 
 ```java
-import java.util.*;
-
-public class ConnectedComponents {
-
-    /**
-     * Problem: Number of islands (using union-find)
-     * Time: O(m*n * α(m*n)), Space: O(m*n)
-     *
-     * TODO: Implement using union-find
-     */
-    public static int numIslands(char[][] grid) {
-        // TODO: Initialize union-find for all cells
-        // TODO: Implement iteration/conditional logic
-        // TODO: Count unique components of land cells
-
-        return 0; // Replace with implementation
-    }
-
-    /**
-     * Problem: Number of provinces (friend circles)
-     * Time: O(n^2 * α(n)), Space: O(n)
-     *
-     * TODO: Implement using union-find
-     */
-    public static int findCircleNum(int[][] isConnected) {
-        // TODO: Initialize union-find with n people
-        // TODO: Implement iteration/conditional logic
-        // TODO: Return number of components
-
-        return 0; // Replace with implementation
-    }
-
-    /**
-     * Problem: Accounts merge (emails belonging to same person)
-     * Time: O(n*k * α(n*k)), Space: O(n*k)
-     *
-     * TODO: Implement accounts merge
-     */
-    public static List<List<String>> accountsMerge(List<List<String>> accounts) {
-        // TODO: Map email to account index
-        // TODO: Union accounts that share emails
-        // TODO: Group emails by component
-        // TODO: Sort emails in each group
-
-        return new ArrayList<>(); // Replace with implementation
-    }
-
-    /**
-     * Problem: Smallest string with swaps
-     * Time: O(n log n + E * α(n)), Space: O(n)
-     *
-     * TODO: Implement using union-find
-     */
-    public static String smallestStringWithSwaps(String s, List<List<Integer>> pairs) {
-        // TODO: Union indices that can be swapped
-        // TODO: Group characters by component
-        // TODO: Sort characters in each component
-        // TODO: Reconstruct string
-
-        return ""; // Replace with implementation
-    }
-}
+--8<-- "com/study/dsa/unionfind/ConnectedComponents.java"
 ```
 
 **Runnable Client Code:**
@@ -628,70 +419,7 @@ public class ConnectedComponentsClient {
 **Use case:** Satisfiability, equations, sentence similarity.
 
 ```java
-import java.util.*;
-
-public class AdvancedUnionFind {
-
-    /**
-     * Problem: Satisfiability of equality equations
-     * Time: O(n * α(26)), Space: O(26)
-     *
-     * TODO: Implement equation satisfaction check
-     */
-    public static boolean equationsPossible(String[] equations) {
-        // TODO: Initialize union-find for 26 letters
-        // TODO: First pass: union all equal variables (==)
-        // TODO: Second pass: check all inequalities (!=)
-        // TODO: Return true if no contradictions
-
-        return false; // Replace with implementation
-    }
-
-    /**
-     * Problem: Evaluate division (transitive division)
-     * Time: O(E * α(V) + Q * V), Space: O(V)
-     *
-     * TODO: Implement with weighted union-find
-     */
-    public static double[] calcEquation(List<List<String>> equations,
-                                       double[] values,
-                                       List<List<String>> queries) {
-        // TODO: Build graph with division relationships
-        // TODO: Implement iteration/conditional logic
-        // TODO: Or use weighted union-find with ratios
-
-        return new double[0]; // Replace with implementation
-    }
-
-    /**
-     * Problem: Sentence similarity II (transitive similarity)
-     * Time: O(P * α(W)), Space: O(W)
-     *
-     * TODO: Implement similarity check
-     */
-    public static boolean areSentencesSimilar(String[] words1, String[] words2,
-                                             List<List<String>> pairs) {
-        // TODO: Implement iteration/conditional logic
-        // TODO: Union similar word pairs
-        // TODO: Check if words1[i] and words2[i] in same component
-
-        return false; // Replace with implementation
-    }
-
-    /**
-     * Problem: Minimize malware spread
-     * Time: O(n^2 * α(n)), Space: O(n)
-     *
-     * TODO: Implement using union-find
-     */
-    public static int minMalwareSpread(int[][] graph, int[] initial) {
-        // TODO: Union all connected nodes
-        // TODO: Implement iteration/conditional logic
-        // TODO: Return node whose removal saves most nodes
-
-        return 0; // Replace with implementation
-    }
-}
+--8<-- "com/study/dsa/unionfind/AdvancedUnionFind.java"
 ```
 
 **Runnable Client Code:**

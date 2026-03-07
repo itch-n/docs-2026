@@ -70,4 +70,6 @@ markdown_extensions:
       custom_checkbox: true  # Recommended for better styling
   - pymdownx.details
   - pymdownx.superfences
+  - pymdownx.snippets:
+      base_path: ['src/main/java']
   - md_in_html

@@ -149,62 +149,7 @@ Your answer:
 **Use case:** Detect cycles, find paths, connected components, backtracking problems.
 
 ```java
-import java.util.*;
-
-public class DFS {
-
-    /**
-     * Problem: Number of islands (connected components)
-     * Time: O(m*n), Space: O(m*n) for recursion stack
-     *
-     * TODO: Implement DFS to count islands
-     */
-    public static int numIslands(char[][] grid) {
-        if (grid == null || grid.length == 0) return 0;
-
-        int count = 0;
-
-        // TODO: Implement iteration/conditional logic
-
-        return 0; // Replace with implementation
-    }
-
-    private static void dfs(char[][] grid, int i, int j) {
-        // TODO: Base cases
-
-        // TODO: Implement logic
-
-        // TODO: Recursively visit 4 neighbors
-    }
-
-    /**
-     * Problem: Has path in graph (adjacency list)
-     * Time: O(V + E), Space: O(V)
-     *
-     * TODO: Implement DFS path finding
-     */
-    public static boolean hasPath(Map<Integer, List<Integer>> graph, int start, int end) {
-        Set<Integer> visited = new HashSet<>();
-
-        // TODO: Call recursive DFS helper
-        return false; // Replace
-    }
-
-    private static boolean dfsPath(Map<Integer, List<Integer>> graph,
-                                   int current, int target, Set<Integer> visited) {
-        // TODO: Implement iteration/conditional logic
-
-        // TODO: Implement iteration/conditional logic
-
-        // TODO: Mark current as visited
-
-        // TODO: Implement iteration/conditional logic
-
-        // TODO: Return false if no path found
-
-        return false; // Replace
-    }
-}
+--8<-- "com/study/dsa/graphs/DFS.java"
 ```
 
 **Runnable Client Code:**
@@ -311,70 +256,7 @@ public class DFSClient {
 **Use case:** Shortest path in unweighted graph, level-order traversal, minimum steps.
 
 ```java
-import java.util.*;
-
-public class BFS {
-
-    /**
-     * Problem: Shortest path in unweighted graph
-     * Time: O(V + E), Space: O(V)
-     *
-     * TODO: Implement BFS shortest path
-     */
-    public static int shortestPath(Map<Integer, List<Integer>> graph, int start, int end) {
-        Queue<Integer> queue = new LinkedList<>();
-        Set<Integer> visited = new HashSet<>();
-        int steps = 0;
-
-        // TODO: Add start to queue and visited
-
-        // TODO: Implement iteration/conditional logic
-
-        return -1; // Not found
-    }
-
-    /**
-     * Problem: Minimum knight moves to reach target
-     * Time: O(n^2), Space: O(n^2)
-     *
-     * TODO: Implement BFS for chess board
-     */
-    public static int minKnightMoves(int targetX, int targetY) {
-        int[][] directions = {{2,1}, {2,-1}, {-2,1}, {-2,-1},
-                              {1,2}, {1,-2}, {-1,2}, {-1,-2}};
-
-        Queue<int[]> queue = new LinkedList<>();
-        Set<String> visited = new HashSet<>();
-
-        // TODO: Start from (0, 0)
-
-        int moves = 0;
-
-        // TODO: Implement iteration/conditional logic
-
-        return -1; // Replace
-    }
-
-    /**
-     * Problem: Rotting oranges (multi-source BFS)
-     * Time: O(m*n), Space: O(m*n)
-     *
-     * TODO: Implement multi-source BFS
-     */
-    public static int orangesRotting(int[][] grid) {
-        Queue<int[]> queue = new LinkedList<>();
-        int fresh = 0;
-        int minutes = 0;
-
-        // TODO: Count fresh oranges and add rotten to queue
-
-        // TODO: BFS to rot adjacent oranges
-
-        // TODO: Return minutes if all fresh rotted, else -1
-
-        return 0; // Replace
-    }
-}
+--8<-- "com/study/dsa/graphs/BFS.java"
 ```
 
 **Runnable Client Code:**
@@ -495,67 +377,7 @@ public class BFSClient {
 **Use case:** Validate DAG, detect deadlocks, dependency resolution.
 
 ```java
-import java.util.*;
-
-public class CycleDetection {
-
-    /**
-     * Problem: Detect cycle in directed graph
-     * Time: O(V + E), Space: O(V)
-     *
-     * TODO: Implement using DFS with states
-     */
-    public static boolean hasCycleDirected(int n, int[][] edges) {
-        List<List<Integer>> graph = new ArrayList<>();
-        int[] state = new int[n]; // 0: unvisited, 1: visiting, 2: visited
-
-        // TODO: Build graph
-
-        // TODO: DFS from each unvisited node
-
-        return false; // Replace
-    }
-
-    private static boolean dfsCycleDirected(List<List<Integer>> graph, int node, int[] state) {
-        // TODO: Implement iteration/conditional logic
-
-        // TODO: Implement iteration/conditional logic
-
-        // TODO: Mark as visiting
-
-        // TODO: Visit all neighbors
-
-        // TODO: Mark as visited
-
-        return false; // Replace
-    }
-
-    /**
-     * Problem: Detect cycle in undirected graph
-     * Time: O(V + E), Space: O(V)
-     *
-     * TODO: Implement using DFS with parent tracking
-     */
-    public static boolean hasCycleUndirected(int n, int[][] edges) {
-        List<List<Integer>> graph = new ArrayList<>();
-        boolean[] visited = new boolean[n];
-
-        // TODO: Build graph (both directions for undirected)
-
-        // TODO: DFS from each unvisited component
-
-        return false; // Replace
-    }
-
-    private static boolean dfsCycleUndirected(List<List<Integer>> graph, int node,
-                                             int parent, boolean[] visited) {
-        // TODO: Mark as visited
-
-        // TODO: Visit all neighbors
-
-        return false; // Replace
-    }
-}
+--8<-- "com/study/dsa/graphs/CycleDetection.java"
 ```
 
 **Runnable Client Code:**

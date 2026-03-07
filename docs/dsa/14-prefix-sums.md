@@ -117,29 +117,7 @@ Verify after implementation: <span class="fill-in">[Which one, and why?]</span>
 **Use case:** Multiple range sum queries on a static array.
 
 ```java
-public class PrefixSum {
-
-    /**
-     * Problem: Range sum query (immutable array)
-     * Time: O(1) query after O(n) preprocessing, Space: O(n)
-     *
-     * TODO: Implement range sum query
-     */
-    static class NumArray {
-        private int[] prefixSum;
-
-        public NumArray(int[] nums) {
-            // TODO: Build prefix sum array of length nums.length + 1
-            // TODO: prefixSum[0] = 0
-            // TODO: prefixSum[i] = prefixSum[i-1] + nums[i-1]
-        }
-
-        public int sumRange(int left, int right) {
-            // TODO: Return prefixSum[right+1] - prefixSum[left]
-            return 0; // Replace with implementation
-        }
-    }
-}
+--8<-- "com/study/dsa/prefixsums/PrefixSum.java"
 ```
 
 **Runnable Client Code:**
@@ -205,45 +183,7 @@ public class PrefixSumClient {
 **Use case:** Count subarrays with sum = k, longest subarray with sum = k.
 
 ```java
-import java.util.*;
-
-public class SubarraySum {
-
-    /**
-     * Problem: Count subarrays summing to K
-     * Time: O(n), Space: O(n)
-     *
-     * TODO: Implement using prefix sum + hashmap
-     * Key insight: if prefixSum[j] - prefixSum[i] == k,
-     * then nums[i..j-1] sums to k.
-     * So for each j, count how many i have prefixSum[i] == prefixSum[j] - k.
-     */
-    public static int subarraySum(int[] nums, int k) {
-        // TODO: Initialize map with {0: 1} (empty prefix has sum 0)
-        // TODO: Track running prefix sum
-        // TODO: For each element, check if (currentSum - k) is in map
-        // TODO: Add currentSum to map
-
-        return 0; // Replace with implementation
-    }
-
-    /**
-     * Problem: Contiguous array (equal 0s and 1s)
-     * Time: O(n), Space: O(n)
-     *
-     * TODO: Implement using prefix sum
-     * Key insight: replace 0s with -1s, then problem becomes
-     * "longest subarray with sum = 0"
-     */
-    public static int findMaxLength(int[] nums) {
-        // TODO: Initialize map with {0: -1} (sum 0 seen at index -1)
-        // TODO: Track running sum (treat 0 as -1)
-        // TODO: If sum seen before, update maxLen using stored index
-        // TODO: Otherwise, record current index for this sum
-
-        return 0; // Replace with implementation
-    }
-}
+--8<-- "com/study/dsa/prefixsums/SubarraySum.java"
 ```
 
 **Runnable Client Code:**
@@ -318,31 +258,7 @@ public class SubarraySumClient {
 **Use case:** Product of array except self (no division allowed).
 
 ```java
-public class ProductExceptSelf {
-
-    /**
-     * Problem: Product of array except self
-     * Time: O(n), Space: O(1) excluding output array
-     *
-     * TODO: Implement using prefix and suffix products
-     * Pass 1: result[i] = product of all elements to the LEFT of i
-     * Pass 2: multiply result[i] by product of all elements to the RIGHT of i
-     */
-    public static int[] productExceptSelf(int[] nums) {
-        int n = nums.length;
-        int[] result = new int[n];
-
-        // TODO: Pass 1 — fill result with prefix products
-        // result[0] = 1 (no elements to the left of index 0)
-        // result[i] = result[i-1] * nums[i-1]
-
-        // TODO: Pass 2 — multiply by suffix products in-place
-        // Track running suffix product (start at 1)
-        // Traverse right to left: result[i] *= suffix; suffix *= nums[i]
-
-        return result; // Replace with implementation
-    }
-}
+--8<-- "com/study/dsa/prefixsums/ProductExceptSelf.java"
 ```
 
 **Runnable Client Code:**
@@ -375,36 +291,7 @@ public class ProductExceptSelfClient {
 **Use case:** Sum of rectangle submatrix, count submatrices with target sum.
 
 ```java
-public class NumMatrix {
-
-    private int[][] prefixSum;
-
-    /**
-     * Problem: Range sum query 2D
-     * Time: O(1) query after O(m*n) preprocessing, Space: O(m*n)
-     *
-     * TODO: Implement 2D prefix sum
-     * prefixSum[i][j] = sum of submatrix from (0,0) to (i-1,j-1)
-     * Build using: prefixSum[i][j] = matrix[i-1][j-1]
-     *                              + prefixSum[i-1][j]
-     *                              + prefixSum[i][j-1]
-     *                              - prefixSum[i-1][j-1]
-     */
-    public NumMatrix(int[][] matrix) {
-        // TODO: Build 2D prefix sum with (m+1) x (n+1) dimensions
-    }
-
-    /**
-     * TODO: Implement sumRegion using inclusion-exclusion:
-     * sum = prefixSum[row2+1][col2+1]
-     *     - prefixSum[row1][col2+1]
-     *     - prefixSum[row2+1][col1]
-     *     + prefixSum[row1][col1]
-     */
-    public int sumRegion(int row1, int col1, int row2, int col2) {
-        return 0; // Replace with implementation
-    }
-}
+--8<-- "com/study/dsa/prefixsums/NumMatrix.java"
 ```
 
 **Runnable Client Code:**

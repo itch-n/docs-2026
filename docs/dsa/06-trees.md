@@ -161,68 +161,7 @@ Verify after implementation: <span class="fill-in">[Which one(s)?]</span>
 **Use case:** Get sorted order from BST, expression evaluation.
 
 ```java
-import java.util.*;
-
-public class InorderTraversal {
-
-    static class TreeNode {
-        int val;
-        TreeNode left, right;
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-    }
-
-    /**
-     * Problem: Inorder traversal recursively
-     * Time: O(n), Space: O(h) where h = height for recursion stack
-     *
-     * TODO: Implement recursive inorder
-     */
-    public static List<Integer> inorderRecursive(TreeNode root) {
-        List<Integer> result = new ArrayList<>();
-
-        // TODO: Handle base case
-
-        // TODO: Recursively traverse left subtree
-        // TODO: Visit root (add to result)
-        // TODO: Recursively traverse right subtree
-
-        return result; // Replace with implementation
-    }
-
-    /**
-     * Problem: Inorder traversal iteratively using stack
-     * Time: O(n), Space: O(h)
-     *
-     * TODO: Implement iterative inorder
-     */
-    public static List<Integer> inorderIterative(TreeNode root) {
-        List<Integer> result = new ArrayList<>();
-        // TODO: Create Stack<TreeNode>
-
-        // TODO: curr = root
-        // TODO: Implement iteration/conditional logic
-
-        return result; // Replace with implementation
-    }
-
-    /**
-     * Problem: Inorder traversal with Morris (no extra space)
-     * Time: O(n), Space: O(1)
-     *
-     * TODO: Implement Morris traversal
-     */
-    public static List<Integer> inorderMorris(TreeNode root) {
-        List<Integer> result = new ArrayList<>();
-
-        // TODO: curr = root
-        // TODO: Implement iteration/conditional logic
-
-        return result; // Replace with implementation
-    }
-}
+--8<-- "com/study/dsa/trees/InorderTraversal.java"
 ```
 
 !!! warning "Debugging Challenge — Wrong Loop Condition in Iterative Inorder"
@@ -334,54 +273,7 @@ public class InorderTraversalClient {
 **Use case:** Create copy of tree, prefix expression, serialize tree.
 
 ```java
-import java.util.*;
-
-public class PreorderTraversal {
-
-    static class TreeNode {
-        int val;
-        TreeNode left, right;
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-    }
-
-    /**
-     * Problem: Preorder traversal recursively
-     * Time: O(n), Space: O(h)
-     *
-     * TODO: Implement recursive preorder
-     */
-    public static List<Integer> preorderRecursive(TreeNode root) {
-        List<Integer> result = new ArrayList<>();
-
-        // TODO: Handle base case
-
-        // TODO: Visit root (add to result)
-        // TODO: Recursively traverse left subtree
-        // TODO: Recursively traverse right subtree
-
-        return result; // Replace with implementation
-    }
-
-    /**
-     * Problem: Preorder traversal iteratively using stack
-     * Time: O(n), Space: O(h)
-     *
-     * TODO: Implement iterative preorder
-     */
-    public static List<Integer> preorderIterative(TreeNode root) {
-        List<Integer> result = new ArrayList<>();
-
-        // TODO: Implement iteration/conditional logic
-        // TODO: Create Stack<TreeNode>, push root
-
-        // TODO: Implement iteration/conditional logic
-
-        return result; // Replace with implementation
-    }
-}
+--8<-- "com/study/dsa/trees/PreorderTraversal.java"
 ```
 
 **Runnable Client Code:**
@@ -439,57 +331,7 @@ public class PreorderTraversalClient {
 **Use case:** Delete tree, calculate directory size, postfix expression.
 
 ```java
-import java.util.*;
-
-public class PostorderTraversal {
-
-    static class TreeNode {
-        int val;
-        TreeNode left, right;
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-    }
-
-    /**
-     * Problem: Postorder traversal recursively
-     * Time: O(n), Space: O(h)
-     *
-     * TODO: Implement recursive postorder
-     */
-    public static List<Integer> postorderRecursive(TreeNode root) {
-        List<Integer> result = new ArrayList<>();
-
-        // TODO: Handle base case
-
-        // TODO: Recursively traverse left subtree
-        // TODO: Recursively traverse right subtree
-        // TODO: Visit root (add to result)
-
-        return result; // Replace with implementation
-    }
-
-    /**
-     * Problem: Postorder traversal iteratively using two stacks
-     * Time: O(n), Space: O(h)
-     *
-     * TODO: Implement iterative postorder
-     */
-    public static List<Integer> postorderIterative(TreeNode root) {
-        List<Integer> result = new ArrayList<>();
-
-        // TODO: Implement iteration/conditional logic
-        // TODO: Create two stacks: stack1 and stack2
-        // TODO: Push root to stack1
-
-        // TODO: Implement iteration/conditional logic
-
-        // TODO: Pop all from stack2 to result
-
-        return result; // Replace with implementation
-    }
-}
+--8<-- "com/study/dsa/trees/PostorderTraversal.java"
 ```
 
 **Runnable Client Code:**
@@ -547,67 +389,7 @@ public class PostorderTraversalClient {
 **Use case:** Find shortest path, serialize by level, level-wise processing.
 
 ```java
-import java.util.*;
-
-public class LevelOrderTraversal {
-
-    static class TreeNode {
-        int val;
-        TreeNode left, right;
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-    }
-
-    /**
-     * Problem: Level-order traversal using queue
-     * Time: O(n), Space: O(w) where w = max width
-     *
-     * TODO: Implement BFS using queue
-     */
-    public static List<List<Integer>> levelOrder(TreeNode root) {
-        List<List<Integer>> result = new ArrayList<>();
-
-        // TODO: Implement iteration/conditional logic
-        // TODO: Create Queue<TreeNode>, add root
-
-        // TODO: Implement iteration/conditional logic
-
-        return result; // Replace with implementation
-    }
-
-    /**
-     * Problem: Level-order traversal in zigzag pattern
-     * Time: O(n), Space: O(w)
-     *
-     * TODO: Implement zigzag traversal
-     */
-    public static List<List<Integer>> zigzagLevelOrder(TreeNode root) {
-        List<List<Integer>> result = new ArrayList<>();
-
-        // TODO: Similar to levelOrder but alternate direction
-        // TODO: Use boolean flag to track left-to-right vs right-to-left
-        // TODO: Reverse level list when going right-to-left
-
-        return result; // Replace with implementation
-    }
-
-    /**
-     * Problem: Right side view of tree
-     * Time: O(n), Space: O(w)
-     *
-     * TODO: Implement right side view
-     */
-    public static List<Integer> rightSideView(TreeNode root) {
-        List<Integer> result = new ArrayList<>();
-
-        // TODO: Use level-order traversal
-        // TODO: Add last node of each level to result
-
-        return result; // Replace with implementation
-    }
-}
+--8<-- "com/study/dsa/trees/LevelOrderTraversal.java"
 ```
 
 **Runnable Client Code:**
@@ -762,78 +544,7 @@ Verify after implementation: <span class="fill-in">[Which one(s)?]</span>
 **Use case:** Tree height, depth, balanced tree check.
 
 ```java
-public class TreeHeightDepth {
-
-    static class TreeNode {
-        int val;
-        TreeNode left, right;
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-    }
-
-    /**
-     * Problem: Calculate height of tree
-     * Time: O(n), Space: O(h) for recursion stack
-     *
-     * TODO: Implement recursive height calculation
-     */
-    public static int height(TreeNode root) {
-        // TODO: Handle base case
-
-        // TODO: Recursively get left height
-        // TODO: Recursively get right height
-        // TODO: Return 1 + max(leftHeight, rightHeight)
-
-        return 0; // Replace with implementation
-    }
-
-    /**
-     * Problem: Check if tree is balanced
-     * Time: O(n), Space: O(h)
-     *
-     * TODO: Implement balanced tree check
-     */
-    public static boolean isBalanced(TreeNode root) {
-        // TODO: Tree is balanced if:
-
-        // TODO: Return checkBalance(root) != -1
-        return false; // Replace with implementation
-    }
-
-    private static int checkBalance(TreeNode root) {
-        // TODO: Base case: null returns 0
-
-        // TODO: Check left subtree balance
-        // TODO: Implement iteration/conditional logic
-
-        // TODO: Check right subtree balance
-        // TODO: Implement iteration/conditional logic
-
-        // TODO: Implement iteration/conditional logic
-        // TODO: Otherwise return 1 + max(left, right)
-
-        return 0; // Replace with implementation
-    }
-
-    /**
-     * Problem: Calculate minimum depth (shortest path to leaf)
-     * Time: O(n), Space: O(h)
-     *
-     * TODO: Implement minimum depth
-     */
-    public static int minDepth(TreeNode root) {
-        // TODO: Handle base case
-
-        // TODO: Implement iteration/conditional logic
-        // TODO: Implement iteration/conditional logic
-
-        // TODO: Both children exist: return 1 + min(left, right)
-
-        return 0; // Replace with implementation
-    }
-}
+--8<-- "com/study/dsa/trees/TreeHeightDepth.java"
 ```
 
 !!! warning "Debugging Challenge — Missing Base Case and Missing +1"
@@ -928,78 +639,7 @@ public class TreeHeightDepthClient {
 **Use case:** Tree diameter, max path sum, all paths.
 
 ```java
-import java.util.*;
-
-public class TreeDiameterPaths {
-
-    static class TreeNode {
-        int val;
-        TreeNode left, right;
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-    }
-
-    /**
-     * Problem: Calculate diameter (longest path between any two nodes)
-     * Time: O(n), Space: O(h)
-     *
-     * TODO: Implement diameter calculation
-     */
-    public static int diameter(TreeNode root) {
-        int[] maxDiameter = new int[1];
-
-        // TODO: Helper function to calculate height and update diameter
-        // TODO: Implement iteration/conditional logic
-        // TODO: Track maximum diameter seen
-
-        calculateHeight(root, maxDiameter);
-        return maxDiameter[0];
-    }
-
-    private static int calculateHeight(TreeNode root, int[] maxDiameter) {
-        // TODO: Base case: null returns 0
-
-        // TODO: Get left and right heights
-        // TODO: Update maxDiameter: max(current, left + right)
-        // TODO: Return 1 + max(left, right)
-
-        return 0; // Replace with implementation
-    }
-
-    /**
-     * Problem: Check if path exists with given sum
-     * Time: O(n), Space: O(h)
-     *
-     * TODO: Implement path sum check
-     */
-    public static boolean hasPathSum(TreeNode root, int targetSum) {
-        // TODO: Handle base case
-
-        // TODO: Implement iteration/conditional logic
-
-        // TODO: Recursively check left and right subtrees
-        // TODO: with targetSum - root.val
-
-        return false; // Replace with implementation
-    }
-
-    /**
-     * Problem: Find all root-to-leaf paths with given sum
-     * Time: O(n), Space: O(h)
-     *
-     * TODO: Implement path sum II with backtracking
-     */
-    public static List<List<Integer>> pathSum(TreeNode root, int targetSum) {
-        List<List<Integer>> result = new ArrayList<>();
-
-        // TODO: Use backtracking to explore all paths
-        // TODO: Add node to path, recurse, remove node (backtrack)
-
-        return result; // Replace with implementation
-    }
-}
+--8<-- "com/study/dsa/trees/TreeDiameterPaths.java"
 ```
 
 !!! warning "Debugging Challenge — Leaf Check Uses Wrong Logical Operator"
@@ -1096,49 +736,7 @@ public class TreeDiameterPathsClient {
 **Use case:** LCA in binary tree, LCA in BST, distance between nodes.
 
 ```java
-public class LowestCommonAncestor {
-
-    static class TreeNode {
-        int val;
-        TreeNode left, right;
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-    }
-
-    /**
-     * Problem: Find LCA in binary tree
-     * Time: O(n), Space: O(h)
-     *
-     * TODO: Implement LCA for binary tree
-     */
-    public static TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        // TODO: Handle base case
-
-        // TODO: Recursively search in left and right subtrees
-
-        // TODO: Implement iteration/conditional logic
-        // TODO: Implement iteration/conditional logic
-        // TODO: Implement iteration/conditional logic
-
-        return null; // Replace with implementation
-    }
-
-    /**
-     * Problem: Find LCA in BST (optimized)
-     * Time: O(h), Space: O(h)
-     *
-     * TODO: Implement LCA for BST
-     */
-    public static TreeNode lowestCommonAncestorBST(TreeNode root, TreeNode p, TreeNode q) {
-        // TODO: Implement iteration/conditional logic
-        // TODO: Implement iteration/conditional logic
-        // TODO: Otherwise, root is LCA
-
-        return null; // Replace with implementation
-    }
-}
+--8<-- "com/study/dsa/trees/LowestCommonAncestor.java"
 ```
 
 **Runnable Client Code:**
@@ -1197,55 +795,7 @@ public class LowestCommonAncestorClient {
 **Use case:** Construct from inorder/preorder, inorder/postorder.
 
 ```java
-import java.util.*;
-
-public class TreeConstruction {
-
-    static class TreeNode {
-        int val;
-        TreeNode left, right;
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-    }
-
-    /**
-     * Problem: Build tree from preorder and inorder traversals
-     * Time: O(n), Space: O(n)
-     *
-     * TODO: Implement tree construction
-     */
-    public static TreeNode buildTreePreIn(int[] preorder, int[] inorder) {
-        // TODO: Create map of inorder indices for O(1) lookup
-        // TODO: Use helper with preorder index pointer
-        // TODO: Implement iteration/conditional logic
-
-        return null; // Replace with implementation
-    }
-
-    /**
-     * Problem: Build tree from postorder and inorder traversals
-     * Time: O(n), Space: O(n)
-     *
-     * TODO: Implement tree construction
-     */
-    public static TreeNode buildTreePostIn(int[] postorder, int[] inorder) {
-        // TODO: Similar to preorder approach
-        // TODO: But process postorder from right to left
-        // TODO: Build right subtree before left
-
-        return null; // Replace with implementation
-    }
-
-    // Helper: Print tree inorder
-    static void printInorder(TreeNode root) {
-        if (root == null) return;
-        printInorder(root.left);
-        System.out.print(root.val + " ");
-        printInorder(root.right);
-    }
-}
+--8<-- "com/study/dsa/trees/TreeConstruction.java"
 ```
 
 **Runnable Client Code:**

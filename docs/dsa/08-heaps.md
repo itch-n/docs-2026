@@ -131,51 +131,7 @@ Verify after implementation: <span class="fill-in">[Which one(s)?]</span>
 **Use case:** Find kth largest/smallest, top K elements.
 
 ```java
-import java.util.*;
-
-public class BasicHeapOperations {
-
-    /**
-     * Problem: Find Kth largest element in array
-     * Time: O(n log k), Space: O(k)
-     *
-     * TODO: Implement using min-heap of size k
-     */
-    public static int findKthLargest(int[] nums, int k) {
-        // TODO: Create PriorityQueue (min-heap) of size k
-        // TODO: Implement iteration/conditional logic
-        // TODO: Return heap.peek() (kth largest)
-
-        return 0; // Replace with implementation
-    }
-
-    /**
-     * Problem: Find K largest elements
-     * Time: O(n log k), Space: O(k)
-     *
-     * TODO: Implement K largest elements
-     */
-    public static List<Integer> kLargest(int[] nums, int k) {
-        // TODO: Use min-heap of size k
-        // TODO: Maintain k largest elements
-        // TODO: Return heap as list
-
-        return new ArrayList<>(); // Replace with implementation
-    }
-
-    /**
-     * Problem: Sort array using heap
-     * Time: O(n log n), Space: O(n)
-     *
-     * TODO: Implement heap sort
-     */
-    public static int[] heapSort(int[] nums) {
-        // TODO: Add all elements to max-heap
-        // TODO: Extract max repeatedly to get sorted array
-
-        return new int[0]; // Replace with implementation
-    }
-}
+--8<-- "com/study/dsa/heaps/BasicHeapOperations.java"
 ```
 
 !!! warning "Debugging Challenge — Max-Heap Used Where Min-Heap Is Required"
@@ -274,84 +230,7 @@ public class BasicHeapOperationsClient {
 **Use case:** Merge K sorted lists, merge K sorted arrays.
 
 ```java
-import java.util.*;
-
-public class MergeKSorted {
-
-    static class ListNode {
-        int val;
-        ListNode next;
-
-        ListNode(int val) {
-            this.val = val;
-        }
-    }
-
-    /**
-     * Problem: Merge K sorted linked lists
-     * Time: O(n log k), Space: O(k) where n = total nodes, k = lists
-     *
-     * TODO: Implement using min-heap
-     */
-    public static ListNode mergeKLists(ListNode[] lists) {
-        // TODO: Create min-heap with comparator on node.val
-        // TODO: Add first node from each list to heap
-        // TODO: Implement iteration/conditional logic
-
-        return null; // Replace with implementation
-    }
-
-    /**
-     * Problem: Merge K sorted arrays
-     * Time: O(n log k), Space: O(k)
-     *
-     * TODO: Implement using min-heap with array indices
-     */
-    public static List<Integer> mergeKArrays(int[][] arrays) {
-        // TODO: Create heap with [value, arrayIndex, elementIndex]
-        // TODO: Add first element from each array
-        // TODO: Extract min and add next from same array
-
-        return new ArrayList<>(); // Replace with implementation
-    }
-
-    /**
-     * Problem: Find smallest range covering elements from K lists
-     * Time: O(n log k), Space: O(k)
-     *
-     * TODO: Implement using heap tracking max
-     */
-    public static int[] smallestRange(List<List<Integer>> nums) {
-        // TODO: Use min-heap, track current max
-        // TODO: Range = [heap.peek(), currentMax]
-        // TODO: Minimize range size
-
-        return new int[]{0, 0}; // Replace with implementation
-    }
-
-    // Helper: Create linked list from array
-    static ListNode createList(int[] values) {
-        if (values.length == 0) return null;
-        ListNode head = new ListNode(values[0]);
-        ListNode current = head;
-        for (int i = 1; i < values.length; i++) {
-            current.next = new ListNode(values[i]);
-            current = current.next;
-        }
-        return head;
-    }
-
-    // Helper: Print linked list
-    static void printList(ListNode head) {
-        ListNode current = head;
-        while (current != null) {
-            System.out.print(current.val);
-            if (current.next != null) System.out.print(" -> ");
-            current = current.next;
-        }
-        System.out.println();
-    }
-}
+--8<-- "com/study/dsa/heaps/MergeKSorted.java"
 ```
 
 **Runnable Client Code:**
@@ -421,52 +300,7 @@ public class MergeKSortedClient {
 **Use case:** Top K frequent elements, sort by frequency.
 
 ```java
-import java.util.*;
-
-public class TopKFrequent {
-
-    /**
-     * Problem: Find K most frequent elements
-     * Time: O(n log k), Space: O(n)
-     *
-     * TODO: Implement using frequency map + min-heap
-     */
-    public static List<Integer> topKFrequent(int[] nums, int k) {
-        // TODO: Count frequencies with HashMap
-        // TODO: Create min-heap of size k, ordered by frequency
-        // TODO: Implement iteration/conditional logic
-        // TODO: Return heap contents
-
-        return new ArrayList<>(); // Replace with implementation
-    }
-
-    /**
-     * Problem: Sort array by frequency
-     * Time: O(n log n), Space: O(n)
-     *
-     * TODO: Implement frequency sort
-     */
-    public static int[] frequencySort(int[] nums) {
-        // TODO: Count frequencies
-        // TODO: Sort by frequency (descending), then by value (ascending)
-
-        return new int[0]; // Replace with implementation
-    }
-
-    /**
-     * Problem: K closest points to origin
-     * Time: O(n log k), Space: O(k)
-     *
-     * TODO: Implement using max-heap of size k
-     */
-    public static int[][] kClosest(int[][] points, int k) {
-        // TODO: Create max-heap ordered by distance
-        // TODO: Maintain k closest points
-        // TODO: Distance = x^2 + y^2 (no need for sqrt)
-
-        return new int[0][0]; // Replace with implementation
-    }
-}
+--8<-- "com/study/dsa/heaps/TopKFrequent.java"
 ```
 
 **Runnable Client Code:**
@@ -525,54 +359,7 @@ public class TopKFrequentClient {
 **Use case:** Find median from data stream, sliding window median.
 
 ```java
-import java.util.*;
-
-public class TwoHeaps {
-
-    /**
-     * MedianFinder: Maintain running median
-     * Time: O(log n) insert, O(1) find median
-     * Space: O(n)
-     *
-     * TODO: Implement using two heaps
-     */
-    static class MedianFinder {
-        // TODO: maxHeap stores smaller half (max at top)
-        // TODO: minHeap stores larger half (min at top)
-        // TODO: Keep heaps balanced: |size difference| <= 1
-
-        public MedianFinder() {
-            // TODO: Initialize PriorityQueue for max-heap (reverse order)
-            // TODO: Initialize PriorityQueue for min-heap (natural order)
-        }
-
-        public void addNum(int num) {
-            // TODO: Add to appropriate heap
-            // TODO: Balance heaps if needed
-            // Hint: Always add to maxHeap first, then move to minHeap if needed
-        }
-
-        public double findMedian() {
-            // TODO: Implement iteration/conditional logic
-            // TODO: Implement iteration/conditional logic
-            return 0.0; // Replace with implementation
-        }
-    }
-
-    /**
-     * Problem: Sliding window median
-     * Time: O(n * k), Space: O(k)
-     *
-     * TODO: Implement sliding window median
-     */
-    public static double[] medianSlidingWindow(int[] nums, int k) {
-        // TODO: Use two heaps approach
-        // TODO: Handle removal from window
-        // Note: This is complex - use TreeMap or simpler approach
-
-        return new double[0]; // Replace with implementation
-    }
-}
+--8<-- "com/study/dsa/heaps/TwoHeaps.java"
 ```
 
 **Runnable Client Code:**

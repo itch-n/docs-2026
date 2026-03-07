@@ -141,64 +141,7 @@ Verify after implementation: <span class="fill-in">[Which one(s)?]</span>
 **Use case:** Climbing stairs, house robber, decode ways.
 
 ```java
-public class FibonacciStyle {
-
-    /**
-     * Problem: Climbing stairs (1 or 2 steps at a time)
-     * Time: O(n), Space: O(1)
-     *
-     * TODO: Implement using DP
-     */
-    public static int climbStairs(int n) {
-        // TODO: Base cases: n=1 -> 1, n=2 -> 2
-
-        // TODO: DP approach (bottom-up):
-
-        return 0; // Replace with implementation
-    }
-
-    /**
-     * Problem: House robber (can't rob adjacent houses)
-     * Time: O(n), Space: O(1)
-     *
-     * TODO: Implement using DP
-     */
-    public static int rob(int[] nums) {
-        // TODO: dp[i] = max money robbing up to house i
-        // TODO: dp[i] = max(dp[i-1], dp[i-2] + nums[i])
-        // TODO: Optimize space: only need last 2 values
-
-        return 0; // Replace with implementation
-    }
-
-    /**
-     * Problem: House robber II (houses in a circle)
-     * Time: O(n), Space: O(1)
-     *
-     * TODO: Implement circular version
-     */
-    public static int robCircular(int[] nums) {
-        // TODO: Can't rob both first and last house
-        // TODO: Try two scenarios:
-        // TODO: Return max of both
-
-        return 0; // Replace with implementation
-    }
-
-    /**
-     * Problem: Min cost climbing stairs
-     * Time: O(n), Space: O(1)
-     *
-     * TODO: Implement min cost DP
-     */
-    public static int minCostClimbingStairs(int[] cost) {
-        // TODO: dp[i] = min cost to reach step i
-        // TODO: dp[i] = cost[i] + min(dp[i-1], dp[i-2])
-        // TODO: Can start from step 0 or 1
-
-        return 0; // Replace with implementation
-    }
-}
+--8<-- "com/study/dsa/dynamicprogramming/FibonacciStyle.java"
 ```
 
 **Runnable Client Code:**
@@ -306,68 +249,7 @@ public class FibonacciStyleClient {
 **Use case:** Coin change, subset sum, partition equal subset.
 
 ```java
-import java.util.*;
-
-public class DecisionProblems {
-
-    /**
-     * Problem: Coin change - minimum coins to make amount
-     * Time: O(amount * n), Space: O(amount)
-     *
-     * TODO: Implement using DP
-     */
-    public static int coinChange(int[] coins, int amount) {
-        // TODO: dp[i] = min coins to make amount i
-        // TODO: dp[i] = min(dp[i], dp[i - coin] + 1) for each coin
-        // TODO: Initialize dp[0] = 0, rest = infinity
-        // TODO: Return dp[amount] or -1 if impossible
-
-        return -1; // Replace with implementation
-    }
-
-    /**
-     * Problem: Coin change II - count ways to make amount
-     * Time: O(amount * n), Space: O(amount)
-     *
-     * TODO: Implement counting ways
-     */
-    public static int change(int amount, int[] coins) {
-        // TODO: dp[i] = ways to make amount i
-        // TODO: Implement iteration/conditional logic
-        // TODO: dp[i] += dp[i - coin]
-
-        return 0; // Replace with implementation
-    }
-
-    /**
-     * Problem: Perfect squares - min perfect squares to sum to n
-     * Time: O(n * sqrt(n)), Space: O(n)
-     *
-     * TODO: Implement using DP
-     */
-    public static int numSquares(int n) {
-        // TODO: Similar to coin change
-        // TODO: "Coins" are perfect squares: 1, 4, 9, 16, ...
-        // TODO: dp[i] = min perfect squares to sum to i
-
-        return 0; // Replace with implementation
-    }
-
-    /**
-     * Problem: Partition equal subset sum
-     * Time: O(n * sum), Space: O(sum)
-     *
-     * TODO: Implement subset sum DP
-     */
-    public static boolean canPartition(int[] nums) {
-        // TODO: Implement iteration/conditional logic
-        // TODO: Problem becomes: can we make sum/2?
-        // TODO: dp[i] = can we make sum i?
-        // TODO: Implement iteration/conditional logic
-
-        return false; // Replace with implementation
-    }
-}
+--8<-- "com/study/dsa/dynamicprogramming/DecisionProblems.java"
 ```
 
 **Runnable Client Code:**
@@ -476,67 +358,7 @@ public class DecisionProblemsClient {
 **Use case:** Decode ways, word break, palindrome partitioning.
 
 ```java
-import java.util.*;
-
-public class StringDP {
-
-    /**
-     * Problem: Decode ways (1=A, 2=B, ..., 26=Z)
-     * Time: O(n), Space: O(1)
-     *
-     * TODO: Implement decode ways
-     */
-    public static int numDecodings(String s) {
-        // TODO: dp[i] = ways to decode substring 0..i
-        // TODO: Single digit: if s[i] != '0', dp[i] += dp[i-1]
-        // TODO: Two digits: if 10 <= s[i-1:i] <= 26, dp[i] += dp[i-2]
-        // TODO: Optimize space: only need last 2 values
-
-        return 0; // Replace with implementation
-    }
-
-    /**
-     * Problem: Word break - can string be segmented into words
-     * Time: O(n^2 * m) where m = avg word length, Space: O(n)
-     *
-     * TODO: Implement word break
-     */
-    public static boolean wordBreak(String s, List<String> wordDict) {
-        // TODO: dp[i] = can substring 0..i be segmented?
-        // TODO: dp[i] = true if any dp[j] && s.substring(j,i) in dict
-        // TODO: Use HashSet for O(1) word lookup
-
-        return false; // Replace with implementation
-    }
-
-    /**
-     * Problem: Longest increasing subsequence
-     * Time: O(n^2), Space: O(n)
-     *
-     * TODO: Implement LIS using DP
-     */
-    public static int lengthOfLIS(int[] nums) {
-        // TODO: dp[i] = length of LIS ending at i
-        // TODO: Implement logic
-        // TODO: Return max value in dp array
-
-        return 0; // Replace with implementation
-    }
-
-    /**
-     * Problem: Longest palindromic substring
-     * Time: O(n^2), Space: O(n^2) or O(1) with expand from center
-     *
-     * TODO: Implement LPS
-     */
-    public static String longestPalindrome(String s) {
-        // TODO: Expand around center approach (space O(1))
-        // TODO: Try each position as center (odd and even length)
-        // TODO: Or use DP: dp[i][j] = is substring i..j palindrome?
-
-        return ""; // Replace with implementation
-    }
-}
+--8<-- "com/study/dsa/dynamicprogramming/StringDP.java"
 ```
 
 **Runnable Client Code:**
@@ -604,61 +426,7 @@ public class StringDPClient {
 **Use case:** Stock trading with various constraints.
 
 ```java
-public class StockProblems {
-
-    /**
-     * Problem: Best time to buy and sell stock (one transaction)
-     * Time: O(n), Space: O(1)
-     *
-     * TODO: Implement single transaction
-     */
-    public static int maxProfit(int[] prices) {
-        // TODO: Track minimum price seen so far
-        // TODO: Track maximum profit (price - minPrice)
-        // TODO: One pass solution
-
-        return 0; // Replace with implementation
-    }
-
-    /**
-     * Problem: Best time to buy and sell stock II (unlimited transactions)
-     * Time: O(n), Space: O(1)
-     *
-     * TODO: Implement unlimited transactions
-     */
-    public static int maxProfitUnlimited(int[] prices) {
-        // TODO: Sum all positive differences
-        // TODO: Buy before every increase, sell at peak
-
-        return 0; // Replace with implementation
-    }
-
-    /**
-     * Problem: Best time to buy and sell stock with cooldown
-     * Time: O(n), Space: O(1)
-     *
-     * TODO: Implement with cooldown
-     */
-    public static int maxProfitCooldown(int[] prices) {
-        // TODO: Track three states:
-        // TODO: Transitions: hold -> sold -> rest -> hold
-
-        return 0; // Replace with implementation
-    }
-
-    /**
-     * Problem: Best time to buy and sell stock with fee
-     * Time: O(n), Space: O(1)
-     *
-     * TODO: Implement with transaction fee
-     */
-    public static int maxProfitWithFee(int[] prices, int fee) {
-        // TODO: Similar to cooldown
-        // TODO: Subtract fee when selling
-
-        return 0; // Replace with implementation
-    }
-}
+--8<-- "com/study/dsa/dynamicprogramming/StockProblems.java"
 ```
 
 **Runnable Client Code:**

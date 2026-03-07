@@ -133,47 +133,7 @@ Verify after implementation: <span class="fill-in">[Which one(s)?]</span>
 **Use case:** Frequency counting, two-sum problems, duplicate detection.
 
 ```java
-public class BasicHashMap {
-
-    /**
-     * Problem: Two Sum - find indices of two numbers that sum to target
-     * Time: O(n), Space: O(n)
-     *
-     * TODO: Implement using HashMap for O(1) lookup
-     */
-    public static int[] twoSum(int[] nums, int target) {
-        // TODO: Use a map to remember what you've seen
-        // What should be stored as the key? As the value?
-
-        return new int[] {-1, -1}; // Replace with implementation
-    }
-
-    /**
-     * Problem: Count frequency of each character
-     * Time: O(n), Space: O(k) where k = unique characters
-     *
-     * TODO: Implement frequency counter
-     */
-    public static Map<Character, Integer> countCharacters(String s) {
-        // TODO: Track how many times each character appears
-        // Consider using getOrDefault for cleaner code
-
-        return new HashMap<>(); // Replace with implementation
-    }
-
-    /**
-     * Problem: Contains duplicate - check if array has duplicates
-     * Time: O(n), Space: O(n)
-     *
-     * TODO: Implement using HashSet
-     */
-    public static boolean containsDuplicate(int[] nums) {
-        // TODO: Use a set to track seen elements
-        // What indicates a duplicate has been found?
-
-        return false; // Replace with implementation
-    }
-}
+--8<-- "com/study/dsa/hashtables/BasicHashMap.java"
 ```
 
 **Runnable Client Code:**
@@ -274,50 +234,7 @@ public class BasicHashMapClient {
 **Use case:** Finding missing numbers, intersection/union operations.
 
 ```java
-import java.util.*;
-
-public class HashSetOperations {
-
-    /**
-     * Problem: Find intersection of two arrays
-     * Time: O(n + m), Space: O(min(n, m))
-     *
-     * TODO: Implement using HashSet
-     */
-    public static int[] intersection(int[] nums1, int[] nums2) {
-        // TODO: Store one array in a set for fast lookup
-        // How do you find common elements?
-
-        return new int[0]; // Replace with implementation
-    }
-
-    /**
-     * Problem: Find missing number from 0 to n
-     * Time: O(n), Space: O(n)
-     *
-     * TODO: Implement using HashSet
-     */
-    public static int missingNumber(int[] nums) {
-        // TODO: Store all present numbers
-        // How do you check which number is missing?
-
-        return -1; // Replace with implementation
-    }
-
-    /**
-     * Problem: Longest consecutive sequence
-     * Time: O(n), Space: O(n)
-     *
-     * TODO: Implement using HashSet
-     */
-    public static int longestConsecutive(int[] nums) {
-        // TODO: Store all numbers in a set for O(1) lookup
-        // How do you identify the start of a sequence?
-        // How do you count consecutive numbers?
-
-        return 0; // Replace with implementation
-    }
-}
+--8<-- "com/study/dsa/hashtables/HashSetOperations.java"
 ```
 
 **Runnable Client Code:**
@@ -388,60 +305,7 @@ public class HashSetOperationsClient {
 **Use case:** Anagrams, group by property, categorization.
 
 ```java
-import java.util.*;
-
-public class HashMapGrouping {
-
-    /**
-     * Problem: Group anagrams together
-     * Time: O(n * k log k) where k = max word length, Space: O(n * k)
-     *
-     * TODO: Implement using HashMap with sorted string as key
-     */
-    public static List<List<String>> groupAnagrams(String[] strs) {
-        // TODO: What makes anagrams have the same key?
-        // How can you transform each string into a unique key?
-
-        return new ArrayList<>(); // Replace with implementation
-    }
-
-    /**
-     * Problem: Group numbers by digit sum
-     * Time: O(n * d) where d = digits, Space: O(n)
-     *
-     * TODO: Implement custom grouping
-     */
-    public static Map<Integer, List<Integer>> groupByDigitSum(int[] nums) {
-        // TODO: Compute a key for each number based on its digits
-        // Group numbers with the same key together
-
-        return new HashMap<>(); // Replace with implementation
-    }
-
-    /**
-     * Problem: Find all strings that start with same character
-     * Time: O(n), Space: O(n)
-     *
-     * TODO: Implement grouping by first character
-     */
-    public static Map<Character, List<String>> groupByFirstChar(String[] words) {
-        // TODO: Extract the grouping criterion from each word
-        // Store words with the same criterion together
-
-        return new HashMap<>(); // Replace with implementation
-    }
-
-    // Helper: Calculate digit sum
-    private static int digitSum(int n) {
-        int sum = 0;
-        n = Math.abs(n);
-        while (n > 0) {
-            sum += n % 10;
-            n /= 10;
-        }
-        return sum;
-    }
-}
+--8<-- "com/study/dsa/hashtables/HashMapGrouping.java"
 ```
 
 **Runnable Client Code:**
@@ -529,36 +393,7 @@ public class HashMapGroupingClient {
 **Use case:** Substring problems with character constraints.
 
 ```java
-import java.util.*;
-
-public class HashMapWindow {
-
-    /**
-     * Problem: Minimum window substring containing all chars of target
-     * Time: O(n + m), Space: O(k) where k = unique chars
-     *
-     * TODO: Implement using HashMap to track frequencies
-     */
-    public static String minWindow(String s, String t) {
-        // TODO: Track character frequencies in the target string
-        // Use a sliding window to find the minimum valid window
-
-        return ""; // Replace with implementation
-    }
-
-    /**
-     * Problem: Check if s2 contains permutation of s1
-     * Time: O(n), Space: O(1) - only 26 chars
-     *
-     * TODO: Implement using frequency comparison
-     */
-    public static boolean checkInclusion(String s1, String s2) {
-        // TODO: How can you detect a permutation using frequencies?
-        // Consider using a fixed-size window
-
-        return false; // Replace with implementation
-    }
-}
+--8<-- "com/study/dsa/hashtables/HashMapWindow.java"
 ```
 
 **Runnable Client Code:**

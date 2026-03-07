@@ -134,71 +134,7 @@ Verify after implementation: <span class="fill-in">[Which one(s)?]</span>
 **Use case:** Undo operations, expression evaluation, backtracking.
 
 ```java
-import java.util.*;
-
-public class BasicStack {
-
-    /**
-     * Problem: Valid parentheses - check if brackets are balanced
-     * Time: O(n), Space: O(n)
-     *
-     * TODO: Implement using Stack
-     */
-    public static boolean isValid(String s) {
-        // TODO: Create Stack<Character>
-
-        // TODO: Implement iteration/conditional logic
-
-        // TODO: Return stack.isEmpty()
-
-        return false; // Replace with implementation
-    }
-
-    /**
-     * Problem: Evaluate Reverse Polish Notation
-     * Time: O(n), Space: O(n)
-     *
-     * TODO: Implement RPN calculator
-     */
-    public static int evalRPN(String[] tokens) {
-        // TODO: Create Stack<Integer>
-
-        // TODO: Implement iteration/conditional logic
-
-        // TODO: Return stack.peek()
-
-        return 0; // Replace with implementation
-    }
-
-    /**
-     * Problem: Min Stack - stack with O(1) getMin()
-     * Time: O(1) for all operations, Space: O(n)
-     *
-     * TODO: Implement MinStack class
-     */
-    static class MinStack {
-        // TODO: Use two stacks: one for values, one for minimums
-
-        public void push(int val) {
-            // TODO: Push to main stack
-            // TODO: Update min stack
-        }
-
-        public void pop() {
-            // TODO: Pop from both stacks
-        }
-
-        public int top() {
-            // TODO: Return top of main stack
-            return 0;
-        }
-
-        public int getMin() {
-            // TODO: Return top of min stack
-            return 0;
-        }
-    }
-}
+--8<-- "com/study/dsa/stacksqueues/BasicStack.java"
 ```
 
 !!! warning "Debugging Challenge — Empty Stack Before Pop"
@@ -311,52 +247,7 @@ public class BasicStackClient {
 **Use case:** Next greater element, largest rectangle, temperature problems.
 
 ```java
-import java.util.*;
-
-public class MonotonicStack {
-
-    /**
-     * Problem: Next greater element to the right
-     * Time: O(n), Space: O(n)
-     *
-     * TODO: Implement using monotonic decreasing stack
-     */
-    public static int[] nextGreaterElement(int[] nums) {
-        // TODO: Create result array initialized to -1
-        // TODO: Create Stack<Integer> to store indices
-
-        // TODO: Implement iteration/conditional logic
-
-        return new int[0]; // Replace with implementation
-    }
-
-    /**
-     * Problem: Daily temperatures - days until warmer temperature
-     * Time: O(n), Space: O(n)
-     *
-     * TODO: Implement using monotonic stack
-     */
-    public static int[] dailyTemperatures(int[] temperatures) {
-        // TODO: Similar to nextGreaterElement
-        // TODO: Store days difference instead of values
-
-        return new int[0]; // Replace with implementation
-    }
-
-    /**
-     * Problem: Largest rectangle in histogram
-     * Time: O(n), Space: O(n)
-     *
-     * TODO: Implement using monotonic increasing stack
-     */
-    public static int largestRectangleArea(int[] heights) {
-        // TODO: Use stack to track indices of bars
-        // TODO: When we find smaller bar, calculate area
-        // TODO: Track maximum area
-
-        return 0; // Replace with implementation
-    }
-}
+--8<-- "com/study/dsa/stacksqueues/MonotonicStack.java"
 ```
 
 !!! warning "Debugging Challenge — Index vs Value in Monotonic Stack"
@@ -447,82 +338,7 @@ public class MonotonicStackClient {
 **Use case:** BFS, task scheduling, buffer management.
 
 ```java
-import java.util.*;
-
-public class BasicQueue {
-
-    /**
-     * Problem: Implement queue using two stacks
-     * Time: O(1) amortized, Space: O(n)
-     *
-     * TODO: Implement QueueWithStacks class
-     */
-    static class QueueWithStacks {
-        // TODO: Use two stacks: inbox and outbox
-
-        public void enqueue(int x) {
-            // TODO: Push to inbox
-        }
-
-        public int dequeue() {
-            // TODO: Implement iteration/conditional logic
-            // TODO: Pop from outbox
-            return 0;
-        }
-
-        public int peek() {
-            // TODO: Implement iteration/conditional logic
-            // TODO: Peek outbox
-            return 0;
-        }
-
-        public boolean empty() {
-            // TODO: Check if both stacks empty
-            return true;
-        }
-    }
-
-    /**
-     * Problem: Implement circular queue
-     * Time: O(1), Space: O(k)
-     *
-     * TODO: Implement CircularQueue class
-     */
-    static class CircularQueue {
-        private int[] data;
-        private int front, rear, size, capacity;
-
-        public CircularQueue(int k) {
-            // TODO: Initialize array and pointers
-        }
-
-        public boolean enQueue(int value) {
-            // TODO: Check if full
-            // TODO: Add element at rear
-            // TODO: Update rear pointer (circular)
-            return false;
-        }
-
-        public boolean deQueue() {
-            // TODO: Check if empty
-            // TODO: Update front pointer (circular)
-            return false;
-        }
-
-        public int front() {
-            // TODO: Return element at front
-            return -1;
-        }
-
-        public boolean isEmpty() {
-            return size == 0;
-        }
-
-        public boolean isFull() {
-            return size == capacity;
-        }
-    }
-}
+--8<-- "com/study/dsa/stacksqueues/BasicQueue.java"
 ```
 
 **Runnable Client Code:**
@@ -573,38 +389,7 @@ public class BasicQueueClient {
 **Use case:** Sliding window maximum, palindrome check.
 
 ```java
-import java.util.*;
-
-public class DequeOperations {
-
-    /**
-     * Problem: Sliding window maximum
-     * Time: O(n), Space: O(k)
-     *
-     * TODO: Implement using monotonic deque
-     */
-    public static int[] maxSlidingWindow(int[] nums, int k) {
-        // TODO: Use Deque<Integer> to store indices
-        // TODO: Maintain decreasing order in deque
-
-        // TODO: Implement iteration/conditional logic
-
-        return new int[0]; // Replace with implementation
-    }
-
-    /**
-     * Problem: Check if string can be rearranged into palindrome
-     * Time: O(n), Space: O(n)
-     *
-     * TODO: Use deque for efficient insertion at both ends
-     */
-    public static boolean canFormPalindrome(String s) {
-        // TODO: Use frequency map to check odd counts
-        // TODO: At most one character can have odd count
-
-        return false; // Replace with implementation
-    }
-}
+--8<-- "com/study/dsa/stacksqueues/DequeOperations.java"
 ```
 
 **Runnable Client Code:**

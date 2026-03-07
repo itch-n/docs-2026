@@ -115,28 +115,7 @@ Verify after implementation: <span class="fill-in">[Which one, and why?]</span>
 **Use case:** Combine overlapping calendar events, merge DNS lookup ranges.
 
 ```java
-import java.util.*;
-
-public class Intervals {
-
-    /**
-     * Problem: Merge overlapping intervals
-     * Time: O(n log n), Space: O(n)
-     *
-     * TODO: Implement merge intervals
-     * Step 1: Sort by start time
-     * Step 2: Walk the list; if next.start <= current.end, merge
-     *         using current.end = Math.max(current.end, next.end)
-     * Step 3: Otherwise, push current to result and move on
-     * Step 4: Don't forget to add the final current to result
-     */
-    public static int[][] merge(int[][] intervals) {
-        // TODO: Sort by start time
-        // TODO: Iterate and merge overlapping intervals
-
-        return new int[0][0]; // Replace with implementation
-    }
-}
+--8<-- "com/study/dsa/intervals/Intervals.java"
 ```
 
 **Runnable Client Code:**
@@ -212,37 +191,7 @@ public class MergeClient {
 **Use case:** Calendar event insertion, dynamic interval sets.
 
 ```java
-import java.util.*;
-
-public class InsertInterval {
-
-    /**
-     * Problem: Insert interval into sorted non-overlapping list
-     * Time: O(n), Space: O(n)
-     *
-     * TODO: Implement three-phase scan
-     * Phase 1: Add all intervals that END before newInterval starts
-     *          (no overlap: intervals[i][1] < newInterval[0])
-     * Phase 2: Merge all intervals that overlap with newInterval
-     *          (overlap condition: intervals[i][0] <= newInterval[1])
-     *          Expand newInterval: start = min(both starts), end = max(both ends)
-     * Phase 3: Add all remaining intervals
-     */
-    public static int[][] insert(int[][] intervals, int[] newInterval) {
-        List<int[]> result = new ArrayList<>();
-        int i = 0, n = intervals.length;
-
-        // TODO: Phase 1 — add all intervals ending before newInterval starts
-
-        // TODO: Phase 2 — merge all overlapping intervals into newInterval
-
-        // TODO: Add merged newInterval
-
-        // TODO: Phase 3 — add all remaining intervals
-
-        return result.toArray(new int[0][]);
-    }
-}
+--8<-- "com/study/dsa/intervals/InsertInterval.java"
 ```
 
 **Runnable Client Code:**
@@ -284,28 +233,7 @@ public class InsertIntervalClient {
 **Use case:** Calendar availability overlap, API rate limit intersection.
 
 ```java
-import java.util.*;
-
-public class IntervalIntersection {
-
-    /**
-     * Problem: Interval list intersection
-     * Time: O(m + n), Space: O(min(m,n))
-     *
-     * TODO: Implement two-pointer intersection
-     * An intersection exists when max(start1,start2) <= min(end1,end2)
-     * Advance the pointer whose interval ends first
-     */
-    public static int[][] intervalIntersection(int[][] firstList, int[][] secondList) {
-        List<int[]> result = new ArrayList<>();
-        int i = 0, j = 0;
-
-        // TODO: Advance both pointers, check for intersection each step
-        // TODO: Move pointer of interval that ends first
-
-        return result.toArray(new int[0][]);
-    }
-}
+--8<-- "com/study/dsa/intervals/IntervalIntersection.java"
 ```
 
 **Runnable Client Code:**
@@ -347,41 +275,7 @@ public class IntersectionClient {
 **Use case:** Conference room scheduling, resource allocation.
 
 ```java
-import java.util.*;
-
-public class MeetingRooms {
-
-    /**
-     * Problem: Meeting Rooms I — can one person attend all?
-     * Time: O(n log n), Space: O(1)
-     *
-     * TODO: Sort by start time, check if any consecutive pair overlaps
-     * Overlap condition: intervals[i][0] < intervals[i-1][1]
-     */
-    public static boolean canAttendMeetings(int[][] intervals) {
-        // TODO: Sort and check consecutive pairs
-
-        return true; // Replace with implementation
-    }
-
-    /**
-     * Problem: Meeting Rooms II — minimum rooms needed
-     * Time: O(n log n), Space: O(n)
-     *
-     * TODO: Method 1 (min-heap): sort by start time; use heap of end times
-     * If heap.peek() <= current start, reuse that room (poll + offer)
-     * Otherwise add a new room (just offer)
-     * Answer: heap.size() at the end
-     *
-     * TODO: Method 2 (two sorted arrays): sort starts and ends separately
-     * Two pointers: if starts[i] < ends[j], need a new room; else free one
-     */
-    public static int minMeetingRooms(int[][] intervals) {
-        // TODO: Implement either method
-
-        return 0; // Replace with implementation
-    }
-}
+--8<-- "com/study/dsa/intervals/MeetingRooms.java"
 ```
 
 **Runnable Client Code:**

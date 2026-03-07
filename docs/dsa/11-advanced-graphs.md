@@ -206,67 +206,7 @@ A → D: 3 (path: A → B → D)
 **Implementation:**
 
 ```java
-class DijkstraShortestPath {
-    static class Edge {
-        int to;
-        int weight;
-
-        Edge(int to, int weight) {
-            this.to = to;
-            this.weight = weight;
-        }
-    }
-
-    /**
-     * Dijkstra's algorithm
-     * Time: O((V + E) log V) with binary heap
-     * Space: O(V)
-     */
-    public int[] dijkstra(List<List<Edge>> graph, int source) {
-        int n = graph.size();
-        int[] dist = new int[n];
-        Arrays.fill(dist, Integer.MAX_VALUE);
-        dist[source] = 0;
-
-        // Priority queue: (vertex, distance)
-        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[1] - b[1]);
-        pq.offer(new int[]{source, 0});
-
-        boolean[] visited = new boolean[n];
-
-        while (!pq.isEmpty()) {
-            int[] curr = pq.poll();
-            int u = curr[0];
-            int d = curr[1];
-
-            if (visited[u]) continue;
-            visited[u] = true;
-
-            // Relax edges
-            for (Edge edge : graph.get(u)) {
-                int v = edge.to;
-                int newDist = dist[u] + edge.weight;
-
-                if (newDist < dist[v]) {
-                    dist[v] = newDist;
-                    pq.offer(new int[]{v, newDist});
-                }
-            }
-        }
-
-        return dist;
-    }
-
-    // Reconstruct path from source to target
-    public List<Integer> getPath(int[] parent, int target) {
-        List<Integer> path = new ArrayList<>();
-        for (int v = target; v != -1; v = parent[v]) {
-            path.add(v);
-        }
-        Collections.reverse(path);
-        return path;
-    }
-}
+--8<-- "com/study/dsa/advancedgraphs/DijkstraShortestPath.java"
 ```
 
 !!! warning "Debugging Challenge — Missing Visited Check"
@@ -489,73 +429,7 @@ Similar to Dijkstra but minimizes edge weight instead of path weight
 **Implementation (Kruskal's):**
 
 ```java
-class KruskalMST {
-    static class Edge implements Comparable<Edge> {
-        int u, v, weight;
-
-        Edge(int u, int v, int weight) {
-            this.u = u;
-            this.v = v;
-            this.weight = weight;
-        }
-
-        public int compareTo(Edge other) {
-            return this.weight - other.weight;
-        }
-    }
-
-    // Union-Find data structure
-    static class UnionFind {
-        int[] parent, rank;
-
-        UnionFind(int n) {
-            parent = new int[n];
-            rank = new int[n];
-            for (int i = 0; i < n; i++) {
-                parent[i] = i;
-            }
-        }
-
-        int find(int x) {
-            if (parent[x] != x) {
-                parent[x] = find(parent[x]); // Path compression
-            }
-            return parent[x];
-        }
-
-        boolean union(int x, int y) {
-            int px = find(x), py = find(y);
-            if (px == py) return false; // Already in same set
-
-            // Union by rank
-            if (rank[px] < rank[py]) {
-                parent[px] = py;
-            } else if (rank[px] > rank[py]) {
-                parent[py] = px;
-            } else {
-                parent[py] = px;
-                rank[px]++;
-            }
-            return true;
-        }
-    }
-
-    public List<Edge> kruskal(int n, List<Edge> edges) {
-        Collections.sort(edges); // O(E log E)
-
-        UnionFind uf = new UnionFind(n);
-        List<Edge> mst = new ArrayList<>();
-
-        for (Edge edge : edges) {
-            if (uf.union(edge.u, edge.v)) {
-                mst.add(edge);
-                if (mst.size() == n - 1) break; // MST complete
-            }
-        }
-
-        return mst;
-    }
-}
+--8<-- "com/study/dsa/advancedgraphs/KruskalMST.java"
 ```
 
 !!! warning "Debugging Challenge — Missing Cycle Check in Kruskal's"
@@ -679,86 +553,7 @@ Reverse: [A, C, B, D] or [A, B, C, D]
 **Implementation:**
 
 ```java
-class TopologicalSort {
-    /**
-     * DFS-based topological sort
-     * Time: O(V + E), Space: O(V)
-     */
-    public List<Integer> topologicalSort(int n, List<List<Integer>> graph) {
-        boolean[] visited = new boolean[n];
-        Stack<Integer> stack = new Stack<>();
-
-        // Visit all vertices
-        for (int i = 0; i < n; i++) {
-            if (!visited[i]) {
-                dfs(i, graph, visited, stack);
-            }
-        }
-
-        // Build result (reverse of stack)
-        List<Integer> result = new ArrayList<>();
-        while (!stack.isEmpty()) {
-            result.add(stack.pop());
-        }
-        return result;
-    }
-
-    private void dfs(int u, List<List<Integer>> graph, boolean[] visited, Stack<Integer> stack) {
-        visited[u] = true;
-
-        for (int v : graph.get(u)) {
-            if (!visited[v]) {
-                dfs(v, graph, visited, stack);
-            }
-        }
-
-        stack.push(u); // Add after visiting all descendants
-    }
-
-    /**
-     * Kahn's algorithm (BFS-based)
-     * Detects cycles explicitly
-     */
-    public List<Integer> topologicalSortKahn(int n, List<List<Integer>> graph) {
-        int[] inDegree = new int[n];
-
-        // Calculate in-degrees
-        for (int u = 0; u < n; u++) {
-            for (int v : graph.get(u)) {
-                inDegree[v]++;
-            }
-        }
-
-        // Start with vertices that have no incoming edges
-        Queue<Integer> queue = new LinkedList<>();
-        for (int i = 0; i < n; i++) {
-            if (inDegree[i] == 0) {
-                queue.offer(i);
-            }
-        }
-
-        List<Integer> result = new ArrayList<>();
-        while (!queue.isEmpty()) {
-            int u = queue.poll();
-            result.add(u);
-
-            // Remove edges from u
-            for (int v : graph.get(u)) {
-                inDegree[v]--;
-                if (inDegree[v] == 0) {
-                    queue.offer(v);
-                }
-            }
-        }
-
-        // If result doesn't contain all vertices, graph has cycle
-        if (result.size() != n) {
-            throw new IllegalArgumentException("Graph has cycle!");
-        }
-
-        return result;
-    }
-}
+--8<-- "com/study/dsa/advancedgraphs/TopologicalSort.java"
 ```
 
 !!! warning "Debugging Challenge — Not Propagating Cycle Detection"

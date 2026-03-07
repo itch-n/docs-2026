@@ -355,65 +355,7 @@ return idx >= 0 ? idx : -(idx + 1);
 **Use case:** Find target, find insert position, find boundaries.
 
 ```java
-public class ClassicBinarySearch {
-
-    /**
-     * Problem: Find target in sorted array
-     * Time: O(log n), Space: O(1)
-     *
-     * TODO: Implement classic binary search
-     */
-    public static int binarySearch(int[] nums, int target) {
-        // TODO: Initialize pointers/variables
-
-        // TODO: Implement iteration/conditional logic
-
-        // TODO: Return -1 if not found
-
-        return -1; // Replace with implementation
-    }
-
-    /**
-     * Problem: Find insert position for target
-     * Time: O(log n), Space: O(1)
-     *
-     * TODO: Implement search insert position
-     */
-    public static int searchInsert(int[] nums, int target) {
-        // TODO: Similar to binary search
-        // TODO: Return left pointer when not found
-
-        return 0; // Replace with implementation
-    }
-
-    /**
-     * Problem: Find first and last position of target
-     * Time: O(log n), Space: O(1)
-     *
-     * TODO: Implement find range
-     */
-    public static int[] searchRange(int[] nums, int target) {
-        // TODO: Find leftmost occurrence
-        // TODO: Find rightmost occurrence
-        // TODO: Return [-1, -1] if not found
-
-        return new int[]{-1, -1}; // Replace with implementation
-    }
-
-    private static int findFirst(int[] nums, int target) {
-        // TODO: Binary search to find first occurrence
-        // TODO: When found, continue searching left half
-
-        return -1; // Replace with implementation
-    }
-
-    private static int findLast(int[] nums, int target) {
-        // TODO: Binary search to find last occurrence
-        // TODO: When found, continue searching right half
-
-        return -1; // Replace with implementation
-    }
-}
+--8<-- "com/study/dsa/binarysearch/ClassicBinarySearch.java"
 ```
 
 !!! warning "Debugging Challenge — Two Classic Binary Search Bugs"
@@ -512,57 +454,7 @@ public class ClassicBinarySearchClient {
 **Use case:** Find target in rotated array, find minimum, find rotation point.
 
 ```java
-public class RotatedArraySearch {
-
-    /**
-     * Problem: Search in rotated sorted array
-     * Time: O(log n), Space: O(1)
-     *
-     * TODO: Implement rotated array search
-     */
-    public static int search(int[] nums, int target) {
-        // TODO: Initialize pointers/variables
-
-        // TODO: Implement iteration/conditional logic
-        //
-        //   Determine which half is sorted:
-        //   If nums[left] <= nums[mid]: left half sorted
-        //     Check if target in left half
-        //   Else: right half sorted
-        //     Check if target in right half
-
-        return -1; // Replace with implementation
-    }
-
-    /**
-     * Problem: Find minimum in rotated sorted array
-     * Time: O(log n), Space: O(1)
-     *
-     * TODO: Implement find minimum
-     */
-    public static int findMin(int[] nums) {
-        // TODO: Initialize pointers/variables
-
-        // TODO: Implement iteration/conditional logic
-
-        // TODO: Return nums[left]
-
-        return 0; // Replace with implementation
-    }
-
-    /**
-     * Problem: Find rotation count (how many rotations)
-     * Time: O(log n), Space: O(1)
-     *
-     * TODO: Implement rotation count
-     */
-    public static int findRotationCount(int[] nums) {
-        // TODO: Find index of minimum element
-        // TODO: That index is the rotation count
-
-        return 0; // Replace with implementation
-    }
-}
+--8<-- "com/study/dsa/binarysearch/RotatedArraySearch.java"
 ```
 
 **Runnable Client Code:**
@@ -618,50 +510,7 @@ public class RotatedArraySearchClient {
 **Use case:** Search in row-sorted matrix, search in fully sorted matrix.
 
 ```java
-public class Search2DMatrix {
-
-    /**
-     * Problem: Search in matrix where each row is sorted
-     * Time: O(m log n), Space: O(1)
-     *
-     * TODO: Implement 2D matrix search (rows sorted)
-     */
-    public static boolean searchMatrix1(int[][] matrix, int target) {
-        // TODO: Binary search on each row
-        // TODO: Or: binary search to find row, then binary search in row
-
-        return false; // Replace with implementation
-    }
-
-    /**
-     * Problem: Search in matrix sorted like a flat array
-     * Time: O(log(m*n)), Space: O(1)
-     *
-     * TODO: Implement 2D matrix search (fully sorted)
-     */
-    public static boolean searchMatrix2(int[][] matrix, int target) {
-        // TODO: Treat matrix as 1D array
-        // TODO: Initialize pointers/variables
-        // TODO: Implement logic
-
-        return false; // Replace with implementation
-    }
-
-    /**
-     * Problem: Search in matrix sorted row-wise and column-wise
-     * Time: O(m + n), Space: O(1)
-     *
-     * TODO: Implement staircase search
-     */
-    public static boolean searchMatrixStaircase(int[][] matrix, int target) {
-        // TODO: Start from top-right corner
-        // TODO: Implement iteration/conditional logic
-        // TODO: Implement iteration/conditional logic
-        // TODO: Implement iteration/conditional logic
-
-        return false; // Replace with implementation
-    }
-}
+--8<-- "com/study/dsa/binarysearch/Search2DMatrix.java"
 ```
 
 **Runnable Client Code:**
@@ -727,56 +576,7 @@ public class Search2DMatrixClient {
 **Use case:** Find square root, find kth smallest, capacity problems.
 
 ```java
-public class BinarySearchOnAnswer {
-
-    /**
-     * Problem: Find square root (integer part)
-     * Time: O(log n), Space: O(1)
-     *
-     * TODO: Implement integer square root
-     */
-    public static int mySqrt(int x) {
-        // TODO: Binary search from 0 to x
-        // TODO: Check if mid * mid <= x
-        // TODO: Return largest mid where mid * mid <= x
-
-        return 0; // Replace with implementation
-    }
-
-    /**
-     * Problem: Find minimum capacity to ship packages in D days
-     * Time: O(n log(sum)), Space: O(1)
-     *
-     * TODO: Implement capacity to ship
-     */
-    public static int shipWithinDays(int[] weights, int days) {
-        // TODO: Binary search on capacity
-        // TODO: Initialize pointers/variables
-        // TODO: Check if capacity allows shipping in D days
-
-        return 0; // Replace with implementation
-    }
-
-    private static boolean canShip(int[] weights, int days, int capacity) {
-        // TODO: Simulate shipping with given capacity
-        // TODO: Return true if possible in D days
-
-        return false; // Replace with implementation
-    }
-
-    /**
-     * Problem: Find kth missing positive number
-     * Time: O(log n), Space: O(1)
-     *
-     * TODO: Implement kth missing
-     */
-    public static int findKthPositive(int[] arr, int k) {
-        // TODO: Binary search on array
-        // TODO: Count missing numbers at each position
-
-        return 0; // Replace with implementation
-    }
-}
+--8<-- "com/study/dsa/binarysearch/BinarySearchOnAnswer.java"
 ```
 
 **Runnable Client Code:**

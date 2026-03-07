@@ -129,57 +129,7 @@ Verify after implementation: <span class="fill-in">[Which one?]</span>
 **Use case:** Permutations, permutations with duplicates.
 
 ```java
-import java.util.*;
-
-public class PermutationsPattern {
-
-    /**
-     * Problem: Generate all permutations of distinct integers
-     * Time: O(n! * n), Space: O(n!)
-     *
-     * TODO: Implement using backtracking
-     */
-    public static List<List<Integer>> permute(int[] nums) {
-        List<List<Integer>> result = new ArrayList<>();
-        // TODO: Call backtrack with empty list
-
-        return result; // Replace with implementation
-    }
-
-    private static void backtrack(int[] nums, List<Integer> current,
-                                  boolean[] used, List<List<Integer>> result) {
-        // TODO: Handle base case
-
-        // TODO: Implement iteration/conditional logic
-    }
-
-    /**
-     * Problem: Permutations with duplicates
-     * Time: O(n! * n), Space: O(n!)
-     *
-     * TODO: Implement with duplicate handling
-     */
-    public static List<List<Integer>> permuteUnique(int[] nums) {
-        List<List<Integer>> result = new ArrayList<>();
-        // TODO: Sort array first to handle duplicates
-        // TODO: Use backtracking with duplicate checking
-
-        return result; // Replace with implementation
-    }
-
-    /**
-     * Problem: Next permutation
-     * Time: O(n), Space: O(1)
-     *
-     * TODO: Implement next permutation in-place
-     */
-    public static void nextPermutation(int[] nums) {
-        // TODO: Implement logic
-        // TODO: Find smallest element greater than nums[i] to the right
-        // TODO: Swap them
-        // TODO: Reverse suffix after i
-    }
-}
+--8<-- "com/study/dsa/backtracking/PermutationsPattern.java"
 ```
 
 **Runnable Client Code:**
@@ -273,73 +223,7 @@ public class PermutationsPatternClient {
 **Use case:** Combinations, subsets, subset sum.
 
 ```java
-import java.util.*;
-
-public class CombinationsPattern {
-
-    /**
-     * Problem: Generate all subsets (power set)
-     * Time: O(2^n * n), Space: O(2^n)
-     *
-     * TODO: Implement using backtracking
-     */
-    public static List<List<Integer>> subsets(int[] nums) {
-        List<List<Integer>> result = new ArrayList<>();
-        // TODO: Start with empty subset
-        // TODO: Backtrack to generate all subsets
-
-        return result; // Replace with implementation
-    }
-
-    private static void backtrackSubsets(int[] nums, int start,
-                                        List<Integer> current,
-                                        List<List<Integer>> result) {
-        // TODO: Add current subset to result (valid at every step)
-
-        // TODO: Implement iteration/conditional logic
-    }
-
-    /**
-     * Problem: Generate combinations of k elements
-     * Time: O(C(n,k) * k), Space: O(C(n,k))
-     *
-     * TODO: Implement combinations
-     */
-    public static List<List<Integer>> combine(int n, int k) {
-        List<List<Integer>> result = new ArrayList<>();
-        // TODO: Backtrack with size constraint
-
-        return result; // Replace with implementation
-    }
-
-    /**
-     * Problem: Combination sum (elements can be reused)
-     * Time: O(2^n), Space: O(n)
-     *
-     * TODO: Implement combination sum
-     */
-    public static List<List<Integer>> combinationSum(int[] candidates, int target) {
-        List<List<Integer>> result = new ArrayList<>();
-        // TODO: Backtrack with sum tracking
-        // TODO: Can reuse same element
-
-        return result; // Replace with implementation
-    }
-
-    /**
-     * Problem: Subsets with duplicates
-     * Time: O(2^n * n), Space: O(2^n)
-     *
-     * TODO: Implement with duplicate handling
-     */
-    public static List<List<Integer>> subsetsWithDup(int[] nums) {
-        List<List<Integer>> result = new ArrayList<>();
-        // TODO: Sort first
-        // TODO: Skip duplicate elements in same level
-
-        return result; // Replace with implementation
-    }
-}
+--8<-- "com/study/dsa/backtracking/CombinationsPattern.java"
 ```
 
 **Runnable Client Code:**
@@ -450,65 +334,7 @@ public class CombinationsPatternClient {
 **Use case:** N-Queens, Sudoku solver.
 
 ```java
-import java.util.*;
-
-public class ConstraintSatisfaction {
-
-    /**
-     * Problem: N-Queens - place N queens on N×N board
-     * Time: O(N!), Space: O(N^2)
-     *
-     * TODO: Implement N-Queens using backtracking
-     */
-    public static List<List<String>> solveNQueens(int n) {
-        List<List<String>> result = new ArrayList<>();
-        // TODO: Initialize board
-        // TODO: Track columns, diagonals under attack
-        // TODO: Backtrack row by row
-
-        return result; // Replace with implementation
-    }
-
-    private static void backtrackQueens(int row, int n, char[][] board,
-                                       Set<Integer> cols, Set<Integer> diag1,
-                                       Set<Integer> diag2, List<List<String>> result) {
-        // TODO: Handle base case
-
-        // TODO: Implement iteration/conditional logic
-    }
-
-    /**
-     * Problem: Sudoku solver
-     * Time: O(9^m) where m = empty cells, Space: O(1)
-     *
-     * TODO: Implement Sudoku solver
-     */
-    public static void solveSudoku(char[][] board) {
-        // TODO: Find empty cell
-        // TODO: Try digits 1-9
-        // TODO: Check row, column, 3×3 box constraints
-        // TODO: Backtrack if no valid digit
-    }
-
-    private static boolean isValidSudoku(char[][] board, int row, int col, char c) {
-        // TODO: Check row constraint
-        // TODO: Check column constraint
-        // TODO: Check 3×3 box constraint
-        return false; // Replace with implementation
-    }
-
-    /**
-     * Problem: Count total N-Queens solutions
-     * Time: O(N!), Space: O(N)
-     *
-     * TODO: Implement optimized N-Queens counter
-     */
-    public static int totalNQueens(int n) {
-        // TODO: Similar to solveNQueens but just count
-
-        return 0; // Replace with implementation
-    }
-}
+--8<-- "com/study/dsa/backtracking/ConstraintSatisfaction.java"
 ```
 
 **Runnable Client Code:**
@@ -589,63 +415,7 @@ public class ConstraintSatisfactionClient {
 **Use case:** Word search, path finding with constraints.
 
 ```java
-public class GridSearch {
-
-    /**
-     * Problem: Word search in 2D grid
-     * Time: O(m * n * 4^L) where L = word length, Space: O(L)
-     *
-     * TODO: Implement word search using backtracking
-     */
-    public static boolean exist(char[][] board, String word) {
-        // TODO: Try starting from each cell
-        // TODO: Use DFS with backtracking
-
-        return false; // Replace with implementation
-    }
-
-    private static boolean dfs(char[][] board, String word, int index,
-                              int row, int col, boolean[][] visited) {
-        // TODO: Handle base case
-
-        // TODO: Check bounds and visited
-        // TODO: Check if board[row][col] == word.charAt(index)
-
-        // TODO: Mark visited
-        // TODO: Explore 4 directions (up, down, left, right)
-        // TODO: Implement iteration/conditional logic
-        // TODO: Unmark visited (backtrack)
-
-        return false; // Replace with implementation
-    }
-
-    /**
-     * Problem: Count paths from top-left to bottom-right
-     * Time: O(2^(m+n)), Space: O(m+n)
-     *
-     * TODO: Implement path counter with obstacles
-     */
-    public static int countPaths(int[][] grid) {
-        // TODO: Backtrack with path counting
-        // TODO: Handle obstacles (grid[i][j] == 1)
-
-        return 0; // Replace with implementation
-    }
-
-    /**
-     * Problem: Longest increasing path in matrix
-     * Time: O(m * n), Space: O(m * n) with memoization
-     *
-     * TODO: Implement using DFS with memoization
-     */
-    public static int longestIncreasingPath(int[][] matrix) {
-        // TODO: DFS from each cell
-        // TODO: Use memo to cache results
-        // TODO: Can only move to strictly greater neighbors
-
-        return 0; // Replace with implementation
-    }
-}
+--8<-- "com/study/dsa/backtracking/GridSearch.java"
 ```
 
 **Runnable Client Code:**

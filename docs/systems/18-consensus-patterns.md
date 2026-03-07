@@ -166,32 +166,7 @@ exists at any time.
 **Simplified Example:**
 
 ```java
-// High-level API - implementation details abstracted
-public interface LeaderElection {
-    // Start election process
-    void startElection(int nodeId);
-
-    // Get current leader (or -1 if none)
-    int getLeader();
-
-    // Check if this node is the leader
-    boolean isLeader(int nodeId);
-
-    // Detect leader failure via heartbeat timeout
-    void checkLeaderHealth(int nodeId);
-}
-
-// Typical usage
-LeaderElection election = new BullyAlgorithm(nodeIds, heartbeatTimeout);
-election.startElection(myNodeId);
-
-if (election.isLeader(myNodeId)) {
-    // I'm the leader, handle writes
-    handleWrites();
-} else {
-    // I'm a follower, forward to leader
-    forwardToLeader(election.getLeader());
-}
+--8<-- "com/study/systems/consensus/LeaderElection.java"
 ```
 
 **Failure Handling:**
@@ -267,36 +242,7 @@ Phase 3: Safety
 **Simplified API:**
 
 ```java
-// High-level Raft interface
-public interface RaftConsensus {
-    // Start election (becomes candidate)
-    void startElection(int nodeId);
-
-    // Append command to replicated log
-    boolean appendEntry(int leaderId, String command);
-
-    // Get current leader
-    int getLeader();
-
-    // Get committed log entries
-    List<LogEntry> getCommittedEntries(int nodeId);
-}
-
-// Typical usage
-RaftConsensus raft = new RaftImpl(nodeIds);
-
-// Elect a leader
-raft.startElection(1);
-int leader = raft.getLeader();
-
-// Replicate commands
-raft.appendEntry(leader, "SET x=1");
-raft.appendEntry(leader, "DELETE y");
-
-// All nodes will have same committed log
-List<LogEntry> node1Log = raft.getCommittedEntries(1);
-List<LogEntry> node2Log = raft.getCommittedEntries(2);
-// node1Log == node2Log (same order, same entries)
+--8<-- "com/study/systems/consensus/RaftConsensus.java"
 ```
 
 **Log Replication Flow:**
@@ -495,47 +441,7 @@ Result: Email sent exactly once ✓
 **High-Level API:**
 
 ```java
-// Simple distributed lock interface
-public interface DistributedLock {
-    // Try to acquire lock immediately
-    Lock tryAcquire(String resourceId, String ownerId);
-
-    // Try with custom TTL
-    Lock tryAcquire(String resourceId, String ownerId, long ttlMs);
-
-    // Blocking acquire with timeout
-    Lock acquire(String resourceId, String ownerId, long timeoutMs);
-
-    // Release lock
-    boolean release(String resourceId, String ownerId, long fencingToken);
-
-    // Extend lease
-    boolean renew(String resourceId, String ownerId, long fencingToken);
-
-    // Check if locked
-    boolean isLocked(String resourceId);
-}
-
-// Typical usage with try-finally
-DistributedLock lockService = new RedisLock();
-
-Lock lock = lockService.tryAcquire("resource:123", "worker-1", 30000);
-if (lock != null) {
-    try {
-        // Perform exclusive work
-        processResource();
-
-        // Optionally renew if work takes longer
-        if (needMoreTime()) {
-            lockService.renew("resource:123", "worker-1", lock.fencingToken);
-        }
-    } finally {
-        lockService.release("resource:123", "worker-1", lock.fencingToken);
-    }
-} else {
-    // Resource locked by another worker, skip or retry later
-    System.out.println("Resource busy");
-}
+--8<-- "com/study/systems/consensus/DistributedLock.java"
 ```
 
 **Lock Acquisition Strategies:**
@@ -777,36 +683,7 @@ If R + W ≤ N:
 **High-Level API:**
 
 ```java
-// Simple quorum-based data store interface
-public interface QuorumStore {
-    // Write value with quorum
-    boolean write(String key, String value);
-
-    // Read value with quorum
-    VersionedValue read(String key);
-
-    // Configure quorum sizes
-    void setQuorum(int readQuorum, int writeQuorum);
-
-    // Check if value exists
-    boolean exists(String key);
-}
-
-// Typical usage
-QuorumStore store = new QuorumStore(
-    numNodes: 5,
-    replicationFactor: 3,
-    readQuorum: 2,
-    writeQuorum: 2
-);
-
-// Write data
-store.write("session:abc123", "user-data");
-
-// Read data (gets latest version)
-VersionedValue value = store.read("session:abc123");
-System.out.println("Value: " + value.data);
-System.out.println("Version: " + value.version);
+--8<-- "com/study/systems/consensus/QuorumStore.java"
 ```
 
 **Quorum Configurations:**
