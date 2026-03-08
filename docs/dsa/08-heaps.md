@@ -374,6 +374,9 @@ Add 3:  maxHeap=[5,3,1], minHeap=[15] → rebalance → maxHeap=[5,3], minHeap=[
     `PriorityQueue` handles indexing internally so you rarely write these formulas directly — but if you implement a heap
     manually, decide on the indexing scheme first and use it consistently throughout.
 
+!!! warning "When it breaks"
+    Heaps break for arbitrary deletion: removing an element that isn't the root requires finding it first, which is O(n). When your algorithm requires frequent priority updates, lazy deletion (re-insert with new priority, skip stale entries on pop) is the standard workaround, but it allows the heap to grow without bound if deletions dominate. The two-heap median finder breaks when elements are deleted from the stream — maintaining the balance invariant during deletion requires O(n) find-and-remove. For dynamic median with deletions, an order-statistics tree is the correct structure.
+
 ---
 
 ## Decision Framework

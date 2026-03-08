@@ -459,6 +459,9 @@ When `npm install` or `pip install` resolves a dependency tree, it performs a DF
 
 When a transit app calculates the route with the fewest transfers (not the fastest in time), it uses an unweighted BFS on a station graph. Each station is a node, edges connect adjacent stations, and BFS guarantees the minimum number of edges (transfers) in the result path.
 
+!!! warning "When it breaks"
+    BFS breaks in memory-constrained environments for graphs with high branching factor: the frontier queue can grow to O(V) nodes at its widest level. Bidirectional BFS reduces memory by meeting in the middle. DFS breaks for shortest paths in weighted graphs — it finds a path, not the shortest path. Adjacency matrix breaks for sparse graphs: a graph with 1M nodes and 2M edges stored as a matrix requires 1TB of memory; the same graph as an adjacency list requires roughly 16MB. The matrix is only appropriate when the graph is dense (edges ≈ V²).
+
 ---
 
 ## Common Misconceptions

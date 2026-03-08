@@ -281,13 +281,12 @@ Final: [[1,6], [8,10], [15,18]]
 !!! warning "Misconception: the insert interval problem requires re-sorting"
     The input is guaranteed to be sorted and non-overlapping. You exploit that structure directly with a three-phase O(n) scan — no sort needed. Re-sorting after insertion wastes the O(n log n) budget unnecessarily.
 
+!!! warning "When it breaks"
+    Interval merge breaks for 2D rectangles — merging overlapping rectangles requires a sweep line algorithm, not sort-and-scan. The standard merge algorithm also breaks when intervals need to be merged on different sort keys for different queries. Meeting Rooms II (minimum rooms count) breaks when you need to identify which events conflict, not just the count — the greedy heap approach gives the count but not the assignment. Dynamic interval problems (frequent insertions and deletions with overlap queries) require an interval tree, which supports O(log n) insert, delete, and overlap query.
+
 ---
 
 ## Decision Framework
-
-<div class="learner-section" markdown>
-
-**Your task:** Build decision trees for interval problems.
 
 ### Question 1: What operation is needed?
 

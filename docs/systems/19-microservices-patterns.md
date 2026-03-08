@@ -295,6 +295,11 @@ At any point in this process, the system is functional: the facade routes to the
 
 ---
 
+!!! warning "When it breaks"
+    Service meshes (Istio, Linkerd) break under large service counts: control plane overhead for managing certificates, routing rules, and telemetry grows super-linearly with service count. Teams with more than ~50 services start seeing control plane latency and memory issues that require dedicated platform engineering. Service discovery breaks when registration/deregistration is too frequent — health check churn from rapidly scaling services can overwhelm the registry. The API gateway breaks when it becomes a shared single point of failure: every team's services route through one gateway, and a misconfigured route or gateway bug takes down everything simultaneously.
+
+---
+
 ## Decision Framework
 
 <div class="learner-section" markdown>

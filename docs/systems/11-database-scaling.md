@@ -981,6 +981,9 @@ flowchart LR
 
 </div>
 
+!!! warning "When it breaks"
+    Read replicas break when replication lag becomes significant. At high write rates, replicas can fall seconds behind the primary; reads routed to a lagging replica return stale data, causing subtle bugs — a user writes a record then immediately reads it back and sees nothing. Sharding breaks when cross-shard queries are needed: a JOIN across two shards requires either a scatter-gather query or denormalization. The practical limit for a well-tuned single PostgreSQL primary is around 10,000–20,000 writes/second; above that, sharding becomes necessary. Connection pooling breaks when the pool size exceeds the database's `max_connections` setting (default 100 in PostgreSQL) — each connection uses ~5–10MB of memory on the database server.
+
 ---
 
 ## Practice

@@ -370,6 +370,9 @@ Saga: Reserve → Charge → Ship (if any fails, undo previous)
 
 </div>
 
+!!! warning "When it breaks"
+    2PC breaks under network partition: if the coordinator fails after sending "prepare" but before sending "commit", all participants block indefinitely waiting for a decision. The blocked participants hold locks, and the lock duration is bounded only by the coordinator's recovery time, which can be minutes. Sagas break when compensation is not possible: you cannot unsend an email, uncharge a card in certain payment systems, or un-publish a notification. When compensation fails halfway through, you have a partially compensated system with no automated recovery path. The outbox pattern breaks when the outbox table becomes a write hotspot — at very high event rates, the outbox needs its own partitioning strategy.
+
 ---
 
 ## Case Studies: Distributed Transactions in the Wild

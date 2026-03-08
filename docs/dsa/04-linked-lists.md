@@ -371,6 +371,9 @@ Step 3: Continue
 !!! warning "Misconception 3: The cycle-start algorithm just needs both pointers moving one step"
     In the second phase of Floyd's algorithm (finding the cycle entry), resetting `slow` to `head` and advancing **both** pointers one step at a time is correct. If you advance `fast` by two steps in the second phase you break the mathematical guarantee — the two pointers will no longer converge at the cycle entry node.
 
+!!! warning "When it breaks"
+    Linked lists break for random access: reaching the kth element is O(n), making them wrong for any workload involving index-based lookup or binary search. They also break in cache-hostile environments: nodes are scattered across the heap rather than contiguous in memory, causing cache misses on every pointer dereference. In practice, arrays with O(n) insertion are often faster in real workloads because they fit in CPU cache. Floyd's cycle detection breaks for directed graphs with multiple entry points to a cycle — the algorithm finds a cycle but requires a second phase to identify the correct entry node.
+
 ---
 
 ## Decision Framework

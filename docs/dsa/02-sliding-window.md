@@ -293,6 +293,9 @@ Sliding window: Previous sum (7) - 1 + 10 = 16 (2 operations)
 !!! warning "Misconception 3: Not removing zero-frequency keys from a HashMap breaks nothing"
     If you decrement a character's count to 0 but leave it in the map, `window.size()` never decreases. The shrink condition `window.size() > k` becomes permanently true, causing the window to collapse to size 1. Always remove a key when its frequency hits 0.
 
+!!! warning "When it breaks"
+    Sliding window requires a monotonic shrink condition: shrinking the window must make it strictly less valid (or vice versa). When this doesn't hold — for example, "longest subarray where max minus min ≤ k" — shrinking can restore validity and the standard shrink loop produces incorrect results. In those cases you need a data structure (monotonic deque) to track the max/min, which changes the approach entirely. The pattern also breaks for non-contiguous problems: two-sum and k-sum over unsorted data require a hash map, not a window.
+
 ---
 
 ## Decision Framework

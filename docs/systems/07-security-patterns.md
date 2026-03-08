@@ -250,6 +250,9 @@ By the end of this topic you will be able to:
 !!! warning "Rotating API keys or secrets is disruptive and should be avoided"
     Modern secrets management supports versioned rotation with a grace period, so old and new credentials are both valid briefly. Zero-downtime rotation is a standard pattern. Not rotating credentials after a suspected leak is far more costly than the short-term operational effort of rotation. Treat infrequent rotation as a risk, not a best practice.
 
+!!! warning "When it breaks"
+    JWTs break for revocation: a token is valid until its `exp` claim and there is no standard mechanism to invalidate an issued token. Logout, password change, or account suspension all require either a token denylist (a distributed cache lookup on every request, which negates the stateless benefit) or very short expiry windows. RBAC breaks when roles proliferate — systems typically start with 5 roles and accumulate 50 as individual exceptions are added. The inflection point where RBAC becomes unmanageable is usually when roles are no longer comprehensible to a non-engineer, which happens around 20–30 roles. At that point, attribute-based access control (ABAC) or policy engines like OPA are the alternative.
+
 ---
 
 ## Decision Framework

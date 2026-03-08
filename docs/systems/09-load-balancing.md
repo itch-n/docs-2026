@@ -239,6 +239,9 @@ The five algorithms above answer *how* requests are distributed. A separate ques
 !!! warning "IP hash provides reliable session persistence at scale"
     IP hash breaks when clients are behind a NAT gateway (many users share one IP) or when users are behind a proxy (IP changes between requests). It also breaks session persistence whenever the server list changes, since all hashes shift. For robust session persistence, prefer consistent hashing with the session ID as the key, or externalise session state to a shared store (Redis) so any server can serve the session.
 
+!!! warning "When it breaks"
+    Round robin breaks for stateful services when sessions are pinned to a server — a rolling deployment that removes a node drops all sessions on that node. Sticky sessions (cookie or IP hash) fix this but prevent even load distribution when a small number of clients generate disproportionate load. L7 load balancing breaks at very high connection rates: TLS termination is CPU-intensive, and a single L7 load balancer typically saturates around 100,000 TLS connections/second. Connection draining — waiting for in-flight requests to complete before removing a node — is correct but adds deployment latency; a 30-second drain across 50 nodes serialised is 25 minutes of rolling restart.
+
 ---
 
 ## Decision Framework

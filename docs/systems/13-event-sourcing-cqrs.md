@@ -236,6 +236,9 @@ The saga itself is persistent state (it records which steps are complete) and it
 
 ---
 
+!!! warning "When it breaks"
+    Event sourcing breaks when the event log grows large enough that replaying from the beginning is impractical — a system processing 10,000 events/second generates 864M events per day. Snapshots reduce replay time but add a consistency problem: the snapshot format must remain deserializable as the schema evolves. Schema evolution breaks when old events can't be deserialized after a field is renamed or a type changes — the event log is permanent, so you cannot migrate historical events in place. CQRS breaks when the read model diverges too far from the write model: synchronising two separate data stores under failures creates consistency windows that most teams underestimate.
+
 ## Decision Framework
 
 <div class="learner-section" markdown>

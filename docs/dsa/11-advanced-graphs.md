@@ -816,6 +816,9 @@ When a telecom company plans a new fiber network connecting data centers, Kruska
 length to connect all sites without redundant loops. For subsequent reliability planning, Dijkstra finds the shortest
 failover route between any two sites if a cable is cut.
 
+!!! warning "When it breaks"
+    Dijkstra breaks with negative edge weights: a negative edge can create a shorter path to a previously settled node, violating the greedy invariant. Bellman-Ford handles negative weights but runs in O(VE) instead of O((V+E) log V). Topological sort breaks when the graph has cycles — it is only defined for DAGs, and cycle detection is required before sorting. Kruskal's MST breaks for directed graphs: minimum spanning tree is defined only for undirected graphs; the directed equivalent (minimum spanning arborescence) requires Edmonds' algorithm.
+
 ---
 
 ## Common Misconceptions

@@ -441,6 +441,9 @@ Answer after implementation:
 
 ---
 
+!!! warning "When it breaks"
+    Exactly-once processing breaks at scale: the overhead of distributed transactions (Kafka transactional producers, two-phase commits across state stores) limits throughput to roughly 10–20% of at-least-once throughput. Most high-throughput systems accept at-least-once and make their operations idempotent. Stateful stream processing breaks when state exceeds available memory — Flink and Kafka Streams spill to disk, but this reduces throughput by an order of magnitude. Watermarks break with highly out-of-order data: a watermark delay that accommodates 30-second late arrivals holds all windows open for 30 seconds, doubling memory requirements. Setting the watermark too aggressively drops late events silently.
+
 ## Practice
 
 <div class="learner-section" markdown>

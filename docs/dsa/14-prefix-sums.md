@@ -263,13 +263,12 @@ sumRange(2, 5) = prefixSum[6] - prefixSum[2]
 !!! warning "Misconception: sliding window can always replace prefix sum for subarray problems"
     Sliding window requires a **monotonic** property: adding an element either increases or decreases the window metric predictably. With negative numbers, adding an element can both increase and decrease the sum depending on context, so the shrink condition breaks down. The prefix sum + HashMap approach handles negative numbers correctly because it doesn't rely on monotonicity.
 
+!!! warning "When it breaks"
+    Prefix sums break when the array is modified after preprocessing — the prefix array becomes stale and all subsequent range queries are incorrect. If the array updates frequently, use a Binary Indexed Tree (Fenwick tree) or segment tree, which handle both updates and queries in O(log n). The prefix sum + HashMap pattern (subarray sum equals K) breaks for maximum/minimum subarray sum problems — those require Kadane's algorithm or a deque. 2D prefix sums have four off-by-one failure points in the inclusion-exclusion formula; missing any one produces silently wrong results.
+
 ---
 
 ## Decision Framework
-
-<div class="learner-section" markdown>
-
-**Your task:** Build decision trees for when to use prefix sums.
 
 ### Question 1: Do you have multiple range queries on a static array?
 

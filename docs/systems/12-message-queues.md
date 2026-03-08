@@ -503,6 +503,9 @@ flowchart LR
 
 </div>
 
+!!! warning "When it breaks"
+    At-least-once delivery breaks idempotency assumptions that teams didn't know they were making — a payment processed twice, an email sent twice, an inventory count decremented twice. Exactly-once semantics are expensive (distributed transactions or deduplication state) and most systems accept at-least-once with idempotent consumers instead. In-order processing breaks with multiple consumers on the same queue: messages are processed concurrently and arrive out of order. Kafka solves this with partition-level ordering — all messages with the same key go to the same partition and are consumed sequentially. Dead letter queues break when poison pills accumulate unmonitored: a message that always fails processing fills the DLQ silently while the system appears healthy.
+
 ---
 
 ## Practice

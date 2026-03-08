@@ -253,6 +253,11 @@ Partition-by-region introduces several engineering challenges:
 
 ---
 
+!!! warning "When it breaks"
+    Active-active breaks when conflict resolution is non-trivial: concurrent writes to the same record in two regions produce a conflict, and "last write wins" loses data. CRDTs (conflict-free replicated data types) solve this for specific data structures (counters, sets) but not for arbitrary business logic. Active-passive breaks with failover time: DNS TTL-based failover typically takes 30–120 seconds, which is an outage, not transparent failover. Cross-region replication breaks at very low latency requirements: the speed of light between US East and US West is ~70ms round trip, making synchronous replication physically incompatible with sub-100ms write SLOs.
+
+---
+
 ## Decision Framework
 
 <div class="learner-section" markdown>

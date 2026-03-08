@@ -867,6 +867,9 @@ After finding and fixing all bugs:
 !!! warning "ReentrantLock is always faster than synchronized"
     On modern JVMs, the JIT compiler applies biased locking, lock elision, and lock coarsening to `synchronized` blocks, making them competitive with or faster than `ReentrantLock` in low-contention cases. `ReentrantLock` wins when you need features `synchronized` lacks: try-lock, timed lock, interruptible lock, or fair ordering. Default to `synchronized` for simplicity; switch to `ReentrantLock` when you need those features or when profiling shows benefit.
 
+!!! warning "When it breaks"
+    `synchronized` breaks under high contention: when many threads compete for the same lock, threads queue and CPU time is spent on context switching rather than work — throughput declines as you add threads, the opposite of expected scaling. Lock-free algorithms (compare-and-swap) break under the ABA problem: a value changes from A to B and back to A between your read and CAS, making the CAS succeed when it should fail. Thread pools break when tasks block on I/O — all threads are stuck waiting and new tasks queue indefinitely. The fix is either async I/O, separate thread pools for I/O and CPU work, or virtual threads, which block without consuming a carrier thread.
+
 ---
 
 ## Decision Framework

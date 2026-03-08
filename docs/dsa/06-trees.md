@@ -787,6 +787,9 @@ public static boolean hasPathSum_Optimized(TreeNode root, int targetSum) {
     paths. The key base case that is frequently forgotten is `if (root == null || root == p || root == q) return root` —
     omitting `root == p || root == q` causes the algorithm to continue searching past the target nodes.
 
+!!! warning "When it breaks"
+    Recursive tree algorithms break at depth: most JVM and Python runtimes have a default stack depth of ~500–1000 frames, so a degenerate tree (effectively a linked list) of 10,000 nodes causes a stack overflow. Iterative implementations with an explicit stack eliminate this risk. BST operations break when the tree is unbalanced: a sorted-input insertion order degenerates to O(n) search, which is why production BST usage always involves self-balancing variants (AVL, red-black). Diameter and path-sum algorithms that call height as a sub-function break at O(n²) for unbalanced trees — the single-pass combination trick is required.
+
 ---
 
 ## Decision Framework

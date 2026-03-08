@@ -403,6 +403,9 @@ With observability:
 
 ---
 
+!!! warning "When it breaks"
+    Metrics break at high cardinality: Prometheus stores one time series per unique label combination, and a label with high cardinality (user ID, request ID, full URL) can generate millions of series, exhausting memory. The rule of thumb: no label should have more than a few hundred distinct values. Distributed tracing breaks when sampling rate is too low — at 1% sampling, a bug affecting 0.5% of requests may never appear in traces. It also breaks when context propagation is missing from even one service in the call chain, making the trace appear to terminate mid-path. Log-based alerting breaks under high log volume: alert evaluation latency grows with ingestion backlog, and a critical alert during a log storm may arrive minutes late.
+
 ## Decision Framework
 
 <div class="learner-section" markdown>

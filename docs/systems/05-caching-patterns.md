@@ -965,6 +965,9 @@ public void updateUserProfile_WriteBack(String userId, String newName) {
 !!! warning "Write-Back is dangerous and should be avoided"
     Write-Back carries data loss risk only during the window between a write and the next flush. With a durable write-ahead log (WAL) or periodic snapshots, the risk can be bounded to seconds of data. Many high-performance databases (including MySQL InnoDB's buffer pool) use write-back internally. The choice is about acceptable durability guarantees, not a blanket safety rule.
 
+!!! warning "When it breaks"
+    Per-instance caching works on a single server and breaks the moment you add a second — each instance caches independently, invalidation doesn't propagate, and users see inconsistent responses depending on which server handles their request. A shared cache (Redis) solves this but adds ~0.5ms per operation and a new failure domain. A single Redis node handles roughly 100,000 operations/second; above that, you need clustering. The thundering herd breaks caches at any scale: when a popular entry expires and thousands of concurrent requests miss simultaneously, the resulting database burst can be larger than the original traffic that justified caching.
+
 ---
 
 ## Decision Framework

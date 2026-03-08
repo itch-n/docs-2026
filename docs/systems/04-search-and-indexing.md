@@ -960,6 +960,9 @@ User experience: Instant results ✓
 !!! warning "TF-IDF and BM25 measure semantic meaning"
     Both algorithms are purely statistical — they measure how often terms appear and how rare they are across documents. They have no understanding of meaning. "Bank" (financial institution) and "bank" (river bank) receive identical scores. Semantic search (using dense vector embeddings) is a separate technique that explicitly models meaning, and it complements rather than replaces inverted index search.
 
+!!! warning "When it breaks"
+    Elasticsearch breaks when the heap is undersized for the field data cache — loading a high-cardinality keyword field into memory for aggregations can exhaust the JVM heap and trigger circuit breakers. The practical rule: field data and on-heap caches should not exceed 50% of JVM heap. At index write rates above ~10,000 docs/second, the default 1-second refresh interval becomes a bottleneck; teams commonly raise it to 30s or disable it during bulk ingestion. Elasticsearch also breaks for exact-match transactional queries: it is eventually consistent by design — a document written may not be visible in search for up to 1 second.
+
 ---
 
 ## Decision Framework

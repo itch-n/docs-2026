@@ -661,6 +661,9 @@ Additional benefits:
 !!! warning "DNS round-robin is sufficient for load balancing"
     DNS round-robin cycles IP addresses but has no health checks — it will happily return the IP of a crashed server. It also cannot respond to actual server load; an overloaded server receives the same share as an idle one. And client-side DNS caching means the "rotation" is unpredictable in practice. DNS round-robin is a last resort, not a real load balancing strategy.
 
+!!! warning "When it breaks"
+    TCP breaks for latency-sensitive applications when a single lost packet stalls all streams — the retransmission timeout (RTO) floor is typically 200ms, meaning a 0.1% loss rate can spike p99 latency by 200ms. HTTP/1.1 breaks at more than 6 concurrent requests per domain (the browser connection limit), which is why HTTP/2 multiplexing matters for page load time. DNS breaks during deployments when TTL is too low (amplified query volume) or too high (stale records persist for hours after failover). TLS 1.3 reduced the handshake to 1 round trip, but the full handshake still costs ~100ms on intercontinental connections — session resumption is not optional at scale.
+
 ---
 
 ## Decision Framework

@@ -467,6 +467,9 @@ public static int[] maxSlidingWindow_Deque(int[] nums, int k) {
     amortised argument holds because each element crosses from inbox to outbox at most once over its lifetime, so the total
     transfer work across all operations is O(n), not O(n) per call.
 
+!!! warning "When it breaks"
+    Monotonic stack breaks silently when indices are needed but values are stored — the implementation produces correct answers on non-duplicate inputs but wrong answers with repeated values. The two-stack queue breaks when you need O(1) peek at the front without dequeuing: peeking requires transferring all elements, making it O(n). For production queues requiring O(1) peek, use a deque or a purpose-built queue. The deque sliding window maximum breaks when the problem requires tracking both maximum and minimum simultaneously — you need two separate deques.
+
 ---
 
 ## Decision Framework

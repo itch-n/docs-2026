@@ -409,6 +409,9 @@ Smartphone keyboards use word break DP to determine valid word segmentation in s
 stores whether the prefix up to position `i` forms valid words, enabling O(n²) segmentation instead of exponential
 backtracking.
 
+!!! warning "When it breaks"
+    DP breaks when the state space is too large to cache: a 3D DP table over inputs of size 1000 requires 10⁹ cells, exceeding available memory. Space optimisation (rolling array) helps for linear DPs but not for problems with complex state dependencies. DP also breaks when subproblems don't actually overlap — if no subproblem is ever recomputed, adding a memo table adds overhead with no benefit. The `Integer.MAX_VALUE + 1` overflow bug (common in coin change and knapsack) causes incorrect comparisons silently — use `Integer.MAX_VALUE / 2` or a sentinel that won't overflow on addition.
+
 ---
 
 ## Common Misconceptions

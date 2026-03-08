@@ -530,6 +530,9 @@ Old clients hit `/v1/` and continue working. New clients opt into `/v2/`. A depr
 
 </div>
 
+!!! warning "When it breaks"
+    Offset pagination breaks at deep pages — `OFFSET 1,000,000` in SQL scans and discards a million rows before returning results, causing query time to grow linearly with page depth. Cursor-based pagination fixes this but prevents jumping to an arbitrary page. GraphQL breaks when query depth is unrestricted: a client can craft a query that fans out exponentially across nested relationships, executing thousands of database queries behind one HTTP request — without depth limiting and query cost analysis, a GraphQL endpoint is a DoS vector. REST versioning breaks when more than two or three major versions are simultaneously maintained; the operational cost of running v1/v2/v3 in parallel (separate deployments, separate bug backlogs) typically forces deprecation timelines that the business then fails to enforce.
+
 ---
 
 ## Case Studies: API Design in the Wild

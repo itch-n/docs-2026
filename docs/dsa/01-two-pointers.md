@@ -257,6 +257,9 @@ Step 2: left=1 (val=3), right=4 (val=9), sum=12 → FOUND!
 !!! warning "Misconception 3: Same-direction slow/fast pointers need different starting positions"
     It is tempting to start `slow = 0, fast = 1` always, but the correct starting position depends on the problem. For `removeDuplicates` both start at 0 (or 0 and 1); for Floyd's cycle detection both start at `head`. Internalise the **invariant** each pattern maintains rather than memorising the starting positions.
 
+!!! warning "When it breaks"
+    The opposite-direction variant requires a sorted array or a monotonic invariant — applying it to an unsorted array produces incorrect results with no error signal. Same-direction (slow/fast) has no such precondition. The pattern also breaks when you need all pairs with a given property and duplicates exist: moving the pointer past a duplicate without skipping all matching values produces duplicate result pairs, requiring explicit deduplication logic that is easy to omit.
+
 ---
 
 ## Decision Framework

@@ -1047,6 +1047,9 @@ Term 3: When partition heals, Node 5 sees Node 3 has higher term → steps down
 !!! warning "Misconception 3: Raft is slower than Paxos"
     Raft and Paxos have the same asymptotic complexity for log replication. The common belief that Raft is slower stems from early comparisons of specific implementations, not the algorithms themselves. Raft's main advantage is understandability: the algorithm is designed to be easier to reason about and implement correctly, which in practice means fewer subtle bugs. Production Raft implementations (etcd, Consul) handle tens of thousands of writes per second.
 
+!!! warning "When it breaks"
+    Consensus breaks when a quorum is unavailable: with 3 nodes, losing 2 means the cluster cannot make progress — it stops accepting writes rather than risk divergence. This is the correct behaviour (availability sacrificed for consistency) but surprises teams who expect the remaining node to continue serving writes. Leader election breaks under clock skew: Raft uses randomised election timeouts (typically 150–300ms) and a cluster with clock skew exceeding the timeout range can enter repeated election cycles. etcd, ZooKeeper, and Consul all have documented "thundering herd on leader loss" scenarios that require careful tuning of heartbeat and election timeout parameters.
+
 ---
 
 ## Decision Framework

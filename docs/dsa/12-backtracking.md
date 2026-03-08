@@ -339,6 +339,9 @@ where at each character you either keep, replace, or delete — a backtracking s
 condition (stop exploring when the edit budget is exhausted) is exactly the same as pruning in combination sum when the
 running total exceeds the target.
 
+!!! warning "When it breaks"
+    Backtracking breaks when the search space is too large even with pruning: the exponential nature (O(n!) or O(k^n)) means adding a few elements can turn a millisecond solution into a minute-long computation. It also breaks when the problem has overlapping subproblems — pure backtracking recomputes the same subproblems repeatedly, and memoization converts it to dynamic programming. The tell: if the same `(start, currentState)` tuple appears in multiple branches of the recursion tree, backtracking is doing redundant work and DP is the right approach.
+
 ---
 
 ## Common Misconceptions

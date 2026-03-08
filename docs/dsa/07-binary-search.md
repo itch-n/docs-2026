@@ -398,6 +398,9 @@ return idx >= 0 ? idx : -(idx + 1);
     the monotonic predicate. The real requirement is: "can I determine which half contains the answer without examining
     every element?"
 
+!!! warning "When it breaks"
+    Binary search breaks when the predicate is not monotonic: if `check(mid)` doesn't cleanly divide the space into "too small" and "too large" halves, the algorithm may skip the answer or loop. Floating-point binary search breaks with precision: comparing floats for convergence can loop indefinitely due to representation error — use a fixed iteration count (50–100) rather than a convergence condition. The answer-space variant breaks when the validation function is expensive to compute — binary search on answer space multiplies the validation cost by O(log(range)), so a slow `canAchieve` function can make the approach impractical.
+
 ---
 
 ## Decision Framework

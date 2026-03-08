@@ -341,6 +341,9 @@ public static boolean containsDuplicate_HashSet(int[] nums) {
 !!! warning "Misconception 3: HashMap and HashSet maintain insertion order"
     Standard `HashMap` and `HashSet` do **not** guarantee ordering. If you need insertion order, use `LinkedHashMap` or `LinkedHashSet`. If you need sorted order, use `TreeMap` or `TreeSet`. Confusing these leads to non-deterministic iteration bugs that are hard to reproduce.
 
+!!! warning "When it breaks"
+    Hash tables break for ordered operations: iterating in sorted order requires a separate structure (tree map or sorted array). They break under adversarial inputs without hash randomisation — crafted inputs that all collide in the same bucket degrade O(1) lookup to O(n). For very small maps (under ~10 keys), array linear scan is often faster due to cache locality. The complement lookup pattern (Two Sum) breaks when the same index cannot be reused — you must check `index != i` before returning, which the naive implementation omits.
+
 ---
 
 ## Decision Framework

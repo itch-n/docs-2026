@@ -253,6 +253,9 @@ Graceful degradation returns a reduced but functional response when a dependency
 
 **Degradation is not free:** A service that falls back to a stale cache must invalidate that cache when the dependency recovers. A service that hides a feature must restore it. Degradation adds operational surface area. Reserve it for features where a degraded experience is genuinely better than an error — and document the recovery procedure.
 
+!!! warning "When it breaks"
+    Circuit breakers break when threshold tuning is wrong: a threshold set too low opens the circuit on transient errors, amplifying an outage instead of containing it; set too high, it never opens and provides no protection. The half-open probe — sending a single request to test recovery — breaks under high traffic because one success doesn't confirm the dependency has recovered. Retry logic breaks when operations are not idempotent: retrying a payment or an email send is worse than failing once. Exponential backoff without jitter breaks under coordinated retry storms: all callers back off to the same interval and retry simultaneously, producing a spike exactly when the dependency is recovering. Jitter spreads retries across time and is almost always worth adding.
+
 ---
 
 ## Common Misconceptions

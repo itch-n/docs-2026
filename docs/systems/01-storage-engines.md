@@ -436,6 +436,9 @@ long duration = System.nanoTime() - start;
 !!! warning "WAL is part of the storage engine"
     WAL (Write-Ahead Log) is a separate durability layer, not a feature of either engine. Both B+Trees and LSM Trees use WAL for crash recovery — it is orthogonal to how data is structured on disk. Losing your MemTable on a crash and replaying a WAL is an LSM concern; B+Trees have their own WAL-based recovery path.
 
+!!! warning "When it breaks"
+    B+Tree write performance degrades under write-heavy workloads when page splits cascade — a single row insert can rebalance multiple levels. At sustained write rates above roughly 10,000 writes/second on spinning disk, write amplification causes measurable latency spikes. LSM trees introduce a different cliff: when write throughput exceeds compaction throughput, compaction debt accumulates, SSTable count grows, and read amplification climbs until reads must check dozens of files. RocksDB exposes a `level0_slowdown_writes_trigger` (default: 20 files) and `level0_stop_writes_trigger` (default: 36 files) specifically for this condition — these are the numbers to know.
+
 ---
 
 ## Decision Framework

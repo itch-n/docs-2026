@@ -369,6 +369,9 @@ cost and greedily adds the cheapest edge that doesn't create a cycle — which u
 When multiple users edit the same document offline and reconnect, the system must merge their edit graphs. Union-Find
 groups edits into connected revision chains before merging, enabling efficient conflict detection.
 
+!!! warning "When it breaks"
+    Union-find breaks for three cases: directed graphs (edge direction is ignored, producing wrong connectivity), problems requiring deletion (elements cannot be removed from a set once merged — union is one-way), and persistent snapshots (path compression mutates parent arrays on read, making rollback impossible). The weighted union variant also breaks when the problem requires minimum spanning tree with arbitrary weights — you need a separate priority queue (Kruskal's) on top of union-find, not a replacement.
+
 ---
 
 ## Common Misconceptions
