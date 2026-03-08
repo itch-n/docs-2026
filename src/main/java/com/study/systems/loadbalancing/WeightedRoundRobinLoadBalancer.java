@@ -57,15 +57,10 @@ public class WeightedRoundRobinLoadBalancer {
      */
     public synchronized RoundRobinLoadBalancer.Server getNextServer() {
         // TODO: Loop through servers
-        while (true) {
-            // TODO: Move to next index (wraparound)
-            // currentIndex = (currentIndex + 1) % servers.size()
-
-            // TODO: Implement iteration/conditional logic
-
-            // TODO: Implement iteration/conditional logic
-
-        }
+        // TODO: Move to next index (wraparound)
+        // currentIndex = (currentIndex + 1) % servers.size()
+        // TODO: Return server whose weight >= currentWeight; decrease currentWeight by GCD when loop wraps
+        throw new UnsupportedOperationException("TODO: implement getNextServer");
     }
 
     /**

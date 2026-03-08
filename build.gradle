@@ -22,6 +22,8 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+    systemProperty 'junit.jupiter.execution.timeout.default', '5s'
+    systemProperty 'junit.jupiter.execution.timeout.thread.mode.default', 'SEPARATE_THREAD'
 }
 
 tasks.register('run', JavaExec) {
