@@ -1,6 +1,6 @@
 # Back of the Envelope
 
-> Most performance limits are not arbitrary — they fall out of hardware physics and simple arithmetic. Know ~10 primitives and you can derive the numbers that come up in systems design interviews rather than memorising them.
+<p class="lead">Most performance limits are not arbitrary — they fall out of hardware physics and simple arithmetic. Know ~10 primitives and you can derive the numbers that come up in systems design interviews rather than memorising them.</p>
 
 The goal is a mental model that lets you *derive* an unfamiliar limit on the spot and recognise when a quoted number is physically plausible.
 

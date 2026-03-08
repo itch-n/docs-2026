@@ -17,7 +17,7 @@ By the end of this topic you will be able to:
 
 ---
 
-!!! warning "Operational reality"
+!!! note "Operational reality"
     **On Kafka and message brokers:** Kafka is genuinely the right tool when you need fan-out (multiple independent consumers reading the same events at different offsets) or durable replay ("reprocess all orders from last Tuesday"). For task processing — jobs with one consumer, one outcome — a database-backed job queue (Postgres `SELECT FOR UPDATE SKIP LOCKED`, Sidekiq, Faktory) is simpler, transactionally correct, and already uses infrastructure you are already operating. Many teams adopt Kafka because it is "industry standard" and spend months managing consumer group lag, partition rebalancing, and offset semantics that a job table would have avoided entirely.
 
     **On event-driven architecture:** Pub/sub is the building block of event-driven architecture (EDA), where services react to events rather than calling each other directly. EDA's appeal is loose coupling; its cost is that reasoning about system behaviour becomes significantly harder. At-least-once delivery means every consumer must handle duplicates. Ordering is only guaranteed within a partition. Debugging a business transaction that touched six services via events requires distributed tracing to reconstruct. Fan-out amplifies unexpectedly — one upstream event can trigger a cascade of downstream events across services that is very difficult to predict or throttle. Schema evolution ("can I change this event?") requires auditing every consumer first.
@@ -416,13 +416,13 @@ User → [Upload] → Response        (instant)
 
 ## Common Misconceptions
 
-!!! warning "A message queue guarantees exactly-once delivery"
+!!! danger "A message queue guarantees exactly-once delivery"
     Most message queue systems provide at-least-once delivery, not exactly-once. When a consumer crashes after processing but before acknowledging, the broker re-delivers the message. Exactly-once requires either idempotent consumers (safe to process twice) or a distributed transaction mechanism, both of which add significant complexity and cost.
 
-!!! warning "Pub-sub and a queue with multiple consumers are the same thing"
+!!! danger "Pub-sub and a queue with multiple consumers are the same thing"
     They are not. With a queue and multiple consumers, each message is delivered to exactly one consumer — the workers compete for messages. With pub-sub, each message is delivered to every subscriber independently. Use a queue for distributing work; use pub-sub for broadcasting events.
 
-!!! warning "A dead letter queue automatically resolves failed messages"
+!!! danger "A dead letter queue automatically resolves failed messages"
     A DLQ only stores unprocessable messages — it does not fix them. A message that fails due to a bug in the consumer will keep failing even after it is replayed from the DLQ. The DLQ is an isolation mechanism, not a retry mechanism. Someone must investigate why messages are landing there and decide to fix the code, fix the data, or discard the message.
 
 ---
@@ -615,8 +615,12 @@ Answer these without referring to your notes or implementation.
 
 ## Connected Topics
 
-!!! info "Where this topic connects"
+<div class="bs-callout bs-callout-info" markdown>
 
-    - **10. Concurrency Patterns** — distributed producer-consumer extends the in-process blocking queue pattern; the same backpressure and ordering concerns apply at scale → [10. Concurrency Patterns](10-concurrency-patterns.md)
-    - **14. Stream Processing** — Kafka functions as both a message queue and the event source for stream processors; queue delivery guarantees determine stream processing consistency → [14. Stream Processing](14-stream-processing.md)
-    - **17. Distributed Transactions** — the transactional outbox pattern uses a message queue to guarantee that a database write and a downstream event are published atomically → [17. Distributed Transactions](17-distributed-transactions.md)
+**Where this topic connects**
+
+- **10. Concurrency Patterns** — distributed producer-consumer extends the in-process blocking queue pattern; the same backpressure and ordering concerns apply at scale → [10. Concurrency Patterns](10-concurrency-patterns.md)
+- **14. Stream Processing** — Kafka functions as both a message queue and the event source for stream processors; queue delivery guarantees determine stream processing consistency → [14. Stream Processing](14-stream-processing.md)
+- **17. Distributed Transactions** — the transactional outbox pattern uses a message queue to guarantee that a database write and a downstream event are published atomically → [17. Distributed Transactions](17-distributed-transactions.md)
+
+</div>

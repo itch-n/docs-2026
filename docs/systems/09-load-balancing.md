@@ -230,16 +230,16 @@ The five algorithms above answer *how* requests are distributed. A separate ques
 
 ## Common Misconceptions
 
-!!! warning "Least connections always outperforms round robin"
+!!! danger "Least connections always outperforms round robin"
     Least connections is better when request duration varies widely (some requests take 10ms, others 2 seconds). For truly uniform request durations, round robin is equivalent in outcome and has lower overhead — it needs no per-server connection counter updates on every request start and end. Use least connections when request duration variance is high; use round robin when servers are homogeneous and requests are similar in cost.
 
-!!! warning "Consistent hashing eliminates all redistribution when servers change"
+!!! danger "Consistent hashing eliminates all redistribution when servers change"
     Consistent hashing minimises redistribution: adding one server to a ring of N causes only ~1/(N+1) of keys to move, compared to ~N/(N+1) with simple modulo hashing. It does not eliminate redistribution. If you need truly zero redistribution for a specific key, you need a manually managed key-to-server mapping table, which comes with its own operational cost.
 
-!!! warning "IP hash provides reliable session persistence at scale"
+!!! danger "IP hash provides reliable session persistence at scale"
     IP hash breaks when clients are behind a NAT gateway (many users share one IP) or when users are behind a proxy (IP changes between requests). It also breaks session persistence whenever the server list changes, since all hashes shift. For robust session persistence, prefer consistent hashing with the session ID as the key, or externalise session state to a shared store (Redis) so any server can serve the session.
 
-!!! warning "When it breaks"
+!!! danger "When it breaks"
     Round robin breaks for stateful services when sessions are pinned to a server — a rolling deployment that removes a node drops all sessions on that node. Sticky sessions (cookie or IP hash) fix this but prevent even load distribution when a small number of clients generate disproportionate load. L7 load balancing breaks at very high connection rates: TLS termination is CPU-intensive, and a single L7 load balancer typically saturates around 100,000 TLS connections/second. Connection draining — waiting for in-flight requests to complete before removing a node — is correct but adds deployment latency; a 30-second drain across 50 nodes serialised is 25 minutes of rolling restart.
 
 ---
@@ -443,8 +443,12 @@ Answer these without referring to your notes or implementation.
 
 ## Connected Topics
 
-!!! info "Where this topic connects"
+<div class="bs-callout bs-callout-info" markdown>
 
-    - **05. Caching Patterns** — consistent hashing was developed for distributed caching; load balancing reuses the same algorithm to minimise key redistribution when servers change → [05. Caching Patterns](05-caching-patterns.md)
-    - **11. Database Scaling** — read replicas use load balancing to distribute query traffic; round robin and least-connections apply directly to database proxy routing → [11. Database Scaling](11-database-scaling.md)
-    - **03. Networking Fundamentals** — the L4/L7 distinction (transport vs application layer) determines what information the load balancer can use for routing decisions → [03. Networking Fundamentals](03-networking-fundamentals.md)
+**Where this topic connects**
+
+- **05. Caching Patterns** — consistent hashing was developed for distributed caching; load balancing reuses the same algorithm to minimise key redistribution when servers change → [05. Caching Patterns](05-caching-patterns.md)
+- **11. Database Scaling** — read replicas use load balancing to distribute query traffic; round robin and least-connections apply directly to database proxy routing → [11. Database Scaling](11-database-scaling.md)
+- **03. Networking Fundamentals** — the L4/L7 distinction (transport vs application layer) determines what information the load balancer can use for routing decisions → [03. Networking Fundamentals](03-networking-fundamentals.md)
+
+</div>

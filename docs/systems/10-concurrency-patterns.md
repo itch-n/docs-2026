@@ -858,16 +858,16 @@ After finding and fixing all bugs:
 
 ## Common Misconceptions
 
-!!! warning "synchronized and volatile are interchangeable"
+!!! danger "synchronized and volatile are interchangeable"
     `synchronized` establishes mutual exclusion (only one thread at a time) AND memory visibility (changes become visible). `volatile` provides only memory visibility — two threads can still read-modify-write a `volatile` variable concurrently, producing lost updates. Use `volatile` for simple flags and `synchronized` or `AtomicXxx` for any compound operations.
 
-!!! warning "More threads always means faster execution"
+!!! danger "More threads always means faster execution"
     For CPU-bound work, creating more threads than available cores causes context-switching overhead that can make performance worse, not better. The optimal pool size for CPU-bound tasks is typically `nCores + 1`. For I/O-bound tasks, more threads help — until thread-creation overhead and contention dominate. Measure before assuming more threads help.
 
-!!! warning "ReentrantLock is always faster than synchronized"
+!!! danger "ReentrantLock is always faster than synchronized"
     On modern JVMs, the JIT compiler applies biased locking, lock elision, and lock coarsening to `synchronized` blocks, making them competitive with or faster than `ReentrantLock` in low-contention cases. `ReentrantLock` wins when you need features `synchronized` lacks: try-lock, timed lock, interruptible lock, or fair ordering. Default to `synchronized` for simplicity; switch to `ReentrantLock` when you need those features or when profiling shows benefit.
 
-!!! warning "When it breaks"
+!!! danger "When it breaks"
     `synchronized` breaks under high contention: when many threads compete for the same lock, threads queue and CPU time is spent on context switching rather than work — throughput declines as you add threads, the opposite of expected scaling. Lock-free algorithms (compare-and-swap) break under the ABA problem: a value changes from A to B and back to A between your read and CAS, making the CAS succeed when it should fail. Thread pools break when tasks block on I/O — all threads are stuck waiting and new tasks queue indefinitely. The fix is either async I/O, separate thread pools for I/O and CPU work, or virtual threads, which block without consuming a carrier thread.
 
 ---
@@ -1122,8 +1122,12 @@ Answer these without referring to your notes or implementation.
 
 ## Connected Topics
 
-!!! info "Where this topic connects"
+<div class="bs-callout bs-callout-info" markdown>
 
-    - **12. Message Queues** — the producer-consumer pattern implemented here with threads and blocking queues is the same pattern message queues implement across distributed services → [12. Message Queues](12-message-queues.md)
-    - **17. Distributed Transactions** — distributed locking extends per-process lock patterns to span multiple machines; the same race conditions occur but are harder to detect and diagnose → [17. Distributed Transactions](17-distributed-transactions.md)
-    - **18. Consensus Patterns** — consensus state machines require the same thread-safe design as the monitor pattern here, applied across multiple nodes → [18. Consensus Patterns](18-consensus-patterns.md)
+**Where this topic connects**
+
+- **12. Message Queues** — the producer-consumer pattern implemented here with threads and blocking queues is the same pattern message queues implement across distributed services → [12. Message Queues](12-message-queues.md)
+- **17. Distributed Transactions** — distributed locking extends per-process lock patterns to span multiple machines; the same race conditions occur but are harder to detect and diagnose → [17. Distributed Transactions](17-distributed-transactions.md)
+- **18. Consensus Patterns** — consensus state machines require the same thread-safe design as the monitor pattern here, applied across multiple nodes → [18. Consensus Patterns](18-consensus-patterns.md)
+
+</div>

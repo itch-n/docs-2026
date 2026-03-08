@@ -17,7 +17,7 @@ By the end of this topic you will be able to:
 
 ---
 
-!!! warning "Operational reality"
+!!! note "Operational reality"
     TCP's congestion control is a sliding window over packets in flight — the window expands on success and shrinks on loss, which is exactly the variable-size shrinking logic from these exercises. Redis's built-in rate limiting primitives use the sliding window counter algorithm directly. Kafka Streams and Apache Flink both model time-based aggregations as windows over event streams; the "tumbling window" and "sliding window" in those systems are the same concept scaled to distributed infrastructure. Network monitoring tools that compute rolling metrics (p99 latency over the last 60 seconds) are sliding windows over time-series data.
 
 ## ELI5: Explain Like I'm 5
@@ -284,13 +284,13 @@ Sliding window: Previous sum (7) - 1 + 10 = 16 (2 operations)
 
 ## Common Misconceptions
 
-!!! warning "Misconception 1: Sliding window requires a sorted array"
+!!! danger "Misconception 1: Sliding window requires a sorted array"
     Unlike two-pointer pair-sum, sliding window has no sorting requirement. It works on any sequence because it relies only on **contiguity**, not on element order. `maxSlidingWindow`, `lengthOfLongestSubstring`, and `minSubArrayLen` all operate on unsorted input.
 
-!!! warning "Misconception 2: You always need `while` to shrink a dynamic window"
+!!! danger "Misconception 2: You always need `while` to shrink a dynamic window"
     Use `while` when the constraint can remain satisfied after one shrink step (e.g., `sum >= target`). Use `if` when shrinking once is always sufficient to restore validity (e.g., removing the leftmost element of a fixed-size window). Choosing the wrong one is the single most common sliding window bug.
 
-!!! warning "Misconception 3: Not removing zero-frequency keys from a HashMap breaks nothing"
+!!! danger "Misconception 3: Not removing zero-frequency keys from a HashMap breaks nothing"
     If you decrement a character's count to 0 but leave it in the map, `window.size()` never decreases. The shrink condition `window.size() > k` becomes permanently true, causing the window to collapse to size 1. Always remove a key when its frequency hits 0.
 
 !!! warning "When it breaks"
@@ -486,8 +486,12 @@ Answer these questions without looking at your notes. Write a sentence or two fo
 
 ## Connected Topics
 
-!!! info "Where this topic connects"
+<div class="bs-callout bs-callout-info" markdown>
 
-    - **01. Two Pointers** — the sliding window left/right boundary IS a two-pointer pattern; understanding opposite-direction pointers first builds intuition for same-direction window pointers → [01. Two Pointers](01-two-pointers.md)
-    - **03. Hash Tables** — variable-size sliding windows use a HashMap to track element frequencies inside the window in O(1) → [03. Hash Tables](03-hash-tables.md)
-    - **14. Prefix Sums** — both patterns answer range-query questions; prefix sums are better for static arrays with many queries, sliding window for single-pass streaming problems → [14. Prefix Sums](14-prefix-sums.md)
+**Where this topic connects**
+
+- **01. Two Pointers** — the sliding window left/right boundary IS a two-pointer pattern; understanding opposite-direction pointers first builds intuition for same-direction window pointers → [01. Two Pointers](01-two-pointers.md)
+- **03. Hash Tables** — variable-size sliding windows use a HashMap to track element frequencies inside the window in O(1) → [03. Hash Tables](03-hash-tables.md)
+- **14. Prefix Sums** — both patterns answer range-query questions; prefix sums are better for static arrays with many queries, sliding window for single-pass streaming problems → [14. Prefix Sums](14-prefix-sums.md)
+
+</div>

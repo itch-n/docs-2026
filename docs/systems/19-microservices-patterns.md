@@ -17,7 +17,7 @@ By the end of this topic you will be able to:
 
 ---
 
-!!! warning "Operational reality"
+!!! note "Operational reality"
     Conway's Law cuts both ways: teams tend to build services that mirror their org chart rather than their domain. The operational cost — distributed tracing, independent deployments, N×M service communication matrices, service mesh configuration — frequently exceeds the benefit for organisations under ~100 engineers. "Microservices regret" is documented enough to have spawned the modular monolith movement and the selective-extraction pattern.
 
     The staff-level answer is knowing *when not to decompose*, not just how. Interviewers at this level expect tradeoff reasoning, not pattern advocacy.
@@ -302,16 +302,16 @@ At any point in this process, the system is functional: the facade routes to the
 
 ## Common Misconceptions
 
-!!! warning "Misconception 1: Business logic belongs in the API gateway"
+!!! danger "Misconception 1: Business logic belongs in the API gateway"
     The gateway should be a dumb router. Auth offloading, rate limiting, and request routing are appropriate gateway concerns because they apply uniformly to all traffic. Business logic — "route this request differently if the order is in state X" — creates coupling between the gateway and domain services. Any domain rule change now requires a gateway deployment. This creep is one of the most common ways a microservices architecture re-centralises complexity and re-creates a deployment bottleneck.
 
-!!! warning "Misconception 2: Microservices are always faster than a monolith"
+!!! danger "Misconception 2: Microservices are always faster than a monolith"
     Microservices trade intra-process function calls for network round trips. A monolith serving a request from a hot in-process cache can complete in microseconds; the same operation across three microservices with serialisation, TLS, and network hops takes 5–50 ms. The benefit of microservices is independent deployability, fault isolation, and team autonomy — not raw throughput. For latency-critical paths, monolithic or co-located components are often faster.
 
-!!! warning "Misconception 3: Kubernetes DNS replaces service discovery"
+!!! danger "Misconception 3: Kubernetes DNS replaces service discovery"
     Kubernetes DNS resolves a Service name to a ClusterIP and provides basic round-robin across pod IPs. It does not provide: health-check-gated instance lists with configurable failure thresholds, fine-grained traffic splitting for canary deployments, cross-cluster or multi-datacenter discovery, or per-instance metadata (zone, version, weight). Consul, Eureka, and service mesh control planes add these capabilities. For simple single-cluster deployments, Kubernetes DNS is sufficient; for anything more complex, a dedicated registry or service mesh is warranted.
 
-!!! warning "Misconception 4: A service mesh is just a smarter load balancer"
+!!! danger "Misconception 4: A service mesh is just a smarter load balancer"
     A load balancer routes traffic at L4 (TCP) or L7 (HTTP). A service mesh (sidecar proxies + control plane) adds: mutual TLS automatically between every service pair, distributed tracing propagation, per-route circuit breaking and retry policies, fine-grained traffic splitting (canary, A/B, blue-green at the service level), and centralised policy enforcement without code changes in services. The sidecar model means all this is transparent to application code. The cost is operational complexity: every pod carries an extra container; the control plane is another distributed system to operate.
 
 ---
@@ -531,8 +531,12 @@ Complete this checklist after studying all five patterns.
 
 ## Connected Topics
 
-!!! info "Where this topic connects"
+<div class="bs-callout bs-callout-info" markdown>
 
-    - **[09. Load Balancing](09-load-balancing.md)** — service discovery feeds the load balancer's backend pool; client-side discovery replicates load-balancing logic in each service while server-side discovery centralises it in the load balancer layer → [09. Load Balancing](09-load-balancing.md)
-    - **[12. Message Queues](12-message-queues.md)** — async inter-service communication uses message queues as the broker; the dual-write problem and transactional outbox pattern are queue-specific concerns covered in depth there → [12. Message Queues](12-message-queues.md)
-    - **[15. Observability](15-observability.md)** — distributed tracing is essential in microservices to follow a request across service boundaries; the service mesh injects trace IDs automatically, and the observability topic covers how to correlate spans across services → [15. Observability](15-observability.md)
+**Where this topic connects**
+
+- **[09. Load Balancing](09-load-balancing.md)** — service discovery feeds the load balancer's backend pool; client-side discovery replicates load-balancing logic in each service while server-side discovery centralises it in the load balancer layer → [09. Load Balancing](09-load-balancing.md)
+- **[12. Message Queues](12-message-queues.md)** — async inter-service communication uses message queues as the broker; the dual-write problem and transactional outbox pattern are queue-specific concerns covered in depth there → [12. Message Queues](12-message-queues.md)
+- **[15. Observability](15-observability.md)** — distributed tracing is essential in microservices to follow a request across service boundaries; the service mesh injects trace IDs automatically, and the observability topic covers how to correlate spans across services → [15. Observability](15-observability.md)
+
+</div>

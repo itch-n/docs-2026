@@ -17,7 +17,7 @@ By the end of this topic you will be able to:
 
 ---
 
-!!! warning "Operational reality"
+!!! note "Operational reality"
     HashDoS — crafting inputs that all hash to the same bucket, forcing O(n) lookup — is a real attack. Python randomised hash seeds per-process from 3.3 onward, Ruby did the same in 1.9, and most modern runtimes followed. The attack works against any system that exposes hash-derived behaviour externally, which is why you should never use raw hash values in URLs or API responses. Git uses SHA hashes to deduplicate objects in its content-addressable object store — a commit, tree, and blob are all just hash table lookups. Database query planners use hash joins as an alternative to nested-loop joins when the inner table fits in memory.
 
 ## ELI5: Explain Like I'm 5
@@ -332,13 +332,13 @@ public static boolean containsDuplicate_HashSet(int[] nums) {
 
 ## Common Misconceptions
 
-!!! warning "Misconception 1: HashMap lookup is always O(1)"
+!!! danger "Misconception 1: HashMap lookup is always O(1)"
     HashMap lookup is O(1) **on average**, assuming a good hash function. If all keys collide into one bucket (see the `BadHashCode` challenge), every operation degrades to O(n) because the bucket becomes a linear list. In practice, Java's HashMap uses tree-based buckets after a threshold, improving worst case to O(log n), but this is still far from O(1).
 
-!!! warning "Misconception 2: `freq.get(c)` is safe for the first occurrence"
+!!! danger "Misconception 2: `freq.get(c)` is safe for the first occurrence"
     `HashMap.get()` returns `null` when a key is absent — it does not return 0. Calling `freq.get(c) + 1` on a missing key throws a `NullPointerException`. Always use `freq.getOrDefault(c, 0)` or check `containsKey` first. This is the single most common hash map bug.
 
-!!! warning "Misconception 3: HashMap and HashSet maintain insertion order"
+!!! danger "Misconception 3: HashMap and HashSet maintain insertion order"
     Standard `HashMap` and `HashSet` do **not** guarantee ordering. If you need insertion order, use `LinkedHashMap` or `LinkedHashSet`. If you need sorted order, use `TreeMap` or `TreeSet`. Confusing these leads to non-deterministic iteration bugs that are hard to reproduce.
 
 !!! warning "When it breaks"
@@ -511,8 +511,12 @@ Answer these questions without looking at your notes. Write a sentence or two fo
 
 ## Connected Topics
 
-!!! info "Where this topic connects"
+<div class="bs-callout bs-callout-info" markdown>
 
-    - **02. Sliding Window** — HashMap frequency counting is the standard inner data structure for variable-size sliding window problems → [02. Sliding Window](02-sliding-window.md)
-    - **14. Prefix Sums** — HashMap + prefix sum is the canonical pattern for subarray-sum-equals-k; the hash table stores prefix sum frequencies → [14. Prefix Sums](14-prefix-sums.md)
-    - **13. Dynamic Programming** — bottom-up DP often uses a HashMap to memoize subproblems when keys are non-integer or sparse → [13. Dynamic Programming](13-dynamic-programming.md)
+**Where this topic connects**
+
+- **02. Sliding Window** — HashMap frequency counting is the standard inner data structure for variable-size sliding window problems → [02. Sliding Window](02-sliding-window.md)
+- **14. Prefix Sums** — HashMap + prefix sum is the canonical pattern for subarray-sum-equals-k; the hash table stores prefix sum frequencies → [14. Prefix Sums](14-prefix-sums.md)
+- **13. Dynamic Programming** — bottom-up DP often uses a HashMap to memoize subproblems when keys are non-integer or sparse → [13. Dynamic Programming](13-dynamic-programming.md)
+
+</div>

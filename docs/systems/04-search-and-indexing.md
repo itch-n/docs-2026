@@ -17,7 +17,7 @@ By the end of this topic you will be able to:
 
 ---
 
-!!! warning "Operational reality"
+!!! note "Operational reality"
     Elasticsearch is significantly over-adopted. Postgres full-text search (`tsvector`, `GIN` indexes, `ts_rank`) handles the majority of "we need search" use cases without taking on a new distributed system to operate. Elasticsearch's practical issues are non-trivial: heap sizing is fiddly and getting it wrong causes OOM failures; mapping explosions (too many dynamic fields) degrade performance silently; reindexing a live index requires building a parallel index and swapping an alias — there is no in-place schema migration. Older clusters had split-brain failure modes that were a rite of passage for many backend teams.
 
     Reach for Elasticsearch (or OpenSearch, Typesense, Meilisearch) when you need relevance ranking, faceted search, or query complexity that genuinely exceeds what Postgres can express. For "search this table by name or description," check Postgres first.
@@ -951,16 +951,16 @@ User experience: Instant results ✓
 
 ## Common Misconceptions
 
-!!! warning "More shards always means faster search"
+!!! danger "More shards always means faster search"
     Each shard adds coordination overhead. A query must be sent to every shard, results collected from all of them, and then merged and re-ranked by the coordinator. With 50 small shards on a 3-node cluster, the coordination overhead can outweigh the parallelism benefit. The Elasticsearch recommendation is to keep shard sizes between 10–50 GB. Fewer, larger shards often outperform many tiny ones.
 
-!!! warning "Stop-word removal is always a good idea"
+!!! danger "Stop-word removal is always a good idea"
     Removing common words like "the", "a", "in" reduces index size and speeds up queries — but it can break phrase searches. A user searching for "The Who" (the band) or "to be or not to be" relies on those stop words being in the index. Modern systems prefer using IDF naturally to down-weight common terms rather than removing them entirely.
 
-!!! warning "TF-IDF and BM25 measure semantic meaning"
+!!! danger "TF-IDF and BM25 measure semantic meaning"
     Both algorithms are purely statistical — they measure how often terms appear and how rare they are across documents. They have no understanding of meaning. "Bank" (financial institution) and "bank" (river bank) receive identical scores. Semantic search (using dense vector embeddings) is a separate technique that explicitly models meaning, and it complements rather than replaces inverted index search.
 
-!!! warning "When it breaks"
+!!! danger "When it breaks"
     Elasticsearch breaks when the heap is undersized for the field data cache — loading a high-cardinality keyword field into memory for aggregations can exhaust the JVM heap and trigger circuit breakers. The practical rule: field data and on-heap caches should not exceed 50% of JVM heap. At index write rates above ~10,000 docs/second, the default 1-second refresh interval becomes a bottleneck; teams commonly raise it to 30s or disable it during bulk ingestion. Elasticsearch also breaks for exact-match transactional queries: it is eventually consistent by design — a document written may not be visible in search for up to 1 second.
 
 ---

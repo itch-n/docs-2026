@@ -573,13 +573,13 @@ Old clients hit `/v1/` and continue working. New clients opt into `/v2/`. A depr
 
 ## Common Misconceptions
 
-!!! warning "REST requires JSON responses"
+!!! danger "REST requires JSON responses"
     REST is a *style*, not a format. A REST API can return XML, protobuf, plain text, or any media type — the `Content-Type` header tells the client what it received. JSON became the default because it is easy to consume from JavaScript, not because REST mandates it. `Accept: application/xml` is a perfectly valid REST request.
 
-!!! warning "GraphQL automatically prevents the N+1 query problem"
+!!! danger "GraphQL automatically prevents the N+1 query problem"
     GraphQL's resolver model can actually *introduce* N+1 queries. If resolving `User.posts` executes one database query per user, fetching 100 users with their posts triggers 101 database queries. Tools like the DataLoader pattern are required to batch these into a single query. GraphQL does not solve N+1 by itself.
 
-!!! warning "HTTP 404 means the server is broken"
+!!! danger "HTTP 404 means the server is broken"
     404 Not Found is a completely normal, expected response. It means the requested resource does not exist at that URL — nothing more. Clients should handle 404 gracefully. The distinction that matters in practice is: 404 (resource never existed or has been removed) vs 410 Gone (resource existed and was intentionally deleted) vs 503 (server is temporarily unavailable).
 
 ---
@@ -777,8 +777,12 @@ Based on everything you've learned, write your personal API design checklist:
 
 ## Connected Topics
 
-!!! info "Where this topic connects"
+<div class="bs-callout bs-callout-info" markdown>
 
-    - **07. Security Patterns** — all external APIs require authentication (JWT or API keys) and authorization (RBAC); API design choices affect token scope and validation overhead → [07. Security Patterns](07-security-patterns.md)
-    - **08. Rate Limiting** — rate limiting protects API endpoints from abuse; API versioning strategy affects whether limits are applied per-version or globally → [08. Rate Limiting](08-rate-limiting.md)
-    - **03. Networking Fundamentals** — HTTP versions covered in topic 03 determine which API features are possible (e.g. HTTP/2 enables server push and header compression) → [03. Networking Fundamentals](03-networking-fundamentals.md)
+**Where this topic connects**
+
+- **07. Security Patterns** — all external APIs require authentication (JWT or API keys) and authorization (RBAC); API design choices affect token scope and validation overhead → [07. Security Patterns](07-security-patterns.md)
+- **08. Rate Limiting** — rate limiting protects API endpoints from abuse; API versioning strategy affects whether limits are applied per-version or globally → [08. Rate Limiting](08-rate-limiting.md)
+- **03. Networking Fundamentals** — HTTP versions covered in topic 03 determine which API features are possible (e.g. HTTP/2 enables server push and header compression) → [03. Networking Fundamentals](03-networking-fundamentals.md)
+
+</div>

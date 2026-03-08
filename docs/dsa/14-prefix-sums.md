@@ -18,7 +18,7 @@ By the end of this topic you will be able to:
 
 ---
 
-!!! warning "Operational reality"
+!!! note "Operational reality"
     SQL window functions — `SUM() OVER (ORDER BY ...)`, `AVG() OVER (PARTITION BY ...)` — are prefix sums over sorted partitions, and every relational database implements them this way internally. Prometheus and time-series databases expose monotonically increasing counters; dashboards compute rates and averages by differencing two prefix sum snapshots over a time interval — the `rate()` function in PromQL is this operation. ClickHouse uses prefix sums in its MergeTree index structure to locate data ranges within compressed blocks. The 2D prefix sum pattern appears in image processing (summed area tables for fast box filter computation) and in spatial analytics queries.
 
 ## ELI5: Explain Like I'm 5
@@ -254,13 +254,13 @@ sumRange(2, 5) = prefixSum[6] - prefixSum[2]
 
 ## Common Misconceptions
 
-!!! warning "Misconception: the prefix sum array has the same length as the input array"
+!!! danger "Misconception: the prefix sum array has the same length as the input array"
     The standard prefix sum array has length n+1, where `prefixSum[0] = 0` and `prefixSum[i] = sum of nums[0..i-1]`. Using length n forces special-casing for `left = 0` and makes the formula inconsistent. The +1 size gives a clean identity: `sumRange(left, right) = prefixSum[right+1] - prefixSum[left]` works for all valid inputs without any branching.
 
-!!! warning "Misconception: prefix sum only works for range sum queries"
+!!! danger "Misconception: prefix sum only works for range sum queries"
     Prefix sums power a broader family: the HashMap variant counts subarrays with a target sum in O(n) by checking whether `currentSum - k` has been seen before. Prefix/suffix products extend the idea to multiplicative accumulation. 2D prefix sums handle submatrix queries. The unifying idea is *precomputed cumulative aggregates* — the underlying operation doesn't have to be addition.
 
-!!! warning "Misconception: sliding window can always replace prefix sum for subarray problems"
+!!! danger "Misconception: sliding window can always replace prefix sum for subarray problems"
     Sliding window requires a **monotonic** property: adding an element either increases or decreases the window metric predictably. With negative numbers, adding an element can both increase and decrease the sum depending on context, so the shrink condition breaks down. The prefix sum + HashMap approach handles negative numbers correctly because it doesn't rely on monotonicity.
 
 !!! warning "When it breaks"
@@ -427,7 +427,11 @@ Answer these questions without looking at your notes. Write a sentence or two fo
 
 ## Connected Topics
 
-!!! info "Where this topic connects"
+<div class="bs-callout bs-callout-info" markdown>
 
-    - **[03. Hash Tables](03-hash-tables.md)** — the subarray-sum-equals-k pattern combines prefix sums with a HashMap to find pairs in O(n) → [03. Hash Tables](03-hash-tables.md)
-    - **[02. Sliding Window](02-sliding-window.md)** — both answer range-sum questions; prefix sums handle arbitrary range queries in O(1) after O(n) preprocessing, while sliding window handles a single moving window in O(n) total → [02. Sliding Window](02-sliding-window.md)
+**Where this topic connects**
+
+- **[03. Hash Tables](03-hash-tables.md)** — the subarray-sum-equals-k pattern combines prefix sums with a HashMap to find pairs in O(n) → [03. Hash Tables](03-hash-tables.md)
+- **[02. Sliding Window](02-sliding-window.md)** — both answer range-sum questions; prefix sums handle arbitrary range queries in O(1) after O(n) preprocessing, while sliding window handles a single moving window in O(n) total → [02. Sliding Window](02-sliding-window.md)
+
+</div>

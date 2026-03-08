@@ -260,19 +260,19 @@ Graceful degradation returns a reduced but functional response when a dependency
 
 ## Common Misconceptions
 
-!!! warning "A circuit breaker is a retry mechanism"
+!!! danger "A circuit breaker is a retry mechanism"
     A circuit breaker does the opposite of retrying. Its purpose is to stop sending requests to a failing dependency immediately, rather than letting every request block for a full timeout. Retries and circuit breakers are complementary: retries handle transient single-request failures; the circuit breaker handles sustained dependency outages. Never put retries inside the `execute()` call of a circuit breaker — if the retried call also fails, it increments the failure counter multiple times per original request, tripping the breaker prematurely.
 
-!!! warning "Adding retries always improves reliability"
+!!! danger "Adding retries always improves reliability"
     Retries improve reliability only for idempotent operations against transient failures. For a non-idempotent mutation, a retry can create duplicate side effects. For a dependency that is overloaded rather than temporarily unavailable, retries amplify load — a service responding with 503 under 100% load will receive 300 requests if every caller retries twice, driving it further into failure. Always pair retries with a circuit breaker; once the breaker opens, retries stop.
 
-!!! warning "Bulkheads require separate microservices"
+!!! danger "Bulkheads require separate microservices"
     Bulkheads are a thread pool or semaphore pattern within a single service, not an architectural decomposition. A monolith that calls three external APIs can have three separate `ExecutorService` instances — one per API — without splitting into microservices. The isolation is achieved in code, not in deployment topology.
 
-!!! warning "Graceful degradation means ignoring errors silently"
+!!! danger "Graceful degradation means ignoring errors silently"
     Degradation is a contract, not a cover-up. The service must signal to its callers that it is operating in degraded mode (via response headers, envelope fields, or metrics). Silent swallowing of errors hides outages from operators and leaves callers unaware that the data they received is stale or incomplete. Always make degradation observable.
 
-!!! warning "Timeouts guarantee that the downstream call stops"
+!!! danger "Timeouts guarantee that the downstream call stops"
     A read timeout on the client side tells the client to stop waiting, but it does not cancel the in-flight request on the server. The downstream service may continue executing, consuming CPU, locks, and database connections, even after the caller has abandoned the request. True cancellation requires cooperative support: context propagation (Go `context.Context`, gRPC cancellation) or server-side deadlines. Without it, "timeout" means "caller gave up" — not "work stopped."
 
 ---
@@ -537,8 +537,12 @@ Complete this checklist after studying and implementing the patterns.
 
 ## Connected Topics
 
-!!! info "Where this topic connects"
+<div class="bs-callout bs-callout-info" markdown>
 
-    - **[09. Load Balancing](09-load-balancing.md)** — load balancers surface circuit-breaker-equivalent behaviour at the infrastructure layer (health checks, passive outlier detection); understanding service-level circuit breakers clarifies what the load balancer cannot do for you → [09. Load Balancing](09-load-balancing.md)
-    - **[15. Observability](15-observability.md)** — circuit breaker state changes (CLOSED → OPEN, OPEN → HALF_OPEN) must be emitted as metrics and events; without observability you cannot tell whether breakers are tripping spuriously or whether recovery timeouts are correctly tuned → [15. Observability](15-observability.md)
-    - **[17. Distributed Transactions](17-distributed-transactions.md)** — saga compensating transactions depend on retries and timeouts to guarantee progress; resilience patterns determine whether the saga coordinator can reliably reach each participant or must invoke compensation → [17. Distributed Transactions](17-distributed-transactions.md)
+**Where this topic connects**
+
+- **[09. Load Balancing](09-load-balancing.md)** — load balancers surface circuit-breaker-equivalent behaviour at the infrastructure layer (health checks, passive outlier detection); understanding service-level circuit breakers clarifies what the load balancer cannot do for you → [09. Load Balancing](09-load-balancing.md)
+- **[15. Observability](15-observability.md)** — circuit breaker state changes (CLOSED → OPEN, OPEN → HALF_OPEN) must be emitted as metrics and events; without observability you cannot tell whether breakers are tripping spuriously or whether recovery timeouts are correctly tuned → [15. Observability](15-observability.md)
+- **[17. Distributed Transactions](17-distributed-transactions.md)** — saga compensating transactions depend on retries and timeouts to guarantee progress; resilience patterns determine whether the saga coordinator can reliably reach each participant or must invoke compensation → [17. Distributed Transactions](17-distributed-transactions.md)
+
+</div>

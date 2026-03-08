@@ -17,7 +17,7 @@ By the end of this topic you will be able to:
 
 ---
 
-!!! warning "Operational reality"
+!!! note "Operational reality"
     The Linux kernel uses an inverted linked list pattern: instead of a node containing data, the data struct embeds the list node, letting a single struct participate in multiple lists simultaneously without extra allocation. Database buffer pools — PostgreSQL's shared buffer cache, InnoDB's buffer pool — use a doubly linked list plus hash map for LRU eviction. The structure you implement in the LRU cache problem is not a toy; it is the eviction policy running inside every major relational database. Floyd's cycle detection algorithm, developed for detecting cycles in linked lists, is also used in pseudorandom number generator analysis and in certain garbage collector implementations.
 
 ## ELI5: Explain Like I'm 5
@@ -362,13 +362,13 @@ Step 3: Continue
 
 ## Common Misconceptions
 
-!!! warning "Misconception 1: Recursive reversal uses O(1) space"
+!!! danger "Misconception 1: Recursive reversal uses O(1) space"
     Every recursive call creates a new stack frame. Reversing a list of n nodes recurses n levels deep, consuming O(n) stack space. For very long lists this can cause a stack overflow. Iterative reversal with three pointers uses O(1) space and is generally preferred in production code.
 
-!!! warning "Misconception 2: `fast.next != null` is enough for the loop condition"
+!!! danger "Misconception 2: `fast.next != null` is enough for the loop condition"
     If `fast` itself can be null (even-length lists), then checking `fast.next` first causes a `NullPointerException`. The condition must be `fast != null && fast.next != null` — short-circuit evaluation ensures the second check only runs when `fast` is non-null.
 
-!!! warning "Misconception 3: The cycle-start algorithm just needs both pointers moving one step"
+!!! danger "Misconception 3: The cycle-start algorithm just needs both pointers moving one step"
     In the second phase of Floyd's algorithm (finding the cycle entry), resetting `slow` to `head` and advancing **both** pointers one step at a time is correct. If you advance `fast` by two steps in the second phase you break the mathematical guarantee — the two pointers will no longer converge at the cycle entry node.
 
 !!! warning "When it breaks"
@@ -535,7 +535,11 @@ Answer these questions without looking at your notes. Write a sentence or two fo
 
 ## Connected Topics
 
-!!! info "Where this topic connects"
+<div class="bs-callout bs-callout-info" markdown>
 
-    - **01. Two Pointers** — fast/slow pointer (Floyd's cycle detection, finding middle node) is the two-pointer pattern applied to linked lists → [01. Two Pointers](01-two-pointers.md)
-    - **08. Heaps** — merging K sorted linked lists is the canonical heap problem; understanding list traversal is prerequisite → [08. Heaps](08-heaps.md)
+**Where this topic connects**
+
+- **01. Two Pointers** — fast/slow pointer (Floyd's cycle detection, finding middle node) is the two-pointer pattern applied to linked lists → [01. Two Pointers](01-two-pointers.md)
+- **08. Heaps** — merging K sorted linked lists is the canonical heap problem; understanding list traversal is prerequisite → [08. Heaps](08-heaps.md)
+
+</div>

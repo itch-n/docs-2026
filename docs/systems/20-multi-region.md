@@ -16,7 +16,7 @@ By the end of this topic you will be able to:
 
 ---
 
-!!! warning "Operational reality"
+!!! note "Operational reality"
     Multi-region is a prestige architecture. It signals scale and seriousness, but the majority of systems that adopt it did not need it.
 
     To understand why, it helps to know what cloud providers actually offer. A single region (e.g. AWS `us-east-1`) is already split into multiple physically separate data centres called Availability Zones (AZs) — `us-east-1a`, `us-east-1b`, `us-east-1c` — each with independent power, cooling, and networking, connected by ~1ms links. Running across multiple AZs within one region protects against a data centre fire, a power failure, a networking fault in one facility. This is **multi-AZ**, and it is largely automatic with managed services (RDS Multi-AZ, ECS across AZs). It achieves 99.99% availability with almost no added complexity.
@@ -260,16 +260,16 @@ Partition-by-region introduces several engineering challenges:
 
 ## Common Misconceptions
 
-!!! warning "Misconception 1: Active-active guarantees RPO = 0"
+!!! danger "Misconception 1: Active-active guarantees RPO = 0"
     Active-active with **asynchronous** replication has a non-zero RPO. If Region A accepts a write and crashes before it replicates to Region B, that write is lost. The active-active topology eliminates the *failover ceremony* but does not eliminate *replication lag*. RPO = 0 requires synchronous replication to at least one other region before acknowledging the client — which adds cross-region round-trip latency (typically 50–200 ms intercontinentally) to every write.
 
-!!! warning "Misconception 2: Conflicts only happen with truly simultaneous writes"
+!!! danger "Misconception 2: Conflicts only happen with truly simultaneous writes"
     Conflicts arise from replication lag, not just concurrency. Two writes to the same record from two different regions, seconds apart, can arrive at each other's region out of order. A write at T=100ms in Region A arrives at Region B at T=250ms; a write at T=200ms in Region B arrives at Region A at T=350ms. Neither writer was aware of the other — both thought they were writing to the latest version. The conflict window is as wide as the replication lag, not just the microsecond window of true simultaneity.
 
-!!! warning "Misconception 3: Multi-region deployment automatically provides high availability"
+!!! danger "Misconception 3: Multi-region deployment automatically provides high availability"
     Deploying to multiple regions and *automatically failing over between them* are separate capabilities. Without automated health checks, traffic rerouting, and runbook validation, a second region is a warm standby you must manually activate under pressure — exactly when mistakes happen. High availability at the multi-region level requires: health monitoring that detects regional degradation, a routing layer that can redirect traffic (Route 53 health checks, anycast, etc.), and regular failover drills that validate the process actually works.
 
-!!! warning "Misconception 4: Last-write-wins is a safe default for conflict resolution"
+!!! danger "Misconception 4: Last-write-wins is a safe default for conflict resolution"
     LWW silently discards data. Two users concurrently incrementing a counter (+1 from Region A, +1 from Region B) resolve to +1 under LWW, not +2. Two users editing different fields of the same record lose one user's changes entirely. LWW is only safe for workloads where exactly one of the conflicting writes is logically authoritative — for example, user profile updates where the user's most recent intent should win. For any commutative or accumulative operation, use CRDTs; for any record where both writes carry valid information, use application-level merge logic.
 
 ---
@@ -459,8 +459,12 @@ Complete this checklist after implementing and studying multi-region architectur
 
 ## Connected Topics
 
-!!! info "Where this topic connects"
+<div class="bs-callout bs-callout-info" markdown>
 
-    - **[11. Database Scaling](11-database-scaling.md)** — read replicas, write sharding, and replication lag management are the foundational database mechanics that multi-region deployments extend to geographic scale → [11. Database Scaling](11-database-scaling.md)
-    - **[18. Consensus Patterns](18-consensus-patterns.md)** — leader election across regions is the hardest part of active-active; Raft and Paxos underpin the coordination layer that decides which region is authoritative when network partitions occur → [18. Consensus Patterns](18-consensus-patterns.md)
-    - **[03. Networking Fundamentals](03-networking-fundamentals.md)** — geo-routing and replication lag are direct consequences of physical network topology; understanding BGP, anycast, and intercontinental RTT is necessary to reason about feasible RPO targets → [03. Networking Fundamentals](03-networking-fundamentals.md)
+**Where this topic connects**
+
+- **[11. Database Scaling](11-database-scaling.md)** — read replicas, write sharding, and replication lag management are the foundational database mechanics that multi-region deployments extend to geographic scale → [11. Database Scaling](11-database-scaling.md)
+- **[18. Consensus Patterns](18-consensus-patterns.md)** — leader election across regions is the hardest part of active-active; Raft and Paxos underpin the coordination layer that decides which region is authoritative when network partitions occur → [18. Consensus Patterns](18-consensus-patterns.md)
+- **[03. Networking Fundamentals](03-networking-fundamentals.md)** — geo-routing and replication lag are direct consequences of physical network topology; understanding BGP, anycast, and intercontinental RTT is necessary to reason about feasible RPO targets → [03. Networking Fundamentals](03-networking-fundamentals.md)
+
+</div>

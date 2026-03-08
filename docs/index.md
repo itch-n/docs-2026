@@ -14,9 +14,9 @@ Orange fill-in prompts mark what you complete. Everything else is reference mate
 
 Three pages for fast answers during interview prep or an incident:
 
-- **[When It Breaks](when-it-breaks.md)** — scale thresholds and failure conditions for all 35 topics
-- **[Back of the Envelope](back-of-envelope.md)** — hardware primitives, worked derivations, QPS/storage/write scale context
-- **[Symptom → Pattern](symptom-pattern.md)** — observable failure symptom → root cause → which concept to investigate
+- **[When It Breaks](reference/when-it-breaks.md)** — scale thresholds and failure conditions for all 35 topics
+- **[Back of the Envelope](reference/back-of-envelope.md)** — hardware primitives, worked derivations, QPS/storage/write scale context
+- **[Symptom → Pattern](reference/symptom-pattern.md)** — observable failure symptom → root cause → which concept to investigate
 
 ---
 

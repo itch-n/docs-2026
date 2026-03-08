@@ -428,16 +428,16 @@ Space saved: 6 ints (24 bytes) → 1 int + 5 bytes (9 bytes) = 62% reduction
 
 ## Common Misconceptions
 
-!!! warning "Column stores are always better for analytics"
+!!! danger "Column stores are always better for analytics"
     Column stores win for queries that touch a small fraction of columns. If your analytics query selects nearly every column (e.g., `SELECT *` with a WHERE filter), row storage may outperform column storage because the column store must still make one disk seek per column. The gain comes from column *pruning*, not from columnar layout alone.
 
-!!! warning "Row stores cannot compress data"
+!!! danger "Row stores cannot compress data"
     Row stores can use general-purpose compression (gzip, LZ4) on pages or blocks. What they cannot do efficiently is apply column-specific compression algorithms like dictionary encoding or RLE, because each disk page contains mixed data types from many columns. Column stores win on compression *ratio*, not on whether compression is possible.
 
-!!! warning "You must choose one layout for the entire database"
+!!! danger "You must choose one layout for the entire database"
     Modern systems like PostgreSQL (with `citus` columnar extension), TimescaleDB, and Apache Kudu support hybrid layouts. OLTP tables can be row-oriented while analytical tables in the same cluster use columnar storage. The choice is per-table (or even per-partition), not per-database.
 
-!!! warning "When it breaks"
+!!! danger "When it breaks"
     Row stores break for analytics when queries have low selectivity across wide tables — a full scan of a 1TB table reading 3 of 200 columns still reads all 200. The practical cliff is roughly 10M+ rows with aggregation queries; below that, a well-indexed row store usually wins on operational simplicity. Column stores break for OLTP when rows are updated frequently — an update to one field touches every column file, making point updates expensive. Hybrid HTAP databases (TiDB, SingleStore) exist specifically to serve both workloads, at the cost of significant added complexity.
 
 ---
@@ -677,7 +677,11 @@ Answer these without referring to your notes or implementation.
 
 ## Connected Topics
 
-!!! info "Where this topic connects"
+<div class="bs-callout bs-callout-info" markdown>
 
-    - **01. Storage Engines** — row and columnar formats are implemented on top of a storage engine; engine choice affects compression and write amplification trade-offs → [01. Storage Engines](01-storage-engines.md)
-    - **04. Search & Indexing** — inverted indexes use columnar-like techniques; columnar storage is the physical foundation for analytical query engines → [04. Search & Indexing](04-search-and-indexing.md)
+**Where this topic connects**
+
+- **01. Storage Engines** — row and columnar formats are implemented on top of a storage engine; engine choice affects compression and write amplification trade-offs → [01. Storage Engines](01-storage-engines.md)
+- **04. Search & Indexing** — inverted indexes use columnar-like techniques; columnar storage is the physical foundation for analytical query engines → [04. Search & Indexing](04-search-and-indexing.md)
+
+</div>

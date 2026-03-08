@@ -2,38 +2,30 @@
 
 Backend engineering study guide with interactive documentation and fill-in exercises.
 
-## Setup
+## Getting Started
 
-### Prerequisites
-
-- Python 3.13+
-- [UV](https://github.com/astral-sh/uv) package manager
-
-### Installation
+This site is designed to be used **locally with live reload** — open it in your browser while you work through topics, and changes save instantly.
 
 ```bash
-# Install UV (if not already installed)
+# 1. Install UV (if not already installed)
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
-# Install dependencies
+# 2. Install dependencies
 uv sync
+
+# 3. Start the site
+uv run mkdocs serve --dirtyreload
 ```
 
-## Development
+Open http://127.0.0.1:8000. The `--dirtyreload` flag rebuilds only changed files, so saves are reflected in the browser in under a second.
 
-### Local Preview
+## Other Commands
 
 ```bash
-# Start development server with live reload
+# Full rebuild (slower, use if something looks stale)
 uv run mkdocs serve
-```
 
-Open http://127.0.0.1:8000 in your browser.
-
-### Build Static Site
-
-```bash
-# Generate static HTML in site/ directory
+# Build static site
 uv run mkdocs build
 
 # Build with strict mode (fails on warnings)
@@ -48,8 +40,19 @@ uv run mkdocs build --strict
 │   ├── index.md                    # Landing page
 │   ├── css/
 │   │   └── custom.css              # Custom styling
-│   ├── systems/                    # 15 systems design topics
-│   └── dsa/                        # 16 DSA topics
+│   ├── systems/                    # 20 systems design topics
+│   ├── dsa/                        # 15 DSA topics
+│   └── reference/                  # Quick reference pages
+│       ├── when-it-breaks.md
+│       ├── back-of-envelope.md
+│       └── symptom-pattern.md
+├── src/
+│   ├── main/java/com/study/
+│   │   ├── systems/                # Java implementation stubs
+│   │   └── dsa/                    # Java implementation stubs
+│   └── test/java/com/study/
+│       ├── systems/                # JUnit 5 tests (exercise spec)
+│       └── dsa/                    # JUnit 5 tests (exercise spec)
 ├── mkdocs.yml                      # MkDocs configuration
 ├── pyproject.toml                  # Python dependencies
 └── uv.lock                         # Locked dependencies

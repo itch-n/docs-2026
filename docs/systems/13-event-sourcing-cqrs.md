@@ -17,7 +17,7 @@ By the end of this topic you will be able to:
 
 ---
 
-!!! warning "Operational reality"
+!!! note "Operational reality"
     Event sourcing has a reputation for being enthusiastically adopted and quietly abandoned 18 months later. It is genuinely powerful in domains where the event log is legally or architecturally required — financial ledgers, audit-heavy compliance systems, complex domains where temporal queries matter. But in most applications it adds two systems to maintain (the event log and all its projections), makes debugging significantly harder ("why does this user's balance look wrong?" requires replaying their entire event history), and turns schema evolution into an archaeology project.
 
     Teams that succeed with it tend to have one thing in common: they would have needed an audit log anyway. Study this for the interview domains where it is the right answer — not as a default architectural style.
@@ -241,16 +241,16 @@ The saga itself is persistent state (it records which steps are complete) and it
 
 ## Common Misconceptions
 
-!!! warning "Misconception 1: Event sourcing is just an audit log"
+!!! danger "Misconception 1: Event sourcing is just an audit log"
     The audit log framing has it backwards. In event sourcing the event log **is the source of truth**; the current-state table is a derived materialised view. An audit log is a side effect appended after a mutation. An event store is the primary write target — no mutation ever touches a state row directly. The difference matters when you need to rebuild state after a bug: an audit log can't help you reconstruct correct state because the corrupted row was the truth; an event store lets you fix the projection and replay.
 
-!!! warning "Misconception 2: CQRS requires event sourcing (and vice versa)"
+!!! danger "Misconception 2: CQRS requires event sourcing (and vice versa)"
     They are independent patterns that are often combined because they complement each other, but neither requires the other. CQRS can be applied on top of a plain relational write model: write path updates normalised tables, read path queries denormalised views. Event sourcing can be used without separate read models: the aggregate replays its event stream for every command. The combination is common but not mandatory.
 
-!!! warning "Misconception 3: You can correct a past event by editing it"
+!!! danger "Misconception 3: You can correct a past event by editing it"
     Events are immutable once written. If an event was appended with incorrect data, the correct approach is to append a compensating event — `OrderCorrected`, `AddressAmended` — that overrides the earlier fact. Editing stored event bytes breaks every replay that was ever run against that stream and violates the audit guarantee. Schema migrations use upcasting (transform at read time) not mutation of stored data.
 
-!!! warning "Misconception 4: Read models (projections) are always up to date"
+!!! danger "Misconception 4: Read models (projections) are always up to date"
     Projections are eventually consistent with the write model. A command that appends events successfully may not be reflected in the read model for milliseconds to seconds, depending on event propagation lag and projection throughput. Callers expecting read-your-own-writes consistency must either read from the write model directly (bypassing CQRS for that operation) or pass the expected version to the query and wait for the projection to catch up.
 
 ---
@@ -437,8 +437,12 @@ After completing this topic, verify you can do each of the following:
 
 ## Connected Topics
 
-!!! info "Where this topic connects"
+<div class="bs-callout bs-callout-info" markdown>
 
-    - **[12. Message Queues](12-message-queues.md)** — the event log is often implemented on a durable message broker (Kafka, Kinesis); projections subscribe as consumers; understanding consumer groups, offset management, and at-least-once delivery is essential for reliable projection updates → [12. Message Queues](12-message-queues.md)
-    - **[17. Distributed Transactions](17-distributed-transactions.md)** — sagas are the event-sourcing answer to cross-service coordination; the two-phase commit vs saga tradeoff, choreography vs orchestration, and compensating transaction design are covered in depth → [17. Distributed Transactions](17-distributed-transactions.md)
-    - **[11. Database Scaling](11-database-scaling.md)** — the event store and CQRS read models have distinct scaling profiles: the event store is append-heavy and benefits from write-optimised storage (LSM-based), while read models can be horizontally scaled read replicas or separate query stores → [11. Database Scaling](11-database-scaling.md)
+**Where this topic connects**
+
+- **[12. Message Queues](12-message-queues.md)** — the event log is often implemented on a durable message broker (Kafka, Kinesis); projections subscribe as consumers; understanding consumer groups, offset management, and at-least-once delivery is essential for reliable projection updates → [12. Message Queues](12-message-queues.md)
+- **[17. Distributed Transactions](17-distributed-transactions.md)** — sagas are the event-sourcing answer to cross-service coordination; the two-phase commit vs saga tradeoff, choreography vs orchestration, and compensating transaction design are covered in depth → [17. Distributed Transactions](17-distributed-transactions.md)
+- **[11. Database Scaling](11-database-scaling.md)** — the event store and CQRS read models have distinct scaling profiles: the event store is append-heavy and benefits from write-optimised storage (LSM-based), while read models can be horizontally scaled read replicas or separate query stores → [11. Database Scaling](11-database-scaling.md)
+
+</div>

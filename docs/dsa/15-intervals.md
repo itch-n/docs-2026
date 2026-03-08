@@ -17,7 +17,7 @@ By the end of this topic you will be able to:
 
 ---
 
-!!! warning "Operational reality"
+!!! note "Operational reality"
     PostgreSQL's MVCC (Multi-Version Concurrency Control) is fundamentally an interval overlap problem: every transaction has a `[xmin, xmax)` visibility range and every row read checks whether the reading transaction's snapshot overlaps the row's version interval. Calendar conflict detection (Google Calendar, Outlook scheduling) is interval merge and intersection. Network firewall rule engines evaluate packet port ranges against interval sets. Code coverage tools track which line ranges have been executed — merging coverage reports from parallel test runs is interval union across files.
 
 ## ELI5: Explain Like I'm 5
@@ -272,13 +272,13 @@ Final: [[1,6], [8,10], [15,18]]
 
 ## Common Misconceptions
 
-!!! warning "Misconception: intervals must always be sorted by start time"
+!!! danger "Misconception: intervals must always be sorted by start time"
     Sorting by start time is correct for merge and insert problems. For **non-overlapping intervals** (minimum removals), sort by **end time** — the greedy argument is to always keep the interval that ends earliest, maximising room for future intervals. For **remove covered intervals**, sort ascending by start then descending by end (so a wide interval with the same start comes before a narrow one). Applying the wrong sort produces subtly wrong answers that pass most test cases.
 
-!!! warning "Misconception: back-to-back intervals [1,5] and [5,10] overlap"
+!!! danger "Misconception: back-to-back intervals [1,5] and [5,10] overlap"
     They are adjacent, not overlapping. The overlap condition is `B.start < A.end` (strict), not `<=`. Two meetings where one ends exactly when the other begins do not conflict — the room is free the instant the first meeting ends. This is the source of the off-by-one bug in Meeting Rooms I.
 
-!!! warning "Misconception: the insert interval problem requires re-sorting"
+!!! danger "Misconception: the insert interval problem requires re-sorting"
     The input is guaranteed to be sorted and non-overlapping. You exploit that structure directly with a three-phase O(n) scan — no sort needed. Re-sorting after insertion wastes the O(n log n) budget unnecessarily.
 
 !!! warning "When it breaks"
@@ -444,6 +444,10 @@ Answer these questions without looking at your notes. Write a sentence or two fo
 
 ## Connected Topics
 
-!!! info "Where this topic connects"
+<div class="bs-callout bs-callout-info" markdown>
 
-    - **[01. Two Pointers](01-two-pointers.md)** — interval merge uses a pointer advancing through sorted intervals; meeting rooms II uses the two-pointer technique on start/end time arrays → [01. Two Pointers](01-two-pointers.md)
+**Where this topic connects**
+
+- **[01. Two Pointers](01-two-pointers.md)** — interval merge uses a pointer advancing through sorted intervals; meeting rooms II uses the two-pointer technique on start/end time arrays → [01. Two Pointers](01-two-pointers.md)
+
+</div>

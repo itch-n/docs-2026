@@ -23,7 +23,7 @@ By the end of this section you should be able to:
 
 ---
 
-!!! warning "Operational reality"
+!!! note "Operational reality"
     The DOM (Document Object Model) is a tree, and every browser's layout engine traverses it with the same DFS and BFS patterns from these exercises. Git's object model stores each directory snapshot as a tree object — a commit points to a tree, which points to subtrees and blobs, forming a Merkle tree where each node's hash covers its children. SQL query planners represent execution plans as trees; the optimiser rewrites the tree by applying transformation rules, which is tree traversal and mutation at the core. Trie (prefix tree) structures power autocomplete in search engines, IP routing tables (longest prefix match in BGP and OSPF), and spell checkers.
 
 ## ELI5: Explain Like I'm 5
@@ -750,37 +750,37 @@ public static boolean hasPathSum_Optimized(TreeNode root, int targetSum) {
 
 ## Common Misconceptions
 
-!!! warning "Misconception 1: Stack (LIFO) and Queue (FIFO) give the same traversal order"
+!!! danger "Misconception 1: Stack (LIFO) and Queue (FIFO) give the same traversal order"
     Using a stack gives DFS (depth-first), which processes the deepest nodes first. Using a queue gives BFS (breadth-first),
     which processes the shallowest nodes first. They are fundamentally different traversals. A common mistake is writing
     `Stack<TreeNode>` when the problem asks for level-order — the code compiles and produces *some* output, but it is
     DFS preorder, not level-order. Always use a `Queue` for level-order traversal.
 
-!!! warning "Misconception 2: The inner loop in level-order should run until the queue is empty"
+!!! danger "Misconception 2: The inner loop in level-order should run until the queue is empty"
     Level-order groups nodes by level. The inner loop must process exactly the nodes that belong to the **current** level,
     not all nodes currently in the queue. The correct pattern is to capture `int levelSize = queue.size()` before the
     inner loop and iterate exactly `levelSize` times. Running until `queue.isEmpty()` collapses all levels into one list.
 
-!!! warning "Misconception 3: Inorder of any binary tree gives sorted output"
+!!! danger "Misconception 3: Inorder of any binary tree gives sorted output"
     Inorder traversal gives sorted output **only for a Binary Search Tree (BST)** — a tree where every node's left
     subtree contains only smaller values and right subtree contains only larger values. For a general binary tree with
     arbitrary values, inorder traversal just visits nodes in Left-Root-Right order with no guarantee of sorted output.
     Always confirm the tree is a BST before relying on inorder for sorted results.
 
-!!! warning "Misconception 4: The diameter always passes through the root"
+!!! danger "Misconception 4: The diameter always passes through the root"
     A very common mistake is to compute `leftHeight + rightHeight` at the root and return that as the diameter. The
     diameter is the longest path between **any** two nodes and may be entirely within a subtree. Consider a deeply
     unbalanced tree where the left subtree is a long chain — the longest path is inside that chain and never touches the
     root. The correct implementation must check every node as a potential "bend point" of the path, which is why the
     O(n) algorithm threads a `maxDiameter` array through the height calculation.
 
-!!! warning "Misconception 5: Recursive tree algorithms have O(n) space because of n nodes"
+!!! danger "Misconception 5: Recursive tree algorithms have O(n) space because of n nodes"
     Recursive tree algorithms use O(h) stack space where h is the **height**, not O(n). For a balanced tree h = O(log n),
     so the stack depth is logarithmic. For a completely skewed tree (like a linked list), h = n, so the stack depth is
     linear. Always state the space complexity in terms of h and then clarify whether the tree is balanced or not. Saying
     "O(n) space" without qualification is imprecise and misleading for balanced trees.
 
-!!! warning "Misconception 6: LCA requires finding p and q before searching"
+!!! danger "Misconception 6: LCA requires finding p and q before searching"
     A common brute-force approach finds the paths from root to p and root to q separately, then compares them. The
     recursive LCA algorithm is cleaner: if we find p or q at the current node we return it immediately, and the first
     node where both left and right subtrees return non-null is the LCA. This works in a single O(n) pass without storing
@@ -1046,8 +1046,12 @@ Complete this checklist after implementing and studying both traversal and recur
 
 ## Connected Topics
 
-!!! info "Where this topic connects"
+<div class="bs-callout bs-callout-info" markdown>
 
-    - **08. Heaps** — a binary heap is a complete binary tree stored as an array; tree height reasoning applies directly to heap operations → [08. Heaps](08-heaps.md)
-    - **10. Graphs** — trees are acyclic connected graphs; tree traversals (DFS/BFS) generalise directly to graph traversals → [10. Graphs](10-graphs.md)
-    - **13. Dynamic Programming** — many tree DP problems (diameter, path sum, LCA) use post-order traversal to propagate subproblem results up the tree → [13. Dynamic Programming](13-dynamic-programming.md)
+**Where this topic connects**
+
+- **08. Heaps** — a binary heap is a complete binary tree stored as an array; tree height reasoning applies directly to heap operations → [08. Heaps](08-heaps.md)
+- **10. Graphs** — trees are acyclic connected graphs; tree traversals (DFS/BFS) generalise directly to graph traversals → [10. Graphs](10-graphs.md)
+- **13. Dynamic Programming** — many tree DP problems (diameter, path sum, LCA) use post-order traversal to propagate subproblem results up the tree → [13. Dynamic Programming](13-dynamic-programming.md)
+
+</div>

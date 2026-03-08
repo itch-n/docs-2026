@@ -17,7 +17,7 @@ By the end of this topic you will be able to:
 
 ---
 
-!!! warning "Operational reality"
+!!! note "Operational reality"
     Package managers do topological sort on the dependency graph every time you install a package — npm, Maven, Cargo, and pip all solve the same problem. Cyclic dependencies cause the sort to fail, which is why package managers either reject them outright or require special cycle-breaking. Build systems (Bazel, Gradle, Make) model targets and dependencies as a DAG and use topological sort to determine build order and parallelism. The "dependency hell" you experience with npm is a graph problem: the resolver is searching for a consistent version assignment that satisfies all edge constraints simultaneously, which can be NP-hard in the general case.
 
 ## ELI5: Explain Like I'm 5
@@ -466,13 +466,13 @@ When a transit app calculates the route with the fewest transfers (not the faste
 
 ## Common Misconceptions
 
-!!! warning "DFS finds the shortest path"
+!!! danger "DFS finds the shortest path"
     DFS finds *a* path, not necessarily the shortest one. It explores as deep as possible along one branch before backtracking, so it may discover a long path before a shorter one exists in an unexplored branch. BFS, by exploring level by level, guarantees that the first path found is the shortest in an unweighted graph.
 
-!!! warning "You must mark a node visited before calling DFS on it"
+!!! danger "You must mark a node visited before calling DFS on it"
     In undirected graphs, if you mark visited *after* exploring (not before), you risk re-entering the same node from different neighbours before the first DFS call returns. Always add a node to `visited` the moment you decide to explore it — not after.
 
-!!! warning "Adjacency list is always better than adjacency matrix"
+!!! danger "Adjacency list is always better than adjacency matrix"
     Adjacency list is better *for sparse graphs*. For dense graphs (E ≈ V²), the overhead of linked structures can make adjacency matrix competitive or better, especially when O(1) edge-existence checks are the dominant operation. The right choice depends on graph density and which operations are most frequent.
 
 ---
@@ -644,8 +644,12 @@ Answer these without referring to your notes or implementation.
 
 ## Connected Topics
 
-!!! info "Where this topic connects"
+<div class="bs-callout bs-callout-info" markdown>
 
-    - **[06. Trees](06-trees.md)** — trees are acyclic connected graphs; every tree traversal (DFS/BFS) is a special case of graph traversal with no cycle handling needed → [06. Trees](06-trees.md)
-    - **[09. Union-Find](09-union-find.md)** — Union-Find detects connectivity and cycles without explicit graph traversal; compare with DFS-based cycle detection → [09. Union-Find](09-union-find.md)
-    - **[11. Advanced Graphs](11-advanced-graphs.md)** — DFS/BFS are the building blocks; Advanced Graphs adds weighted edges, directed acyclic graphs, and shortest-path guarantees → [11. Advanced Graphs](11-advanced-graphs.md)
+**Where this topic connects**
+
+- **[06. Trees](06-trees.md)** — trees are acyclic connected graphs; every tree traversal (DFS/BFS) is a special case of graph traversal with no cycle handling needed → [06. Trees](06-trees.md)
+- **[09. Union-Find](09-union-find.md)** — Union-Find detects connectivity and cycles without explicit graph traversal; compare with DFS-based cycle detection → [09. Union-Find](09-union-find.md)
+- **[11. Advanced Graphs](11-advanced-graphs.md)** — DFS/BFS are the building blocks; Advanced Graphs adds weighted edges, directed acyclic graphs, and shortest-path guarantees → [11. Advanced Graphs](11-advanced-graphs.md)
+
+</div>

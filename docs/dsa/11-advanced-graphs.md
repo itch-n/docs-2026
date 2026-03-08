@@ -17,7 +17,7 @@ By the end of this topic you will be able to:
 
 ---
 
-!!! warning "Operational reality"
+!!! note "Operational reality"
     OSPF (Open Shortest Path First), the routing protocol running inside most enterprise and ISP networks, is Dijkstra's algorithm implemented in router firmware — every router runs it to build its forwarding table from a shared link-state database. Google Maps and similar routing engines use bidirectional Dijkstra with A* heuristics to handle road networks at scale. Topological sort is the core of CI/CD pipeline ordering: GitHub Actions, Buildkite, and Jenkins all resolve stage dependencies with topological sort, and a cycle in the pipeline definition is a hard error. Kruskal's MST appears in network infrastructure design tools when minimising cable runs or inter-datacenter link costs.
 
 ## ELI5: Explain Like I'm 5
@@ -823,17 +823,17 @@ failover route between any two sites if a cable is cut.
 
 ## Common Misconceptions
 
-!!! warning "BFS finds the shortest path in any graph"
+!!! danger "BFS finds the shortest path in any graph"
     BFS finds the shortest path only in **unweighted** graphs (where all edges have equal cost). In a weighted graph,
     BFS optimizes for fewest edges, not minimum total weight — which is often the wrong metric. Use Dijkstra for
     non-negative weights, or Bellman-Ford for graphs with negative weights.
 
-!!! warning "Dijkstra and topological sort both detect cycles"
+!!! danger "Dijkstra and topological sort both detect cycles"
     Dijkstra does not detect cycles — it simply skips already-visited nodes. Topological sort (via Kahn's algorithm)
     detects cycles because cyclic nodes never reach in-degree zero and are excluded from the result. If you need cycle
     detection in a directed graph, use Kahn's algorithm or three-color DFS explicitly.
 
-!!! warning "Union-find can detect cycles in directed graphs"
+!!! danger "Union-find can detect cycles in directed graphs"
     Union-find detects cycles only in **undirected** graphs. In a directed graph, edge A→B→C→A creates a cycle, but
     union(A,B), union(B,C), union(C,A) would all succeed (each pair appears not yet connected). Use three-color DFS
     (0=unvisited, 1=in progress, 2=finished) for directed cycle detection.
@@ -1014,8 +1014,12 @@ Answer these without referring to your notes or implementation.
 
 ## Connected Topics
 
-!!! info "Where this topic connects"
+<div class="bs-callout bs-callout-info" markdown>
 
-    - **[10. Graphs](10-graphs.md)** — Advanced Graphs builds directly on BFS/DFS; topological sort IS DFS post-order on a DAG → [10. Graphs](10-graphs.md)
-    - **[09. Union-Find](09-union-find.md)** — Kruskal's MST (covered here) uses Union-Find for cycle detection; compare with Prim's which uses a heap → [09. Union-Find](09-union-find.md)
-    - **[08. Heaps](08-heaps.md)** — Dijkstra's algorithm requires a min-heap; the heap's extract-min operation is what gives Dijkstra O((V+E) log V) → [08. Heaps](08-heaps.md)
+**Where this topic connects**
+
+- **[10. Graphs](10-graphs.md)** — Advanced Graphs builds directly on BFS/DFS; topological sort IS DFS post-order on a DAG → [10. Graphs](10-graphs.md)
+- **[09. Union-Find](09-union-find.md)** — Kruskal's MST (covered here) uses Union-Find for cycle detection; compare with Prim's which uses a heap → [09. Union-Find](09-union-find.md)
+- **[08. Heaps](08-heaps.md)** — Dijkstra's algorithm requires a min-heap; the heap's extract-min operation is what gives Dijkstra O((V+E) log V) → [08. Heaps](08-heaps.md)
+
+</div>

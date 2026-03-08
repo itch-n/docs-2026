@@ -13,7 +13,7 @@ By the end of this section you should be able to:
 
 ---
 
-!!! warning "Operational reality"
+!!! note "Operational reality"
     Stateful stream processing is significantly harder to operate than it appears. Watermarks require careful tuning and still produce late-data surprises; stateful operators accumulate state that must be snapshotted, replayed on restart, and pruned to prevent OOM failures; exactly-once semantics requires both source and sink to support it — one weak link breaks the guarantee. Many teams that adopted Flink or Kafka Streams for complex stateful pipelines quietly replaced specific use cases with scheduled batch jobs when the operational cost became clear.
 
     This topic covers the concepts needed to reason about real-time data architectures in interviews. The implementation details are for the teams whose job it is to run Flink at scale.
@@ -394,13 +394,13 @@ Results:     ↑            ↑
 
 ## Common Misconceptions
 
-!!! warning "Misconception 1: A larger watermark delay always gives more accurate results"
+!!! danger "Misconception 1: A larger watermark delay always gives more accurate results"
     A watermark delay controls how long the system waits for late-arriving events before closing a window. A very large delay does reduce data loss from late events, but it also increases the **end-to-end latency** for every window result — including results that had no late data. The right delay is the smallest value that covers the typical skew in your source data, not the maximum possible skew.
 
-!!! warning "Misconception 2: Exactly-once processing means events are never duplicated in the network"
+!!! danger "Misconception 2: Exactly-once processing means events are never duplicated in the network"
     Exactly-once semantics refers to the **effect** on state and output, not to how many times messages physically travel over the wire. The implementation typically sends some messages multiple times (at-least-once delivery) and uses idempotency or deduplication to ensure the state machine transitions exactly once per logical event. If your sink is not idempotent, exactly-once at the processor level does not protect against duplicate output.
 
-!!! warning "Misconception 3: Stateless stream processing has no memory growth"
+!!! danger "Misconception 3: Stateless stream processing has no memory growth"
     Stateless operators (map, filter) do not accumulate per-key state, so they have constant memory usage regardless of throughput. However, windowing itself is stateful — each open window stores partial aggregates. A pipeline with many windows, large window sizes, or high key cardinality can still grow memory substantially even if you consider the individual operators "stateless."
 
 ---
@@ -538,7 +538,11 @@ Answer these questions without looking at your implementation. They are designed
 
 ## Connected Topics
 
-!!! info "Where this topic connects"
+<div class="bs-callout bs-callout-info" markdown>
 
-    - **12. Message Queues** — stream processors consume from queues; understanding delivery guarantees is prerequisite to windowing correctness → [12. Message Queues](12-message-queues.md)
-    - **15. Observability** — windowed aggregations are a primary source of real-time metrics; observability pipelines often use stream processing internally → [15. Observability](15-observability.md)
+**Where this topic connects**
+
+- **12. Message Queues** — stream processors consume from queues; understanding delivery guarantees is prerequisite to windowing correctness → [12. Message Queues](12-message-queues.md)
+- **15. Observability** — windowed aggregations are a primary source of real-time metrics; observability pipelines often use stream processing internally → [15. Observability](15-observability.md)
+
+</div>

@@ -17,7 +17,7 @@ By the end of this topic you will be able to:
 
 ---
 
-!!! warning "Operational reality"
+!!! note "Operational reality"
     `git diff` output is the result of Myers' diff algorithm, a DP algorithm that finds the shortest edit script between two sequences — every line you see marked `+` or `-` in a diff came from a DP table. Levenshtein distance (edit distance) runs inside Elasticsearch and PostgreSQL fuzzy search, spell checkers, and DNA sequence alignment tools like BLAST. DP is rarely labelled as such in production code, but any system computing "minimum cost transformation between two sequences" or "optimal allocation across constrained resources" is running DP under the hood. Compiler register allocation, the step that decides which variables live in CPU registers, is a graph colouring problem solved with DP-like approaches.
 
 ## ELI5: Explain Like I'm 5
@@ -416,18 +416,18 @@ backtracking.
 
 ## Common Misconceptions
 
-!!! warning "DP always requires an array or table"
+!!! danger "DP always requires an array or table"
     Many DP problems can be solved with only two or three variables (O(1) space) when the recurrence only depends on
     the previous one or two states. Fibonacci, house robber, climbing stairs, and the stock problems with states all
     reduce to constant space. Always check if you can eliminate the array after understanding the recurrence.
 
-!!! warning "Initializing the DP array with Integer.MAX_VALUE is safe"
+!!! danger "Initializing the DP array with Integer.MAX_VALUE is safe"
     Using `Integer.MAX_VALUE` as "infinity" in DP is a common source of silent bugs. When you compute
     `dp[i - coin] + 1` and `dp[i - coin]` is `Integer.MAX_VALUE`, integer overflow produces a negative number,
     which silently passes the `Math.min` check. Use `amount + 1` as infinity for coin change (it's impossible to
     need more coins than the amount itself, assuming coin value 1 exists).
 
-!!! warning "Top-down memoization and bottom-up tabulation always give the same complexity"
+!!! danger "Top-down memoization and bottom-up tabulation always give the same complexity"
     Both have the same time complexity (solve each unique subproblem once), but their space complexity can differ.
     Top-down uses O(n) stack space plus the memo array. Bottom-up can often be space-optimized below O(n) because
     you control the iteration order. For problems where only the last 1-2 states matter, bottom-up reaches O(1)
@@ -601,7 +601,11 @@ Answer these without referring to your notes or implementation.
 
 ## Connected Topics
 
-!!! info "Where this topic connects"
+<div class="bs-callout bs-callout-info" markdown>
 
-    - **[03. Hash Tables](03-hash-tables.md)** — HashMap memoization is the standard top-down DP implementation; the hash table maps subproblem state to result → [03. Hash Tables](03-hash-tables.md)
-    - **[06. Trees](06-trees.md)** — tree DP (diameter, max path sum) uses post-order DFS to propagate subproblem solutions from leaves to root → [06. Trees](06-trees.md)
+**Where this topic connects**
+
+- **[03. Hash Tables](03-hash-tables.md)** — HashMap memoization is the standard top-down DP implementation; the hash table maps subproblem state to result → [03. Hash Tables](03-hash-tables.md)
+- **[06. Trees](06-trees.md)** — tree DP (diameter, max path sum) uses post-order DFS to propagate subproblem solutions from leaves to root → [06. Trees](06-trees.md)
+
+</div>

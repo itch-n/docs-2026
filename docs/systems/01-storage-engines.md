@@ -427,16 +427,16 @@ long duration = System.nanoTime() - start;
 
 ## Common Misconceptions
 
-!!! warning "LSM Trees are always faster than B+Trees"
+!!! danger "LSM Trees are always faster than B+Trees"
     LSM Trees are faster for *writes*. B+Trees are faster for *reads*, especially point lookups. The correct framing is: which trade-off matches your workload's read/write ratio?
 
-!!! warning "Compaction is optional"
+!!! danger "Compaction is optional"
     Without compaction, SSTables accumulate indefinitely. Read performance degrades as O(K × log S) where K grows without bound — eventually every read scans dozens of files. Compaction is not an optimisation; it is required for sustained read performance.
 
-!!! warning "WAL is part of the storage engine"
+!!! danger "WAL is part of the storage engine"
     WAL (Write-Ahead Log) is a separate durability layer, not a feature of either engine. Both B+Trees and LSM Trees use WAL for crash recovery — it is orthogonal to how data is structured on disk. Losing your MemTable on a crash and replaying a WAL is an LSM concern; B+Trees have their own WAL-based recovery path.
 
-!!! warning "When it breaks"
+!!! danger "When it breaks"
     B+Tree write performance degrades under write-heavy workloads when page splits cascade — a single row insert can rebalance multiple levels. At sustained write rates above roughly 10,000 writes/second on spinning disk, write amplification causes measurable latency spikes. LSM trees introduce a different cliff: when write throughput exceeds compaction throughput, compaction debt accumulates, SSTable count grows, and read amplification climbs until reads must check dozens of files. RocksDB exposes a `level0_slowdown_writes_trigger` (default: 20 files) and `level0_stop_writes_trigger` (default: 36 files) specifically for this condition — these are the numbers to know.
 
 ---
@@ -1250,8 +1250,12 @@ Modern day: Hybrid approaches
 
 ## Connected Topics
 
-!!! info "Where this topic connects"
+<div class="bs-callout bs-callout-info" markdown>
 
-    - **02. Row vs Column Storage** — both address physical data layout; B+Tree suits row access, LSM suits append-heavy columnar writes → [02. Row vs Column Storage](02-row-vs-column-storage.md)
-    - **05. Caching Patterns** — the buffer pool in a storage engine is a cache; the same LRU eviction logic applies → [05. Caching Patterns](05-caching-patterns.md)
-    - **11. Database Scaling** — sharding distributes storage engine instances; the engine's write path (WAL vs memtable) shapes which replication strategies are practical → [11. Database Scaling](11-database-scaling.md)
+**Where this topic connects**
+
+- **02. Row vs Column Storage** — both address physical data layout; B+Tree suits row access, LSM suits append-heavy columnar writes → [02. Row vs Column Storage](02-row-vs-column-storage.md)
+- **05. Caching Patterns** — the buffer pool in a storage engine is a cache; the same LRU eviction logic applies → [05. Caching Patterns](05-caching-patterns.md)
+- **11. Database Scaling** — sharding distributes storage engine instances; the engine's write path (WAL vs memtable) shapes which replication strategies are practical → [11. Database Scaling](11-database-scaling.md)
+
+</div>

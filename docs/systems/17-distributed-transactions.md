@@ -17,7 +17,7 @@ By the end of this section you should be able to:
 
 ---
 
-!!! warning "Operational reality"
+!!! note "Operational reality"
     Sagas are the correct pattern for distributed transactions — 2PC is genuinely problematic at scale — but debugging a saga that has half-compensated across four services at 3am is a special kind of difficult. Compensating transactions assume compensation is always possible and idempotent, which it often is not (you cannot un-send an email). The saga coordinator or choreography event chain tends to become the most critical and least-understood component in the system.
 
     Most teams benefit more from designing for idempotency and accepting eventual consistency than from building a full saga framework. Study the pattern to understand the tradeoffs; reach for it sparingly.
@@ -423,13 +423,13 @@ Saga: Reserve → Charge → Ship (if any fails, undo previous)
 
 ## Common Misconceptions
 
-!!! warning "Misconception 1: Saga is just a distributed try/catch"
+!!! danger "Misconception 1: Saga is just a distributed try/catch"
     Saga is often described as "if step N fails, undo steps N-1 through 1." This makes it sound like distributed exception handling. The critical difference is that compensations are **semantic reversals** — they represent meaningful business actions (issue a refund, cancel a reservation), not byte-level rollbacks. A compensation can itself fail, can be seen by other transactions while it is running, and must be idempotent because it may be retried. A simple try/catch offers none of these guarantees.
 
-!!! warning "Misconception 2: 2PC guarantees no data loss"
+!!! danger "Misconception 2: 2PC guarantees no data loss"
     2PC guarantees **atomicity** — all participants commit or all abort. It does not guarantee no data loss. If the coordinator crashes after deciding to commit but before all participants receive the decision, some participants are left holding locks in a PREPARED state indefinitely. This is the blocking problem. Data is not corrupted, but the system is unavailable until the coordinator recovers. In practice, this means 2PC requires a highly available, replicated coordinator to be truly safe.
 
-!!! warning "Misconception 3: Choreography is always better than orchestration because it avoids a single point of failure"
+!!! danger "Misconception 3: Choreography is always better than orchestration because it avoids a single point of failure"
     Choreography distributes control so no single service is the coordinator — but it introduces a different problem: the overall Saga state is implicit and scattered across event logs. When a choreography-based Saga gets stuck (e.g., an event is lost), there is no single place to look to understand what happened. Orchestration concentrates failure risk but also concentrates visibility. For complex workflows with many steps and failure modes, an orchestrator with a durable saga log is often easier to operate than choreography.
 
 ---
@@ -614,8 +614,12 @@ Answer these questions without looking at your implementation. They are designed
 
 ## Connected Topics
 
-!!! info "Where this topic connects"
+<div class="bs-callout bs-callout-info" markdown>
 
-    - **11. Database Scaling** — sharding makes cross-shard transactions the canonical saga use case; distributed transactions exist because single-node ACID doesn't scale horizontally → [11. Database Scaling](11-database-scaling.md)
-    - **12. Message Queues** — saga choreography uses message queues as the backbone; exactly-once delivery semantics directly affect saga correctness → [12. Message Queues](12-message-queues.md)
-    - **18. Consensus Patterns** — two-phase commit requires a coordinator; consensus (Raft/Paxos) is the mechanism used to make that coordinator fault-tolerant → [18. Consensus Patterns](18-consensus-patterns.md)
+**Where this topic connects**
+
+- **11. Database Scaling** — sharding makes cross-shard transactions the canonical saga use case; distributed transactions exist because single-node ACID doesn't scale horizontally → [11. Database Scaling](11-database-scaling.md)
+- **12. Message Queues** — saga choreography uses message queues as the backbone; exactly-once delivery semantics directly affect saga correctness → [12. Message Queues](12-message-queues.md)
+- **18. Consensus Patterns** — two-phase commit requires a coordinator; consensus (Raft/Paxos) is the mechanism used to make that coordinator fault-tolerant → [18. Consensus Patterns](18-consensus-patterns.md)
+
+</div>

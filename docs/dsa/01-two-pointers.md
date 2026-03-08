@@ -17,7 +17,7 @@ By the end of this topic you will be able to:
 
 ---
 
-!!! warning "Operational reality"
+!!! note "Operational reality"
     The merge step in every merge sort implementation is two pointers advancing through sorted sequences — it is so fundamental it becomes invisible. The partition step in quicksort is the same pattern with a write pointer trailing a read pointer. Outside of sorting, this shows up in streaming decoders: Protocol Buffers and most binary codec implementations use a read/write pointer pair to parse and emit data in a single pass without allocating intermediate buffers. The fast/slow pointer pattern (Floyd's cycle detection) is used in garbage collectors to detect reference cycles and in linked list implementations inside OS kernels.
 
 ## ELI5: Explain Like I'm 5
@@ -248,13 +248,13 @@ Step 2: left=1 (val=3), right=4 (val=9), sum=12 → FOUND!
 
 ## Common Misconceptions
 
-!!! warning "Misconception 1: Two pointers always requires a sorted array"
+!!! danger "Misconception 1: Two pointers always requires a sorted array"
     Opposite-direction pointers for pair-sum **do** require sorted order, but same-direction and different-speed patterns do not. `moveZeroes`, `removeDuplicates`, and Floyd's cycle detection all work on unsorted or linked-list input. The sorting requirement is specific to the convergence proof for opposite-direction, not to the technique itself.
 
-!!! warning "Misconception 2: Two pointers and sliding window are the same thing"
+!!! danger "Misconception 2: Two pointers and sliding window are the same thing"
     Both use two indices, but the goals differ. Two pointers typically search for a **pair of elements** satisfying a condition, while sliding window maintains a **contiguous subarray** and tracks aggregate state (sum, frequency map) within it. A dynamic sliding window is a two-pointer technique, but two pointers is a broader category.
 
-!!! warning "Misconception 3: Same-direction slow/fast pointers need different starting positions"
+!!! danger "Misconception 3: Same-direction slow/fast pointers need different starting positions"
     It is tempting to start `slow = 0, fast = 1` always, but the correct starting position depends on the problem. For `removeDuplicates` both start at 0 (or 0 and 1); for Floyd's cycle detection both start at `head`. Internalise the **invariant** each pattern maintains rather than memorising the starting positions.
 
 !!! warning "When it breaks"
@@ -411,7 +411,11 @@ Answer these questions without looking at your notes. Write a sentence or two fo
 
 ## Connected Topics
 
-!!! info "Where this topic connects"
+<div class="bs-callout bs-callout-info" markdown>
 
-    - **02. Sliding Window** — sliding window is a specialised two-pointer technique where both pointers advance in the same direction to maintain a window → [02. Sliding Window](02-sliding-window.md)
-    - **04. Linked Lists** — fast/slow pointer (Floyd's cycle detection) is a direct application of the two-pointer pattern to linked structures → [04. Linked Lists](04-linked-lists.md)
+**Where this topic connects**
+
+- **02. Sliding Window** — sliding window is a specialised two-pointer technique where both pointers advance in the same direction to maintain a window → [02. Sliding Window](02-sliding-window.md)
+- **04. Linked Lists** — fast/slow pointer (Floyd's cycle detection) is a direct application of the two-pointer pattern to linked structures → [04. Linked Lists](04-linked-lists.md)
+
+</div>

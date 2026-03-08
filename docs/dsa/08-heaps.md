@@ -17,7 +17,7 @@ By the end of this section you should be able to:
 
 ---
 
-!!! warning "Operational reality"
+!!! note "Operational reality"
     Most standard library priority queues — Python's `heapq`, C++'s `priority_queue` — deliberately omit `decreaseKey`, so production Dijkstra implementations universally use lazy deletion: re-insert with the updated priority and skip stale entries on pop. Kubernetes' scheduler maintains a priority queue over pods waiting for placement. Elasticsearch and Splunk compute top-K results across shards using a distributed heap merge — each shard returns its local top-K and the coordinator merges them, which is exactly the merge-K-sorted-sequences pattern. Operating system process schedulers use priority queues to determine which runnable process gets the CPU next.
 
 ## ELI5: Explain Like I'm 5
@@ -354,20 +354,20 @@ Add 3:  maxHeap=[5,3,1], minHeap=[15] → rebalance → maxHeap=[5,3], minHeap=[
 
 ## Common Misconceptions
 
-!!! warning "Misconception 1: Use max-heap to find the K largest elements"
+!!! danger "Misconception 1: Use max-heap to find the K largest elements"
     This is backwards. For K **largest**, use a **min**-heap of size K. The min-heap evicts the smallest candidate when it
     overflows, preserving the K largest. A max-heap evicts the largest candidate, which destroys the very elements you are
     trying to keep. The rule generalises: for K smallest, use a max-heap of size K (evict the largest intruder, preserve
     the K smallest). The pattern is always "evict the one that doesn't belong, keep the K that do."
 
-!!! warning "Misconception 2: The two-heap median finder does not need rebalancing"
+!!! danger "Misconception 2: The two-heap median finder does not need rebalancing"
     If you add numbers without rebalancing, one heap can grow arbitrarily larger than the other. When the sizes diverge by
     more than 1, the median calculation is wrong. The rebalancing logic (`if (maxHeap.size() > minHeap.size() + 1)
     minHeap.offer(maxHeap.poll())`) must run after every insertion. A common shortcut — always add to maxHeap first and
     then move the root to minHeap — handles most cases, but still requires checking that maxHeap stays at least as large
     as minHeap.
 
-!!! warning "Misconception 3: 0-indexed and 1-indexed heap formulas are interchangeable"
+!!! danger "Misconception 3: 0-indexed and 1-indexed heap formulas are interchangeable"
     The two sets of formulas differ by exactly 1, and mixing them causes subtle off-by-one bugs that may not surface until
     edge cases. For a **0-indexed** array: `parent(i) = (i - 1) / 2`, `leftChild(i) = 2*i + 1`, `rightChild(i) = 2*i + 2`.
     For a **1-indexed** array: `parent(i) = i / 2`, `leftChild(i) = 2*i`, `rightChild(i) = 2*i + 1`. Java's
@@ -540,7 +540,11 @@ flowchart LR
 
 ## Connected Topics
 
-!!! info "Where this topic connects"
+<div class="bs-callout bs-callout-info" markdown>
 
-    - **[06. Trees](06-trees.md)** — a binary heap is a complete binary tree stored as an array; sift-up and sift-down use the same parent/child index arithmetic as tree traversal → [06. Trees](06-trees.md)
-    - **[11. Advanced Graphs](11-advanced-graphs.md)** — Dijkstra's shortest-path algorithm requires a min-heap (priority queue) as its core data structure → [11. Advanced Graphs](11-advanced-graphs.md)
+**Where this topic connects**
+
+- **[06. Trees](06-trees.md)** — a binary heap is a complete binary tree stored as an array; sift-up and sift-down use the same parent/child index arithmetic as tree traversal → [06. Trees](06-trees.md)
+- **[11. Advanced Graphs](11-advanced-graphs.md)** — Dijkstra's shortest-path algorithm requires a min-heap (priority queue) as its core data structure → [11. Advanced Graphs](11-advanced-graphs.md)
+
+</div>

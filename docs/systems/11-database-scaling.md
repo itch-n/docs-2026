@@ -17,7 +17,7 @@ By the end of this topic you will be able to:
 
 ---
 
-!!! warning "Operational reality"
+!!! note "Operational reality"
     Premature sharding is one of the most common and expensive architectural mistakes in backend engineering. Sharding decisions are very difficult to reverse — choosing the wrong shard key, or sharding before you understand your query patterns, creates distributed systems problems at a fraction of the scale that would actually justify them. A well-tuned Postgres instance with read replicas handles tens of thousands of queries per second and terabytes of data. Most applications never need to shard.
 
     Read replicas are also not free queries. Replication lag means replicas serve stale reads, and applications that don't account for this produce subtle consistency bugs — a user creates a record, is redirected, and the page showing the new record reads from a replica that hasn't caught up yet. Shard when you must, replicate carefully, and measure before you scale.
@@ -894,13 +894,13 @@ After finding and fixing all bugs:
 
 ## Common Misconceptions
 
-!!! warning "Sharding solves all scalability problems"
+!!! danger "Sharding solves all scalability problems"
     Sharding increases write and read throughput by distributing data, but it makes cross-shard queries — joins, aggregations, sorted scans across all users — significantly more expensive. Applications that frequently need to query across shard boundaries often perform worse after sharding than before. Always verify your most important query patterns against the shard key before committing.
 
-!!! warning "Replication doubles your write capacity"
+!!! danger "Replication doubles your write capacity"
     Replication improves read capacity by distributing reads across replicas, but all writes still go to a single master. If writes are the bottleneck, adding read replicas does nothing to help. Replication is the right tool when reads dominate (typical for read-heavy workloads at 80:20 or higher); horizontal sharding is needed when writes are the constraint.
 
-!!! warning "Choosing a shard key is easy to change later"
+!!! danger "Choosing a shard key is easy to change later"
     Resharding — migrating an existing dataset to a new shard key — is one of the most disruptive database operations in production. It typically requires a dual-write migration period, careful coordination to avoid data loss, and significant downtime risk. Choose the shard key thoughtfully upfront, considering both current access patterns and likely future growth.
 
 ---
@@ -1090,8 +1090,12 @@ Answer these without referring to your notes or implementation.
 
 ## Connected Topics
 
-!!! info "Where this topic connects"
+<div class="bs-callout bs-callout-info" markdown>
 
-    - **01. Storage Engines** — sharding distributes storage engine instances; the engine's write-ahead log and compaction strategy shape which replication approaches are practical → [01. Storage Engines](01-storage-engines.md)
-    - **17. Distributed Transactions** — cross-shard writes cannot be made atomic by a single database engine; distributed transaction protocols are required → [17. Distributed Transactions](17-distributed-transactions.md)
-    - **18. Consensus Patterns** — leader election for primary replica failover uses Raft or similar consensus; without it, split-brain allows two nodes to accept writes simultaneously → [18. Consensus Patterns](18-consensus-patterns.md)
+**Where this topic connects**
+
+- **01. Storage Engines** — sharding distributes storage engine instances; the engine's write-ahead log and compaction strategy shape which replication approaches are practical → [01. Storage Engines](01-storage-engines.md)
+- **17. Distributed Transactions** — cross-shard writes cannot be made atomic by a single database engine; distributed transaction protocols are required → [17. Distributed Transactions](17-distributed-transactions.md)
+- **18. Consensus Patterns** — leader election for primary replica failover uses Raft or similar consensus; without it, split-brain allows two nodes to accept writes simultaneously → [18. Consensus Patterns](18-consensus-patterns.md)
+
+</div>

@@ -59,9 +59,9 @@ nav:
       - "15. Intervals": dsa/15-intervals.md
 
   - Quick Reference:
-      - "When It Breaks": when-it-breaks.md
-      - "Back of the Envelope": back-of-envelope.md
-      - "Symptom → Pattern": symptom-pattern.md
+      - "When It Breaks": reference/when-it-breaks.md
+      - "Back of the Envelope": reference/back-of-envelope.md
+      - "Symptom → Pattern": reference/symptom-pattern.md
 
 markdown_extensions:
   - admonition

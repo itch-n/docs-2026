@@ -652,16 +652,16 @@ Additional benefits:
 
 ## Common Misconceptions
 
-!!! warning "HTTPS is significantly slower than HTTP"
+!!! danger "HTTPS is significantly slower than HTTP"
     TLS 1.3 adds only one additional round trip on the initial connection, and session resumption can reduce that to zero extra round trips (0-RTT). With connection pooling and keep-alive, the TLS handshake cost is amortised across hundreds of requests. The CPU overhead for modern AES-GCM encryption is under 5% on current hardware. The performance gap between HTTP and HTTPS is negligible in practice.
 
-!!! warning "HTTP/2 eliminates all head-of-line blocking"
+!!! danger "HTTP/2 eliminates all head-of-line blocking"
     HTTP/2 eliminates *application-layer* HOL blocking (multiple streams on one connection). However, because it runs over a single TCP connection, a lost TCP packet still blocks *all* HTTP/2 streams until the packet is retransmitted — this is *transport-layer* HOL blocking. HTTP/3 (QUIC) solves this by running streams independently over UDP.
 
-!!! warning "DNS round-robin is sufficient for load balancing"
+!!! danger "DNS round-robin is sufficient for load balancing"
     DNS round-robin cycles IP addresses but has no health checks — it will happily return the IP of a crashed server. It also cannot respond to actual server load; an overloaded server receives the same share as an idle one. And client-side DNS caching means the "rotation" is unpredictable in practice. DNS round-robin is a last resort, not a real load balancing strategy.
 
-!!! warning "When it breaks"
+!!! danger "When it breaks"
     TCP breaks for latency-sensitive applications when a single lost packet stalls all streams — the retransmission timeout (RTO) floor is typically 200ms, meaning a 0.1% loss rate can spike p99 latency by 200ms. HTTP/1.1 breaks at more than 6 concurrent requests per domain (the browser connection limit), which is why HTTP/2 multiplexing matters for page load time. DNS breaks during deployments when TTL is too low (amplified query volume) or too high (stale records persist for hours after failover). TLS 1.3 reduced the handshake to 1 round trip, but the full handshake still costs ~100ms on intercontinental connections — session resumption is not optional at scale.
 
 ---
@@ -865,8 +865,12 @@ Complete this checklist after implementing and studying all networking topics.
 
 ## Connected Topics
 
-!!! info "Where this topic connects"
+<div class="bs-callout bs-callout-info" markdown>
 
-    - **06. API Design** — HTTP/1.1, HTTP/2, and HTTP/3 directly shape API design choices for latency, multiplexing, and connection management → [06. API Design](06-api-design.md)
-    - **07. Security Patterns** — TLS (covered here) is the transport layer that makes token-based authentication safe; without it, JWTs and API keys are exposed in transit → [07. Security Patterns](07-security-patterns.md)
-    - **09. Load Balancing** — TCP (Layer 4) and HTTP (Layer 7) are the two layers at which load balancers operate; the protocol coverage here provides context for that routing decision → [09. Load Balancing](09-load-balancing.md)
+**Where this topic connects**
+
+- **06. API Design** — HTTP/1.1, HTTP/2, and HTTP/3 directly shape API design choices for latency, multiplexing, and connection management → [06. API Design](06-api-design.md)
+- **07. Security Patterns** — TLS (covered here) is the transport layer that makes token-based authentication safe; without it, JWTs and API keys are exposed in transit → [07. Security Patterns](07-security-patterns.md)
+- **09. Load Balancing** — TCP (Layer 4) and HTTP (Layer 7) are the two layers at which load balancers operate; the protocol coverage here provides context for that routing decision → [09. Load Balancing](09-load-balancing.md)
+
+</div>

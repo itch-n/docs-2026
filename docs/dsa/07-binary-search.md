@@ -17,7 +17,7 @@ By the end of this section you should be able to:
 
 ---
 
-!!! warning "Operational reality"
+!!! note "Operational reality"
     `git bisect` is binary search over commit history — you mark commits as good or bad and Git halves the search space each step, finding the introducing commit in O(log n) checks instead of O(n). Database index range scans are binary search on B+Tree leaf nodes; the "seek" operation in a PostgreSQL index scan is exactly this. Feature flag systems that roll out to a percentage of users frequently binary-search a sorted configuration to find threshold boundaries. The binary-search-on-the-answer-space pattern (not searching an array, but searching a parameter space) appears in capacity planning tools and load balancer configuration whenever the problem is "find the minimum X such that condition Y holds."
 
 ## ELI5: Explain Like I'm 5
@@ -376,13 +376,13 @@ return idx >= 0 ? idx : -(idx + 1);
 
 ## Common Misconceptions
 
-!!! warning "Misconception 1: Binary search only works on arrays"
+!!! danger "Misconception 1: Binary search only works on arrays"
     Binary search applies to any situation where there is a **monotonic property** that lets you discard half the candidates
     at each step. The search space does not need to be a physical array — it can be a range of integers (finding a square
     root), a range of capacities (shipping problem), or even an implicit space defined by a predicate. Whenever you can
     answer "is the answer above or below mid?" in O(n) or better, binary search on the answer space gives you O(n log(range)).
 
-!!! warning "Misconception 2: `right = mid` and `right = mid - 1` are interchangeable"
+!!! danger "Misconception 2: `right = mid` and `right = mid - 1` are interchangeable"
     These two pointer updates correspond to two different loop invariants and must match the loop condition. The `left <= right`
     template requires `right = mid - 1` when discarding the right half, because `mid` has been examined and ruled out. Using
     `right = mid` with `left <= right` creates an infinite loop when `left == right == mid` — the loop condition stays true
@@ -390,7 +390,7 @@ return idx >= 0 ? idx : -(idx + 1);
     condition must be strict `<` to guarantee termination. Mixing these patterns is the single most common source of infinite
     loops in binary search implementations.
 
-!!! warning "Misconception 3: The sorted-array requirement means the whole array must be sorted"
+!!! danger "Misconception 3: The sorted-array requirement means the whole array must be sorted"
     Classic binary search needs the array sorted, but several variants do not. In a rotated sorted array, neither half is
     globally sorted — but at least one half is locally sorted, which is enough. In 2D staircase search, neither row nor
     column is globally sorted, but starting from the top-right corner guarantees that you can always eliminate a row or a
@@ -560,7 +560,11 @@ flowchart LR
 
 ## Connected Topics
 
-!!! info "Where this topic connects"
+<div class="bs-callout bs-callout-info" markdown>
 
-    - **06. Trees** — BST search IS binary search applied to a tree; understanding binary search on sorted arrays is prerequisite to BST operations → [06. Trees](06-trees.md)
-    - **11. Advanced Graphs** — binary search on the answer (e.g., "minimum cost to complete all tasks") is a common optimisation over Dijkstra-style problems where feasibility is checked by graph traversal → [11. Advanced Graphs](11-advanced-graphs.md)
+**Where this topic connects**
+
+- **06. Trees** — BST search IS binary search applied to a tree; understanding binary search on sorted arrays is prerequisite to BST operations → [06. Trees](06-trees.md)
+- **11. Advanced Graphs** — binary search on the answer (e.g., "minimum cost to complete all tasks") is a common optimisation over Dijkstra-style problems where feasibility is checked by graph traversal → [11. Advanced Graphs](11-advanced-graphs.md)
+
+</div>

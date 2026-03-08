@@ -17,7 +17,7 @@ By the end of this topic you will be able to:
 
 ---
 
-!!! warning "Operational reality"
+!!! note "Operational reality"
     ReDoS (Regular Expression Denial of Service) is catastrophic backtracking: a carefully crafted input causes a backtracking regex engine to explore exponentially many paths. Cloudflare suffered a global outage in 2019 from a single poorly-written regex that triggered this. SQL query planners use backtracking-style search to find optimal join orderings — the search space is O(n!) for n tables, which is why planners set a threshold and switch to heuristics. SAT solvers, used in hardware verification tools (formal verification of chip designs) and package conflict resolution, are backtracking algorithms with aggressive pruning (CDCL). Dependency resolver conflicts in pip and npm that produce "no solution found" errors are the SAT solver giving up.
 
 ## ELI5: Explain Like I'm 5
@@ -346,18 +346,18 @@ running total exceeds the target.
 
 ## Common Misconceptions
 
-!!! warning "Backtracking always explores the full search tree"
+!!! danger "Backtracking always explores the full search tree"
     Backtracking only explores the full tree when there is no pruning. Effective pruning — checking constraints as
     early as possible rather than at the leaves — can reduce the search from exponential to polynomial for many
     practical inputs. The key skill is identifying the earliest point where a partial candidate can be declared
     invalid.
 
-!!! warning "You must use a boolean visited array for all backtracking problems"
+!!! danger "You must use a boolean visited array for all backtracking problems"
     For permutations (where order matters and each element is used once), a `boolean[] used` array is needed. For
     subsets and combinations (where you advance a `start` index), no visited array is needed because you never go
     backwards in the array. Mixing these two approaches causes bugs.
 
-!!! warning "Forgetting to copy the list when adding to results"
+!!! danger "Forgetting to copy the list when adding to results"
     `result.add(current)` adds a **reference** to the same list object. As backtracking modifies `current`, every
     entry in `result` gets overwritten. Always use `result.add(new ArrayList<>(current))` to capture a snapshot
     of the current state.
@@ -531,8 +531,12 @@ Answer these without referring to your notes or implementation.
 
 ## Connected Topics
 
-!!! info "Where this topic connects"
+<div class="bs-callout bs-callout-info" markdown>
 
-    - **[06. Trees](06-trees.md)** — backtracking IS tree DFS on an implicit decision tree; every recursive call expands a node, and backtracking prunes branches → [06. Trees](06-trees.md)
-    - **[11. Advanced Graphs](11-advanced-graphs.md)** — backtracking is used for constrained graph path problems (Hamiltonian path, word ladder); compare with Dijkstra when edge weights matter → [11. Advanced Graphs](11-advanced-graphs.md)
-    - **[13. Dynamic Programming](13-dynamic-programming.md)** — DP optimises backtracking by memoising subproblem results; if the backtracking state space has overlapping subproblems, DP cuts exponential time to polynomial → [13. Dynamic Programming](13-dynamic-programming.md)
+**Where this topic connects**
+
+- **[06. Trees](06-trees.md)** — backtracking IS tree DFS on an implicit decision tree; every recursive call expands a node, and backtracking prunes branches → [06. Trees](06-trees.md)
+- **[11. Advanced Graphs](11-advanced-graphs.md)** — backtracking is used for constrained graph path problems (Hamiltonian path, word ladder); compare with Dijkstra when edge weights matter → [11. Advanced Graphs](11-advanced-graphs.md)
+- **[13. Dynamic Programming](13-dynamic-programming.md)** — DP optimises backtracking by memoising subproblem results; if the backtracking state space has overlapping subproblems, DP cuts exponential time to polynomial → [13. Dynamic Programming](13-dynamic-programming.md)
+
+</div>

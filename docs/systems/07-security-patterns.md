@@ -241,16 +241,16 @@ By the end of this topic you will be able to:
 
 ## Common Misconceptions
 
-!!! warning "JWT tokens are encrypted, so the payload is private"
+!!! danger "JWT tokens are encrypted, so the payload is private"
     JWT tokens are Base64-encoded, not encrypted. Anyone who intercepts a JWT can decode the header and payload in seconds — they just cannot forge a valid signature without the secret. Never store sensitive information (passwords, PII, internal system details) inside a JWT payload. If confidentiality is required, use JWE (JSON Web Encryption) instead.
 
-!!! warning "RBAC eliminates all authorization bugs once roles are set up"
+!!! danger "RBAC eliminates all authorization bugs once roles are set up"
     Role assignment solves the coarse-grained problem, but each sensitive operation still requires an explicit `hasPermission` check at the call site. Developers frequently add new endpoints or methods without wiring in the authorization check, leaving gaps. RBAC is a framework, not a guarantee — the check must be present everywhere it matters.
 
-!!! warning "Rotating API keys or secrets is disruptive and should be avoided"
+!!! danger "Rotating API keys or secrets is disruptive and should be avoided"
     Modern secrets management supports versioned rotation with a grace period, so old and new credentials are both valid briefly. Zero-downtime rotation is a standard pattern. Not rotating credentials after a suspected leak is far more costly than the short-term operational effort of rotation. Treat infrequent rotation as a risk, not a best practice.
 
-!!! warning "When it breaks"
+!!! danger "When it breaks"
     JWTs break for revocation: a token is valid until its `exp` claim and there is no standard mechanism to invalidate an issued token. Logout, password change, or account suspension all require either a token denylist (a distributed cache lookup on every request, which negates the stateless benefit) or very short expiry windows. RBAC breaks when roles proliferate — systems typically start with 5 roles and accumulate 50 as individual exceptions are added. The inflection point where RBAC becomes unmanageable is usually when roles are no longer comprehensible to a non-engineer, which happens around 20–30 roles. At that point, attribute-based access control (ABAC) or policy engines like OPA are the alternative.
 
 ---
@@ -459,7 +459,11 @@ Answer these without referring to your notes or implementation.
 
 ## Connected Topics
 
-!!! info "Where this topic connects"
+<div class="bs-callout bs-callout-info" markdown>
 
-    - **06. API Design** — JWTs and API keys are the standard authentication mechanisms for REST APIs; idempotency and versioning affect token refresh and revocation strategies → [06. API Design](06-api-design.md)
-    - **03. Networking Fundamentals** — TLS provides transport-layer security that makes token-based authentication safe; without it, all tokens are exposed in plaintext → [03. Networking Fundamentals](03-networking-fundamentals.md)
+**Where this topic connects**
+
+- **06. API Design** — JWTs and API keys are the standard authentication mechanisms for REST APIs; idempotency and versioning affect token refresh and revocation strategies → [06. API Design](06-api-design.md)
+- **03. Networking Fundamentals** — TLS provides transport-layer security that makes token-based authentication safe; without it, all tokens are exposed in plaintext → [03. Networking Fundamentals](03-networking-fundamentals.md)
+
+</div>

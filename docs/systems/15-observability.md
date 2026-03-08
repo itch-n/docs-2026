@@ -17,7 +17,7 @@ By the end of this section you should be able to:
 
 ---
 
-!!! warning "Operational reality"
+!!! note "Operational reality"
     Most observability implementations are SLO theater: SLOs are defined, dashboards are built, and then neither is meaningfully enforced or acted on. Teams instrument everything — hundreds of metrics, gigabytes of logs — and then alert on so many things that alert fatigue sets in and on-call engineers learn to dismiss pages. The result is worse than no alerting, because it creates false confidence.
 
     "Alert on symptoms, not causes" is the correct principle and almost universally violated. A symptom alert fires when users are affected (error rate up, latency up, success rate down). A cause alert fires when a CPU is at 80% — which may or may not matter. High-cardinality labels (user IDs, request IDs as metric dimensions) are another common production incident: they cause metric storage to explode and query engines to OOM. Observability tooling is cheap to add and expensive to operate well.
@@ -392,13 +392,13 @@ With observability:
 
 ## Common Misconceptions
 
-!!! warning "Misconception 1: Average latency is a good SLO metric"
+!!! danger "Misconception 1: Average latency is a good SLO metric"
     Average (P50) latency hides tail behavior. If your checkout API takes 100ms for 99% of requests and 5 seconds for 1%, the average might look fine at ~150ms. The affected users (the 1% with 5-second waits) are exactly the ones most likely to abandon their cart. Always track **P99 or P99.9** for user-facing latency SLOs, not averages.
 
-!!! warning "Misconception 2: More logs always means better observability"
+!!! danger "Misconception 2: More logs always means better observability"
     Excessive logging degrades performance (I/O cost), increases storage costs, and — most critically — buries signal in noise. When every line of code emits a DEBUG log, finding the relevant ERROR in an incident becomes harder, not easier. The goal is structured logs at appropriate levels: ERROR and WARN always on, INFO for significant business events, DEBUG only on demand (via dynamic log-level configuration).
 
-!!! warning "Misconception 3: Trace sampling breaks observability"
+!!! danger "Misconception 3: Trace sampling breaks observability"
     Sampling 1–10% of traces does not mean you miss 90–99% of problems. Most errors and latency issues affect a category of requests, not a single one. Sampling captures representative examples of every type of behavior. The cases sampling genuinely misses are extremely rare one-off events — for those, **error logs** (which are never sampled) provide the context you need.
 
 ---
@@ -676,8 +676,12 @@ Answer these questions without looking at your implementation. They are designed
 
 ## Connected Topics
 
-!!! info "Where this topic connects"
+<div class="bs-callout bs-callout-info" markdown>
 
-    - **08. Rate Limiting** — rate limiting decisions depend on real-time counters that are part of the observability surface; SLO alerting fires when rate-limited traffic exceeds thresholds → [08. Rate Limiting](08-rate-limiting.md)
-    - **09. Load Balancing** — load balancer health checks and request-rate metrics are core observability signals; SLO dashboards typically visualise per-backend latency → [09. Load Balancing](09-load-balancing.md)
-    - **17. Distributed Transactions** — distributed tracing is essential for diagnosing saga failures; correlation IDs span both observability and transaction coordination → [17. Distributed Transactions](17-distributed-transactions.md)
+**Where this topic connects**
+
+- **08. Rate Limiting** — rate limiting decisions depend on real-time counters that are part of the observability surface; SLO alerting fires when rate-limited traffic exceeds thresholds → [08. Rate Limiting](08-rate-limiting.md)
+- **09. Load Balancing** — load balancer health checks and request-rate metrics are core observability signals; SLO dashboards typically visualise per-backend latency → [09. Load Balancing](09-load-balancing.md)
+- **17. Distributed Transactions** — distributed tracing is essential for diagnosing saga failures; correlation IDs span both observability and transaction coordination → [17. Distributed Transactions](17-distributed-transactions.md)
+
+</div>

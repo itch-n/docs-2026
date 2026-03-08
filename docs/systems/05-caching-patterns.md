@@ -17,7 +17,7 @@ By the end of this topic you will be able to:
 
 ---
 
-!!! warning "Operational reality"
+!!! note "Operational reality"
     Cache invalidation is famously one of the two hard problems in computer science for good reason. The gap between "add a cache" and "run a reliable cache" is significant. The thundering herd problem — where a popular cache entry expires and thousands of requests simultaneously hit the database — is underappreciated until it takes down production. Probabilistic early expiration and cache stampede locks exist precisely because TTL-based expiry does not compose well with high traffic.
 
     Redis used as a primary data store (not a cache) is a data loss risk: the default configuration is not crash-safe, and AOF persistence adds latency. Teams regularly discover this after an unexpected restart. Cache-aside sounds simple in interviews; in production it requires careful thought about consistency windows, cold-start behaviour, and what happens when the cache is unavailable.
@@ -956,16 +956,16 @@ public void updateUserProfile_WriteBack(String userId, String newName) {
 
 ## Common Misconceptions
 
-!!! warning "LFU is always better than LRU for production caches"
+!!! danger "LFU is always better than LRU for production caches"
     LFU is better when access frequency is stable and predictable (e.g., a product catalog where bestsellers stay popular). But LFU is slow to adapt to changing patterns — a new viral post gets evicted immediately because its frequency count starts at 1. LRU handles temporal locality better and is the default in most production caches (including Redis) for this reason.
 
-!!! warning "A high cache hit rate means the cache is working well"
+!!! danger "A high cache hit rate means the cache is working well"
     Hit rate measures how often the cache answers requests, not whether the cached data is fresh or correct. A cache full of stale data can have a 99% hit rate while serving wrong answers. Always monitor both hit rate *and* cache invalidation correctness. A low hit rate can also indicate a cache that is too small, a poor eviction policy, or a workload with low data reuse.
 
-!!! warning "Write-Back is dangerous and should be avoided"
+!!! danger "Write-Back is dangerous and should be avoided"
     Write-Back carries data loss risk only during the window between a write and the next flush. With a durable write-ahead log (WAL) or periodic snapshots, the risk can be bounded to seconds of data. Many high-performance databases (including MySQL InnoDB's buffer pool) use write-back internally. The choice is about acceptable durability guarantees, not a blanket safety rule.
 
-!!! warning "When it breaks"
+!!! danger "When it breaks"
     Per-instance caching works on a single server and breaks the moment you add a second — each instance caches independently, invalidation doesn't propagate, and users see inconsistent responses depending on which server handles their request. A shared cache (Redis) solves this but adds ~0.5ms per operation and a new failure domain. A single Redis node handles roughly 100,000 operations/second; above that, you need clustering. The thundering herd breaks caches at any scale: when a popular entry expires and thousands of concurrent requests miss simultaneously, the resulting database burst can be larger than the original traffic that justified caching.
 
 ---
@@ -1162,8 +1162,12 @@ Answer these without referring to your notes or implementation.
 
 ## Connected Topics
 
-!!! info "Where this topic connects"
+<div class="bs-callout bs-callout-info" markdown>
 
-    - **09. Load Balancing** — consistent hashing is used in both caching (distributing cache keys) and load balancing (distributing requests); the algorithm is identical → [09. Load Balancing](09-load-balancing.md)
-    - **11. Database Scaling** — caching reduces read load on primary replicas; write strategy (write-through vs write-behind) affects database durability guarantees → [11. Database Scaling](11-database-scaling.md)
-    - **17. Distributed Transactions** — cache invalidation across multiple nodes is a distributed consistency problem; cache + database writes together require careful coordination → [17. Distributed Transactions](17-distributed-transactions.md)
+**Where this topic connects**
+
+- **09. Load Balancing** — consistent hashing is used in both caching (distributing cache keys) and load balancing (distributing requests); the algorithm is identical → [09. Load Balancing](09-load-balancing.md)
+- **11. Database Scaling** — caching reduces read load on primary replicas; write strategy (write-through vs write-behind) affects database durability guarantees → [11. Database Scaling](11-database-scaling.md)
+- **17. Distributed Transactions** — cache invalidation across multiple nodes is a distributed consistency problem; cache + database writes together require careful coordination → [17. Distributed Transactions](17-distributed-transactions.md)
+
+</div>

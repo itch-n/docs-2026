@@ -463,16 +463,16 @@ Attack pattern:
 
 ## Common Misconceptions
 
-!!! warning "Token bucket and leaky bucket are interchangeable"
+!!! danger "Token bucket and leaky bucket are interchangeable"
     They enforce the same average rate but behave very differently under burst traffic. Token bucket allows a client to spend accumulated tokens instantly — a full bucket of 100 means 100 requests right now. Leaky bucket drains at a constant rate regardless of arrival pattern; burst traffic simply overflows. Use token bucket when legitimate bursty clients exist; use leaky bucket when downstream services need steady load.
 
-!!! warning "Sliding window log is always better than fixed window"
+!!! danger "Sliding window log is always better than fixed window"
     Sliding window log is more accurate but stores one timestamp per request. For 1 million users each allowed 1,000 req/min, that is potentially 1 billion timestamps (~8 GB) just for the rate-limiter state. Fixed window uses only a counter and a timestamp per user — orders of magnitude less memory. Accuracy must be weighed against memory cost for your specific scale.
 
-!!! warning "Rate limiting only needs to run once per user per minute"
+!!! danger "Rate limiting only needs to run once per user per minute"
     Rate limiting must run on every incoming request, not periodically. Checking "did this user exceed their limit in the last minute?" is different from "does this specific request arrive within quota?" The check must happen synchronously at request time, before work is done, and it must be atomic to avoid race conditions in distributed deployments.
 
-!!! warning "When it breaks"
+!!! danger "When it breaks"
     Per-node rate limiting breaks at two nodes: a 1,000 req/s limit across a 10-node cluster actually permits 10,000 req/s. Distributed rate limiting with Redis fixes this but adds a round-trip (~0.5ms) to every request; at 50,000 req/s, Redis itself becomes the bottleneck. Fixed window rate limiting breaks at window boundaries: a client sending 1,000 requests in the last second of window N and 1,000 in the first second of window N+1 passes two consecutive limits while actually delivering 2,000 req/s. Sliding window eliminates this but requires storing per-request timestamps, which costs significantly more memory at high request rates.
 
 ---
@@ -652,8 +652,12 @@ Answer these without referring to your notes or implementation.
 
 ## Connected Topics
 
-!!! info "Where this topic connects"
+<div class="bs-callout bs-callout-info" markdown>
 
-    - **06. API Design** — rate limiting is applied at the API layer to protect endpoints; the rate limit unit (per user, per IP, per API key) aligns with the API authentication scheme → [06. API Design](06-api-design.md)
-    - **09. Load Balancing** — rate limiting is commonly implemented at the load balancer or API gateway level, before requests reach backend services → [09. Load Balancing](09-load-balancing.md)
-    - **15. Observability** — rate limit hit rate and remaining quota are key metrics; tracking them with counters reveals abuse patterns and helps tune thresholds → [15. Observability](15-observability.md)
+**Where this topic connects**
+
+- **06. API Design** — rate limiting is applied at the API layer to protect endpoints; the rate limit unit (per user, per IP, per API key) aligns with the API authentication scheme → [06. API Design](06-api-design.md)
+- **09. Load Balancing** — rate limiting is commonly implemented at the load balancer or API gateway level, before requests reach backend services → [09. Load Balancing](09-load-balancing.md)
+- **15. Observability** — rate limit hit rate and remaining quota are key metrics; tracking them with counters reveals abuse patterns and helps tune thresholds → [15. Observability](15-observability.md)
+
+</div>

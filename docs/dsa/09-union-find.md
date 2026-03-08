@@ -17,7 +17,7 @@ By the end of this topic you will be able to:
 
 ---
 
-!!! warning "Operational reality"
+!!! note "Operational reality"
     Kruskal's minimum spanning tree algorithm — used in network infrastructure tools for finding least-cost topologies — depends on union-find for cycle detection. Image segmentation algorithms in computer vision use connected-components union-find to group pixels. Social graph systems run union-find offline to compute friend-of-friend connected components at scale. The critical operational constraint: path compression mutates state on reads, making union-find incompatible with persistent or copy-on-write data structures — something you hit immediately in functional languages or when trying to snapshot intermediate states for backtracking solvers.
 
 ## ELI5: Explain Like I'm 5
@@ -376,17 +376,17 @@ groups edits into connected revision chains before merging, enabling efficient c
 
 ## Common Misconceptions
 
-!!! warning "Union-find supports deletions"
+!!! danger "Union-find supports deletions"
     Union-find only supports merging components, never splitting them. Once two nodes are in the same component, there
     is no efficient way to separate them. If your problem requires removing edges or splitting components, you need a
     different data structure (or an offline algorithm that processes deletions in reverse as additions).
 
-!!! warning "Rank always equals actual tree height"
+!!! danger "Rank always equals actual tree height"
     Rank is an upper bound on tree height, not the exact height. After path compression flattens nodes, the rank of a
     root may be higher than the actual height of its tree. This is intentional — rank is used only to guide merging
     decisions, not to measure exact depth.
 
-!!! warning "Union-find works for directed graph cycle detection"
+!!! danger "Union-find works for directed graph cycle detection"
     Union-find detects cycles only in **undirected** graphs. For directed graphs, you need DFS with three-color visited
     tracking (unvisited/in-progress/finished). Applying union-find to a directed graph will produce incorrect cycle
     detection results because direction of edges is ignored.
@@ -548,7 +548,11 @@ Answer these without referring to your notes or implementation.
 
 ## Connected Topics
 
-!!! info "Where this topic connects"
+<div class="bs-callout bs-callout-info" markdown>
 
-    - **[10. Graphs](10-graphs.md)** — Union-Find solves dynamic connectivity queries that would otherwise require repeated BFS/DFS; the two approaches trade off preprocessing vs query cost → [10. Graphs](10-graphs.md)
-    - **[11. Advanced Graphs](11-advanced-graphs.md)** — Kruskal's MST algorithm uses Union-Find to detect cycles when greedily adding edges → [11. Advanced Graphs](11-advanced-graphs.md)
+**Where this topic connects**
+
+- **[10. Graphs](10-graphs.md)** — Union-Find solves dynamic connectivity queries that would otherwise require repeated BFS/DFS; the two approaches trade off preprocessing vs query cost → [10. Graphs](10-graphs.md)
+- **[11. Advanced Graphs](11-advanced-graphs.md)** — Kruskal's MST algorithm uses Union-Find to detect cycles when greedily adding edges → [11. Advanced Graphs](11-advanced-graphs.md)
+
+</div>

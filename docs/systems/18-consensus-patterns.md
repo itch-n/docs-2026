@@ -17,7 +17,7 @@ By the end of this section you should be able to:
 
 ---
 
-!!! warning "Operational reality"
+!!! note "Operational reality"
     You will almost certainly never implement Raft or Paxos directly. The practical skill is knowing when to reach for etcd, ZooKeeper, or your cloud provider's managed coordination service — and understanding the consistency, latency, and availability tradeoffs well enough to use them correctly. The algorithm details matter for interviews because they reveal *why* consensus is expensive (leader election, quorum writes, log replication) and what failure modes to expect.
 
     Distributed locks in particular have a long history of subtle bugs in production. "We use Redis for distributed locking" is a phrase that appears in a disproportionate number of postmortems.
@@ -1038,13 +1038,13 @@ Term 3: When partition heals, Node 5 sees Node 3 has higher term → steps down
 
 ## Common Misconceptions
 
-!!! warning "Misconception 1: A majority quorum means more than half the nodes are available"
+!!! danger "Misconception 1: A majority quorum means more than half the nodes are available"
     Majority means strictly more than half. For a 5-node cluster, majority = 3 (not 2.5 rounded down). For a 6-node cluster, majority = 4 (not 3). This asymmetry is intentional: with an even-numbered cluster, the minority partition is the same size as the majority partition, which could allow split-brain in edge cases. This is why production clusters are typically odd-numbered (3, 5, 7 nodes).
 
-!!! warning "Misconception 2: Distributed locks guarantee mutual exclusion even when the TTL is very long"
+!!! danger "Misconception 2: Distributed locks guarantee mutual exclusion even when the TTL is very long"
     A long TTL reduces the risk of premature expiration, but it increases the window during which a crashed lock holder blocks other processes. More importantly, no TTL length eliminates the GC-pause problem without fencing tokens. A process can be paused by the JVM for longer than any reasonable TTL. Fencing tokens — not longer TTLs — are the correct solution for preventing a stale lock holder from corrupting data.
 
-!!! warning "Misconception 3: Raft is slower than Paxos"
+!!! danger "Misconception 3: Raft is slower than Paxos"
     Raft and Paxos have the same asymptotic complexity for log replication. The common belief that Raft is slower stems from early comparisons of specific implementations, not the algorithms themselves. Raft's main advantage is understandability: the algorithm is designed to be easier to reason about and implement correctly, which in practice means fewer subtle bugs. Production Raft implementations (etcd, Consul) handle tens of thousands of writes per second.
 
 !!! warning "When it breaks"
@@ -1305,8 +1305,12 @@ Complete this checklist after implementing and studying consensus patterns.
 
 ## Connected Topics
 
-!!! info "Where this topic connects"
+<div class="bs-callout bs-callout-info" markdown>
 
-    - **11. Database Scaling** — leader election via consensus is how distributed databases elect a primary for replication → [11. Database Scaling](11-database-scaling.md)
-    - **17. Distributed Transactions** — the coordinator in 2PC must be made fault-tolerant using a consensus protocol; Raft underpins Spanner-style distributed transactions → [17. Distributed Transactions](17-distributed-transactions.md)
-    - **10. Concurrency Patterns** — distributed locks (built on consensus) are the distributed analogue of local mutex/semaphore patterns → [10. Concurrency Patterns](10-concurrency-patterns.md)
+**Where this topic connects**
+
+- **11. Database Scaling** — leader election via consensus is how distributed databases elect a primary for replication → [11. Database Scaling](11-database-scaling.md)
+- **17. Distributed Transactions** — the coordinator in 2PC must be made fault-tolerant using a consensus protocol; Raft underpins Spanner-style distributed transactions → [17. Distributed Transactions](17-distributed-transactions.md)
+- **10. Concurrency Patterns** — distributed locks (built on consensus) are the distributed analogue of local mutex/semaphore patterns → [10. Concurrency Patterns](10-concurrency-patterns.md)
+
+</div>

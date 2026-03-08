@@ -17,7 +17,7 @@ By the end of this section you should be able to:
 
 ---
 
-!!! warning "Operational reality"
+!!! note "Operational reality"
     A stack overflow error is a literal stack overflow — the call stack is a stack data structure with a fixed memory ceiling, and deep recursion exhausts it. Monotonic stack logic appears in columnar storage engines when computing run-length encoding boundaries and in compilers during expression parsing (the shunting-yard algorithm is a monotonic stack). Kafka and RabbitMQ are bounded queues with backpressure: when the queue is full, producers block or drop — the same bounded semantics from these exercises. Browser history (back/forward) is a pair of stacks; undo/redo in every text editor is the same pattern.
 
 ## ELI5: Explain Like I'm 5
@@ -444,7 +444,7 @@ public static int[] maxSlidingWindow_Deque(int[] nums, int k) {
 
 ## Common Misconceptions
 
-!!! warning "Misconception 1: You must check isEmpty() only before pop, not peek"
+!!! danger "Misconception 1: You must check isEmpty() only before pop, not peek"
     Both `pop()` and `peek()` throw `EmptyStackException` on an empty stack. Always guard **both** operations with `isEmpty()`.
     A common pattern that still crashes:
     ```java
@@ -455,13 +455,13 @@ public static int[] maxSlidingWindow_Deque(int[] nums, int k) {
     ```
     Guard every stack access individually unless you have a structural guarantee that the stack is non-empty.
 
-!!! warning "Misconception 2: The monotonic stack stores values, not indices"
+!!! danger "Misconception 2: The monotonic stack stores values, not indices"
     Storing values instead of indices is the single most common bug when implementing next-greater-element. You need the
     index to write into the result array (`result[idx] = nums[i]`). If you store the value, you can no longer map back to
     the position of the element that was waiting for its answer. Always push **indices** into a monotonic stack unless the
     problem explicitly only asks for values and you have no result array to fill.
 
-!!! warning "Misconception 3: Queue-with-stacks must transfer on every dequeue"
+!!! danger "Misconception 3: Queue-with-stacks must transfer on every dequeue"
     The lazy (amortised O(1)) implementation transfers elements from the inbox stack to the outbox stack **only when the
     outbox is empty**. If you transfer on every dequeue, each operation is O(n) — equivalent to a naive approach. The
     amortised argument holds because each element crosses from inbox to outbox at most once over its lifetime, so the total
@@ -622,7 +622,11 @@ flowchart LR
 
 ## Connected Topics
 
-!!! info "Where this topic connects"
+<div class="bs-callout bs-callout-info" markdown>
 
-    - **06. Trees** — tree traversal using an explicit stack (iterative DFS) replaces the call stack used in recursive traversal; BFS of a tree uses a queue → [06. Trees](06-trees.md)
-    - **10. Graphs** — iterative DFS of a graph uses an explicit stack; BFS uses a queue; monotonic stacks appear in graph shortest-path preprocessing → [10. Graphs](10-graphs.md)
+**Where this topic connects**
+
+- **06. Trees** — tree traversal using an explicit stack (iterative DFS) replaces the call stack used in recursive traversal; BFS of a tree uses a queue → [06. Trees](06-trees.md)
+- **10. Graphs** — iterative DFS of a graph uses an explicit stack; BFS uses a queue; monotonic stacks appear in graph shortest-path preprocessing → [10. Graphs](10-graphs.md)
+
+</div>
