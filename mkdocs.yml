@@ -19,10 +19,6 @@ plugins:
 nav:
   - Home: index.md
 
-  - Quick Reference:
-      - "When It Breaks": when-it-breaks.md
-      - "Back of the Envelope": back-of-envelope.md
-
   - Systems Design:
       - "01. Storage Engines": systems/01-storage-engines.md
       - "02. Row vs Column Storage": systems/02-row-vs-column-storage.md
@@ -61,6 +57,11 @@ nav:
       - "13. Dynamic Programming": dsa/13-dynamic-programming.md
       - "14. Prefix Sums": dsa/14-prefix-sums.md
       - "15. Intervals": dsa/15-intervals.md
+
+  - Quick Reference:
+      - "When It Breaks": when-it-breaks.md
+      - "Back of the Envelope": back-of-envelope.md
+      - "Symptom → Pattern": symptom-pattern.md
 
 markdown_extensions:
   - admonition

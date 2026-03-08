@@ -4,9 +4,19 @@
 
 ## How This Works
 
-Numbered sequences you work through at your own pace. Each topic follows the same structure:
+Each topic: implement the code stub → explain it in your own words → work through practice scenarios.
 
-**ELI5** → **Quiz** → **Implementation** → **Decision Framework** → **Practice** → **Review Checklist**
+Orange fill-in prompts mark what you complete. Everything else is reference material.
+
+---
+
+## Quick Reference
+
+Three pages for fast answers during interview prep or an incident:
+
+- **[When It Breaks](when-it-breaks.md)** — scale thresholds and failure conditions for all 35 topics
+- **[Back of the Envelope](back-of-envelope.md)** — hardware primitives, worked derivations, QPS/storage/write scale context
+- **[Symptom → Pattern](symptom-pattern.md)** — observable failure symptom → root cause → which concept to investigate
 
 ---
 
@@ -16,54 +26,54 @@ Numbered sequences you work through at your own pace. Each topic follows the sam
 
 Build real implementations to understand how systems work:
 
-- [ ] **Storage Engines** - Implement B+Trees & LSM Trees
-- [ ] **Row vs Column Storage** - OLTP vs OLAP, columnar formats, compression
-- [ ] **Networking Fundamentals** - TCP/UDP, HTTP versions, WebSockets, DNS, TLS
-- [ ] **Search & Indexing** - Inverted indexes, full-text search, ranking algorithms
-- [ ] **Caching Patterns** - LRU, LFU, cache-aside, write-through
-- [ ] **API Design** - REST principles, versioning, pagination
-- [ ] **Security Patterns** - JWT, RBAC, API keys, secrets management
-- [ ] **Rate Limiting** - Token bucket, sliding window algorithms
-- [ ] **Load Balancing** - Consistent hashing, health checks
-- [ ] **Concurrency Patterns** - Locks, producer-consumer, thread safety
-- [ ] **Database Scaling** - Replication, sharding, partitioning
-- [ ] **Message Queues** - Queue vs pub/sub, delivery guarantees
-- [ ] **Event Sourcing & CQRS** - Append-only event log, projections, read/write model separation
-- [ ] **Stream Processing** - Windowing patterns for real-time event aggregation
-- [ ] **Observability** - Metrics, logging, tracing, SLOs
-- [ ] **Resilience Patterns** - Circuit breaker, bulkhead, retry/backoff, graceful degradation
-- [ ] **Distributed Transactions** - Saga pattern, idempotency
-- [ ] **Consensus Patterns** - Raft, leader election, distributed locks
-- [ ] **Microservices Patterns** - API gateway, service discovery, service mesh, decomposition
-- [ ] **Multi-Region Architecture** - Active-active/passive, conflict resolution, geo-routing
+- [ ] **[Storage Engines](systems/01-storage-engines.md)** - Implement B+Trees & LSM Trees
+- [ ] **[Row vs Column Storage](systems/02-row-vs-column-storage.md)** - OLTP vs OLAP, columnar formats, compression
+- [ ] **[Networking Fundamentals](systems/03-networking-fundamentals.md)** - TCP/UDP, HTTP versions, WebSockets, DNS, TLS
+- [ ] **[Search & Indexing](systems/04-search-and-indexing.md)** - Inverted indexes, full-text search, ranking algorithms
+- [ ] **[Caching Patterns](systems/05-caching-patterns.md)** - LRU, LFU, cache-aside, write-through
+- [ ] **[API Design](systems/06-api-design.md)** - REST principles, versioning, pagination
+- [ ] **[Security Patterns](systems/07-security-patterns.md)** - JWT, RBAC, API keys, secrets management
+- [ ] **[Rate Limiting](systems/08-rate-limiting.md)** - Token bucket, sliding window algorithms
+- [ ] **[Load Balancing](systems/09-load-balancing.md)** - Consistent hashing, health checks
+- [ ] **[Concurrency Patterns](systems/10-concurrency-patterns.md)** - Locks, producer-consumer, thread safety
+- [ ] **[Database Scaling](systems/11-database-scaling.md)** - Replication, sharding, partitioning
+- [ ] **[Message Queues](systems/12-message-queues.md)** - Queue vs pub/sub, delivery guarantees
+- [ ] **[Event Sourcing & CQRS](systems/13-event-sourcing-cqrs.md)** - Append-only event log, projections, read/write model separation
+- [ ] **[Stream Processing](systems/14-stream-processing.md)** - Windowing patterns for real-time event aggregation
+- [ ] **[Observability](systems/15-observability.md)** - Metrics, logging, tracing, SLOs
+- [ ] **[Resilience Patterns](systems/16-resilience-patterns.md)** - Circuit breaker, bulkhead, retry/backoff, graceful degradation
+- [ ] **[Distributed Transactions](systems/17-distributed-transactions.md)** - Saga pattern, idempotency
+- [ ] **[Consensus Patterns](systems/18-consensus-patterns.md)** - Raft, leader election, distributed locks
+- [ ] **[Microservices Patterns](systems/19-microservices-patterns.md)** - API gateway, service discovery, service mesh, decomposition
+- [ ] **[Multi-Region Architecture](systems/20-multi-region.md)** - Active-active/passive, conflict resolution, geo-routing
 
 ### [DSA](dsa/01-two-pointers.md) (15 Topics)
 
 Pattern-based approach from easy to advanced:
 
-- [ ] **Two Pointers** - Opposite directions, same direction, different speeds
-- [ ] **Sliding Window** - Fixed and variable window sizes for subarray problems
-- [ ] **Hash Tables** - Fast lookups, grouping, frequency counting
-- [ ] **Linked Lists** - Reversal, cycle detection, fast/slow pointers
-- [ ] **Stacks & Queues** - LIFO/FIFO, monotonic stacks, deque operations
-- [ ] **Trees** - Traversals (inorder/preorder/postorder/BFS) and recursive patterns (height, diameter, LCA)
-- [ ] **Binary Search** - Classic search, rotated arrays, 2D matrices
-- [ ] **Heaps** - Priority queues, top K problems (prerequisite for Dijkstra)
-- [ ] **Union-Find** - Disjoint sets for dynamic connectivity, Kruskal's MST
-- [ ] **Graphs (DFS/BFS)** - Traversals, cycle detection, connected components
-- [ ] **Advanced Graphs** - Topological Sort, Dijkstra, MST
-- [ ] **Backtracking** - Subsets, combinations, permutations, constraint satisfaction
-- [ ] **Dynamic Programming** - Fibonacci, house robber, coin change
-- [ ] **Prefix Sums** - Range queries, subarray sum with HashMap, 2D prefix sum
-- [ ] **Intervals** - Merge, insert, meeting rooms, greedy removal
+- [ ] **[Two Pointers](dsa/01-two-pointers.md)** - Opposite directions, same direction, different speeds
+- [ ] **[Sliding Window](dsa/02-sliding-window.md)** - Fixed and variable window sizes for subarray problems
+- [ ] **[Hash Tables](dsa/03-hash-tables.md)** - Fast lookups, grouping, frequency counting
+- [ ] **[Linked Lists](dsa/04-linked-lists.md)** - Reversal, cycle detection, fast/slow pointers
+- [ ] **[Stacks & Queues](dsa/05-stacks--queues.md)** - LIFO/FIFO, monotonic stacks, deque operations
+- [ ] **[Trees](dsa/06-trees.md)** - Traversals (inorder/preorder/postorder/BFS) and recursive patterns (height, diameter, LCA)
+- [ ] **[Binary Search](dsa/07-binary-search.md)** - Classic search, rotated arrays, 2D matrices
+- [ ] **[Heaps](dsa/08-heaps.md)** - Priority queues, top K problems (prerequisite for Dijkstra)
+- [ ] **[Union-Find](dsa/09-union-find.md)** - Disjoint sets for dynamic connectivity, Kruskal's MST
+- [ ] **[Graphs (DFS/BFS)](dsa/10-graphs.md)** - Traversals, cycle detection, connected components
+- [ ] **[Advanced Graphs](dsa/11-advanced-graphs.md)** - Topological Sort, Dijkstra, MST
+- [ ] **[Backtracking](dsa/12-backtracking.md)** - Subsets, combinations, permutations, constraint satisfaction
+- [ ] **[Dynamic Programming](dsa/13-dynamic-programming.md)** - Fibonacci, house robber, coin change
+- [ ] **[Prefix Sums](dsa/14-prefix-sums.md)** - Range queries, subarray sum with HashMap, 2D prefix sum
+- [ ] **[Intervals](dsa/15-intervals.md)** - Merge, insert, meeting rooms, greedy removal
 
 ---
 
 ## Learning Process
 
-- Implement code stubs → Run examples → Fill in explanations
-- Build decision trees for when to use (and NOT use) each pattern
-- Complete practice problems → Check off review checklist
+- Implement code stubs → fill in ELI5 explanations → work through debugging challenges
+- Build Decision Frameworks for when to use (and NOT use) each pattern
+- Complete practice scenarios → run through the Test Your Understanding rubric
 
 ---
 
