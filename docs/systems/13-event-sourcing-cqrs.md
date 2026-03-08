@@ -63,11 +63,15 @@ In a traditional (state-oriented) system, a row in the `orders` table holds the 
 
 In an event-sourced system you never update. You append:
 
-```
-OrderPlaced    { orderId: 42, customerId: 7, items: [...], at: T1 }
-OrderPaid      { orderId: 42, paymentId: "px-99", at: T2 }
-OrderShipped   { orderId: 42, trackingId: "UPS-123", at: T3 }
-OrderDelivered { orderId: 42, at: T4 }
+```mermaid
+flowchart LR
+    E1["OrderPlaced\n{orderId:42, at:T1}"]
+    E2["OrderPaid\n{paymentId:'px-99', at:T2}"]
+    E3["OrderShipped\n{trackingId:'UPS-123', at:T3}"]
+    E4["OrderDelivered\n{at:T4}"]
+    State["Current State\nstatus: DELIVERED\npayment: confirmed\ntracking: UPS-123"]
+
+    E1 -->|"replay"| E2 -->|"replay"| E3 -->|"replay"| E4 -->|"materialise"| State
 ```
 
 The current state of order 42 is rebuilt by replaying these four events from the beginning. The row you see in a read model is a materialised view, not the truth.
@@ -105,13 +109,27 @@ The key constraint: **you must never change the stored bytes of a past event.** 
 
 **Command Query Responsibility Segregation** separates the write path (commands that change state) from the read path (queries that return data). The names come from Bertrand Meyer's command-query separation principle, applied at the architectural level.
 
-```
-Client → Command → Command Handler → Aggregate → EventStore
-                                                     ↓
-                                              Event Bus / Log
-                                                     ↓
-                                            Projection updates ReadModel
-Client ← Query  ← Query Handler   ← ReadModel (optimised for reads)
+```mermaid
+flowchart TD
+    Client["Client"]
+
+    subgraph Write["Write Side (Command Model)"]
+        Cmd["Command\n(PlaceOrder)"]
+        CmdHandler["Command Handler"]
+        Aggregate["Aggregate\n(validates invariants)"]
+        EventStore["Event Store\n(append-only)"]
+    end
+
+    subgraph Read["Read Side (Query Model)"]
+        Projection["Projection\n(event consumer)"]
+        ReadModel["Read Model\n(denormalised, fast)"]
+        QueryHandler["Query Handler"]
+    end
+
+    Client -->|"write"| Cmd
+    Cmd --> CmdHandler --> Aggregate --> EventStore
+    EventStore -->|"events"| Projection --> ReadModel
+    Client -->|"read"| QueryHandler --> ReadModel
 ```
 
 **Write side (command model):**

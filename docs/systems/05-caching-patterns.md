@@ -55,6 +55,28 @@ By the end of this topic you will be able to:
 
 ## Core Implementation
 
+### Cache Read Path
+
+```mermaid
+flowchart TD
+    Request["Incoming Request"]
+    CacheLookup{"Cache lookup"}
+    Hit["Cache HIT\nReturn cached value"]
+    DBFetch["Fetch from Database"]
+    Evict{"Cache full?\nEvict LRU/LFU entry"}
+    Store["Store in cache"]
+    Return["Return value to caller"]
+
+    Request --> CacheLookup
+    CacheLookup -->|"Hit"| Hit
+    CacheLookup -->|"Miss"| DBFetch
+    Hit --> Return
+    DBFetch --> Evict
+    Evict -->|"Yes — evict oldest/least-frequent"| Store
+    Evict -->|"No"| Store
+    Store --> Return
+```
+
 ### Pattern 1: LRU Cache (Least Recently Used)
 
 **Your task:** Implement LRU cache with O(1) get and put operations.

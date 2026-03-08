@@ -108,41 +108,15 @@ Search "quick" → O(1) lookup → [doc1, doc3]
 
 **Building an Inverted Index:**
 
-```
-Input documents:
-doc1: "Machine Learning Basics"
-doc2: "Deep Learning with Python"
-doc3: "Machine Learning Algorithms"
+```mermaid
+flowchart LR
+    Raw["Raw Text\n'Machine Learning Basics'"]
+    Tokenize["Tokenise\n['Machine', 'Learning', 'Basics']"]
+    Normalise["Normalise\n(lowercase)\n['machine', 'learning', 'basics']"]
+    Stem["Stem\n['machin', 'learn', 'basic']"]
+    Index["Inverted Index\nmachin → [doc1, doc3]\nlearn → [doc1, doc2, doc3]"]
 
-Step 1: Tokenization
-doc1: ["machine", "learning", "basics"]
-doc2: ["deep", "learning", "with", "python"]
-doc3: ["machine", "learning", "algorithms"]
-
-Step 2: Normalization (lowercase, stemming)
-doc1: ["machin", "learn", "basic"]
-doc2: ["deep", "learn", "with", "python"]
-doc3: ["machin", "learn", "algorithm"]
-
-Step 3: Build index
-{
-  "machin":    [doc1, doc3],
-  "learn":     [doc1, doc2, doc3],
-  "basic":     [doc1],
-  "deep":      [doc2],
-  "with":      [doc2],
-  "python":    [doc2],
-  "algorithm": [doc3]
-}
-
-Step 4: Add term frequencies (TF)
-{
-  "learn": [
-    {doc: doc1, tf: 1, positions: [1]},
-    {doc: doc2, tf: 1, positions: [1]},
-    {doc: doc3, tf: 1, positions: [1]}
-  ]
-}
+    Raw --> Tokenize --> Normalise --> Stem --> Index
 ```
 
 **Inverted Index Data Structure (Simplified):**
@@ -521,26 +495,30 @@ Rank snippets by relevance
 
 **Sharding:**
 
-```
-Index: 10M documents
-Shard into 5 primary shards:
+```mermaid
+flowchart TD
+    Client["Client Query"]
+    Coord["Coordinator Node"]
+    S0["Shard 0\ndocs 0–2M"]
+    S1["Shard 1\ndocs 2M–4M"]
+    S2["Shard 2\ndocs 4M–6M"]
+    S3["Shard 3\ndocs 6M–8M"]
+    S4["Shard 4\ndocs 8M–10M"]
+    Merge["Coordinator merges\ntop 10 from each shard"]
+    Result["Final top 10 results"]
 
-Shard 0: docs 0-2M
-Shard 1: docs 2M-4M
-Shard 2: docs 4M-6M
-Shard 3: docs 6M-8M
-Shard 4: docs 8M-10M
-
-Query execution:
-
-1. Send query to all 5 shards (parallel)
-2. Each shard searches its 2M docs
-3. Return top 10 from each shard
-4. Coordinator merges 50 results
-5. Return final top 10
-
-Time: O(N/S) where S = shards
-Parallelization: 5x faster (ideal)
+    Client --> Coord
+    Coord --> S0
+    Coord --> S1
+    Coord --> S2
+    Coord --> S3
+    Coord --> S4
+    S0 --> Merge
+    S1 --> Merge
+    S2 --> Merge
+    S3 --> Merge
+    S4 --> Merge
+    Merge --> Result
 ```
 
 **Replication:**
@@ -568,28 +546,7 @@ Node 3: Replica 0, Replica 1
 
 **Query Execution Flow:**
 
-```
-Client → Load Balancer → Coordinating Node
-
-Coordinating Node:
-
-1. Parse query
-2. Determine target shards
-3. Broadcast to all shards
-4. Collect results
-5. Merge and rank
-6. Return to client
-
-           Coordinator
-          /     |     \
-     Shard0  Shard1  Shard2
-       ↓       ↓       ↓
-     [10]    [10]    [10]  ← Top 10 from each
-       \       |      /
-         Merge & Sort
-              ↓
-         Final Top 10
-```
+The Coordinating Node handles: parse query → determine target shards → broadcast to all shards → collect results → merge and rank → return to client. See the sharding diagram above for the full flow.
 
 **Routing:**
 

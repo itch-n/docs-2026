@@ -74,44 +74,34 @@ By the end of this topic you will be able to:
 
 **TCP 3-Way Handshake:**
 
-```
-Client                          Server
-   |                              |
-   |  1. SYN (seq=100)           |
-   |----------------------------->|
-   |                              |
-   |     2. SYN-ACK (seq=300,    |
-   |        ack=101)              |
-   |<-----------------------------|
-   |                              |
-   |  3. ACK (ack=301)           |
-   |----------------------------->|
-   |                              |
-   |  Connection established!     |
-   |  Now can send data           |
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant S as Server
+    C->>S: 1. SYN (seq=100)
+    S->>C: 2. SYN-ACK (seq=300, ack=101)
+    C->>S: 3. ACK (ack=301)
+    Note over C,S: Connection established — data transfer begins
 ```
 
 **TCP Flow Control (Sliding Window):**
 
-```
-Sender                          Receiver
-Window size = 4 packets
-
-Send: [1][2][3][4]
-      ↓  ↓  ↓  ↓
-                  ←-------  ACK 1
-                  ←-------  ACK 2
-                  ←-------  ACK 3
-Slide window →
-Send: [5][6][7][8]
-      ↓  ↓  ↓  ↓
-                  ←-------  ACK 4
-                  ←-------  ACK 5 (LOST!)
-
-Timeout! Retransmit packet 5
-      [5]
-       ↓
-                  ←-------  ACK 5 (success)
+```mermaid
+sequenceDiagram
+    participant Sender
+    participant Receiver
+    Note over Sender: Window size = 4 packets
+    Sender->>Receiver: [1][2][3][4]
+    Receiver->>Sender: ACK 1
+    Receiver->>Sender: ACK 2
+    Receiver->>Sender: ACK 3
+    Note over Sender: Slide window forward
+    Sender->>Receiver: [5][6][7][8]
+    Receiver->>Sender: ACK 4
+    Note over Sender,Receiver: ACK 5 lost!
+    Note over Sender: Timeout — retransmit packet 5
+    Sender->>Receiver: [5] (retransmit)
+    Receiver->>Sender: ACK 5 (success)
 ```
 
 !!! note "Why TCP retransmission hurts real-time applications"
@@ -197,19 +187,26 @@ Total time: Sequential, each waits for previous
 
 **Multiplexing Example:**
 
-```
-Single TCP Connection
-      ↓
-[Stream 1: index.html ]
-[Stream 2: style.css  ] ← All sent simultaneously
-[Stream 3: app.js     ]
-[Stream 4: image.png  ]
-      ↓
-Responses interleaved on same connection:
-← [Stream 3 chunk] [Stream 1 chunk] [Stream 2 chunk] [Stream 4 chunk]
+```mermaid
+flowchart LR
+    Client["Browser / Client"]
+    TCP["Single TCP Connection"]
+    S1["Stream 1: index.html"]
+    S2["Stream 2: style.css"]
+    S3["Stream 3: app.js"]
+    S4["Stream 4: image.png"]
+    Merge["Interleaved responses\n(all streams in parallel)"]
 
-Total time: ~RTT + max(processing times)
-Much faster than sequential!
+    Client --> TCP
+    TCP --> S1
+    TCP --> S2
+    TCP --> S3
+    TCP --> S4
+    S1 --> Merge
+    S2 --> Merge
+    S3 --> Merge
+    S4 --> Merge
+    Merge --> Client
 ```
 
 **Header Compression (HPACK):**
@@ -375,48 +372,48 @@ Latency: ~RTT (milliseconds)
 
 **DNS Hierarchy:**
 
-```
-                   . (root)
-                   |
-         ┌─────────┼─────────┐
-         |         |         |
-       .com      .org      .net
-         |
-         |
-    example.com
-         |
-    ┌────┴────┐
-   www      api
+```mermaid
+graph TD
+    ROOT[". (root)"]
+    COM[".com"]
+    ORG[".org"]
+    NET[".net"]
+    EXAMPLE["example.com"]
+    WWW["www.example.com"]
+    API["api.example.com"]
+
+    ROOT --> COM
+    ROOT --> ORG
+    ROOT --> NET
+    COM --> EXAMPLE
+    EXAMPLE --> WWW
+    EXAMPLE --> API
 ```
 
 **DNS Resolution Process:**
 
-```
-User types: www.example.com
+```mermaid
+flowchart TD
+    Start(["User types www.example.com"])
+    BrowserCache{"Browser cache\nhit?"}
+    OSCache{"OS cache\nhit?"}
+    Resolver["Recursive Resolver (ISP)"]
+    RootNS["Root Nameserver\n→ returns .com NS address"]
+    ComNS[".com Nameserver\n→ returns example.com NS address"]
+    ExampleNS["example.com Nameserver\n→ returns IP: 93.184.216.34"]
+    Cache["Resolver caches result\n(TTL: 3600s)"]
+    Browser["Browser connects to 93.184.216.34"]
 
-1. Browser cache check
-   └─ Miss → Continue
-
-2. OS cache check
-   └─ Miss → Continue
-
-3. Recursive resolver (ISP)
-   └─ Queries root server
-
-4. Root server
-   └─ Returns .com nameserver address
-
-5. .com nameserver
-   └─ Returns example.com nameserver
-
-6. example.com nameserver
-   └─ Returns IP: 93.184.216.34
-
-7. Resolver caches result (TTL: 3600s)
-
-8. Returns IP to browser
-
-9. Browser connects to 93.184.216.34
+    Start --> BrowserCache
+    BrowserCache -->|"Hit"| Browser
+    BrowserCache -->|"Miss"| OSCache
+    OSCache -->|"Hit"| Browser
+    OSCache -->|"Miss"| Resolver
+    Resolver --> RootNS
+    RootNS --> ComNS
+    ComNS --> ExampleNS
+    ExampleNS --> Cache
+    Cache --> Browser
 ```
 
 **DNS Record Types:**
@@ -477,55 +474,32 @@ Poor man's load balancing:
 
 **TLS Handshake (TLS 1.3 - Simplified):**
 
-```
-Client                           Server
-   |                               |
-   | 1. ClientHello               |
-   |   - Supported cipher suites  |
-   |   - Random nonce             |
-   |   - Key share                |
-   |----------------------------->|
-   |                               |
-   |        2. ServerHello        |
-   |   - Chosen cipher            |
-   |   - Key share                |
-   |   - Certificate              |
-   |<-----------------------------|
-   |                               |
-   | 3. [Derive shared secret]    |
-   | 4. Finished (encrypted)      |
-   |----------------------------->|
-   |                               |
-   |        5. Finished           |
-   |   (encrypted)                |
-   |<-----------------------------|
-   |                               |
-   | ←------ Encrypted data ----→ |
-
-Total: 1-RTT handshake (faster than TLS 1.2's 2-RTT)
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant S as Server
+    C->>S: 1. ClientHello (cipher suites, nonce, key share)
+    S->>C: 2. ServerHello (chosen cipher, key share, certificate)
+    Note over C: 3. Derive shared secret
+    C->>S: 4. Finished (encrypted)
+    S->>C: 5. Finished (encrypted)
+    Note over C,S: Encrypted application data (1-RTT total)
 ```
 
 **Certificate Chain Validation:**
 
-```
-Browser trusts: Root CA (in browser)
-                    |
-                Intermediate CA
-                    |
-              example.com cert
+```mermaid
+graph TD
+    RootCA["Root CA\n(trusted by browser)"]
+    IntCA["Intermediate CA\n(signed by Root CA)"]
+    DomainCert["example.com certificate\n(signed by Intermediate CA)"]
 
-Server sends:
-  1. example.com certificate
-  2. Intermediate CA certificate
+    RootCA -->|"signs"| IntCA
+    IntCA -->|"signs"| DomainCert
 
-Browser validates:
-  1. example.com cert signed by Intermediate CA? ✓
-  2. Intermediate CA cert signed by Root CA? ✓
-  3. Root CA in trusted store? ✓
-  4. Certificate not expired? ✓
-  5. Domain matches? ✓
-
-All checks pass → Connection trusted
+    DomainCert -->|"1. Signed by Intermediate CA?"| Check1["✓"]
+    IntCA -->|"2. Signed by Root CA?"| Check2["✓"]
+    RootCA -->|"3. In browser trust store?"| Check3["✓"]
 ```
 
 **Performance Impact:**

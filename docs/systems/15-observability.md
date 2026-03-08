@@ -97,6 +97,24 @@ By the end of this section you should be able to:
 
 ## Core Implementation
 
+### Metrics Collection Pipeline
+
+```mermaid
+flowchart TD
+    App["Application\n(instrumented)"]
+    Counter["Counters / Gauges\n/ Histograms"]
+    Scrape["Prometheus Scrape\n(pull model)"]
+    TSDB["Time-Series DB"]
+    Grafana["Grafana Dashboard"]
+    Alert["Alertmanager\n(SLO breach → page)"]
+
+    App --> Counter
+    Counter -->|"/metrics endpoint"| Scrape
+    Scrape --> TSDB
+    TSDB --> Grafana
+    TSDB --> Alert
+```
+
 ### Pattern 1: Metrics Collection
 
 **Concept:** Time-series measurements for monitoring system health and performance.
@@ -167,6 +185,21 @@ By the end of this section you should be able to:
 **Concept:** Track requests across multiple services with parent-child relationships.
 
 **Use case:** Debugging microservices, understanding request flow, finding bottlenecks.
+
+```mermaid
+graph TD
+    TraceID["Trace ID: abc-123"]
+
+    SpanA["Span: API Gateway\n(root span)\nduration: 250ms"]
+    SpanB["Span: Order Service\n(child of Gateway)\nduration: 180ms"]
+    SpanC["Span: Inventory Service\n(child of Order)\nduration: 40ms"]
+    SpanD["Span: Payment Service\n(child of Order)\nduration: 120ms"]
+
+    TraceID --> SpanA
+    SpanA --> SpanB
+    SpanB --> SpanC
+    SpanB --> SpanD
+```
 
 ```java
 --8<-- "com/study/systems/observability/DistributedTracer.java"

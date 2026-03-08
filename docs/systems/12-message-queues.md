@@ -66,6 +66,36 @@ By the end of this topic you will be able to:
 
 ## Core Implementation
 
+### Message Queue Patterns
+
+```mermaid
+flowchart LR
+    P1["Producer 1"]
+    P2["Producer 2"]
+    Q["Message Queue\n(bounded buffer)"]
+    C1["Consumer 1"]
+    C2["Consumer 2"]
+
+    P1 -->|"send(msg)"| Q
+    P2 -->|"send(msg)"| Q
+    Q -->|"receive()"| C1
+    Q -->|"receive()"| C2
+```
+
+```mermaid
+flowchart LR
+    Pub["Publisher"]
+    Topic["Topic / Event Bus"]
+    Sub1["Subscriber 1\n(Email Service)"]
+    Sub2["Subscriber 2\n(SMS Service)"]
+    Sub3["Subscriber 3\n(Push Notification)"]
+
+    Pub -->|"publish(event)"| Topic
+    Topic -->|"fan-out"| Sub1
+    Topic -->|"fan-out"| Sub2
+    Topic -->|"fan-out"| Sub3
+```
+
 ### Part 1: Simple Message Queue
 
 **Your task:** Implement a basic FIFO message queue.

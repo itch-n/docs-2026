@@ -78,6 +78,69 @@ By the end of this section you should be able to:
 
 ## Core Implementation
 
+### Window Types
+
+**Tumbling Windows (non-overlapping):** Each event belongs to exactly one fixed-size window.
+
+```mermaid
+flowchart LR
+    E1["Events\n0–5s"]
+    E2["Events\n5–10s"]
+    E3["Events\n10–15s"]
+    W1["Window 1\n[0s, 5s)"]
+    W2["Window 2\n[5s, 10s)"]
+    W3["Window 3\n[10s, 15s)"]
+    A1["Aggregate 1"]
+    A2["Aggregate 2"]
+    A3["Aggregate 3"]
+
+    E1 --> W1 --> A1
+    E2 --> W2 --> A2
+    E3 --> W3 --> A3
+```
+
+**Sliding Windows (overlapping):** Windows advance by a step smaller than window size; events appear in multiple windows.
+
+```mermaid
+flowchart LR
+    Stream["Event Stream\n(continuous)"]
+    W1["Window 1\n[0s, 10s)"]
+    W2["Window 2\n[5s, 15s)"]
+    W3["Window 3\n[10s, 20s)"]
+    A1["Aggregate 1\n(overlaps W2)"]
+    A2["Aggregate 2\n(overlaps W1 + W3)"]
+    A3["Aggregate 3\n(overlaps W2)"]
+
+    Stream --> W1 --> A1
+    Stream --> W2 --> A2
+    Stream --> W3 --> A3
+
+    Note["size=10s, slide=5s\nevents at 6s appear in W1 and W2"]
+    W2 --- Note
+```
+
+**Session Windows (inactivity gap):** Windows close when a gap exceeds a threshold; each event belongs to one session.
+
+```mermaid
+flowchart LR
+    E1["Event @1s"]
+    E2["Event @2s"]
+    E3["Event @3s"]
+    Gap["GAP > 3s\n(no events 3s–7s)"]
+    E4["Event @7s"]
+    E5["Event @8s"]
+    S1["Session 1\n[1s – 3s]"]
+    S2["Session 2\n[7s – 8s]"]
+
+    E1 --> S1
+    E2 --> S1
+    E3 --> S1
+    S1 --> Gap
+    Gap --> S2
+    E4 --> S2
+    E5 --> S2
+```
+
 ### Pattern 1: Windowing (Tumbling, Sliding, Session)
 
 **Concept:** Group streaming data into finite chunks for aggregation.

@@ -109,6 +109,25 @@ By the end of this section you should be able to:
 
 **Your task:** Implement Saga with event-based choreography.
 
+```mermaid
+sequenceDiagram
+    participant OS as Order Service
+    participant IS as Inventory Service
+    participant PS as Payment Service
+    participant SS as Shipping Service
+
+    OS->>IS: OrderPlaced event
+    IS->>PS: InventoryReserved event
+    PS->>SS: PaymentCharged event
+    SS->>OS: OrderShipped event
+    Note over OS,SS: Happy path complete
+
+    Note over PS,SS: Failure scenario
+    SS-->>PS: ShipmentFailed event
+    PS-->>IS: PaymentRefunded (compensate)
+    IS-->>OS: InventoryReleased (compensate)
+```
+
 ```java
 --8<-- "com/study/systems/transactions/SagaChoreography.java"
 ```

@@ -101,6 +101,44 @@ By the end of this topic you will be able to:
 
 ## Core Implementation
 
+### Sharding Architecture
+
+```mermaid
+flowchart TD
+    App["Application"]
+    Router["Shard Router\n(hash or range on shard key)"]
+    Sh0["Shard 0\nuser_id 0–24%"]
+    Sh1["Shard 1\nuser_id 25–49%"]
+    Sh2["Shard 2\nuser_id 50–74%"]
+    Sh3["Shard 3\nuser_id 75–99%"]
+
+    App --> Router
+    Router --> Sh0
+    Router --> Sh1
+    Router --> Sh2
+    Router --> Sh3
+```
+
+### Replication Topology
+
+```mermaid
+graph TD
+    Primary["Primary\n(reads + writes)"]
+    R1["Replica 1\n(reads only)"]
+    R2["Replica 2\n(reads only)"]
+    R3["Replica 3\n(reads only)"]
+
+    Primary -->|"async replication"| R1
+    Primary -->|"async replication"| R2
+    Primary -->|"async replication"| R3
+
+    App["Application"]
+    App -->|"writes"| Primary
+    App -->|"reads"| R1
+    App -->|"reads"| R2
+    App -->|"reads"| R3
+```
+
 ### Part 1: Hash-Based Sharding
 
 **Your task:** Implement hash-based sharding for distributing data.

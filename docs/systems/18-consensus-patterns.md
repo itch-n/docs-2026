@@ -141,17 +141,27 @@ election and log replication.
 
 **How Raft Works:**
 
+```mermaid
+sequenceDiagram
+    participant F1 as Follower 1 (Candidate)
+    participant F2 as Follower 2
+    participant F3 as Follower 3
+    participant F4 as Follower 4
+
+    Note over F1: Election timeout — becomes Candidate
+    Note over F1: Increment term, vote for self
+    F1->>F2: RequestVote(term=2, candidateId=1)
+    F1->>F3: RequestVote(term=2, candidateId=1)
+    F1->>F4: RequestVote(term=2, candidateId=1)
+    F2->>F1: VoteGranted
+    F3->>F1: VoteGranted
+    Note over F1: Majority achieved (3/4) — becomes Leader
+    F1->>F2: Heartbeat (AppendEntries, term=2)
+    F1->>F3: Heartbeat (AppendEntries, term=2)
+    F1->>F4: Heartbeat (AppendEntries, term=2)
 ```
-Phase 1: Leader Election
 
-- Follower timeout → becomes Candidate
-- Candidate increments term, votes for self
-- Requests votes from all nodes
-- If majority grants votes → becomes Leader
-- If receives heartbeat from valid leader → becomes Follower
-- If election timeout → starts new election
-
-Phase 2: Log Replication
+**Phase 2: Log Replication**
 
 - Client sends command to Leader
 - Leader appends to local log
@@ -160,12 +170,11 @@ Phase 2: Log Replication
 - Once majority acknowledges → Leader commits entry
 - Leader notifies Followers of commit via next AppendEntries
 
-Phase 3: Safety
+**Phase 3: Safety**
 
 - New leader contains all committed entries (election restriction)
 - Leader never commits entries from previous terms directly
 - Only commits when majority has current-term entry
-```
 
 **Simplified API:**
 
@@ -175,34 +184,26 @@ Phase 3: Safety
 
 **Log Replication Flow:**
 
-```
-Client → Leader: "SET x=1"
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant L as Leader
+    participant F2 as Follower 2
+    participant F3 as Follower 3
+    participant F4 as Follower 4 (down)
 
-Leader state:
-  term: 2
-  log: [...]
-  commitIndex: 5
-
-Step 1: Leader appends to local log
-  log: [..., Entry(term=2, index=6, cmd="SET x=1")]
-
-Step 2: Leader sends AppendEntries to Followers
-  → Follower 2: AppendEntries(term=2, prevIndex=5, entries=[Entry(6)])
-  → Follower 3: AppendEntries(term=2, prevIndex=5, entries=[Entry(6)])
-  → Follower 4: AppendEntries(term=2, prevIndex=5, entries=[Entry(6)])
-  → Follower 5: AppendEntries(term=2, prevIndex=5, entries=[Entry(6)])
-
-Step 3: Followers append and ACK
-  Follower 2: ✓ ACK
-  Follower 3: ✓ ACK
-  Follower 4: ✗ (down)
-  Follower 5: ✗ (partition)
-
-Step 4: Leader receives majority (Leader + 2 followers = 3/5)
-  commitIndex: 6 (committed!)
-
-Step 5: Leader notifies followers of commit in next AppendEntries
-  All nodes apply "SET x=1" to state machine
+    C->>L: SET x=1
+    Note over L: Append Entry(term=2, index=6) to local log
+    L->>F2: AppendEntries(term=2, prevIndex=5, entry=6)
+    L->>F3: AppendEntries(term=2, prevIndex=5, entry=6)
+    L->>F4: AppendEntries(term=2, prevIndex=5, entry=6)
+    F2->>L: ACK
+    F3->>L: ACK
+    Note over F4: No response (down)
+    Note over L: Majority = Leader + F2 + F3 (3/5) — commit!
+    L->>C: Success
+    L->>F2: commitIndex=6 (next heartbeat)
+    L->>F3: commitIndex=6 (next heartbeat)
 ```
 
 **Key Insight: Log Matching Property**

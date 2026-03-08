@@ -89,6 +89,25 @@ By the end of this topic you will be able to:
 
 ## Core Implementation
 
+### Round Robin Flow
+
+```mermaid
+flowchart LR
+    LB["Load Balancer\n(Round Robin)"]
+    R1["Request 1"]
+    R2["Request 2"]
+    R3["Request 3"]
+    R4["Request 4"]
+    S1["Server 1"]
+    S2["Server 2"]
+    S3["Server 3"]
+
+    R1 --> LB --> S1
+    R2 --> LB --> S2
+    R3 --> LB --> S3
+    R4 --> LB --> S1
+```
+
 ### Part 1: Round Robin Load Balancer
 
 **Your task:** Implement round robin algorithm for equal traffic distribution.
@@ -150,6 +169,29 @@ By the end of this topic you will be able to:
 
 !!! tip "Why virtual nodes matter"
     Without virtual nodes, each physical server occupies only one point on the ring. With an unlucky placement, one server could end up responsible for 80% of the key space. Virtual nodes (placing each server at N positions) smooth the distribution: with 100–150 virtual nodes per server, distribution error typically falls below 5%.
+
+```mermaid
+graph TD
+    Ring(["Hash Ring (0–360°)"])
+
+    NodeA["Node A\n@ position 60"]
+    NodeB["Node B\n@ position 150"]
+    NodeC["Node C\n@ position 270"]
+
+    Key1["Key 'user:42'\nhash=80 → Node B"]
+    Key2["Key 'session:x'\nhash=200 → Node C"]
+    Key3["Key 'order:7'\nhash=310 → Node A\n(wraps around)"]
+
+    Ring --> NodeA
+    Ring --> NodeB
+    Ring --> NodeC
+    NodeB --> Key1
+    NodeC --> Key2
+    NodeA --> Key3
+
+    Note1["Virtual nodes: each physical\nserver occupies N ring positions\nfor even distribution"]
+    Ring --> Note1
+```
 
 ```java
 --8<-- "com/study/systems/loadbalancing/ConsistentHashingLoadBalancer.java"

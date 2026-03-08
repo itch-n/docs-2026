@@ -94,6 +94,23 @@ By the end of this topic you will be able to:
 
 ## Core Implementation
 
+### Token Bucket Flow
+
+```mermaid
+flowchart TD
+    Req["Request arrives"]
+    Check{"Tokens\navailable?"}
+    Allow["Allow request\n(consume 1 token)"]
+    Deny["Deny request\n(429 Too Many Requests)"]
+    Refill["Refill timer fires\nadd tokens up to capacity"]
+
+    Req --> Check
+    Check -->|"Yes"| Allow
+    Check -->|"No"| Deny
+    Allow --> Refill
+    Deny --> Refill
+```
+
 ### Part 1: Token Bucket Algorithm
 
 **Your task:** Implement token bucket rate limiter with refill mechanism.

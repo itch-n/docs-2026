@@ -77,6 +77,22 @@ The BFF variant creates a separate gateway instance per client type — one for 
 | Coupling | Business logic that creeps into the gateway (conditional routing based on order status, for example) creates a deployment coupling between the gateway and domain services. Keep the gateway dumb. |
 | Observability anchor | The gateway is the natural place to inject trace IDs, log request/response metadata, and emit per-route metrics. |
 
+```mermaid
+flowchart TD
+    Client["External Client\n(browser / mobile)"]
+    GW["API Gateway\n(auth, rate-limit, routing)"]
+    US["User Service\n/users/*"]
+    OS["Order Service\n/orders/*"]
+    PS["Payment Service\n/payments/*"]
+    NS["Notification Service\n/notify/*"]
+
+    Client --> GW
+    GW -->|"GET /users/42"| US
+    GW -->|"POST /orders"| OS
+    GW -->|"POST /payments"| PS
+    GW -->|"response aggregation"| NS
+```
+
 ---
 
 ## Pattern 2: Service Discovery
@@ -87,11 +103,6 @@ In a microservices deployment, service instances start and stop dynamically. Kub
 
 Each service registers itself with a registry on startup and deregisters on shutdown. A calling service (the client) queries the registry directly to get a list of healthy instances, then applies its own load-balancing logic (round-robin, least-connections) to choose one.
 
-```
-Client → Registry.lookup("order-service") → [10.0.1.5:8080, 10.0.1.6:8080]
-Client → picks 10.0.1.5:8080 → sends request
-```
-
 **Pros:** no extra network hop; client controls load-balancing strategy.
 **Cons:** every service must embed registry client code; language diversity becomes painful; registry query adds latency.
 
@@ -99,13 +110,31 @@ Client → picks 10.0.1.5:8080 → sends request
 
 The client sends its request to a load balancer (or the API gateway). The load balancer queries the registry and forwards to a healthy instance. The client knows nothing about the registry.
 
-```
-Client → LoadBalancer → Registry.lookup("order-service") → 10.0.1.5:8080
-LoadBalancer → forwards request → Order Service
-```
-
 **Pros:** client code is simple; works across languages; easier to swap discovery mechanisms.
 **Cons:** extra network hop; load balancer must be highly available; potential bottleneck.
+
+```mermaid
+flowchart TD
+    subgraph ClientSide["Client-Side Discovery"]
+        CS_Client["Service A"]
+        Registry1["Service Registry"]
+        CS_Target["Order Service\n10.0.1.5:8080"]
+        CS_Client -->|"lookup('order-service')"| Registry1
+        Registry1 -->|"[10.0.1.5, 10.0.1.6]"| CS_Client
+        CS_Client -->|"direct call (LB in client)"| CS_Target
+    end
+
+    subgraph ServerSide["Server-Side Discovery"]
+        SS_Client["Service A"]
+        LB["Load Balancer"]
+        Registry2["Service Registry"]
+        SS_Target["Order Service\n10.0.1.5:8080"]
+        SS_Client -->|"request"| LB
+        LB -->|"lookup('order-service')"| Registry2
+        Registry2 --> LB
+        LB -->|"forward"| SS_Target
+    end
+```
 
 ### Health check registration
 

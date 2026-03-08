@@ -57,17 +57,23 @@ A circuit breaker wraps calls to a remote dependency and tracks failure outcomes
 
 **State machine:**
 
-```
-CLOSED ──(failure threshold exceeded)──► OPEN
-  ▲                                        │
-  │                                        │ (recovery timeout expires)
-  │                                        ▼
-  └──────(probe succeeds)────────── HALF_OPEN
-                                          │
-                               (probe fails)
-                                          │
-                                          ▼
-                                        OPEN (reset timer)
+```mermaid
+stateDiagram-v2
+    [*] --> CLOSED
+    CLOSED --> OPEN : failure count >= threshold
+    OPEN --> HALF_OPEN : recovery timeout expires
+    HALF_OPEN --> CLOSED : probe request succeeds
+    HALF_OPEN --> OPEN : probe request fails (reset timer)
+
+    note right of CLOSED
+        All calls forwarded to downstream
+    end note
+    note right of OPEN
+        All calls rejected immediately (fast-fail)
+    end note
+    note right of HALF_OPEN
+        One probe call allowed through
+    end note
 ```
 
 | State | Behaviour | Transitions out |
