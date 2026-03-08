@@ -3,7 +3,7 @@ name: Deploy Study Guide to GitHub Pages
 on:
   push:
     branches:
-      - publish  # Adjust this if your default branch is named 'master'
+      - main
 
 permissions:
   contents: write
