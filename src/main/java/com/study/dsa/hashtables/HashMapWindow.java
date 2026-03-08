@@ -29,41 +29,4 @@ public class HashMapWindow {
 
         return false; // Replace with implementation
     }
-
-
-    // --- demo (moved from HashMapWindowClient) ---
-
-public static void main(String[] args) {
-        System.out.println("=== Hash Map Sliding Window ===\n");
-
-        // Test 1: Minimum window substring
-        System.out.println("--- Test 1: Minimum Window ---");
-        String[][] testCases = {
-            {"ADOBECODEBANC", "ABC"},
-            {"a", "a"},
-            {"a", "aa"}
-        };
-
-        for (String[] test : testCases) {
-            String s = test[0];
-            String t = test[1];
-            String result = minWindow(s, t);
-            System.out.printf("s=\"%s\", t=\"%s\" -> \"%s\"%n", s, t, result);
-        }
-
-        // Test 2: Check inclusion (permutation)
-        System.out.println("\n--- Test 2: Check Inclusion ---");
-        String[][] inclusionTests = {
-            {"ab", "eidbaooo"},
-            {"ab", "eidboaoo"},
-            {"abc", "ccccbbbbaaaa"}
-        };
-
-        for (String[] test : inclusionTests) {
-            String s1 = test[0];
-            String s2 = test[1];
-            boolean result = checkInclusion(s1, s2);
-            System.out.printf("s1=\"%s\", s2=\"%s\" -> %b%n", s1, s2, result);
-        }
-    }
 }

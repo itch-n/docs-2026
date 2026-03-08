@@ -71,45 +71,4 @@ public class TreeHeightDepth {
 
         return 0; // Replace with implementation
     }
-
-
-    // --- demo (moved from TreeHeightDepthClient) ---
-
-public static void main(String[] args) {
-        System.out.println("=== Tree Height and Depth ===\n");
-
-        // Create balanced tree:
-        //       4
-        //      / \
-        //     2   6
-        //    / \ / \
-        //   1  3 5  7
-        TreeNode balanced = new TreeNode(4);
-        balanced.left = new TreeNode(2);
-        balanced.right = new TreeNode(6);
-        balanced.left.left = new TreeNode(1);
-        balanced.left.right = new TreeNode(3);
-        balanced.right.left = new TreeNode(5);
-        balanced.right.right = new TreeNode(7);
-
-        System.out.println("--- Test 1: Balanced Tree ---");
-        System.out.println("Height: " + height(balanced));
-        System.out.println("Is balanced: " + isBalanced(balanced));
-        System.out.println("Min depth: " + minDepth(balanced));
-
-        // Create unbalanced tree:
-        //       1
-        //      /
-        //     2
-        //    /
-        //   3
-        TreeNode unbalanced = new TreeNode(1);
-        unbalanced.left = new TreeNode(2);
-        unbalanced.left.left = new TreeNode(3);
-
-        System.out.println("\n--- Test 2: Unbalanced Tree ---");
-        System.out.println("Height: " + height(unbalanced));
-        System.out.println("Is balanced: " + isBalanced(unbalanced));
-        System.out.println("Min depth: " + minDepth(unbalanced));
-    }
 }

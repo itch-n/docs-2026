@@ -96,24 +96,4 @@ public class RPCServer implements UserService {
 
         return null; // Replace
     }
-
-    // --- demo ---
-
-    public static void main(String[] args) {
-        System.out.println("=== RPC Test ===\n");
-
-        UserService service = new RPCServer();
-
-        System.out.println("createUser(\"Bob\", \"bob@example.com\")");
-        String userId = service.createUser("Bob", "bob@example.com");
-        System.out.println("Returned ID: " + userId);
-
-        System.out.println("\ngetUser(\"" + userId + "\")");
-        User user = service.getUser(userId);
-        System.out.println("Returned: " + (user != null ? user.name : "null"));
-
-        System.out.println("\ngetUserPosts(\"" + userId + "\")");
-        List<Post> posts = service.getUserPosts(userId);
-        System.out.println("Returned: " + posts.size() + " posts");
-    }
 }

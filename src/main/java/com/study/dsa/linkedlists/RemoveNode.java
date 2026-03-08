@@ -69,35 +69,4 @@ public class RemoveNode {
         }
         System.out.println();
     }
-
-
-    // --- demo (moved from RemoveNodeClient) ---
-
-public static void main(String[] args) {
-        System.out.println("=== Remove Node Operations ===\n");
-
-        // Test 1: Remove Nth from end
-        System.out.println("--- Test 1: Remove Nth from End ---");
-        ListNode list1 = createList(new int[]{1, 2, 3, 4, 5});
-        int n = 2;
-
-        System.out.print("Original: ");
-        printList(list1);
-        System.out.println("Remove " + n + "th from end");
-
-        ListNode result1 = removeNthFromEnd(list1, n);
-        System.out.print("Result:   ");
-        printList(result1);
-
-        // Test 2: Delete duplicates
-        System.out.println("\n--- Test 2: Delete Duplicates ---");
-        ListNode list2 = createList(new int[]{1, 1, 2, 3, 3, 3, 4, 5, 5});
-
-        System.out.print("Original: ");
-        printList(list2);
-
-        ListNode result2 = deleteDuplicates(list2);
-        System.out.print("Result:   ");
-        printList(result2);
-    }
 }

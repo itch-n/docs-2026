@@ -156,31 +156,4 @@ public class RESTAPIServer {
             this.headers = new HashMap<>();
         }
     }
-
-
-    // --- demo ---
-
-    public static void main(String[] args) {
-        System.out.println("=== REST API Test ===\n");
-
-        RESTAPIServer server = new RESTAPIServer();
-
-        // Test: Create user
-        System.out.println("POST /users");
-        Response createResp = server.createUser("Alice", "alice@example.com");
-        System.out.println("Status: " + createResp.statusCode);
-        System.out.println("Body: " + createResp.body);
-
-        // Test: Get user
-        System.out.println("\nGET /users/123");
-        Response getResp = server.getUser("123");
-        System.out.println("Status: " + getResp.statusCode);
-        System.out.println("Body: " + getResp.body);
-
-        // Test: Get user's posts
-        System.out.println("\nGET /users/123/posts?page=1&limit=10");
-        Response postsResp = server.getUserPosts("123", 1, 10);
-        System.out.println("Status: " + postsResp.statusCode);
-        System.out.println("Body: " + postsResp.body);
-    }
 }

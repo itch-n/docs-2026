@@ -57,9 +57,11 @@ uv run mkdocs build --strict
 
 ## Running Java Examples
 
+All Java code requires Java 25.
+
 ### Tests
 
-Most implementation classes have a corresponding JUnit 5 test in `src/test/java/`. Tests are the exercise specification — they fail until you implement the TODOs.
+Every implementation class has a corresponding JUnit 5 test in `src/test/java/`. Tests are the exercise specification — they fail until you implement the TODOs.
 
 ```bash
 # Run all tests
@@ -72,46 +74,21 @@ Most implementation classes have a corresponding JUnit 5 test in `src/test/java/
 ./gradlew test --tests "com.study.dsa.binarysearch.*"
 ```
 
-### Running individual classes
+Tests use [Awaitility](https://github.com/awaitility/awaitility) for concurrent and async assertions. Time-dependent classes (e.g. `TokenBucketRateLimiter`) accept a `java.time.Clock` constructor argument; tests pass a `MutableClock` from `com.study.util` to advance time without sleeping.
 
-Each topic's Java classes can be run individually via Gradle:
+### Standalone benchmarks
 
-```bash
-./gradlew run -PmainClass=com.study.systems.storage.BPlusTree
-./gradlew run -PmainClass=com.study.dsa.twopointers.OppositeDirectionPointers
-```
-
-The fully qualified class name follows the package structure under `src/main/java/`.
-
-### Standalone runners (no unit tests)
-
-These classes produce observable output (benchmarks, concurrency demos, timing) but are not covered by unit tests. Run them directly:
-
-**Benchmarks**
+These two classes produce timing output and are intentionally runnable; they have no unit tests:
 
 | Class | Description |
 |---|---|
 | `com.study.systems.storage.StorageBenchmark` | B+Tree vs LSM Tree read/write throughput |
 | `com.study.systems.columnstorage.StorageLayoutBenchmark` | Row vs column store scan performance |
 
-**Concurrency demos**
-
-| Class | Description |
-|---|---|
-| `com.study.systems.concurrency.LockBasedSync` | Thread-safe counter, read-write cache, bank transfers |
-| `com.study.systems.concurrency.ThreadPoolPatterns` | Fixed, cached, scheduled, work-stealing pools |
-| `com.study.systems.concurrency.ThreadSafeDataStructures` | ConcurrentHashMap, CopyOnWriteArrayList, BlockingQueue |
-| `com.study.systems.messagequeues.ProducerConsumer` | Producer-consumer with blocking queue |
-
-**Timing-dependent demos**
-
-| Class | Description |
-|---|---|
-| `com.study.systems.ratelimiting.TokenBucketRateLimiter` | Token bucket, leaky bucket, sliding window |
-| `com.study.systems.caching.WriteBackCache` | Write-back with background flush |
-| `com.study.systems.observability.DistributedTracer` | Span creation and trace propagation |
-| `com.study.systems.observability.SLOManager` | SLO tracking with time-based windows |
-| `com.study.systems.streamprocessing.StreamWindow` | Tumbling, sliding, session windows |
+```bash
+./gradlew run -PmainClass=com.study.systems.storage.StorageBenchmark
+./gradlew run -PmainClass=com.study.systems.columnstorage.StorageLayoutBenchmark
+```
 
 ## Content Maintenance
 

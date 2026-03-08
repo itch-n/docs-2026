@@ -60,42 +60,4 @@ public class ClassicBinarySearch {
 
         return -1; // Replace with implementation
     }
-
-
-    // --- demo (moved from ClassicBinarySearchClient) ---
-
-public static void main(String[] args) {
-        System.out.println("=== Classic Binary Search ===\n");
-
-        // Test 1: Find target
-        System.out.println("--- Test 1: Find Target ---");
-        int[] arr = {1, 3, 5, 7, 9, 11, 13};
-        int[] targets = {5, 8, 1, 13};
-
-        System.out.println("Array: " + Arrays.toString(arr));
-        for (int target : targets) {
-            int index = binarySearch(arr, target);
-            System.out.printf("Search %d: index = %d%n", target, index);
-        }
-
-        // Test 2: Search insert position
-        System.out.println("\n--- Test 2: Search Insert Position ---");
-        int[] arr2 = {1, 3, 5, 6};
-        int[] insertTargets = {5, 2, 7, 0};
-
-        System.out.println("Array: " + Arrays.toString(arr2));
-        for (int target : insertTargets) {
-            int pos = searchInsert(arr2, target);
-            System.out.printf("Insert position for %d: %d%n", target, pos);
-        }
-
-        // Test 3: Find range
-        System.out.println("\n--- Test 3: Find First and Last Position ---");
-        int[] arr3 = {5, 7, 7, 8, 8, 8, 10};
-        int rangeTarget = 8;
-
-        System.out.println("Array: " + Arrays.toString(arr3));
-        int[] range = searchRange(arr3, rangeTarget);
-        System.out.printf("Range for %d: [%d, %d]%n", rangeTarget, range[0], range[1]);
-    }
 }

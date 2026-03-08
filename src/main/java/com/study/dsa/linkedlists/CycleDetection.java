@@ -64,44 +64,4 @@ public class CycleDetection {
         }
         return head;
     }
-
-
-    // --- demo (moved from CycleDetectionClient) ---
-
-public static void main(String[] args) {
-        System.out.println("=== Cycle Detection ===\n");
-
-        // Test 1: No cycle
-        System.out.println("--- Test 1: No Cycle ---");
-        ListNode list1 = createList(new int[]{1, 2, 3, 4, 5});
-
-        System.out.println("List: 1 -> 2 -> 3 -> 4 -> 5");
-        System.out.println("Has cycle: " + hasCycle(list1));
-
-        // Test 2: Cycle exists
-        System.out.println("\n--- Test 2: Cycle Exists ---");
-        ListNode list2 = createList(new int[]{1, 2, 3, 4, 5});
-
-        // Create cycle: 5 -> 3
-        ListNode node3 = list2.next.next; // node 3
-        ListNode tail = list2.next.next.next.next; // node 5
-        tail.next = node3;
-
-        System.out.println("List: 1 -> 2 -> 3 -> 4 -> 5 -> (back to 3)");
-        System.out.println("Has cycle: " + hasCycle(list2));
-
-        // Test 3: Find cycle start
-        System.out.println("\n--- Test 3: Find Cycle Start ---");
-        ListNode cycleStart = detectCycle(list2);
-        if (cycleStart != null) {
-            System.out.println("Cycle starts at node with value: " + cycleStart.val);
-        }
-
-        // Test 4: Remove cycle
-        System.out.println("\n--- Test 4: Remove Cycle ---");
-        removeCycle(list2);
-        System.out.println("After removing cycle:");
-        System.out.println("Has cycle: " + hasCycle(list2));
-    }
-
 }

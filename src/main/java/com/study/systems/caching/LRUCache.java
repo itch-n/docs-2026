@@ -106,26 +106,4 @@ public class LRUCache<K, V> {
     public int size() {
         return cache.size();
     }
-
-
-    // --- demo ---
-
-    public static void main(String[] args) {
-        System.out.println("=== LRU Cache Test ===\n");
-        LRUCache<String, String> cache = new LRUCache<>(3);
-
-        cache.put("user:1", "Alice");
-        cache.put("user:2", "Bob");
-        cache.put("user:3", "Charlie");
-        System.out.println("Cache size: " + cache.size());
-
-        cache.get("user:1"); // Access Alice (makes it most recent)
-
-        cache.put("user:4", "David"); // Should evict Bob (LRU)
-
-        System.out.println("Get user:1: " + cache.get("user:1")); // Should be Alice
-        System.out.println("Get user:2: " + cache.get("user:2")); // Should be null (evicted)
-        System.out.println("Get user:3: " + cache.get("user:3")); // Should be Charlie
-        System.out.println("Get user:4: " + cache.get("user:4")); // Should be David
-    }
 }

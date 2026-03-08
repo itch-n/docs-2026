@@ -87,32 +87,4 @@ public class JWTAuthenticator {
         // TODO: Use Mac with HmacSHA256
         return null; // Replace
     }
-
-
-    // --- demo (moved from JWTClient) ---
-
-    public static void main(String[] args) {
-        System.out.println("=== JWT Authentication ===\n");
-
-        String secret = "your-256-bit-secret";
-        long expirationMs = 3600000; // 1 hour
-
-        JWTAuthenticator auth = new JWTAuthenticator(secret, expirationMs);
-
-        // Test 1: Generate token
-        System.out.println("--- Test 1: Generate Token ---");
-        String token = auth.generateToken("user123");
-        System.out.println("Generated token: " + token);
-
-        // Test 2: Validate token
-        System.out.println("\n--- Test 2: Validate Token ---");
-        String userId = auth.validateToken(token);
-        System.out.println("Extracted user: " + userId);
-
-        // Test 3: Invalid token
-        System.out.println("\n--- Test 3: Invalid Token ---");
-        String invalidToken = "invalid.token.here";
-        String result = auth.validateToken(invalidToken);
-        System.out.println("Validation result: " + result);
-    }
 }

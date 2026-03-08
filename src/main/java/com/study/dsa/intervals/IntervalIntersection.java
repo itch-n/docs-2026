@@ -21,28 +21,4 @@ public class IntervalIntersection {
 
         return result.toArray(new int[0][]);
     }
-
-
-    // --- demo (moved from IntersectionClient) ---
-
-    public static void main(String[] args) {
-        System.out.println("=== Interval Intersection ===\n");
-
-        int[][][] firstLists = {
-            {{0,2},{5,10},{13,23},{24,25}},
-            {{1,3},{5,9}},
-        };
-        int[][][] secondLists = {
-            {{1,5},{8,12},{15,24},{25,26}},
-            {},
-        };
-
-        for (int t = 0; t < firstLists.length; t++) {
-            System.out.println("First:  " + Arrays.deepToString(firstLists[t]));
-            System.out.println("Second: " + Arrays.deepToString(secondLists[t]));
-            int[][] result = intervalIntersection(firstLists[t], secondLists[t]);
-            System.out.println("Result: " + Arrays.deepToString(result));
-            System.out.println();
-        }
-    }
 }

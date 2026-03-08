@@ -53,44 +53,4 @@ public class HashMapGrouping {
         }
         return sum;
     }
-
-
-    // --- demo (moved from HashMapGroupingClient) ---
-
-public static void main(String[] args) {
-        System.out.println("=== Hash Map Grouping ===\n");
-
-        // Test 1: Group anagrams
-        System.out.println("--- Test 1: Group Anagrams ---");
-        String[] words = {"eat", "tea", "tan", "ate", "nat", "bat"};
-
-        List<List<String>> groups = groupAnagrams(words);
-        System.out.println("Words: " + Arrays.toString(words));
-        System.out.println("Grouped:");
-        for (List<String> group : groups) {
-            System.out.println("  " + group);
-        }
-
-        // Test 2: Group by digit sum
-        System.out.println("\n--- Test 2: Group by Digit Sum ---");
-        int[] numbers = {12, 21, 13, 31, 100, 10, 1, 23, 32};
-
-        Map<Integer, List<Integer>> digitGroups = groupByDigitSum(numbers);
-        System.out.println("Numbers: " + Arrays.toString(numbers));
-        System.out.println("Grouped by digit sum:");
-        for (Map.Entry<Integer, List<Integer>> entry : digitGroups.entrySet()) {
-            System.out.printf("  Sum %d: %s%n", entry.getKey(), entry.getValue());
-        }
-
-        // Test 3: Group by first character
-        System.out.println("\n--- Test 3: Group by First Character ---");
-        String[] dictionary = {"apple", "ant", "ball", "bear", "cat", "car", "dog"};
-
-        Map<Character, List<String>> charGroups = groupByFirstChar(dictionary);
-        System.out.println("Words: " + Arrays.toString(dictionary));
-        System.out.println("Grouped by first character:");
-        for (Map.Entry<Character, List<String>> entry : charGroups.entrySet()) {
-            System.out.printf("  %c: %s%n", entry.getKey(), entry.getValue());
-        }
-    }
 }

@@ -63,45 +63,4 @@ public class BFS {
 
         return 0; // Replace
     }
-
-
-    // --- demo (moved from BFSClient) ---
-
-public static void main(String[] args) {
-        System.out.println("=== BFS Pattern ===\n");
-
-        // Test 1: Shortest path
-        System.out.println("--- Test 1: Shortest Path ---");
-        Map<Integer, List<Integer>> graph = new HashMap<>();
-        graph.put(0, Arrays.asList(1, 2));
-        graph.put(1, Arrays.asList(3));
-        graph.put(2, Arrays.asList(3, 4));
-        graph.put(3, Arrays.asList(4));
-        graph.put(4, Arrays.asList());
-
-        System.out.println("Graph: " + graph);
-        System.out.println("Shortest path 0 -> 4: " + shortestPath(graph, 0, 4));
-
-        // Test 2: Knight moves
-        System.out.println("\n--- Test 2: Knight Moves ---");
-        int[][] targets = {{2, 1}, {5, 5}};
-        for (int[] target : targets) {
-            int moves = minKnightMoves(target[0], target[1]);
-            System.out.printf("To (%d, %d): %d moves%n", target[0], target[1], moves);
-        }
-
-        // Test 3: Rotting oranges
-        System.out.println("\n--- Test 3: Rotting Oranges ---");
-        int[][] grid = {
-            {2, 1, 1},
-            {1, 1, 0},
-            {0, 1, 1}
-        };
-
-        System.out.println("Grid:");
-        for (int[] row : grid) {
-            System.out.println(Arrays.toString(row));
-        }
-        System.out.println("Minutes to rot all: " + orangesRotting(grid));
-    }
 }

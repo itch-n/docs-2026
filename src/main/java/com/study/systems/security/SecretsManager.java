@@ -111,42 +111,4 @@ public class SecretsManager {
         // TODO: Use AES/GCM for decryption
         return null; // Replace
     }
-
-
-    // --- demo (moved from SecretsManagerClient) ---
-
-public static void main(String[] args) throws Exception {
-        System.out.println("=== Secrets Management ===\n");
-
-        // Generate master key
-        KeyGenerator keyGen = KeyGenerator.getInstance("AES");
-        keyGen.init(256);
-        SecretKey masterKey = keyGen.generateKey();
-
-        SecretsManager sm = new SecretsManager(masterKey);
-
-        // Test 1: Store secrets
-        System.out.println("--- Test 1: Store Secrets ---");
-        Set<String> users1 = new HashSet<>(Arrays.asList("admin", "service1"));
-        sm.storeSecret("db_password", "super-secret-pwd", users1);
-        System.out.println("Stored db_password");
-
-        Set<String> users2 = new HashSet<>(Arrays.asList("service2"));
-        sm.storeSecret("api_key", "sk_live_123456", users2);
-        System.out.println("Stored api_key");
-
-        // Test 2: Retrieve secrets
-        System.out.println("\n--- Test 2: Retrieve Secrets ---");
-        String pwd = sm.getSecret("db_password", "admin");
-        System.out.println("Retrieved db_password: " + pwd);
-
-        // Test 3: Unauthorized access
-        System.out.println("\n--- Test 3: Unauthorized Access ---");
-        try {
-            String key = sm.getSecret("api_key", "admin");
-            System.out.println("Retrieved api_key: " + key);
-        } catch (SecurityException e) {
-            System.out.println("Access denied: " + e.getMessage());
-        }
-    }
 }

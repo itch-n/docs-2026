@@ -96,21 +96,4 @@ public class LFUCache<K, V> {
     private void updateFrequency(Node<K, V> node) {
         // TODO: Move node from current frequency list to next
     }
-
-    // --- demo ---
-
-    public static void main(String[] args) {
-        System.out.println("=== LFU Cache Test ===\n");
-        LFUCache<String, String> cache = new LFUCache<>(2);
-
-        cache.put("key1", "value1");
-        cache.put("key2", "value2");
-        System.out.println("Get key1: " + cache.get("key1")); // freq: key1=2, key2=1
-
-        cache.put("key3", "value3"); // Should evict key2 (LFU)
-
-        System.out.println("Get key2: " + cache.get("key2")); // Should be null (evicted)
-        System.out.println("Get key3: " + cache.get("key3")); // Should be value3
-        System.out.println("Get key1: " + cache.get("key1")); // Should be value1
-    }
 }

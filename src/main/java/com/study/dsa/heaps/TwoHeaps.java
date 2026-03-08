@@ -47,47 +47,4 @@ public class TwoHeaps {
 
         return new double[0]; // Replace with implementation
     }
-
-
-    // --- demo (moved from TwoHeapsClient) ---
-
-public static void main(String[] args) {
-        System.out.println("=== Two Heaps ===\n");
-
-        // Test 1: Median finder
-        System.out.println("--- Test 1: Find Median from Data Stream ---");
-        MedianFinder mf = new MedianFinder();
-
-        int[] stream = {1, 2, 3, 4, 5};
-        System.out.println("Data stream: " + Arrays.toString(stream));
-        System.out.println("Median after each insertion:");
-
-        for (int num : stream) {
-            mf.addNum(num);
-            System.out.printf("  After adding %d: %.1f%n", num, mf.findMedian());
-        }
-
-        // Test 2: Another stream
-        System.out.println("\n--- Test 2: Another Stream ---");
-        MedianFinder mf2 = new MedianFinder();
-        int[] stream2 = {5, 15, 1, 3};
-
-        System.out.println("Data stream: " + Arrays.toString(stream2));
-        System.out.println("Median after each insertion:");
-
-        for (int num : stream2) {
-            mf2.addNum(num);
-            System.out.printf("  After adding %d: %.1f%n", num, mf2.findMedian());
-        }
-
-        // Test 3: Sliding window median
-        System.out.println("\n--- Test 3: Sliding Window Median ---");
-        int[] arr = {1, 3, -1, -3, 5, 3, 6, 7};
-        int k = 3;
-
-        System.out.println("Array: " + Arrays.toString(arr));
-        System.out.println("Window size: " + k);
-        double[] medians = medianSlidingWindow(arr, k);
-        System.out.println("Medians: " + Arrays.toString(medians));
-    }
 }

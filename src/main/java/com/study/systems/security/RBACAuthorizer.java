@@ -98,35 +98,4 @@ public class RBACAuthorizer {
     public void revokeRole(String userId, Role role) {
         // TODO: Remove role from user
     }
-
-
-    // --- demo (moved from RBACClient) ---
-
-    public static void main(String[] args) {
-        System.out.println("=== RBAC Authorization ===\n");
-
-        RBACAuthorizer rbac = new RBACAuthorizer();
-
-        // Test 1: Assign roles
-        System.out.println("--- Test 1: Role Assignment ---");
-        rbac.assignRole("alice", Role.ADMIN);
-        rbac.assignRole("bob", Role.EDITOR);
-        rbac.assignRole("charlie", Role.VIEWER);
-        System.out.println("Roles assigned");
-
-        // Test 2: Check permissions
-        System.out.println("\n--- Test 2: Permission Checks ---");
-        System.out.println("Alice (ADMIN) can DELETE: " +
-            rbac.hasPermission("alice", Permission.DELETE));
-        System.out.println("Bob (EDITOR) can WRITE: " +
-            rbac.hasPermission("bob", Permission.WRITE));
-        System.out.println("Charlie (VIEWER) can DELETE: " +
-            rbac.hasPermission("charlie", Permission.DELETE));
-
-        // Test 3: Get all permissions
-        System.out.println("\n--- Test 3: All Permissions ---");
-        System.out.println("Alice permissions: " + rbac.getUserPermissions("alice"));
-        System.out.println("Bob permissions: " + rbac.getUserPermissions("bob"));
-        System.out.println("Charlie permissions: " + rbac.getUserPermissions("charlie"));
-    }
 }

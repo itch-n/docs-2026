@@ -1,9 +1,10 @@
 package com.study.systems.caching;
 
 import org.junit.jupiter.api.Test;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.Map;
+import static org.awaitility.Awaitility.await;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.junit.jupiter.api.Assertions.*;
 
 class WriteBackCacheTest {
@@ -29,8 +30,8 @@ class WriteBackCacheTest {
 
         cache.put("user:1", "Alice");
 
-        // Cache should return value immediately without waiting for flush
         assertEquals("Alice", cache.get("user:1"));
+        assertNull(db.storage.get("user:1")); // Not flushed yet
         cache.shutdown();
     }
 
@@ -48,32 +49,37 @@ class WriteBackCacheTest {
     }
 
     @Test
-    void testShutdownFlushesDataToDatabase() throws InterruptedException {
+    void testShutdownFlushesDataToDatabase() {
         MockDb db = new MockDb();
         WriteBackCache<String, String> cache = new WriteBackCache<>(5, db, 60000);
 
         cache.put("user:1", "Alice");
-
-        // Shutdown should flush all dirty entries before returning
         cache.shutdown();
 
         assertEquals("Alice", db.storage.get("user:1"));
     }
 
     @Test
-    void testBackgroundFlushWritesToDatabase() throws InterruptedException {
+    void testBackgroundFlushWritesToDatabase() {
         MockDb db = new MockDb();
-        // Very short flush interval
-        WriteBackCache<String, String> cache = new WriteBackCache<>(5, db, 200);
+        WriteBackCache<String, String> cache = new WriteBackCache<>(5, db, 100);
 
         cache.put("user:1", "Alice");
         cache.put("user:2", "Bob");
 
-        // Wait for background flush
-        Thread.sleep(600);
+        await().atMost(500, MILLISECONDS)
+               .until(() -> db.storage.containsKey("user:1") && db.storage.containsKey("user:2"));
 
         assertEquals("Alice", db.storage.get("user:1"));
         assertEquals("Bob", db.storage.get("user:2"));
+        cache.shutdown();
+    }
+
+    @Test
+    void testGetMissingKeyReturnsNull() {
+        MockDb db = new MockDb();
+        WriteBackCache<String, String> cache = new WriteBackCache<>(5, db, 5000);
+        assertNull(cache.get("nonexistent"));
         cache.shutdown();
     }
 }

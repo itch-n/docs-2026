@@ -99,30 +99,4 @@ public class GraphQLResolver {
 
         return null; // Replace
     }
-
-    // --- demo ---
-
-    public static void main(String[] args) {
-        System.out.println("=== GraphQL Test ===\n");
-
-        GraphQLResolver resolver = new GraphQLResolver();
-
-        String query = """
-            {
-              user(id: "123") {
-                name
-                email
-                posts {
-                  title
-                }
-              }
-            }
-        """;
-
-        System.out.println("Query:");
-        System.out.println(query);
-
-        Map<String, Object> result = resolver.executeQuery(query);
-        System.out.println("\nResult: " + result);
-    }
 }

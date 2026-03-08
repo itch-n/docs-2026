@@ -34,25 +34,4 @@ public class MeetingRooms {
 
         return 0; // Replace with implementation
     }
-
-
-    // --- demo (moved from MeetingRoomsClient) ---
-
-public static void main(String[] args) {
-        System.out.println("=== Meeting Rooms ===\n");
-
-        int[][][] tests = {
-            {{0,30},{5,10},{15,20}},
-            {{7,10},{2,4}},
-            {{9,10},{4,9},{4,17}},
-        };
-
-        for (int[][] meetings : tests) {
-            boolean canAttend = canAttendMeetings(meetings);
-            int minRooms = minMeetingRooms(meetings);
-            System.out.printf("Meetings: %s%n", Arrays.deepToString(meetings));
-            System.out.printf("One person can attend all: %b%n", canAttend);
-            System.out.printf("Minimum rooms needed: %d%n%n", minRooms);
-        }
-    }
 }

@@ -82,47 +82,4 @@ public class ReverseLinkedList {
         }
         System.out.println();
     }
-
-
-    // --- demo (moved from ReverseLinkedListClient) ---
-
-public static void main(String[] args) {
-        System.out.println("=== Reverse Linked List ===\n");
-
-        // Test 1: Reverse entire list
-        System.out.println("--- Test 1: Reverse Entire List ---");
-        int[] values = {1, 2, 3, 4, 5};
-        ListNode list = createList(values);
-
-        System.out.print("Original: ");
-        printList(list);
-
-        ListNode reversed = reverseList(list);
-        System.out.print("Reversed: ");
-        printList(reversed);
-
-        // Test 2: Reverse recursively
-        System.out.println("\n--- Test 2: Reverse Recursively ---");
-        ListNode list2 = createList(new int[]{1, 2, 3, 4, 5});
-
-        System.out.print("Original: ");
-        printList(list2);
-
-        ListNode reversedRec = reverseListRecursive(list2);
-        System.out.print("Reversed: ");
-        printList(reversedRec);
-
-        // Test 3: Reverse first K
-        System.out.println("\n--- Test 3: Reverse First K Nodes ---");
-        ListNode list3 = createList(new int[]{1, 2, 3, 4, 5, 6, 7});
-        int k = 3;
-
-        System.out.print("Original: ");
-        printList(list3);
-        System.out.println("K = " + k);
-
-        ListNode reversedK = reverseFirstK(list3, k);
-        System.out.print("Result:   ");
-        printList(reversedK);
-    }
 }

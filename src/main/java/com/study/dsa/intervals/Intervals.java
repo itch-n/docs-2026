@@ -21,25 +21,4 @@ public class Intervals {
 
         return new int[0][0]; // Replace with implementation
     }
-
-
-    // --- demo (moved from MergeClient) ---
-
-    public static void main(String[] args) {
-        System.out.println("=== Merge Intervals ===\n");
-
-        int[][][] tests = {
-            {{1,3}, {2,6}, {8,10}, {15,18}},
-            {{1,4}, {4,5}},
-            {{1,4}, {2,3}},    // Fully contained
-            {{1,4}, {0,4}},    // Starts before
-        };
-
-        for (int[][] test : tests) {
-            System.out.println("Input:  " + Arrays.deepToString(test));
-            int[][] result = merge(test);
-            System.out.println("Output: " + Arrays.deepToString(result));
-            System.out.println();
-        }
-    }
 }

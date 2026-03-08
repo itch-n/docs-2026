@@ -55,38 +55,4 @@ public class DFS {
 
         return false; // Replace
     }
-
-
-    // --- demo (moved from DFSClient) ---
-
-public static void main(String[] args) {
-        System.out.println("=== DFS Pattern ===\n");
-
-        // Test 1: Number of islands
-        System.out.println("--- Test 1: Number of Islands ---");
-        char[][] grid1 = {
-            {'1','1','0','0','0'},
-            {'1','1','0','0','0'},
-            {'0','0','1','0','0'},
-            {'0','0','0','1','1'}
-        };
-
-        System.out.println("Grid:");
-        for (char[] row : grid1) {
-            System.out.println(Arrays.toString(row));
-        }
-        System.out.println("Islands: " + numIslands(grid1));
-
-        // Test 2: Has path
-        System.out.println("\n--- Test 2: Has Path ---");
-        Map<Integer, List<Integer>> graph = new HashMap<>();
-        graph.put(0, Arrays.asList(1, 2));
-        graph.put(1, Arrays.asList(3));
-        graph.put(2, Arrays.asList(3));
-        graph.put(3, Arrays.asList());
-
-        System.out.println("Graph: " + graph);
-        System.out.println("Path 0 -> 3? " + hasPath(graph, 0, 3));
-        System.out.println("Path 0 -> 4? " + hasPath(graph, 0, 4));
-    }
 }

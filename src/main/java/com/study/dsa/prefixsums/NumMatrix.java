@@ -31,31 +31,4 @@ public class NumMatrix {
     public int sumRegion(int row1, int col1, int row2, int col2) {
         return 0; // Replace with implementation
     }
-
-
-    // --- demo (moved from NumMatrixClient) ---
-
-public static void main(String[] args) {
-        System.out.println("=== 2D Range Sum Query ===\n");
-
-        int[][] matrix = {
-            {3, 0, 1, 4, 2},
-            {5, 6, 3, 2, 1},
-            {1, 2, 0, 1, 5},
-            {4, 1, 0, 1, 7},
-            {1, 0, 3, 0, 5}
-        };
-
-        NumMatrix nm = new NumMatrix(matrix);
-
-        System.out.println("Matrix:");
-        for (int[] row : matrix) {
-            System.out.println("  " + Arrays.toString(row));
-        }
-
-        System.out.println();
-        System.out.printf("sumRegion(2,1,4,3) = %d (expected 8)%n", nm.sumRegion(2,1,4,3));
-        System.out.printf("sumRegion(1,1,2,2) = %d (expected 11)%n", nm.sumRegion(1,1,2,2));
-        System.out.printf("sumRegion(1,2,2,4) = %d (expected 12)%n", nm.sumRegion(1,2,2,4));
-    }
 }

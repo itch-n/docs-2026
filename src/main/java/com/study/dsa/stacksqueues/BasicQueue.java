@@ -75,39 +75,4 @@ public class BasicQueue {
             return size == capacity;
         }
     }
-
-
-    // --- demo (moved from BasicQueueClient) ---
-
-public static void main(String[] args) {
-        System.out.println("=== Basic Queue Operations ===\n");
-
-        // Test 1: Queue with stacks
-        System.out.println("--- Test 1: Queue Using Stacks ---");
-        QueueWithStacks queue = new QueueWithStacks();
-
-        System.out.println("Operations:");
-        System.out.println("enqueue(1)");
-        queue.enqueue(1);
-        System.out.println("enqueue(2)");
-        queue.enqueue(2);
-        System.out.println("peek() -> " + queue.peek());
-        System.out.println("dequeue() -> " + queue.dequeue());
-        System.out.println("empty() -> " + queue.empty());
-
-        // Test 2: Circular queue
-        System.out.println("\n--- Test 2: Circular Queue ---");
-        CircularQueue circularQueue = new CircularQueue(3);
-
-        System.out.println("Operations on queue of size 3:");
-        System.out.println("enQueue(1) -> " + circularQueue.enQueue(1));
-        System.out.println("enQueue(2) -> " + circularQueue.enQueue(2));
-        System.out.println("enQueue(3) -> " + circularQueue.enQueue(3));
-        System.out.println("enQueue(4) -> " + circularQueue.enQueue(4)); // false, full
-        System.out.println("front() -> " + circularQueue.front());
-        System.out.println("isFull() -> " + circularQueue.isFull());
-        System.out.println("deQueue() -> " + circularQueue.deQueue());
-        System.out.println("enQueue(4) -> " + circularQueue.enQueue(4)); // now succeeds
-        System.out.println("front() -> " + circularQueue.front());
-    }
 }

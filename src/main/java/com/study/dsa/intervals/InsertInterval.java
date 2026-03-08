@@ -30,28 +30,4 @@ public class InsertInterval {
 
         return result.toArray(new int[0][]);
     }
-
-
-    // --- demo (moved from InsertIntervalClient) ---
-
-public static void main(String[] args) {
-        System.out.println("=== Insert Interval ===\n");
-
-        Object[][] tests = {
-            new Object[]{new int[][]{{1,3},{6,9}}, new int[]{2,5}},
-            new Object[]{new int[][]{{1,2},{3,5},{6,7},{8,10},{12,16}}, new int[]{4,8}},
-            new Object[]{new int[][]{}, new int[]{5,7}},
-            new Object[]{new int[][]{{1,5}}, new int[]{2,3}},    // New inside existing
-        };
-
-        for (Object[] test : tests) {
-            int[][] intervals = (int[][]) test[0];
-            int[] newInterval = (int[]) test[1];
-            System.out.println("Intervals:   " + Arrays.deepToString(intervals));
-            System.out.println("New:         " + Arrays.toString(newInterval));
-            int[][] result = insert(intervals, newInterval);
-            System.out.println("Result:      " + Arrays.deepToString(result));
-            System.out.println();
-        }
-    }
 }

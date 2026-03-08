@@ -91,48 +91,4 @@ public class UnionFind {
 
         return 0; // Replace with implementation
     }
-
-
-    // --- demo (moved from UnionFindClient) ---
-
-public static void main(String[] args) {
-        System.out.println("=== Union-Find ===\n");
-
-        // Test 1: Basic operations
-        System.out.println("--- Test 1: Basic Operations ---");
-        DSU dsu = new DSU(10);
-
-        System.out.println("Initial components: " + dsu.getComponents());
-
-        // Connect some nodes
-        int[][] connections = {{0, 1}, {1, 2}, {3, 4}, {5, 6}, {6, 7}};
-        System.out.println("\nConnecting nodes:");
-        for (int[] conn : connections) {
-            boolean success = dsu.union(conn[0], conn[1]);
-            System.out.printf("  union(%d, %d): %s%n", conn[0], conn[1],
-                success ? "SUCCESS" : "ALREADY CONNECTED");
-        }
-
-        System.out.println("\nFinal components: " + dsu.getComponents());
-
-        // Test connectivity
-        System.out.println("\nConnectivity tests:");
-        int[][] tests = {{0, 2}, {0, 3}, {3, 4}, {5, 8}};
-        for (int[] test : tests) {
-            boolean connected = dsu.connected(test[0], test[1]);
-            System.out.printf("  connected(%d, %d): %s%n", test[0], test[1],
-                connected ? "YES" : "NO");
-        }
-
-        // Test 2: Count components
-        System.out.println("\n--- Test 2: Count Components ---");
-        int n = 5;
-        int[][] edges = {{0, 1}, {1, 2}, {3, 4}};
-
-        System.out.println("Nodes: " + n);
-        System.out.println("Edges: " + java.util.Arrays.deepToString(edges));
-
-        int components = countComponents(n, edges);
-        System.out.println("Components: " + components);
-    }
 }

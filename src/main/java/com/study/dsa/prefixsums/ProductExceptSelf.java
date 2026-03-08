@@ -26,19 +26,4 @@ public class ProductExceptSelf {
 
         return result; // Replace with implementation
     }
-
-
-    // --- demo (moved from ProductExceptSelfClient) ---
-
-public static void main(String[] args) {
-        System.out.println("=== Product Except Self ===\n");
-
-        int[][] tests = {{1,2,3,4}, {-1,1,0,-3,3}, {2,3}};
-
-        for (int[] test : tests) {
-            int[] result = productExceptSelf(test);
-            System.out.printf("Input:  %s%n", Arrays.toString(test));
-            System.out.printf("Output: %s%n%n", Arrays.toString(result));
-        }
-    }
 }

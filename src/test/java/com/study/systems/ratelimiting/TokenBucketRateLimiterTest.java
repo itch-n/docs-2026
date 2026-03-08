@@ -1,5 +1,6 @@
 package com.study.systems.ratelimiting;
 
+import com.study.util.MutableClock;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -7,7 +8,6 @@ class TokenBucketRateLimiterTest {
 
     @Test
     void testAllowsRequestsUpToCapacity() {
-        // 10 token capacity, 0 refill so tokens drain immediately
         TokenBucketRateLimiter limiter = new TokenBucketRateLimiter(10, 0.0);
 
         int allowed = 0;
@@ -15,50 +15,63 @@ class TokenBucketRateLimiterTest {
             if (limiter.tryAcquire()) allowed++;
         }
 
-        // Should allow exactly 10 (capacity), reject 5
         assertEquals(10, allowed);
     }
 
     @Test
-    void testRefillsTokensOverTime() throws InterruptedException {
-        // 5 capacity, 5 tokens/second refill
-        TokenBucketRateLimiter limiter = new TokenBucketRateLimiter(5, 5.0);
+    void testRefillsTokensOverTime() {
+        MutableClock clock = new MutableClock();
+        TokenBucketRateLimiter limiter = new TokenBucketRateLimiter(5, 5.0, clock);
 
-        // Drain the bucket
-        for (int i = 0; i < 5; i++) {
-            limiter.tryAcquire();
-        }
-
-        // Should be rate-limited now
+        for (int i = 0; i < 5; i++) limiter.tryAcquire(); // drain
         assertFalse(limiter.tryAcquire());
 
-        // Wait 1 second for ~5 tokens to refill
-        Thread.sleep(1100);
-
-        // Should be allowed again
+        clock.advanceBySeconds(1); // 5 tokens refilled
         assertTrue(limiter.tryAcquire());
     }
 
     @Test
+    void testRefillCapsAtCapacity() {
+        MutableClock clock = new MutableClock();
+        TokenBucketRateLimiter limiter = new TokenBucketRateLimiter(5, 5.0, clock);
+
+        for (int i = 0; i < 5; i++) limiter.tryAcquire(); // drain
+
+        clock.advanceBySeconds(10); // would add 50, but capped at 5
+
+        int allowed = 0;
+        for (int i = 0; i < 10; i++) {
+            if (limiter.tryAcquire()) allowed++;
+        }
+        assertEquals(5, allowed);
+    }
+
+    @Test
+    void testPartialRefill() {
+        MutableClock clock = new MutableClock();
+        TokenBucketRateLimiter limiter = new TokenBucketRateLimiter(10, 10.0, clock);
+
+        for (int i = 0; i < 10; i++) limiter.tryAcquire(); // drain
+        assertFalse(limiter.tryAcquire());
+
+        clock.advanceByMillis(200); // 200ms × 10 tokens/s = 2 tokens
+        assertTrue(limiter.tryAcquire());
+        assertTrue(limiter.tryAcquire());
+        assertFalse(limiter.tryAcquire()); // 3rd should fail
+    }
+
+    @Test
     void testWeightedAcquisition() {
-        // 10 tokens, no refill
         TokenBucketRateLimiter limiter = new TokenBucketRateLimiter(10, 0.0);
 
-        // Use 7 tokens in one weighted call
         assertTrue(limiter.tryAcquire(7));
-
-        // Only 3 remain — requesting 5 should fail
-        assertFalse(limiter.tryAcquire(5));
-
-        // But requesting 3 should succeed
+        assertFalse(limiter.tryAcquire(5)); // only 3 remain
         assertTrue(limiter.tryAcquire(3));
     }
 
     @Test
     void testInitialBucketIsFull() {
         TokenBucketRateLimiter limiter = new TokenBucketRateLimiter(10, 0.0);
-
-        // Should start with a full bucket
         assertTrue(limiter.getTokens() >= 10.0 - 0.001);
     }
 
@@ -69,6 +82,6 @@ class TokenBucketRateLimiterTest {
         assertTrue(limiter.tryAcquire());
         assertTrue(limiter.tryAcquire());
         assertTrue(limiter.tryAcquire());
-        assertFalse(limiter.tryAcquire()); // Bucket empty
+        assertFalse(limiter.tryAcquire());
     }
 }

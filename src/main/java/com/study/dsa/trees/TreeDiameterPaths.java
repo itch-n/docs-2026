@@ -71,40 +71,4 @@ public class TreeDiameterPaths {
 
         return result; // Replace with implementation
     }
-
-
-    // --- demo (moved from TreeDiameterPathsClient) ---
-
-public static void main(String[] args) {
-        System.out.println("=== Tree Diameter and Paths ===\n");
-
-        // Create tree:
-        //       5
-        //      / \
-        //     4   8
-        //    /   / \
-        //   11  13  4
-        //  / \      / \
-        // 7   2    5   1
-        TreeNode root = new TreeNode(5);
-        root.left = new TreeNode(4);
-        root.right = new TreeNode(8);
-        root.left.left = new TreeNode(11);
-        root.left.left.left = new TreeNode(7);
-        root.left.left.right = new TreeNode(2);
-        root.right.left = new TreeNode(13);
-        root.right.right = new TreeNode(4);
-        root.right.right.left = new TreeNode(5);
-        root.right.right.right = new TreeNode(1);
-
-        System.out.println("--- Test 1: Diameter ---");
-        System.out.println("Diameter: " + diameter(root));
-
-        System.out.println("\n--- Test 2: Has Path Sum (22) ---");
-        System.out.println("Has path: " + hasPathSum(root, 22));
-
-        System.out.println("\n--- Test 3: All Paths with Sum 22 ---");
-        List<List<Integer>> paths = pathSum(root, 22);
-        System.out.println("Paths: " + paths);
-    }
 }

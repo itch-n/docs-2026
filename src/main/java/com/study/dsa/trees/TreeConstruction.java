@@ -48,37 +48,4 @@ public class TreeConstruction {
         System.out.print(root.val + " ");
         printInorder(root.right);
     }
-
-
-    // --- demo (moved from TreeConstructionClient) ---
-
-public static void main(String[] args) {
-        System.out.println("=== Tree Construction ===\n");
-
-        // Test 1: Build from preorder and inorder
-        System.out.println("--- Test 1: Build from Preorder and Inorder ---");
-        int[] preorder = {3, 9, 20, 15, 7};
-        int[] inorder = {9, 3, 15, 20, 7};
-
-        System.out.println("Preorder: " + Arrays.toString(preorder));
-        System.out.println("Inorder:  " + Arrays.toString(inorder));
-
-        TreeNode root1 = buildTreePreIn(preorder, inorder);
-        System.out.print("Built tree (inorder): ");
-        printInorder(root1);
-        System.out.println();
-
-        // Test 2: Build from postorder and inorder
-        System.out.println("\n--- Test 2: Build from Postorder and Inorder ---");
-        int[] postorder = {9, 15, 7, 20, 3};
-        int[] inorder2 = {9, 3, 15, 20, 7};
-
-        System.out.println("Postorder: " + Arrays.toString(postorder));
-        System.out.println("Inorder:   " + Arrays.toString(inorder2));
-
-        TreeNode root2 = buildTreePostIn(postorder, inorder2);
-        System.out.print("Built tree (inorder): ");
-        printInorder(root2);
-        System.out.println();
-    }
 }

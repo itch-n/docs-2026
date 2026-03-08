@@ -2,6 +2,7 @@ package com.study.systems.ratelimiting;
 
 import java.util.*;
 import java.util.concurrent.*;
+import java.time.Clock;
 
 /**
  * Token Bucket: Tokens refill at constant rate, burst traffic allowed
@@ -18,28 +19,23 @@ public class TokenBucketRateLimiter {
     private final int capacity;          // Max tokens in bucket
     private final double refillRate;     // Tokens per second
     private double tokens;               // Current tokens
-    private long lastRefillTime;         // Last refill timestamp
+    private long lastRefillTime;         // Last refill timestamp (ms)
+    private final Clock clock;           // Time source (injectable for testing)
 
-    /**
-     * Initialize token bucket
-     *
-     * @param capacity Maximum tokens (burst size)
-     * @param refillRate Tokens added per second
-     *
-     * TODO: Initialize bucket
-     * - Set capacity and refill rate
-     * - Start with full bucket
-     * - Record current time
-     */
     public TokenBucketRateLimiter(int capacity, double refillRate) {
-        // TODO: Track state
+        this(capacity, refillRate, Clock.systemDefaultZone());
+    }
 
-        // TODO: Initialize tokens to capacity (bucket starts full)
+    /** Package-private constructor for testing with a controllable clock. */
+    TokenBucketRateLimiter(int capacity, double refillRate, Clock clock) {
+        this.clock = clock;
+        this.lastRefillTime = clock.millis();
 
-        // TODO: Record current time in milliseconds
-
+        // TODO: Store capacity and refill rate
         this.capacity = 0; // Replace
         this.refillRate = 0; // Replace
+
+        // TODO: Initialize tokens to capacity (bucket starts full)
     }
 
     /**
@@ -113,202 +109,9 @@ public class TokenBucketRateLimiter {
      */
     private void refill() {
         // TODO: Implement refill logic
-    }
-
-
-    // --- demo (moved from RateLimitingClient) ---
-
-public static void main(String[] args) throws Exception {
-        testTokenBucket();
-        System.out.println("\n" + "=".repeat(50) + "\n");
-        testLeakyBucket();
-        System.out.println("\n" + "=".repeat(50) + "\n");
-        testFixedWindow();
-        System.out.println("\n" + "=".repeat(50) + "\n");
-        testSlidingWindowLog();
-        System.out.println("\n" + "=".repeat(50) + "\n");
-        testSlidingWindowCounter();
-        System.out.println("\n" + "=".repeat(50) + "\n");
-        compareBurstTraffic();
-    }
-
-    static void testTokenBucket() {
-        System.out.println("=== Token Bucket Test ===\n");
-
-        // 10 tokens capacity, 2 tokens/second refill
-        TokenBucketRateLimiter limiter = new TokenBucketRateLimiter(10, 2.0);
-
-        // Test: Burst traffic
-        System.out.println("Burst: 15 rapid requests");
-        int allowed = 0;
-        for (int i = 0; i < 15; i++) {
-            if (limiter.tryAcquire()) {
-                allowed++;
-            }
-        }
-        System.out.println("Allowed: " + allowed + "/15");
-        System.out.println("Remaining tokens: " + limiter.getTokens());
-
-        // Test: Wait and retry
-        System.out.println("\nWait 2 seconds for refill...");
-        sleep(2000);
-        System.out.println("Tokens after refill: " + limiter.getTokens());
-
-        // Test: Weighted request (costs 3 tokens)
-        System.out.println("\nWeighted request (3 tokens):");
-        boolean acquired = limiter.tryAcquire(3);
-        System.out.println("Acquired: " + acquired);
-        System.out.println("Remaining tokens: " + limiter.getTokens());
-    }
-
-    static void testLeakyBucket() {
-        System.out.println("=== Leaky Bucket Test ===\n");
-
-        // 5 capacity, 1 request/second leak rate
-        LeakyBucketRateLimiter limiter = new LeakyBucketRateLimiter(5, 1.0);
-
-        // Test: Fill bucket
-        System.out.println("Fill bucket with 5 requests");
-        int allowed = 0;
-        for (int i = 0; i < 5; i++) {
-            if (limiter.tryAcquire()) {
-                allowed++;
-            }
-        }
-        System.out.println("Allowed: " + allowed + "/5");
-        System.out.println("Queue size: " + limiter.getQueueSize());
-
-        // Test: Overflow
-        System.out.println("\nTry 3 more requests (should overflow)");
-        int overflow = 0;
-        for (int i = 0; i < 3; i++) {
-            if (limiter.tryAcquire()) {
-                overflow++;
-            }
-        }
-        System.out.println("Allowed: " + overflow + "/3");
-
-        // Test: Wait and retry
-        System.out.println("\nWait 2 seconds for leak...");
-        sleep(2000);
-        System.out.println("Queue size after leak: " + limiter.getQueueSize());
-    }
-
-    static void testFixedWindow() {
-        System.out.println("=== Fixed Window Test ===\n");
-
-        // 5 requests per 2 second window
-        FixedWindowRateLimiter limiter = new FixedWindowRateLimiter(5, 2000);
-
-        // Test: Fill window
-        System.out.println("Make 5 requests (should all succeed)");
-        testRequests(limiter, 5);
-
-        // Test: Overflow
-        System.out.println("\nMake 3 more requests (should fail)");
-        testRequests(limiter, 3);
-
-        // Test: Window boundary
-        System.out.println("\nWait for window reset...");
-        sleep(2100);
-        System.out.println("Make 5 requests in new window");
-        testRequests(limiter, 5);
-    }
-
-    static void testSlidingWindowLog() {
-        System.out.println("=== Sliding Window Log Test ===\n");
-
-        // 5 requests per 2 second window
-        SlidingWindowLogRateLimiter limiter = new SlidingWindowLogRateLimiter(5, 2000);
-
-        // Test: Fill window
-        System.out.println("Make 5 requests");
-        testRequests(limiter, 5);
-        System.out.println("Current count: " + limiter.getCurrentCount());
-
-        // Test: Wait partial window
-        System.out.println("\nWait 1 second (half window)...");
-        sleep(1000);
-        System.out.println("Current count: " + limiter.getCurrentCount());
-
-        // Test: Make more requests
-        System.out.println("\nMake 3 more requests");
-        testRequests(limiter, 3);
-    }
-
-    static void testSlidingWindowCounter() {
-        System.out.println("=== Sliding Window Counter Test ===\n");
-
-        // 5 requests per 2 second window
-        SlidingWindowCounterRateLimiter limiter = new SlidingWindowCounterRateLimiter(5, 2000);
-
-        // Test: Fill window
-        System.out.println("Make 5 requests");
-        testRequests(limiter, 5);
-        System.out.println("Estimated count: " + limiter.getEstimatedCount());
-
-        // Test: Wait partial window
-        System.out.println("\nWait 1 second...");
-        sleep(1000);
-        System.out.println("Estimated count: " + limiter.getEstimatedCount());
-
-        // Test: Make more requests
-        System.out.println("\nMake 3 more requests");
-        testRequests(limiter, 3);
-        System.out.println("Estimated count: " + limiter.getEstimatedCount());
-    }
-
-    static void compareBurstTraffic() {
-        System.out.println("=== Burst Traffic Comparison ===\n");
-
-        TokenBucketRateLimiter tokenBucket = new TokenBucketRateLimiter(10, 2.0);
-        LeakyBucketRateLimiter leakyBucket = new LeakyBucketRateLimiter(10, 2.0);
-        FixedWindowRateLimiter fixedWindow = new FixedWindowRateLimiter(10, 5000);
-
-        // Simulate burst of 20 requests
-        System.out.println("Sending 20 rapid requests...");
-
-        int tokenAllowed = 0, leakyAllowed = 0, fixedAllowed = 0;
-        for (int i = 0; i < 20; i++) {
-            if (tokenBucket.tryAcquire()) tokenAllowed++;
-            if (leakyBucket.tryAcquire()) leakyAllowed++;
-            if (fixedWindow.tryAcquire()) fixedAllowed++;
-        }
-
-        System.out.println("Token Bucket allowed: " + tokenAllowed + "/20");
-        System.out.println("Leaky Bucket allowed: " + leakyAllowed + "/20");
-        System.out.println("Fixed Window allowed: " + fixedAllowed + "/20");
-    }
-
-    static void testRequests(FixedWindowRateLimiter limiter, int count) {
-        int allowed = 0;
-        for (int i = 0; i < count; i++) {
-            if (limiter.tryAcquire()) allowed++;
-        }
-        System.out.println("Allowed: " + allowed + "/" + count);
-    }
-
-    static void testRequests(SlidingWindowLogRateLimiter limiter, int count) {
-        int allowed = 0;
-        for (int i = 0; i < count; i++) {
-            if (limiter.tryAcquire()) allowed++;
-        }
-        System.out.println("Allowed: " + allowed + "/" + count);
-    }
-
-    static void testRequests(SlidingWindowCounterRateLimiter limiter, int count) {
-        int allowed = 0;
-        for (int i = 0; i < count; i++) {
-            if (limiter.tryAcquire()) allowed++;
-        }
-        System.out.println("Allowed: " + allowed + "/" + count);
-    }
-
-    static void sleep(long ms) {
-        try {
-            Thread.sleep(ms);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+        // Use clock.millis() (not System.currentTimeMillis()) to get current time
+        // - Calculate elapsed ms since lastRefillTime
+        // - Add (elapsed / 1000.0 * refillRate) tokens, capped at capacity
+        // - Update lastRefillTime = clock.millis()
     }
 }
