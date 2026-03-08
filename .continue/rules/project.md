@@ -1,6 +1,6 @@
 # Project Context
 
-This is **itch-n-docs** — a MkDocs static site (backend engineering study guide). Java 25 implementations, Python 3.13 via `uv`. See `AGENTS.md` for full conventions.
+This is **itch-n-docs** — a MkDocs static site (backend engineering study guide). Java 25 implementations, Python 3.13 via `uv`. See `AGENTS.md` for full conventions and `AGENTS.local.md` for machine-specific config (git remotes, branch names, personal workflow).
 
 ## Critical Rules
 

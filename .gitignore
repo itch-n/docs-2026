@@ -133,3 +133,4 @@ site/
 
 # Continue — config contains API key, rules are committed
 .continue/config.json
+CONTINUITY.md
