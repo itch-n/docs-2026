@@ -55,11 +55,13 @@ Every piece of data you send travels through a stack of layers, each wrapping th
 
 ```mermaid
 flowchart TD
-    subgraph EF["Link layer — Ethernet Frame"]
-        subgraph IP["Network layer — IP Packet"]
-            subgraph TCP["Transport layer — TCP Segment"]
-                subgraph H2["Application layer — HTTP/2 Frames"]
-                    REQ["HTTP Request\n(method · path · headers · body)"]
+    subgraph PH["Physical layer — Bits / electrical signals"]
+        subgraph EF["Link layer — Ethernet Frame"]
+            subgraph IP["Network layer — IP Packet"]
+                subgraph TCP["Transport layer — TCP Segment"]
+                    subgraph H2["Application layer — HTTP/2 Frames"]
+                        REQ["HTTP Request\n(method · path · headers · body)"]
+                    end
                 end
             end
         end
