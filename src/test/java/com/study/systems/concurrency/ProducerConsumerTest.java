@@ -6,7 +6,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 import static org.awaitility.Awaitility.await;
-import static java.util.concurrent.TimeUnit.SECONDS;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProducerConsumerTest {
@@ -38,7 +38,7 @@ class ProducerConsumerTest {
             t.start();
         }
 
-        await().atMost(2, SECONDS).until(() -> queue.size() == 15);
+        await().atMost(200, MILLISECONDS).until(() -> queue.size() == 15);
     }
 
     // -------------------------------------------------------------------------
@@ -56,7 +56,7 @@ class ProducerConsumerTest {
         Thread consumerThread = new Thread(consumer);
         consumerThread.start();
 
-        await().atMost(2, SECONDS).until(queue::isEmpty);
+        await().atMost(200, MILLISECONDS).until(queue::isEmpty);
 
         consumer.stop();
         consumerThread.interrupt();
@@ -72,7 +72,7 @@ class ProducerConsumerTest {
         consumer.stop();
         consumerThread.interrupt();
 
-        await().atMost(1, SECONDS).until(() -> !consumerThread.isAlive());
+        await().atMost(200, MILLISECONDS).until(() -> !consumerThread.isAlive());
     }
 
     @Test
@@ -87,7 +87,7 @@ class ProducerConsumerTest {
         producerThread.start();
         producerThread.join(); // wait for producer to finish
 
-        await().atMost(5, SECONDS).until(queue::isEmpty);
+        await().atMost(500, MILLISECONDS).until(queue::isEmpty);
 
         consumer.stop();
         consumerThread.interrupt();

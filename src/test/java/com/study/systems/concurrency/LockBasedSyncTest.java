@@ -7,7 +7,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static org.awaitility.Awaitility.await;
-import static java.util.concurrent.TimeUnit.SECONDS;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.junit.jupiter.api.Assertions.*;
 
 class LockBasedSyncTest {
@@ -52,7 +52,7 @@ class LockBasedSyncTest {
         }
         exec.shutdown();
 
-        await().atMost(5, SECONDS).untilAsserted(() ->
+        await().atMost(500, MILLISECONDS).untilAsserted(() ->
                 assertEquals(10000, counter.getCount()));
     }
 
@@ -107,7 +107,7 @@ class LockBasedSyncTest {
         }
         exec.shutdown();
 
-        await().atMost(2, SECONDS).until(() -> latch.getCount() == 0);
+        await().atMost(200, MILLISECONDS).until(() -> latch.getCount() == 0);
     }
 
     // -------------------------------------------------------------------------
@@ -156,7 +156,7 @@ class LockBasedSyncTest {
         }
         exec.shutdown();
 
-        await().atMost(5, SECONDS).untilAsserted(() ->
+        await().atMost(500, MILLISECONDS).untilAsserted(() ->
                 assertEquals(2000, acc1.getBalance() + acc2.getBalance()));
     }
 }

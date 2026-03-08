@@ -9,7 +9,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.awaitility.Awaitility.await;
-import static java.util.concurrent.TimeUnit.SECONDS;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ThreadPoolPatternsTest {
@@ -34,7 +34,7 @@ class ThreadPoolPatternsTest {
 
         pool.submit(() -> flag.set(true));
 
-        await().atMost(2, SECONDS).until(flag::get);
+        await().atMost(200, MILLISECONDS).until(flag::get);
     }
 
     @Test
@@ -47,7 +47,7 @@ class ThreadPoolPatternsTest {
             pool.submit(latch::countDown);
         }
 
-        await().atMost(5, SECONDS).until(() -> latch.getCount() == 0);
+        await().atMost(500, MILLISECONDS).until(() -> latch.getCount() == 0);
 
         pool.shutdown();
     }
