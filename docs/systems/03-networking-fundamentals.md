@@ -9,7 +9,7 @@
 By the end of this topic you will be able to:
 
 - Explain the reliability guarantees TCP provides and the cost at which it provides them, compared to UDP
-- Compare HTTP/1.1, HTTP/2, and HTTP/3 and identify which problem each version solves
+- Compare HTTP/1.0, HTTP/1.1, HTTP/2, and HTTP/3 and identify which problem each version solves
 - Choose between HTTP polling, Server-Sent Events, and WebSockets given a real-time communication requirement
 - Explain the DNS resolution chain and how TTL affects both performance and failover speed
 - Describe the TLS 1.3 handshake and the strategies used to reduce its latency overhead
@@ -138,14 +138,29 @@ sequenceDiagram
 
 **HTTP/1.0 → HTTP/1.1 → HTTP/2 → HTTP/3**
 
-#### HTTP/1.1 (1997)
+#### HTTP/1.0 (1996) — The Problem
+
+HTTP/1.0 opened a **new TCP connection for every single request** and closed it immediately after the response. Loading a page with 20 assets (HTML + CSS + JS + images) meant 20 separate TCP handshakes, each paying a full round-trip of latency before any data could flow.
+
+```
+HTTP/1.0: load a page with 4 assets
+
+TCP handshake → GET /index.html → response → connection closed
+TCP handshake → GET /style.css  → response → connection closed
+TCP handshake → GET /app.js     → response → connection closed
+TCP handshake → GET /image.png  → response → connection closed
+
+4 round-trips of overhead just to establish connections
+```
+
+#### HTTP/1.1 (1997) — The Fix
 
 **Features:**
 
-- Persistent connections (keep-alive)
+- Persistent connections (keep-alive) — TCP connection stays open and is reused across requests
 - Pipelining (send multiple requests without waiting)
-- Chunked transfer encoding
-- Host header (virtual hosting)
+- Chunked transfer encoding — server can stream a response before knowing its total size
+- Host header (virtual hosting) — one IP address can serve multiple domains
 
 **Problems:**
 
