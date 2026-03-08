@@ -32,17 +32,28 @@ Context for Claude Code sessions working in this repository.
 
 Every topic file follows this section pattern:
 
-1. **ELI5** — simplified explanation (learner fills in)
-2. **Quick Quiz** — pre-implementation predictions (learner fills in)
-3. **Implementation** — Java code stub with TODOs
-4. **Decision Framework** — when/how to use the concept (learner fills in)
-5. **Practice Scenarios** — real-world application questions
-6. **Review Checklist** — self-assessment checkboxes
+1. **Learning Objectives** — bulleted outcomes
+2. **`!!! warning "Operational reality"`** — theory-vs-production gap, named systems approach
+3. **ELI5** — simplified explanation (learner fills in)
+4. **Core Implementation / Core Concepts** — code stubs with TODOs and debugging challenges
+5. **Before/After** — motivation for the pattern (some files)
+6. **Case Studies** — real-world examples (always preserve, never cut)
+7. **Common Misconceptions** — `!!! warning` blocks, one per misconception
+8. **`!!! warning "When it breaks"`** — scale thresholds and failure conditions
+9. **Decision Framework** — when/how to use the concept (learner fills in)
+10. **Practice** — scenario questions
+11. **Test Your Understanding** — `??? success "Rubric"` self-assessment
+12. **Connected Topics** — `!!! info "Where this topic connects"`
 
 Topics live in two sections:
 
-- `docs/systems/` — 16 topics: storage engines, networking, caching, API design, security, rate limiting, load balancing, concurrency, database scaling, message queues, stream processing, observability, distributed transactions, consensus
-- `docs/dsa/` — 14 topics: two pointers, sliding window, hash tables, linked lists, stacks & queues, trees (traversals + recursion), binary search, heaps, graphs, union-find, advanced graphs, dynamic programming, prefix sums, intervals
+- `docs/systems/` — 20 topics: storage engines, row vs column, networking, search & indexing, caching, API design, security, rate limiting, load balancing, concurrency, database scaling, message queues, event sourcing/CQRS, stream processing, observability, resilience, distributed transactions, consensus, microservices, multi-region
+- `docs/dsa/` — 15 topics: two pointers, sliding window, hash tables, linked lists, stacks & queues, trees, binary search, heaps, union-find, graphs, advanced graphs, backtracking, dynamic programming, prefix sums, intervals
+
+Quick reference pages live directly in `docs/`:
+
+- `docs/when-it-breaks.md` — compiled scale thresholds and failure conditions from all 35 topic files
+- `docs/back-of-envelope.md` — hardware primitives, worked derivations, QPS/storage/write scale context
 
 ---
 
@@ -99,6 +110,39 @@ uv run mkdocs gh-deploy
 - `md_in_html` extension is enabled — `markdown` attribute on divs processes inner Markdown
 - See `STYLING-GUIDE.md` for full CSS class usage and conversion tips
 - See `docs/systems/01-storage-engines.md` as the canonical example of a fully-styled topic
+
+### Standard admonitions
+
+Four admonition types have established placement and purpose:
+
+| Admonition | Type | Placement | Purpose |
+|------------|------|-----------|---------|
+| `!!! warning "Operational reality"` | warning | After Learning Objectives `---`, before `## ELI5` | Theory-vs-production gap; named tools and systems |
+| `!!! warning "When it breaks"` | warning | Before `## Decision Framework` (or after Case Studies if present) | Scale thresholds and failure conditions |
+| `!!! warning "Misconception N: ..."` | warning | In Common Misconceptions section | One block per misconception |
+| `!!! info "Where this topic connects"` | info | End of file | Cross-topic links |
+
+Collapsible blocks (`??? success "Answer"`, `??? success "Rubric"`) are used for debugging challenge answers and self-assessment rubrics respectively.
+
+For reference pages (`back-of-envelope.md` style), use `??? note "Derivation"` to collapse the arithmetic and keep results scannable at the top level.
+
+### Operational reality — content rules
+
+- Anchor to **named systems and tools** (Redis, PostgreSQL, Kafka, Linux kernel, git), not language-specific APIs
+- The voice is direct, slightly contrarian, and names real failure modes
+- For DSA files: focus on "where this appears in systems you already work with" — non-obvious production appearances
+- For systems files: focus on the gap between the textbook pattern and what actually ships
+
+### When it breaks — content rules
+
+- Lead with the breaking condition, then give the concrete number or threshold
+- Format: `**Concept:** description. **Concept:** description.` within the single admonition block
+- For DSA: breaking conditions are algorithmic (wrong precondition, wrong operation, state space too large)
+- For systems: breaking conditions are scale thresholds (ops/sec, node count, data volume, latency floor)
+
+### Quick Reference pages — maintenance note
+
+`docs/when-it-breaks.md` and `docs/back-of-envelope.md` are intentionally curated digests, not auto-generated mirrors. Minor drift from individual topic files is acceptable. Update them when making significant changes to a topic's breaking conditions or scale thresholds — not for every small edit.
 
 ---
 

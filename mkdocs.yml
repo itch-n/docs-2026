@@ -18,7 +18,10 @@ plugins:
 
 nav:
   - Home: index.md
-  - When It Breaks: when-it-breaks.md
+
+  - Quick Reference:
+      - "When It Breaks": when-it-breaks.md
+      - "Back of the Envelope": back-of-envelope.md
 
   - Systems Design:
       - "01. Storage Engines": systems/01-storage-engines.md
