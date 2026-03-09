@@ -1,6 +1,6 @@
 # Recurring Patterns Across Abstractions
 
-<p class="lead">Twenty-two problems that keep reappearing at every layer of the stack — from CPU microarchitecture to distributed systems to algorithms. Recognising the pattern lets you reason about an unfamiliar system by analogy.</p>
+<p class="lead">Twenty-three problems that keep reappearing at every layer of the stack — from CPU microarchitecture to distributed systems to algorithms. Recognising the pattern lets you reason about an unfamiliar system by analogy.</p>
 
 Each entry names the core tension, lists where the pattern appears across the stack, and states the invariant that makes it self-similar.
 
@@ -52,6 +52,8 @@ Either assume conflict is rare (read freely, detect at commit) or assume conflic
 
 **The pattern:** optimistic wins when conflicts are rare (reads dominate); pessimistic wins when conflicts are common (contention is high). The crossover point is determined by the cost of rollback vs the cost of waiting for a lock.
 
+**Pitfall:** Applying optimistic concurrency to a resource with known high contention (e.g., a global counter for a popular item). The high rate of conflicts will cause constant transaction rollbacks, leading to worse performance and throughput than a simple pessimistic lock.
+
 ---
 
 ### 4. Two-phase pattern (prepare, then commit)
@@ -96,6 +98,8 @@ Writing is always an append; the data structure grows monotonically. Reads event
 - **Copy-on-write filesystems (ZFS, Btrfs)** — writes never overwrite; old blocks become garbage until GC
 
 **The pattern:** append-only makes writes fast and crash-safe (no partial overwrites). Compaction is the mandatory tax — skip it and reads degrade, space grows unbounded.
+
+**Pitfall:** Using an LSM-tree-based system for a workload with a high rate of in-place updates or deletes. This generates excessive "garbage" (obsolete records or tombstones) that leads to high write amplification and wastes CPU/IO on compaction.
 
 ---
 
@@ -156,9 +160,25 @@ If sender and receiver share state, you can transmit diffs instead of full value
 
 ---
 
+### 11. Partitioning via hashing
+
+Distribute data across buckets, partitions, or nodes using a hash of the key. The hash function determines evenness of distribution; the number of buckets determines parallelism. The hard problem is what happens when the number of buckets changes.
+
+- **Hash map** — the canonical single-node case: key → bucket via hash. Resize doubles capacity and rehashes everything rather than adding one bucket at a time, because `key % N` remaps almost every key when N changes
+- **Kafka partition keys** — a key's hash determines which partition it lands on; all messages for a key arrive in order on the same partition
+- **DynamoDB / Cassandra partition keys** — the partition key is hashed to find which node(s) in the ring own that data
+- **Consistent hashing** — places both keys and nodes on a ring so that adding/removing a node only remaps keys in the adjacent segment, not the whole dataset
+- **Sharded SQL databases** — shard key hashed to a database instance; schema migrations and resharding are the painful operational cost
+
+**The pattern:** a hash function maps a key to exactly one owner. The quality of the hash determines distribution evenness — a bad hash creates hot spots. The cost of changing the number of buckets is what motivates consistent hashing: naive modulo remaps `(N-1)/N` keys on every resize; consistent hashing remaps only `K/N` keys.
+
+**Pitfall:** choosing naive modulo hashing for a system that needs elastic scaling. Adding one node reshuffles ~all keys, causing a thundering herd of cache misses or data migrations. Consistent hashing or fixed-partition-count schemes (Kafka, Redis Cluster) are the standard mitigations.
+
+---
+
 ## Distribution and Replication
 
-### 11. Write-ahead before acknowledging
+### 12. Write-ahead before acknowledging
 
 Don't tell the caller an operation succeeded until you have written proof of it to durable storage. The log entry is the durable record; everything else is a materialized view of the log.
 
@@ -172,7 +192,7 @@ Don't tell the caller an operation succeeded until you have written proof of it 
 
 ---
 
-### 12. Fan-out on write vs fan-out on read
+### 13. Fan-out on write vs fan-out on read
 
 When data must reach many consumers, you can push at write time (compute the fan-out eagerly) or pull at read time (compute it lazily when someone asks).
 
@@ -185,7 +205,7 @@ When data must reach many consumers, you can push at write time (compute the fan
 
 ---
 
-### 13. Heartbeat = presence; silence = failure
+### 14. Heartbeat = presence; silence = failure
 
 You cannot distinguish "slow" from "dead" without a timeout. Any resource held by a node (a lock, a partition lease, a session) must be renewed on an interval or it expires.
 
@@ -200,7 +220,7 @@ You cannot distinguish "slow" from "dead" without a timeout. Any resource held b
 
 ---
 
-### 14. You can't guarantee both sides agree (Two Generals)
+### 15. You can't guarantee both sides agree (Two Generals)
 
 In the presence of network partitions, it is impossible to guarantee that two parties both know the outcome of an action. Every protocol that claims "exactly once" either relies on assumptions that can be violated, or pushes the uncertainty somewhere else.
 
@@ -213,7 +233,7 @@ In the presence of network partitions, it is impossible to guarantee that two pa
 
 ---
 
-### 15. Gossip / epidemic spread
+### 16. Gossip / epidemic spread
 
 Rather than a central broadcast (which creates a coordinator bottleneck), each node tells a random subset of its neighbors. Information spreads probabilistically but without a central authority.
 
@@ -228,7 +248,7 @@ Rather than a central broadcast (which creates a coordinator bottleneck), each n
 
 ## System Design Tradeoffs
 
-### 16. Back-pressure
+### 17. Back-pressure
 
 A fast producer will eventually overwhelm a slow consumer. Back-pressure is the mechanism by which a consumer signals "slow down" to its upstream producer.
 
@@ -242,7 +262,7 @@ A fast producer will eventually overwhelm a slow consumer. Back-pressure is the 
 
 ---
 
-### 17. The thundering herd
+### 18. The thundering herd
 
 Many actors simultaneously converge on one resource after a shared trigger: a lock expires, a cache entry is evicted, a server restarts. The resulting spike often exceeds the system's capacity.
 
@@ -255,7 +275,7 @@ Many actors simultaneously converge on one resource after a shared trigger: a lo
 
 ---
 
-### 18. Idempotency as the escape hatch for exactly-once
+### 19. Idempotency as the escape hatch for exactly-once
 
 Exactly-once delivery is either impossible or very expensive. The practical alternative is at-least-once delivery with idempotent operations — you may receive a message twice, but applying it twice has the same effect as applying it once.
 
@@ -269,7 +289,7 @@ Exactly-once delivery is either impossible or very expensive. The practical alte
 
 ---
 
-### 19. Push vs pull
+### 20. Push vs pull
 
 Either the producer pushes data to consumers (low latency, tight coupling), or consumers pull from a durable log (natural back-pressure, replay, decoupling). The tradeoff is latency vs flexibility.
 
@@ -279,11 +299,11 @@ Either the producer pushes data to consumers (low latency, tight coupling), or c
 - **Database replication** — streaming replication pushes WAL from primary to replica (low replication lag). Logical replication can be pull-based
 - **Email vs webhooks vs polling APIs** — the same spectrum at the API layer
 
-**The pattern:** push optimizes for latency and simplicity. Pull optimizes for resilience (consumer controls rate), replay (re-read from offset 0), and decoupling (consumer and producer don't need to be up simultaneously).
+**The pattern:** push optimizes for latency and simplicity. Pull optimizes for resilience (consumer controls rate), replay (re-read from offset 0), and decoupling (consumer and producer don't need to be up simultaneously). This is the consumer-side view of the fan-out on write vs. read pattern (#13).
 
 ---
 
-### 20. The log as the source of truth
+### 21. The log as the source of truth
 
 State is derived from a sequence of events. Replay the log and you reconstruct state. This makes the log the only thing you need to persist durably — everything else is a cache.
 
@@ -294,11 +314,11 @@ State is derived from a sequence of events. Replay the log and you reconstruct s
 - **Redis AOF** — the append-only file is the log; the in-memory state is rebuilt on restart by replaying it
 - **ZooKeeper transaction log** — every state change is a log entry; the in-memory tree is derived from it
 
-**The pattern:** if the log is durable, nothing else needs to be. Every other representation (indexes, caches, read replicas, projections) is a performance optimization that can be rebuilt. The log is the only irreplaceable artifact.
+**The pattern:** if the log is durable, nothing else needs to be. Every other representation (indexes, caches, read replicas, projections) is a performance optimization that can be rebuilt. The log is the only irreplaceable artifact. This is the architectural principle enabled by append-only writes (#6) and write-ahead before acknowledging (#12).
 
 ---
 
-### 21. Amortization
+### 22. Amortization
 
 A fixed setup cost is too high to pay per operation. Pay it once and spread it across many operations. The efficiency gain is only realized if the amortized operations outnumber the setup.
 
@@ -313,7 +333,7 @@ A fixed setup cost is too high to pay per operation. Pay it once and spread it a
 
 ---
 
-### 22. Tail latency and the slowest participant
+### 23. Tail latency and the slowest participant
 
 When a request fans out to N participants, the caller must wait for all N. The response time distribution is dominated by the maximum, not the mean. At large N, tail latency is almost certain to be hit.
 
@@ -326,3 +346,5 @@ When a request fans out to N participants, the caller must wait for all N. The r
 **The fix is always one of:** speculative execution (send the request to two nodes, take the first response), hedged requests (resend after a timeout without cancelling the first), or reducing fan-out (fewer, larger shards).
 
 **The pattern:** the mean latency of N independent requests is bounded; the maximum is not. Design for p99 of N, not mean of N. At N=100, even a 1% tail latency event is near-certain to be hit.
+
+**Pitfall:** Failing to propagate deadlines and cancellation signals downstream in a scatter-gather system. Without it, the system continues to do useless work for requests that have already timed out upstream, wasting resources and potentially causing cascading failures.
