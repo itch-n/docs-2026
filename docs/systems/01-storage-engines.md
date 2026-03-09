@@ -4,6 +4,29 @@
 
 ---
 
+## Important notes
+
+- B+Trees
+    - Leaf nodes have equal keys and values, Internal nodes have one extra value since keys are signposts (or "
+      bouncers"). Their split logic diffs slightly as a result.
+- LSM Trees
+    - Writes are more efficient due to batched sequential writes to SSTables, reducing write amplification ~100x
+      compared to B+Trees (which rewrite entire 4KB pages per insert, even if inserting just 10B)
+
+```java
+// Binary search result is tricky
+// When not found: `result = -insertionPoint - 1`
+// and extraction is: `insertionPoint = -result - 1`
+int result = Collections.binarySearch(List.of("a", "b"), "c");
+if (result > 0) {
+    int foundIndex = result;
+} else {
+    int insertionPoint = -result - 1;
+}
+```
+
+---
+
 ## Learning Objectives
 
 By the end of this topic you will be able to:
@@ -26,25 +49,26 @@ By the end of this topic you will be able to:
 **Prompts to guide you:**
 
 1. **What is a B+Tree in one sentence?**
-    - A B+Tree is a self-balancing tree where <span class="fill-in">[all values are stored in ___ nodes, which are linked together so you can ___]</span>
+    - Your answer: <span class="fill-in">A read-optimised data structure enabling fast lookups (N-ary tree) and range
+      queries (linked leaves) by trading off slower writes (random disk access)</span>
 
 2. **Why do databases use B+Trees?**
-    - Databases use B+Trees because each node is sized to match a <span class="fill-in">[disk ___, minimising the number of ___ needed per query]</span>
+    - Your answer: <span class="fill-in">It enables fast point and range queries</span>
 
 3. **Real-world analogy for B+Tree:**
-    - Example: "A B+Tree is like a filing cabinet where..."
-    - Think about how you'd navigate a large physical index before computers.
-    - Your analogy: <span class="fill-in">[Fill in]</span>
+    - Your analogy: <span class="fill-in">A B+Tree is like a library - you organise your books into shelves, bays, and
+      stacks. It's fast to find your book but it takes longer to reshelve since you have to randomly walk around</span>
 
 4. **What is an LSM Tree in one sentence?**
-    - An LSM Tree speeds up writes by <span class="fill-in">[first buffering inserts in ___, then periodically flushing them as sorted, immutable ___ on disk]</span>
+    - Your answer: <span class="fill-in">A write-optimised data structure enabling fast writes (memtable, sstable merge,
+      sequential disk access) by trading off slow reads (sstable iteration)</span>
 
 5. **Why do write-heavy databases use LSM Trees?**
-    - LSM Trees suit write-heavy workloads because each write only touches <span class="fill-in">[___ (RAM / disk?), deferring expensive ___ to background batch operations]</span>
+    - Your answer: <span class="fill-in">To avoid B+Trees' random write bottleneck at high volume</span>
 
 6. **Real-world analogy for LSM Tree:**
-    - Example: "An LSM Tree is like a notebook where..."
-    - Your analogy: <span class="fill-in">[Fill in]</span>
+    - Your analogy: <span class="fill-in">An LSM Tree is like a 2nd hand bookstore - you sort a few donations, box them
+      and put them in the back. You can accept lots of books quickly but finding means searching heaps of boxes</span>
 
 </div>
 
@@ -189,35 +213,36 @@ By the end of this topic you will be able to:
 <tbody>
   <tr>
     <td>Write Performance (ms)</td>
-    <td class="blank">___ ms</td>
-    <td class="blank">___ ms</td>
-    <td class="blank">___</td>
+    <td class="blank">4180.07 ms</td>
+    <td class="blank">70.15 ms</td>
+    <td class="blank">LSM Tree faster by 59.59x</td>
   </tr>
   <tr>
     <td>Write Throughput (ops/sec)</td>
-    <td class="blank">___ writes/sec</td>
-    <td class="blank">___ writes/sec</td>
-    <td class="blank">___</td>
+    <td class="blank">2392 writes/sec</td>
+    <td class="blank">142560 writes/sec</td>
+    <td class="blank"></td>
   </tr>
   <tr>
     <td>Read Performance (ms)</td>
-    <td class="blank">___ ms</td>
-    <td class="blank">___ ms</td>
-    <td class="blank">___</td>
+    <td class="blank">391.13 ms</td>
+    <td class="blank">6703.97 ms</td>
+    <td class="blank">B+Tree by 17.14x</td>
   </tr>
   <tr>
     <td>Read Throughput (ops/sec)</td>
-    <td class="blank">___ reads/sec</td>
-    <td class="blank">___ reads/sec</td>
-    <td class="blank">___</td>
+    <td class="blank">2557 reads/sec</td>
+    <td class="blank">149 reads/sec</td>
+    <td class="blank"></td>
   </tr>
 </tbody>
 </table>
 
 <div class="learner-section" markdown>
 
-**Key insight from your results:** <span class="fill-in">[Fill in why this difference exists]</span>
-
+**Key insight from your results:** <span class="fill-in">LSM Tree writes are more efficient due to batched sequential writes to SSTables,
+reducing write amplification ~100x compared to B+Trees (which rewrite entire 4KB pages per insert, even if inserting
+just 10B). B+Tree reads are faster with no read amplification — single location lookup vs LSM's MemTable + K SSTables check.</span>
 </div>
 
 ---
@@ -436,35 +461,67 @@ long duration = System.nanoTime() - start;
 !!! danger "WAL is part of the storage engine"
     WAL (Write-Ahead Log) is a separate durability layer, not a feature of either engine. Both B+Trees and LSM Trees use WAL for crash recovery — it is orthogonal to how data is structured on disk. Losing your MemTable on a crash and replaying a WAL is an LSM concern; B+Trees have their own WAL-based recovery path.
 
----
-
-## Decision Framework: Choosing a Storage Engine
-
-<div class="learner-section" markdown>
-
-**Your task:** Your team is evaluating storage engines for a new service. Fill in the matrix based on your benchmark results and the material above.
-
-### Trade-off Analysis Matrix
-
-| Technology | Write throughput | Read latency (point lookup) | Range query support | Operational complexity | Key failure mode |
-|---|---|---|---|---|---|
-| **B+Tree (MySQL / PostgreSQL)** | <span class="fill-in">[Fill in]</span> | <span class="fill-in">[Fill in]</span> | <span class="fill-in">[Fill in]</span> | <span class="fill-in">[Fill in]</span> | <span class="fill-in">[Fill in]</span> |
-| **LSM Tree (Cassandra / RocksDB)** | <span class="fill-in">[Fill in]</span> | <span class="fill-in">[Fill in]</span> | <span class="fill-in">[Fill in]</span> | <span class="fill-in">[Fill in]</span> | <span class="fill-in">[Fill in]</span> |
-| **In-Memory (Redis)** | <span class="fill-in">[Fill in]</span> | <span class="fill-in">[Fill in]</span> | <span class="fill-in">[Fill in]</span> | <span class="fill-in">[Fill in]</span> | <span class="fill-in">[Fill in]</span> |
-
-??? success "Answers"
-
-    | Technology | Write throughput | Read latency (point lookup) | Range query support | Operational complexity | Key failure mode |
-    |---|---|---|---|---|---|
-    | **B+Tree (MySQL / PostgreSQL)** | ~10K–50K ops/sec | 1–5 ms | Excellent — linked leaf scan | Low | Write amplification under sustained random writes; page splits cascade |
-    | **LSM Tree (Cassandra / RocksDB)** | ~100K–500K ops/sec | 5–20 ms (grows with SSTable count) | Good — scan + merge overhead | Medium — compaction tuning required | Compaction debt accumulates; reads degrade when SSTable count exceeds trigger |
-    | **In-Memory (Redis)** | ~1M+ ops/sec | <1 ms | Poor — sorted sets only | Low | Dataset exceeds RAM; data loss on crash without AOF/RDB |
-
-</div>
-
 !!! warning "When it breaks"
     B+Tree write performance degrades under write-heavy workloads when page splits cascade — a single row insert can rebalance multiple levels. At sustained write rates above roughly 10,000 writes/second on spinning disk, write amplification causes measurable latency spikes. LSM trees introduce a different cliff: when write throughput exceeds compaction throughput, compaction debt accumulates, SSTable count grows, and read amplification climbs until reads must check dozens of files. RocksDB exposes a `level0_slowdown_writes_trigger` (default: 20 files) and `level0_stop_writes_trigger` (default: 36 files) specifically for this condition — these are the numbers to know.
 
+---
+
+## Decision Framework
+
+<div class="learner-section" markdown>
+
+**Your task:** Build decision trees for when to use each storage engine.
+
+### Question 1: Write-heavy or Read-heavy?
+
+Answer after implementing and benchmarking:
+
+- **My answer:** <span class="fill-in">Write-heavy needs LSM trees</span>
+- **Why does this matter?** <span class="fill-in">B-Trees are slow in this use case due to write amplification</span>
+- **Performance difference I observed:** <span class="fill-in">LSM trees heaps faster</span>
+
+### Question 2: Need range queries?
+
+Answer:
+
+- **Do B+Trees support range queries?** <span class="fill-in">Yes, leaf nodes are linked to each other</span>
+- **Do LSM Trees support range queries?** <span class="fill-in">Yes technically but it's basically needing to go through
+  the memtable and every single SSTable since data is clustered by write time instead of value and there's no linkage
+  between leaf nodes</span>
+- **Which is faster for range queries?** <span class="fill-in">B+Trees for sure</span>
+
+### Question 3: Sequential or random writes?
+
+Answer:
+
+- **B+Tree with random writes:** <span class="fill-in">Writing random data will cause write amplification and needing to
+  seek to different parts of the disk</span>
+- **LSM Tree with random writes:** <span class="fill-in">Best because random data is first stored in the memtable and
+  then sequentially written to disk</span>
+- **Your observation from implementation:** <span class="fill-in">LSM way faster</span>
+
+### Your Decision Tree
+
+Build this after understanding trade-offs:
+
+```mermaid
+flowchart TD
+    Start["Storage Engine Selection"]
+
+    Start --> Q0{"Write volume<br/>extreme (>100K/sec)?"}
+    
+    Q0 -->|"YES"| A0(["LSM Tree ✓<br/>B+Trees won't survive"])
+    Q0 -->|"NO"| Q1{"Write-heavy workload<br/>(>70% writes)?"}
+
+    Q1 -->|"YES"| Q2{"Read pattern?"}
+    Q2 -->|"Rare reads<br/>(write-dominated)"| A1(["LSM Tree ✓<br/>Write optimization critical"])
+    Q2 -->|"Recent data<br/>(temporal locality)"| A2(["LSM Tree ✓<br/>MemTable serves hot data"])
+    Q2 -->|"Random point<br/>lookups"| A4(["B+Tree likely better<br/>LSM needs SSTable search"])
+
+    Q1 -->|"NO"| A6(["B+Tree ✓<br/>LSM read penalty not worth"])
+```
+
+</div>
 
 ---
 
@@ -494,19 +551,20 @@ CREATE TABLE posts (
 
 **Your design:**
 
-Storage engine choice: <span class="fill-in">[B+Tree or LSM?]</span>
+Storage engine choice: <span class="fill-in">B-Tree</span>
 
 Reasoning:
 
-- Write volume: <span class="fill-in">[Fill in]</span>
-- Read patterns: <span class="fill-in">[Fill in]</span>
-- Your choice: <span class="fill-in">[Fill in]</span>
+- Write volume: <span class="fill-in">10,000 TPS</span>
+- Read patterns: <span class="fill-in">Read-heavy use case (10:1) and range queries</span>
+- Your choice: <span class="fill-in">B-Tree</span>
 
 Index design:
 
-1. <span class="fill-in">[What indexes would you create?]</span>
-2. <span class="fill-in">[Why these specific indexes?]</span>
-3. <span class="fill-in">[What's the column order and why?]</span>
+1. What indexes would you create? <span class="fill-in">(user_id, created_at) and (created_at, likes_count)</span>
+2. Why these specific indexes? <span class="fill-in">To fulfill the two read patterns</span>
+3. What's the column order and why?<span class="fill-in">Filter columns come first, then sort columns after. More
+   selective filters earlier</span>
 
 **Failure modes:**
 
@@ -535,13 +593,13 @@ CREATE TABLE metrics (
 
 **Your design:**
 
-Storage engine: <span class="fill-in">[Fill in]</span>
+Storage engine: <span class="fill-in">LSM Tree</span>
 
 Why?
 
-1. <span class="fill-in">[Write characteristics]</span>
-2. <span class="fill-in">[Read characteristics]</span>
-3. <span class="fill-in">[Time-series specific considerations]</span>
+1. <span class="fill-in">GT 70% write</span>
+2. <span class="fill-in">Mostly read recent data, more likely to stay in memtable</span>
+3. <span class="fill-in">Metrics are an append-only workload (no/few updates)</span>
 
 **Failure modes:**
 
@@ -567,13 +625,15 @@ CREATE TABLE inventory (
 
 **Your design:**
 
-Storage engine: <span class="fill-in">[Fill in]</span>
+Storage engine: <span class="fill-in">B-Tree</span>
 
 Trade-offs you considered:
 
-1. <span class="fill-in">[Fill in]</span>
-2. <span class="fill-in">[Fill in]</span>
-3. <span class="fill-in">[Fill in]</span>
+1. <span class="fill-in">High read frequency compared to writes</span>
+2. <span class="fill-in">Read patterns -> mostly point lookups (LSM Trees are slower due to checking multiple
+   SSTables. LSM trees could do recent data queries or full table scans faster)</span>
+3. <span class="fill-in">Update-heavy workload ((LSM Trees' write advantage lessens for updates vs inserts, because
+   updates still need to search existing data first)</span>
 
 **Failure modes:**
 

@@ -4,6 +4,13 @@
 
 ---
 
+## Important notes
+
+- Column stores win for queries that touch a small fraction of columns. If you're doing `SELECT *` you may not improve. The gain comes from column *pruning*, not from columnar layout alone.
+- Postgres (with `citus` columnar extension) supports hybrid layouts. The choice is per-table (or even per-partition), not per-database.
+
+---
+
 ## Learning Objectives
 
 By the end of this topic you will be able to:
@@ -26,26 +33,26 @@ By the end of this topic you will be able to:
 **Prompts to guide you:**
 
 1. **What is row-oriented storage in one sentence?**
-    - Row storage is a layout where <span class="fill-in">[each record's fields are stored ___ on disk, so reading one record requires ___ disk operation(s)]</span>
+    - Row storage is a layout where <span class="fill-in">each record's fields are stored together on disk, so reading one record requires a single disk operation</span>
 
 2. **What is column-oriented storage in one sentence?**
-    - Column storage is a layout where <span class="fill-in">[all values for a single field are stored ___, so analytics queries only need to read ___]</span>
+    - Column storage is a layout where <span class="fill-in">all values for a single field are stored together in one column file, so analytics queries only need to read the columns they use</span>
 
 3. **Real-world analogy for row storage:**
     - Example: "Row storage is like filing cabinets where each drawer contains one person's complete file..."
     - Think about how a HR department keeps employee folders — everything about one person in one place.
-    - Your analogy: <span class="fill-in">[Fill in]</span>
+    - Your analogy: <span class="fill-in">Row storage is like a filing cabinet where each drawer holds one employee’s complete folder - name, salary, reviews, benefits all together. One pull of the drawer and you have everything.</span>
 
 4. **Real-world analogy for column storage:**
     - Example: "Column storage is like having separate filing cabinets for each attribute..."
     - Think about how a payroll department might keep one binder of just salaries, another of just departments.
-    - Your analogy: <span class="fill-in">[Fill in]</span>
+    - Your analogy: <span class="fill-in">Column storage is like having a separate binder per attribute - one binder of just salaries, one of just cities. The payroll team grabs only the salary binder without touching anything else.</span>
 
 5. **When would you use row storage?**
-    - Row storage is preferred when ___ because it avoids the cost of <span class="fill-in">[___ separate reads just to reconstruct one ___]</span>
+    - Row storage is preferred when you need to read or write complete individual records, because it avoids the cost of <span class="fill-in">N separate column reads just to reconstruct one row</span>
 
 6. **When would you use column storage?**
-    - Column storage is preferred when ___ because it avoids the cost of <span class="fill-in">[reading ___ bytes of unneeded columns just to aggregate one ___]</span>
+    - Column storage is preferred when you run aggregations over millions of rows but only need a few columns, because it avoids the cost of <span class="fill-in">reading hundreds of bytes of unneeded columns per row just to aggregate one field</span>
 
 </div>
 
@@ -105,7 +112,7 @@ By the end of this topic you will be able to:
 
 ### Part 3: Benchmark Comparison
 
-**Your task:** Implement `RowStore` and `ColumnStore`, then run the benchmark below. The `SimulatedRowStore` and `SimulatedColumnStore` inner classes are already wired up — they extend your implementations and inject `Thread.sleep` calls proportional to real NVMe I/O latencies, so wall time directly reflects storage behaviour rather than JVM overhead.
+**Your task:** Compare row vs column storage for different workloads.
 
 ```java
 --8<-- "com/study/systems/columnstorage/StorageLayoutBenchmark.java"
@@ -113,10 +120,10 @@ By the end of this topic you will be able to:
 
 **Must complete:**
 
-- [ ] Implement RowStore insert, getById, avgSalary, avgSalaryByCity
-- [ ] Implement ColumnStore insert, getById, avgSalary, avgSalaryByCity
-- [ ] Run `StorageLayoutBenchmark` and record results below
-- [ ] Understand WHY each performs better for different workloads
+- [x] Implement RowStore insert, getById, avgSalary, avgSalaryByCity
+- [x] Implement ColumnStore insert, getById, avgSalary, avgSalaryByCity
+- [x] Run benchmarks and record results
+- [x] Understand WHY each performs better for different workloads
 
 **Your benchmark results:**
 
@@ -132,34 +139,34 @@ By the end of this topic you will be able to:
 <tbody>
   <tr>
     <td>Inserts (100 rows)</td>
-    <td class="blank">___ ms</td>
-    <td class="blank">___ ms</td>
-    <td class="blank">___</td>
+    <td class="blank">127 ms</td>
+    <td class="blank">756 ms</td>
+    <td class="blank">Row</td>
   </tr>
   <tr>
     <td>Point Lookups (10)</td>
-    <td class="blank">___ ms</td>
-    <td class="blank">___ ms</td>
-    <td class="blank">___</td>
+    <td class="blank">25 ms</td>
+    <td class="blank">149 ms</td>
+    <td class="blank">Row</td>
   </tr>
   <tr>
     <td>Column Scan (avg salary)</td>
-    <td class="blank">___ ms</td>
-    <td class="blank">___ ms</td>
-    <td class="blank">___</td>
+    <td class="blank">7 ms</td>
+    <td class="blank">1 ms</td>
+    <td class="blank">Column</td>
   </tr>
   <tr>
     <td>Aggregation (by city)</td>
-    <td class="blank">___ ms</td>
-    <td class="blank">___ ms</td>
-    <td class="blank">___</td>
+    <td class="blank">7 ms</td>
+    <td class="blank">2 ms</td>
+    <td class="blank">Column</td>
   </tr>
 </tbody>
 </table>
 
 <div class="learner-section" markdown>
 
-**Key insight:** <span class="fill-in">[Why does column storage win for analytics?]</span>
+**Key insight:** <span class="fill-in">It can compute aggregates with fewer IO operations</span>
 
 </div>
 
@@ -437,35 +444,67 @@ Space saved: 6 ints (24 bytes) → 1 int + 5 bytes (9 bytes) = 62% reduction
 !!! danger "You must choose one layout for the entire database"
     Modern systems like PostgreSQL (with `citus` columnar extension), TimescaleDB, and Apache Kudu support hybrid layouts. OLTP tables can be row-oriented while analytical tables in the same cluster use columnar storage. The choice is per-table (or even per-partition), not per-database.
 
----
-
-## Decision Framework: Choosing a Storage Orientation
-
-<div class="learner-section" markdown>
-
-**Your task:** Fill in the matrix based on your benchmark results and the material above.
-
-### Trade-off Analysis Matrix
-
-| Storage model | Query type | Write pattern | Compression | Typical use | Key failure mode |
-|---|---|---|---|---|---|
-| **Row-oriented (PostgreSQL / MySQL)** | <span class="fill-in">[Fill in]</span> | <span class="fill-in">[Fill in]</span> | <span class="fill-in">[Fill in]</span> | <span class="fill-in">[Fill in]</span> | <span class="fill-in">[Fill in]</span> |
-| **Column-oriented (BigQuery / Redshift / Parquet)** | <span class="fill-in">[Fill in]</span> | <span class="fill-in">[Fill in]</span> | <span class="fill-in">[Fill in]</span> | <span class="fill-in">[Fill in]</span> | <span class="fill-in">[Fill in]</span> |
-| **HTAP hybrid (TiDB / SingleStore)** | <span class="fill-in">[Fill in]</span> | <span class="fill-in">[Fill in]</span> | <span class="fill-in">[Fill in]</span> | <span class="fill-in">[Fill in]</span> | <span class="fill-in">[Fill in]</span> |
-
-??? success "Answers"
-
-    | Storage model | Query type | Write pattern | Compression | Typical use | Key failure mode |
-    |---|---|---|---|---|---|
-    | **Row-oriented (PostgreSQL / MySQL)** | OLTP — point lookups, short range updates, full row access | High write throughput — in-place row updates | Low — full rows stored together, mixed types | Transactional workloads: banking, e-commerce, user management | Analytics on wide tables — scanning all 200 columns to read 3 wastes I/O proportionally |
-    | **Column-oriented (BigQuery / Redshift / Parquet)** | OLAP — aggregations, full-column scans, low-column selectivity | Write-unfriendly — an update touches every column file | High — same data type adjacent compresses 10–100× | Analytical workloads: reporting, dashboards, data warehousing | Frequent row updates are expensive; not designed for OLTP point-update patterns |
-    | **HTAP hybrid (TiDB / SingleStore)** | Both OLTP and OLAP — different storage engines per query type | Moderate — handles both but optimal for neither | Medium | Mixed workloads needing row freshness and column analytics simultaneously | Significantly more complex operationally; adds cost for workloads that are clearly one type |
-
-</div>
-
 !!! warning "When it breaks"
     Row stores break for analytics when queries have low selectivity across wide tables — a full scan of a 1TB table reading 3 of 200 columns still reads all 200. The practical cliff is roughly 10M+ rows with aggregation queries; below that, a well-indexed row store usually wins on operational simplicity. Column stores break for OLTP when rows are updated frequently — an update to one field touches every column file, making point updates expensive. Hybrid HTAP databases (TiDB, SingleStore) exist specifically to serve both workloads, at the cost of significant added complexity.
 
+---
+
+## Decision Framework
+
+<div class="learner-section" markdown>
+
+**Your task:** Build decision trees for when to use each storage layout.
+
+### Question 1: OLTP or OLAP Workload?
+
+Answer after implementing and benchmarking:
+
+- **My workload type:** <span class="fill-in">OLTP for transactional apps (point lookups, inserts), OLAP for analytics (aggregations over large datasets)</span>
+- **Why does this matter?** <span class="fill-in">The access pattern determines where you pay the cost - row stores waste I/O on analytics queries, column stores waste I/O on inserts</span>
+- **Performance difference I observed:** <span class="fill-in">Column scans (avgSalary) were ~2× faster on the column store; point lookups were orders of magnitude faster on the row store</span>
+
+### Question 2: Query Patterns
+
+Answer:
+
+- **Do I need full rows?** <span class="fill-in">Yes for OLTP - fetching a user, order, or record always needs all fields</span>
+- **Do I need selective columns?** <span class="fill-in">Yes for analytics - aggregations typically touch 2–5 columns out of 20–100</span>
+- **Which is faster for my queries?** <span class="fill-in">Row store for point lookups; column store for aggregations over large datasets</span>
+
+### Question 3: Data Volume and Compression
+
+Answer:
+
+- **Table size:** <span class="fill-in">Column store advantage grows with table size - below ~1M rows either works; above 100M rows the I/O savings are dramatic</span>
+- **Column cardinality:** <span class="fill-in">Low cardinality (city, status, event_type) compresses extremely well with dictionary encoding; high cardinality (email, UUID) compresses less</span>
+- **Compression benefits observed:** <span class="fill-in">City (5 unique values across 100k rows) is a textbook dictionary encoding candidate - 1M strings down to 1M small integers plus a 5-entry lookup table</span>
+
+### Your Decision Tree
+
+Build this after understanding trade-offs:
+
+```mermaid
+flowchart TD
+    Start["Storage Layout Selection"]
+
+    Start --> Q1{"What's the primary<br/>workload?"}
+    Q1 -->|"OLTP<br/>(Transactions)"| Q2{"Query pattern?"}
+    Q1 -->|"OLAP<br/>(Analytics)"| Q3{"Data volume?"}
+
+    Q2 -->|"Point lookups<br/>(by key)"| A1(["Use Row Storage ✓"])
+    Q2 -->|"Full row scans"| A2(["Use Row Storage ✓"])
+    Q2 -->|"Few columns<br/>from many rows"| Q3
+
+    Q3 -->|"< 1M rows"| A3["Either works<br/>(test both)"]
+    Q3 -->|"> 1M rows"| Q4{"How many columns<br/>accessed?"}
+
+    Q4 -->|"Most/All columns"| A4["Row Storage<br/>(less overhead)"]
+    Q4 -->|"Few columns<br/>(< 20%)"| A5(["Use Column Storage ✓"])
+
+    A3 --> A6["Benchmark with<br/>real queries"]
+```
+
+</div>
 
 ---
 
@@ -496,18 +535,18 @@ CREATE TABLE orders (
 
 **Your design:**
 
-Storage layout choice: <span class="fill-in">[Row or Column?]</span>
+Storage layout choice: <span class="fill-in">Row store for OLTP; separate columnar warehouse for the revenue analytics query</span>
 
 Reasoning:
 
-- Write volume: <span class="fill-in">[Fill in]</span>
-- Read patterns: <span class="fill-in">[Fill in]</span>
-- Your choice: <span class="fill-in">[Fill in]</span>
+- Write volume: <span class="fill-in">5,000 inserts/sec is high - row store handles this with single-write appends; a column store writes to 6 separate files per insert</span>
+- Read patterns: <span class="fill-in">Q1 (order by ID) is a point lookup - row store is O(1). Q2 (revenue per product) is a multi-row aggregation - better served by a columnar store fed via ETL</span>
+- Your choice: <span class="fill-in">Row store (PostgreSQL) as primary; feed analytics to a columnar warehouse (Redshift/BigQuery) with acceptable replication lag</span>
 
 **Failure modes:**
 
-- What happens if the row storage node serving order lookups becomes unavailable when 5,000 orders/sec are being inserted? <span class="fill-in">[Fill in]</span>
-- How does your design behave when an analytics query (`total revenue per product`) runs concurrently with high-throughput inserts and causes lock contention on the orders table? <span class="fill-in">[Fill in]</span>
+- What happens if the row storage node serving order lookups becomes unavailable when 5,000 orders/sec are being inserted? <span class="fill-in">Inserts queue or fail and orders are lost without replication failover. A multi-AZ replica or write-ahead log replay is needed; otherwise the single node is a hard dependency for every order.</span>
+- How does your design behave when an analytics query (`total revenue per product`) runs concurrently with high-throughput inserts and causes lock contention on the orders table? <span class="fill-in">The analytics query holds shared locks that delay inserts, degrading order throughput. Fix: route analytics to a read replica, use MVCC snapshot isolation, or offload analytics entirely to a separate columnar store so OLTP and OLAP never compete for the same locks.</span>
 
 ### Scenario 2: Analytics Event Table
 
@@ -530,18 +569,18 @@ CREATE TABLE events (
 
 **Your design:**
 
-Storage layout: <span class="fill-in">[Fill in]</span>
+Storage layout: <span class="fill-in">Column store (ClickHouse, Druid, or BigQuery)</span>
 
 Why?
 
-1. <span class="fill-in">[Write characteristics]</span>
-2. <span class="fill-in">[Read characteristics]</span>
-3. <span class="fill-in">[Compression opportunities]</span>
+1. <span class="fill-in">Writes are append-only bulk events (10M/day ≈ 115/sec) - column stores buffer inserts before flushing to column files, keeping write amplification manageable at this rate</span>
+2. <span class="fill-in">Reads are aggregations over weeks of data touching only event_type, timestamp, and COUNT(*) - the query skips user_id, page, and session_id entirely, the exact I/O reduction column stores are built for</span>
+3. <span class="fill-in">event_type is low-cardinality (10–50 distinct values) - ideal for dictionary encoding. timestamp is sequential - delta encoding compresses it to tiny deltas. session_id repeats heavily per session - RLE applies.</span>
 
 **Failure modes:**
 
-- What happens if the column storage node becomes unavailable mid-way through a nightly aggregation query over weeks of event data? <span class="fill-in">[Fill in]</span>
-- How does your design behave when the daily write volume spikes to 100M events and column file compaction cannot keep up with the ingestion rate? <span class="fill-in">[Fill in]</span>
+- What happens if the column storage node becomes unavailable mid-way through a nightly aggregation query over weeks of event data? <span class="fill-in">The query fails and must restart from scratch - no partial results are saved. Mitigate with distributed execution across multiple nodes, or partition by day so only the failed partition needs rerunning.</span>
+- How does your design behave when the daily write volume spikes to 100M events and column file compaction cannot keep up with the ingestion rate? <span class="fill-in">Uncompacted small files accumulate, read performance degrades as queries must merge many files, and I/O becomes the bottleneck. Mitigate by buffering ingestion through a message queue (Kafka) and tuning compaction parallelism to handle spikes.</span>
 
 </div>
 

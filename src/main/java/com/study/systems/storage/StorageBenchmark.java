@@ -35,11 +35,11 @@ public class StorageBenchmark {
         long lsmTime = System.nanoTime() - start;
 
         System.out.printf("B+Tree: %.2f ms (%.0f writes/sec)%n",
-            btreeTime/1e6, numWrites/(btreeTime/1e9));
+                btreeTime/1e6, numWrites/(btreeTime/1e9));
         System.out.printf("LSM Tree: %.2f ms (%.0f writes/sec)%n",
-            lsmTime/1e6, numWrites/(lsmTime/1e9));
+                lsmTime/1e6, numWrites/(lsmTime/1e9));
         System.out.printf("LSM is %.2fx faster for writes%n",
-            (double)btreeTime/lsmTime);
+                (double)btreeTime/lsmTime);
     }
 
     static void benchmarkReads() {
@@ -78,11 +78,11 @@ public class StorageBenchmark {
         long lsmTime = System.nanoTime() - start;
 
         System.out.printf("B+Tree: %.2f ms (%.0f reads/sec)%n",
-            btreeTime/1e6, numReads/(btreeTime/1e9));
+                btreeTime/1e6, numReads/(btreeTime/1e9));
         System.out.printf("LSM Tree: %.2f ms (%.0f reads/sec)%n",
-            lsmTime/1e6, numReads/(lsmTime/1e9));
+                lsmTime/1e6, numReads/(lsmTime/1e9));
         System.out.printf("B+Tree is %.2fx faster for reads%n",
-            (double)lsmTime/btreeTime);
+                (double)lsmTime/btreeTime);
     }
 
     static void benchmarkMixed() {
@@ -117,11 +117,11 @@ public class StorageBenchmark {
         long lsmTime = System.nanoTime() - start;
 
         System.out.printf("B+Tree:   %.2f ms (%.0f ops/sec)%n",
-            btreeTime/1e6, numOps/(btreeTime/1e9));
+                btreeTime/1e6, numOps/(btreeTime/1e9));
         System.out.printf("LSM Tree: %.2f ms (%.0f ops/sec)%n",
-            lsmTime/1e6, numOps/(lsmTime/1e9));
+                lsmTime/1e6, numOps/(lsmTime/1e9));
         System.out.printf("%s is %.2fx faster for mixed workload%n",
-            btreeTime < lsmTime ? "B+Tree" : "LSM Tree",
-            btreeTime < lsmTime ? (double)lsmTime/btreeTime : (double)btreeTime/lsmTime);
+                btreeTime < lsmTime ? "B+Tree" : "LSM Tree",
+                btreeTime < lsmTime ? (double)lsmTime/btreeTime : (double)btreeTime/lsmTime);
     }
 }

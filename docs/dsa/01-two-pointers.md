@@ -4,6 +4,16 @@
 
 ---
 
+## Important info
+
+- Can be same/different direction/speed
+- Same direction cursor conventions
+    - Write Cursor: Points to the first available space where the next piece of incoming data will be
+      stored
+    - Read Cursor: Points to the first piece of available data that has not been read yet.
+
+---
+
 ## Learning Objectives
 
 By the end of this topic you will be able to:
@@ -29,20 +39,29 @@ By the end of this topic you will be able to:
 **Prompts to guide you:**
 
 1. **What is the two pointers pattern in one sentence?**
-    - Your answer: <span class="fill-in">[Two pointers is a technique where instead of checking every pair with nested loops, you place one index at each end (or use two indexes moving together) so that ___ and each step eliminates multiple candidates at once]</span>
+    - Your answer: <span class="fill-in">Avoiding the need to exhaustively "check every pair" by keeping track of two
+      pointers and exploiting some property of the input</span>
 
 2. **Why is it faster than nested loops?**
-    - Your answer: <span class="fill-in">[Instead of revisiting the same pairs over and over, each pointer move rules out ___ candidates permanently, so the total work is ___ instead of ___]</span>
+    - Your answer: <span class="fill-in">You don't need to check all combinations leading to fewer ops</span>
 
 3. **Real-world analogy:**
-    - Example: "Two pointers is like two people searching..."
-    - Your analogy: <span class="fill-in">[Fill in]</span>
+    - Same direction partitioning: <span class="fill-in">Using your left arm to keep the good apples in your sweater and
+      your right arm to sort new ones in or out. When you get a good one, your left arm moves a little to make room for
+      the good apple</span>
+    - Opposite direction matching: <span class="fill-in">You and your brother have 20 chuck-e-cheese tickets for 2
+      prizes. You want to use all 20 tickets and all the prizes are sorted by ticket price.</span>
+    - Different speeds exploring: <span class="fill-in">You're lost and walking along a rushing river. You throw a
+      message in a bottle, wait a bit, then keep walking. If you eventually see the bottle again, you know you're on a
+      circular river. Importantly, this wouldn't work if you started running the same speed as the river current!</span>
 
 4. **When does this pattern work?**
-    - Your answer: <span class="fill-in">[Fill in after solving problems]</span>
+    - Your answer: <span class="fill-in">When you can eliminate multiple possibilities with each pointer
+      movement or when trying to explore paths and you can't store state.</span>
 
 5. **When does this pattern fail?**
-    - Your answer: <span class="fill-in">[Fill in after trying unsorted arrays]</span>
+    - Your answer: <span class="fill-in">when you truly need to check every combination or when the problem requires
+      random access to all elements simultaneously.</span>
 
 </div>
 
@@ -257,35 +276,68 @@ Step 2: left=1 (val=3), right=4 (val=9), sum=12 → FOUND!
 !!! danger "Misconception 3: Same-direction slow/fast pointers need different starting positions"
     It is tempting to start `slow = 0, fast = 1` always, but the correct starting position depends on the problem. For `removeDuplicates` both start at 0 (or 0 and 1); for Floyd's cycle detection both start at `head`. Internalise the **invariant** each pattern maintains rather than memorising the starting positions.
 
+!!! warning "When it breaks"
+    The opposite-direction variant requires a sorted array or a monotonic invariant — applying it to an unsorted array produces incorrect results with no error signal. Same-direction (slow/fast) has no such precondition. The pattern also breaks when you need all pairs with a given property and duplicates exist: moving the pointer past a duplicate without skipping all matching values produces duplicate result pairs, requiring explicit deduplication logic that is easy to omit.
+
 ---
 
-## Decision Framework: Choosing a Two Pointers Variant
+## Decision Framework
 
 <div class="learner-section" markdown>
 
-**Your task:** Fill in the matrix after solving the problems above.
+**Your task:** Build decision trees for when to use two pointers.
 
-### Trade-off Analysis Matrix
+### Question 1: Is the data sorted?
 
-| Variant | Precondition | Solves | Time | Space | Key pitfall |
-|---|---|---|---|---|---|
-| **Opposite direction** | <span class="fill-in">[Fill in]</span> | <span class="fill-in">[Fill in]</span> | <span class="fill-in">[Fill in]</span> | <span class="fill-in">[Fill in]</span> | <span class="fill-in">[Fill in]</span> |
-| **Same direction (slow/fast)** | <span class="fill-in">[Fill in]</span> | <span class="fill-in">[Fill in]</span> | <span class="fill-in">[Fill in]</span> | <span class="fill-in">[Fill in]</span> | <span class="fill-in">[Fill in]</span> |
-| **Partition (three-way)** | <span class="fill-in">[Fill in]</span> | <span class="fill-in">[Fill in]</span> | <span class="fill-in">[Fill in]</span> | <span class="fill-in">[Fill in]</span> | <span class="fill-in">[Fill in]</span> |
+Answer after solving problems:
 
-??? success "Answers"
+- **Why does sorting matter?** <span class="fill-in">Two pointers eliminates possibilities - we can only be sure we're
+  not eliminating valid possibilities with sorted input. Sorting establishes a predictable relationship between elements
+  and their positions.</span>
+- **Can two pointers work on unsorted arrays?** <span class="fill-in">Yes but only when the array value is irrelevant,
+  e.g. you're working with linkedlist pointers</span>
 
-    | Variant | Precondition | Solves | Time | Space | Key pitfall |
-    |---|---|---|---|---|---|
-    | **Opposite direction** | Sorted array — pointer movement relies on the invariant that advancing left eliminates all candidates with a smaller left value, which only holds when the array is sorted | Pairs summing to target, palindrome check, container with most water | O(n) | O(1) | Applying to unsorted input — the invariant breaks silently with no error |
-    | **Same direction (slow/fast)** | None — works on any linked structure or array | Cycle detection, finding middle, removing nth from end | O(n) | O(1) | Starting positions vary by problem; internalise the invariant each pattern maintains, not the offsets |
-    | **Partition (three-way)** | Array, pivot known | In-place partition (Dutch National Flag), sort colors | O(n) | O(1) | Off-by-one on loop bounds; invariant is `[0..lo-1] < pivot`, `[lo..mid-1] = pivot`, `[hi+1..n-1] > pivot` — track each boundary explicitly |
+### Question 2: What are you looking for?
+
+Answer for each pattern:
+
+**Opposite direction when:**
+
+- Looking for: <span class="fill-in">when you need to consider combinations from both ends of a sorted array</span>
+- Movement rule: <span class="fill-in">Start at ends, conditionally move one of the pointers in each iter</span>
+- Example problems: <span class="fill-in">Two Sum (sorted), Valid Palindrome, Container With Most Water, Trapping Rain Water, 3Sum/4Sum variants</span>
+
+**Same direction when:**
+
+- Looking for: <span class="fill-in">In-place array modification, partitioning (lomuto)</span>
+- Movement rule: <span class="fill-in">Read and write pointer. ***Do a write each iteration*** but conditionally move pointers</span>
+- Example problems: <span class="fill-in">Remove Duplicates from Sorted Array, Move Zeroes, Remove Element, Partition Array, Sort Colors (Dutch National Flag)</span>
+
+**Different speed when:**
+- Looking for: <span class="fill-in">Linked list structural properties</span>
+- Movement rule: <span class="fill-in">Slow moves 1 step per iteration, fast moves 2 steps</span>
+- Example problems: <span class="fill-in">Linked List Cycle I & II, Find Middle of Linked List, Kth Node From End, Happy Number, Reorder List</span>
+
+### Your Decision Tree
+
+Build this after solving practice problems:
+```mermaid
+flowchart TD
+    Start[["Two Pointers?"]]
+
+    Start --> Q1{Linked List?}
+    Q1 -->|YES| DiffSpeed([Different Speed<br/>cycle, middle, kth])
+
+    Q1 -->|NO| Q2{Goal?}
+
+    Q2 -->|In-place modify<br/>partition, filter| SameDir([Same Direction<br/>slow/fast write/read])
+
+    Q2 -->|Find pairs<br/>palindrome| Q3{Sorted or<br/>sortable?}
+    Q3 -->|YES| OppDir([Opposite Direction<br/>left++, right--])
+    Q3 -->|NO| Other([Use Hash Table])
+```
 
 </div>
-
-!!! warning "When it breaks"
-    The opposite-direction variant requires a sorted array because the pointer movement relies on a monotonic invariant: moving the left pointer right means "all solutions with a smaller left value have been considered and eliminated." Without sort order, this invariant doesn't hold — a pointer advance might skip the actual answer with no error signal. Same-direction (slow/fast) has no such precondition. The pattern also breaks when you need all pairs with a given property and duplicates exist: moving the pointer past a duplicate without skipping all matching values produces duplicate result pairs, requiring explicit deduplication logic that is easy to omit.
-
 
 ---
 

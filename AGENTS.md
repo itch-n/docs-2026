@@ -10,7 +10,7 @@ Context for Claude Code sessions working in this repository.
 
 - Site name: "Software Engineering Study Guide"
 - Author: Richard
-- Deployed to GitHub Pages via GitHub Actions on push to your personal branch (branch name configured in `.github/workflows/deploy.yml`)
+- Deployed to GitHub Pages via GitHub Actions on push to `main`
 
 ---
 
@@ -50,11 +50,10 @@ Topics live in two sections:
 - `docs/systems/` — 20 topics: storage engines, row vs column, networking, search & indexing, caching, API design, security, rate limiting, load balancing, concurrency, database scaling, message queues, event sourcing/CQRS, stream processing, observability, resilience, distributed transactions, consensus, microservices, multi-region
 - `docs/dsa/` — 15 topics: two pointers, sliding window, hash tables, linked lists, stacks & queues, trees, binary search, heaps, union-find, graphs, advanced graphs, backtracking, dynamic programming, prefix sums, intervals
 
-Quick reference pages live in `docs/reference/`:
+Quick reference pages live directly in `docs/`:
 
-- `docs/reference/when-it-breaks.md` — compiled scale thresholds and failure conditions from all 35 topic files
-- `docs/reference/back-of-envelope.md` — hardware primitives, worked derivations, QPS/storage/write scale context
-- `docs/reference/symptom-pattern.md` — symptom → pattern lookup for debugging
+- `docs/when-it-breaks.md` — compiled scale thresholds and failure conditions from all 35 topic files
+- `docs/back-of-envelope.md` — hardware primitives, worked derivations, QPS/storage/write scale context
 
 ---
 
@@ -77,7 +76,6 @@ Learner-fillable content uses specific CSS classes defined in `docs/css/custom.c
 | `.learner-section` | Wraps entire fill-in sections | Yellow/orange background |
 | `.fill-in` | Inline blank prompts | Bold orange text |
 | `.benchmark-table` | Tables for recording results | Yellow-bordered |
-| `.benchmark-table .blank` | Individual blank cells in benchmark tables | Bold orange text, light bg |
 | `.learner-prompt` | Individual list item prompts | Yellow background |
 | `.code-reference` | Reference/example code | Gray background |
 
@@ -87,7 +85,22 @@ Reference material (code stubs, algorithm explanations, complexity tables) is le
 
 ## Common Commands
 
-See **README.md → Getting Started** for the full command reference (includes Java test commands, benchmark runners, and the `--dirtyreload` flag for fast local dev).
+```bash
+# Install dependencies
+uv sync
+
+# Local dev server (live reload)
+uv run mkdocs serve
+
+# Build static site
+uv run mkdocs build
+
+# Build with strict mode (fails on warnings)
+uv run mkdocs build --strict
+
+# Deploy to GitHub Pages manually
+uv run mkdocs gh-deploy
+```
 
 ---
 
@@ -106,7 +119,7 @@ Four admonition types and one custom div have established placement and purpose:
 | Admonition | Type | Placement | Purpose |
 |------------|------|-----------|---------|
 | `!!! note "Operational reality"` | note | After Learning Objectives `---`, before `## ELI5` | Theory-vs-production gap; named tools and systems |
-| `!!! warning "When it breaks"` | warning | After `## Decision Framework` closing `</div>`, before `## Practice` | Mechanism + scale thresholds; explains *why* the break occurs |
+| `!!! warning "When it breaks"` | warning | Before `## Decision Framework` (or after Case Studies if present) | Scale thresholds and failure conditions |
 | `!!! danger "Misconception: ..."` | danger | In Common Misconceptions section | One block per misconception; use a descriptive title, not "Misconception N:" |
 | `!!! warning "Debugging Challenge — ..."` | warning | After code stubs in DSA files | Buggy code for learner to find; answer in `??? success "Answer"` block |
 
@@ -137,11 +150,10 @@ For reference pages (`back-of-envelope.md` style), use `??? note "Derivation"` t
 
 ### When it breaks — content rules
 
-- Explain the *mechanism* first — why the system or algorithm breaks at a structural level — then anchor with a concrete number or threshold
-- Both parts are required: mechanism without a number is vague; a number without mechanism is hard to remember
-- Format: prose sentences (not bullet lists) within the single admonition block
-- For DSA: explain the invariant that breaks (wrong precondition, violated monotonic property, state space explosion), then give the practical consequence
-- For systems: explain the chain of causation (what accumulates, what fills, what queues), then give the scale threshold (ops/sec, node count, data volume, latency floor)
+- Lead with the breaking condition, then give the concrete number or threshold
+- Format: `**Concept:** description. **Concept:** description.` within the single admonition block
+- For DSA: breaking conditions are algorithmic (wrong precondition, wrong operation, state space too large)
+- For systems: breaking conditions are scale thresholds (ops/sec, node count, data volume, latency floor)
 
 ### Quick Reference pages — maintenance note
 
