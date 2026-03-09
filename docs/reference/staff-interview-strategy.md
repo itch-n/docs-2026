@@ -1,169 +1,241 @@
-# The Staff-Level Interview: A Strategic Guide
+# Staff+ Interview Strategy
 
-This guide covers the “meta” skills required to succeed in a Staff-level interview. The interview assesses not just your technical knowledge, but your ability to lead, influence, and make sound business-oriented decisions.
+<p class="lead">The Staff interview doesn't test whether you can build things — it tests whether you can be trusted to make the right calls when the stakes are high and the requirements are ambiguous. Every section of the loop is a version of the same question: <em>would I want this person making decisions on something I care about?</em></p>
 
-## Communicating Trade-offs Effectively
+---
 
-At the Staff level, it is not enough to simply identify a trade-off. You must articulate it, justify it against the business and product requirements, and demonstrate a deep understanding of its second-order effects.
+## The System Design Interview
 
-A simple framework for communicating a trade-off:
+This is usually the longest session and the highest signal. Most candidates fail not on knowledge but on structure — they dive into implementation details before establishing what they're actually building.
 
-> “For this part of the system, I’m choosing **[Pattern/Technology X]** over **[Alternative Y]**. This gives us the primary benefit of **[Benefit, e.g., lower latency, faster delivery]** at the cost of **[Cost, e.g., higher operational complexity, weaker consistency]**. Given the requirement for **[Business/Product Goal]**, this is the right decision.”
+### The structure
 
-### Example: From Senior to Staff
+**1. Clarify requirements (5–10 min) — don't skip this**
 
-Consider the difference in these two answers to "How would you speed up this slow database query?"
+Ask until you can state the system's contract precisely. Interviewers deliberately leave requirements vague to see if you'll notice.
 
-**Senior Answer:**
-> "We can add a cache in front of the database, like Redis. That will make reads faster."
+- **Functional:** what does the system do? What are the core user actions?
+- **Scale:** how many users, requests/sec, data volume? Read-heavy or write-heavy?
+- **Latency requirements:** p99 SLA? Is this synchronous or can it be async?
+- **Consistency requirements:** can users see stale data? For how long?
+- **Reliability:** what's the acceptable downtime? Is data loss ever acceptable?
 
-This answer is correct, but it's table stakes.
+State your assumptions out loud: *"I'm going to assume 10M DAU with read:write roughly 100:1 — let me know if that changes the design."*
 
-**Staff-Level Answer:**
-> "The immediate goal is to improve read latency. My first step would be to introduce a Redis cache for the results of this query. This adds a new piece of infrastructure, increasing operational complexity and cost, and forces us to develop a cache invalidation strategy. However, it’s the right trade-off to meet the required P99 latency of 200ms and reduce load on our primary database, which is currently over-provisioned. As a next step, we'd need to instrument cache hit/miss rates to validate our approach."
+**2. High-level sketch (5 min) — components only, no details**
 
-The second answer demonstrates ownership by considering latency, cost, operational complexity, and the need for measurement.
+Draw the major components and the data flows between them. Resist the urge to deep-dive. The goal is to show the interviewer you can hold the whole system in your head before zooming in.
 
-### Common Trade-off Pairs
+**3. Identify the hard parts — pick one to own**
 
-Your interview discussion should revolve around these concepts:
+Every system has 2–3 genuinely interesting problems and the rest is boilerplate. Name them: *"The hard parts here are fan-out on write at 10M users, and keeping the notification count consistent under concurrent updates. I want to spend most of our time on the fan-out problem — does that match what you want to explore?"*
 
-| You are trading... | ...for... | Example |
+This matters. It signals that you've been in rooms where the wrong hard problem got all the attention.
+
+**4. Deep-dive on the interesting component**
+
+Now go deep. Show your reasoning: why this design over alternatives, what the failure modes are, where the bottlenecks will be first.
+
+**5. Failure modes and operational reality**
+
+Before wrapping up, ask yourself: *what breaks first and at what scale?* The on-call engineer at 3am cares about this more than the architecture diagram.
+
+- What happens if this queue backs up?
+- What's the blast radius if this service goes down?
+- What would alert first when something goes wrong?
+
+### What the interviewer is watching for
+
+- Do you ask about scale before designing?
+- Do you name the hard parts or pretend everything is equally interesting?
+- When you go deep, do you know the failure modes — not just the happy path?
+- Do you over-engineer a simple system, or under-engineer a hard one?
+- Do you design for the operator, or only for the user?
+
+---
+
+## Communicating Trade-offs
+
+At Staff level it's not enough to identify a trade-off — you must articulate it against business and product requirements and show you understand the second-order effects.
+
+A simple frame:
+
+> "I'm choosing **X** over **Y**. This gives us **[primary benefit]** at the cost of **[real cost]**. Given **[business or product constraint]**, this is the right call."
+
+### The Senior vs Staff gap
+
+**Senior:** *"We can add Redis in front of the database. That will make reads faster."*
+
+**Staff:** *"The immediate goal is p99 under 200ms. Redis gets us there. The costs are real: we now have a cache invalidation problem, an extra failure surface, and we need to instrument hit/miss rates to know if the cache is actually helping. That's the right trade for this SLA. What I'd want to avoid is adding Redis because it feels like the right move without a clear invalidation strategy — that's how you get stale data bugs in production six months later."*
+
+The difference: ownership of the failure modes, not just the benefits.
+
+### Trade-off pairs to internalize
+
+| Trading... | ...for... | When it's right |
 |---|---|---|
-| **Latency** | **Throughput** | Using batch processing to increase overall throughput at the cost of higher latency for any individual item. |
-| **Consistency** | **Availability** | (The CAP Theorem) Choosing an AP system (like DynamoDB) over a CP system (like Paxos) to ensure the service remains available for writes even during a network partition, at the risk of serving stale data. |
-| **Cost** | **Performance** | Using larger, more expensive instances to reduce query latency, or choosing a serverless model that may have higher per-unit cost but lower TCO for bursty workloads. |
-| **Operational Complexity** | **Feature Velocity** | Adopting a microservices architecture to allow teams to ship features independently, at the significant cost of building and maintaining a distributed system (CI/CD, observability, service discovery). |
-| **Readability/Simplicity** | **Raw Performance** | Writing a critical path component in C++ for maximum performance, trading the readability and safety of a language like Java or Go. |
+| **Latency** | **Throughput** | Batch processing — individual items wait longer, overall throughput increases |
+| **Consistency** | **Availability** | AP systems (Cassandra, DynamoDB) — stay up during partitions, accept eventual consistency |
+| **Consistency** | **Latency** | Skip synchronous replication — ack before replica writes, risk losing recent data on crash |
+| **Synchronous** | **Asynchronous** | Queue-based decoupling — lower coupling and natural back-pressure, at the cost of observable latency and harder debugging |
+| **Build** | **Buy** | OSS/SaaS — ships faster, gives up control and creates a vendor dependency |
+| **Cost** | **Performance** | Larger instances or reserved capacity — reduces latency, increases AWS bill |
+| **Operational complexity** | **Team velocity** | Microservices — teams ship independently, distributed systems problems are now your problems |
+| **Single-team ownership** | **Shared platform** | Internal platforms — reduce duplication, create a coordination dependency and slower iteration |
+| **Readability** | **Raw performance** | Tight inner loops in C++/Rust — faster, harder to maintain and recruit for |
+
+---
+
+## Handling "I Don't Know"
+
+Staff candidates often freeze when asked something outside their depth. This is a mistake — how you handle gaps is itself a signal.
+
+**Don't:** go silent, guess confidently, or say "I haven't used that."
+
+**Do:** reason from first principles and name the analogy:
+
+> *"I haven't implemented a CRDT directly, but the problem it solves — concurrent updates without coordination — is the same one vector clocks address. I'd approach it by asking: what's the conflict resolution semantics we need? Last-write-wins, or do we need to merge concurrent states? From there I can reason about the tradeoffs even if I don't know the specific implementation."*
+
+The interviewer is watching whether you can navigate uncertainty, not whether you've memorized every data structure. A confident "here's how I'd reason about something I don't know" is more impressive than a hesitant recitation of something you do.
 
 ---
 
 ## Demonstrating Leadership and Ownership
 
-The interviewer is trying to answer the question: “Would I trust this person to lead a critical, cross-team project?” You can build this trust by demonstrating ownership throughout the interview.
+The interviewer is answering one question: *would I trust this person to lead a critical, cross-team project with ambiguous requirements?*
 
-### 1. Drive the Narrative
+### 1. Drive the narrative
 
-Don't be a passive participant. Frame the discussion, state your assumptions, and guide the interviewer through your design.
+Don't be a passive participant. Frame the discussion, state your assumptions explicitly, and guide the interviewer.
 
-> “Okay, I have a clearer picture of the requirements. I’m going to start with a high-level architecture, then I want to deep-dive on the asynchronous processing component, as that seems to be the most critical part of the system. Does that sound good?”
+> *"I now have a clear picture of the requirements. I'm going to start with a high-level architecture, then deep-dive on the fan-out problem — that seems like the crux. Sound good?"*
 
-### 2. Design for the Operator
+### 2. Design for the operator
 
-Show that you think about the full lifecycle of a system, especially the painful parts. A Staff engineer designs for the on-call engineer at 3 AM.
+Show you think about the full lifecycle, not just the happy path. The most common Staff-level failure mode is designing for the user and ignoring the on-call engineer.
 
-> “This component is now a single point of failure. To mitigate this, we need comprehensive monitoring. I would expect to see metrics on queue depth, processing latency percentiles, and error rates pushed to our observability platform. We should set alerts if the queue depth exceeds X for Y minutes.”
+> *"This component is now a single point of failure. At minimum I'd want: queue depth and processing latency percentiles on a dashboard, an alert if queue depth exceeds X for Y minutes, and a dead-letter queue so failed messages don't disappear silently."*
 
-### 3. Acknowledge the Team
+### 3. Find fault in your own design first
 
-No system is built in a vacuum. Show you understand that you work within a larger organization. This signals maturity and experience with cross-functional initiatives.
+Proactively naming the weaknesses in your design is more impressive than defending it. It shows you're not attached to your first idea.
 
-> “For the service discovery, I'll assume we can use the company's standard tooling, which I believe is Consul. If not, we’d need to provision our own, which would add to the project timeline.”
+> *"The weak point in this design is the thundering herd on cache cold start. A naive deploy will hammer the database. I'd want a probabilistic early expiry or a request coalescing layer in front of the cache before we ship this."*
 
-> "To define the schema for this event, we'll need to work closely with the Data Science team to ensure we're capturing the fields they need for their downstream models."
+### 4. Disagree and commit
 
-### 4. Be the First to Find Fault in Your Design
+Interviewers probe this directly: *"Tell me about a time you disagreed with a technical decision but implemented it anyway."*
 
-Proactively identifying the weaknesses in your own design is a powerful sign of leadership and intellectual honesty. It shows you're not blindly attached to your first idea.
+A strong answer has three parts: your position and why, how you made your case, and how you executed once the decision was made. The signal they're looking for is that you can separate your opinion from your execution — that losing a technical argument doesn't make you a passive-aggressive implementer.
 
-> “A potential issue with this initial design is that the cache has no protection against a thundering herd problem during a cold start. We could mitigate this by adding a locking mechanism to allow only one request to populate the cache for a given key, but that adds complexity. A simpler first step might be to pre-warm the cache for our most popular items.”
+> *"I thought we should use Kafka, but the team chose SQS for operational simplicity. I laid out the tradeoffs clearly — replay, partitioning, consumer group semantics — but the team's point about operational overhead was valid for our current scale. Once the decision was made I wrote the SQS integration, documented the limitations we'd hit at 10x scale, and filed a ticket to revisit when we got there."*
 
----
+### 5. Acknowledge the team and the org
 
-### 5. Driving Ambiguous Projects
+No system is built in a vacuum. Showing you understand cross-functional dependencies signals maturity.
 
-A key differentiator for Staff+ engineers is the ability to create clarity from ambiguity. Interviewers test this with vague system design prompts or behavioral questions like, “Tell me about a time you took on a project without a clear spec.”
+> *"For service discovery I'll assume we use the company's standard tooling. If that's not available, we'd need to provision our own — that's a 2–3 week detour we should flag early."*
 
-Use this framework to demonstrate your approach:
+### 6. Drive ambiguous projects
 
-1.  **Deconstruct and Define:** Start by relentlessly asking questions to turn the unknown into the known.
-    *   **User Problem:** “What is the actual user pain we are trying to solve with this? Who are the users?”
-    *   **Business Goal:** “What is the desired business outcome? Are we trying to increase engagement, reduce cost, or enter a new market?”
-    *   **Success Metrics:** “How will we know if we are successful? What metrics can we track (e.g., P99 latency, user retention, monthly active users)?”
-    *   **Constraints:** "What are the hard constraints? Team size, budget, timeline, existing tech stack?"
+The frame for turning ambiguity into execution:
 
-2.  **Write the Narrative (The `v1` Doc):** Synthesize your findings into a concise one-page document. This is your most powerful tool for alignment. It should include:
-    *   **Problem Statement:** A clear, one-paragraph summary of the above.
-    *   **Proposed Solution (`v1`):** A high-level sketch of the *smallest possible version* that solves a core part of the problem.
-    *   **Non-Goals:** Explicitly state what you are *not* doing in `v1`. This is crucial for managing scope.
-    *   **How We'll Measure Success:** List the key metrics.
+1. **Deconstruct:** what's the user problem, what's the business goal, how do we measure success, what are the hard constraints?
+2. **Write the v1 doc:** problem statement, smallest-possible solution, explicit non-goals, success metrics. Non-goals matter as much as goals — they're what you say no to.
+3. **Get alignment early:** share the doc before building. *"This is my current thinking. Am I missing anything? Does this conflict with your team's priorities?"*
+4. **Execute and feed back:** v1 ships, metrics tell you what v2 should be.
 
-3.  **Build a Coalition:** A Staff engineer leads through influence. Share the document with stakeholders (your manager, product manager, other teams) to get feedback and buy-in.
-    > “This is my current thinking on the problem. Am I missing anything? Does this align with your team’s goals for this quarter?”
+### 7. Mentorship as leverage
 
-4.  **Execute and Iterate:** With alignment, you can now build and deliver the `v1` project. The outcome of `v1` and its metrics then feed into the roadmap for `v2`. This shows you can create a long-term vision while executing pragmatically.
+Your impact is measured by what you enable others to do, not just what you build directly.
 
----
+- **Code review as teaching:** don't just flag issues — link to the context. *"I'd use X here — here's why"* with a reference scales your reasoning to every future reader of that code.
+- **Create durable artifacts:** runbooks, decision docs, architecture diagrams. A troubleshooting guide that reduces oncall pages is leverage that compounds.
+- **Reframe impact:** *"I cut CI time from 15 minutes to 3, which unblocked the 20-person team"* is more Staff than *"I optimized the build."*
 
-### 6. Mentorship as a Force Multiplier
+### 8. Make the business case
 
-Your impact is measured by your ability to elevate the entire team. An interview is a chance to prove you are a "force multiplier."
+Staff engineers are expected to translate technical decisions into business language.
 
-*   **Reframe Code Review:** Talk about code reviews as a teaching opportunity.
-    > “During code reviews, I focus not just on correctness, but on the ‘why’ behind my suggestions. If I suggest a different pattern, I’ll link to a blog post or our own tech docs to help the author (and future readers) understand the context.”
-
-*   **Talk About Artifacts:** Mention creating durable artifacts that scale your knowledge.
-    > “The team was repeatedly running into issues with our deployment process, so I wrote a comprehensive guide with a troubleshooting checklist. It reduced our deployment-related support questions by about 50%.”
-
-*   **Show, Don't Just Tell:** Frame your accomplishments in terms of team impact.
-    *   **Instead of:** “I fixed the build.”
-    *   **Say:** “I invested a week in optimizing our CI pipeline, which cut the average build time from 15 minutes to 3. This unblocked the entire 20-person team, saving dozens of engineering hours per day.”
+- **Tech debt → business risk:** *"This service is on a deprecated library with no tests. That's a compliance risk and it means adding new payment providers takes 3x longer than it should. Two weeks of migration work eliminates that risk and pays back in the next feature."*
+- **Performance → product metric:** *"The profile page p99 is 800ms. Fixing it is a technical change, but the outcome is session duration — which is a key product KPI."*
 
 ---
 
-### 7. Making the Business Case
+## The Coding Interview
 
-Staff engineers are expected to think like business owners. You must be able to justify your technical decisions in the language of business impact.
+At Staff level, the interviewer is asking: *would I want this person setting the technical bar for my team?* Correctness is table stakes. They're watching your process.
 
-*   **Translate "Tech Debt" to "Business Risk":**
-    *   **Instead of:** “We need to refactor this old service because it has a lot of tech debt.”
-    *   **Say:** “Our current payment processing service is built on a deprecated library and lacks comprehensive tests. This poses a direct risk to revenue and our ability to pass compliance audits. I’m proposing a two-week project to migrate to a modern library and increase test coverage to 90%, which will mitigate this risk and allow us to add new payment providers 50% faster in the future.”
+**Start simple, then optimize.** Propose a brute-force solution first, state its complexity, and explain why it's not enough. Then optimize. This is more impressive than jumping straight to the clever solution — it shows you understand the problem space before reaching for tricks.
 
-*   **Frame Projects with Product Metrics:** Connect your work directly to the product and users.
-    > “While investigating the high p99 latency on the user profile page, I found that we could dramatically speed it up by denormalizing some data. This is a technical change, but the goal is to improve user engagement and session duration, which are key product KPIs.”
+> *"Brute force is O(n²) — check every pair. That's likely too slow at 10⁶ elements. We can get to O(n) with a hash map: store each value's complement as we scan."*
 
----
+**Verbalize continuously.** A silent candidate is a black box. The interviewer can't tell whether you're stuck or thinking. Narrate your reasoning, even when uncertain: *"I'm wondering whether we need to handle duplicates here — let me think about that edge case."*
 
-## Navigating the Coding Interview at the Staff Level
+**Write for a future reader.** Clear variable names. Helper functions for complex logic. This isn't just style — it's a signal about how you write production code and review others' PRs.
 
-At this level, the coding interview is not just a test of your algorithm knowledge; it’s an assessment of your problem-solving process, communication clarity, and code quality. The interviewer is asking, “Would I want this person to be the technical leader on my team?”
+**Test your own code.** Before declaring done: one simple case, one edge case (empty input, single element, overflow), one case that exercises the main logic. *"Let me trace through with [1, 2, 3] first, then an empty array."*
 
-*   **Verbalize Your Thought Process:** From the moment you read the question, start talking. Explain how you’re breaking down the problem, what you’re observing, and what initial thoughts you have. A silent, thinking candidate is a black box.
-*   **Start Simple, Then Optimize:** It's often best to first propose a straightforward or even brute-force solution. State its complexity and why it's not optimal. This demonstrates a structured thought process. Then, describe how you will optimize it.
-    > “My initial thought is a brute-force approach where we check every possibility. That would be O(n^2), which is likely too slow. We can almost certainly do better by using a hash map to store intermediate results, which should get us to O(n).”
-*   **Write Clean, Maintainable Code:** Use clear variable names. Break down complex logic into helper functions. The interviewer is evaluating the quality and readability of your code as if it were a real pull request.
-*   **Test Your Own Code:** Don't wait for the interviewer to find your bugs. Once you have a solution, say, "Now I'm going to test this with a few cases." Walk through a simple case, an edge case (e.g., empty input, single element), and a more complex case. This shows ownership and a rigorous mindset.
+**Ask about the use pattern before optimizing.** *"Is this read-heavy or write-heavy? Is it called once on startup or on every request?"* The right answer depends on the access pattern, and asking this question signals you know that.
+
+**Don't over-engineer.** A Staff-level mistake is reaching for a distributed solution to a problem that fits in memory on one machine. Interviewers watch for this specifically.
 
 ---
 
-## The Project Deep-Dive: Defending Your Work
+## The Project Deep-Dive
 
-In this interview, you are the expert. You will be asked to go into detail on a significant project from your resume. The goal is to assess your depth of knowledge, your ability to articulate complex technical decisions, and your role in the project's success.
+You are the expert in the room. The interviewer's goal is to find the edges of your knowledge and see how you reason under pressure.
 
-*   **Prepare Your Narratives:** Choose two or three of your most impactful projects. For each, be ready to discuss the entire lifecycle, from conception to delivery and maintenance. Structure your story.
-*   **Know Your Numbers:** Quantify the impact. Don't just say you "improved performance." Say, "I led the project that reduced p99 API latency from 800ms to 150ms." Don't just say you "saved money." Say, "My optimizations to the data pipeline reduced our monthly AWS bill by 15%."
-*   **Anticipate the Hard Questions:** Be prepared for questions that poke at your design. The most common and important one is: **"What would you do differently now?"** Have a thoughtful answer ready. Other common questions include:
-    *   "What was the biggest technical challenge you faced?"
-    *   "What were the major trade-offs you had to make?"
-    *   "Tell me about a disagreement you had regarding the architecture."
-*   **Be Honest:** Don't be afraid to admit mistakes or acknowledge parts of the design that were suboptimal. Explaining what you learned from those experiences is a powerful signal of maturity and growth.
+**Set context before diving in.** Spend the first 2–3 minutes framing the project: business problem, team size, your specific role, the key constraints. Don't open with implementation details — the interviewer needs context to ask good questions.
+
+**Know your numbers.** Quantify everything. Not *"we improved latency"* — *"we cut p99 from 800ms to 150ms."* Not *"we saved money"* — *"we reduced the AWS bill by 15%."* Numbers are memorable and credible. Vague impact is forgettable.
+
+**Prepare for the hard questions:**
+- *"What would you do differently now?"* — have a real answer. Not *"I'd document it better"* — name a specific architectural decision you'd revisit and why.
+- *"What was the biggest technical risk?"* — name the actual risk, not a safe-sounding one.
+- *"Tell me about a disagreement you had about the architecture."* — see the disagree-and-commit section above.
+
+**Be honest about what went wrong.** Explaining what you learned from a mistake is a stronger signal than a project that went perfectly. Interviewers discount suspiciously clean stories.
 
 ---
 
-## Answering Behavioral Questions: Demonstrating Strategic Impact
+## Behavioral Questions
 
-Behavioral questions are used to assess your experience, influence, and alignment with the company's values. While the STAR method (Situation, Task, Action, Result) is a good foundation, Staff-level answers require more: a clear demonstration of scope, complexity, and strategic impact.
+Behavioral questions assess scope, influence, and whether your instincts match the company's values. STAR (Situation, Task, Action, Result) is a starting point — Staff-level answers need more.
 
-*   **Focus on Scope, Complexity, and Impact:** When you choose an example, select one that showcases your ability to handle large-scale challenges.
-    *   **Scope:** Was this a team-level task or a multi-quarter, cross-organizational initiative?
-    *   **Complexity:** Did it involve intricate technical problems, complex stakeholder management, or both?
-    *   **Impact:** What was the measurable result? How did it affect the business, the product, or the engineering organization?
+**Calibrate scope.** Select examples that show cross-team or multi-quarter scope. A team-level task answered well is still a team-level task.
 
-*   **Demonstrate Influence, Not Authority:** Staff engineers lead without direct authority. Your stories should revolve around how you built consensus, used data to persuade others, and brought stakeholders along on a journey.
-    > “Initially, the other team was hesitant to adopt our new library because it would require some migration effort. I put together a demo, ran a workshop, and worked with their tech lead to create a migration plan that fit into their existing roadmap. By showing them how it would solve their core problem and offering support, I was able to get their buy-in.”
+**Lead with influence, not authority.** Staff engineers move things without direct reports. Your stories should revolve around persuasion, data, and coalition-building — not *"I told them to do it."*
 
-*   **Prepare Stories for Key Themes:** Have examples ready for these common Staff-level behavioral prompts:
-    *   Tell me about your most significant technical achievement.
-    *   Tell me about a time you had a major disagreement with a colleague or manager.
-    *   Describe a time you mentored someone and helped them grow.
-    *   Describe a time a project you were responsible for failed or had a major setback. What did you learn?
+> *"The other team was resistant because migration would cost them two sprints. I ran a workshop, built a working prototype in their codebase, and worked with their tech lead to fit it into their roadmap. Once they saw it solving their specific pain point, the conversation shifted."*
+
+**Prepare for these themes:**
+- Most significant technical achievement (scope + impact)
+- Major disagreement with a colleague or manager (disagree and commit)
+- A time a project failed or had a major setback (what did you learn?)
+- Mentorship that changed someone's trajectory
+- Cross-team project with conflicting priorities
+
+---
+
+## Questions to Ask
+
+The questions you ask as a candidate are as signal-rich as your answers. Generic questions (*"what does a typical day look like?"*) read as unprepared. These read as Staff:
+
+**On engineering culture:**
+- *"How does the org handle cross-team technical dependencies? Who resolves conflicts when two teams need the same platform to move in different directions?"*
+- *"What does the RFC or design review process look like? Who can block a proposal?"*
+
+**On operational reality:**
+- *"What does on-call look like for this team? What's the current biggest source of pages?"*
+- *"What's the biggest piece of tech debt the team is carrying right now? What's blocking paying it down?"*
+
+**On team dynamics:**
+- *"What's the split between new feature work and reliability/platform work?"*
+- *"How does the team decide what not to build?"*
+
+**On the role itself:**
+- *"What does success look like in the first 6 months? What would make you say this hire was a mistake?"*
+- *"What's the hardest unsolved technical problem on the team right now?"*
+
+The last one is especially good — the answer tells you what you're actually walking into.
