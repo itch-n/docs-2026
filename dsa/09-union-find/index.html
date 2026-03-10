@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A framework for algorithms, systems design, and infrastructure.">
+    <meta name="author" content="Richard">
+    
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+
+    
+    <title>09. Union-Find - Software Engineering Study Guide</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../../css/base.min.css" rel="stylesheet">
+    <link href="../../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css">
+        
+    
+    <link href="../../css/custom.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../..">Home</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Systems Design <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../systems/01-storage-engines/">01. Storage Engines</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/04-search-and-indexing/">04. Search & Indexing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/05-caching-patterns/">05. Caching Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/06-api-design/">06. API Design</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/07-security-patterns/">07. Security Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/08-rate-limiting/">08. Rate Limiting</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/09-load-balancing/">09. Load Balancing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/11-database-scaling/">11. Database Scaling</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/12-message-queues/">12. Message Queues</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/13-event-sourcing-cqrs/">13. Event Sourcing & CQRS</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/14-stream-processing/">14. Stream Processing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/15-observability/">15. Observability</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/16-resilience-patterns/">16. Resilience Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/17-distributed-transactions/">17. Distributed Transactions</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/18-consensus-patterns/">18. Consensus Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/19-microservices-patterns/">19. Microservices Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/20-multi-region/">20. Multi-Region Architecture</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">DSA <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../01-two-pointers/">01. Two Pointers</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../02-sliding-window/">02. Sliding Window</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../03-hash-tables/">03. Hash Tables</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../04-linked-lists/">04. Linked Lists</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../05-stacks--queues/">05. Stacks & Queues</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../06-trees/">06. Trees</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../07-binary-search/">07. Binary Search</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../08-heaps/">08. Heaps</a>
+</li>
+
+                        
+                            
+<li class="active">
+    <a href="./">09. Union-Find</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../10-graphs/">10. Graphs</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../11-advanced-graphs/">11. Advanced Graphs</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../12-backtracking/">12. Backtracking</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../13-dynamic-programming/">13. Dynamic Programming</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../14-prefix-sums/">14. Prefix Sums</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../15-intervals/">15. Intervals</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Quick Reference <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../reference/when-it-breaks/">When It Breaks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/back-of-envelope/">Back of the Envelope</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/symptom-pattern/">Symptom → Pattern</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/staff-interview-strategy/">Staff+ Interview Strategy</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/no-new-problems/">No New Problems in CS</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/how-the-machine-works/">How the Machine Actually Works</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../08-heaps/">
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="next" href="../10-graphs/">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#union-find-disjoint-set-union">Union-Find (Disjoint Set Union)</a></li>
+            <li class="second-level"><a href="#learning-objectives">Learning Objectives</a></li>
+                
+            <li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+                
+            <li class="second-level"><a href="#core-implementation">Core Implementation</a></li>
+                
+            <li class="second-level"><a href="#beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters</a></li>
+                
+            <li class="second-level"><a href="#case-studies">Case Studies</a></li>
+                
+            <li class="second-level"><a href="#common-misconceptions">Common Misconceptions</a></li>
+                
+            <li class="second-level"><a href="#decision-framework-choosing-a-union-find-implementation">Decision Framework: Choosing a Union-Find Implementation</a></li>
+                
+            <li class="second-level"><a href="#practice">Practice</a></li>
+                
+            <li class="second-level"><a href="#test-your-understanding">Test Your Understanding</a></li>
+                
+            <li class="second-level"><a href="#connected-topics">Connected Topics</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="union-find-disjoint-set-union">Union-Find (Disjoint Set Union)<a class="headerlink" href="#union-find-disjoint-set-union" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>Efficiently track and merge disjoint sets with near-constant time operations</p>
+</blockquote>
+<hr />
+<h2 id="learning-objectives">Learning Objectives<a class="headerlink" href="#learning-objectives" title="Permanent link">&para;</a></h2>
+<p>By the end of this topic you will be able to:</p>
+<ul>
+<li>Implement union-find with both path compression and union by rank from memory</li>
+<li>Explain why path compression achieves amortized O(α(n)) time per operation</li>
+<li>Detect cycles in undirected graphs using union-find</li>
+<li>Identify when union-find is the right tool versus DFS/BFS</li>
+<li>Track additional state (component size, count) on top of basic union-find</li>
+<li>Recognize weighted and advanced union-find problem variants</li>
+</ul>
+<hr />
+<div class="admonition note">
+<p class="admonition-title">Operational reality</p>
+<p>Kruskal's minimum spanning tree algorithm — used in network infrastructure tools for finding least-cost topologies — depends on union-find for cycle detection. Image segmentation algorithms in computer vision use connected-components union-find to group pixels. Social graph systems run union-find offline to compute friend-of-friend connected components at scale. The critical operational constraint: path compression mutates state on reads, making union-find incompatible with persistent or copy-on-write data structures — something you hit immediately in functional languages or when trying to snapshot intermediate states for backtracking solvers.</p>
+</div>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After implementing all patterns, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What is union-find in one sentence?</strong></p>
+<ul>
+<li>Union-find is a data structure that ___ by assigning each element a ___ so you can ___ in near-constant time.</li>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What do "union" and "find" operations do?</strong></p>
+<ul>
+<li>"Find" returns <strong><em>, while "union" merges ___ into </em></strong>.</li>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy:</strong></p>
+<ul>
+<li>Example: "Union-Find is like organizing people into groups where you can quickly check if two people are in the
+  same group..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When does this pattern work?</strong></p>
+<ul>
+<li>This pattern works when you need to ___ and ___ groups dynamically, but never ___.</li>
+<li>Your answer: <span class="fill-in">[Fill in after solving problems]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What makes union-find fast?</strong></p>
+<ul>
+<li>Path compression flattens ___ so future finds cost <strong><em>, while union by rank prevents </em></strong>.</li>
+<li>Your answer: <span class="fill-in">[Fill in after learning optimizations]</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr />
+<h2 id="core-implementation">Core Implementation<a class="headerlink" href="#core-implementation" title="Permanent link">&para;</a></h2>
+<h3 id="pattern-1-basic-union-find-with-optimizations">Pattern 1: Basic Union-Find with Optimizations<a class="headerlink" href="#pattern-1-basic-union-find-with-optimizations" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Track connected components with path compression and union by rank.</p>
+<p><strong>Use case:</strong> Dynamic connectivity, detecting cycles, network connections.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.unionfind;
+
+public class UnionFind {
+
+    /**
+     * Union-Find Data Structure
+     * Time: O(α(n)) ≈ O(1) per operation with optimizations
+     * Space: O(n)
+     *
+     * TODO: Implement with path compression and union by rank
+     */
+    static class DSU {
+        private int[] parent;
+        private int[] rank; // or size, depending on optimization
+        private int components; // Track number of disjoint sets
+
+        public DSU(int n) {
+            // TODO: Initialize parent array: parent[i] = i
+            // TODO: Initialize rank array: rank[i] = 0
+            // TODO: Initialize components
+        }
+
+        /**
+         * Find with path compression
+         * Time: O(α(n)) amortized
+         *
+         * TODO: Implement find with path compression
+         */
+        public int find(int x) {
+            // TODO: Implement iteration/conditional logic
+            // TODO: Path compression: parent[x] = find(parent[x])
+            // TODO: Return parent[x]
+            return 0; // Replace with implementation
+        }
+
+        /**
+         * Union by rank
+         * Time: O(α(n)) amortized
+         *
+         * TODO: Implement union by rank
+         */
+        public boolean union(int x, int y) {
+            // TODO: Find roots of x and y
+            // TODO: Implement iteration/conditional logic
+            // TODO: Attach smaller rank tree under larger rank tree
+            // TODO: Implement iteration/conditional logic
+            // TODO: Decrement components count
+            // TODO: Return true (successful union)
+            return false; // Replace with implementation
+        }
+
+        /**
+         * Check if connected
+         * Time: O(α(n))
+         */
+        public boolean connected(int x, int y) {
+            // TODO: Return find(x) == find(y)
+            return false; // Replace with implementation
+        }
+
+        /**
+         * Get number of disjoint components
+         * Time: O(1)
+         */
+        public int getComponents() {
+            // TODO: Return components count
+            return 0; // Replace with implementation
+        }
+
+        /**
+         * Get size of component containing x
+         * Time: O(α(n))
+         */
+        public int getSize(int x) {
+            // TODO: Implement iteration/conditional logic
+            // TODO: Otherwise, count elements with same root
+            return 0; // Replace with implementation
+        }
+    }
+
+    /**
+     * Problem: Number of connected components in undirected graph
+     * Time: O(E * α(V)), Space: O(V)
+     *
+     * TODO: Implement using union-find
+     */
+    public static int countComponents(int n, int[][] edges) {
+        // TODO: Initialize DSU with n nodes
+        // TODO: Implement iteration/conditional logic
+        // TODO: Return number of components
+
+        return 0; // Replace with implementation
+    }
+}
+</code></pre>
+<div class="admonition warning">
+<p class="admonition-title">Debugging Challenge — Missing Path Compression</p>
+<p>The following find implementation is supposed to use path compression but has a critical bug:</p>
+<pre class="highlight"><code class="language-java">public int find_Buggy(int x) {
+    if (parent[x] != x) {
+        return find_Buggy(parent[x]);
+    }
+    return parent[x];
+}</code></pre>
+<ul>
+<li>What is the missing line?</li>
+<li>For a chain 0 → 1 → 2 → 3 → 4 → 5, how many links does find(5) traverse without the fix? After the fix?</li>
+</ul>
+<details class="success">
+<summary>Answer</summary>
+<p><strong>Bug:</strong> Missing path compression assignment. The line should be:</p>
+<pre class="highlight"><code class="language-java">parent[x] = find_Buggy(parent[x]);</code></pre>
+<p>Without this, the recursive call returns the root but does not flatten the tree. Every subsequent call to find(5)
+still traverses all 5 links. With path compression, after the first call each node points directly to the root,
+making subsequent calls O(1).</p>
+</details>
+</div>
+<hr />
+<h3 id="pattern-2-cycle-detection">Pattern 2: Cycle Detection<a class="headerlink" href="#pattern-2-cycle-detection" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Detect cycles in undirected graphs using union-find.</p>
+<p><strong>Use case:</strong> Redundant connection, graph valid tree.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.unionfind;
+
+import java.util.Arrays;
+
+import java.util.*;
+
+public class CycleDetection {
+
+    /**
+     * Problem: Detect if undirected graph has a cycle
+     * Time: O(E * α(V)), Space: O(V)
+     *
+     * TODO: Implement cycle detection
+     */
+    public static boolean hasCycle(int n, int[][] edges) {
+        // TODO: Initialize union-find
+        // TODO: Implement iteration/conditional logic
+        // TODO: Return false if no cycle
+
+        return false; // Replace with implementation
+    }
+
+    /**
+     * Problem: Find redundant connection (edge that creates cycle)
+     * Time: O(E * α(V)), Space: O(V)
+     *
+     * TODO: Implement redundant connection
+     */
+    public static int[] findRedundantConnection(int[][] edges) {
+        // TODO: Initialize union-find
+        // TODO: Implement iteration/conditional logic
+
+        return new int[]{-1, -1}; // Replace with implementation
+    }
+
+    /**
+     * Problem: Check if graph is a valid tree
+     * Time: O(E * α(V)), Space: O(V)
+     *
+     * TODO: Implement tree validation
+     */
+    public static boolean validTree(int n, int[][] edges) {
+        // TODO: Tree must have exactly n-1 edges
+        // TODO: Must have no cycles
+        // TODO: Must be fully connected (1 component)
+
+        return false; // Replace with implementation
+    }
+
+    /**
+     * Problem: Find redundant directed connection
+     * Time: O(E * α(V)), Space: O(V)
+     *
+     * TODO: Implement for directed graph
+     */
+    public static int[] findRedundantDirectedConnection(int[][] edges) {
+        // TODO: More complex - need to handle:
+        // TODO: Try removing each candidate edge
+
+        return new int[]{-1, -1}; // Replace with implementation
+    }
+}
+</code></pre>
+<div class="admonition warning">
+<p class="admonition-title">Debugging Challenge — Wrong Union Target</p>
+<p>The following union implementation attaches the wrong nodes:</p>
+<pre class="highlight"><code class="language-java">public boolean union_Buggy(int x, int y) {
+    int rootX = find(x);
+    int rootY = find(y);
+    if (rootX == rootY) return false;
+    if (rank[rootX] &lt; rank[rootY]) {
+        parent[x] = rootY;   // BUG
+    } else if (rank[rootX] &gt; rank[rootY]) {
+        parent[y] = rootX;   // BUG
+    } else {
+        parent[rootY] = rootX;
+        rank[rootX]++;
+    }
+    return true;
+}</code></pre>
+<p>What is wrong with <code>parent[x] = rootY</code> and <code>parent[y] = rootX</code>?</p>
+<details class="success">
+<summary>Answer</summary>
+<p>The bug is attaching the original nodes <code>x</code> and <code>y</code> instead of their roots <code>rootX</code> and <code>rootY</code>. This breaks the
+tree structure because <code>x</code> is just one node in a potentially large subtree — attaching <code>x</code> directly to <code>rootY</code>
+disconnects the rest of x's subtree from the union.</p>
+<p><strong>Correct:</strong></p>
+<pre class="highlight"><code class="language-java">if (rank[rootX] &lt; rank[rootY]) {
+    parent[rootX] = rootY;
+} else if (rank[rootX] &gt; rank[rootY]) {
+    parent[rootY] = rootX;
+}</code></pre>
+<p>Union by rank only maintains its height-bounding guarantee when you attach entire subtrees (at their roots), not
+individual nodes.</p>
+</details>
+</div>
+<hr />
+<h3 id="pattern-3-connected-components-problems">Pattern 3: Connected Components Problems<a class="headerlink" href="#pattern-3-connected-components-problems" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Group elements into connected components.</p>
+<p><strong>Use case:</strong> Number of islands, accounts merge, provinces.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.unionfind;
+
+import java.util.*;
+
+public class ConnectedComponents {
+
+    /**
+     * Problem: Number of islands (using union-find)
+     * Time: O(m*n * α(m*n)), Space: O(m*n)
+     *
+     * TODO: Implement using union-find
+     */
+    public static int numIslands(char[][] grid) {
+        // TODO: Initialize union-find for all cells
+        // TODO: Implement iteration/conditional logic
+        // TODO: Count unique components of land cells
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Number of provinces (friend circles)
+     * Time: O(n^2 * α(n)), Space: O(n)
+     *
+     * TODO: Implement using union-find
+     */
+    public static int findCircleNum(int[][] isConnected) {
+        // TODO: Initialize union-find with n people
+        // TODO: Implement iteration/conditional logic
+        // TODO: Return number of components
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Accounts merge (emails belonging to same person)
+     * Time: O(n*k * α(n*k)), Space: O(n*k)
+     *
+     * TODO: Implement accounts merge
+     */
+    public static List&lt;List&lt;String&gt;&gt; accountsMerge(List&lt;List&lt;String&gt;&gt; accounts) {
+        // TODO: Map email to account index
+        // TODO: Union accounts that share emails
+        // TODO: Group emails by component
+        // TODO: Sort emails in each group
+
+        return new ArrayList&lt;&gt;(); // Replace with implementation
+    }
+
+    /**
+     * Problem: Smallest string with swaps
+     * Time: O(n log n + E * α(n)), Space: O(n)
+     *
+     * TODO: Implement using union-find
+     */
+    public static String smallestStringWithSwaps(String s, List&lt;List&lt;Integer&gt;&gt; pairs) {
+        // TODO: Union indices that can be swapped
+        // TODO: Group characters by component
+        // TODO: Sort characters in each component
+        // TODO: Reconstruct string
+
+        return ""; // Replace with implementation
+    }
+}
+</code></pre>
+<hr />
+<h3 id="pattern-4-advanced-union-find-applications">Pattern 4: Advanced Union-Find Applications<a class="headerlink" href="#pattern-4-advanced-union-find-applications" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Use union-find with additional constraints or weights.</p>
+<p><strong>Use case:</strong> Satisfiability, equations, sentence similarity.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.unionfind;
+
+import java.util.*;
+
+public class AdvancedUnionFind {
+
+    /**
+     * Problem: Satisfiability of equality equations
+     * Time: O(n * α(26)), Space: O(26)
+     *
+     * TODO: Implement equation satisfaction check
+     */
+    public static boolean equationsPossible(String[] equations) {
+        // TODO: Initialize union-find for 26 letters
+        // TODO: First pass: union all equal variables (==)
+        // TODO: Second pass: check all inequalities (!=)
+        // TODO: Return true if no contradictions
+
+        return false; // Replace with implementation
+    }
+
+    /**
+     * Problem: Evaluate division (transitive division)
+     * Time: O(E * α(V) + Q * V), Space: O(V)
+     *
+     * TODO: Implement with weighted union-find
+     */
+    public static double[] calcEquation(List&lt;List&lt;String&gt;&gt; equations,
+                                       double[] values,
+                                       List&lt;List&lt;String&gt;&gt; queries) {
+        // TODO: Build graph with division relationships
+        // TODO: Implement iteration/conditional logic
+        // TODO: Or use weighted union-find with ratios
+
+        return new double[0]; // Replace with implementation
+    }
+
+    /**
+     * Problem: Sentence similarity II (transitive similarity)
+     * Time: O(P * α(W)), Space: O(W)
+     *
+     * TODO: Implement similarity check
+     */
+    public static boolean areSentencesSimilar(String[] words1, String[] words2,
+                                             List&lt;List&lt;String&gt;&gt; pairs) {
+        // TODO: Implement iteration/conditional logic
+        // TODO: Union similar word pairs
+        // TODO: Check if words1[i] and words2[i] in same component
+
+        return false; // Replace with implementation
+    }
+
+    /**
+     * Problem: Minimize malware spread
+     * Time: O(n^2 * α(n)), Space: O(n)
+     *
+     * TODO: Implement using union-find
+     */
+    public static int minMalwareSpread(int[][] graph, int[] initial) {
+        // TODO: Union all connected nodes
+        // TODO: Implement iteration/conditional logic
+        // TODO: Return node whose removal saves most nodes
+
+        return 0; // Replace with implementation
+    }
+}
+</code></pre>
+<hr />
+<h2 id="beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters<a class="headerlink" href="#beforeafter-why-this-pattern-matters" title="Permanent link">&para;</a></h2>
+<p><strong>Your task:</strong> Compare naive vs optimized approaches to understand the impact.</p>
+<h3 id="example-connectivity-queries">Example: Connectivity Queries<a class="headerlink" href="#example-connectivity-queries" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Check if two nodes are connected in a dynamic graph with union operations.</p>
+<h4 id="approach-1-dfsbfs-for-each-query">Approach 1: DFS/BFS for Each Query<a class="headerlink" href="#approach-1-dfsbfs-for-each-query" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Naive approach - Traverse graph for every connectivity check
+public class NaiveConnectivity {
+    private List&lt;Integer&gt;[] graph;
+
+    public NaiveConnectivity(int n) {
+        graph = new ArrayList[n];
+        for (int i = 0; i &lt; n; i++) {
+            graph[i] = new ArrayList&lt;&gt;();
+        }
+    }
+
+    public void union(int x, int y) {
+        graph[x].add(y);
+        graph[y].add(x);
+    }
+
+    public boolean connected(int x, int y) {
+        // DFS to check connectivity
+        boolean[] visited = new boolean[graph.length];
+        return dfs(x, y, visited);
+    }
+
+    private boolean dfs(int node, int target, boolean[] visited) {
+        if (node == target) return true;
+        visited[node] = true;
+
+        for (int neighbor : graph[node]) {
+            if (!visited[neighbor]) {
+                if (dfs(neighbor, target, visited)) return true;
+            }
+        }
+        return false;
+    }
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time per union: O(1) - Just add edges</li>
+<li>Time per connected query: O(V + E) - Full DFS/BFS traversal</li>
+<li>Space: O(V + E) - Store all edges</li>
+<li>For 1,000 queries on 10,000 nodes: ~10,000,000+ operations per query</li>
+</ul>
+<h4 id="approach-2-union-find-optimized">Approach 2: Union-Find (Optimized)<a class="headerlink" href="#approach-2-union-find-optimized" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Optimized approach - Union-Find with path compression and union by rank
+public class OptimizedConnectivity {
+    private int[] parent;
+    private int[] rank;
+
+    public OptimizedConnectivity(int n) {
+        parent = new int[n];
+        rank = new int[n];
+        for (int i = 0; i &lt; n; i++) {
+            parent[i] = i;
+            rank[i] = 0;
+        }
+    }
+
+    public int find(int x) {
+        // Path compression: point directly to root
+        if (parent[x] != x) {
+            parent[x] = find(parent[x]);
+        }
+        return parent[x];
+    }
+
+    public void union(int x, int y) {
+        int rootX = find(x);
+        int rootY = find(y);
+
+        if (rootX == rootY) return;
+
+        // Union by rank: attach smaller tree under larger
+        if (rank[rootX] &lt; rank[rootY]) {
+            parent[rootX] = rootY;
+        } else if (rank[rootX] &gt; rank[rootY]) {
+            parent[rootY] = rootX;
+        } else {
+            parent[rootY] = rootX;
+            rank[rootX]++;
+        }
+    }
+
+    public boolean connected(int x, int y) {
+        return find(x) == find(y);
+    }
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time per operation: O(α(n)) ≈ O(1) - Inverse Ackermann (practically constant)</li>
+<li>Space: O(n) - Only parent and rank arrays</li>
+<li>For 1,000 queries: ~1,000 operations total (vs millions)</li>
+</ul>
+<h4 id="performance-comparison">Performance Comparison<a class="headerlink" href="#performance-comparison" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Operations</th>
+<th>DFS/BFS (O(V+E))</th>
+<th>Union-Find (O(α(n)))</th>
+<th>Speedup</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>100 queries</td>
+<td>~100,000 ops</td>
+<td>~100 ops</td>
+<td>1,000x</td>
+</tr>
+<tr>
+<td>1,000 queries</td>
+<td>~1,000,000 ops</td>
+<td>~1,000 ops</td>
+<td>1,000x</td>
+</tr>
+<tr>
+<td>10,000 queries</td>
+<td>~10,000,000 ops</td>
+<td>~10,000 ops</td>
+<td>1,000x</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Your calculation:</strong> For 5,000 connectivity queries on a graph with 5,000 nodes, the speedup is approximately _____
+times faster.</p>
+<h4 id="why-does-union-find-work">Why Does Union-Find Work?<a class="headerlink" href="#why-does-union-find-work" title="Permanent link">&para;</a></h4>
+<div class="admonition note">
+<p class="admonition-title">Key insight</p>
+<p>Union-find achieves near-constant time by maintaining a forest of trees where each tree represents a connected
+component. The root of the tree is the "representative" of that component. Path compression flattens these trees
+so future find operations skip intermediate nodes entirely — the structure sacrifices tree shape for query speed.</p>
+</div>
+<p>Starting with nodes: {0, 1, 2, 3, 4} (all separate)</p>
+<pre class="highlight"><code>Step 1: union(0, 1)
+   Component structure:  0    2  3  4
+                        /
+                       1
+
+Step 2: union(2, 3)
+   Component structure:  0    2    4
+                        /    /
+                       1    3
+
+Step 3: union(1, 2)
+   Component structure:  0      4
+                        / \
+                       1   2
+                          /
+                         3
+
+Now find(1) and find(3) both return 0 (same root) → connected!</code></pre>
+<p><strong>Path compression in action:</strong></p>
+<pre class="highlight"><code>Before find(3): 3 → 2 → 0  (must traverse 2 links)
+After find(3):  3 → 0      (directly points to root)
+                2 → 0      (also flattened)</code></pre>
+<p><strong>Why can we skip intermediate nodes?</strong></p>
+<ul>
+<li>We only care if two nodes share the same root (same component)</li>
+<li>The path structure doesn't matter, only connectivity</li>
+<li>Path compression flattens trees without changing connectivity</li>
+<li>Future operations become faster!</li>
+</ul>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>Why does union by rank keep trees balanced? <span class="fill-in">[Your answer]</span></li>
+<li>How does path compression improve future finds? <span class="fill-in">[Your answer]</span></li>
+<li>What's the inverse Ackermann function and why does it matter? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr />
+<h2 id="case-studies">Case Studies<a class="headerlink" href="#case-studies" title="Permanent link">&para;</a></h2>
+<h3 id="social-networks-friend-group-detection">Social Networks: Friend Group Detection<a class="headerlink" href="#social-networks-friend-group-detection" title="Permanent link">&para;</a></h3>
+<p>LinkedIn needs to determine whether two users are in the same professional network (connected through mutual
+connections). With millions of users and connections added every second, DFS/BFS per query is too slow.</p>
+<p>Union-Find processes each new "connection" event with a union operation and answers "are they in the same network?" with
+a connected query — both in effectively O(1) amortized time.</p>
+<h3 id="kruskals-mst-cable-network-design">Kruskal's MST: Cable Network Design<a class="headerlink" href="#kruskals-mst-cable-network-design" title="Permanent link">&para;</a></h3>
+<p>A city wants to connect all neighborhoods with fiber optic cable at minimum cost. Kruskal's algorithm sorts edges by
+cost and greedily adds the cheapest edge that doesn't create a cycle — which union-find detects in O(α(n)) per edge.</p>
+<h3 id="online-collaborative-editing-document-merging">Online Collaborative Editing: Document Merging<a class="headerlink" href="#online-collaborative-editing-document-merging" title="Permanent link">&para;</a></h3>
+<p>When multiple users edit the same document offline and reconnect, the system must merge their edit graphs. Union-Find
+groups edits into connected revision chains before merging, enabling efficient conflict detection.</p>
+<hr />
+<h2 id="common-misconceptions">Common Misconceptions<a class="headerlink" href="#common-misconceptions" title="Permanent link">&para;</a></h2>
+<div class="admonition danger">
+<p class="admonition-title">Union-find supports deletions</p>
+<p>Union-find only supports merging components, never splitting them. Once two nodes are in the same component, there
+is no efficient way to separate them. If your problem requires removing edges or splitting components, you need a
+different data structure (or an offline algorithm that processes deletions in reverse as additions).</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Rank always equals actual tree height</p>
+<p>Rank is an upper bound on tree height, not the exact height. After path compression flattens nodes, the rank of a
+root may be higher than the actual height of its tree. This is intentional — rank is used only to guide merging
+decisions, not to measure exact depth.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Union-find works for directed graph cycle detection</p>
+<p>Union-find detects cycles only in <strong>undirected</strong> graphs. For directed graphs, you need DFS with three-color visited
+tracking (unvisited/in-progress/finished). Applying union-find to a directed graph will produce incorrect cycle
+detection results because direction of edges is ignored.</p>
+</div>
+<hr />
+<h2 id="decision-framework-choosing-a-union-find-implementation">Decision Framework: Choosing a Union-Find Implementation<a class="headerlink" href="#decision-framework-choosing-a-union-find-implementation" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Fill in the matrix after working through the implementations above.</p>
+<h3 id="trade-off-analysis-matrix">Trade-off Analysis Matrix<a class="headerlink" href="#trade-off-analysis-matrix" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Implementation</th>
+<th>find() time</th>
+<th>union() time</th>
+<th>Space</th>
+<th>Key trade-off</th>
+<th>Practical use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Quick find</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Quick union</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Weighted union</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Weighted + path compression</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+</tbody>
+</table>
+<details class="success">
+<summary>Answers</summary>
+<table>
+<thead>
+<tr>
+<th>Implementation</th>
+<th>find() time</th>
+<th>union() time</th>
+<th>Space</th>
+<th>Key trade-off</th>
+<th>Practical use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Quick find</strong></td>
+<td>O(1)</td>
+<td>O(n) — must update all elements in the set</td>
+<td>O(n)</td>
+<td>Trivial find, expensive union — every union rewrites the whole set's id array</td>
+<td>Toy examples; not used in practice</td>
+</tr>
+<tr>
+<td><strong>Quick union</strong></td>
+<td>O(n) worst — tree can degenerate to linked list</td>
+<td>O(n) worst</td>
+<td>O(n)</td>
+<td>Avoids the O(n) union rewrite but trades it for O(n) find in worst case</td>
+<td>Also toy; establishes the baseline to understand why weighting matters</td>
+</tr>
+<tr>
+<td><strong>Weighted union</strong></td>
+<td>O(log n) — tree height bounded by log n because smaller tree merges under larger</td>
+<td>O(log n)</td>
+<td>O(n)</td>
+<td>Height bounded by O(log n) — never degenerates</td>
+<td>Good when path compression unavailable (e.g., persistent/rollback variants)</td>
+</tr>
+<tr>
+<td><strong>Weighted + path compression</strong></td>
+<td>O(α(n)) ≈ O(1) — path compression flattens the tree on every find</td>
+<td>O(α(n)) ≈ O(1)</td>
+<td>O(n)</td>
+<td>α is inverse Ackermann — effectively constant for any n that could exist</td>
+<td>Production default: number of islands, redundant connection, accounts merge</td>
+</tr>
+</tbody>
+</table>
+</details>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">When it breaks</p>
+<p>Union-find breaks for three cases: directed graphs (edge direction is ignored, producing wrong connectivity), problems requiring deletion (elements cannot be removed from a set once merged — find() performs path compression, physically rewriting parent pointers, so there is no record of previous parent relationships to reverse), and persistent snapshots (path compression mutates parent arrays on read, making rollback to a prior state impossible without copying the entire structure). The weighted union variant also breaks when the problem requires minimum spanning tree with arbitrary weights — you need a separate priority queue (Kruskal's) on top of union-find, not a replacement.</p>
+</div>
+<hr />
+<h2 id="practice">Practice<a class="headerlink" href="#practice" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<h3 id="leetcode-problems">LeetCode Problems<a class="headerlink" href="#leetcode-problems" title="Permanent link">&para;</a></h3>
+<p><strong>Easy (Complete all 2):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/number-of-provinces/">547. Number of Provinces</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Connected components]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/satisfiability-of-equality-equations/">990. Satisfiability of Equality Equations</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Constraint checking]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Medium (Complete 3-4):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/number-of-islands/">200. Number of Islands</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Connected components in grid]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/redundant-connection/">684. Redundant Connection</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Cycle detection]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/accounts-merge/">721. Accounts Merge</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Grouping with union-find]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/smallest-string-with-swaps/">1202. Smallest String With Swaps</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Components with optimization]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Hard (Optional):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/redundant-connection-ii/">685. Redundant Connection II</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Directed graph cycle]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/evaluate-division/">399. Evaluate Division</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Weighted union-find]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Failure modes:</strong></p>
+<ul>
+<li>What happens if <code>find()</code> is called with a node index that was never initialized in the parent array — does your implementation throw an exception or silently return a wrong root? <span class="fill-in">[Fill in]</span></li>
+<li>How does your union-find behave when <code>union(x, x)</code> is called (union of a node with itself) — does the component count incorrectly decrement? <span class="fill-in">[Fill in]</span></li>
+</ul>
+</div>
+<hr />
+<h2 id="test-your-understanding">Test Your Understanding<a class="headerlink" href="#test-your-understanding" title="Permanent link">&para;</a></h2>
+<p>Answer these without referring to your notes or implementation.</p>
+<ol>
+<li>
+<p>What two optimizations make union-find nearly O(1) per operation, and what does each one do?</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) path compression — during <code>find(x)</code>, every node on the path from x to the root is pointed directly to the root, flattening the tree so future finds on those nodes take O(1); (2) union by rank — when merging two trees, the root of the shorter tree is attached under the root of the taller tree, preventing the tree from degenerating into a linked list; (3) the combined effect — with both optimizations, every sequence of m operations on n elements runs in O(m α(n)) total time, where α(n) is the inverse Ackermann function which is at most 4 for any n that can be stored in the observable universe.</p>
+</details>
+</li>
+<li>
+<p>Given a graph with edges [(0,1), (1,2), (2,3), (3,1)], trace which edge is detected as the redundant connection and why.</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) the trace — process (0,1): union 0 and 1, roots differ, merge; process (1,2): union 1 and 2, roots differ, merge; process (2,3): union 2 and 3, roots differ, merge; process (3,1): find(3) and find(1) return the same root (all four nodes are now in the same component), so this edge creates a cycle; (2) the answer — edge (3,1) is the redundant connection; (3) the general principle — the first edge whose two endpoints already share a root is the cycle-creating edge.</p>
+</details>
+</li>
+<li>
+<p>Why does union-find only increment rank when two trees of equal rank are merged, and not in the other two cases?</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) the three cases — when rank[rootX] &lt; rank[rootY], attach rootX under rootY; rootY's rank is unchanged because the resulting tree is no taller than rootY's tree was; when rank[rootX] &gt; rank[rootY], attach rootY under rootX; rootX's rank is unchanged for the same reason; when equal, attaching either under the other increases the height by exactly 1, so rank must increment; (2) why rank bounds height — rank is an upper bound on tree height; attaching a shorter tree under a taller one cannot increase the taller tree's height, so no increment is needed; (3) the consequence — this guarantee ensures the tree height is at most O(log n) without path compression, giving O(log n) worst-case find even without compression.</p>
+</details>
+</li>
+<li>
+<p>You need to check whether 10,000 pairs of nodes are connected in a graph that has 1,000 nodes and 5,000 edges. Compare DFS/BFS per query versus union-find. Which is faster, and by approximately how much?</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) DFS/BFS cost — each query requires traversing up to O(V + E) = O(6,000) nodes and edges; 10,000 queries cost ~60,000,000 operations; (2) union-find cost — preprocessing: 5,000 union operations at O(α(n)) ≈ O(1) each ≈ 5,000 operations; query phase: 10,000 connected checks at O(α(n)) ≈ 10,000 operations; total ≈ 15,000 operations; (3) speedup — approximately 4,000x faster; (4) the key tradeoff — union-find pays a one-time O(E α(V)) preprocessing cost and then answers queries in O(α(V)) each, while DFS/BFS has no preprocessing but pays O(V + E) per query; union-find wins whenever query count × (V + E) &gt;&gt; E.</p>
+</details>
+</li>
+<li>
+<p>A colleague says "I can use union-find to find cycles in a directed graph — I'll just ignore edge direction." What is wrong with this approach? Give a concrete counterexample.</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) the problem — ignoring edge direction treats a directed graph as undirected; in an undirected graph, any two edges sharing a node can appear to form a cycle; (2) the counterexample — consider edges A→B and C→B; these have no cycle (B has in-degree 2, which is valid in a directed graph); but union-find treating them as undirected would find that A and C are both connected to B and might incorrectly report a cycle when processing the second edge depending on implementation; better counterexample: A→B, A→C, B→C — no directed cycle exists, but union-find sees a triangle and reports a cycle on the third edge; (3) the correct approach — for directed graph cycle detection, use DFS with three-color visited tracking (white/gray/black) where a back edge to a gray node signals a directed cycle.</p>
+</details>
+</li>
+</ol>
+<hr />
+<h2 id="connected-topics">Connected Topics<a class="headerlink" href="#connected-topics" title="Permanent link">&para;</a></h2>
+<div class="bs-callout bs-callout-info">
+<p><strong>Where this topic connects</strong></p>
+<ul>
+<li><strong><a href="../10-graphs/">10. Graphs</a></strong> — Union-Find solves dynamic connectivity queries that would otherwise require repeated BFS/DFS; the two approaches trade off preprocessing vs query cost → <a href="../10-graphs/">10. Graphs</a></li>
+<li><strong><a href="../11-advanced-graphs/">11. Advanced Graphs</a></strong> — Kruskal's MST algorithm uses Union-Find to detect cycles when greedily adding edges → <a href="../11-advanced-graphs/">11. Advanced Graphs</a></li>
+</ul>
+</div></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = "../.."</script>
+    
+    <script src="../../js/base.js"></script>
+    <script src="../../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

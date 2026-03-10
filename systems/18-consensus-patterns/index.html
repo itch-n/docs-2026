@@ -1,0 +1,1599 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="A framework for algorithms, systems design, and infrastructure." name="description"/>
+<meta content="Richard" name="author"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>18. Consensus Patterns - Software Engineering Study Guide</title>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" rel="stylesheet"/>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css" rel="stylesheet"/>
+<link href="//rsms.me/inter/inter.css" rel="stylesheet" type="text/css"/>
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&amp;subset=latin-ext,latin" rel="stylesheet" type="text/css"/>
+<link href="../../css/bootstrap-custom.min.css" rel="stylesheet"/>
+<link href="../../css/base.min.css" rel="stylesheet"/>
+<link href="../../css/cinder.min.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css" rel="stylesheet"/>
+<link href="../../css/custom.css" rel="stylesheet"/>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="container">
+<!-- Collapsed navigation -->
+<div class="navbar-header">
+<!-- Expander button -->
+<button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<!-- Main title -->
+<a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+</div>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li>
+<a href="../..">Home</a>
+</li>
+<li class="dropdown active">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Systems Design <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../01-storage-engines/">01. Storage Engines</a>
+</li>
+<li>
+<a href="../02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+<li>
+<a href="../03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+<li>
+<a href="../04-search-and-indexing/">04. Search &amp; Indexing</a>
+</li>
+<li>
+<a href="../05-caching-patterns/">05. Caching Patterns</a>
+</li>
+<li>
+<a href="../06-api-design/">06. API Design</a>
+</li>
+<li>
+<a href="../07-security-patterns/">07. Security Patterns</a>
+</li>
+<li>
+<a href="../08-rate-limiting/">08. Rate Limiting</a>
+</li>
+<li>
+<a href="../09-load-balancing/">09. Load Balancing</a>
+</li>
+<li>
+<a href="../10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+<li>
+<a href="../11-database-scaling/">11. Database Scaling</a>
+</li>
+<li>
+<a href="../12-message-queues/">12. Message Queues</a>
+</li>
+<li>
+<a href="../13-event-sourcing-cqrs/">13. Event Sourcing &amp; CQRS</a>
+</li>
+<li>
+<a href="../14-stream-processing/">14. Stream Processing</a>
+</li>
+<li>
+<a href="../15-observability/">15. Observability</a>
+</li>
+<li>
+<a href="../16-resilience-patterns/">16. Resilience Patterns</a>
+</li>
+<li>
+<a href="../17-distributed-transactions/">17. Distributed Transactions</a>
+</li>
+<li class="active">
+<a href="./">18. Consensus Patterns</a>
+</li>
+<li>
+<a href="../19-microservices-patterns/">19. Microservices Patterns</a>
+</li>
+<li>
+<a href="../20-multi-region/">20. Multi-Region Architecture</a>
+</li>
+</ul>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">DSA <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../dsa/01-two-pointers/">01. Two Pointers</a>
+</li>
+<li>
+<a href="../../dsa/02-sliding-window/">02. Sliding Window</a>
+</li>
+<li>
+<a href="../../dsa/03-hash-tables/">03. Hash Tables</a>
+</li>
+<li>
+<a href="../../dsa/04-linked-lists/">04. Linked Lists</a>
+</li>
+<li>
+<a href="../../dsa/05-stacks--queues/">05. Stacks &amp; Queues</a>
+</li>
+<li>
+<a href="../../dsa/06-trees/">06. Trees</a>
+</li>
+<li>
+<a href="../../dsa/07-binary-search/">07. Binary Search</a>
+</li>
+<li>
+<a href="../../dsa/08-heaps/">08. Heaps</a>
+</li>
+<li>
+<a href="../../dsa/09-union-find/">09. Union-Find</a>
+</li>
+<li>
+<a href="../../dsa/10-graphs/">10. Graphs</a>
+</li>
+<li>
+<a href="../../dsa/11-advanced-graphs/">11. Advanced Graphs</a>
+</li>
+<li>
+<a href="../../dsa/12-backtracking/">12. Backtracking</a>
+</li>
+<li>
+<a href="../../dsa/13-dynamic-programming/">13. Dynamic Programming</a>
+</li>
+<li>
+<a href="../../dsa/14-prefix-sums/">14. Prefix Sums</a>
+</li>
+<li>
+<a href="../../dsa/15-intervals/">15. Intervals</a>
+</li>
+</ul>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Quick Reference <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../reference/when-it-breaks/">When It Breaks</a>
+</li>
+<li>
+<a href="../../reference/back-of-envelope/">Back of the Envelope</a>
+</li>
+<li>
+<a href="../../reference/symptom-pattern/">Symptom → Pattern</a>
+</li>
+<li>
+<a href="../../reference/staff-interview-strategy/">Staff+ Interview Strategy</a>
+</li>
+<li>
+<a href="../../reference/no-new-problems/">No New Problems in CS</a>
+</li>
+<li>
+<a href="../../reference/how-the-machine-works/">How the Machine Actually Works</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+<a data-target="#mkdocs_search_modal" data-toggle="modal" href="#">
+<i class="fas fa-search"></i> Search
+                        </a>
+</li>
+<li>
+<a href="../17-distributed-transactions/" rel="prev">
+<i class="fas fa-arrow-left"></i> Previous
+                        </a>
+</li>
+<li>
+<a href="../19-microservices-patterns/" rel="next">
+                            Next <i class="fas fa-arrow-right"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+<ul class="nav bs-sidenav">
+<li class="first-level active"><a href="#consensus-patterns">Consensus Patterns</a></li>
+<li class="second-level"><a href="#learning-objectives">Learning Objectives</a></li>
+<li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+<li class="second-level"><a href="#core-concepts">Core Concepts</a></li>
+<li class="second-level"><a href="#beforeafter-why-consensus-matters">Before/After: Why Consensus Matters</a></li>
+<li class="second-level"><a href="#case-studies-consensus-in-the-wild">Case Studies: Consensus in the Wild</a></li>
+<li class="second-level"><a href="#common-misconceptions">Common Misconceptions</a></li>
+<li class="second-level"><a href="#decision-framework-choosing-a-consensus-system">Decision Framework: Choosing a Consensus System</a></li>
+<li class="second-level"><a href="#practice">Practice</a></li>
+<li class="second-level"><a href="#test-your-understanding">Test Your Understanding</a></li>
+<li class="second-level"><a href="#review-checklist">Review Checklist</a></li>
+<li class="second-level"><a href="#connected-topics">Connected Topics</a></li>
+</ul>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="consensus-patterns">Consensus Patterns<a class="headerlink" href="#consensus-patterns" title="Permanent link">¶</a></h1>
+<blockquote>
+<p>Leader election, Raft consensus, distributed locks, and quorum-based systems</p>
+</blockquote>
+<hr/>
+<h2 id="learning-objectives">Learning Objectives<a class="headerlink" href="#learning-objectives" title="Permanent link">¶</a></h2>
+<p>By the end of this section you should be able to:</p>
+<ul>
+<li>Explain why majority quorum prevents split-brain and prove it using the overlap property</li>
+<li>Describe the three Raft roles (leader, candidate, follower), the term counter, and why terms prevent stale leaders</li>
+<li>Identify the two bugs in a broken leader election implementation and explain which safety property each violates</li>
+<li>Implement distributed lock acquisition with TTL and fencing tokens, and explain what fencing protects against</li>
+<li>Calculate quorum sizes (R and W) for a given replication factor and consistency requirement</li>
+<li>Choose between leader-based (Raft) and leaderless (quorum) consensus for a given use case</li>
+</ul>
+<hr/>
+<div class="admonition note">
+<p class="admonition-title">Operational reality</p>
+<p>You will almost certainly never implement Raft or Paxos directly. The practical skill is knowing when to reach for etcd, ZooKeeper, or your cloud provider's managed coordination service — and understanding the consistency, latency, and availability tradeoffs well enough to use them correctly. The algorithm details matter for interviews because they reveal <em>why</em> consensus is expensive (leader election, quorum writes, log replication) and what failure modes to expect.</p>
+<p>Distributed locks in particular have a long history of subtle bugs in production. "We use Redis for distributed locking" is a phrase that appears in a disproportionate number of postmortems.</p>
+</div>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After implementing consensus patterns, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What is consensus in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">Consensus is the process by which ___ nodes in a distributed system ___ on a single ___</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Why do distributed systems need consensus?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">Without consensus, multiple nodes could ___ simultaneously, causing ___ and ___</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy for leader election:</strong></p>
+<ul>
+<li>Example: "Leader election is like choosing a class president where..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What is the split-brain problem in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">Split-brain occurs when ___ nodes each believe they are the ___, so they ___ independently</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy for distributed locks:</strong></p>
+<ul>
+<li>Example: "A distributed lock is like a bathroom key that..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Why do we need quorums?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">Quorums ensure that any ___ always overlaps with any <strong><em>, so you always see </em></strong></span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr/>
+<h2 id="core-concepts">Core Concepts<a class="headerlink" href="#core-concepts" title="Permanent link">¶</a></h2>
+<h3 id="pattern-1-leader-election">Pattern 1: Leader Election<a class="headerlink" href="#pattern-1-leader-election" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Distributed algorithm to elect a single leader node from a cluster of nodes, ensuring only one leader
+exists at any time.</p>
+<p><strong>Use case:</strong> Distributed databases, coordination services, master-worker systems.</p>
+<p><strong>Key Properties:</strong></p>
+<ul>
+<li><strong>Safety</strong>: At most one leader at any time</li>
+<li><strong>Liveness</strong>: Eventually a leader is elected if majority is available</li>
+<li><strong>Agreement</strong>: All nodes agree on who the leader is</li>
+</ul>
+<p><strong>Common Algorithms:</strong></p>
+<p><strong>1. Bully Algorithm</strong></p>
+<ul>
+<li>Highest ID node becomes leader</li>
+<li>Node contacts all higher-ID nodes; if no response, declares itself leader</li>
+<li>Simple but can cause message storms</li>
+<li>Time: O(N²) messages in worst case</li>
+</ul>
+<p><strong>2. Ring Algorithm</strong></p>
+<ul>
+<li>Nodes organized in logical ring</li>
+<li>Election message passes around ring collecting IDs</li>
+<li>Node with highest ID becomes leader</li>
+<li>Time: O(N) messages, but slower latency</li>
+</ul>
+<p><strong>3. Raft Leader Election</strong> (see Pattern 2)</p>
+<ul>
+<li>Term-based elections with majority voting</li>
+<li>Prevents split-brain through quorum</li>
+<li>Production-ready (etcd, Consul)</li>
+</ul>
+<p><strong>Simplified Example:</strong></p>
+<pre class="highlight"><code class="language-java">package com.study.systems.consensus;
+
+// High-level API - implementation details abstracted
+public interface LeaderElection {
+    // Start election process
+    void startElection(int nodeId);
+
+    // Get current leader (or -1 if none)
+    int getLeader();
+
+    // Check if this node is the leader
+    boolean isLeader(int nodeId);
+
+    // Detect leader failure via heartbeat timeout
+    void checkLeaderHealth(int nodeId);
+}
+</code></pre>
+<p><strong>Failure Handling:</strong></p>
+<pre class="highlight"><code>Initial state: Node 5 is leader
+Node 5 fails (heartbeat timeout)
+Node 4 detects failure → starts election
+Node 4 sends election messages to Node 5 (no response)
+Node 4 declares itself leader
+Node 4 broadcasts victory to all nodes
+New state: Node 4 is leader</code></pre>
+<hr/>
+<h3 id="pattern-2-raft-consensus-algorithm">Pattern 2: Raft Consensus Algorithm<a class="headerlink" href="#pattern-2-raft-consensus-algorithm" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Consensus algorithm that ensures replicated log consistency across distributed nodes through leader
+election and log replication.</p>
+<p><strong>Use case:</strong> Distributed databases (etcd, Consul), replicated state machines, configuration management.</p>
+<p><strong>Key Components:</strong></p>
+<ol>
+<li><strong>Leader Election with Terms</strong></li>
+<li>Each election cycle has a term number</li>
+<li>Candidate requests votes from all nodes</li>
+<li>Requires majority to become leader</li>
+<li>
+<p>Prevents split-brain through quorum</p>
+</li>
+<li>
+<p><strong>Log Replication (AppendEntries RPC)</strong></p>
+</li>
+<li>Leader appends entries to local log</li>
+<li>Replicates to followers</li>
+<li>Commits when majority acknowledges</li>
+<li>
+<p>Guarantees: committed entries never lost</p>
+</li>
+<li>
+<p><strong>Safety Properties</strong></p>
+</li>
+<li><strong>Election Safety</strong>: At most one leader per term</li>
+<li><strong>Leader Append-Only</strong>: Leader never overwrites/deletes entries</li>
+<li><strong>Log Matching</strong>: If two logs contain entry with same index/term, all preceding entries are identical</li>
+<li><strong>Leader Completeness</strong>: If entry committed in term T, it will be present in leaders of all future terms</li>
+<li><strong>State Machine Safety</strong>: If a server applies log entry at index i, no other server will apply different entry at i</li>
+</ol>
+<p><strong>How Raft Works:</strong></p>
+<div class="mermaid">sequenceDiagram
+    participant F1 as Follower 1 (Candidate)
+    participant F2 as Follower 2
+    participant F3 as Follower 3
+    participant F4 as Follower 4
+
+    Note over F1: Election timeout — becomes Candidate
+    Note over F1: Increment term, vote for self
+    F1-&gt;&gt;F2: RequestVote(term=2, candidateId=1)
+    F1-&gt;&gt;F3: RequestVote(term=2, candidateId=1)
+    F1-&gt;&gt;F4: RequestVote(term=2, candidateId=1)
+    F2-&gt;&gt;F1: VoteGranted
+    F3-&gt;&gt;F1: VoteGranted
+    Note over F1: Majority achieved (3/4) — becomes Leader
+    F1-&gt;&gt;F2: Heartbeat (AppendEntries, term=2)
+    F1-&gt;&gt;F3: Heartbeat (AppendEntries, term=2)
+    F1-&gt;&gt;F4: Heartbeat (AppendEntries, term=2)</div>
+<p><strong>Phase 2: Log Replication</strong></p>
+<ul>
+<li>Client sends command to Leader</li>
+<li>Leader appends to local log</li>
+<li>Leader sends AppendEntries to all Followers</li>
+<li>Followers append entries to their logs</li>
+<li>Once majority acknowledges → Leader commits entry</li>
+<li>Leader notifies Followers of commit via next AppendEntries</li>
+</ul>
+<p><strong>Phase 3: Safety</strong></p>
+<ul>
+<li>New leader contains all committed entries (election restriction)</li>
+<li>Leader never commits entries from previous terms directly</li>
+<li>Only commits when majority has current-term entry</li>
+</ul>
+<p><strong>Simplified API:</strong></p>
+<pre class="highlight"><code class="language-java">package com.study.systems.consensus;
+
+import java.util.*;
+// High-level Raft interface
+public interface RaftConsensus {
+    // Start election (becomes candidate)
+    void startElection(int nodeId);
+
+    // Append command to replicated log
+    boolean appendEntry(int leaderId, String command);
+
+    // Get current leader
+    int getLeader();
+
+    // Get committed log entries
+    List&lt;LogEntry&gt; getCommittedEntries(int nodeId);
+}
+</code></pre>
+<p><strong>Log Replication Flow:</strong></p>
+<div class="mermaid">sequenceDiagram
+    participant C as Client
+    participant L as Leader
+    participant F2 as Follower 2
+    participant F3 as Follower 3
+    participant F4 as Follower 4 (down)
+
+    C-&gt;&gt;L: SET x=1
+    Note over L: Append Entry(term=2, index=6) to local log
+    L-&gt;&gt;F2: AppendEntries(term=2, prevIndex=5, entry=6)
+    L-&gt;&gt;F3: AppendEntries(term=2, prevIndex=5, entry=6)
+    L-&gt;&gt;F4: AppendEntries(term=2, prevIndex=5, entry=6)
+    F2-&gt;&gt;L: ACK
+    F3-&gt;&gt;L: ACK
+    Note over F4: No response (down)
+    Note over L: Majority = Leader + F2 + F3 (3/5) — commit!
+    L-&gt;&gt;C: Success
+    L-&gt;&gt;F2: commitIndex=6 (next heartbeat)
+    L-&gt;&gt;F3: commitIndex=6 (next heartbeat)</div>
+<p><strong>Key Insight: Log Matching Property</strong></p>
+<pre class="highlight"><code>If two entries in different logs have same index and term:
+
+1. They store the same command
+2. All preceding entries are identical
+
+Why? Leader creates at most one entry per index per term,
+and entries are never moved or deleted (append-only).
+
+This property enables Raft to keep logs consistent with simple checks.</code></pre>
+<div class="admonition warning">
+<p class="admonition-title">Debugging Challenge — Vote Count Off-by-One</p>
+<p>The following leader election implementation has <strong>2 bugs</strong> that allow split-brain in a partitioned cluster.</p>
+<pre class="highlight"><code class="language-java">public void startElection(int candidateId) {
+    Node candidate = nodes.get(candidateId);
+    candidate.currentTerm++;
+
+    int votesReceived = 1; // Vote for self
+
+    for (Map.Entry&lt;Integer, Node&gt; entry : nodes.entrySet()) {
+        int nodeId = entry.getKey();
+        if (nodeId != candidateId) {
+            boolean voteGranted = requestVote(nodeId, candidateId);
+            votesReceived++;  // Bug A
+        }
+    }
+
+    if (votesReceived &gt; majoritySize) {  // Bug B
+        becomeLeader(candidateId);
+    }
+}</code></pre>
+<p>With 5 nodes and <code>majoritySize = 3</code>, trace through a partition of {1,2} vs {3,4,5}. With the bugs, how many leaders are elected?</p>
+<details class="success">
+<summary>Answer</summary>
+<p><strong>Bug A (line with <code>votesReceived++</code>):</strong> Increments the count unconditionally, even when <code>voteGranted</code> is <code>false</code>. It should be <code>if (voteGranted) votesReceived++;</code>. Without this fix, a node in a 2-node partition counts requests it sent as votes received, inflating its count.</p>
+<p><strong>Bug B (<code>&gt; majoritySize</code>):</strong> Should be <code>&gt;= majoritySize</code>. With 5 nodes, majority = 3. A candidate with exactly 3 votes evaluates <code>3 &gt; 3 = false</code> and incorrectly does not become leader, causing re-elections.</p>
+<p><strong>Split-brain trace with bugs:</strong>
+- Node 1 in partition {1,2} sends vote request to Node 2. Gets 1 real vote but Bug A counts every request, so <code>votesReceived = 3</code>. <code>3 &gt; 3 = false</code>, no leader.
+- Actually with Bug A: starts at 1 (self), sends to node 2 → gets false but still increments → <code>votesReceived = 2</code> → <code>2 &gt; 3 = false</code>. No leader in {1,2} partition.
+- Node 3 in {3,4,5}: gets 3 real votes, <code>votesReceived = 3</code>, <code>3 &gt; 3 = false</code> (Bug B). No leader elected at all!</p>
+<p><strong>After both fixes:</strong> Node 3 gets 3 votes, <code>3 &gt;= 3 = true</code> → becomes leader. Node 1 gets 2 votes, <code>2 &gt;= 3 = false</code> → no leader in minority. One leader only, no split-brain.</p>
+</details>
+</div>
+<hr/>
+<h3 id="pattern-3-distributed-locks">Pattern 3: Distributed Locks<a class="headerlink" href="#pattern-3-distributed-locks" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Mechanism to ensure mutual exclusion across distributed systems, preventing concurrent access to shared
+resources.</p>
+<p><strong>Use case:</strong> Job schedulers, resource allocation, preventing duplicate processing.</p>
+<p><strong>Key Features:</strong></p>
+<ol>
+<li><strong>Time-To-Live (TTL):</strong></li>
+<li>Locks automatically expire after timeout</li>
+<li>Prevents deadlock if lock holder crashes</li>
+<li>
+<p>Trade-off: Too short = premature release, too long = delayed recovery</p>
+</li>
+<li>
+<p><strong>Fencing Tokens:</strong></p>
+</li>
+<li>Monotonically increasing token per lock acquisition</li>
+<li>Prevents stale lock holders from corrupting data</li>
+<li>
+<p>Resource validates token before accepting operations</p>
+</li>
+<li>
+<p><strong>Lock Renewal:</strong></p>
+</li>
+<li>Extend lease before expiration</li>
+<li>Allows long-running operations</li>
+<li>Heartbeat mechanism to prove liveness</li>
+</ol>
+<p><strong>How Distributed Locks Work:</strong></p>
+<pre class="highlight"><code>Lock Lifecycle:
+
+1. Try Acquire:
+   Client → Lock Service: "Lock resource X for client A"
+
+   If unlocked or expired:
+     Generate fencing token (counter++)
+     Store: {resource: X, owner: A, token: 123, expires: now+TTL}
+     Return: Lock{token: 123}
+
+   If locked by another owner:
+     Return: null (acquisition failed)
+
+2. Hold Lock:
+   Client performs work
+   Optionally renew before expiration:
+     Client → Lock Service: "Renew X with token 123"
+     If valid: Update expires = now + TTL
+
+3. Release Lock:
+   Client → Lock Service: "Release X with token 123"
+   Verify owner and token match
+   Delete lock entry
+
+4. Auto-Expiration (if crash):
+   Lock expires at TTL
+   Next client can acquire</code></pre>
+<p><strong>Fencing Token Pattern:</strong></p>
+<pre class="highlight"><code>Problem: Lock holder's work outlives the lock
+
+Scenario WITHOUT fencing tokens:
+  t0: Client A acquires lock (TTL=10s), starts slow write
+  t10: Lock expires (A still writing)
+  t11: Client B acquires lock, starts fast write
+  t12: Client B completes write
+  t15: Client A completes write ← Overwrites B's data!
+
+Solution WITH fencing tokens:
+  t0: Client A acquires lock → token=100
+  t10: Lock expires
+  t11: Client B acquires lock → token=101
+  t12: Client B writes with token=101 → SUCCESS
+  t15: Client A writes with token=100 → REJECTED (stale token!)
+
+Resource checks: token &gt;= last_accepted_token</code></pre>
+<p><strong>Example Flow:</strong></p>
+<pre class="highlight"><code>Job Scheduler with Distributed Locks:
+
+Job: "Send daily email"
+Schedulers: A, B, C (for redundancy)
+
+Scheduler A:
+  1. tryAcquire("job:daily-email", "scheduler-A")
+     → Lock{token: 456, expires: now+30s}
+
+  2. Execute job (15 seconds)
+     - Fetch recipients
+     - Generate emails
+     - Send emails
+
+  3. release("job:daily-email", token=456)
+     → Success
+
+Scheduler B (parallel attempt):
+  1. tryAcquire("job:daily-email", "scheduler-B")
+     → null (already locked by A)
+
+  2. Skip job (A is handling it)
+
+Result: Email sent exactly once ✓</code></pre>
+<p><strong>High-Level API:</strong></p>
+<pre class="highlight"><code class="language-java">package com.study.systems.consensus;
+
+// Simple distributed lock interface
+public interface DistributedLock {
+    // Try to acquire lock immediately
+    Lock tryAcquire(String resourceId, String ownerId);
+
+    // Try with custom TTL
+    Lock tryAcquire(String resourceId, String ownerId, long ttlMs);
+
+    // Blocking acquire with timeout
+    Lock acquire(String resourceId, String ownerId, long timeoutMs);
+
+    // Release lock
+    boolean release(String resourceId, String ownerId, long fencingToken);
+
+    // Extend lease
+    boolean renew(String resourceId, String ownerId, long fencingToken);
+
+    // Check if locked
+    boolean isLocked(String resourceId);
+}
+</code></pre>
+<p><strong>Lock Acquisition Strategies:</strong></p>
+<p><strong>1. Non-blocking (tryAcquire):</strong>
+<pre class="highlight"><code>Use when: Fast failure preferred
+Pattern: Try once, fail immediately if unavailable
+
+lockService.tryAcquire("job:x", "worker-1");
+→ null → Skip job, another worker handling it</code></pre></p>
+<p><strong>2. Blocking with timeout (acquire):</strong>
+<pre class="highlight"><code>Use when: Willing to wait briefly
+Pattern: Retry with backoff until timeout
+
+lockService.acquire("job:x", "worker-1", 5000);  // 5s timeout
+→ Retries every 50-100ms
+→ Returns lock or null after timeout</code></pre></p>
+<p><strong>3. Lease renewal:</strong>
+<pre class="highlight"><code>Use when: Long-running tasks
+Pattern: Periodic heartbeat to extend lease
+
+Lock lock = lockService.acquire("job:x", "worker-1", 30000);
+ScheduledExecutorService renewalService = ...;
+renewalService.scheduleAtFixedRate(() -&gt; {
+    lockService.renew("job:x", "worker-1", lock.fencingToken);
+}, 10, 10, TimeUnit.SECONDS);  // Renew every 10s (TTL=30s)</code></pre></p>
+<p><strong>Common Pitfalls:</strong></p>
+<p><strong>1. Deadlock from crashed holder:</strong>
+<pre class="highlight"><code>Problem: Client crashes while holding lock
+
+Without TTL:
+  Lock held forever → Deadlock
+
+With TTL:
+  Lock expires after 30s
+  Next client can acquire
+  System self-heals ✓</code></pre></p>
+<p><strong>2. Split-brain without fencing:</strong>
+<pre class="highlight"><code>Problem: GC pause longer than TTL
+
+Client A:
+  Acquires lock
+  GC pause (40s) ← Longer than TTL!
+  Resumes, thinks it still has lock
+  Writes data ← DANGER!
+
+Client B:
+  Lock expired, acquires new lock
+  Writes data
+
+Result: Conflicting writes!
+
+Solution: Use fencing tokens
+  Client A write rejected (stale token)</code></pre></p>
+<p><strong>3. Clock skew:</strong>
+<pre class="highlight"><code>Problem: Distributed clocks not synchronized
+
+Node 1 clock: 12:00:00
+Node 2 clock: 12:00:30 (30s ahead!)
+
+Lock expires at: 12:00:20
+Node 1: Still valid (20s left)
+Node 2: Expired! (in the past)
+
+Solution:
+
+- Use relative time (TTL in milliseconds, not absolute timestamps)
+- Single source of truth (lock service's clock)
+- Or use logical clocks (Lamport timestamps)</code></pre></p>
+<p><strong>Implementation Options:</strong></p>
+<p><strong>Redis (Redlock algorithm):</strong>
+<pre class="highlight"><code>SET resource:lock "owner-id" NX PX 30000
+
+NX = only if not exists
+PX = expire after milliseconds
+
+Pros: Fast, simple
+Cons: Single point of failure (unless Redis cluster)</code></pre></p>
+<p><strong>ZooKeeper (ephemeral nodes):</strong>
+<pre class="highlight"><code>create /locks/resource-1 "owner-id" EPHEMERAL
+
+Node auto-deleted if client session ends
+
+Pros: Reliable, automatic cleanup
+Cons: Higher latency, more complex</code></pre></p>
+<p><strong>etcd (lease-based):</strong>
+<pre class="highlight"><code>
+1. Create lease (TTL=30s)
+2. Put key with lease
+3. Keep-alive to renew lease
+
+Pros: Lease abstraction, Raft consensus
+Cons: More moving parts</code></pre></p>
+<p><strong>Time Complexity:</strong></p>
+<ul>
+<li>Acquire: O(1) - single operation</li>
+<li>Release: O(1) - single operation</li>
+<li>Renew: O(1) - update expiration</li>
+<li>Cleanup: O(N) - scan expired locks (background)</li>
+</ul>
+<hr/>
+<h3 id="pattern-4-quorum-based-consensus">Pattern 4: Quorum-Based Consensus<a class="headerlink" href="#pattern-4-quorum-based-consensus" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Achieve consistency by requiring a majority (quorum) of nodes to agree on reads and writes.</p>
+<p><strong>Use case:</strong> Distributed databases (Cassandra, DynamoDB), multi-datacenter replication, high availability systems.</p>
+<p><strong>Key Properties:</strong></p>
+<ol>
+<li><strong>Quorum Requirement (R + W &gt; N):</strong></li>
+<li>R = Read quorum (nodes to read from)</li>
+<li>W = Write quorum (nodes to write to)</li>
+<li>N = Replication factor (total copies)</li>
+<li>
+<p>When R + W &gt; N, guarantees strong consistency (overlap ensures latest value seen)</p>
+</li>
+<li>
+<p><strong>Versioning:</strong></p>
+</li>
+<li>Each write tagged with version (timestamp or vector clock)</li>
+<li>Enables conflict detection and resolution</li>
+<li>
+<p>Client receives latest version on read</p>
+</li>
+<li>
+<p><strong>Tunable Consistency:</strong></p>
+</li>
+<li>Adjust R and W based on workload</li>
+<li>Read-heavy: R=1, W=N (fast reads, slow writes)</li>
+<li>Write-heavy: R=N, W=1 (fast writes, slow reads)</li>
+<li>Strong consistency: R+W &gt; N (most common: R=W=majority)</li>
+</ol>
+<p><strong>How Quorum Consensus Works:</strong></p>
+<pre class="highlight"><code>Cluster: 5 nodes, Replication Factor (N) = 3
+Configuration: R=2, W=2 (R+W=4 &gt; N=3, strong consistency)
+
+Key "user:123" stored on nodes: [1, 3, 5] (consistent hashing)</code></pre>
+<p><strong>Quorum Write Flow:</strong></p>
+<pre class="highlight"><code>Client → Coordinator: write("user:123", "Alice")
+
+Step 1: Select W nodes for write
+  Coordinator selects 2 of 3 replicas: [Node 1, Node 3]
+
+Step 2: Create versioned value
+  value = {
+    data: "Alice",
+    version: {timestamp: 1234567890, vectorClock: v5}
+  }
+
+Step 3: Write to W nodes concurrently
+  → Node 1: write(key, value) → ACK
+  → Node 3: write(key, value) → ACK
+
+Step 4: Wait for W=2 acknowledgments
+  Received 2 ACKs → Write successful!
+  (Even though Node 5 wasn't written, quorum satisfied)
+
+Step 5: Return success to client
+  Write latency: max(Node 1, Node 3 latency) ≈ 10-50ms</code></pre>
+<p><strong>Quorum Read Flow with Conflict Resolution:</strong></p>
+<pre class="highlight"><code>Client → Coordinator: read("user:123")
+
+Step 1: Select R nodes for read
+  Coordinator selects 2 of 3 replicas: [Node 1, Node 5]
+
+Step 2: Read from R nodes concurrently
+  → Node 1: value={data:"Alice", version:v5}
+  → Node 5: value={data:"Bob", version:v3} (stale!)
+
+Step 3: Wait for R=2 responses
+  Received responses from Node 1 and Node 5
+
+Step 4: Resolve conflicts (pick latest version)
+  Compare versions:
+    Node 1: v5 (latest)
+    Node 5: v3 (stale)
+
+  Winner: Node 1's value "Alice" (version v5)
+
+Step 5: Optional read-repair
+  Coordinator sends v5 to Node 5 to update stale data
+  (Background operation, doesn't block client)
+
+Step 6: Return latest value to client
+  Client receives: "Alice"
+  Read latency: max(Node 1, Node 5 latency) ≈ 5-20ms</code></pre>
+<p><strong>Why R + W &gt; N Guarantees Consistency:</strong></p>
+<pre class="highlight"><code>N = 3 replicas: [Node 1, Node 2, Node 3]
+R = 2, W = 2 (R + W = 4 &gt; N = 3)
+
+Write to nodes [1, 2] → At least one has latest value
+Read from nodes [2, 3] → At least one has latest value
+
+Overlap: Node 2 appears in both sets!
+This guarantees reader sees latest write.
+
+If R + W ≤ N:
+  Write [1, 2], Read [3, 4] → No overlap! Stale read possible</code></pre>
+<p><strong>High-Level API:</strong></p>
+<pre class="highlight"><code class="language-java">package com.study.systems.consensus;
+
+// Simple quorum-based data store interface
+public interface QuorumStore {
+    // Write value with quorum
+    boolean write(String key, String value);
+
+    // Read value with quorum
+    VersionedValue read(String key);
+
+    // Configure quorum sizes
+    void setQuorum(int readQuorum, int writeQuorum);
+
+    // Check if value exists
+    boolean exists(String key);
+}
+</code></pre>
+<p><strong>Quorum Configurations:</strong></p>
+<p><strong>Configuration 1: Strong Consistency (R=2, W=2, N=3)</strong>
+<pre class="highlight"><code>Use case: Financial transactions, inventory management
+R + W = 4 &gt; N = 3 ✓
+Trade-off:
+  + Always read latest write
+  + Tolerate 1 node failure
+  - Higher latency (wait for 2 nodes)</code></pre></p>
+<p><strong>Configuration 2: Read-Optimized (R=1, W=3, N=3)</strong>
+<pre class="highlight"><code>Use case: Product catalog, content delivery
+R + W = 4 &gt; N = 3 ✓
+Trade-off:
+  + Fast reads (only 1 node)
+  - Slow writes (all 3 nodes)
+  + Still strongly consistent</code></pre></p>
+<p><strong>Configuration 3: Write-Optimized (R=3, W=1, N=3)</strong>
+<pre class="highlight"><code>Use case: Write-heavy logging, telemetry
+R + W = 4 &gt; N = 3 ✓
+Trade-off:
+  + Fast writes (only 1 node)
+  - Slow reads (all 3 nodes)
+  + Still strongly consistent</code></pre></p>
+<p><strong>Configuration 4: Eventual Consistency (R=1, W=1, N=3)</strong>
+<pre class="highlight"><code>Use case: Shopping cart, user preferences
+R + W = 2 ≤ N = 3 ✗
+Trade-off:
+  + Fastest reads and writes
+  - May read stale data temporarily
+  - Eventually consistent (not strongly consistent)</code></pre></p>
+<p><strong>Advanced Techniques:</strong></p>
+<p><strong>1. Read Repair (Fix Stale Replicas):</strong>
+<pre class="highlight"><code>During quorum read, if coordinator detects stale replicas:
+
+Read responses:
+  Node 1: version v5 (latest)
+  Node 2: version v3 (stale)
+
+Coordinator triggers read-repair:
+  → Node 2: write(key, value with v5)
+
+Next read will see consistent data across replicas
+Happens in background, doesn't block client</code></pre></p>
+<p><strong>2. Hinted Handoff (Handle Temporary Failures):</strong>
+<pre class="highlight"><code>Write fails because target node is down:
+
+Intended replicas: [Node 1, Node 2, Node 3]
+Node 2 is down!
+
+Coordinator stores "hint" on Node 4:
+  hint = {
+    target: Node 2,
+    key: "user:123",
+    value: "Alice",
+    version: v5
+  }
+
+When Node 2 recovers:
+  Node 4 replays hint → Node 2 gets missing write
+  System self-heals without manual intervention</code></pre></p>
+<p><strong>3. Anti-Entropy (Periodic Synchronization):</strong>
+<pre class="highlight"><code>Background process compares replicas:
+
+Every 10 minutes:
+  1. Compare Merkle trees of replicas
+  2. Identify differences
+  3. Synchronize stale data
+
+Ensures eventual consistency even if read-repair missed
+Handles network partitions and prolonged node failures</code></pre></p>
+<p><strong>Implementation Examples:</strong></p>
+<p><strong>Cassandra (Apache):</strong>
+<pre class="highlight"><code>Configuration:
+  CREATE KEYSPACE store WITH replication = {
+    'class': 'SimpleStrategy',
+    'replication_factor': 3
+  };
+
+Write:
+  INSERT INTO users (id, name) VALUES ('123', 'Alice')
+  USING CONSISTENCY QUORUM;  // W = majority
+
+Read:
+  SELECT * FROM users WHERE id='123'
+  USING CONSISTENCY QUORUM;  // R = majority
+
+Features:
+  - Tunable consistency per query
+  - Automatic read-repair
+  - Hinted handoff
+  - Multi-datacenter replication</code></pre></p>
+<p><strong>DynamoDB (AWS):</strong>
+<pre class="highlight"><code>Configuration:
+  Table: users
+  Read Capacity: 100 RCUs
+  Write Capacity: 50 WCUs
+
+Write:
+  put_item(
+    TableName='users',
+    Item={'id': '123', 'name': 'Alice'},
+    ConsistentRead=True  // W = majority
+  )
+
+Read:
+  get_item(
+    TableName='users',
+    Key={'id': '123'},
+    ConsistentRead=True  // R = majority (strong consistency)
+  )
+
+Features:
+  - Eventually consistent reads by default
+  - Strongly consistent reads on demand
+  - Automatic scaling and replication
+  - Global tables for multi-region</code></pre></p>
+<p><strong>Riak (Basho):</strong>
+<pre class="highlight"><code>Configuration:
+  bucket-type create users '{"props":{"n_val":3}}'
+
+Write with custom quorum:
+  PUT /types/users/buckets/sessions/keys/abc123
+  Header: X-Riak-W: 2  // Write quorum
+
+Read with custom quorum:
+  GET /types/users/buckets/sessions/keys/abc123
+  Header: X-Riak-R: 2  // Read quorum
+
+Features:
+  - Per-request quorum tuning
+  - Vector clocks for versioning
+  - Conflict resolution strategies
+  - Active anti-entropy</code></pre></p>
+<p><strong>Time Complexity:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Complexity</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Write</td>
+<td>O(W)</td>
+<td>W = write quorum, parallel writes</td>
+</tr>
+<tr>
+<td>Read</td>
+<td>O(R)</td>
+<td>R = read quorum, parallel reads</td>
+</tr>
+<tr>
+<td>Conflict resolution</td>
+<td>O(R)</td>
+<td>Compare R versions</td>
+</tr>
+<tr>
+<td>Node selection</td>
+<td>O(1)</td>
+<td>Consistent hashing lookup</td>
+</tr>
+<tr>
+<td>Read repair</td>
+<td>O(N - R)</td>
+<td>Update stale replicas in background</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Space Complexity:</strong></p>
+<ul>
+<li>Per-node storage: O(K / N) where K = total keys, N = replication factor</li>
+<li>Version metadata: O(K) per node (small overhead)</li>
+<li>Hint storage: O(H) where H = pending hints (temporary)</li>
+</ul>
+<hr/>
+<h2 id="beforeafter-why-consensus-matters">Before/After: Why Consensus Matters<a class="headerlink" href="#beforeafter-why-consensus-matters" title="Permanent link">¶</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Key insight</p>
+<p>The majority principle is the core insight behind Raft, Paxos, quorum reads, and quorum writes. Any two sets that each contain a majority of N nodes must share at least one node in common. That shared node is the "tie-breaker" — it carries the information from the previous majority operation into the next one, preventing two conflicting decisions from both succeeding.</p>
+</div>
+<p><strong>Your task:</strong> Compare naive distributed coordination vs proper consensus to understand the impact.</p>
+<h3 id="example-leader-election-without-consensus">Example: Leader Election Without Consensus<a class="headerlink" href="#example-leader-election-without-consensus" title="Permanent link">¶</a></h3>
+<p><strong>Problem:</strong> Multiple nodes need to coordinate on a single leader for a distributed database.</p>
+<h4 id="approach-1-naive-leader-election-no-consensus">Approach 1: Naive Leader Election (No Consensus)<a class="headerlink" href="#approach-1-naive-leader-election-no-consensus" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Naive approach - Highest ID claims leadership
+public class NaiveLeaderElection {
+    private int myId;
+    private int leaderId;
+
+    public void electLeader(Set&lt;Integer&gt; visibleNodes) {
+        // Just pick the highest ID we can see
+        int maxId = myId;
+        for (int nodeId : visibleNodes) {
+            if (nodeId &gt; maxId) {
+                maxId = nodeId;
+            }
+        }
+        leaderId = maxId;
+
+        if (leaderId == myId) {
+            System.out.println("I am the leader!");
+        }
+    }
+}</code></pre>
+<p><strong>What goes wrong: Network Partition Scenario</strong></p>
+<pre class="highlight"><code>Before partition:
+Cluster: [Node 1, Node 2, Node 3, Node 4, Node 5]
+Leader: Node 5 (highest ID)
+
+After network partition:
+Partition A: [Node 1, Node 2, Node 3]
+Partition B: [Node 4, Node 5]
+
+Partition A thinks: Node 3 is leader (highest visible)
+Partition B thinks: Node 5 is leader (highest visible)
+
+SPLIT-BRAIN: Two leaders accepting writes simultaneously!
+
+Result:
+
+- Data divergence (inconsistent state)
+- Lost updates when partition heals
+- Violated uniqueness guarantee</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(N) to scan visible nodes</li>
+<li>Space: O(1)</li>
+<li>
+<p>Problem: No consensus, <strong>split-brain during partition!</strong></p>
+</li>
+<li>
+<p>Failure rate: ~50% in networks with partitions</p>
+</li>
+</ul>
+<h4 id="approach-2-raft-consensus-safe-leader-election">Approach 2: Raft Consensus (Safe Leader Election)<a class="headerlink" href="#approach-2-raft-consensus-safe-leader-election" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Raft approach - Majority vote required
+public class RaftLeaderElection {
+    private int currentTerm;
+    private int votedFor;
+    private int myId;
+
+    public boolean electLeader(Set&lt;Integer&gt; allNodes) {
+        currentTerm++;
+        votedFor = myId;
+
+        int votesReceived = 1; // Vote for self
+        int majoritySize = (allNodes.size() / 2) + 1;
+
+        // Request votes from all nodes
+        for (int nodeId : allNodes) {
+            if (nodeId != myId &amp;&amp; requestVote(nodeId, currentTerm)) {
+                votesReceived++;
+            }
+        }
+
+        // Only become leader if MAJORITY votes received
+        if (votesReceived &gt;= majoritySize) {
+            System.out.println("I am leader with " + votesReceived + " votes");
+            return true;
+        }
+        return false;
+    }
+}</code></pre>
+<p><strong>Same network partition with Raft:</strong></p>
+<pre class="highlight"><code>After network partition:
+Partition A: [Node 1, Node 2, Node 3] - 3 nodes, majority = 2
+Partition B: [Node 4, Node 5]         - 2 nodes, majority = 2
+
+Partition A attempts election:
+
+- Node 3 requests votes from Node 1, Node 2 (both visible)
+- Node 3 gets 3 votes total → SUCCESS (3 ≥ 2 majority)
+- Node 3 becomes leader ✓
+
+Partition B attempts election:
+
+- Node 5 requests votes from Node 4 (only visible node)
+- Node 5 gets 2 votes total → FAIL (2 &lt; 3 majority of 5 total)
+- No leader elected ✗
+
+Result:
+
+- Only ONE leader (Node 3)
+- Partition B cannot accept writes (no leader)
+- Partition A continues operating safely
+- No split-brain! ✓
+- When partition heals, Node 5 recognizes Node 3 as leader</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(N) to request votes</li>
+<li>Space: O(1)</li>
+<li>
+<p>Safety: <strong>Prevents split-brain through majority requirement</strong></p>
+</li>
+<li>
+<p>Availability: Minority partition cannot elect leader (trade-off for safety)</p>
+</li>
+</ul>
+<h4 id="performance-comparison-failure-scenarios">Performance Comparison: Failure Scenarios<a class="headerlink" href="#performance-comparison-failure-scenarios" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Naive Election</th>
+<th>Raft Consensus</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Network partition</td>
+<td>Split-brain (2 leaders)</td>
+<td>Single leader in majority</td>
+</tr>
+<tr>
+<td>Node failure</td>
+<td>Immediate re-election</td>
+<td>Election only if leader fails</td>
+</tr>
+<tr>
+<td>Data consistency</td>
+<td>Violated during partition</td>
+<td>Preserved (CP in CAP)</td>
+</tr>
+<tr>
+<td>Write availability</td>
+<td>Both partitions accept</td>
+<td>Only majority partition</td>
+</tr>
+</tbody>
+</table>
+<h4 id="why-does-raft-work">Why Does Raft Work?<a class="headerlink" href="#why-does-raft-work" title="Permanent link">¶</a></h4>
+<p><strong>Key insight: The Majority Principle</strong></p>
+<p>With 5 nodes, majority = 3:</p>
+<ul>
+<li>Any two majorities must overlap by at least 1 node</li>
+<li>That overlapping node prevents conflicting decisions</li>
+<li>Example: {Node 1, 2, 3} and {Node 3, 4, 5} both contain Node 3</li>
+</ul>
+<pre class="highlight"><code>Election term visualization:
+Term 1: Node 5 is leader (got votes from 1, 3, 5)
+Network partition occurs
+Term 2: Node 3 attempts election
+        - Gets votes from 1, 2, 3 (majority) → SUCCESS
+        - Node 5 in minority cannot get majority → FAILS
+Term 3: When partition heals, Node 5 sees Node 3 has higher term → steps down</code></pre>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>Why does majority prevent split-brain? <span class="fill-in">[Your answer]</span></li>
+<li>What's the trade-off between safety and availability? <span class="fill-in">[Your answer]</span></li>
+<li>Why can't the minority partition elect a leader? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<h3 id="real-world-impact">Real-World Impact<a class="headerlink" href="#real-world-impact" title="Permanent link">¶</a></h3>
+<p><strong>Without consensus (naive approach):</strong></p>
+<ul>
+<li>Google Cloud DNS split-brain (2015): Traffic routed to wrong servers</li>
+<li>MongoDB 2.4 split-brain: Accepted conflicting writes, data corruption</li>
+<li>Recovery time: Hours to manually resolve conflicts</li>
+</ul>
+<p><strong>With consensus (Raft/Paxos):</strong></p>
+<ul>
+<li>etcd (Kubernetes): Thousands of clusters, zero split-brain incidents</li>
+<li>Consul: Service discovery with guaranteed consistency</li>
+<li>Recovery time: Seconds (automatic election)</li>
+</ul>
+<p><strong>Your calculation:</strong> For a 7-node cluster with network partition into {4, 3}:</p>
+<ul>
+<li>Naive approach: <span class="fill-in">_____</span> leaders elected (how many?)</li>
+<li>Raft consensus: <span class="fill-in">_____</span> leader(s) elected (in which partition?)</li>
+<li>Which partition can serve writes: <span class="fill-in">_____</span></li>
+</ul>
+<hr/>
+<h2 id="case-studies-consensus-in-the-wild">Case Studies: Consensus in the Wild<a class="headerlink" href="#case-studies-consensus-in-the-wild" title="Permanent link">¶</a></h2>
+<h3 id="kubernetes-cluster-coordination-with-etcd-raft">Kubernetes: Cluster Coordination with etcd (Raft)<a class="headerlink" href="#kubernetes-cluster-coordination-with-etcd-raft" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> Raft for consistent state replication.</li>
+<li><strong>How it works:</strong> Kubernetes, the container orchestration system, needs to reliably store the state of the entire
+  cluster: which nodes are active, what pods should be running, what secrets are available, etc. It uses <strong>etcd</strong>, a
+  distributed key-value store, for this. <code>etcd</code> forms a small cluster (typically 3 or 5 nodes) and uses the <strong>Raft</strong>
+  consensus algorithm to ensure that all nodes have a consistent, replicated log of all changes. The Raft leader
+  receives all writes, and a write is only considered "committed" when it has been replicated to a majority of the
+  nodes.</li>
+<li><strong>Key Takeaway:</strong> Raft provides the safety and consistency needed for critical infrastructure components. By requiring
+  a majority quorum for all decisions, it can tolerate node failures while preventing split-brain scenarios and
+  maintaining a consistent view of the system state.</li>
+</ul>
+<h3 id="googles-chubby-distributed-locking-with-paxos">Google's Chubby: Distributed Locking with Paxos<a class="headerlink" href="#googles-chubby-distributed-locking-with-paxos" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> Paxos for distributed locking and leader election.</li>
+<li><strong>How it works:</strong> Inside Google, many distributed systems need to elect a single primary or "leader" from a group of
+  identical replicas. They use a service called <strong>Chubby</strong>. A group of service replicas will attempt to acquire an
+  exclusive lock in Chubby. The one that succeeds becomes the leader. All other replicas become standbys, watching the
+  lock. If the leader crashes and its session with Chubby expires, the lock is released, and the standby replicas are
+  notified so they can attempt to acquire the lock and elect a new leader.</li>
+<li><strong>Key Takeaway:</strong> Consensus algorithms provide the foundation for reliable leader election, a fundamental pattern in
+  distributed systems. By using a consistent lock service, systems can ensure that there is only one active leader at
+  any given time, preventing data corruption and split-brain issues.</li>
+</ul>
+<h3 id="apache-kafka-cluster-management-with-zookeeper">Apache Kafka: Cluster Management with ZooKeeper<a class="headerlink" href="#apache-kafka-cluster-management-with-zookeeper" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> Consensus for metadata management and leader election.</li>
+<li><strong>How it works:</strong> Apache Kafka uses <strong>Apache ZooKeeper</strong> (which uses a Paxos-like protocol called Zab) to manage the
+  state of the Kafka cluster. ZooKeeper is responsible for tracking which brokers are alive, which broker is the "
+  controller" (the leader for the whole cluster), the configuration of all topics, and which replica is the leader for
+  each topic partition. If a broker fails, the controller (elected via ZooKeeper) is responsible for electing new
+  partition leaders from the available replicas.</li>
+<li><strong>Key Takeaway:</strong> Many distributed data systems (like Kafka, Hadoop, and HBase) delegate the complex task of consensus
+  to a dedicated coordination service like ZooKeeper. This separates the concern of data processing from the difficult
+  problem of managing distributed state and leader election.</li>
+</ul>
+<hr/>
+<h2 id="common-misconceptions">Common Misconceptions<a class="headerlink" href="#common-misconceptions" title="Permanent link">¶</a></h2>
+<div class="admonition danger">
+<p class="admonition-title">Misconception 1: A majority quorum means more than half the nodes are available</p>
+<p>Majority means strictly more than half. For a 5-node cluster, majority = 3 (not 2.5 rounded down). For a 6-node cluster, majority = 4 (not 3). This asymmetry is intentional: with an even-numbered cluster, the minority partition is the same size as the majority partition, which could allow split-brain in edge cases. This is why production clusters are typically odd-numbered (3, 5, 7 nodes).</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Misconception 2: Distributed locks guarantee mutual exclusion even when the TTL is very long</p>
+<p>A long TTL reduces the risk of premature expiration, but it increases the window during which a crashed lock holder blocks other processes. More importantly, no TTL length eliminates the GC-pause problem without fencing tokens. A process can be paused by the JVM for longer than any reasonable TTL. Fencing tokens — not longer TTLs — are the correct solution for preventing a stale lock holder from corrupting data.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Misconception 3: Raft is slower than Paxos</p>
+<p>Raft and Paxos have the same asymptotic complexity for log replication. The common belief that Raft is slower stems from early comparisons of specific implementations, not the algorithms themselves. Raft's main advantage is understandability: the algorithm is designed to be easier to reason about and implement correctly, which in practice means fewer subtle bugs. Production Raft implementations (etcd, Consul) handle tens of thousands of writes per second.</p>
+</div>
+<hr/>
+<h2 id="decision-framework-choosing-a-consensus-system">Decision Framework: Choosing a Consensus System<a class="headerlink" href="#decision-framework-choosing-a-consensus-system" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Fill in the matrix based on the material above.</p>
+<h3 id="trade-off-analysis-matrix">Trade-off Analysis Matrix<a class="headerlink" href="#trade-off-analysis-matrix" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>System</th>
+<th>Algorithm</th>
+<th>Quorum size</th>
+<th>Leader failover time</th>
+<th>Best for</th>
+<th>Key failure mode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>etcd</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Apache ZooKeeper</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Consul</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>No consensus (rolling deploy)</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+</tbody>
+</table>
+<details class="success">
+<summary>Answers</summary>
+<table>
+<thead>
+<tr>
+<th>System</th>
+<th>Algorithm</th>
+<th>Quorum size</th>
+<th>Leader failover time</th>
+<th>Best for</th>
+<th>Key failure mode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>etcd</strong></td>
+<td>Raft — leader-based log replication</td>
+<td>(N+1)/2 — 3-node cluster tolerates 1 failure</td>
+<td>~150–300ms (randomised election timeout)</td>
+<td>Kubernetes control plane, distributed locks, service configuration</td>
+<td>Clock skew exceeding election timeout triggers repeated leader elections; requires monotonic clocks</td>
+</tr>
+<tr>
+<td><strong>Apache ZooKeeper</strong></td>
+<td>ZAB — similar to Raft, predates it</td>
+<td>(N+1)/2</td>
+<td>~200ms–1s — JVM GC pauses can delay election</td>
+<td>Legacy Hadoop / Kafka coordination (Kafka 3.x removed ZooKeeper dependency)</td>
+<td>JVM GC pauses cause spurious leader loss; ZooKeeper client sessions expire on GC pause, triggering watches</td>
+</tr>
+<tr>
+<td><strong>Consul</strong></td>
+<td>Raft (same as etcd)</td>
+<td>(N+1)/2</td>
+<td>~150–300ms</td>
+<td>Service mesh, service discovery, health checking</td>
+<td>Agent flapping under rapid scaling floods the gossip protocol; health check interval must be tuned to avoid false positives</td>
+</tr>
+<tr>
+<td><strong>No consensus (rolling deploy)</strong></td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>Stateless service updates where strong consistency is not required</td>
+<td>Multiple instances may run different code versions simultaneously — acceptable for stateless services, catastrophic for stateful leaders</td>
+</tr>
+</tbody>
+</table>
+</details>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">When it breaks</p>
+<p>Consensus breaks when a quorum is unavailable: with 3 nodes, losing 2 means the cluster cannot make progress — it stops accepting writes rather than risk divergence. This is the correct behaviour (availability sacrificed for consistency) but surprises teams who expect the remaining node to continue serving writes. Leader election breaks under clock skew: Raft uses randomised election timeouts (typically 150–300ms) and a cluster with clock skew exceeding the timeout range can enter repeated election cycles. etcd, ZooKeeper, and Consul all have documented "thundering herd on leader loss" scenarios that require careful tuning of heartbeat and election timeout parameters.</p>
+</div>
+<hr/>
+<h2 id="practice">Practice<a class="headerlink" href="#practice" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<h3 id="scenario-1-distributed-database-leader-election">Scenario 1: Distributed Database Leader Election<a class="headerlink" href="#scenario-1-distributed-database-leader-election" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>5-node database cluster</li>
+<li>Need single primary for writes</li>
+<li>Automatic failover on primary failure</li>
+<li>Must prevent split-brain</li>
+<li>Downtime &lt; 5 seconds on failure</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<p>Leader election algorithm: <span class="fill-in">[Raft or Bully? Why?]</span></p>
+<p>Reasoning:</p>
+<ul>
+<li>Election speed: <span class="fill-in">[Fill in]</span></li>
+<li>Split-brain prevention: <span class="fill-in">[How?]</span></li>
+<li>Failure detection: <span class="fill-in">[Heartbeat timeout?]</span></li>
+</ul>
+<p>Implementation details:</p>
+<ol>
+<li><span class="fill-in">[Heartbeat interval and timeout values]</span></li>
+<li><span class="fill-in">[How to handle network partition]</span></li>
+<li><span class="fill-in">[Fencing mechanism to prevent dual-primary]</span></li>
+</ol>
+<p><strong>Failure modes:</strong></p>
+<ul>
+<li>What happens if a network partition splits the 5-node cluster into a 3-node and a 2-node partition — which side can elect a leader, and what does the other side do? <span class="fill-in">[Fill in]</span></li>
+<li>How does your design behave when a previously isolated primary rejoins the cluster and still believes it is the leader, having not yet received a new term from the successor? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="scenario-2-distributed-job-scheduler">Scenario 2: Distributed Job Scheduler<a class="headerlink" href="#scenario-2-distributed-job-scheduler" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>1000 scheduled jobs</li>
+<li>Must run exactly once</li>
+<li>Multiple scheduler instances for HA</li>
+<li>Jobs can take 1-60 minutes</li>
+<li>Must handle scheduler crashes</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<p>Lock mechanism: <span class="fill-in">[Distributed locks or leader election?]</span></p>
+<p>Why?</p>
+<ol>
+<li><span class="fill-in">[Exactly-once execution guarantee]</span></li>
+<li><span class="fill-in">[How to handle lock holder crash]</span></li>
+<li><span class="fill-in">[Lock timeout calculation]</span></li>
+</ol>
+<p>Lock implementation:</p>
+<ul>
+<li>TTL: <span class="fill-in">[How long?]</span></li>
+<li>Renewal: <span class="fill-in">[When and how often?]</span></li>
+<li>Fencing: <span class="fill-in">[Prevent duplicate execution how?]</span></li>
+</ul>
+<p><strong>Failure modes:</strong></p>
+<ul>
+<li>What happens if the lock holder crashes mid-job after 45 seconds with a 30-second TTL — the TTL has already expired, another scheduler has acquired the lock and started the job, and now the original holder's process restarts and resumes? <span class="fill-in">[Fill in]</span></li>
+<li>How does your design behave when the distributed lock store itself (e.g. ZooKeeper or etcd) loses quorum and becomes unavailable while 50 jobs are actively running with held locks? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="scenario-3-multi-region-key-value-store">Scenario 3: Multi-Region Key-Value Store<a class="headerlink" href="#scenario-3-multi-region-key-value-store" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>3 datacenters (US, EU, Asia)</li>
+<li>Need low latency reads in each region</li>
+<li>Eventual consistency acceptable</li>
+<li>1M writes/sec globally</li>
+<li>Must survive datacenter failure</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<p>Consensus approach: <span class="fill-in">[Quorum or leader?]</span></p>
+<p>Quorum configuration:</p>
+<ul>
+<li>Replication factor: <span class="fill-in">[How many DCs?]</span></li>
+<li>Read quorum: <span class="fill-in">[R = ?]</span></li>
+<li>Write quorum: <span class="fill-in">[W = ?]</span></li>
+<li>Reasoning: <span class="fill-in">[R + W &gt; N?]</span></li>
+</ul>
+<p>Trade-offs:</p>
+<ol>
+<li><span class="fill-in">[Consistency vs availability]</span></li>
+<li><span class="fill-in">[Cross-DC write latency]</span></li>
+<li><span class="fill-in">[Conflict resolution strategy]</span></li>
+</ol>
+<p><strong>Failure modes:</strong></p>
+<ul>
+<li>What happens if the Asia datacenter becomes completely unreachable — can the US and EU nodes still satisfy your R and W quorum requirements, and does this cause any reads or writes to fail? <span class="fill-in">[Fill in]</span></li>
+<li>How does your design behave when a network partition heals and the Asia datacenter rejoins with a set of writes that conflict with writes accepted by US and EU during the partition? <span class="fill-in">[Fill in]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="test-your-understanding">Test Your Understanding<a class="headerlink" href="#test-your-understanding" title="Permanent link">¶</a></h2>
+<p>Answer these questions without looking at your notes. They are designed to probe understanding, not recall.</p>
+<ol>
+<li>
+<p><strong>Prove mathematically that a 5-node Raft cluster can tolerate exactly 2 simultaneous node failures without losing the ability to elect a leader. Show your work using the majority formula.</strong></p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) the majority quorum formula is ⌊N/2⌋ + 1; for N=5 this is ⌊5/2⌋ + 1 = 3 — a majority requires 3 votes; (2) with 2 failures, 3 nodes remain operational, which exactly meets the majority threshold, so an election can succeed; (3) with 3 failures only 2 nodes remain, which is less than 3, so no majority can be formed and no leader can be elected — the cluster is unavailable for writes; (4) the general rule is that a cluster of 2f+1 nodes tolerates f failures: 5 = 2(2)+1, so f=2.</p>
+</details>
+</li>
+<li>
+<p><strong>A distributed lock uses a 30-second TTL. The lock holder's JVM experiences a GC pause of 45 seconds while holding the lock. Describe the exact sequence of events that occurs, and explain what happens when the GC pause ends and the original holder resumes execution. How do fencing tokens prevent data corruption in this scenario?</strong></p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) at T+30s the TTL expires and the lock store releases the lock; another client (Client B) acquires the lock at T+31s and begins its work; (2) at T+45s the original holder (Client A) resumes from GC pause, still believes it holds the lock, and proceeds to write to the shared resource — now both A and B believe they are the authorised writer; (3) fencing tokens solve this: the lock store issues a monotonically increasing token on each acquisition (e.g. token 1 to A, token 2 to B); every write to the shared resource includes the token; the resource rejects any write with a token lower than the highest it has seen — Client A's token 1 is rejected because Client B's token 2 has already been accepted.</p>
+</details>
+</li>
+<li>
+<p><strong>You are configuring a Cassandra cluster with N=5 replicas (replication factor = 5). Your team wants to maximize write availability while still guaranteeing strong consistency. What are the minimum values of R and W? Show that R + W &gt; N holds.</strong></p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) strong consistency requires R + W &gt; N to ensure read and write quorums overlap, guaranteeing every read sees the most recent write; (2) to maximise write availability, minimise W; the minimum W that satisfies R + W &gt; 5 with integer values is W=2, which requires R=4 (since 4+2=6 &gt; 5); (3) alternatively W=3, R=3 (quorum/quorum) is the most common balanced choice: 3+3=6 &gt; 5; (4) W=1, R=5 satisfies the formula and gives maximum write availability (any single replica accepts writes) but requires reading all 5 replicas, which is slow and fails if any replica is down — so W=2, R=4 or W=3, R=3 are the practical answers.</p>
+</details>
+</li>
+<li>
+<p><strong>In Raft, why is it necessary to reset <code>votedFor = null</code> when a node's term is updated to a higher value? Construct a concrete 3-node example where failing to reset <code>votedFor</code> causes two leaders to be elected in the same term.</strong></p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) <code>votedFor</code> records which candidate a node has already voted for in the current term; resetting to null when the term advances ensures that the node can cast a fresh vote in the new term rather than erroneously claiming it has already voted for someone in a term it just learned about; (2) example: term 1, nodes A, B, C — A votes for itself (votedFor=A) and becomes leader; A is partitioned; B and C increment to term 2 and elect B as leader; A rejoins in term 2 — if A does not reset votedFor, it still has votedFor=A from term 1, but term 1 ≠ term 2 so this is not directly the bug; (3) the actual bug: if a node updates its term to T but doesn't reset votedFor, a candidate in term T could receive a "yes" vote from a node that already voted for a different candidate in term T (because the node's persisted votedFor was set before the term update was persisted) — allowing two candidates to each accumulate a majority by receiving the same vote twice across a crash-recovery cycle.</p>
+</details>
+</li>
+<li>
+<p><strong>Design decision: You are building a distributed job scheduler where jobs must run exactly once, and jobs can take between 1 and 60 minutes. You plan to use distributed locks to prevent duplicate execution. What TTL would you set, and how would you prevent a crashed job runner from blocking the job for the full TTL period? Justify the specific numbers you choose.</strong></p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) setting TTL = 60 minutes (the maximum job duration) is wrong — if a runner crashes at T+1m, the job is blocked for 59 minutes; a very short TTL is also wrong — if the job takes 60 minutes, the lock expires mid-run and another runner starts a duplicate; (2) the correct pattern is a short TTL (e.g. 30 seconds) combined with active lease renewal: the job runner refreshes the lock every 10-15 seconds while the job is running; (3) if the runner crashes, it stops renewing, and the TTL expires after 30 seconds — another runner can then acquire the lock and restart the job; (4) to handle duplicate starts after a crash, each job execution must be idempotent or use a fencing token passed to the job logic so that any partial work from the crashed runner is overwritten or ignored.</p>
+</details>
+</li>
+</ol>
+<hr/>
+<h2 id="review-checklist">Review Checklist<a class="headerlink" href="#review-checklist" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p>Complete this checklist after implementing and studying consensus patterns.</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can trace a Raft leader election step-by-step, including term numbers and vote counting</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can explain why a majority quorum (⌊n/2⌋ + 1) guarantees at most one leader per term</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can describe how distributed locks use TTLs and explain the role of fencing tokens</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can apply CAP theorem: identify which guarantees a consensus algorithm sacrifices</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can choose an appropriate cluster size for a given fault-tolerance requirement</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can explain the performance cost of strong consistency and when eventual consistency is acceptable</li>
+</ul>
+</div>
+<hr/>
+<h2 id="connected-topics">Connected Topics<a class="headerlink" href="#connected-topics" title="Permanent link">¶</a></h2>
+<div class="bs-callout bs-callout-info">
+<p><strong>Where this topic connects</strong></p>
+<ul>
+<li><strong>11. Database Scaling</strong> — leader election via consensus is how distributed databases elect a primary for replication → <a href="../11-database-scaling/">11. Database Scaling</a></li>
+<li><strong>17. Distributed Transactions</strong> — the coordinator in 2PC must be made fault-tolerant using a consensus protocol; Raft underpins Spanner-style distributed transactions → <a href="../17-distributed-transactions/">17. Distributed Transactions</a></li>
+<li><strong>10. Concurrency Patterns</strong> — distributed locks (built on consensus) are the distributed analogue of local mutex/semaphore patterns → <a href="../10-concurrency-patterns/">10. Concurrency Patterns</a></li>
+</ul>
+</div></div>
+</div>
+<footer class="col-md-12 text-center">
+<hr/>
+<p>
+<small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+</p>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../../js/bootstrap-3.0.3.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>var base_url = "../.."</script>
+<script src="../../js/base.js"></script>
+<script src="../../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<button class="close" data-dismiss="modal" type="button">
+<span aria-hidden="true">×</span>
+<span class="sr-only">Close</span>
+</button>
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+</div>
+<div class="modal-body">
+<p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="text"/>
+</div>
+</form>
+<div id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@11.13.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>

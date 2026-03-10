@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A framework for algorithms, systems design, and infrastructure.">
+    <meta name="author" content="Richard">
+    
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+
+    
+    <title>Staff+ Interview Strategy - Software Engineering Study Guide</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../../css/base.min.css" rel="stylesheet">
+    <link href="../../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css">
+        
+    
+    <link href="../../css/custom.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../..">Home</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Systems Design <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../systems/01-storage-engines/">01. Storage Engines</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/04-search-and-indexing/">04. Search & Indexing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/05-caching-patterns/">05. Caching Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/06-api-design/">06. API Design</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/07-security-patterns/">07. Security Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/08-rate-limiting/">08. Rate Limiting</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/09-load-balancing/">09. Load Balancing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/11-database-scaling/">11. Database Scaling</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/12-message-queues/">12. Message Queues</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/13-event-sourcing-cqrs/">13. Event Sourcing & CQRS</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/14-stream-processing/">14. Stream Processing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/15-observability/">15. Observability</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/16-resilience-patterns/">16. Resilience Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/17-distributed-transactions/">17. Distributed Transactions</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/18-consensus-patterns/">18. Consensus Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/19-microservices-patterns/">19. Microservices Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/20-multi-region/">20. Multi-Region Architecture</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">DSA <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../dsa/01-two-pointers/">01. Two Pointers</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/02-sliding-window/">02. Sliding Window</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/03-hash-tables/">03. Hash Tables</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/04-linked-lists/">04. Linked Lists</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/05-stacks--queues/">05. Stacks & Queues</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/06-trees/">06. Trees</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/07-binary-search/">07. Binary Search</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/08-heaps/">08. Heaps</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/09-union-find/">09. Union-Find</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/10-graphs/">10. Graphs</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/11-advanced-graphs/">11. Advanced Graphs</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/12-backtracking/">12. Backtracking</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/13-dynamic-programming/">13. Dynamic Programming</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/14-prefix-sums/">14. Prefix Sums</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/15-intervals/">15. Intervals</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Quick Reference <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../when-it-breaks/">When It Breaks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../back-of-envelope/">Back of the Envelope</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../symptom-pattern/">Symptom → Pattern</a>
+</li>
+
+                        
+                            
+<li class="active">
+    <a href="./">Staff+ Interview Strategy</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../no-new-problems/">No New Problems in CS</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../how-the-machine-works/">How the Machine Actually Works</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../symptom-pattern/">
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="next" href="../no-new-problems/">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#staff-interview-strategy">Staff+ Interview Strategy</a></li>
+            <li class="second-level"><a href="#the-system-design-interview">The System Design Interview</a></li>
+                
+            <li class="second-level"><a href="#communicating-trade-offs">Communicating Trade-offs</a></li>
+                
+            <li class="second-level"><a href="#handling-i-dont-know">Handling "I Don't Know"</a></li>
+                
+            <li class="second-level"><a href="#demonstrating-leadership-and-ownership">Demonstrating Leadership and Ownership</a></li>
+                
+            <li class="second-level"><a href="#the-coding-interview">The Coding Interview</a></li>
+                
+            <li class="second-level"><a href="#the-project-deep-dive">The Project Deep-Dive</a></li>
+                
+            <li class="second-level"><a href="#behavioral-questions">Behavioral Questions</a></li>
+                
+            <li class="second-level"><a href="#questions-to-ask">Questions to Ask</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="staff-interview-strategy">Staff+ Interview Strategy<a class="headerlink" href="#staff-interview-strategy" title="Permanent link">&para;</a></h1>
+<p class="lead">The Staff interview doesn't test whether you can build things — it tests whether you can be trusted to make the right calls when the stakes are high and the requirements are ambiguous. Every section of the loop is a version of the same question: <em>would I want this person making decisions on something I care about?</em></p>
+
+<hr />
+<h2 id="the-system-design-interview">The System Design Interview<a class="headerlink" href="#the-system-design-interview" title="Permanent link">&para;</a></h2>
+<p>This is usually the longest session and the highest signal. Most candidates fail not on knowledge but on structure — they dive into implementation details before establishing what they're actually building.</p>
+<h3 id="the-structure">The structure<a class="headerlink" href="#the-structure" title="Permanent link">&para;</a></h3>
+<p><strong>1. Clarify requirements (5–10 min) — don't skip this</strong></p>
+<p>Ask until you can state the system's contract precisely. Interviewers deliberately leave requirements vague to see if you'll notice.</p>
+<ul>
+<li><strong>Functional:</strong> what does the system do? What are the core user actions?</li>
+<li><strong>Scale:</strong> how many users, requests/sec, data volume? Read-heavy or write-heavy?</li>
+<li><strong>Latency requirements:</strong> p99 SLA? Is this synchronous or can it be async?</li>
+<li><strong>Consistency requirements:</strong> can users see stale data? For how long?</li>
+<li><strong>Reliability:</strong> what's the acceptable downtime? Is data loss ever acceptable?</li>
+</ul>
+<p>State your assumptions out loud: <em>"I'm going to assume 10M DAU with read:write roughly 100:1 — let me know if that changes the design."</em></p>
+<p><strong>2. High-level sketch (5 min) — components only, no details</strong></p>
+<p>Draw the major components and the data flows between them. Resist the urge to deep-dive. The goal is to show the interviewer you can hold the whole system in your head before zooming in.</p>
+<p><strong>3. Identify the hard parts — pick one to own</strong></p>
+<p>Every system has 2–3 genuinely interesting problems and the rest is boilerplate. Name them: <em>"The hard parts here are fan-out on write at 10M users, and keeping the notification count consistent under concurrent updates. I want to spend most of our time on the fan-out problem — does that match what you want to explore?"</em></p>
+<p>This matters. It signals that you've been in rooms where the wrong hard problem got all the attention.</p>
+<p><strong>4. Deep-dive on the interesting component</strong></p>
+<p>Now go deep. Show your reasoning: why this design over alternatives, what the failure modes are, where the bottlenecks will be first.</p>
+<p><strong>5. Failure modes and operational reality</strong></p>
+<p>Before wrapping up, ask yourself: <em>what breaks first and at what scale?</em> The on-call engineer at 3am cares about this more than the architecture diagram.</p>
+<ul>
+<li>What happens if this queue backs up?</li>
+<li>What's the blast radius if this service goes down?</li>
+<li>What would alert first when something goes wrong?</li>
+</ul>
+<h3 id="what-the-interviewer-is-watching-for">What the interviewer is watching for<a class="headerlink" href="#what-the-interviewer-is-watching-for" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Do you ask about scale before designing?</li>
+<li>Do you name the hard parts or pretend everything is equally interesting?</li>
+<li>When you go deep, do you know the failure modes — not just the happy path?</li>
+<li>Do you over-engineer a simple system, or under-engineer a hard one?</li>
+<li>Do you design for the operator, or only for the user?</li>
+</ul>
+<hr />
+<h2 id="communicating-trade-offs">Communicating Trade-offs<a class="headerlink" href="#communicating-trade-offs" title="Permanent link">&para;</a></h2>
+<p>At Staff level it's not enough to identify a trade-off — you must articulate it against business and product requirements and show you understand the second-order effects.</p>
+<p>A simple frame:</p>
+<blockquote>
+<p>"I'm choosing <strong>X</strong> over <strong>Y</strong>. This gives us <strong>[primary benefit]</strong> at the cost of <strong>[real cost]</strong>. Given <strong>[business or product constraint]</strong>, this is the right call."</p>
+</blockquote>
+<h3 id="the-senior-vs-staff-gap">The Senior vs Staff gap<a class="headerlink" href="#the-senior-vs-staff-gap" title="Permanent link">&para;</a></h3>
+<p><strong>Senior:</strong> <em>"We can add Redis in front of the database. That will make reads faster."</em></p>
+<p><strong>Staff:</strong> <em>"The immediate goal is p99 under 200ms. Redis gets us there. The costs are real: we now have a cache invalidation problem, an extra failure surface, and we need to instrument hit/miss rates to know if the cache is actually helping. That's the right trade for this SLA. What I'd want to avoid is adding Redis because it feels like the right move without a clear invalidation strategy — that's how you get stale data bugs in production six months later."</em></p>
+<p>The difference: ownership of the failure modes, not just the benefits.</p>
+<h3 id="trade-off-pairs-to-internalize">Trade-off pairs to internalize<a class="headerlink" href="#trade-off-pairs-to-internalize" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Trading...</th>
+<th>...for...</th>
+<th>When it's right</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Latency</strong></td>
+<td><strong>Throughput</strong></td>
+<td>Batch processing — individual items wait longer, overall throughput increases</td>
+</tr>
+<tr>
+<td><strong>Consistency</strong></td>
+<td><strong>Availability</strong></td>
+<td>AP systems (Cassandra, DynamoDB) — stay up during partitions, accept eventual consistency</td>
+</tr>
+<tr>
+<td><strong>Consistency</strong></td>
+<td><strong>Latency</strong></td>
+<td>Skip synchronous replication — ack before replica writes, risk losing recent data on crash</td>
+</tr>
+<tr>
+<td><strong>Synchronous</strong></td>
+<td><strong>Asynchronous</strong></td>
+<td>Queue-based decoupling — lower coupling and natural back-pressure, at the cost of observable latency and harder debugging</td>
+</tr>
+<tr>
+<td><strong>Build</strong></td>
+<td><strong>Buy</strong></td>
+<td>OSS/SaaS — ships faster, gives up control and creates a vendor dependency</td>
+</tr>
+<tr>
+<td><strong>Cost</strong></td>
+<td><strong>Performance</strong></td>
+<td>Larger instances or reserved capacity — reduces latency, increases AWS bill</td>
+</tr>
+<tr>
+<td><strong>Operational complexity</strong></td>
+<td><strong>Team velocity</strong></td>
+<td>Microservices — teams ship independently, distributed systems problems are now your problems</td>
+</tr>
+<tr>
+<td><strong>Single-team ownership</strong></td>
+<td><strong>Shared platform</strong></td>
+<td>Internal platforms — reduce duplication, create a coordination dependency and slower iteration</td>
+</tr>
+<tr>
+<td><strong>Readability</strong></td>
+<td><strong>Raw performance</strong></td>
+<td>Tight inner loops in C++/Rust — faster, harder to maintain and recruit for</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="handling-i-dont-know">Handling "I Don't Know"<a class="headerlink" href="#handling-i-dont-know" title="Permanent link">&para;</a></h2>
+<p>Staff candidates often freeze when asked something outside their depth. This is a mistake — how you handle gaps is itself a signal.</p>
+<p><strong>Don't:</strong> go silent, guess confidently, or say "I haven't used that."</p>
+<p><strong>Do:</strong> reason from first principles and name the analogy:</p>
+<blockquote>
+<p><em>"I haven't implemented a CRDT directly, but the problem it solves — concurrent updates without coordination — is the same one vector clocks address. I'd approach it by asking: what's the conflict resolution semantics we need? Last-write-wins, or do we need to merge concurrent states? From there I can reason about the tradeoffs even if I don't know the specific implementation."</em></p>
+</blockquote>
+<p>The interviewer is watching whether you can navigate uncertainty, not whether you've memorized every data structure. A confident "here's how I'd reason about something I don't know" is more impressive than a hesitant recitation of something you do.</p>
+<hr />
+<h2 id="demonstrating-leadership-and-ownership">Demonstrating Leadership and Ownership<a class="headerlink" href="#demonstrating-leadership-and-ownership" title="Permanent link">&para;</a></h2>
+<p>The interviewer is answering one question: <em>would I trust this person to lead a critical, cross-team project with ambiguous requirements?</em></p>
+<h3 id="1-drive-the-narrative">1. Drive the narrative<a class="headerlink" href="#1-drive-the-narrative" title="Permanent link">&para;</a></h3>
+<p>Don't be a passive participant. Frame the discussion, state your assumptions explicitly, and guide the interviewer.</p>
+<blockquote>
+<p><em>"I now have a clear picture of the requirements. I'm going to start with a high-level architecture, then deep-dive on the fan-out problem — that seems like the crux. Sound good?"</em></p>
+</blockquote>
+<h3 id="2-design-for-the-operator">2. Design for the operator<a class="headerlink" href="#2-design-for-the-operator" title="Permanent link">&para;</a></h3>
+<p>Show you think about the full lifecycle, not just the happy path. The most common Staff-level failure mode is designing for the user and ignoring the on-call engineer.</p>
+<blockquote>
+<p><em>"This component is now a single point of failure. At minimum I'd want: queue depth and processing latency percentiles on a dashboard, an alert if queue depth exceeds X for Y minutes, and a dead-letter queue so failed messages don't disappear silently."</em></p>
+</blockquote>
+<h3 id="3-find-fault-in-your-own-design-first">3. Find fault in your own design first<a class="headerlink" href="#3-find-fault-in-your-own-design-first" title="Permanent link">&para;</a></h3>
+<p>Proactively naming the weaknesses in your design is more impressive than defending it. It shows you're not attached to your first idea.</p>
+<blockquote>
+<p><em>"The weak point in this design is the thundering herd on cache cold start. A naive deploy will hammer the database. I'd want a probabilistic early expiry or a request coalescing layer in front of the cache before we ship this."</em></p>
+</blockquote>
+<h3 id="4-disagree-and-commit">4. Disagree and commit<a class="headerlink" href="#4-disagree-and-commit" title="Permanent link">&para;</a></h3>
+<p>Interviewers probe this directly: <em>"Tell me about a time you disagreed with a technical decision but implemented it anyway."</em></p>
+<p>A strong answer has three parts: your position and why, how you made your case, and how you executed once the decision was made. The signal they're looking for is that you can separate your opinion from your execution — that losing a technical argument doesn't make you a passive-aggressive implementer.</p>
+<blockquote>
+<p><em>"I thought we should use Kafka, but the team chose SQS for operational simplicity. I laid out the tradeoffs clearly — replay, partitioning, consumer group semantics — but the team's point about operational overhead was valid for our current scale. Once the decision was made I wrote the SQS integration, documented the limitations we'd hit at 10x scale, and filed a ticket to revisit when we got there."</em></p>
+</blockquote>
+<h3 id="5-acknowledge-the-team-and-the-org">5. Acknowledge the team and the org<a class="headerlink" href="#5-acknowledge-the-team-and-the-org" title="Permanent link">&para;</a></h3>
+<p>No system is built in a vacuum. Showing you understand cross-functional dependencies signals maturity.</p>
+<blockquote>
+<p><em>"For service discovery I'll assume we use the company's standard tooling. If that's not available, we'd need to provision our own — that's a 2–3 week detour we should flag early."</em></p>
+</blockquote>
+<h3 id="6-drive-ambiguous-projects">6. Drive ambiguous projects<a class="headerlink" href="#6-drive-ambiguous-projects" title="Permanent link">&para;</a></h3>
+<p>The frame for turning ambiguity into execution:</p>
+<ol>
+<li><strong>Deconstruct:</strong> what's the user problem, what's the business goal, how do we measure success, what are the hard constraints?</li>
+<li><strong>Write the v1 doc:</strong> problem statement, smallest-possible solution, explicit non-goals, success metrics. Non-goals matter as much as goals — they're what you say no to.</li>
+<li><strong>Get alignment early:</strong> share the doc before building. <em>"This is my current thinking. Am I missing anything? Does this conflict with your team's priorities?"</em></li>
+<li><strong>Execute and feed back:</strong> v1 ships, metrics tell you what v2 should be.</li>
+</ol>
+<h3 id="7-mentorship-as-leverage">7. Mentorship as leverage<a class="headerlink" href="#7-mentorship-as-leverage" title="Permanent link">&para;</a></h3>
+<p>Your impact is measured by what you enable others to do, not just what you build directly.</p>
+<ul>
+<li><strong>Code review as teaching:</strong> don't just flag issues — link to the context. <em>"I'd use X here — here's why"</em> with a reference scales your reasoning to every future reader of that code.</li>
+<li><strong>Create durable artifacts:</strong> runbooks, decision docs, architecture diagrams. A troubleshooting guide that reduces oncall pages is leverage that compounds.</li>
+<li><strong>Reframe impact:</strong> <em>"I cut CI time from 15 minutes to 3, which unblocked the 20-person team"</em> is more Staff than <em>"I optimized the build."</em></li>
+</ul>
+<h3 id="8-make-the-business-case">8. Make the business case<a class="headerlink" href="#8-make-the-business-case" title="Permanent link">&para;</a></h3>
+<p>Staff engineers are expected to translate technical decisions into business language.</p>
+<ul>
+<li><strong>Tech debt → business risk:</strong> <em>"This service is on a deprecated library with no tests. That's a compliance risk and it means adding new payment providers takes 3x longer than it should. Two weeks of migration work eliminates that risk and pays back in the next feature."</em></li>
+<li><strong>Performance → product metric:</strong> <em>"The profile page p99 is 800ms. Fixing it is a technical change, but the outcome is session duration — which is a key product KPI."</em></li>
+</ul>
+<hr />
+<h2 id="the-coding-interview">The Coding Interview<a class="headerlink" href="#the-coding-interview" title="Permanent link">&para;</a></h2>
+<p>At Staff level, the interviewer is asking: <em>would I want this person setting the technical bar for my team?</em> Correctness is table stakes. They're watching your process.</p>
+<p><strong>Start simple, then optimize.</strong> Propose a brute-force solution first, state its complexity, and explain why it's not enough. Then optimize. This is more impressive than jumping straight to the clever solution — it shows you understand the problem space before reaching for tricks.</p>
+<blockquote>
+<p><em>"Brute force is O(n²) — check every pair. That's likely too slow at 10⁶ elements. We can get to O(n) with a hash map: store each value's complement as we scan."</em></p>
+</blockquote>
+<p><strong>Verbalize continuously.</strong> A silent candidate is a black box. The interviewer can't tell whether you're stuck or thinking. Narrate your reasoning, even when uncertain: <em>"I'm wondering whether we need to handle duplicates here — let me think about that edge case."</em></p>
+<p><strong>Write for a future reader.</strong> Clear variable names. Helper functions for complex logic. This isn't just style — it's a signal about how you write production code and review others' PRs.</p>
+<p><strong>Test your own code.</strong> Before declaring done: one simple case, one edge case (empty input, single element, overflow), one case that exercises the main logic. <em>"Let me trace through with [1, 2, 3] first, then an empty array."</em></p>
+<p><strong>Ask about the use pattern before optimizing.</strong> <em>"Is this read-heavy or write-heavy? Is it called once on startup or on every request?"</em> The right answer depends on the access pattern, and asking this question signals you know that.</p>
+<p><strong>Don't over-engineer.</strong> A Staff-level mistake is reaching for a distributed solution to a problem that fits in memory on one machine. Interviewers watch for this specifically.</p>
+<hr />
+<h2 id="the-project-deep-dive">The Project Deep-Dive<a class="headerlink" href="#the-project-deep-dive" title="Permanent link">&para;</a></h2>
+<p>You are the expert in the room. The interviewer's goal is to find the edges of your knowledge and see how you reason under pressure.</p>
+<p><strong>Set context before diving in.</strong> Spend the first 2–3 minutes framing the project: business problem, team size, your specific role, the key constraints. Don't open with implementation details — the interviewer needs context to ask good questions.</p>
+<p><strong>Know your numbers.</strong> Quantify everything. Not <em>"we improved latency"</em> — <em>"we cut p99 from 800ms to 150ms."</em> Not <em>"we saved money"</em> — <em>"we reduced the AWS bill by 15%."</em> Numbers are memorable and credible. Vague impact is forgettable.</p>
+<p><strong>Prepare for the hard questions:</strong>
+- <em>"What would you do differently now?"</em> — have a real answer. Not <em>"I'd document it better"</em> — name a specific architectural decision you'd revisit and why.
+- <em>"What was the biggest technical risk?"</em> — name the actual risk, not a safe-sounding one.
+- <em>"Tell me about a disagreement you had about the architecture."</em> — see the disagree-and-commit section above.</p>
+<p><strong>Be honest about what went wrong.</strong> Explaining what you learned from a mistake is a stronger signal than a project that went perfectly. Interviewers discount suspiciously clean stories.</p>
+<hr />
+<h2 id="behavioral-questions">Behavioral Questions<a class="headerlink" href="#behavioral-questions" title="Permanent link">&para;</a></h2>
+<p>Behavioral questions assess scope, influence, and whether your instincts match the company's values. STAR (Situation, Task, Action, Result) is a starting point — Staff-level answers need more.</p>
+<p><strong>Calibrate scope.</strong> Select examples that show cross-team or multi-quarter scope. A team-level task answered well is still a team-level task.</p>
+<p><strong>Lead with influence, not authority.</strong> Staff engineers move things without direct reports. Your stories should revolve around persuasion, data, and coalition-building — not <em>"I told them to do it."</em></p>
+<blockquote>
+<p><em>"The other team was resistant because migration would cost them two sprints. I ran a workshop, built a working prototype in their codebase, and worked with their tech lead to fit it into their roadmap. Once they saw it solving their specific pain point, the conversation shifted."</em></p>
+</blockquote>
+<p><strong>Prepare for these themes:</strong>
+- Most significant technical achievement (scope + impact)
+- Major disagreement with a colleague or manager (disagree and commit)
+- A time a project failed or had a major setback (what did you learn?)
+- Mentorship that changed someone's trajectory
+- Cross-team project with conflicting priorities</p>
+<hr />
+<h2 id="questions-to-ask">Questions to Ask<a class="headerlink" href="#questions-to-ask" title="Permanent link">&para;</a></h2>
+<p>The questions you ask as a candidate are as signal-rich as your answers. Generic questions (<em>"what does a typical day look like?"</em>) read as unprepared. These read as Staff:</p>
+<p><strong>On engineering culture:</strong>
+- <em>"How does the org handle cross-team technical dependencies? Who resolves conflicts when two teams need the same platform to move in different directions?"</em>
+- <em>"What does the RFC or design review process look like? Who can block a proposal?"</em></p>
+<p><strong>On operational reality:</strong>
+- <em>"What does on-call look like for this team? What's the current biggest source of pages?"</em>
+- <em>"What's the biggest piece of tech debt the team is carrying right now? What's blocking paying it down?"</em></p>
+<p><strong>On team dynamics:</strong>
+- <em>"What's the split between new feature work and reliability/platform work?"</em>
+- <em>"How does the team decide what not to build?"</em></p>
+<p><strong>On the role itself:</strong>
+- <em>"What does success look like in the first 6 months? What would make you say this hire was a mistake?"</em>
+- <em>"What's the hardest unsolved technical problem on the team right now?"</em></p>
+<p>The last one is especially good — the answer tells you what you're actually walking into.</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = "../.."</script>
+    
+    <script src="../../js/base.js"></script>
+    <script src="../../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

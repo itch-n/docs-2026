@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A framework for algorithms, systems design, and infrastructure.">
+    <meta name="author" content="Richard">
+    
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+
+    
+    <title>13. Dynamic Programming - Software Engineering Study Guide</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../../css/base.min.css" rel="stylesheet">
+    <link href="../../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css">
+        
+    
+    <link href="../../css/custom.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../..">Home</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Systems Design <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../systems/01-storage-engines/">01. Storage Engines</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/04-search-and-indexing/">04. Search & Indexing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/05-caching-patterns/">05. Caching Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/06-api-design/">06. API Design</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/07-security-patterns/">07. Security Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/08-rate-limiting/">08. Rate Limiting</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/09-load-balancing/">09. Load Balancing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/11-database-scaling/">11. Database Scaling</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/12-message-queues/">12. Message Queues</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/13-event-sourcing-cqrs/">13. Event Sourcing & CQRS</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/14-stream-processing/">14. Stream Processing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/15-observability/">15. Observability</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/16-resilience-patterns/">16. Resilience Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/17-distributed-transactions/">17. Distributed Transactions</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/18-consensus-patterns/">18. Consensus Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/19-microservices-patterns/">19. Microservices Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/20-multi-region/">20. Multi-Region Architecture</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">DSA <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../01-two-pointers/">01. Two Pointers</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../02-sliding-window/">02. Sliding Window</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../03-hash-tables/">03. Hash Tables</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../04-linked-lists/">04. Linked Lists</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../05-stacks--queues/">05. Stacks & Queues</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../06-trees/">06. Trees</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../07-binary-search/">07. Binary Search</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../08-heaps/">08. Heaps</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../09-union-find/">09. Union-Find</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../10-graphs/">10. Graphs</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../11-advanced-graphs/">11. Advanced Graphs</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../12-backtracking/">12. Backtracking</a>
+</li>
+
+                        
+                            
+<li class="active">
+    <a href="./">13. Dynamic Programming</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../14-prefix-sums/">14. Prefix Sums</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../15-intervals/">15. Intervals</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Quick Reference <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../reference/when-it-breaks/">When It Breaks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/back-of-envelope/">Back of the Envelope</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/symptom-pattern/">Symptom → Pattern</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/staff-interview-strategy/">Staff+ Interview Strategy</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/no-new-problems/">No New Problems in CS</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/how-the-machine-works/">How the Machine Actually Works</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../12-backtracking/">
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="next" href="../14-prefix-sums/">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#dynamic-programming">Dynamic Programming</a></li>
+            <li class="second-level"><a href="#learning-objectives">Learning Objectives</a></li>
+                
+            <li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+                
+            <li class="second-level"><a href="#core-implementation">Core Implementation</a></li>
+                
+            <li class="second-level"><a href="#beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters</a></li>
+                
+            <li class="second-level"><a href="#case-studies">Case Studies</a></li>
+                
+            <li class="second-level"><a href="#common-misconceptions">Common Misconceptions</a></li>
+                
+            <li class="second-level"><a href="#decision-framework-choosing-a-dp-approach">Decision Framework: Choosing a DP Approach</a></li>
+                
+            <li class="second-level"><a href="#practice">Practice</a></li>
+                
+            <li class="second-level"><a href="#test-your-understanding">Test Your Understanding</a></li>
+                
+            <li class="second-level"><a href="#connected-topics">Connected Topics</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="dynamic-programming">Dynamic Programming<a class="headerlink" href="#dynamic-programming" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>Turn exponential recursion into polynomial iteration by caching subproblem results</p>
+</blockquote>
+<hr />
+<h2 id="learning-objectives">Learning Objectives<a class="headerlink" href="#learning-objectives" title="Permanent link">&para;</a></h2>
+<p>By the end of this topic you will be able to:</p>
+<ul>
+<li>Identify when a problem has both optimal substructure and overlapping subproblems — the two requirements for DP</li>
+<li>Implement both top-down (memoization) and bottom-up (tabulation) approaches for the same problem</li>
+<li>Write correct recurrence relations for Fibonacci-style, decision, string, and stock DP patterns</li>
+<li>Optimize space complexity from O(n) to O(1) when only the previous one or two states are needed</li>
+<li>Distinguish the loop order required for combination counting vs permutation counting in coin change variants</li>
+<li>Debug the five most common DP mistakes: off-by-one bounds, wrong base cases, Integer.MAX_VALUE overflow, incorrect recurrence, and wrong iteration order</li>
+</ul>
+<hr />
+<div class="admonition note">
+<p class="admonition-title">Operational reality</p>
+<p><code>git diff</code> output is the result of Myers' diff algorithm, a DP algorithm that finds the shortest edit script between two sequences — every line you see marked <code>+</code> or <code>-</code> in a diff came from a DP table. Levenshtein distance (edit distance) runs inside Elasticsearch and PostgreSQL fuzzy search, spell checkers, and DNA sequence alignment tools like BLAST. DP is rarely labelled as such in production code, but any system computing "minimum cost transformation between two sequences" or "optimal allocation across constrained resources" is running DP under the hood. Compiler register allocation, the step that decides which variables live in CPU registers, is a graph colouring problem solved with DP-like approaches.</p>
+</div>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After implementing all patterns, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What is dynamic programming in one sentence?</strong></p>
+<ul>
+<li>DP is a technique that solves complex problems by breaking them into ___, solving each ___ only once, and
+  ___ results to avoid redundant work.</li>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>How is DP different from regular recursion?</strong></p>
+<ul>
+<li>Regular recursion may recalculate the same ___ many times, while DP ___ each subproblem result so it is only
+  computed ___.</li>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy:</strong></p>
+<ul>
+<li>Example: "DP is like saving your homework answers so you don't have to recalculate the same problems..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When does this pattern work?</strong></p>
+<ul>
+<li>DP works when a problem has ___ (larger solutions are built from smaller ones) and ___ (the same smaller
+  problems appear repeatedly).</li>
+<li>Your answer: <span class="fill-in">[Fill in after solving problems]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What's the difference between top-down and bottom-up?</strong></p>
+<ul>
+<li>Top-down starts with the ___ problem and ___ down, caching results. Bottom-up starts with the ___ cases and
+  ___ up, filling a table iteratively.</li>
+<li>Your answer: <span class="fill-in">[Fill in after learning both approaches]</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr />
+<h2 id="core-implementation">Core Implementation<a class="headerlink" href="#core-implementation" title="Permanent link">&para;</a></h2>
+<h3 id="pattern-1-fibonacci-style-problems">Pattern 1: Fibonacci-Style Problems<a class="headerlink" href="#pattern-1-fibonacci-style-problems" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Each state depends on previous 1-2 states.</p>
+<p><strong>Use case:</strong> Climbing stairs, house robber, decode ways.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.dynamicprogramming;
+
+import java.util.Arrays;
+
+public class FibonacciStyle {
+
+    /**
+     * Problem: Climbing stairs (1 or 2 steps at a time)
+     * Time: O(n), Space: O(1)
+     *
+     * TODO: Implement using DP
+     */
+    public static int climbStairs(int n) {
+        // TODO: Base cases: n=1 -&gt; 1, n=2 -&gt; 2
+
+        // TODO: DP approach (bottom-up):
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: House robber (can't rob adjacent houses)
+     * Time: O(n), Space: O(1)
+     *
+     * TODO: Implement using DP
+     */
+    public static int rob(int[] nums) {
+        // TODO: dp[i] = max money robbing up to house i
+        // TODO: dp[i] = max(dp[i-1], dp[i-2] + nums[i])
+        // TODO: Optimize space: only need last 2 values
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: House robber II (houses in a circle)
+     * Time: O(n), Space: O(1)
+     *
+     * TODO: Implement circular version
+     */
+    public static int robCircular(int[] nums) {
+        // TODO: Can't rob both first and last house
+        // TODO: Try two scenarios:
+        // TODO: Return max of both
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Min cost climbing stairs
+     * Time: O(n), Space: O(1)
+     *
+     * TODO: Implement min cost DP
+     */
+    public static int minCostClimbingStairs(int[] cost) {
+        // TODO: dp[i] = min cost to reach step i
+        // TODO: dp[i] = cost[i] + min(dp[i-1], dp[i-2])
+        // TODO: Can start from step 0 or 1
+
+        return 0; // Replace with implementation
+    }
+}
+</code></pre>
+<div class="admonition warning">
+<p class="admonition-title">Debugging Challenge — Wrong Base Case in House Robber</p>
+<p>The following implementation returns the wrong answer for <code>[2, 1, 1, 2]</code>:</p>
+<pre class="highlight"><code class="language-java">public static int rob_Buggy(int[] nums) {
+    if (nums.length == 0) return 0;
+    if (nums.length == 1) return nums[0];
+
+    int[] dp = new int[nums.length];
+    dp[0] = nums[0];
+    dp[1] = nums[1];   // BUG
+    for (int i = 2; i &lt; nums.length; i++) {
+        dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i]);
+    }
+    return dp[nums.length - 1];
+}</code></pre>
+<p>Trace through <code>[2, 1, 1, 2]</code> manually. What result do you get, and what is the correct answer? How should <code>dp[1]</code>
+be set?</p>
+<details class="success">
+<summary>Answer</summary>
+<p><strong>Buggy trace for [2, 1, 1, 2]:</strong></p>
+<ul>
+<li>dp[0] = 2</li>
+<li>dp[1] = 1 (BUG: should be max(2, 1) = 2)</li>
+<li>dp[2] = max(dp[1], dp[0] + nums[2]) = max(1, 2+1) = 3</li>
+<li>dp[3] = max(dp[2], dp[1] + nums[3]) = max(3, 1+2) = 3</li>
+</ul>
+<p>Returns 3, but correct answer is 4 (rob houses 0 and 3: 2+2=4).</p>
+<p><strong>Fix:</strong> <code>dp[1] = Math.max(nums[0], nums[1])</code> — at house 1, you choose the better of the two, not automatically
+house 1.</p>
+</details>
+</div>
+<hr />
+<h3 id="pattern-2-decision-problems-takeskip">Pattern 2: Decision Problems (Take/Skip)<a class="headerlink" href="#pattern-2-decision-problems-takeskip" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> At each position, decide to take or skip element.</p>
+<p><strong>Use case:</strong> Coin change, subset sum, partition equal subset.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.dynamicprogramming;
+
+import java.util.*;
+
+public class DecisionProblems {
+
+    /**
+     * Problem: Coin change - minimum coins to make amount
+     * Time: O(amount * n), Space: O(amount)
+     *
+     * TODO: Implement using DP
+     */
+    public static int coinChange(int[] coins, int amount) {
+        // TODO: dp[i] = min coins to make amount i
+        // TODO: dp[i] = min(dp[i], dp[i - coin] + 1) for each coin
+        // TODO: Initialize dp[0] = 0, rest = infinity
+        // TODO: Return dp[amount] or -1 if impossible
+
+        return -1; // Replace with implementation
+    }
+
+    /**
+     * Problem: Coin change II - count ways to make amount
+     * Time: O(amount * n), Space: O(amount)
+     *
+     * TODO: Implement counting ways
+     */
+    public static int change(int amount, int[] coins) {
+        // TODO: dp[i] = ways to make amount i
+        // TODO: Implement iteration/conditional logic
+        // TODO: dp[i] += dp[i - coin]
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Perfect squares - min perfect squares to sum to n
+     * Time: O(n * sqrt(n)), Space: O(n)
+     *
+     * TODO: Implement using DP
+     */
+    public static int numSquares(int n) {
+        // TODO: Similar to coin change
+        // TODO: "Coins" are perfect squares: 1, 4, 9, 16, ...
+        // TODO: dp[i] = min perfect squares to sum to i
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Partition equal subset sum
+     * Time: O(n * sum), Space: O(sum)
+     *
+     * TODO: Implement subset sum DP
+     */
+    public static boolean canPartition(int[] nums) {
+        // TODO: Implement iteration/conditional logic
+        // TODO: Problem becomes: can we make sum/2?
+        // TODO: dp[i] = can we make sum i?
+        // TODO: Implement iteration/conditional logic
+
+        return false; // Replace with implementation
+    }
+}
+</code></pre>
+<div class="admonition warning">
+<p class="admonition-title">Debugging Challenge — Wrong Loop Order in Coin Change II</p>
+<p>The following code is supposed to count the number of ways (combinations) to make a target amount:</p>
+<pre class="highlight"><code class="language-java">public static int change_Buggy(int amount, int[] coins) {
+    int[] dp = new int[amount + 1];
+    dp[0] = 1;
+
+    for (int i = 1; i &lt;= amount; i++) {       // outer: amounts
+        for (int coin : coins) {              // inner: coins
+            if (i &gt;= coin) {
+                dp[i] += dp[i - coin];
+            }
+        }
+    }
+    return dp[amount];
+}</code></pre>
+<p>For amount=4, coins=[1,2], expected is 3 ways. What does this code return? What does swapping the loop order fix?</p>
+<details class="success">
+<summary>Answer</summary>
+<p><strong>Buggy output:</strong> 5 (it counts permutations: [1,1,2], [1,2,1], [2,1,1], [2,2], [1,1,1,1])</p>
+<p><strong>Root cause:</strong> Looping over amounts in the outer loop allows using each coin at any earlier amount, effectively
+allowing the same coins in different orders to be counted as distinct combinations.</p>
+<p><strong>Fix — swap loop order:</strong></p>
+<pre class="highlight"><code class="language-java">for (int coin : coins) {           // outer: coins
+    for (int i = coin; i &lt;= amount; i++) {  // inner: amounts
+        dp[i] += dp[i - coin];
+    }
+}</code></pre>
+<p>With coins in the outer loop, each coin type is fully "committed" before moving to the next. This prevents
+counting [1,2] and [2,1] as separate ways.</p>
+</details>
+</div>
+<hr />
+<h3 id="pattern-3-string-dp">Pattern 3: String DP<a class="headerlink" href="#pattern-3-string-dp" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Build solution character by character.</p>
+<p><strong>Use case:</strong> Decode ways, word break, palindrome partitioning.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.dynamicprogramming;
+
+import java.util.*;
+
+public class StringDP {
+
+    /**
+     * Problem: Decode ways (1=A, 2=B, ..., 26=Z)
+     * Time: O(n), Space: O(1)
+     *
+     * TODO: Implement decode ways
+     */
+    public static int numDecodings(String s) {
+        // TODO: dp[i] = ways to decode substring 0..i
+        // TODO: Single digit: if s[i] != '0', dp[i] += dp[i-1]
+        // TODO: Two digits: if 10 &lt;= s[i-1:i] &lt;= 26, dp[i] += dp[i-2]
+        // TODO: Optimize space: only need last 2 values
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Word break - can string be segmented into words
+     * Time: O(n^2 * m) where m = avg word length, Space: O(n)
+     *
+     * TODO: Implement word break
+     */
+    public static boolean wordBreak(String s, List&lt;String&gt; wordDict) {
+        // TODO: dp[i] = can substring 0..i be segmented?
+        // TODO: dp[i] = true if any dp[j] &amp;&amp; s.substring(j,i) in dict
+        // TODO: Use HashSet for O(1) word lookup
+
+        return false; // Replace with implementation
+    }
+
+    /**
+     * Problem: Longest increasing subsequence
+     * Time: O(n^2), Space: O(n)
+     *
+     * TODO: Implement LIS using DP
+     */
+    public static int lengthOfLIS(int[] nums) {
+        // TODO: dp[i] = length of LIS ending at i
+        // TODO: Implement logic
+        // TODO: Return max value in dp array
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Longest palindromic substring
+     * Time: O(n^2), Space: O(n^2) or O(1) with expand from center
+     *
+     * TODO: Implement LPS
+     */
+    public static String longestPalindrome(String s) {
+        // TODO: Expand around center approach (space O(1))
+        // TODO: Try each position as center (odd and even length)
+        // TODO: Or use DP: dp[i][j] = is substring i..j palindrome?
+
+        return ""; // Replace with implementation
+    }
+}
+</code></pre>
+<hr />
+<h3 id="pattern-4-buysell-stock-problems">Pattern 4: Buy/Sell Stock Problems<a class="headerlink" href="#pattern-4-buysell-stock-problems" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Track states (holding/not holding stock) through array.</p>
+<p><strong>Use case:</strong> Stock trading with various constraints.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.dynamicprogramming;
+
+import java.util.Arrays;
+
+public class StockProblems {
+
+    /**
+     * Problem: Best time to buy and sell stock (one transaction)
+     * Time: O(n), Space: O(1)
+     *
+     * TODO: Implement single transaction
+     */
+    public static int maxProfit(int[] prices) {
+        // TODO: Track minimum price seen so far
+        // TODO: Track maximum profit (price - minPrice)
+        // TODO: One pass solution
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Best time to buy and sell stock II (unlimited transactions)
+     * Time: O(n), Space: O(1)
+     *
+     * TODO: Implement unlimited transactions
+     */
+    public static int maxProfitUnlimited(int[] prices) {
+        // TODO: Sum all positive differences
+        // TODO: Buy before every increase, sell at peak
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Best time to buy and sell stock with cooldown
+     * Time: O(n), Space: O(1)
+     *
+     * TODO: Implement with cooldown
+     */
+    public static int maxProfitCooldown(int[] prices) {
+        // TODO: Track three states:
+        // TODO: Transitions: hold -&gt; sold -&gt; rest -&gt; hold
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Best time to buy and sell stock with fee
+     * Time: O(n), Space: O(1)
+     *
+     * TODO: Implement with transaction fee
+     */
+    public static int maxProfitWithFee(int[] prices, int fee) {
+        // TODO: Similar to cooldown
+        // TODO: Subtract fee when selling
+
+        return 0; // Replace with implementation
+    }
+}
+</code></pre>
+<hr />
+<h2 id="beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters<a class="headerlink" href="#beforeafter-why-this-pattern-matters" title="Permanent link">&para;</a></h2>
+<p><strong>Your task:</strong> Compare naive vs optimized approaches to understand exponential to polynomial transformation.</p>
+<h3 id="example-fibonacci-number">Example: Fibonacci Number<a class="headerlink" href="#example-fibonacci-number" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Calculate the nth Fibonacci number where F(n) = F(n-1) + F(n-2).</p>
+<h4 id="approach-1-pure-recursion-exponential">Approach 1: Pure Recursion (Exponential)<a class="headerlink" href="#approach-1-pure-recursion-exponential" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Naive approach - Recalculates same values many times
+public static int fib_Recursive(int n) {
+    if (n &lt;= 1) return n;
+    return fib_Recursive(n - 1) + fib_Recursive(n - 2);
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(2^n) — Each call branches into two more calls</li>
+<li>Space: O(n) — Recursion stack depth</li>
+<li>For n = 40: ~2,000,000,000 operations (takes several seconds)</li>
+<li>For n = 50: Would take hours or days</li>
+</ul>
+<p><strong>Why so slow?</strong> Tree of recursive calls:</p>
+<pre class="highlight"><code>fib(5)
+├── fib(4)
+│   ├── fib(3)
+│   │   ├── fib(2)
+│   │   │   ├── fib(1)
+│   │   │   └── fib(0)
+│   │   └── fib(1)
+│   └── fib(2)
+│       ├── fib(1)
+│       └── fib(0)
+└── fib(3)  ← RECALCULATING same subtree!
+    ├── fib(2)
+    │   ├── fib(1)
+    │   └── fib(0)
+    └── fib(1)</code></pre>
+<p>fib(3) is calculated TWICE, fib(2) THREE times, fib(1) FIVE times!</p>
+<h4 id="approach-2-memoization-top-down-dp-polynomial">Approach 2: Memoization — Top-Down DP (Polynomial)<a class="headerlink" href="#approach-2-memoization-top-down-dp-polynomial" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Optimized - Cache results to avoid recalculation
+public static int fib_Memoization(int n, int[] memo) {
+    if (n &lt;= 1) return n;
+    if (memo[n] != 0) return memo[n];  // Already calculated!
+
+    memo[n] = fib_Memoization(n - 1, memo) + fib_Memoization(n - 2, memo);
+    return memo[n];
+}
+
+// Wrapper
+public static int fib(int n) {
+    return fib_Memoization(n, new int[n + 1]);
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n) — Each fib(i) computed exactly once</li>
+<li>Space: O(n) — Memoization array + recursion stack</li>
+<li>For n = 40: ~40 operations (instant)</li>
+<li>For n = 50: ~50 operations (instant)</li>
+</ul>
+<h4 id="approach-3-bottom-up-dp-best-space-optimization">Approach 3: Bottom-Up DP (Best Space Optimization)<a class="headerlink" href="#approach-3-bottom-up-dp-best-space-optimization" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Iterative - Build from bottom, optimize space
+public static int fib_BottomUp(int n) {
+    if (n &lt;= 1) return n;
+
+    int prev2 = 0;  // F(0)
+    int prev1 = 1;  // F(1)
+
+    for (int i = 2; i &lt;= n; i++) {
+        int current = prev1 + prev2;
+        prev2 = prev1;
+        prev1 = current;
+    }
+
+    return prev1;
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n) — Single pass</li>
+<li>Space: O(1) — Only 3 variables (optimized from O(n) array)</li>
+<li>For n = 40: ~40 operations, minimal memory</li>
+<li>No recursion stack overhead</li>
+</ul>
+<h4 id="performance-comparison">Performance Comparison<a class="headerlink" href="#performance-comparison" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>n=10</th>
+<th>n=20</th>
+<th>n=30</th>
+<th>n=40</th>
+<th>Space</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Recursive</td>
+<td>0.001ms</td>
+<td>2ms</td>
+<td>200ms</td>
+<td>2000ms</td>
+<td>O(n) stack</td>
+</tr>
+<tr>
+<td>Memoization</td>
+<td>0.001ms</td>
+<td>0.001ms</td>
+<td>0.001ms</td>
+<td>0.001ms</td>
+<td>O(n) array</td>
+</tr>
+<tr>
+<td>Bottom-Up</td>
+<td>0.001ms</td>
+<td>0.001ms</td>
+<td>0.001ms</td>
+<td>0.001ms</td>
+<td>O(1)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Speedup for n=40:</strong> Memoization is ~2,000,000x faster than pure recursion!</p>
+<h4 id="why-does-dp-work-here">Why Does DP Work Here?<a class="headerlink" href="#why-does-dp-work-here" title="Permanent link">&para;</a></h4>
+<div class="admonition note">
+<p class="admonition-title">Key insight</p>
+<p>Two properties must hold for DP to be applicable: <strong>optimal substructure</strong> (the solution to F(n) can be built
+from the solutions to F(n-1) and F(n-2)) and <strong>overlapping subproblems</strong> (the same sub-values are calculated
+repeatedly in naive recursion). If both hold, caching transforms exponential into polynomial time.</p>
+</div>
+<p><strong>Visualization of overlapping subproblems:</strong></p>
+<pre class="highlight"><code>Computing fib(6):
+fib(5): needs fib(4) + fib(3)
+fib(4): needs fib(3) + fib(2)
+fib(3): needs fib(2) + fib(1)
+              ↑         ↑
+      These repeat!   These repeat!</code></pre>
+<p><strong>Without DP:</strong> Recalculate everything (exponential waste)<br />
+<strong>With DP:</strong> Calculate once, reuse (polynomial efficiency)</p>
+<hr />
+<h3 id="example-2-coin-change-decision-problem">Example 2: Coin Change (Decision Problem)<a class="headerlink" href="#example-2-coin-change-decision-problem" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Minimum coins needed to make amount = 11 with coins [1, 2, 5].</p>
+<h4 id="approach-1-brute-force-recursion">Approach 1: Brute Force Recursion<a class="headerlink" href="#approach-1-brute-force-recursion" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Try all combinations - exponential time
+public static int coinChange_Recursive(int[] coins, int amount) {
+    if (amount == 0) return 0;
+    if (amount &lt; 0) return -1;
+
+    int min = Integer.MAX_VALUE;
+    for (int coin : coins) {
+        int result = coinChange_Recursive(coins, amount - coin);
+        if (result &gt;= 0 &amp;&amp; result &lt; min) {
+            min = result + 1;
+        }
+    }
+
+    return min == Integer.MAX_VALUE ? -1 : min;
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(amount^coins) — Exponential branching</li>
+<li>Space: O(amount) — Recursion depth</li>
+<li>For amount = 100, coins = [1, 2, 5]: billions of operations</li>
+</ul>
+<h4 id="approach-2-bottom-up-dp">Approach 2: Bottom-Up DP<a class="headerlink" href="#approach-2-bottom-up-dp" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Build table of minimum coins for each amount
+public static int coinChange_DP(int[] coins, int amount) {
+    int[] dp = new int[amount + 1];
+    Arrays.fill(dp, amount + 1);  // Initialize with "infinity"
+    dp[0] = 0;  // Base case
+
+    for (int i = 1; i &lt;= amount; i++) {
+        for (int coin : coins) {
+            if (i &gt;= coin) {
+                dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+            }
+        }
+    }
+
+    return dp[amount] &gt; amount ? -1 : dp[amount];
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(amount × coins) — Polynomial</li>
+<li>Space: O(amount) — DP array</li>
+<li>For amount = 100, coins = [1, 2, 5]: ~300 operations</li>
+</ul>
+<p><strong>Speedup:</strong> From exponential to polynomial!</p>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>Why does caching subproblem results help? <span class="fill-in">[Your answer]</span></li>
+<li>What's the difference between top-down and bottom-up? <span class="fill-in">[Your answer]</span></li>
+<li>When would you choose one approach over the other? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr />
+<h2 id="case-studies">Case Studies<a class="headerlink" href="#case-studies" title="Permanent link">&para;</a></h2>
+<h3 id="browser-history-longest-common-subsequence">Browser History: Longest Common Subsequence<a class="headerlink" href="#browser-history-longest-common-subsequence" title="Permanent link">&para;</a></h3>
+<p>When a version control system (git diff) computes the minimal edit between two file versions, it uses a DP
+algorithm equivalent to computing the longest common subsequence (LCS). The "diff" you see is derived from the LCS of
+the two files' lines. The O(m×n) DP table maps directly to the edit distance pattern in 2D DP.</p>
+<h3 id="financial-trading-platforms-stock-buysell-optimization">Financial Trading Platforms: Stock Buy/Sell Optimization<a class="headerlink" href="#financial-trading-platforms-stock-buysell-optimization" title="Permanent link">&para;</a></h3>
+<p>Real algorithmic trading systems use state-machine DP to determine optimal trading strategies under various constraints
+(one transaction, unlimited, cooldown, fees). The key insight — tracking "holding" vs "not holding" as separate DP
+states — is exactly the pattern in the stock problems above. The state-machine view generalizes to problems with
+multiple modes.</p>
+<h3 id="mobile-keyboard-autocomplete-word-break">Mobile Keyboard Autocomplete: Word Break<a class="headerlink" href="#mobile-keyboard-autocomplete-word-break" title="Permanent link">&para;</a></h3>
+<p>Smartphone keyboards use word break DP to determine valid word segmentation in swipe-to-type mode. When you swipe
+"HELLOWORLD", the keyboard computes <code>wordBreak</code> against a dictionary to produce "HELLO WORLD". The DP table's <code>dp[i]</code>
+stores whether the prefix up to position <code>i</code> forms valid words, enabling O(n²) segmentation instead of exponential
+backtracking.</p>
+<hr />
+<h2 id="common-misconceptions">Common Misconceptions<a class="headerlink" href="#common-misconceptions" title="Permanent link">&para;</a></h2>
+<div class="admonition danger">
+<p class="admonition-title">DP always requires an array or table</p>
+<p>Many DP problems can be solved with only two or three variables (O(1) space) when the recurrence only depends on
+the previous one or two states. Fibonacci, house robber, climbing stairs, and the stock problems with states all
+reduce to constant space. Always check if you can eliminate the array after understanding the recurrence.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Initializing the DP array with Integer.MAX_VALUE is safe</p>
+<p>Using <code>Integer.MAX_VALUE</code> as "infinity" in DP is a common source of silent bugs. When you compute
+<code>dp[i - coin] + 1</code> and <code>dp[i - coin]</code> is <code>Integer.MAX_VALUE</code>, integer overflow produces a negative number,
+which silently passes the <code>Math.min</code> check. Use <code>amount + 1</code> as infinity for coin change (it's impossible to
+need more coins than the amount itself, assuming coin value 1 exists).</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Top-down memoization and bottom-up tabulation always give the same complexity</p>
+<p>Both have the same time complexity (solve each unique subproblem once), but their space complexity can differ.
+Top-down uses O(n) stack space plus the memo array. Bottom-up can often be space-optimized below O(n) because
+you control the iteration order. For problems where only the last 1-2 states matter, bottom-up reaches O(1)
+space; top-down cannot achieve this without eliminating recursion.</p>
+</div>
+<hr />
+<h2 id="decision-framework-choosing-a-dp-approach">Decision Framework: Choosing a DP Approach<a class="headerlink" href="#decision-framework-choosing-a-dp-approach" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Fill in the matrix after working through the implementations above.</p>
+<h3 id="trade-off-analysis-matrix">Trade-off Analysis Matrix<a class="headerlink" href="#trade-off-analysis-matrix" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>Code style</th>
+<th>Space</th>
+<th>Debug ease</th>
+<th>Transition direction</th>
+<th>Key pitfall</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Top-down (memoization)</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Bottom-up (tabulation)</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Bottom-up + space optimization</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+</tbody>
+</table>
+<details class="success">
+<summary>Answers</summary>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>Code style</th>
+<th>Space</th>
+<th>Debug ease</th>
+<th>Transition direction</th>
+<th>Key pitfall</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Top-down (memoization)</strong></td>
+<td>Recursive + cache (HashMap or array)</td>
+<td>O(states) + O(depth) call stack</td>
+<td>High — follows natural problem decomposition</td>
+<td>Any order — recursion handles dependencies automatically</td>
+<td>Stack overflow for n &gt; ~10,000; Python default recursion limit is 1,000</td>
+</tr>
+<tr>
+<td><strong>Bottom-up (tabulation)</strong></td>
+<td>Iterative, fill table in dependency order</td>
+<td>O(states)</td>
+<td>Medium — must trace table fill order</td>
+<td>Must process base cases before dependents</td>
+<td>Filling in wrong order — a cell that reads <code>dp[i-1]</code> must be computed after row i-1, not before</td>
+</tr>
+<tr>
+<td><strong>Bottom-up + space optimization</strong></td>
+<td>Iterative, rolling array (keep only recent rows)</td>
+<td>O(n) or O(1) instead of O(n²)</td>
+<td>Low — harder to see which cells are live</td>
+<td>Same as tabulation</td>
+<td>Rolling array only valid when only adjacent rows are needed; breaks for problems referencing non-adjacent cells (e.g., edit distance with skip)</td>
+</tr>
+</tbody>
+</table>
+</details>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">When it breaks</p>
+<p>DP breaks when the state space is too large to cache: a 3D DP table over inputs of size 1000 requires 10⁹ cells, exceeding available memory. Space optimisation (rolling array) helps for linear DPs but not for problems with complex state dependencies. DP also breaks when subproblems don't actually overlap — if no subproblem is ever recomputed, adding a memo table adds overhead with no benefit. The <code>Integer.MAX_VALUE + 1</code> overflow bug (common in coin change and knapsack) causes incorrect comparisons silently — use <code>Integer.MAX_VALUE / 2</code> or a sentinel that won't overflow on addition.</p>
+</div>
+<hr />
+<h2 id="practice">Practice<a class="headerlink" href="#practice" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<h3 id="leetcode-problems">LeetCode Problems<a class="headerlink" href="#leetcode-problems" title="Permanent link">&para;</a></h3>
+<p><strong>Easy (Complete all 3):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/climbing-stairs/">70. Climbing Stairs</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Fibonacci-style]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/min-cost-climbing-stairs/">746. Min Cost Climbing Stairs</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Fibonacci with cost]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock/">121. Best Time to Buy and Sell Stock</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Single transaction]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Medium (Complete 4-5):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/house-robber/">198. House Robber</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Fibonacci-style decision]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/coin-change/">322. Coin Change</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Decision DP]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/word-break/">139. Word Break</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[String DP]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/longest-increasing-subsequence/">300. Longest Increasing Subsequence</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Sequence DP]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/decode-ways/">91. Decode Ways</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[String DP]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Hard (Optional):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/maximum-product-subarray/">152. Maximum Product Subarray</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Track min and max]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/palindrome-partitioning-ii/">132. Palindrome Partitioning II</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[String DP with cut optimization]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Failure modes:</strong></p>
+<ul>
+<li>What happens if the memoization table for coin change is initialized with <code>Integer.MAX_VALUE</code> instead of <code>amount + 1</code> — what silent bug does the expression <code>dp[i - coin] + 1</code> produce? <span class="fill-in">[Fill in]</span></li>
+<li>How does your implementation behave when the recurrence for house robber uses <code>dp[i] = max(dp[i-1], nums[i] + dp[i-2])</code> but <code>dp[1]</code> is set to <code>nums[1]</code> instead of <code>max(nums[0], nums[1])</code> — which inputs expose this bug? <span class="fill-in">[Fill in]</span></li>
+</ul>
+</div>
+<hr />
+<h2 id="test-your-understanding">Test Your Understanding<a class="headerlink" href="#test-your-understanding" title="Permanent link">&para;</a></h2>
+<p>Answer these without referring to your notes or implementation.</p>
+<ol>
+<li>
+<p>State the two properties a problem must have for DP to apply. For each property, give an example from this topic
+   that demonstrates it.</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) optimal substructure — the optimal solution to the problem contains optimal solutions to its subproblems; example: in coin change, the minimum coins for amount n is 1 + minimum coins for amount n-coin, and this subproblem relationship is used directly in the recurrence; (2) overlapping subproblems — the same subproblems are solved multiple times in the naive recursive solution; example: in Fibonacci, fib(3) is computed independently in both the fib(5)→fib(4) branch and the fib(5)→fib(3) branch; (3) both are required — greedy has optimal substructure but no overlapping subproblems; divide-and-conquer (merge sort) has overlapping work but solves distinct (non-overlapping) subproblems.</p>
+</details>
+</li>
+<li>
+<p>For the house robber problem <code>[2, 1, 1, 2]</code>, trace through the correct DP table values (dp[0] through dp[3]). Why
+   is <code>dp[1] = max(nums[0], nums[1])</code> rather than just <code>nums[1]</code>?</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) the correct trace — dp[0]=2, dp[1]=max(2,1)=2, dp[2]=max(dp[1], dp[0]+nums[2])=max(2,3)=3, dp[3]=max(dp[2], dp[1]+nums[3])=max(3,4)=4; return 4; (2) why dp[1] = max — dp[1] represents the maximum profit from the first two houses; you can rob either house 0 or house 1, but not both (they are adjacent); setting dp[1]=nums[1] incorrectly assumes you always rob house 1, ignoring the potentially better choice of house 0; (3) the bug this fixes — for input [2,1,...] the bug gives dp[1]=1 instead of 2, causing all subsequent values to be underestimates.</p>
+</details>
+</li>
+<li>
+<p>Coin Change I (minimum coins) and Coin Change II (count ways) use different loop orders. Explain why the loop order
+   matters for Coin Change II but not for Coin Change I.</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) Coin Change II — coins in the outer loop, amounts in the inner loop; this ensures that for a given coin type, all amounts that use it are updated before moving to the next coin; this prevents the same coin being used in different "orderings" (e.g., [1,2] and [2,1] count as one combination, not two); (2) Coin Change I — the loop order (coins outer vs amounts outer) does not affect the minimum count because we are minimizing, not counting; min(dp[i], dp[i-coin]+1) yields the same result regardless of the order coins are considered, since we are taking the minimum over all coin choices; (3) the underlying reason — counting combinations requires a careful distinction between ordered and unordered selections, while minimization only cares about the value at each state.</p>
+</details>
+</li>
+<li>
+<p>When can you reduce the O(n) DP array to O(1) space? Give two examples from this topic where this optimization
+   applies, and one where it does not.</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) the condition — O(1) space is possible when the recurrence at position i depends only on the previous 1 or 2 states, not on an arbitrary earlier index; (2) examples where it applies — Fibonacci/climbing stairs (dp[i] depends only on dp[i-1] and dp[i-2], so two variables suffice); house robber (same pattern); stock buy/sell with states (each state depends only on the previous day's states); (3) example where it does not apply — coin change: dp[i] depends on dp[i-coin] for any coin in the coins array; since coins can have arbitrary values, you need the full dp array up to i; similarly, word break's dp[i] depends on dp[j] for any j where s[j..i] is in the dictionary.</p>
+</details>
+</li>
+<li>
+<p>A colleague says "I always use top-down memoization because it's easier to write." Under what conditions would
+   bottom-up tabulation be the better choice? Give one concrete performance reason and one concrete correctness reason.</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) performance reason — for large n (e.g., n=100,000), top-down recursion can overflow the call stack (Java's default ~500K frames); bottom-up iterates without any stack overhead; additionally, bottom-up avoids function call overhead and often has better cache locality since it fills the table sequentially; (2) correctness reason — bottom-up makes the iteration order explicit, preventing accidental cycles in state dependencies; with top-down, a poorly designed memo key or a missing base case can cause infinite recursion or incorrect caching without any obvious error; (3) when top-down wins — when only a small fraction of the dp states are actually needed (sparse subproblem space), top-down avoids computing unnecessary states; bottom-up fills the entire table regardless.</p>
+</details>
+</li>
+</ol>
+<hr />
+<h2 id="connected-topics">Connected Topics<a class="headerlink" href="#connected-topics" title="Permanent link">&para;</a></h2>
+<div class="bs-callout bs-callout-info">
+<p><strong>Where this topic connects</strong></p>
+<ul>
+<li><strong><a href="../03-hash-tables/">03. Hash Tables</a></strong> — HashMap memoization is the standard top-down DP implementation; the hash table maps subproblem state to result → <a href="../03-hash-tables/">03. Hash Tables</a></li>
+<li><strong><a href="../06-trees/">06. Trees</a></strong> — tree DP (diameter, max path sum) uses post-order DFS to propagate subproblem solutions from leaves to root → <a href="../06-trees/">06. Trees</a></li>
+</ul>
+</div></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = "../.."</script>
+    
+    <script src="../../js/base.js"></script>
+    <script src="../../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

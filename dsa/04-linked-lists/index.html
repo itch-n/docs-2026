@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A framework for algorithms, systems design, and infrastructure.">
+    <meta name="author" content="Richard">
+    
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+
+    
+    <title>04. Linked Lists - Software Engineering Study Guide</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../../css/base.min.css" rel="stylesheet">
+    <link href="../../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css">
+        
+    
+    <link href="../../css/custom.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../..">Home</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Systems Design <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../systems/01-storage-engines/">01. Storage Engines</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/04-search-and-indexing/">04. Search & Indexing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/05-caching-patterns/">05. Caching Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/06-api-design/">06. API Design</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/07-security-patterns/">07. Security Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/08-rate-limiting/">08. Rate Limiting</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/09-load-balancing/">09. Load Balancing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/11-database-scaling/">11. Database Scaling</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/12-message-queues/">12. Message Queues</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/13-event-sourcing-cqrs/">13. Event Sourcing & CQRS</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/14-stream-processing/">14. Stream Processing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/15-observability/">15. Observability</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/16-resilience-patterns/">16. Resilience Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/17-distributed-transactions/">17. Distributed Transactions</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/18-consensus-patterns/">18. Consensus Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/19-microservices-patterns/">19. Microservices Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/20-multi-region/">20. Multi-Region Architecture</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">DSA <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../01-two-pointers/">01. Two Pointers</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../02-sliding-window/">02. Sliding Window</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../03-hash-tables/">03. Hash Tables</a>
+</li>
+
+                        
+                            
+<li class="active">
+    <a href="./">04. Linked Lists</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../05-stacks--queues/">05. Stacks & Queues</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../06-trees/">06. Trees</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../07-binary-search/">07. Binary Search</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../08-heaps/">08. Heaps</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../09-union-find/">09. Union-Find</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../10-graphs/">10. Graphs</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../11-advanced-graphs/">11. Advanced Graphs</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../12-backtracking/">12. Backtracking</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../13-dynamic-programming/">13. Dynamic Programming</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../14-prefix-sums/">14. Prefix Sums</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../15-intervals/">15. Intervals</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Quick Reference <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../reference/when-it-breaks/">When It Breaks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/back-of-envelope/">Back of the Envelope</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/symptom-pattern/">Symptom → Pattern</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/staff-interview-strategy/">Staff+ Interview Strategy</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/no-new-problems/">No New Problems in CS</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/how-the-machine-works/">How the Machine Actually Works</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../03-hash-tables/">
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="next" href="../05-stacks--queues/">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#linked-lists">Linked Lists</a></li>
+            <li class="second-level"><a href="#learning-objectives">Learning Objectives</a></li>
+                
+            <li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+                
+            <li class="second-level"><a href="#core-implementation">Core Implementation</a></li>
+                
+            <li class="second-level"><a href="#beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters</a></li>
+                
+            <li class="second-level"><a href="#common-misconceptions">Common Misconceptions</a></li>
+                
+            <li class="second-level"><a href="#decision-framework-choosing-a-linked-list-technique">Decision Framework: Choosing a Linked List Technique</a></li>
+                
+            <li class="second-level"><a href="#practice">Practice</a></li>
+                
+            <li class="second-level"><a href="#test-your-understanding">Test Your Understanding</a></li>
+                
+            <li class="second-level"><a href="#connected-topics">Connected Topics</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="linked-lists">Linked Lists<a class="headerlink" href="#linked-lists" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>Pointer manipulation for reversing, detecting cycles, and merging lists</p>
+</blockquote>
+<hr />
+<h2 id="learning-objectives">Learning Objectives<a class="headerlink" href="#learning-objectives" title="Permanent link">&para;</a></h2>
+<p>By the end of this topic you will be able to:</p>
+<ul>
+<li>Explain the structural difference between arrays and linked lists and articulate when each is preferable</li>
+<li>Implement iterative and recursive list reversal using the three-pointer (prev/curr/next) pattern</li>
+<li>Detect cycles and find the cycle-entry node using Floyd's algorithm with O(1) space</li>
+<li>Merge two sorted lists and K sorted lists, using a dummy head node to eliminate edge cases</li>
+<li>Remove the Nth node from the end in a single pass using a two-pointer gap technique</li>
+<li>Diagnose and fix the most common bugs: missing <code>prev = curr</code>, returning <code>curr</code> instead of <code>prev</code>, and incorrect null checks for fast/slow pointers</li>
+</ul>
+<hr />
+<div class="admonition note">
+<p class="admonition-title">Operational reality</p>
+<p>The Linux kernel uses an inverted linked list pattern: instead of a node containing data, the data struct embeds the list node, letting a single struct participate in multiple lists simultaneously without extra allocation. Database buffer pools — PostgreSQL's shared buffer cache, InnoDB's buffer pool — use a doubly linked list plus hash map for LRU eviction. The structure you implement in the LRU cache problem is not a toy; it is the eviction policy running inside every major relational database. Floyd's cycle detection algorithm, developed for detecting cycles in linked lists, is also used in pseudorandom number generator analysis and in certain garbage collector implementations.</p>
+</div>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After implementing all patterns, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What is a linked list in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[A linked list is a sequence of nodes where each node holds a value and a pointer to ___, unlike an array which stores elements in ___ memory locations]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Why can't we use array indices?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Linked list nodes are not stored in contiguous memory, so there is no formula to compute the address of the nth node — you must ___ from the head]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy:</strong></p>
+<ul>
+<li>Example: "Linked lists are like a treasure hunt where each clue leads to the next..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When does this pattern work?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after solving problems]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What's the key difference between singly and doubly linked lists?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr />
+<h2 id="core-implementation">Core Implementation<a class="headerlink" href="#core-implementation" title="Permanent link">&para;</a></h2>
+<h3 id="pattern-1-reverse-linked-list">Pattern 1: Reverse Linked List<a class="headerlink" href="#pattern-1-reverse-linked-list" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Change direction of next pointers.</p>
+<p><strong>Use case:</strong> Reverse entire list, reverse in groups, reverse between positions.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.linkedlists;
+
+import java.util.*;
+public class ReverseLinkedList {
+
+    static class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode(int val) {
+            this.val = val;
+        }
+    }
+
+    /**
+     * Problem: Reverse entire linked list
+     * Time: O(n), Space: O(1)
+     *
+     * TODO: Implement iteratively using three pointers
+     */
+    public static ListNode reverseList(ListNode head) {
+        // TODO: Initialize pointers/variables
+
+        // TODO: Implement iteration/conditional logic
+
+        // TODO: Return result
+
+        return null; // Replace with implementation
+    }
+
+    /**
+     * Problem: Reverse linked list recursively
+     * Time: O(n), Space: O(n) due to recursion stack
+     *
+     * TODO: Implement recursive reversal
+     */
+    public static ListNode reverseListRecursive(ListNode head) {
+        // TODO: Handle base case
+
+        // TODO: Recursively reverse rest: newHead = reverse(head.next)
+
+        // TODO: Update state
+        // TODO: Set head.next = null
+
+        // TODO: Return newHead
+
+        return null; // Replace with implementation
+    }
+
+    /**
+     * Problem: Reverse first K nodes
+     * Time: O(k), Space: O(1)
+     *
+     * TODO: Implement partial reversal
+     */
+    public static ListNode reverseFirstK(ListNode head, int k) {
+        // TODO: Similar to reverseList but count k steps
+        // TODO: Return new head and keep rest unchanged
+
+        return null; // Replace with implementation
+    }
+
+    // Helper: Create list from array
+    static ListNode createList(int[] values) {
+        if (values.length == 0) return null;
+        ListNode head = new ListNode(values[0]);
+        ListNode current = head;
+        for (int i = 1; i &lt; values.length; i++) {
+            current.next = new ListNode(values[i]);
+            current = current.next;
+        }
+        return head;
+    }
+
+    // Helper: Print list
+    static void printList(ListNode head) {
+        ListNode current = head;
+        while (current != null) {
+            System.out.print(current.val);
+            if (current.next != null) System.out.print(" -&gt; ");
+            current = current.next;
+        }
+        System.out.println();
+    }
+}
+</code></pre>
+<div class="admonition warning">
+<p class="admonition-title">Debugging Challenge — Broken Reverse Implementation</p>
+<p>The code below has <strong>2 critical bugs</strong>. Trace through <code>1 -&gt; 2 -&gt; 3 -&gt; null</code> before checking the answer.</p>
+<pre class="highlight"><code class="language-java">public static ListNode reverseList_Buggy(ListNode head) {
+    ListNode prev = null;
+    ListNode curr = head;
+    while (curr != null) {
+        ListNode next = curr.next;
+        curr.next = prev;
+        curr = next;    }
+    return curr;
+}</code></pre>
+<ul>
+<li>Bug 1: <span class="fill-in">[Which pointer never advances? What is lost?]</span></li>
+<li>Bug 2: <span class="fill-in">[What does <code>curr</code> equal when the loop exits?]</span></li>
+</ul>
+<details class="success">
+<summary>Answer</summary>
+<p><strong>Bug 1:</strong> Missing <code>prev = curr</code> before <code>curr = next</code>. The <code>prev</code> pointer never advances, so the reversed portion is lost — every node's <code>next</code> is set back to <code>null</code> (the initial value of <code>prev</code>).</p>
+<p><strong>Bug 2:</strong> <code>curr</code> is <code>null</code> when the loop exits (that's the exit condition). Returning <code>curr</code> returns <code>null</code>. Should return <code>prev</code>, which points to the new head (the last node processed).</p>
+<p><strong>Correct inner loop body:</strong>
+<pre class="highlight"><code class="language-java">ListNode next = curr.next;
+curr.next = prev;
+prev = curr;    // MUST advance prev
+curr = next;</code></pre>
+<strong>Correct return:</strong> <code>return prev;</code></p>
+</details>
+</div>
+<hr />
+<h3 id="pattern-2-cycle-detection">Pattern 2: Cycle Detection<a class="headerlink" href="#pattern-2-cycle-detection" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Use Floyd's cycle detection (slow/fast pointers).</p>
+<p><strong>Use case:</strong> Detect cycle, find cycle start, remove cycle.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.linkedlists;
+
+public class CycleDetection {
+
+    static class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode(int val) {
+            this.val = val;
+        }
+    }
+
+    /**
+     * Problem: Detect if linked list has a cycle
+     * Time: O(n), Space: O(1)
+     *
+     * TODO: Implement Floyd's cycle detection
+     */
+    public static boolean hasCycle(ListNode head) {
+        // TODO: Initialize pointers/variables
+
+        // TODO: Implement iteration/conditional logic
+
+        // TODO: Return false
+
+        return false; // Replace with implementation
+    }
+
+    /**
+     * Problem: Find the node where cycle begins
+     * Time: O(n), Space: O(1)
+     *
+     * TODO: Implement cycle start detection
+     */
+    public static ListNode detectCycle(ListNode head) {
+        // TODO: First detect if cycle exists (same as hasCycle)
+
+        // TODO: Implement iteration/conditional logic
+
+        return null; // Replace with implementation
+    }
+
+    /**
+     * Problem: Remove cycle from linked list
+     * Time: O(n), Space: O(1)
+     *
+     * TODO: Implement cycle removal
+     */
+    public static void removeCycle(ListNode head) {
+        // TODO: Find cycle start
+        // TODO: Traverse to find node before cycle start
+        // TODO: Track state
+    }
+
+    // Helper: Create list from array
+    static ListNode createList(int[] values) {
+        if (values.length == 0) return null;
+        ListNode head = new ListNode(values[0]);
+        ListNode current = head;
+        for (int i = 1; i &lt; values.length; i++) {
+            current.next = new ListNode(values[i]);
+            current = current.next;
+        }
+        return head;
+    }
+}
+</code></pre>
+<hr />
+<h3 id="pattern-3-merge-lists">Pattern 3: Merge Lists<a class="headerlink" href="#pattern-3-merge-lists" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Merge two or more sorted lists.</p>
+<p><strong>Use case:</strong> Merge two sorted lists, merge K sorted lists.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.linkedlists;
+
+import java.util.*;
+
+public class MergeLists {
+
+    static class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode(int val) {
+            this.val = val;
+        }
+    }
+
+    /**
+     * Problem: Merge two sorted linked lists
+     * Time: O(n + m), Space: O(1)
+     *
+     * TODO: Implement iterative merge
+     */
+    public static ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        // TODO: Create dummy node to simplify edge cases
+
+        // TODO: Implement iteration/conditional logic
+
+        // TODO: Attach remaining nodes from non-empty list
+
+        // TODO: Return dummy.next
+
+        return null; // Replace with implementation
+    }
+
+    /**
+     * Problem: Merge two sorted lists recursively
+     * Time: O(n + m), Space: O(n + m) due to recursion
+     *
+     * TODO: Implement recursive merge
+     */
+    public static ListNode mergeTwoListsRecursive(ListNode l1, ListNode l2) {
+        // TODO: Base cases: if l1 null return l2, if l2 null return l1
+
+        // TODO: Compare values:
+
+        return null; // Replace with implementation
+    }
+
+    /**
+     * Problem: Merge K sorted linked lists
+     * Time: O(N log k) where N = total nodes, k = number of lists
+     * Space: O(k) for priority queue
+     *
+     * TODO: Implement using min heap (PriorityQueue)
+     */
+    public static ListNode mergeKLists(ListNode[] lists) {
+        // TODO: Create PriorityQueue with custom comparator
+
+        // TODO: Add all list heads to queue
+
+        // TODO: Create dummy node
+
+        // TODO: Implement iteration/conditional logic
+
+        // TODO: Return dummy.next
+
+        return null; // Replace with implementation
+    }
+
+    // Helper: Create list
+    static ListNode createList(int[] values) {
+        if (values.length == 0) return null;
+        ListNode head = new ListNode(values[0]);
+        ListNode current = head;
+        for (int i = 1; i &lt; values.length; i++) {
+            current.next = new ListNode(values[i]);
+            current = current.next;
+        }
+        return head;
+    }
+
+    // Helper: Print list
+    static void printList(ListNode head) {
+        ListNode current = head;
+        while (current != null) {
+            System.out.print(current.val);
+            if (current.next != null) System.out.print(" -&gt; ");
+            current = current.next;
+        }
+        System.out.println();
+    }
+}
+</code></pre>
+<div class="admonition warning">
+<p class="admonition-title">Debugging Challenge — Missing <code>curr = curr.next</code> in Merge</p>
+<p>The merge below compiles and runs but produces a single-node result instead of a full merged list. Trace through <code>l1 = 1-&gt;3-&gt;5</code> and <code>l2 = 2-&gt;4-&gt;6</code> before checking the answer.</p>
+<pre class="highlight"><code class="language-java">public static ListNode mergeTwoLists_Buggy(ListNode l1, ListNode l2) {
+    ListNode dummy = new ListNode(0);
+    ListNode curr = dummy;
+    while (l1 != null &amp;&amp; l2 != null) {
+        if (l1.val &lt; l2.val) {
+            curr.next = l1;
+            l1 = l1.next;
+        } else {
+            curr.next = l2;
+            l2 = l2.next;
+        }
+    }
+    if (l1 != null) curr.next = l1;
+    if (l2 != null) curr.next = l2;
+    return dummy.next;
+}</code></pre>
+<ul>
+<li>Bug: <span class="fill-in">[Which pointer never advances? What does <code>dummy.next</code> actually point to?]</span></li>
+</ul>
+<details class="success">
+<summary>Answer</summary>
+<p><strong>Bug:</strong> <code>curr = curr.next</code> is missing at the end of each loop iteration. Without it, <code>curr</code> stays at <code>dummy</code> throughout, and <code>curr.next</code> is overwritten every iteration. Only the last node appended survives; the rest are silently discarded.</p>
+<p><strong>Fix:</strong> Add <code>curr = curr.next;</code> as the last statement inside the <code>while</code> loop body.</p>
+</details>
+</div>
+<hr />
+<h3 id="pattern-4-remove-nth-node">Pattern 4: Remove Nth Node<a class="headerlink" href="#pattern-4-remove-nth-node" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Use two-pointer technique with gap.</p>
+<p><strong>Use case:</strong> Remove Nth from end, remove duplicates, partition list.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.linkedlists;
+
+public class RemoveNode {
+
+    static class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode(int val) {
+            this.val = val;
+        }
+    }
+
+    /**
+     * Problem: Remove Nth node from end of list
+     * Time: O(n), Space: O(1)
+     *
+     * TODO: Implement using two pointers with gap
+     */
+    public static ListNode removeNthFromEnd(ListNode head, int n) {
+        // TODO: Create dummy node pointing to head (handles edge case)
+
+        // TODO: Initialize pointers/variables
+
+        // TODO: Move fast n+1 steps ahead
+
+        // TODO: Move both pointers until fast reaches end
+
+        // TODO: Remove node: slow.next = slow.next.next
+
+        // TODO: Return dummy.next
+
+        return null; // Replace with implementation
+    }
+
+    /**
+     * Problem: Remove all duplicates (sorted list)
+     * Time: O(n), Space: O(1)
+     *
+     * TODO: Implement duplicate removal
+     */
+    public static ListNode deleteDuplicates(ListNode head) {
+        // TODO: current = head
+
+        // TODO: Implement iteration/conditional logic
+
+        return null; // Replace with implementation
+    }
+
+    // Helper: Create list
+    static ListNode createList(int[] values) {
+        if (values.length == 0) return null;
+        ListNode head = new ListNode(values[0]);
+        ListNode current = head;
+        for (int i = 1; i &lt; values.length; i++) {
+            current.next = new ListNode(values[i]);
+            current = current.next;
+        }
+        return head;
+    }
+
+    // Helper: Print list
+    static void printList(ListNode head) {
+        ListNode current = head;
+        while (current != null) {
+            System.out.print(current.val);
+            if (current.next != null) System.out.print(" -&gt; ");
+            current = current.next;
+        }
+        System.out.println();
+    }
+}
+</code></pre>
+<hr />
+<h2 id="beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters<a class="headerlink" href="#beforeafter-why-this-pattern-matters" title="Permanent link">&para;</a></h2>
+<p><strong>Your task:</strong> Compare array operations vs linked list operations to understand trade-offs.</p>
+<h3 id="example-1-insertion-at-beginning">Example 1: Insertion at Beginning<a class="headerlink" href="#example-1-insertion-at-beginning" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Insert element at the beginning of a collection.</p>
+<h4 id="approach-1-array-dynamic">Approach 1: Array (Dynamic)<a class="headerlink" href="#approach-1-array-dynamic" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Array approach - Shift all elements
+public static int[] insertAtBeginning_Array(int[] arr, int value) {
+    int[] newArr = new int[arr.length + 1];
+    newArr[0] = value;
+
+    // Copy all existing elements (shifted right)
+    for (int i = 0; i &lt; arr.length; i++) {
+        newArr[i + 1] = arr[i];
+    }
+
+    return newArr;
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n) - Must shift all elements</li>
+<li>Space: O(n) - Need new array</li>
+<li>For n = 10,000: ~10,000 copy operations</li>
+</ul>
+<h4 id="approach-2-linked-list">Approach 2: Linked List<a class="headerlink" href="#approach-2-linked-list" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Linked list approach - Just update pointers
+public static ListNode insertAtBeginning_List(ListNode head, int value) {
+    ListNode newNode = new ListNode(value);
+    newNode.next = head;
+    return newNode;  // New head
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(1) - Just two pointer assignments</li>
+<li>Space: O(1) - Single new node</li>
+<li>For n = 10,000: Always 2 operations (constant!)</li>
+</ul>
+<h4 id="performance-comparison">Performance Comparison<a class="headerlink" href="#performance-comparison" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Collection Size</th>
+<th>Array (O(n))</th>
+<th>Linked List (O(1))</th>
+<th>Speedup</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n = 100</td>
+<td>100 ops</td>
+<td>2 ops</td>
+<td>50x</td>
+</tr>
+<tr>
+<td>n = 1,000</td>
+<td>1,000 ops</td>
+<td>2 ops</td>
+<td>500x</td>
+</tr>
+<tr>
+<td>n = 10,000</td>
+<td>10,000 ops</td>
+<td>2 ops</td>
+<td>5,000x</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Your calculation:</strong> For n = 5,000, inserting at beginning is _____ times faster with linked list.</p>
+<hr />
+<h3 id="example-2-access-middle-element">Example 2: Access Middle Element<a class="headerlink" href="#example-2-access-middle-element" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Access the middle element of a collection.</p>
+<h4 id="approach-1-array">Approach 1: Array<a class="headerlink" href="#approach-1-array" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Array approach - Direct access
+public static int getMiddle_Array(int[] arr) {
+    return arr[arr.length / 2];  // O(1) access!
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(1) - Direct index access</li>
+<li>Space: O(1)</li>
+<li>Operations: 1 (always!)</li>
+</ul>
+<h4 id="approach-2-linked-list-naive">Approach 2: Linked List (Naive)<a class="headerlink" href="#approach-2-linked-list-naive" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Linked list approach - Must traverse
+public static int getMiddle_List_Naive(ListNode head) {
+    // First pass: count nodes
+    int count = 0;
+    ListNode curr = head;
+    while (curr != null) {
+        count++;
+        curr = curr.next;
+    }
+
+    // Second pass: traverse to middle
+    curr = head;
+    for (int i = 0; i &lt; count / 2; i++) {
+        curr = curr.next;
+    }
+
+    return curr.val;
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n) - Must traverse to middle</li>
+<li>Space: O(1)</li>
+<li>For n = 10,000: ~15,000 steps (count + traverse to middle)</li>
+</ul>
+<h4 id="approach-3-linked-list-optimized-with-fastslow">Approach 3: Linked List (Optimized with Fast/Slow)<a class="headerlink" href="#approach-3-linked-list-optimized-with-fastslow" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Optimized: slow/fast pointers - single pass
+public static int getMiddle_List_Optimized(ListNode head) {
+    ListNode slow = head, fast = head;
+
+    while (fast != null &amp;&amp; fast.next != null) {
+        slow = slow.next;        // Move 1 step
+        fast = fast.next.next;   // Move 2 steps
+    }
+
+    return slow.val;  // Slow is at middle when fast reaches end
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n) - Single pass</li>
+<li>Space: O(1)</li>
+<li>For n = 10,000: ~5,000 steps (half as many as naive)</li>
+</ul>
+<h4 id="performance-comparison_1">Performance Comparison<a class="headerlink" href="#performance-comparison_1" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Collection Size</th>
+<th>Array (O(1))</th>
+<th>List Naive (O(n))</th>
+<th>List Optimized (O(n))</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n = 100</td>
+<td>1 op</td>
+<td>150 ops</td>
+<td>50 ops</td>
+</tr>
+<tr>
+<td>n = 1,000</td>
+<td>1 op</td>
+<td>1,500 ops</td>
+<td>500 ops</td>
+</tr>
+<tr>
+<td>n = 10,000</td>
+<td>1 op</td>
+<td>15,000 ops</td>
+<td>5,000 ops</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">The fundamental trade-off</p>
+<p>Arrays offer O(1) random access but O(n) insertion/deletion at arbitrary positions. Linked lists offer O(1) insertion/deletion at a known position but O(n) access to reach that position. Choose based on which operation dominates in your use case.</p>
+</div>
+<hr />
+<h3 id="why-does-pointer-manipulation-work">Why Does Pointer Manipulation Work?<a class="headerlink" href="#why-does-pointer-manipulation-work" title="Permanent link">&para;</a></h3>
+<p><strong>Key insight to understand:</strong></p>
+<p>When reversing <code>1 -&gt; 2 -&gt; 3 -&gt; null</code>:</p>
+<pre class="highlight"><code>Initial:     1 -&gt; 2 -&gt; 3 -&gt; null
+             ^
+            head
+
+Goal:   null &lt;- 1 &lt;- 2 &lt;- 3
+                         ^
+                       new head
+
+How? Change each 'next' pointer to point backwards!</code></pre>
+<p><strong>Step-by-step visualization:</strong></p>
+<pre class="highlight"><code>Step 0: prev = null, curr = 1
+        null    1 -&gt; 2 -&gt; 3 -&gt; null
+        ^       ^
+       prev    curr
+
+Step 1: Save next, reverse curr.next, move forward
+        null &lt;- 1    2 -&gt; 3 -&gt; null
+                ^    ^
+               prev curr
+
+Step 2: Continue
+        null &lt;- 1 &lt;- 2    3 -&gt; null
+                     ^    ^
+                    prev curr
+
+Step 3: Continue
+        null &lt;- 1 &lt;- 2 &lt;- 3    null
+                          ^
+                         prev (new head!)</code></pre>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>Why do we need three pointers (prev, curr, next)? <span class="fill-in">[Your answer]</span></li>
+<li>What happens if we skip saving 'next'? <span class="fill-in">[Your answer]</span></li>
+<li>Why does prev end up as the new head? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr />
+<h2 id="common-misconceptions">Common Misconceptions<a class="headerlink" href="#common-misconceptions" title="Permanent link">&para;</a></h2>
+<div class="admonition danger">
+<p class="admonition-title">Misconception 1: Recursive reversal uses O(1) space</p>
+<p>Every recursive call creates a new stack frame. Reversing a list of n nodes recurses n levels deep, consuming O(n) stack space. For very long lists this can cause a stack overflow. Iterative reversal with three pointers uses O(1) space and is generally preferred in production code.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Misconception 2: <code>fast.next != null</code> is enough for the loop condition</p>
+<p>If <code>fast</code> itself can be null (even-length lists), then checking <code>fast.next</code> first causes a <code>NullPointerException</code>. The condition must be <code>fast != null &amp;&amp; fast.next != null</code> — short-circuit evaluation ensures the second check only runs when <code>fast</code> is non-null.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Misconception 3: The cycle-start algorithm just needs both pointers moving one step</p>
+<p>In the second phase of Floyd's algorithm (finding the cycle entry), resetting <code>slow</code> to <code>head</code> and advancing <strong>both</strong> pointers one step at a time is correct. If you advance <code>fast</code> by two steps in the second phase you break the mathematical guarantee — the two pointers will no longer converge at the cycle entry node.</p>
+</div>
+<hr />
+<h2 id="decision-framework-choosing-a-linked-list-technique">Decision Framework: Choosing a Linked List Technique<a class="headerlink" href="#decision-framework-choosing-a-linked-list-technique" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Fill in the matrix after working through the implementations above.</p>
+<h3 id="trade-off-analysis-matrix">Trade-off Analysis Matrix<a class="headerlink" href="#trade-off-analysis-matrix" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Technique</th>
+<th>Modifies list?</th>
+<th>Space</th>
+<th>Achieves</th>
+<th>Off-by-one risk</th>
+<th>Example problems</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Fast/slow pointers</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>In-place reversal</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Dummy / sentinel head</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Recursion</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+</tbody>
+</table>
+<details class="success">
+<summary>Answers</summary>
+<table>
+<thead>
+<tr>
+<th>Technique</th>
+<th>Modifies list?</th>
+<th>Space</th>
+<th>Achieves</th>
+<th>Off-by-one risk</th>
+<th>Example problems</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Fast/slow pointers</strong></td>
+<td>No</td>
+<td>O(1)</td>
+<td>Cycle detection, middle node, nth from end</td>
+<td>Medium — initialization and step count vary by problem</td>
+<td>Linked list cycle, middle of linked list, palindrome check</td>
+</tr>
+<tr>
+<td><strong>In-place reversal</strong></td>
+<td>Yes</td>
+<td>O(1)</td>
+<td>Reverse sublist or full list</td>
+<td>High — track prev/curr/next explicitly; draw the state before coding</td>
+<td>Reverse linked list, reverse between positions, k-group reverse</td>
+</tr>
+<tr>
+<td><strong>Dummy / sentinel head</strong></td>
+<td>No (adds one node)</td>
+<td>O(1) extra node</td>
+<td>Eliminates head-is-null edge case, simplifies head modifications</td>
+<td>Low — dummy head makes the "no previous node" case uniform</td>
+<td>Remove nth from end, merge sorted lists, partition list</td>
+</tr>
+<tr>
+<td><strong>Recursion</strong></td>
+<td>No</td>
+<td>O(n) call stack</td>
+<td>Any traversal or transformation expressible as: process node, then recurse</td>
+<td>Medium — return value must carry both the modified node and auxiliary state</td>
+<td>Reverse list recursively, deep copy with random pointers</td>
+</tr>
+</tbody>
+</table>
+</details>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">When it breaks</p>
+<p>Linked lists break for random access: reaching the kth element is O(n), making them wrong for any workload involving index-based lookup or binary search. They also break in cache-hostile environments: nodes are scattered across the heap rather than contiguous in memory, causing cache misses on every pointer dereference. In practice, arrays with O(n) insertion are often faster in real workloads because they fit in CPU cache. Floyd's cycle detection breaks for directed graphs with multiple entry points to a cycle — the algorithm finds a cycle but requires a second phase to identify the correct entry node.</p>
+</div>
+<hr />
+<h2 id="practice">Practice<a class="headerlink" href="#practice" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<h3 id="leetcode-problems">LeetCode Problems<a class="headerlink" href="#leetcode-problems" title="Permanent link">&para;</a></h3>
+<p><strong>Easy (Complete all 4):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/reverse-linked-list/">206. Reverse Linked List</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Which one?]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/linked-list-cycle/">141. Linked List Cycle</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Which one?]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/merge-two-sorted-lists/">21. Merge Two Sorted Lists</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Which one?]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/remove-duplicates-from-sorted-list/">83. Remove Duplicates from Sorted List</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Which one?]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Medium (Complete 3-4):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/remove-nth-node-from-end-of-list/">19. Remove Nth Node From End of List</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Which one?]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/linked-list-cycle-ii/">142. Linked List Cycle II</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Which one?]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Why does Floyd's algorithm work?]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/add-two-numbers/">2. Add Two Numbers</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Which one?]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/reorder-list/">143. Reorder List</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Combination of which patterns?]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Hard (Optional):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/merge-k-sorted-lists/">23. Merge k Sorted Lists</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Min heap approach]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/reverse-nodes-in-k-group/">25. Reverse Nodes in k-Group</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Extension of reversal]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Failure modes:</strong></p>
+<ul>
+<li>What happens if the fast pointer in cycle detection advances past <code>null</code> because you check <code>fast.next != null</code> without first checking <code>fast != null</code> — which specific exception is thrown and on which condition? <span class="fill-in">[Fill in]</span></li>
+<li>How does your <code>removeNthFromEnd</code> behave when <code>n</code> equals the list length (i.e., removing the head node) — does it crash, return null, or return the correct second node? <span class="fill-in">[Fill in]</span></li>
+</ul>
+</div>
+<hr />
+<h2 id="test-your-understanding">Test Your Understanding<a class="headerlink" href="#test-your-understanding" title="Permanent link">&para;</a></h2>
+<p>Answer these questions without looking at your notes. Write a sentence or two for each.</p>
+<ol>
+<li>
+<p><strong>Explain exactly why three pointers (prev, curr, next) are needed to reverse a linked list iteratively. What specific information would be lost if you used only two pointers?</strong></p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) <code>curr.next = prev</code> destroys the original forward link — without saving <code>next = curr.next</code> beforehand, the rest of the list becomes unreachable (memory leak / incorrect traversal); (2) <code>prev</code> is needed to track the already-reversed portion so each node can point backwards; (3) a two-pointer approach (just <code>prev</code> and <code>curr</code>) fails because setting <code>curr.next = prev</code> immediately before advancing means <code>curr</code> cannot move forward — the <code>next</code> save is the only bridge to the rest of the unprocessed list.</p>
+</details>
+</li>
+<li>
+<p><strong>Floyd's cycle detection resets <code>slow</code> to <code>head</code> after the first meeting and then moves both pointers one step at a time. Prove informally why they must meet at the cycle entry node — what mathematical property guarantees this?</strong></p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) let F = distance from head to cycle entry, C = cycle length, k = distance from cycle entry to meeting point; when the pointers first meet, the slow pointer has travelled F + k steps and the fast pointer has travelled F + k + mC steps for some integer m; since fast travels twice as far, 2(F + k) = F + k + mC, giving F = mC - k; (2) this means F and (C - k) are congruent modulo C — advancing one pointer from head and one from the meeting point each by one step causes them to traverse exactly F more steps and land simultaneously at the cycle entry; (3) a complete informal summary: the meeting point is exactly C - k steps before the entry, which is the same distance as F modulo the cycle length.</p>
+</details>
+</li>
+<li>
+<p><strong>You are asked to remove the Nth node from the end of a list in one pass. Your implementation works for all inputs except when N equals the list length (removing the head). What causes this edge case and how does a dummy node fix it?</strong></p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) when N equals the list length, the node to remove is the head — the <code>slow</code> pointer would need to point to a node <em>before</em> the head, which does not exist in a standard implementation; (2) a dummy node prepended before the head gives <code>slow</code> a valid predecessor to land on; after removal, <code>dummy.next</code> correctly returns the new head (the original second node); (3) without the dummy node you need a special case <code>if (head == nodeToRemove) return head.next</code>, which works but is error-prone — the dummy node eliminates the special case entirely.</p>
+</details>
+</li>
+<li>
+<p><strong>A colleague implements <code>mergeKLists</code> by repeatedly calling <code>mergeTwoLists</code> on adjacent pairs. Compare this approach's time complexity with the min-heap approach. For what value of k does the difference become significant?</strong></p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) the naive repeated-merge approach costs O(N × k) in the worst case — each of the k merge passes touches all N nodes, giving O(Nk) total; (2) the min-heap approach costs O(N log k) — each node is inserted and extracted from a heap of size k once, and heap operations cost O(log k); (3) the crossover point is where N × k &gt; N × log k, i.e., k &gt; log k, which is true for all k ≥ 3 — so the heap is better for essentially any real workload; the difference becomes dramatic when k is in the hundreds or thousands.</p>
+</details>
+</li>
+<li>
+<p><strong>Describe a real-world application where a singly linked list is clearly the right data structure and arrays would be significantly worse. Explain which specific operation drives that choice.</strong></p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) a strong example is implementing an undo history or a message queue where elements are always added and removed from one end — O(1) prepend/removal with no shifting; (2) another canonical case is adjacency lists in sparse graphs — the number of edges per node varies, and linked lists avoid wasted space that would occur with a fixed-size 2D array; (3) the key operation is O(1) insertion or deletion at a known pointer position — any application where random-access reads are rare and structural modifications are frequent favours linked lists over arrays.</p>
+</details>
+</li>
+</ol>
+<hr />
+<h2 id="connected-topics">Connected Topics<a class="headerlink" href="#connected-topics" title="Permanent link">&para;</a></h2>
+<div class="bs-callout bs-callout-info">
+<p><strong>Where this topic connects</strong></p>
+<ul>
+<li><strong>01. Two Pointers</strong> — fast/slow pointer (Floyd's cycle detection, finding middle node) is the two-pointer pattern applied to linked lists → <a href="../01-two-pointers/">01. Two Pointers</a></li>
+<li><strong>08. Heaps</strong> — merging K sorted linked lists is the canonical heap problem; understanding list traversal is prerequisite → <a href="../08-heaps/">08. Heaps</a></li>
+</ul>
+</div></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = "../.."</script>
+    
+    <script src="../../js/base.js"></script>
+    <script src="../../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

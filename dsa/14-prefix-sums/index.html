@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A framework for algorithms, systems design, and infrastructure.">
+    <meta name="author" content="Richard">
+    
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+
+    
+    <title>14. Prefix Sums - Software Engineering Study Guide</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../../css/base.min.css" rel="stylesheet">
+    <link href="../../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css">
+        
+    
+    <link href="../../css/custom.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../..">Home</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Systems Design <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../systems/01-storage-engines/">01. Storage Engines</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/04-search-and-indexing/">04. Search & Indexing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/05-caching-patterns/">05. Caching Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/06-api-design/">06. API Design</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/07-security-patterns/">07. Security Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/08-rate-limiting/">08. Rate Limiting</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/09-load-balancing/">09. Load Balancing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/11-database-scaling/">11. Database Scaling</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/12-message-queues/">12. Message Queues</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/13-event-sourcing-cqrs/">13. Event Sourcing & CQRS</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/14-stream-processing/">14. Stream Processing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/15-observability/">15. Observability</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/16-resilience-patterns/">16. Resilience Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/17-distributed-transactions/">17. Distributed Transactions</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/18-consensus-patterns/">18. Consensus Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/19-microservices-patterns/">19. Microservices Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/20-multi-region/">20. Multi-Region Architecture</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">DSA <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../01-two-pointers/">01. Two Pointers</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../02-sliding-window/">02. Sliding Window</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../03-hash-tables/">03. Hash Tables</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../04-linked-lists/">04. Linked Lists</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../05-stacks--queues/">05. Stacks & Queues</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../06-trees/">06. Trees</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../07-binary-search/">07. Binary Search</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../08-heaps/">08. Heaps</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../09-union-find/">09. Union-Find</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../10-graphs/">10. Graphs</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../11-advanced-graphs/">11. Advanced Graphs</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../12-backtracking/">12. Backtracking</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../13-dynamic-programming/">13. Dynamic Programming</a>
+</li>
+
+                        
+                            
+<li class="active">
+    <a href="./">14. Prefix Sums</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../15-intervals/">15. Intervals</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Quick Reference <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../reference/when-it-breaks/">When It Breaks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/back-of-envelope/">Back of the Envelope</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/symptom-pattern/">Symptom → Pattern</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/staff-interview-strategy/">Staff+ Interview Strategy</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/no-new-problems/">No New Problems in CS</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/how-the-machine-works/">How the Machine Actually Works</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../13-dynamic-programming/">
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="next" href="../15-intervals/">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#prefix-sums">Prefix Sums</a></li>
+            <li class="second-level"><a href="#learning-objectives">Learning Objectives</a></li>
+                
+            <li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+                
+            <li class="second-level"><a href="#core-implementation">Core Implementation</a></li>
+                
+            <li class="second-level"><a href="#beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters</a></li>
+                
+            <li class="second-level"><a href="#common-misconceptions">Common Misconceptions</a></li>
+                
+            <li class="second-level"><a href="#decision-framework-choosing-a-range-query-structure">Decision Framework: Choosing a Range Query Structure</a></li>
+                
+            <li class="second-level"><a href="#practice">Practice</a></li>
+                
+            <li class="second-level"><a href="#test-your-understanding">Test Your Understanding</a></li>
+                
+            <li class="second-level"><a href="#connected-topics">Connected Topics</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="prefix-sums">Prefix Sums<a class="headerlink" href="#prefix-sums" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>Precompute cumulative sums to answer range queries in O(1)</p>
+</blockquote>
+<hr />
+<h2 id="learning-objectives">Learning Objectives<a class="headerlink" href="#learning-objectives" title="Permanent link">&para;</a></h2>
+<p>By the end of this topic you will be able to:</p>
+<ul>
+<li>Build a 1D prefix sum array and answer any range-sum query in O(1) after O(n) preprocessing</li>
+<li>Explain why the prefix sum array has length n+1 and what <code>prefixSum[0] = 0</code> represents</li>
+<li>Apply the prefix sum + HashMap pattern to count subarrays with a target sum in O(n)</li>
+<li>Transform a 0/1 array into a signed array to reduce "equal zeros and ones" to "subarray sum = 0"</li>
+<li>Compute prefix and suffix products in two passes to solve product-except-self in O(1) space</li>
+<li>Build a 2D prefix sum matrix and answer submatrix sum queries using the inclusion-exclusion formula</li>
+<li>Distinguish when a sliding window is sufficient versus when a prefix sum + HashMap is needed</li>
+</ul>
+<hr />
+<div class="admonition note">
+<p class="admonition-title">Operational reality</p>
+<p>SQL window functions — <code>SUM() OVER (ORDER BY ...)</code>, <code>AVG() OVER (PARTITION BY ...)</code> — are prefix sums over sorted partitions, and every relational database implements them this way internally. Prometheus and time-series databases expose monotonically increasing counters; dashboards compute rates and averages by differencing two prefix sum snapshots over a time interval — the <code>rate()</code> function in PromQL is this operation. ClickHouse uses prefix sums in its MergeTree index structure to locate data ranges within compressed blocks. The 2D prefix sum pattern appears in image processing (summed area tables for fast box filter computation) and in spatial analytics queries.</p>
+</div>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After implementing all patterns, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What is a prefix sum array in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[A prefix sum array precomputes ___ at each index so that any range sum from index L to R can be answered in ___ by ___]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>The space-time trade-off:</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[You pay ___ extra space up front so that each range query costs ___ instead of ___]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy:</strong></p>
+<ul>
+<li>Example: "Prefix sums are like a running bank balance — you can find how much was spent between any two dates by subtracting two totals instead of adding up every transaction."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When does this pattern work?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after solving problems]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When does this pattern fail?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in — think about what property the array must have for prefix sums to be meaningful]</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr />
+<h2 id="core-implementation">Core Implementation<a class="headerlink" href="#core-implementation" title="Permanent link">&para;</a></h2>
+<h3 id="pattern-1-1d-range-sum-query">Pattern 1: 1D Range Sum Query<a class="headerlink" href="#pattern-1-1d-range-sum-query" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Precompute cumulative sums so any range query answers in O(1).</p>
+<p><strong>Use case:</strong> Multiple range sum queries on a static array.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.prefixsums;
+
+import java.util.Arrays;
+
+public class PrefixSum {
+
+    /**
+     * Problem: Range sum query (immutable array)
+     * Time: O(1) query after O(n) preprocessing, Space: O(n)
+     *
+     * TODO: Implement range sum query
+     */
+    static class NumArray {
+        private int[] prefixSum;
+
+        public NumArray(int[] nums) {
+            // TODO: Build prefix sum array of length nums.length + 1
+            // TODO: prefixSum[0] = 0
+            // TODO: prefixSum[i] = prefixSum[i-1] + nums[i-1]
+        }
+
+        public int sumRange(int left, int right) {
+            // TODO: Return prefixSum[right+1] - prefixSum[left]
+            return 0; // Replace with implementation
+        }
+    }
+}
+</code></pre>
+<div class="admonition warning">
+<p class="admonition-title">Debugging Challenge — Off-by-One in sumRange</p>
+<p>The code below uses a prefix sum array of length <code>n</code> (not <code>n+1</code>). It compiles but throws an <code>ArrayIndexOutOfBoundsException</code> on some inputs. Identify the bug before checking the answer.</p>
+<pre class="highlight"><code class="language-java">static class NumArray_Buggy {
+    private int[] prefixSum;
+
+    public NumArray_Buggy(int[] nums) {
+        prefixSum = new int[nums.length];   // BUG: wrong length
+        prefixSum[0] = nums[0];
+        for (int i = 1; i &lt; nums.length; i++) {
+            prefixSum[i] = prefixSum[i-1] + nums[i];
+        }
+    }
+
+    public int sumRange(int left, int right) {
+        if (left == 0) return prefixSum[right];
+        return prefixSum[right] - prefixSum[left - 1];
+    }
+}</code></pre>
+<ul>
+<li>Bug: <span class="fill-in">[Why does length n cause problems? What query triggers the crash?]</span></li>
+</ul>
+<details class="success">
+<summary>Answer</summary>
+<p><strong>Bug:</strong> The array has length <code>n</code>, but the standard formula <code>prefixSum[right+1] - prefixSum[left]</code> requires index <code>right+1</code>, which reaches <code>n</code> when <code>right = n-1</code> — an out-of-bounds access.</p>
+<p>The workaround in the buggy version (<code>if (left == 0)</code>) handles that case, but now the semantics are inconsistent — <code>prefixSum[i]</code> sometimes means "sum of first i+1 elements" and sometimes "sum of first i elements", depending on the branch taken. This fragility causes subtle wrong answers on edge cases.</p>
+<p><strong>Fix:</strong> Use length <code>n+1</code> with <code>prefixSum[0] = 0</code>. The formula <code>prefixSum[right+1] - prefixSum[left]</code> is then uniformly correct for all valid inputs with no special-casing.</p>
+</details>
+</div>
+<hr />
+<h3 id="pattern-2-prefix-sum-hashmap-subarray-sum">Pattern 2: Prefix Sum + HashMap (Subarray Sum)<a class="headerlink" href="#pattern-2-prefix-sum-hashmap-subarray-sum" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Store prefix sums in a HashMap to find subarrays with a target sum in O(n).</p>
+<p><strong>Use case:</strong> Count subarrays with sum = k, longest subarray with sum = k.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.prefixsums;
+
+import java.util.*;
+
+public class SubarraySum {
+
+    /**
+     * Problem: Count subarrays summing to K
+     * Time: O(n), Space: O(n)
+     *
+     * TODO: Implement using prefix sum + hashmap
+     * Key insight: if prefixSum[j] - prefixSum[i] == k,
+     * then nums[i..j-1] sums to k.
+     * So for each j, count how many i have prefixSum[i] == prefixSum[j] - k.
+     */
+    public static int subarraySum(int[] nums, int k) {
+        // TODO: Initialize map with {0: 1} (empty prefix has sum 0)
+        // TODO: Track running prefix sum
+        // TODO: For each element, check if (currentSum - k) is in map
+        // TODO: Add currentSum to map
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Contiguous array (equal 0s and 1s)
+     * Time: O(n), Space: O(n)
+     *
+     * TODO: Implement using prefix sum
+     * Key insight: replace 0s with -1s, then problem becomes
+     * "longest subarray with sum = 0"
+     */
+    public static int findMaxLength(int[] nums) {
+        // TODO: Initialize map with {0: -1} (sum 0 seen at index -1)
+        // TODO: Track running sum (treat 0 as -1)
+        // TODO: If sum seen before, update maxLen using stored index
+        // TODO: Otherwise, record current index for this sum
+
+        return 0; // Replace with implementation
+    }
+}
+</code></pre>
+<div class="admonition warning">
+<p class="admonition-title">Debugging Challenge — Missing Initial Map Entry</p>
+<p>This implementation omits the initial <code>{0: 1}</code> entry. It produces wrong answers for subarrays starting at index 0. Trace through <code>nums = [1, 1, 1]</code>, <code>k = 2</code> to see where it breaks.</p>
+<pre class="highlight"><code class="language-java">public static int subarraySum_Buggy(int[] nums, int k) {
+    Map&lt;Integer, Integer&gt; map = new HashMap&lt;&gt;();  // BUG: missing {0:1}
+    int count = 0, sum = 0;
+
+    for (int num : nums) {
+        sum += num;
+        if (map.containsKey(sum - k)) {
+            count += map.get(sum - k);
+        }
+        map.put(sum, map.getOrDefault(sum, 0) + 1);
+    }
+
+    return count;
+}</code></pre>
+<ul>
+<li>Bug: <span class="fill-in">[What subarrays are missed? Why?]</span></li>
+</ul>
+<details class="success">
+<summary>Answer</summary>
+<p><strong>Bug:</strong> Without <code>{0: 1}</code>, when <code>sum - k == 0</code> (meaning the subarray from index 0 to the current index sums to k), the map lookup finds nothing and the subarray is not counted.</p>
+<p>For <code>[1, 1, 1]</code> with <code>k = 2</code>: after processing indices 0-1, <code>sum = 2</code>, so <code>sum - k = 0</code>. The correct answer includes the subarray <code>[1,1]</code> starting at index 0, but without <code>{0: 1}</code> in the map, this is missed. The correct answer is 2 subarrays; the buggy version returns 1.</p>
+<p><strong>Fix:</strong> <code>map.put(0, 1)</code> before the loop. This represents "there is one way to have a prefix sum of 0: the empty prefix."</p>
+</details>
+</div>
+<hr />
+<h3 id="pattern-3-prefix-and-suffix-products">Pattern 3: Prefix and Suffix Products<a class="headerlink" href="#pattern-3-prefix-and-suffix-products" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Two-pass technique — compute prefix products left-to-right, then multiply by suffix products right-to-left.</p>
+<p><strong>Use case:</strong> Product of array except self (no division allowed).</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.prefixsums;
+
+import java.util.Arrays;
+
+public class ProductExceptSelf {
+
+    /**
+     * Problem: Product of array except self
+     * Time: O(n), Space: O(1) excluding output array
+     *
+     * TODO: Implement using prefix and suffix products
+     * Pass 1: result[i] = product of all elements to the LEFT of i
+     * Pass 2: multiply result[i] by product of all elements to the RIGHT of i
+     */
+    public static int[] productExceptSelf(int[] nums) {
+        int n = nums.length;
+        int[] result = new int[n];
+
+        // TODO: Pass 1 — fill result with prefix products
+        // result[0] = 1 (no elements to the left of index 0)
+        // result[i] = result[i-1] * nums[i-1]
+
+        // TODO: Pass 2 — multiply by suffix products in-place
+        // Track running suffix product (start at 1)
+        // Traverse right to left: result[i] *= suffix; suffix *= nums[i]
+
+        return result; // Replace with implementation
+    }
+}
+</code></pre>
+<hr />
+<h3 id="pattern-4-2d-prefix-sum">Pattern 4: 2D Prefix Sum<a class="headerlink" href="#pattern-4-2d-prefix-sum" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Extend prefix sums to a matrix for O(1) submatrix sum queries.</p>
+<p><strong>Use case:</strong> Sum of rectangle submatrix, count submatrices with target sum.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.prefixsums;
+
+import java.util.Arrays;
+
+public class NumMatrix {
+
+    private int[][] prefixSum;
+
+    /**
+     * Problem: Range sum query 2D
+     * Time: O(1) query after O(m*n) preprocessing, Space: O(m*n)
+     *
+     * TODO: Implement 2D prefix sum
+     * prefixSum[i][j] = sum of submatrix from (0,0) to (i-1,j-1)
+     * Build using: prefixSum[i][j] = matrix[i-1][j-1]
+     *                              + prefixSum[i-1][j]
+     *                              + prefixSum[i][j-1]
+     *                              - prefixSum[i-1][j-1]
+     */
+    public NumMatrix(int[][] matrix) {
+        // TODO: Build 2D prefix sum with (m+1) x (n+1) dimensions
+    }
+
+    /**
+     * TODO: Implement sumRegion using inclusion-exclusion:
+     * sum = prefixSum[row2+1][col2+1]
+     *     - prefixSum[row1][col2+1]
+     *     - prefixSum[row2+1][col1]
+     *     + prefixSum[row1][col1]
+     */
+    public int sumRegion(int row1, int col1, int row2, int col2) {
+        return 0; // Replace with implementation
+    }
+}
+</code></pre>
+<hr />
+<h2 id="beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters<a class="headerlink" href="#beforeafter-why-this-pattern-matters" title="Permanent link">&para;</a></h2>
+<p><strong>Your task:</strong> Compare naive vs optimized approaches to understand the impact.</p>
+<h3 id="example-multiple-range-sum-queries">Example: Multiple Range Sum Queries<a class="headerlink" href="#example-multiple-range-sum-queries" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Answer Q range sum queries on an array of n elements.</p>
+<h4 id="approach-1-recompute-each-query-naive">Approach 1: Recompute Each Query (Naive)<a class="headerlink" href="#approach-1-recompute-each-query-naive" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Naive: loop over subarray for every query
+public static int sumRange_BruteForce(int[] nums, int left, int right) {
+    int sum = 0;
+    for (int i = left; i &lt;= right; i++) {
+        sum += nums[i];
+    }
+    return sum;
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time per query: O(n) worst case</li>
+<li>Time for Q queries: O(Q × n)</li>
+<li>For n = 10,000 and Q = 10,000: up to 100,000,000 operations</li>
+</ul>
+<h4 id="approach-2-prefix-sum-optimized">Approach 2: Prefix Sum (Optimized)<a class="headerlink" href="#approach-2-prefix-sum-optimized" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Optimized: O(n) preprocessing, O(1) per query
+public static class NumArray {
+    private int[] prefixSum;
+
+    public NumArray(int[] nums) {
+        prefixSum = new int[nums.length + 1];
+        for (int i = 0; i &lt; nums.length; i++) {
+            prefixSum[i + 1] = prefixSum[i] + nums[i];
+        }
+    }
+
+    public int sumRange(int left, int right) {
+        return prefixSum[right + 1] - prefixSum[left];
+    }
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Preprocessing: O(n) — build prefix sum array once</li>
+<li>Time per query: O(1) — two array lookups and a subtraction</li>
+<li>Total for Q queries: O(n + Q)</li>
+<li>For n = 10,000 and Q = 10,000: ~20,000 operations</li>
+</ul>
+<h4 id="performance-comparison">Performance Comparison<a class="headerlink" href="#performance-comparison" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Queries (Q)</th>
+<th>Array Size (n)</th>
+<th>Brute Force (O(Q×n))</th>
+<th>Prefix Sum (O(n+Q))</th>
+<th>Speedup</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q = 100</td>
+<td>n = 1,000</td>
+<td>100,000 ops</td>
+<td>1,100 ops</td>
+<td>91x</td>
+</tr>
+<tr>
+<td>Q = 1,000</td>
+<td>n = 10,000</td>
+<td>10,000,000 ops</td>
+<td>11,000 ops</td>
+<td>909x</td>
+</tr>
+<tr>
+<td>Q = 10,000</td>
+<td>n = 10,000</td>
+<td>100,000,000 ops</td>
+<td>20,000 ops</td>
+<td>5,000x</td>
+</tr>
+</tbody>
+</table>
+<h4 id="why-does-the-formula-work">Why Does the Formula Work?<a class="headerlink" href="#why-does-the-formula-work" title="Permanent link">&para;</a></h4>
+<p>The prefix sum formula <code>prefixSum[right+1] - prefixSum[left]</code> is just subtraction of two running totals:</p>
+<pre class="highlight"><code>nums:       [-2,  0,  3, -5,  2, -1]
+prefixSum: [  0, -2, -2,  1, -4, -2, -3]
+              ^0   1   2   3   4   5   6
+
+sumRange(2, 5) = prefixSum[6] - prefixSum[2]
+              = -3 - (-2)
+              = -1</code></pre>
+<div class="admonition note">
+<p class="admonition-title">The running total insight</p>
+<p><code>prefixSum[right+1]</code> is the total of all elements from 0 to right. <code>prefixSum[left]</code> is the total of all elements from 0 to left-1. Their difference is exactly the sum from left to right — the shared prefix cancels out.</p>
+</div>
+<div class="learner-section">
+<ul>
+<li>Why is <code>prefixSum[0] = 0</code> necessary? <span class="fill-in">[Your answer]</span></li>
+<li>What would go wrong with a prefix sum array of length n instead of n+1? <span class="fill-in">[Your answer]</span></li>
+<li>Why can't you use a sliding window for subarray sum equals K with negative numbers? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr />
+<h2 id="common-misconceptions">Common Misconceptions<a class="headerlink" href="#common-misconceptions" title="Permanent link">&para;</a></h2>
+<div class="admonition danger">
+<p class="admonition-title">Misconception: the prefix sum array has the same length as the input array</p>
+<p>The standard prefix sum array has length n+1, where <code>prefixSum[0] = 0</code> and <code>prefixSum[i] = sum of nums[0..i-1]</code>. Using length n forces special-casing for <code>left = 0</code> and makes the formula inconsistent. The +1 size gives a clean identity: <code>sumRange(left, right) = prefixSum[right+1] - prefixSum[left]</code> works for all valid inputs without any branching.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Misconception: prefix sum only works for range sum queries</p>
+<p>Prefix sums power a broader family: the HashMap variant counts subarrays with a target sum in O(n) by checking whether <code>currentSum - k</code> has been seen before. Prefix/suffix products extend the idea to multiplicative accumulation. 2D prefix sums handle submatrix queries. The unifying idea is <em>precomputed cumulative aggregates</em> — the underlying operation doesn't have to be addition.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Misconception: sliding window can always replace prefix sum for subarray problems</p>
+<p>Sliding window requires a <strong>monotonic</strong> property: adding an element either increases or decreases the window metric predictably. With negative numbers, adding an element can both increase and decrease the sum depending on context, so the shrink condition breaks down. The prefix sum + HashMap approach handles negative numbers correctly because it doesn't rely on monotonicity.</p>
+</div>
+<hr />
+<h2 id="decision-framework-choosing-a-range-query-structure">Decision Framework: Choosing a Range Query Structure<a class="headerlink" href="#decision-framework-choosing-a-range-query-structure" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Fill in the matrix after working through the implementations above.</p>
+<h3 id="trade-off-analysis-matrix">Trade-off Analysis Matrix<a class="headerlink" href="#trade-off-analysis-matrix" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Structure</th>
+<th>Build time</th>
+<th>Range query</th>
+<th>Point update</th>
+<th>Space</th>
+<th>When to use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Prefix sum array</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Fenwick tree (BIT)</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Segment tree</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Sparse table</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+</tbody>
+</table>
+<details class="success">
+<summary>Answers</summary>
+<table>
+<thead>
+<tr>
+<th>Structure</th>
+<th>Build time</th>
+<th>Range query</th>
+<th>Point update</th>
+<th>Space</th>
+<th>When to use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Prefix sum array</strong></td>
+<td>O(n)</td>
+<td>O(1)</td>
+<td>O(n) — rebuild required</td>
+<td>O(n)</td>
+<td>Static array with frequent range sum queries; 2D prefix sums for submatrix sums</td>
+</tr>
+<tr>
+<td><strong>Fenwick tree (BIT)</strong></td>
+<td>O(n log n)</td>
+<td>O(log n) prefix sum</td>
+<td>O(log n)</td>
+<td>O(n)</td>
+<td>Frequent both range sum queries and point updates; simpler to implement than segment tree</td>
+</tr>
+<tr>
+<td><strong>Segment tree</strong></td>
+<td>O(n)</td>
+<td>O(log n) for any associative operation</td>
+<td>O(log n)</td>
+<td>O(n)</td>
+<td>Range queries beyond prefix sums (range min/max/product/gcd) with frequent point or range updates</td>
+</tr>
+<tr>
+<td><strong>Sparse table</strong></td>
+<td>O(n log n)</td>
+<td>O(1) for idempotent operations (min, max, gcd)</td>
+<td>O(n log n) rebuild</td>
+<td>O(n log n)</td>
+<td>Static array, O(1) range minimum or maximum queries (RMQ); build once, query many times</td>
+</tr>
+</tbody>
+</table>
+</details>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">When it breaks</p>
+<p>Prefix sums break when the array is modified after preprocessing — the prefix array becomes stale and all subsequent range queries are incorrect. If the array updates frequently, use a Binary Indexed Tree (Fenwick tree) or segment tree, which handle both updates and queries in O(log n). The prefix sum + HashMap pattern (subarray sum equals K) breaks for maximum/minimum subarray sum problems — those require Kadane's algorithm or a deque. 2D prefix sums have four off-by-one failure points in the inclusion-exclusion formula; missing any one produces silently wrong results.</p>
+</div>
+<hr />
+<h2 id="practice">Practice<a class="headerlink" href="#practice" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<h3 id="leetcode-problems">LeetCode Problems<a class="headerlink" href="#leetcode-problems" title="Permanent link">&para;</a></h3>
+<p><strong>Easy (Complete all 3):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/range-sum-query-immutable/">303. Range Sum Query - Immutable</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[1D prefix sum]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/find-pivot-index/">724. Find Pivot Index</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Prefix sum — total sum minus left prefix gives right sum]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/running-sum-of-1d-array/">1480. Running Sum of 1d Array</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Prefix sum in-place]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Medium (Complete 3-4):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/subarray-sum-equals-k/">560. Subarray Sum Equals K</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Prefix sum + HashMap]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+<li>Mistake made: <span class="fill-in">[Fill in if any]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/contiguous-array/">525. Contiguous Array</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Prefix sum with 0→-1 transformation]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/product-of-array-except-self/">238. Product of Array Except Self</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Prefix and suffix products]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/range-sum-query-2d-immutable/">304. Range Sum Query 2D - Immutable</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[2D prefix sum with inclusion-exclusion]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Hard (Optional):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/range-sum-query-mutable/">307. Range Sum Query - Mutable</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Segment tree or Binary Indexed Tree — prefix sum insufficient for updates]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/number-of-submatrices-that-sum-to-target/">1074. Number of Submatrices That Sum to Target</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[2D prefix sum + HashMap]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Failure modes:</strong></p>
+<ul>
+<li>What happens if integer overflow occurs during prefix sum computation on a large array of <code>int</code> values — does your implementation silently wrap around or throw an exception? <span class="fill-in">[Fill in]</span></li>
+<li>How does your <code>sumRange</code> or <code>subarraySum</code> implementation behave when given an invalid query range where <code>left &gt; right</code>? <span class="fill-in">[Fill in]</span></li>
+</ul>
+</div>
+<hr />
+<h2 id="test-your-understanding">Test Your Understanding<a class="headerlink" href="#test-your-understanding" title="Permanent link">&para;</a></h2>
+<p>Answer these questions without looking at your notes. Write a sentence or two for each.</p>
+<ol>
+<li>
+<p><strong>You build a prefix sum array for <code>[-2, 0, 3, -5, 2, -1]</code>. Write out all seven values of <code>prefixSum[]</code> and verify that <code>sumRange(2, 5)</code> equals -1 using only two array accesses.</strong></p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) the seven values — prefixSum[0]=0, prefixSum[1]=-2, prefixSum[2]=-2, prefixSum[3]=1, prefixSum[4]=-4, prefixSum[5]=-2, prefixSum[6]=-3; (2) the query — sumRange(2,5) = prefixSum[6] - prefixSum[2] = -3 - (-2) = -1; (3) verification — manually sum nums[2]+nums[3]+nums[4]+nums[5] = 3+(-5)+2+(-1) = -1, confirming the formula; (4) why only two accesses — the shared prefix (indices 0 to 1) cancels out in the subtraction, leaving exactly the sum of the requested range.</p>
+</details>
+</li>
+<li>
+<p><strong>The <code>subarraySum</code> solution initializes its HashMap with <code>{0: 1}</code>. Give a concrete example (array and target k) where omitting this initialization returns a wrong answer. Trace through the algorithm step by step to show the missed count.</strong></p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) the example — nums=[3,1], k=3; (2) the trace without {0:1}: process 3: sum=3, look up sum-k=0, not in map, miss; add {3:1}; process 1: sum=4, look up sum-k=1, not in map, miss; result=0 (wrong); (3) the trace with {0:1}: process 3: sum=3, look up 0, found with count 1, result=1; correct answer is 1 (subarray [3]); (4) the general principle — when sum==k after processing some prefix, sum-k==0 must be found in the map; without {0:1}, the subarray from index 0 to the current index is never counted, regardless of its sum.</p>
+</details>
+</li>
+<li>
+<p><strong>Explain why sliding window cannot correctly solve Subarray Sum Equals K when the array contains negative numbers. Give a specific example to illustrate the failure.</strong></p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) the requirement — sliding window works by expanding the right pointer when the window sum is too small and contracting the left pointer when too large; this requires a monotonic property: adding elements always increases (or never decreases) the sum; (2) why negatives break this — when negative numbers are present, adding an element can decrease the sum, so contracting the left pointer may make the sum smaller, not larger; the algorithm can no longer determine in which direction to move; (3) the example — nums=[-1,1,1], k=1; a sliding window might see sum=-1, expand to sum=0, expand to sum=1 (found), but would miss the subarray [1] starting at index 1 because it already contracted past it; the prefix sum approach counts both subarrays correctly.</p>
+</details>
+</li>
+<li>
+<p><strong>The 2D prefix sum formula uses four lookups and an inclusion-exclusion. Draw a small 3x3 example, label the four prefix sum values used in <code>sumRegion(1,1,2,2)</code>, and explain why the formula adds one value back after two subtractions.</strong></p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) the formula — sumRegion(r1,c1,r2,c2) = ps[r2+1][c2+1] - ps[r1][c2+1] - ps[r2+1][c1] + ps[r1][c1]; (2) for sumRegion(1,1,2,2): ps[3][3] - ps[1][3] - ps[3][1] + ps[1][1]; (3) the inclusion-exclusion reason — ps[r2+1][c2+1] is the entire rectangle from (0,0) to (r2,c2); subtracting ps[r1][c2+1] removes the rows above r1; subtracting ps[r2+1][c1] removes the columns left of c1; but the top-left corner ps[r1][c1] was subtracted twice (once by each subtraction), so it must be added back once; this is the standard inclusion-exclusion principle for overlapping regions.</p>
+</details>
+</li>
+<li>
+<p><strong>Product of Array Except Self is solved in O(1) space (excluding output) using two passes. Explain what each pass computes, and why a single pass is insufficient.</strong></p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) pass 1 (left to right) — result[i] is set to the product of all elements strictly to the LEFT of index i (result[0]=1 since nothing is to the left); (2) pass 2 (right to left) — a running suffix variable tracks the product of all elements strictly to the RIGHT of the current index; result[i] is multiplied by this suffix, producing the product of all elements except nums[i]; (3) why a single pass fails — at position i, you need both the left product (already available) and the right product (not yet computed); you cannot know the right product until you have processed elements to the right; the two-pass structure deliberately separates these two dependencies; (4) the O(1) space claim — the output array is not counted, and only one integer variable (the running suffix) is needed beyond the output array.</p>
+</details>
+</li>
+</ol>
+<hr />
+<h2 id="connected-topics">Connected Topics<a class="headerlink" href="#connected-topics" title="Permanent link">&para;</a></h2>
+<div class="bs-callout bs-callout-info">
+<p><strong>Where this topic connects</strong></p>
+<ul>
+<li><strong><a href="../03-hash-tables/">03. Hash Tables</a></strong> — the subarray-sum-equals-k pattern combines prefix sums with a HashMap to find pairs in O(n) → <a href="../03-hash-tables/">03. Hash Tables</a></li>
+<li><strong><a href="../02-sliding-window/">02. Sliding Window</a></strong> — both answer range-sum questions; prefix sums handle arbitrary range queries in O(1) after O(n) preprocessing, while sliding window handles a single moving window in O(n) total → <a href="../02-sliding-window/">02. Sliding Window</a></li>
+</ul>
+</div></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = "../.."</script>
+    
+    <script src="../../js/base.js"></script>
+    <script src="../../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A framework for algorithms, systems design, and infrastructure.">
+    <meta name="author" content="Richard">
+    
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+
+    
+    <title>Symptom → Pattern - Software Engineering Study Guide</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../../css/base.min.css" rel="stylesheet">
+    <link href="../../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css">
+        
+    
+    <link href="../../css/custom.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../..">Home</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Systems Design <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../systems/01-storage-engines/">01. Storage Engines</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/04-search-and-indexing/">04. Search & Indexing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/05-caching-patterns/">05. Caching Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/06-api-design/">06. API Design</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/07-security-patterns/">07. Security Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/08-rate-limiting/">08. Rate Limiting</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/09-load-balancing/">09. Load Balancing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/11-database-scaling/">11. Database Scaling</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/12-message-queues/">12. Message Queues</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/13-event-sourcing-cqrs/">13. Event Sourcing & CQRS</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/14-stream-processing/">14. Stream Processing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/15-observability/">15. Observability</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/16-resilience-patterns/">16. Resilience Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/17-distributed-transactions/">17. Distributed Transactions</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/18-consensus-patterns/">18. Consensus Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/19-microservices-patterns/">19. Microservices Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/20-multi-region/">20. Multi-Region Architecture</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">DSA <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../dsa/01-two-pointers/">01. Two Pointers</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/02-sliding-window/">02. Sliding Window</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/03-hash-tables/">03. Hash Tables</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/04-linked-lists/">04. Linked Lists</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/05-stacks--queues/">05. Stacks & Queues</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/06-trees/">06. Trees</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/07-binary-search/">07. Binary Search</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/08-heaps/">08. Heaps</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/09-union-find/">09. Union-Find</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/10-graphs/">10. Graphs</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/11-advanced-graphs/">11. Advanced Graphs</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/12-backtracking/">12. Backtracking</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/13-dynamic-programming/">13. Dynamic Programming</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/14-prefix-sums/">14. Prefix Sums</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/15-intervals/">15. Intervals</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Quick Reference <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../when-it-breaks/">When It Breaks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../back-of-envelope/">Back of the Envelope</a>
+</li>
+
+                        
+                            
+<li class="active">
+    <a href="./">Symptom → Pattern</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../staff-interview-strategy/">Staff+ Interview Strategy</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../no-new-problems/">No New Problems in CS</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../how-the-machine-works/">How the Machine Actually Works</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../back-of-envelope/">
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="next" href="../staff-interview-strategy/">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#symptom-pattern">Symptom → Pattern</a></li>
+            <li class="second-level"><a href="#performance-degradation">Performance Degradation</a></li>
+                
+            <li class="second-level"><a href="#availability-reliability">Availability / Reliability</a></li>
+                
+            <li class="second-level"><a href="#data-consistency">Data Consistency</a></li>
+                
+            <li class="second-level"><a href="#scale-ceiling-hit">Scale Ceiling Hit</a></li>
+                
+            <li class="second-level"><a href="#ops-observability-blind-spots">Ops / Observability Blind Spots</a></li>
+                
+            <li class="second-level"><a href="#security-gaps">Security Gaps</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="symptom-pattern">Symptom → Pattern<a class="headerlink" href="#symptom-pattern" title="Permanent link">&para;</a></h1>
+<p class="lead">You observe X. The root cause is Y. The concept to investigate is Z.</p>
+
+<p>Use this page when debugging production incidents or reasoning about a design question. Each entry maps an observable symptom to its likely root cause and the systems pattern that addresses it.</p>
+<p>This is a diagnostic starting point, not a decision tree. Real incidents have multiple contributing factors. Use the topic links to go deeper.</p>
+<hr />
+<h2 id="performance-degradation">Performance Degradation<a class="headerlink" href="#performance-degradation" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Root Cause</th>
+<th>Pattern</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Query latency spikes from 5ms to 500ms during write bursts</td>
+<td>B+Tree page splits cascade up the tree, triggering multiple read-modify-write operations on parent pages</td>
+<td><a href="../../systems/01-storage-engines/">Storage Engines</a> — consider LSM for write-heavy workloads</td>
+</tr>
+<tr>
+<td>Analytics query over 1B rows takes 30 seconds despite ample CPU</td>
+<td>Row storage reads every column; 96% of I/O is wasted reading columns you don't need</td>
+<td><a href="../../systems/02-row-vs-column-storage/">Row vs Column Storage</a> — columnar storage for selective OLAP queries</td>
+</tr>
+<tr>
+<td>Read latency grows as write rate increases; no schema changes made</td>
+<td>LSM SSTable count accumulates without compaction; reads must check every level</td>
+<td><a href="../../systems/01-storage-engines/">Storage Engines</a> — compaction is mandatory, not optional</td>
+</tr>
+<tr>
+<td>HTTP page load takes 5s for 100 assets; network throughput is fine</td>
+<td>HTTP/1.1 head-of-line blocking: requests serialised behind each other per TCP connection</td>
+<td><a href="../../systems/03-networking-fundamentals/">Networking</a> — HTTP/2 multiplexing</td>
+</tr>
+<tr>
+<td>p99 latency spikes while p50 stays flat; no obvious cause</td>
+<td>Single packet loss stalls entire HTTP/2 connection (transport-level HOL blocking)</td>
+<td><a href="../../systems/03-networking-fundamentals/">Networking</a> — HTTP/3/QUIC for per-stream recovery</td>
+</tr>
+<tr>
+<td>Search returns 0 results for "wireles headphone" (user typo)</td>
+<td>Inverted index stores exact tokens; no fuzzy matching or n-gram index built</td>
+<td><a href="../../systems/04-search-and-indexing/">Search &amp; Indexing</a> — edge n-grams at index time or Levenshtein at query time</td>
+</tr>
+<tr>
+<td>Elasticsearch queries slow as index grows from 10GB to 100GB</td>
+<td>Too many small shards (e.g. 200 on 5 nodes); coordination overhead exceeds parallelism benefit</td>
+<td><a href="../../systems/04-search-and-indexing/">Search &amp; Indexing</a> — keep shard size 10–50GB</td>
+</tr>
+<tr>
+<td>Cache misses spike after deploy; DB load quadruples</td>
+<td>No cache invalidation strategy; stale entries not cleared on write</td>
+<td><a href="../../systems/05-caching-patterns/">Caching Patterns</a> — invalidate before write, or use write-through</td>
+</tr>
+<tr>
+<td>Adding a new field to Elasticsearch slows all queries</td>
+<td>Dynamic field mapping created thousands of new indexed fields consuming JVM heap</td>
+<td><a href="../../systems/04-search-and-indexing/">Search &amp; Indexing</a> — disable dynamic mapping; define fields explicitly</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="availability-reliability">Availability / Reliability<a class="headerlink" href="#availability-reliability" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Root Cause</th>
+<th>Pattern</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>All users time out simultaneously when a popular cache entry expires</td>
+<td>Thundering herd: all threads detect miss at once and all query the DB concurrently</td>
+<td><a href="../../systems/05-caching-patterns/">Caching Patterns</a> — per-key locking or probabilistic early expiration (XFetch)</td>
+</tr>
+<tr>
+<td>Rate limiter allows 2× the configured limit for a few seconds at window boundaries</td>
+<td>Fixed-window boundary attack: attacker sends requests at end of window N and start of window N+1</td>
+<td><a href="../../systems/08-rate-limiting/">Rate Limiting</a> — token bucket or sliding window log</td>
+</tr>
+<tr>
+<td>Shopping carts disappear when requests hit different servers</td>
+<td>Stateful session stored in-process; round-robin LB routes same user to different instances</td>
+<td><a href="../../systems/09-load-balancing/">Load Balancing</a> — sticky sessions or external session store (Redis)</td>
+</tr>
+<tr>
+<td>Two users simultaneously withdraw more than the account balance</td>
+<td>Check-then-act race condition; balance check and debit are not atomic</td>
+<td><a href="../../systems/10-concurrency-patterns/">Concurrency</a> — SELECT FOR UPDATE or optimistic locking with version</td>
+</tr>
+<tr>
+<td>System crashes hard under load instead of degrading gracefully</td>
+<td>No bulkhead isolation; all thread pool threads blocked waiting on slow downstream calls</td>
+<td><a href="../../systems/16-resilience-patterns/">Resilience Patterns</a> — bulkhead + circuit breaker</td>
+</tr>
+<tr>
+<td>One slow downstream dependency brings down the entire service</td>
+<td>Cascading failure: blocked threads exhaust shared thread pool; new requests queue indefinitely</td>
+<td><a href="../../systems/16-resilience-patterns/">Resilience Patterns</a> — timeout + circuit breaker per dependency</td>
+</tr>
+<tr>
+<td>All callers retry simultaneously; load spikes exactly during recovery</td>
+<td>Exponential backoff without jitter causes synchronised retry waves</td>
+<td><a href="../../systems/16-resilience-patterns/">Resilience Patterns</a> — full jitter (random(0, cap))</td>
+</tr>
+<tr>
+<td>Duplicate emails or payments after client retries on timeout</td>
+<td>At-least-once delivery without idempotency; retry processes the same request twice</td>
+<td><a href="../../systems/12-message-queues/">Message Queues</a> — idempotency keys on every non-read operation</td>
+</tr>
+<tr>
+<td>Dead letter queue accumulates silently; system appears healthy</td>
+<td>Poison pill messages fail processing repeatedly; DLQ fills but no alerts configured</td>
+<td><a href="../../systems/12-message-queues/">Message Queues</a> — DLQ alerting is mandatory, not optional</td>
+</tr>
+<tr>
+<td>All threads permanently hang after one exception in synchronised code</td>
+<td>Lock acquired but not released on exception; <code>unlock()</code> not in <code>finally</code> block</td>
+<td><a href="../../systems/10-concurrency-patterns/">Concurrency</a> — always use try-finally with ReentrantLock</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="data-consistency">Data Consistency<a class="headerlink" href="#data-consistency" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Root Cause</th>
+<th>Pattern</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cache shows stale data seconds after a write that succeeded</td>
+<td>Invalidation race: cache delete races with concurrent reads that re-cache the old value</td>
+<td><a href="../../systems/05-caching-patterns/">Caching Patterns</a> — invalidate before write, not after</td>
+</tr>
+<tr>
+<td>"Write then immediately read" returns nothing</td>
+<td>Replication lag: write goes to primary, read hits replica before replication completes</td>
+<td><a href="../../systems/11-database-scaling/">Database Scaling</a> — read-your-writes: route post-write reads to primary</td>
+</tr>
+<tr>
+<td>Payment processed twice; idempotency key is set but doesn't help</td>
+<td>Idempotency key stored inside the same transaction as the payment; rollback removes both</td>
+<td><a href="../../systems/06-api-design/">API Design</a> — idempotency store must survive transaction rollback</td>
+</tr>
+<tr>
+<td>User deleted from auth service but still appears in search results</td>
+<td>CQRS read model out of sync; projection not updated after write-side event</td>
+<td><a href="../../systems/13-event-sourcing-cqrs/">Event Sourcing &amp; CQRS</a> — explicit consistency model + compensation</td>
+</tr>
+<tr>
+<td>Two active-active regions both accept writes to the same record; one silently lost</td>
+<td>Concurrent writes produce a conflict; last-write-wins silently drops the lower-timestamp write</td>
+<td><a href="../../systems/20-multi-region/">Multi-Region</a> — conflict resolution strategy required upfront</td>
+</tr>
+<tr>
+<td>Saga compensation fails; partial transaction leaves data in inconsistent state</td>
+<td>Compensation not possible for already-published side effects (email sent, webhook fired)</td>
+<td><a href="../../systems/17-distributed-transactions/">Distributed Transactions</a> — avoid uncommittable side effects early in saga</td>
+</tr>
+<tr>
+<td>2PC transaction holds locks indefinitely after coordinator crash</td>
+<td>Coordinator crashed after sending prepare but before sending commit; participants block waiting</td>
+<td><a href="../../systems/17-distributed-transactions/">Distributed Transactions</a> — coordinator crash is the failure mode 2PC cannot recover from</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="scale-ceiling-hit">Scale Ceiling Hit<a class="headerlink" href="#scale-ceiling-hit" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Root Cause</th>
+<th>Pattern</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DB CPU is low but write throughput plateaus at ~10–20k writes/sec</td>
+<td>Single PostgreSQL primary fsync bottleneck: ~1ms per fsync × group commit size = hard ceiling</td>
+<td><a href="../../systems/11-database-scaling/">Database Scaling</a> — write sharding or Kafka write buffer in front of DB</td>
+</tr>
+<tr>
+<td>Connections exhausted at the DB despite low CPU; new requests rejected</td>
+<td>Each app instance opens its own full connection pool; 50 pods × 20 connections = 1,000 raw DB connections</td>
+<td><a href="../../systems/11-database-scaling/">Database Scaling</a> — PgBouncer in transaction mode (100–200× multiplier)</td>
+</tr>
+<tr>
+<td>Redis becomes bottleneck at ~50k req/sec despite fast hardware</td>
+<td>Centralized Redis rate-limit counter lookup ~0.5ms each; single node serialises all checks</td>
+<td><a href="../../systems/08-rate-limiting/">Rate Limiting</a> — per-node token bucket + periodic Redis sync</td>
+</tr>
+<tr>
+<td>Cold start of a new consumer takes hours; log is old</td>
+<td>Event sourcing with no snapshots; must replay from the beginning of the event log</td>
+<td><a href="../../systems/13-event-sourcing-cqrs/">Event Sourcing &amp; CQRS</a> — periodic snapshots are not optional above ~100M events</td>
+</tr>
+<tr>
+<td>Stream processing falls behind during high-volume windows</td>
+<td>State store exceeds JVM heap; spill to disk causes ~10× throughput drop</td>
+<td><a href="../../systems/14-stream-processing/">Stream Processing</a> — tune state store size or narrow window</td>
+</tr>
+<tr>
+<td>Service mesh control plane degrades as microservice count grows</td>
+<td>Control plane overhead scales super-linearly; documented degradation starts around 50+ services</td>
+<td><a href="../../systems/19-microservices-patterns/">Microservices</a> — benchmark control plane at target service count before adopting</td>
+</tr>
+<tr>
+<td>Write latency exceeds SLO on any cross-region synchronous operation</td>
+<td>Speed of light: US East ↔ US West ~70ms round trip — a hard physics floor, not a config issue</td>
+<td><a href="../../systems/20-multi-region/">Multi-Region</a> — synchronous cross-region writes are incompatible with &lt;100ms write SLOs</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="ops-observability-blind-spots">Ops / Observability Blind Spots<a class="headerlink" href="#ops-observability-blind-spots" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Root Cause</th>
+<th>Pattern</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DNS failover takes 60+ minutes; clients stuck on dead IP</td>
+<td>TTL set to 3600s; clients must cache the old IP until it expires naturally</td>
+<td><a href="../../systems/03-networking-fundamentals/">Networking</a> — lower TTL to 300s before planned maintenance</td>
+</tr>
+<tr>
+<td>Prometheus memory usage explodes after adding one new label</td>
+<td>High-cardinality label (user_id, request_id) multiplies existing time series count multiplicatively</td>
+<td><a href="../../systems/15-observability/">Observability</a> — keep label distinct values &lt; ~100</td>
+</tr>
+<tr>
+<td>A bug affecting 0.5% of requests never appears in traces</td>
+<td>Sampling rate at 1%; issues affecting &lt; 1% of traffic are statistically invisible</td>
+<td><a href="../../systems/15-observability/">Observability</a> — adaptive sampling; increase rate on error paths</td>
+</tr>
+<tr>
+<td>Can't determine if latency spike is DB, cache, or network</td>
+<td>No distributed tracing; logs exist per service but with no request correlation</td>
+<td><a href="../../systems/15-observability/">Observability</a> — trace context propagation (OpenTelemetry W3C headers)</td>
+</tr>
+<tr>
+<td>Replication lag invisible until users report stale data</td>
+<td>No lag monitoring on replicas; replica appears healthy until application-level inconsistency surfaces</td>
+<td><a href="../../systems/11-database-scaling/">Database Scaling</a> — monitor replica lag (<code>pg_stat_replication</code>) as a primary metric</td>
+</tr>
+<tr>
+<td>TCP packet loss invisible in application latency metrics</td>
+<td>TCP retransmission handled silently below the application layer; only visible in OS-level counters</td>
+<td><a href="../../systems/03-networking-fundamentals/">Networking</a> — monitor <code>tcp_retransmits</code> alongside app-level metrics</td>
+</tr>
+<tr>
+<td>Raft cluster enters repeated election cycles; no nodes failing</td>
+<td>Clock skew between nodes exceeds election timeout; false timeouts trigger spurious elections</td>
+<td><a href="../../systems/18-consensus-patterns/">Consensus</a> — NTP synchronisation + tuned heartbeat/election timeout ratio</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="security-gaps">Security Gaps<a class="headerlink" href="#security-gaps" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Root Cause</th>
+<th>Pattern</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Expired JWT still accepted by the API</td>
+<td>Signature validated but <code>exp</code> claim never checked; authentication ≠ freshness</td>
+<td><a href="../../systems/07-security-patterns/">Security Patterns</a> — validate both signature AND claims; they are separate checks</td>
+</tr>
+<tr>
+<td>Attacker determines correct API key one character at a time via response timing</td>
+<td>String comparison short-circuits on first mismatch; response time leaks character position</td>
+<td><a href="../../systems/07-security-patterns/">Security Patterns</a> — constant-time comparison (MessageDigest.isEqual)</td>
+</tr>
+<tr>
+<td>Forced logout doesn't prevent the token from working</td>
+<td>JWT is stateless; no revocation mechanism exists without a centralised denylist</td>
+<td><a href="../../systems/07-security-patterns/">Security Patterns</a> — short TTL + refresh tokens, or Redis denylist with EXPIRE</td>
+</tr>
+<tr>
+<td>Admin user accesses another tenant's data</td>
+<td>RBAC grants role at org level; no tenant-scoped resource check on individual queries</td>
+<td><a href="../../systems/07-security-patterns/">Security Patterns</a> — resource-level authorisation check on every query</td>
+</tr>
+<tr>
+<td>Credentials found in version control; attacker gains DB access</td>
+<td>Secrets committed to source control as plaintext</td>
+<td><a href="../../systems/07-security-patterns/">Security Patterns</a> — secrets manager (Vault, AWS SM) + pre-commit hooks</td>
+</tr>
+<tr>
+<td>1,000 login attempts per second against authentication endpoint</td>
+<td>No rate limiting on auth; credential stuffing attacks proceed unimpeded</td>
+<td><a href="../../systems/08-rate-limiting/">Rate Limiting</a> — rate limit by IP and username; exponential backoff after N failures</td>
+</tr>
+</tbody>
+</table></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = "../.."</script>
+    
+    <script src="../../js/base.js"></script>
+    <script src="../../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

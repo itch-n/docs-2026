@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A framework for algorithms, systems design, and infrastructure.">
+    <meta name="author" content="Richard">
+    
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+
+    
+    <title>05. Stacks & Queues - Software Engineering Study Guide</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../../css/base.min.css" rel="stylesheet">
+    <link href="../../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css">
+        
+    
+    <link href="../../css/custom.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../..">Home</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Systems Design <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../systems/01-storage-engines/">01. Storage Engines</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/04-search-and-indexing/">04. Search & Indexing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/05-caching-patterns/">05. Caching Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/06-api-design/">06. API Design</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/07-security-patterns/">07. Security Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/08-rate-limiting/">08. Rate Limiting</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/09-load-balancing/">09. Load Balancing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/11-database-scaling/">11. Database Scaling</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/12-message-queues/">12. Message Queues</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/13-event-sourcing-cqrs/">13. Event Sourcing & CQRS</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/14-stream-processing/">14. Stream Processing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/15-observability/">15. Observability</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/16-resilience-patterns/">16. Resilience Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/17-distributed-transactions/">17. Distributed Transactions</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/18-consensus-patterns/">18. Consensus Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/19-microservices-patterns/">19. Microservices Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/20-multi-region/">20. Multi-Region Architecture</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">DSA <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../01-two-pointers/">01. Two Pointers</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../02-sliding-window/">02. Sliding Window</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../03-hash-tables/">03. Hash Tables</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../04-linked-lists/">04. Linked Lists</a>
+</li>
+
+                        
+                            
+<li class="active">
+    <a href="./">05. Stacks & Queues</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../06-trees/">06. Trees</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../07-binary-search/">07. Binary Search</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../08-heaps/">08. Heaps</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../09-union-find/">09. Union-Find</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../10-graphs/">10. Graphs</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../11-advanced-graphs/">11. Advanced Graphs</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../12-backtracking/">12. Backtracking</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../13-dynamic-programming/">13. Dynamic Programming</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../14-prefix-sums/">14. Prefix Sums</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../15-intervals/">15. Intervals</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Quick Reference <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../reference/when-it-breaks/">When It Breaks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/back-of-envelope/">Back of the Envelope</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/symptom-pattern/">Symptom → Pattern</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/staff-interview-strategy/">Staff+ Interview Strategy</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/no-new-problems/">No New Problems in CS</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/how-the-machine-works/">How the Machine Actually Works</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../04-linked-lists/">
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="next" href="../06-trees/">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#stacks-queues">Stacks &amp; Queues</a></li>
+            <li class="second-level"><a href="#learning-objectives">Learning Objectives</a></li>
+                
+            <li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+                
+            <li class="second-level"><a href="#core-implementation">Core Implementation</a></li>
+                
+            <li class="second-level"><a href="#beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters</a></li>
+                
+            <li class="second-level"><a href="#common-misconceptions">Common Misconceptions</a></li>
+                
+            <li class="second-level"><a href="#decision-framework-choosing-a-stack-or-queue-structure">Decision Framework: Choosing a Stack or Queue Structure</a></li>
+                
+            <li class="second-level"><a href="#practice">Practice</a></li>
+                
+            <li class="second-level"><a href="#test-your-understanding">Test Your Understanding</a></li>
+                
+            <li class="second-level"><a href="#connected-topics">Connected Topics</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="stacks-queues">Stacks &amp; Queues<a class="headerlink" href="#stacks-queues" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>LIFO and FIFO data structures for tracking state and processing order</p>
+</blockquote>
+<hr />
+<h2 id="learning-objectives">Learning Objectives<a class="headerlink" href="#learning-objectives" title="Permanent link">&para;</a></h2>
+<p>By the end of this section you should be able to:</p>
+<ul>
+<li>Distinguish LIFO (stack) from FIFO (queue) and select the right one given a problem description</li>
+<li>Implement the four core patterns: basic stack, monotonic stack, basic queue, and deque</li>
+<li>Explain why the monotonic stack processes each element at most twice, giving O(n) despite an apparent inner loop</li>
+<li>Identify the deque invariant (monotonically decreasing indices) and explain why it guarantees O(n) sliding-window maximum</li>
+<li>Diagnose common bugs: popping from an empty stack, pushing values instead of indices in a monotonic stack, and transferring on every dequeue instead of only when the outbox is empty</li>
+<li>Choose between stack, queue, and deque given the access pattern a problem requires</li>
+</ul>
+<hr />
+<div class="admonition note">
+<p class="admonition-title">Operational reality</p>
+<p>A stack overflow error is a literal stack overflow — the call stack is a stack data structure with a fixed memory ceiling, and deep recursion exhausts it. Monotonic stack logic appears in columnar storage engines when computing run-length encoding boundaries and in compilers during expression parsing (the shunting-yard algorithm is a monotonic stack). Kafka and RabbitMQ are bounded queues with backpressure: when the queue is full, producers block or drop — the same bounded semantics from these exercises. Browser history (back/forward) is a pair of stacks; undo/redo in every text editor is the same pattern.</p>
+</div>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After implementing all patterns, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What are stacks and queues in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[A stack is a collection where the last element added is the first one removed, while a queue is a collection where the first element added is ___, making them useful for ___ respectively]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What's the key difference between stack and queue?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[A stack uses LIFO so that the most-recently-pushed item is retrieved first, whereas a queue uses FIFO so that items are retrieved in ___ order, which is why stacks are used for ___ and queues for ___]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy:</strong></p>
+<ul>
+<li>Example: "A stack is like a stack of plates - last one on, first one off..."</li>
+<li>Your analogy for stack: <span class="fill-in">[Fill in]</span></li>
+<li>Your analogy for queue: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When does each pattern work?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Use a stack when you need to remember state to undo or match later; use a queue when you need to process items in ___ order; use a monotonic stack when you need the ___ greater/smaller element to the right of each position]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What problems require stacks vs queues?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after practice]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What is a monotonic stack in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[A monotonic stack is a stack that maintains its elements in sorted order by popping all elements that violate the ordering property before each push, so that ___ and each element is pushed and popped at most ___ time]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Why is it useful for finding the "next greater element"?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[When we encounter a value larger than the stack top, that larger value is the "next greater" for the popped element, so we can record the answer immediately without ___ as in brute force]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy for monotonic stack:</strong></p>
+<ul>
+<li>Example: "A (decreasing) monotonic stack is like people of different heights standing in a line; when someone taller comes, they block the view of everyone shorter than them."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr />
+<h2 id="core-implementation">Core Implementation<a class="headerlink" href="#core-implementation" title="Permanent link">&para;</a></h2>
+<h3 id="pattern-1-basic-stack-operations">Pattern 1: Basic Stack Operations<a class="headerlink" href="#pattern-1-basic-stack-operations" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Last In, First Out (LIFO) - like a stack of plates.</p>
+<p><strong>Use case:</strong> Undo operations, expression evaluation, backtracking.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.stacksqueues;
+
+import java.util.*;
+
+public class BasicStack {
+
+    /**
+     * Problem: Valid parentheses - check if brackets are balanced
+     * Time: O(n), Space: O(n)
+     *
+     * TODO: Implement using Stack
+     */
+    public static boolean isValid(String s) {
+        // TODO: Create Stack&lt;Character&gt;
+
+        // TODO: Implement iteration/conditional logic
+
+        // TODO: Return stack.isEmpty()
+
+        return false; // Replace with implementation
+    }
+
+    /**
+     * Problem: Evaluate Reverse Polish Notation
+     * Time: O(n), Space: O(n)
+     *
+     * TODO: Implement RPN calculator
+     */
+    public static int evalRPN(String[] tokens) {
+        // TODO: Create Stack&lt;Integer&gt;
+
+        // TODO: Implement iteration/conditional logic
+
+        // TODO: Return stack.peek()
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Min Stack - stack with O(1) getMin()
+     * Time: O(1) for all operations, Space: O(n)
+     *
+     * TODO: Implement MinStack class
+     */
+    static class MinStack {
+        // TODO: Use two stacks: one for values, one for minimums
+
+        public void push(int val) {
+            // TODO: Push to main stack
+            // TODO: Update min stack
+        }
+
+        public void pop() {
+            // TODO: Pop from both stacks
+        }
+
+        public int top() {
+            // TODO: Return top of main stack
+            return 0;
+        }
+
+        public int getMin() {
+            // TODO: Return top of min stack
+            return 0;
+        }
+    }
+}
+</code></pre>
+<div class="admonition warning">
+<p class="admonition-title">Debugging Challenge — Empty Stack Before Pop</p>
+<pre class="highlight"><code class="language-java">/**
+ * This code is supposed to check if brackets are balanced.
+ * It has 2 BUGS. Find them!
+ */
+public static boolean isValid_Buggy(String s) {
+    Stack&lt;Character&gt; stack = new Stack&lt;&gt;();
+
+    for (char c : s.toCharArray()) {
+        if (c == '(' || c == '[' || c == '{') {
+            stack.push(c);
+        } else {
+            char open = stack.pop();            if (c == ')' &amp;&amp; open != '(') return false;
+            if (c == ']' &amp;&amp; open != '[') return false;
+            if (c == '}' &amp;&amp; open != '{') return false;
+        }
+    }
+
+    return true;}</code></pre>
+<ul>
+<li>Bug 1: <span class="fill-in">[What's the bug?]</span></li>
+<li>Bug 2: <span class="fill-in">[What's the bug?]</span></li>
+</ul>
+</div>
+<details class="success">
+<summary>Answer</summary>
+<p><strong>Bug 1:</strong> Must check <code>if (stack.isEmpty()) return false;</code> <strong>before</strong> calling <code>stack.pop()</code>. Popping an empty stack
+throws <code>EmptyStackException</code>. Any input starting with a closing bracket (e.g., <code>"]"</code>) exposes this.</p>
+<p><strong>Bug 2:</strong> The function returns <code>true</code> unconditionally. It should return <code>stack.isEmpty()</code>. A string like <code>"((("</code> pushes
+three items onto the stack and never pops them, but the buggy code returns <code>true</code> anyway.</p>
+<p><strong>Fixed code:</strong>
+<pre class="highlight"><code class="language-java">} else {
+    if (stack.isEmpty()) return false;  // Check before pop
+    char open = stack.pop();
+    if (c == ')' &amp;&amp; open != '(') return false;
+    if (c == ']' &amp;&amp; open != '[') return false;
+    if (c == '}' &amp;&amp; open != '{') return false;
+}
+return stack.isEmpty();  // All openers must be matched</code></pre></p>
+</details>
+<hr />
+<h3 id="pattern-2-monotonic-stack">Pattern 2: Monotonic Stack<a class="headerlink" href="#pattern-2-monotonic-stack" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Stack that maintains elements in monotonic order.</p>
+<p><strong>Use case:</strong> Next greater element, largest rectangle, temperature problems.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.stacksqueues;
+
+import java.util.*;
+
+public class MonotonicStack {
+
+    /**
+     * Problem: Next greater element to the right
+     * Time: O(n), Space: O(n)
+     *
+     * TODO: Implement using monotonic decreasing stack
+     */
+    public static int[] nextGreaterElement(int[] nums) {
+        // TODO: Create result array initialized to -1
+        // TODO: Create Stack&lt;Integer&gt; to store indices
+
+        // TODO: Implement iteration/conditional logic
+
+        return new int[0]; // Replace with implementation
+    }
+
+    /**
+     * Problem: Daily temperatures - days until warmer temperature
+     * Time: O(n), Space: O(n)
+     *
+     * TODO: Implement using monotonic stack
+     */
+    public static int[] dailyTemperatures(int[] temperatures) {
+        // TODO: Similar to nextGreaterElement
+        // TODO: Store days difference instead of values
+
+        return new int[0]; // Replace with implementation
+    }
+
+    /**
+     * Problem: Largest rectangle in histogram
+     * Time: O(n), Space: O(n)
+     *
+     * TODO: Implement using monotonic increasing stack
+     */
+    public static int largestRectangleArea(int[] heights) {
+        // TODO: Use stack to track indices of bars
+        // TODO: When we find smaller bar, calculate area
+        // TODO: Track maximum area
+
+        return 0; // Replace with implementation
+    }
+}
+</code></pre>
+<div class="admonition warning">
+<p class="admonition-title">Debugging Challenge — Index vs Value in Monotonic Stack</p>
+<pre class="highlight"><code class="language-java">/**
+ * Find next greater element to the right.
+ * This has 1 CRITICAL BUG and 1 LOGIC ERROR.
+ */
+public static int[] nextGreaterElement_Buggy(int[] nums) {
+    int[] result = new int[nums.length];
+    Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
+
+    for (int i = 0; i &lt; nums.length; i++) {
+        while (!stack.isEmpty() &amp;&amp; nums[i] &gt; nums[stack.peek()]) {
+            int idx = stack.pop();
+            result[i] = nums[i];        }
+        stack.push(nums[i]);    }
+
+    return result;
+}</code></pre>
+<ul>
+<li><strong>Bug 1:</strong> <em>[What's wrong with <code>result[i] = nums[i]</code>?]</em></li>
+<li><strong>Bug 1 fix:</strong> <span class="fill-in">[What should it be?]</span></li>
+<li><strong>Bug 2:</strong> <em>[Should we push <code>nums[i]</code> or <code>i</code>?]</em></li>
+<li><strong>Bug 2 fix:</strong> <span class="fill-in">[Why does it matter?]</span></li>
+</ul>
+</div>
+<details class="success">
+<summary>Answer</summary>
+<p><strong>Bug 1:</strong> Should be <code>result[idx] = nums[i]</code>, not <code>result[i] = nums[i]</code>. We are answering the question for the element
+we just <strong>popped</strong> (<code>idx</code>), not for the current element <code>i</code>.</p>
+<p><strong>Bug 2:</strong> Should push <code>i</code> (the index), not <code>nums[i]</code> (the value). We need the index so we can write into <code>result[idx]</code>
+and also so we can compare <code>nums[i] &gt; nums[stack.peek()]</code> correctly. Pushing the value makes <code>nums[stack.peek()]</code>
+double-dereference (treating a value as an index), which gives wrong results.</p>
+<p><strong>Fixed code:</strong>
+<pre class="highlight"><code class="language-java">while (!stack.isEmpty() &amp;&amp; nums[i] &gt; nums[stack.peek()]) {
+    int idx = stack.pop();
+    result[idx] = nums[i];  // Answer for the POPPED index
+}
+stack.push(i);  // Push INDEX, not value</code></pre></p>
+</details>
+<hr />
+<h3 id="pattern-3-basic-queue-operations">Pattern 3: Basic Queue Operations<a class="headerlink" href="#pattern-3-basic-queue-operations" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> First In, First Out (FIFO) - like a line of people.</p>
+<p><strong>Use case:</strong> BFS, task scheduling, buffer management.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.stacksqueues;
+
+import java.util.*;
+
+public class BasicQueue {
+
+    /**
+     * Problem: Implement queue using two stacks
+     * Time: O(1) amortized, Space: O(n)
+     *
+     * TODO: Implement QueueWithStacks class
+     */
+    static class QueueWithStacks {
+        // TODO: Use two stacks: inbox and outbox
+
+        public void enqueue(int x) {
+            // TODO: Push to inbox
+        }
+
+        public int dequeue() {
+            // TODO: Implement iteration/conditional logic
+            // TODO: Pop from outbox
+            return 0;
+        }
+
+        public int peek() {
+            // TODO: Implement iteration/conditional logic
+            // TODO: Peek outbox
+            return 0;
+        }
+
+        public boolean empty() {
+            // TODO: Check if both stacks empty
+            return true;
+        }
+    }
+
+    /**
+     * Problem: Implement circular queue
+     * Time: O(1), Space: O(k)
+     *
+     * TODO: Implement CircularQueue class
+     */
+    static class CircularQueue {
+        private int[] data;
+        private int front, rear, size, capacity;
+
+        public CircularQueue(int k) {
+            // TODO: Initialize array and pointers
+        }
+
+        public boolean enQueue(int value) {
+            // TODO: Check if full
+            // TODO: Add element at rear
+            // TODO: Update rear pointer (circular)
+            return false;
+        }
+
+        public boolean deQueue() {
+            // TODO: Check if empty
+            // TODO: Update front pointer (circular)
+            return false;
+        }
+
+        public int front() {
+            // TODO: Return element at front
+            return -1;
+        }
+
+        public boolean isEmpty() {
+            return size == 0;
+        }
+
+        public boolean isFull() {
+            return size == capacity;
+        }
+    }
+}
+</code></pre>
+<hr />
+<h3 id="pattern-4-deque-double-ended-queue">Pattern 4: Deque (Double-Ended Queue)<a class="headerlink" href="#pattern-4-deque-double-ended-queue" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Add/remove from both ends.</p>
+<p><strong>Use case:</strong> Sliding window maximum, palindrome check.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.stacksqueues;
+
+import java.util.*;
+
+public class DequeOperations {
+
+    /**
+     * Problem: Sliding window maximum
+     * Time: O(n), Space: O(k)
+     *
+     * TODO: Implement using monotonic deque
+     */
+    public static int[] maxSlidingWindow(int[] nums, int k) {
+        // TODO: Use Deque&lt;Integer&gt; to store indices
+        // TODO: Maintain decreasing order in deque
+
+        // TODO: Implement iteration/conditional logic
+
+        return new int[0]; // Replace with implementation
+    }
+
+    /**
+     * Problem: Check if string can be rearranged into palindrome
+     * Time: O(n), Space: O(n)
+     *
+     * TODO: Use deque for efficient insertion at both ends
+     */
+    public static boolean canFormPalindrome(String s) {
+        // TODO: Use frequency map to check odd counts
+        // TODO: At most one character can have odd count
+
+        return false; // Replace with implementation
+    }
+}
+</code></pre>
+<hr />
+<h2 id="beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters<a class="headerlink" href="#beforeafter-why-this-pattern-matters" title="Permanent link">&para;</a></h2>
+<p><strong>Your task:</strong> Compare naive vs optimized approaches to understand the impact.</p>
+<h3 id="example-1-valid-parentheses">Example 1: Valid Parentheses<a class="headerlink" href="#example-1-valid-parentheses" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Check if brackets are balanced in a string like <code>"([{}])"</code>.</p>
+<h4 id="approach-1-brute-force-string-replacement">Approach 1: Brute Force (String Replacement)<a class="headerlink" href="#approach-1-brute-force-string-replacement" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Naive approach - Keep removing pairs until none left
+public static boolean isValid_BruteForce(String s) {
+    while (s.contains("()") || s.contains("[]") || s.contains("{}")) {
+        s = s.replace("()", "");
+        s = s.replace("[]", "");
+        s = s.replace("{}", "");
+    }
+    return s.isEmpty();
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n²) - Each replacement scans the entire string, potentially n/2 iterations</li>
+<li>Space: O(n) - String replacement creates new strings</li>
+<li>For n = 10,000: Up to ~50,000,000 operations</li>
+</ul>
+<h4 id="approach-2-stack-optimized">Approach 2: Stack (Optimized)<a class="headerlink" href="#approach-2-stack-optimized" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Optimized approach - Use stack to track opening brackets
+public static boolean isValid_Stack(String s) {
+    Stack&lt;Character&gt; stack = new Stack&lt;&gt;();
+
+    for (char c : s.toCharArray()) {
+        if (c == '(' || c == '[' || c == '{') {
+            stack.push(c);
+        } else {
+            if (stack.isEmpty()) return false;
+            char open = stack.pop();
+            if (c == ')' &amp;&amp; open != '(') return false;
+            if (c == ']' &amp;&amp; open != '[') return false;
+            if (c == '}' &amp;&amp; open != '{') return false;
+        }
+    }
+
+    return stack.isEmpty();
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n) - Single pass through string</li>
+<li>Space: O(n) - Stack for opening brackets</li>
+<li>For n = 10,000: ~10,000 operations</li>
+</ul>
+<h4 id="performance-comparison">Performance Comparison<a class="headerlink" href="#performance-comparison" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>String Length</th>
+<th>Brute Force (O(n²))</th>
+<th>Stack (O(n))</th>
+<th>Speedup</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n = 100</td>
+<td>~5,000 ops</td>
+<td>100 ops</td>
+<td>50x</td>
+</tr>
+<tr>
+<td>n = 1,000</td>
+<td>~500,000 ops</td>
+<td>1,000 ops</td>
+<td>500x</td>
+</tr>
+<tr>
+<td>n = 10,000</td>
+<td>~50,000,000 ops</td>
+<td>10,000 ops</td>
+<td>5,000x</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Your calculation:</strong> For n = 5,000, the speedup is approximately _____ times faster.</p>
+<hr />
+<h3 id="example-2-next-greater-element">Example 2: Next Greater Element<a class="headerlink" href="#example-2-next-greater-element" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> For each element, find the next greater element to the right.</p>
+<h4 id="approach-1-brute-force-nested-loops">Approach 1: Brute Force (Nested Loops)<a class="headerlink" href="#approach-1-brute-force-nested-loops" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Naive approach - For each element, scan right to find greater
+public static int[] nextGreater_BruteForce(int[] nums) {
+    int[] result = new int[nums.length];
+
+    for (int i = 0; i &lt; nums.length; i++) {
+        result[i] = -1;  // Default: no greater element
+        for (int j = i + 1; j &lt; nums.length; j++) {
+            if (nums[j] &gt; nums[i]) {
+                result[i] = nums[j];
+                break;
+            }
+        }
+    }
+
+    return result;
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n²) - For each element, scan remaining elements</li>
+<li>Space: O(n) - Result array only</li>
+<li>For n = 10,000: ~100,000,000 operations</li>
+</ul>
+<h4 id="approach-2-monotonic-stack-optimized">Approach 2: Monotonic Stack (Optimized)<a class="headerlink" href="#approach-2-monotonic-stack-optimized" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Optimized approach - Use decreasing monotonic stack
+public static int[] nextGreater_MonotonicStack(int[] nums) {
+    int[] result = new int[nums.length];
+    Arrays.fill(result, -1);
+    Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();  // Store indices
+
+    for (int i = 0; i &lt; nums.length; i++) {
+        // Pop all smaller elements - we found their next greater
+        while (!stack.isEmpty() &amp;&amp; nums[i] &gt; nums[stack.peek()]) {
+            int idx = stack.pop();
+            result[idx] = nums[i];
+        }
+        stack.push(i);
+    }
+
+    return result;
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n) - Each element pushed and popped at most once</li>
+<li>Space: O(n) - Stack + result array</li>
+<li>For n = 10,000: ~20,000 operations (each element visited twice max)</li>
+</ul>
+<h4 id="why-does-monotonic-stack-work">Why Does Monotonic Stack Work?<a class="headerlink" href="#why-does-monotonic-stack-work" title="Permanent link">&para;</a></h4>
+<div class="admonition note">
+<p class="admonition-title">The each-element-once insight</p>
+<p>Even though there is a <code>while</code> loop inside a <code>for</code> loop, the total number of <strong>pop</strong> operations across the entire run is at most n — because each element can only be popped once after it was pushed once. This is the amortised O(n) argument. The nested loops in the brute-force version are genuinely O(n²) because they do independent work for each pair; the monotonic stack version is O(n) because the inner loop's total work is bounded by n, not n per outer iteration.</p>
+</div>
+<p>In array <code>[2, 1, 2, 4, 3]</code>:</p>
+<pre class="highlight"><code>i=0, val=2: stack=[0], result=[-1,-1,-1,-1,-1]
+i=1, val=1: stack=[0,1], result=[-1,-1,-1,-1,-1]  (1 &lt; 2, just push)
+i=2, val=2: Pop index 1 (nums[1]=1 &lt; 2), result[1]=2
+            Pop index 0 (nums[0]=2 == 2, no), push 2
+            stack=[0,2], result=[-1,2,-1,-1,-1]
+i=3, val=4: Pop index 2 (nums[2]=2 &lt; 4), result[2]=4
+            Pop index 0 (nums[0]=2 &lt; 4), result[0]=4
+            stack=[3], result=[4,2,4,-1,-1]
+i=4, val=3: stack=[3,4], result=[4,2,4,-1,-1]  (3 &lt; 4, just push)</code></pre>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>Why does monotonic decreasing order help? <span class="fill-in">[Your answer]</span></li>
+<li>What work are we avoiding compared to brute force? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr />
+<h3 id="example-3-sliding-window-maximum">Example 3: Sliding Window Maximum<a class="headerlink" href="#example-3-sliding-window-maximum" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Find maximum in each window of size k.</p>
+<h4 id="approach-1-brute-force-scan-each-window">Approach 1: Brute Force (Scan Each Window)<a class="headerlink" href="#approach-1-brute-force-scan-each-window" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Naive approach - Find max in each window independently
+public static int[] maxSlidingWindow_BruteForce(int[] nums, int k) {
+    int[] result = new int[nums.length - k + 1];
+
+    for (int i = 0; i &lt;= nums.length - k; i++) {
+        int max = nums[i];
+        for (int j = i; j &lt; i + k; j++) {
+            max = Math.max(max, nums[j]);
+        }
+        result[i] = max;
+    }
+
+    return result;
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n * k) - For each window, scan k elements</li>
+<li>Space: O(1) - Excluding result array</li>
+<li>For n = 10,000, k = 100: ~1,000,000 operations</li>
+</ul>
+<h4 id="approach-2-monotonic-deque-optimized">Approach 2: Monotonic Deque (Optimized)<a class="headerlink" href="#approach-2-monotonic-deque-optimized" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Optimized approach - Use decreasing monotonic deque
+public static int[] maxSlidingWindow_Deque(int[] nums, int k) {
+    int[] result = new int[nums.length - k + 1];
+    Deque&lt;Integer&gt; deque = new ArrayDeque&lt;&gt;();  // Store indices
+
+    for (int i = 0; i &lt; nums.length; i++) {
+        // Remove indices outside window
+        while (!deque.isEmpty() &amp;&amp; deque.peekFirst() &lt; i - k + 1) {
+            deque.pollFirst();
+        }
+
+        // Remove smaller elements (they'll never be max)
+        while (!deque.isEmpty() &amp;&amp; nums[i] &gt; nums[deque.peekLast()]) {
+            deque.pollLast();
+        }
+
+        deque.offerLast(i);
+
+        // Record maximum (front of deque)
+        if (i &gt;= k - 1) {
+            result[i - k + 1] = nums[deque.peekFirst()];
+        }
+    }
+
+    return result;
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n) - Each element added and removed at most once</li>
+<li>Space: O(k) - Deque stores at most k indices</li>
+<li>For n = 10,000, k = 100: ~20,000 operations</li>
+</ul>
+<h4 id="performance-comparison_1">Performance Comparison<a class="headerlink" href="#performance-comparison_1" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Array Size</th>
+<th>Window k</th>
+<th>Brute Force (O(n*k))</th>
+<th>Deque (O(n))</th>
+<th>Speedup</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n = 1,000</td>
+<td>k = 10</td>
+<td>10,000 ops</td>
+<td>2,000 ops</td>
+<td>5x</td>
+</tr>
+<tr>
+<td>n = 10,000</td>
+<td>k = 100</td>
+<td>1,000,000 ops</td>
+<td>20,000 ops</td>
+<td>50x</td>
+</tr>
+<tr>
+<td>n = 100,000</td>
+<td>k = 1000</td>
+<td>100,000,000 ops</td>
+<td>200,000 ops</td>
+<td>500x</td>
+</tr>
+</tbody>
+</table>
+<p><strong>After implementing, explain:</strong></p>
+<div class="learner-section">
+<ul>
+<li>Why does deque work better than rescanning? <span class="fill-in">[Your answer]</span></li>
+<li>What invariant does the deque maintain? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr />
+<h2 id="common-misconceptions">Common Misconceptions<a class="headerlink" href="#common-misconceptions" title="Permanent link">&para;</a></h2>
+<div class="admonition danger">
+<p class="admonition-title">Misconception 1: You must check isEmpty() only before pop, not peek</p>
+<p>Both <code>pop()</code> and <code>peek()</code> throw <code>EmptyStackException</code> on an empty stack. Always guard <strong>both</strong> operations with <code>isEmpty()</code>.
+A common pattern that still crashes:
+<pre class="highlight"><code class="language-java">if (!stack.isEmpty()) {
+    stack.pop();
+}
+char top = stack.peek();  // ← crashes if stack is now empty after the pop</code></pre>
+Guard every stack access individually unless you have a structural guarantee that the stack is non-empty.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Misconception 2: The monotonic stack stores values, not indices</p>
+<p>Storing values instead of indices is the single most common bug when implementing next-greater-element. You need the
+index to write into the result array (<code>result[idx] = nums[i]</code>). If you store the value, you can no longer map back to
+the position of the element that was waiting for its answer. Always push <strong>indices</strong> into a monotonic stack unless the
+problem explicitly only asks for values and you have no result array to fill.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Misconception 3: Queue-with-stacks must transfer on every dequeue</p>
+<p>The lazy (amortised O(1)) implementation transfers elements from the inbox stack to the outbox stack <strong>only when the
+outbox is empty</strong>. If you transfer on every dequeue, each operation is O(n) — equivalent to a naive approach. The
+amortised argument holds because each element crosses from inbox to outbox at most once over its lifetime, so the total
+transfer work across all operations is O(n), not O(n) per call.</p>
+</div>
+<hr />
+<h2 id="decision-framework-choosing-a-stack-or-queue-structure">Decision Framework: Choosing a Stack or Queue Structure<a class="headerlink" href="#decision-framework-choosing-a-stack-or-queue-structure" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Fill in the matrix after working through the implementations above.</p>
+<h3 id="trade-off-analysis-matrix">Trade-off Analysis Matrix<a class="headerlink" href="#trade-off-analysis-matrix" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Structure</th>
+<th>Order</th>
+<th>Top/peek time</th>
+<th>Typical use</th>
+<th>Key pitfall</th>
+<th>Example problems</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Stack</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Queue</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Deque</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Monotonic stack</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Priority queue (min-heap)</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+</tbody>
+</table>
+<details class="success">
+<summary>Answers</summary>
+<table>
+<thead>
+<tr>
+<th>Structure</th>
+<th>Order</th>
+<th>Top/peek time</th>
+<th>Typical use</th>
+<th>Key pitfall</th>
+<th>Example problems</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Stack</strong></td>
+<td>LIFO</td>
+<td>O(1)</td>
+<td>Balanced parentheses, DFS, undo/redo, call simulation</td>
+<td>In Java use <code>Deque</code> not <code>Stack</code> class — <code>Stack</code> inherits <code>Vector</code> and is synchronized</td>
+<td>Valid parentheses, min stack, evaluate reverse polish notation</td>
+</tr>
+<tr>
+<td><strong>Queue</strong></td>
+<td>FIFO</td>
+<td>O(1)</td>
+<td>BFS, task scheduling, producer-consumer</td>
+<td><code>LinkedList</code> as queue has O(n) <code>contains</code>; use <code>ArrayDeque</code></td>
+<td>BFS traversal, rotten oranges, number of islands</td>
+</tr>
+<tr>
+<td><strong>Deque</strong></td>
+<td>Both ends O(1)</td>
+<td>O(1)</td>
+<td>Sliding window maximum/minimum, palindrome check</td>
+<td>Language-specific naming (<code>pollFirst</code>/<code>pollLast</code> in Java; <code>popleft</code> in Python)</td>
+<td>Sliding window maximum, design circular deque</td>
+</tr>
+<tr>
+<td><strong>Monotonic stack</strong></td>
+<td>LIFO, maintained sorted</td>
+<td>O(1)</td>
+<td>Next/previous greater or smaller element, histogram span</td>
+<td>Storing values not indices — most problems need the index for distance or span calculation</td>
+<td>Daily temperatures, largest rectangle in histogram, trapping rain water</td>
+</tr>
+<tr>
+<td><strong>Priority queue (min-heap)</strong></td>
+<td>Heap-ordered (not FIFO)</td>
+<td>O(1) peek, O(log n) pop/push</td>
+<td>Kth smallest/largest, Dijkstra, merge k sorted lists</td>
+<td>Java <code>PriorityQueue</code> is min-heap; max-heap needs <code>Collections.reverseOrder()</code></td>
+<td>Kth largest element, top K frequent elements, merge k sorted lists</td>
+</tr>
+</tbody>
+</table>
+</details>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">When it breaks</p>
+<p>Monotonic stack breaks silently when indices are needed but values are stored — the implementation produces correct answers on non-duplicate inputs but wrong answers with repeated values. The two-stack queue breaks when you need O(1) peek at the front without dequeuing: peeking requires transferring all elements, making it O(n). For production queues requiring O(1) peek, use a deque or a purpose-built queue. The deque sliding window maximum breaks when the problem requires tracking both maximum and minimum simultaneously — you need two separate deques.</p>
+</div>
+<hr />
+<h2 id="practice">Practice<a class="headerlink" href="#practice" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<h3 id="leetcode-problems">LeetCode Problems<a class="headerlink" href="#leetcode-problems" title="Permanent link">&para;</a></h3>
+<p><strong>Easy (Complete all 4):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/valid-parentheses/">20. Valid Parentheses</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Basic stack]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/implement-queue-using-stacks/">232. Implement Queue using Stacks</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Queue with stacks]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/implement-stack-using-queues/">225. Implement Stack using Queues</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Stack with queues]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/min-stack/">155. Min Stack</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Stack with tracking]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Medium (Complete 3-4):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/daily-temperatures/">739. Daily Temperatures</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Monotonic stack]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/evaluate-reverse-polish-notation/">150. Evaluate Reverse Polish Notation</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Basic stack]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/decode-string/">394. Decode String</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Stack]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/design-circular-queue/">622. Design Circular Queue</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Circular queue]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Hard (Optional):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/largest-rectangle-in-histogram/">84. Largest Rectangle in Histogram</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Monotonic stack]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/sliding-window-maximum/">239. Sliding Window Maximum</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Monotonic deque]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Failure modes:</strong></p>
+<ul>
+<li>What happens if your stack is empty when a closing bracket is encountered and you call <code>pop()</code> without first checking <code>isEmpty()</code> — which exception is thrown and on which line of <code>isValid</code>? <span class="fill-in">[Fill in]</span></li>
+<li>How does your monotonic stack behave when the entire input array is strictly decreasing (e.g., <code>[5, 4, 3, 2, 1]</code>) — how many elements remain on the stack at the end, and are their result entries correctly left as -1? <span class="fill-in">[Fill in]</span></li>
+</ul>
+</div>
+<hr />
+<h2 id="test-your-understanding">Test Your Understanding<a class="headerlink" href="#test-your-understanding" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>You write a <code>isValid_Buggy</code> that returns <code>true</code> instead of <code>stack.isEmpty()</code>. Give a concrete input string that produces the wrong answer, trace the execution to show why, and explain which invariant the correct implementation enforces that the buggy one breaks.</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) the concrete failing input is any string with unmatched opening brackets, e.g., <code>"((("</code> — the loop pushes three <code>(</code> characters, the buggy code returns <code>true</code>, but the correct answer is <code>false</code>; (2) the invariant the correct implementation enforces is that the stack must be empty after the entire string is processed — every opening bracket must have been matched and popped; (3) returning <code>true</code> hardcoded skips this final check entirely, so any input ending with leftover openers passes incorrectly.</p>
+</details>
+</li>
+<li>
+<p>A colleague implements queue-with-stacks by always transferring all elements from the inbox to the outbox on every <code>dequeue()</code> call. They test it with <code>enqueue(1), enqueue(2), dequeue(), dequeue()</code> and get correct results. Why does their implementation appear to work on this test case but is still O(n) per dequeue? Construct a sequence of operations that exposes the quadratic behaviour.</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) the test sequence happens to work because the inbox has exactly 2 elements before each dequeue — each transfer cost is O(2), which is not visible at small n; (2) a sequence that exposes quadratic behaviour: <code>enqueue(1)</code> through <code>enqueue(n)</code>, then <code>dequeue()</code> n times — each dequeue transfers all remaining elements back and forth, giving O(n) work per call and O(n²) total; (3) the lazy approach avoids this by only transferring when the outbox is empty — each element crosses from inbox to outbox at most once in its lifetime, amortising the transfer cost to O(1) per operation.</p>
+</details>
+</li>
+<li>
+<p>In the monotonic deque for sliding-window maximum, the eviction condition is <code>deque.peekFirst() &lt; i - k + 1</code> (strictly less than). What would happen if you changed <code>&lt;</code> to <code>&lt;=</code>? Give a concrete example showing which window would produce the wrong maximum.</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) changing <code>&lt;</code> to <code>&lt;=</code> would evict the element at index <code>i - k + 1</code>, which is still inside the current window (the window spans indices <code>i - k + 1</code> through <code>i</code> inclusive); (2) concrete example: <code>nums = [3, 1, 3]</code>, <code>k = 3</code> — at <code>i = 2</code>, the valid window covers all three elements and the maximum is 3 (at index 0); the eviction condition <code>&lt;= 2 - 3 + 1 = 0</code> would remove index 0 from the deque, leaving only index 2 (value 3) — this happens to be correct here, but with <code>nums = [3, 1, 2]</code>, the deque front at index 0 (value 3) would be incorrectly evicted, reporting 2 instead of 3; (3) the boundary is inclusive precisely because the element at <code>i - k + 1</code> contributes to the current window.</p>
+</details>
+</li>
+<li>
+<p>When implementing a monotonic stack for the "next greater element" problem, you must push the <strong>index</strong> rather than the <strong>value</strong>. Describe a problem (distinct from next-greater-element) where you could get away with pushing values, and explain what structural property of that problem makes index tracking unnecessary.</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) a valid example is checking whether a stack of operations is valid in a purely value-comparison context where you never need to write answers at specific positions — e.g., determining if a sequence of push/pop operations could produce a given output sequence; (2) the structural property is that the problem only asks for a boolean or a count, not for indexed output — when there is no result array to fill at specific positions, the index is never needed; (3) another valid case: "stock span" problems where you only need to count how many consecutive preceding days had lower or equal price — you could push values and compare directly, since you are counting, not indexing into a result array.</p>
+</details>
+</li>
+<li>
+<p>A monotonic stack problem sometimes needs an <strong>increasing</strong> stack and sometimes a <strong>decreasing</strong> stack. Explain the rule: for "next greater element" you use a decreasing stack, and for "largest rectangle in histogram" you use an increasing stack. Why does each problem require the opposite ordering?</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) for next-greater-element, you want to be triggered when a LARGER element arrives — a decreasing stack keeps candidates in decreasing order so that any new element larger than the top is the answer for the top; (2) for largest rectangle, you want to be triggered when a SMALLER element arrives — an increasing stack keeps bars in increasing order of height, and when a shorter bar arrives it reveals the maximum rectangle that could be formed with each taller bar that gets popped; (3) the general rule: use a decreasing stack when you need the next GREATER element (pop on increase), and an increasing stack when you need the next SMALLER element (pop on decrease).</p>
+</details>
+</li>
+</ol>
+<hr />
+<h2 id="connected-topics">Connected Topics<a class="headerlink" href="#connected-topics" title="Permanent link">&para;</a></h2>
+<div class="bs-callout bs-callout-info">
+<p><strong>Where this topic connects</strong></p>
+<ul>
+<li><strong>06. Trees</strong> — tree traversal using an explicit stack (iterative DFS) replaces the call stack used in recursive traversal; BFS of a tree uses a queue → <a href="../06-trees/">06. Trees</a></li>
+<li><strong>10. Graphs</strong> — iterative DFS of a graph uses an explicit stack; BFS uses a queue; monotonic stacks appear in graph shortest-path preprocessing → <a href="../10-graphs/">10. Graphs</a></li>
+</ul>
+</div></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = "../.."</script>
+    
+    <script src="../../js/base.js"></script>
+    <script src="../../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

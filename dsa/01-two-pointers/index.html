@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="A framework for algorithms, systems design, and infrastructure." name="description"/>
+<meta content="Richard" name="author"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>01. Two Pointers - Software Engineering Study Guide</title>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" rel="stylesheet"/>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css" rel="stylesheet"/>
+<link href="//rsms.me/inter/inter.css" rel="stylesheet" type="text/css"/>
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&amp;subset=latin-ext,latin" rel="stylesheet" type="text/css"/>
+<link href="../../css/bootstrap-custom.min.css" rel="stylesheet"/>
+<link href="../../css/base.min.css" rel="stylesheet"/>
+<link href="../../css/cinder.min.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css" rel="stylesheet"/>
+<link href="../../css/custom.css" rel="stylesheet"/>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="container">
+<!-- Collapsed navigation -->
+<div class="navbar-header">
+<!-- Expander button -->
+<button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<!-- Main title -->
+<a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+</div>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li>
+<a href="../..">Home</a>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Systems Design <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../systems/01-storage-engines/">01. Storage Engines</a>
+</li>
+<li>
+<a href="../../systems/02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+<li>
+<a href="../../systems/03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+<li>
+<a href="../../systems/04-search-and-indexing/">04. Search &amp; Indexing</a>
+</li>
+<li>
+<a href="../../systems/05-caching-patterns/">05. Caching Patterns</a>
+</li>
+<li>
+<a href="../../systems/06-api-design/">06. API Design</a>
+</li>
+<li>
+<a href="../../systems/07-security-patterns/">07. Security Patterns</a>
+</li>
+<li>
+<a href="../../systems/08-rate-limiting/">08. Rate Limiting</a>
+</li>
+<li>
+<a href="../../systems/09-load-balancing/">09. Load Balancing</a>
+</li>
+<li>
+<a href="../../systems/10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+<li>
+<a href="../../systems/11-database-scaling/">11. Database Scaling</a>
+</li>
+<li>
+<a href="../../systems/12-message-queues/">12. Message Queues</a>
+</li>
+<li>
+<a href="../../systems/13-event-sourcing-cqrs/">13. Event Sourcing &amp; CQRS</a>
+</li>
+<li>
+<a href="../../systems/14-stream-processing/">14. Stream Processing</a>
+</li>
+<li>
+<a href="../../systems/15-observability/">15. Observability</a>
+</li>
+<li>
+<a href="../../systems/16-resilience-patterns/">16. Resilience Patterns</a>
+</li>
+<li>
+<a href="../../systems/17-distributed-transactions/">17. Distributed Transactions</a>
+</li>
+<li>
+<a href="../../systems/18-consensus-patterns/">18. Consensus Patterns</a>
+</li>
+<li>
+<a href="../../systems/19-microservices-patterns/">19. Microservices Patterns</a>
+</li>
+<li>
+<a href="../../systems/20-multi-region/">20. Multi-Region Architecture</a>
+</li>
+</ul>
+</li>
+<li class="dropdown active">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">DSA <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li class="active">
+<a href="./">01. Two Pointers</a>
+</li>
+<li>
+<a href="../02-sliding-window/">02. Sliding Window</a>
+</li>
+<li>
+<a href="../03-hash-tables/">03. Hash Tables</a>
+</li>
+<li>
+<a href="../04-linked-lists/">04. Linked Lists</a>
+</li>
+<li>
+<a href="../05-stacks--queues/">05. Stacks &amp; Queues</a>
+</li>
+<li>
+<a href="../06-trees/">06. Trees</a>
+</li>
+<li>
+<a href="../07-binary-search/">07. Binary Search</a>
+</li>
+<li>
+<a href="../08-heaps/">08. Heaps</a>
+</li>
+<li>
+<a href="../09-union-find/">09. Union-Find</a>
+</li>
+<li>
+<a href="../10-graphs/">10. Graphs</a>
+</li>
+<li>
+<a href="../11-advanced-graphs/">11. Advanced Graphs</a>
+</li>
+<li>
+<a href="../12-backtracking/">12. Backtracking</a>
+</li>
+<li>
+<a href="../13-dynamic-programming/">13. Dynamic Programming</a>
+</li>
+<li>
+<a href="../14-prefix-sums/">14. Prefix Sums</a>
+</li>
+<li>
+<a href="../15-intervals/">15. Intervals</a>
+</li>
+</ul>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Quick Reference <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../reference/when-it-breaks/">When It Breaks</a>
+</li>
+<li>
+<a href="../../reference/back-of-envelope/">Back of the Envelope</a>
+</li>
+<li>
+<a href="../../reference/symptom-pattern/">Symptom → Pattern</a>
+</li>
+<li>
+<a href="../../reference/staff-interview-strategy/">Staff+ Interview Strategy</a>
+</li>
+<li>
+<a href="../../reference/no-new-problems/">No New Problems in CS</a>
+</li>
+<li>
+<a href="../../reference/how-the-machine-works/">How the Machine Actually Works</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+<a data-target="#mkdocs_search_modal" data-toggle="modal" href="#">
+<i class="fas fa-search"></i> Search
+                        </a>
+</li>
+<li>
+<a href="../../systems/20-multi-region/" rel="prev">
+<i class="fas fa-arrow-left"></i> Previous
+                        </a>
+</li>
+<li>
+<a href="../02-sliding-window/" rel="next">
+                            Next <i class="fas fa-arrow-right"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+<ul class="nav bs-sidenav">
+<li class="first-level active"><a href="#two-pointers">Two Pointers</a></li>
+<li class="second-level"><a href="#important-info">Important info</a></li>
+<li class="second-level"><a href="#learning-objectives">Learning Objectives</a></li>
+<li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+<li class="second-level"><a href="#core-implementation">Core Implementation</a></li>
+<li class="second-level"><a href="#beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters</a></li>
+<li class="second-level"><a href="#common-misconceptions">Common Misconceptions</a></li>
+<li class="second-level"><a href="#decision-framework">Decision Framework</a></li>
+<li class="second-level"><a href="#practice">Practice</a></li>
+<li class="second-level"><a href="#test-your-understanding">Test Your Understanding</a></li>
+<li class="second-level"><a href="#connected-topics">Connected Topics</a></li>
+</ul>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="two-pointers">Two Pointers<a class="headerlink" href="#two-pointers" title="Permanent link">¶</a></h1>
+<blockquote>
+<p>Reduce O(n²) to O(n) by using two indices moving through data</p>
+</blockquote>
+<hr/>
+<h2 id="important-info">Important info<a class="headerlink" href="#important-info" title="Permanent link">¶</a></h2>
+<ul>
+<li>Can be same/different direction/speed</li>
+<li>Same direction cursor conventions<ul>
+<li>Write Cursor: Points to the first available space where the next piece of incoming data will be
+  stored</li>
+<li>Read Cursor: Points to the first piece of available data that has not been read yet.</li>
+</ul>
+</li>
+</ul>
+<hr/>
+<h2 id="learning-objectives">Learning Objectives<a class="headerlink" href="#learning-objectives" title="Permanent link">¶</a></h2>
+<p>By the end of this topic you will be able to:</p>
+<ul>
+<li>Explain why two pointers reduces O(n²) nested-loop problems to O(n)</li>
+<li>Implement all three two-pointer variants: opposite-direction, same-direction, and different-speed</li>
+<li>Identify which variant applies to a given problem (pair search vs. in-place modification vs. linked-list properties)</li>
+<li>Analyse the time and space complexity of each pattern</li>
+<li>Recognise when the sorted-array requirement is necessary and when it is not</li>
+<li>Compare two-pointer solutions against HashSet alternatives and justify the choice</li>
+</ul>
+<hr/>
+<div class="admonition note">
+<p class="admonition-title">Operational reality</p>
+<p>The merge step in every merge sort implementation is two pointers advancing through sorted sequences — it is so fundamental it becomes invisible. The partition step in quicksort is the same pattern with a write pointer trailing a read pointer. Outside of sorting, this shows up in streaming decoders: Protocol Buffers and most binary codec implementations use a read/write pointer pair to parse and emit data in a single pass without allocating intermediate buffers. The fast/slow pointer pattern (Floyd's cycle detection) is used in garbage collectors to detect reference cycles and in linked list implementations inside OS kernels.</p>
+</div>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After implementing all three patterns, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What is the two pointers pattern in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">Avoiding the need to exhaustively "check every pair" by keeping track of two
+  pointers and exploiting some property of the input</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Why is it faster than nested loops?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">You don't need to check all combinations leading to fewer ops</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy:</strong></p>
+<ul>
+<li>Same direction partitioning: <span class="fill-in">Using your left arm to keep the good apples in your sweater and
+  your right arm to sort new ones in or out. When you get a good one, your left arm moves a little to make room for
+  the good apple</span></li>
+<li>Opposite direction matching: <span class="fill-in">You and your brother have 20 chuck-e-cheese tickets for 2
+  prizes. You want to use all 20 tickets and all the prizes are sorted by ticket price.</span></li>
+<li>Different speeds exploring: <span class="fill-in">You're lost and walking along a rushing river. You throw a
+  message in a bottle, wait a bit, then keep walking. If you eventually see the bottle again, you know you're on a
+  circular river. Importantly, this wouldn't work if you started running the same speed as the river current!</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When does this pattern work?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">When you can eliminate multiple possibilities with each pointer
+  movement or when trying to explore paths and you can't store state.</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When does this pattern fail?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">when you truly need to check every combination or when the problem requires
+  random access to all elements simultaneously.</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr/>
+<h2 id="core-implementation">Core Implementation<a class="headerlink" href="#core-implementation" title="Permanent link">¶</a></h2>
+<h3 id="pattern-1-opposite-direction-pointers">Pattern 1: Opposite Direction Pointers<a class="headerlink" href="#pattern-1-opposite-direction-pointers" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Start from both ends, move toward each other.</p>
+<p><strong>Use case:</strong> Palindromes, pair sum in sorted array.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.twopointers;
+
+import java.util.Arrays;
+
+public class OppositeDirectionPointers {
+
+    /**
+     * Problem: Check if string is a palindrome
+     * Time: O(n), Space: O(1)
+     */
+    public static boolean isPalindrome(String s) {
+        int l = 0;
+        int r = s.length() - 1;
+        while (l &lt; r) {
+            if (s.charAt(l) != s.charAt(r)) {
+                return false;
+            }
+            l++;
+            r--;
+        }
+        return true; // Replace with implementation
+    }
+
+    /**
+     * Problem: Find pair in sorted array that sums to target
+     * Time: O(n), Space: O(1)
+     * &lt;p&gt;
+     */
+    public static int[] twoSum(int[] nums, int target) {
+        int l = 0;
+        int r = nums.length - 1;
+        while (l &lt; r) {
+            int sum = nums[l] + nums[r];
+            if (sum == target) {
+                return new int[]{l, r};
+            } else if (sum &lt; target) {
+                l++;
+            } else {
+                r--;
+            }
+        }
+        throw new IllegalArgumentException("No two sum solution");
+    }
+
+    /**
+     * Problem: Reverse array in-place
+     * Time: O(n), Space: O(1)
+     * &lt;p&gt;
+     */
+    public static void reverseArray(int[] arr) {
+        int l = 0;
+        int r = arr.length - 1;
+        while (l &lt; r) {
+            int tmp = arr[l];
+            arr[l] = arr[r];
+            arr[r] = tmp;
+            l++;
+            r--;
+        }
+    }
+}
+</code></pre>
+<div class="admonition warning">
+<p class="admonition-title">Debugging Challenge — Broken Palindrome Checker</p>
+<p>The <code>isPalindrome_Buggy</code> below has <strong>2 bugs</strong>. Find them before running the code.</p>
+<pre class="highlight"><code class="language-java">public static boolean isPalindrome_Buggy(String s) {
+    int left = 0;
+    int right = s.length();
+    while (left &lt; right) {
+        if (s.charAt(left) != s.charAt(right)) {
+            return false;
+        }
+        left++;
+        right--;
+    }
+    return true;
+}</code></pre>
+<ul>
+<li>Bug 1: <span class="fill-in">[What's the bug?]</span></li>
+<li>Bug 2: <span class="fill-in">[What's the bug?]</span></li>
+</ul>
+<details class="success">
+<summary>Answer</summary>
+<p><strong>Bug 1 (initialisation):</strong> <code>right</code> should be <code>s.length() - 1</code>, not <code>s.length()</code>. Array indices are 0-based, so <code>s.charAt(s.length())</code> throws <code>StringIndexOutOfBoundsException</code>.</p>
+<p><strong>Bug 2 (trick question):</strong> Once Bug 1 is fixed the code is correct — the apparent second bug was a deliberate distraction. The lesson: always fix the most fundamental error first and re-trace before hunting for more.</p>
+</details>
+</div>
+<hr/>
+<h3 id="pattern-2-same-direction-pointers-slowfast">Pattern 2: Same Direction Pointers (Slow/Fast)<a class="headerlink" href="#pattern-2-same-direction-pointers-slowfast" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Both pointers move left to right, at different speeds.</p>
+<p><strong>Use case:</strong> Remove duplicates, partition array, in-place modifications.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.twopointers;
+
+import java.util.Arrays;
+
+public class SameDirectionPointers {
+
+    /**
+     * Problem: Remove duplicates from sorted array in-place
+     * Return new length
+     * Time: O(n), Space: O(1)
+     * &lt;p&gt;
+     */
+    public static int removeDuplicates(int[] nums) {
+        if (nums.length == 0) return 0;
+
+        int write = 1;
+        for (int read = 1; read &lt; nums.length; read++) {
+            // duplicate, skip this write
+            if (nums[read] == nums[write - 1]) {
+                continue;
+            }
+            nums[write] = nums[read];
+            write++;
+        }
+        return write; // new length
+    }
+
+    /**
+     * Problem: Move all zeros to end, maintain order of non-zeros
+     * Time: O(n), Space: O(1)
+     * &lt;p&gt;
+     */
+    public static void moveZeroes(int[] nums) {
+        int write = 0;
+        for (int read = 0; read &lt; nums.length; read++) {
+            if (nums[read] == 0) {
+                continue;
+            }
+            nums[write] = nums[read];
+            write++;
+        }
+
+        while (write &lt; nums.length) {
+            nums[write] = 0;
+            write++;
+        }
+    }
+
+    /**
+     * Problem: Partition array - all elements &lt; pivot go left
+     * Time: O(n), Space: O(1)
+     * &lt;p&gt;
+     * &lt;pre&gt;
+     *        [  Condition Met  |  Unmet/Mixed  |  Unprocessed  ]
+     *           0           slow-1 slow          fast          n-1
+     *           ↓             ↓     ↓             ↓             ↓
+     * Array: [  2  1  4  3  0  |  9  8  7  6  5  |  ?  ?  ?  ?  ]
+     *           ↑             ↑                 ↑             ↑
+     *           └─────┬───────┘                 └──────┬──────┘
+     *          Elements ≤ Pivot                 Current Element
+     *          (The "Good" Zone)               Being Evaluated
+     * &lt;/pre&gt;
+     */
+    public static int partition(int[] arr, int pivot) {
+        int wall = 0; // "good zone indices &lt; wall"
+        for (int fast = 0; fast &lt; arr.length; fast++) {
+            if (arr[fast] &gt;= pivot) {
+                continue;
+            }
+
+            int tmp = arr[fast];
+            arr[fast] = arr[wall];
+            arr[wall] = tmp;
+            wall++;
+        }
+
+        return wall; // Replace with implementation
+    }
+}
+</code></pre>
+<div class="admonition warning">
+<p class="admonition-title">Debugging Challenge — Broken Remove Duplicates</p>
+<p>The <code>removeDuplicates_Buggy</code> below has <strong>1 critical bug</strong> and <strong>1 return-value bug</strong>. Trace through <code>[1, 1, 2, 2, 3]</code> manually before checking the answer.</p>
+<pre class="highlight"><code class="language-java">public static int removeDuplicates_Buggy(int[] nums) {
+    int slow = 0;
+    int fast = 1;
+    while (fast &lt; nums.length) {
+        if (nums[fast] != nums[slow]) {
+            nums[slow] = nums[fast];            slow++;
+        }
+        fast++;
+    }
+    return slow;
+}</code></pre>
+<ul>
+<li>Bug 1: <span class="fill-in">[What gets overwritten incorrectly?]</span></li>
+<li>Bug 2: <span class="fill-in">[What should the return value be?]</span></li>
+</ul>
+<details class="success">
+<summary>Answer</summary>
+<p><strong>Bug 1:</strong> <code>slow++</code> must come <strong>before</strong> <code>nums[slow] = nums[fast]</code>. The current order overwrites the unique element at <code>slow</code> before the write pointer has advanced, corrupting the first unique value.</p>
+<p><strong>Correct:</strong>
+<pre class="highlight"><code class="language-java">if (nums[fast] != nums[slow]) {
+    slow++;
+    nums[slow] = nums[fast];
+}</code></pre></p>
+<p><strong>Bug 2:</strong> Should return <code>slow + 1</code>, not <code>slow</code>. The length is one more than the last written index.</p>
+</details>
+</div>
+<hr/>
+<h3 id="pattern-3-different-speed-pointers">Pattern 3: Different Speed Pointers<a class="headerlink" href="#pattern-3-different-speed-pointers" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> One pointer moves faster than the other.</p>
+<p><strong>Use case:</strong> Linked list cycle detection, finding middle element.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.twopointers;
+
+public class DifferentSpeedPointers {
+
+    // Simple ListNode definition
+    static class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode(int val) {
+            this.val = val;
+        }
+    }
+
+    /**
+     * Problem: Detect cycle in linked list
+     * Time: O(n), Space: O(1)
+     */
+    public static boolean hasCycle(ListNode head) {
+        if (head == null) return false;
+
+        ListNode slow = head;
+        ListNode fast = head;
+
+        while (fast != null) {
+            slow = slow.next;
+            fast = fast.next;
+            if (fast != null) {
+                fast = fast.next;
+            }
+            if (slow == fast) return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Problem: Find middle of linked list
+     * If even length, return second middle node
+     * Time: O(n), Space: O(1)
+     */
+    public static ListNode findMiddle(ListNode head) {
+        // this handles the "rounding up" behavior
+        ListNode sentinel = new ListNode(-1);
+        sentinel.next = head;
+
+        ListNode slow = sentinel;
+        ListNode fast = sentinel;
+
+        while (fast != null) {
+            slow = slow.next;
+            fast = fast.next;
+            if (fast != null) {
+                fast = fast.next;
+            }
+        }
+        return slow ;
+    }
+
+    /**
+     * Problem: Find kth node from end
+     * Time: O(n), Space: O(1)
+     */
+    public static ListNode findKthFromEnd(ListNode head, int k) {
+        if (head == null) throw new IllegalArgumentException();
+        if (k &lt;= 0) throw new IllegalArgumentException();
+
+        ListNode boat = head;
+        for (int i = 0; i &lt;= k; i++) {
+            boat = boat.next;
+        }
+
+        ListNode waterskiier = head;
+        while (boat != null) {
+            boat = boat.next;
+            waterskiier = waterskiier.next;
+        }
+        return waterskiier;
+    }
+
+    // Helper: Create linked list from array
+    static ListNode createList(int[] values) {
+        if (values.length == 0) return null;
+
+        ListNode head = new ListNode(values[0]);
+        ListNode current = head;
+
+        for (int i = 1; i &lt; values.length; i++) {
+            current.next = new ListNode(values[i]);
+            current = current.next;
+        }
+
+        return head;
+    }
+
+    // Helper: Print linked list
+    static void printList(ListNode head) {
+        ListNode current = head;
+        while (current != null) {
+            System.out.print(current.val);
+            if (current.next != null) System.out.print(" -&gt; ");
+            current = current.next;
+        }
+        System.out.println();
+    }
+}
+</code></pre>
+<hr/>
+<h2 id="beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters<a class="headerlink" href="#beforeafter-why-this-pattern-matters" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Compare naive vs optimized approaches to understand the impact.</p>
+<h3 id="example-find-pair-sum">Example: Find Pair Sum<a class="headerlink" href="#example-find-pair-sum" title="Permanent link">¶</a></h3>
+<p><strong>Problem:</strong> Find two numbers in a sorted array that sum to a target.</p>
+<h4 id="approach-1-brute-force-nested-loops">Approach 1: Brute Force (Nested Loops)<a class="headerlink" href="#approach-1-brute-force-nested-loops" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Naive approach - Check all possible pairs
+public static boolean hasPairSum_BruteForce(int[] nums, int target) {
+    for (int i = 0; i &lt; nums.length; i++) {
+        for (int j = i + 1; j &lt; nums.length; j++) {
+            if (nums[i] + nums[j] == target) {
+                return true;
+            }
+        }
+    }
+    return false;
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n²) - For each element, check all remaining elements</li>
+<li>Space: O(1) - No extra space</li>
+<li>For n = 10,000: ~100,000,000 operations</li>
+</ul>
+<h4 id="approach-2-two-pointers-optimized">Approach 2: Two Pointers (Optimized)<a class="headerlink" href="#approach-2-two-pointers-optimized" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Optimized approach - Use two pointers from opposite ends
+public static boolean hasPairSum_TwoPointers(int[] nums, int target) {
+    int left = 0;
+    int right = nums.length - 1;
+
+    while (left &lt; right) {
+        int sum = nums[left] + nums[right];
+        if (sum == target) return true;
+        if (sum &lt; target) left++;    // Need larger sum
+        else right--;                 // Need smaller sum
+    }
+
+    return false;
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n) - Each pointer moves at most n/2 steps</li>
+<li>Space: O(1) - No extra space</li>
+<li>For n = 10,000: ~10,000 operations</li>
+</ul>
+<h4 id="performance-comparison">Performance Comparison<a class="headerlink" href="#performance-comparison" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>Array Size</th>
+<th>Brute Force (O(n²))</th>
+<th>Two Pointers (O(n))</th>
+<th>Speedup</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n = 100</td>
+<td>10,000 ops</td>
+<td>100 ops</td>
+<td>100x</td>
+</tr>
+<tr>
+<td>n = 1,000</td>
+<td>1,000,000 ops</td>
+<td>1,000 ops</td>
+<td>1,000x</td>
+</tr>
+<tr>
+<td>n = 10,000</td>
+<td>100,000,000 ops</td>
+<td>10,000 ops</td>
+<td>10,000x</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Your calculation:</strong> For n = 5,000, the speedup is approximately _____ times faster.</p>
+<h4 id="why-does-two-pointers-work">Why Does Two Pointers Work?<a class="headerlink" href="#why-does-two-pointers-work" title="Permanent link">¶</a></h4>
+<p><strong>Key insight to understand:</strong></p>
+<p>In a sorted array <code>[1, 3, 5, 7, 9]</code> looking for sum = 10:</p>
+<pre class="highlight"><code>Step 1: left=0 (val=1), right=4 (val=9), sum=10 → FOUND!</code></pre>
+<p>If we were looking for sum = 12:</p>
+<pre class="highlight"><code>Step 1: left=0 (val=1), right=4 (val=9), sum=10 (too small)
+        → Move left++ because we need a LARGER sum
+
+Step 2: left=1 (val=3), right=4 (val=9), sum=12 → FOUND!</code></pre>
+<div class="admonition note">
+<p class="admonition-title">Why can we skip pairs safely?</p>
+<p>When <code>sum &lt; target</code>, moving <code>right--</code> makes the sum even smaller — that direction is provably useless. Likewise, when <code>sum &gt; target</code>, moving <code>left++</code> only increases the sum further. Sorted order guarantees that each pointer move eliminates an entire row or column of pairs from consideration, which is the source of the O(n) behaviour.</p>
+</div>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>Why does sorted order matter? <span class="fill-in">[Your answer]</span></li>
+<li>What pairs do we skip and why is it safe? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="common-misconceptions">Common Misconceptions<a class="headerlink" href="#common-misconceptions" title="Permanent link">¶</a></h2>
+<div class="admonition danger">
+<p class="admonition-title">Misconception 1: Two pointers always requires a sorted array</p>
+<p>Opposite-direction pointers for pair-sum <strong>do</strong> require sorted order, but same-direction and different-speed patterns do not. <code>moveZeroes</code>, <code>removeDuplicates</code>, and Floyd's cycle detection all work on unsorted or linked-list input. The sorting requirement is specific to the convergence proof for opposite-direction, not to the technique itself.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Misconception 2: Two pointers and sliding window are the same thing</p>
+<p>Both use two indices, but the goals differ. Two pointers typically search for a <strong>pair of elements</strong> satisfying a condition, while sliding window maintains a <strong>contiguous subarray</strong> and tracks aggregate state (sum, frequency map) within it. A dynamic sliding window is a two-pointer technique, but two pointers is a broader category.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Misconception 3: Same-direction slow/fast pointers need different starting positions</p>
+<p>It is tempting to start <code>slow = 0, fast = 1</code> always, but the correct starting position depends on the problem. For <code>removeDuplicates</code> both start at 0 (or 0 and 1); for Floyd's cycle detection both start at <code>head</code>. Internalise the <strong>invariant</strong> each pattern maintains rather than memorising the starting positions.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">When it breaks</p>
+<p>The opposite-direction variant requires a sorted array or a monotonic invariant — applying it to an unsorted array produces incorrect results with no error signal. Same-direction (slow/fast) has no such precondition. The pattern also breaks when you need all pairs with a given property and duplicates exist: moving the pointer past a duplicate without skipping all matching values produces duplicate result pairs, requiring explicit deduplication logic that is easy to omit.</p>
+</div>
+<hr/>
+<h2 id="decision-framework">Decision Framework<a class="headerlink" href="#decision-framework" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Build decision trees for when to use two pointers.</p>
+<h3 id="question-1-is-the-data-sorted">Question 1: Is the data sorted?<a class="headerlink" href="#question-1-is-the-data-sorted" title="Permanent link">¶</a></h3>
+<p>Answer after solving problems:</p>
+<ul>
+<li><strong>Why does sorting matter?</strong> <span class="fill-in">Two pointers eliminates possibilities - we can only be sure we're
+  not eliminating valid possibilities with sorted input. Sorting establishes a predictable relationship between elements
+  and their positions.</span></li>
+<li><strong>Can two pointers work on unsorted arrays?</strong> <span class="fill-in">Yes but only when the array value is irrelevant,
+  e.g. you're working with linkedlist pointers</span></li>
+</ul>
+<h3 id="question-2-what-are-you-looking-for">Question 2: What are you looking for?<a class="headerlink" href="#question-2-what-are-you-looking-for" title="Permanent link">¶</a></h3>
+<p>Answer for each pattern:</p>
+<p><strong>Opposite direction when:</strong></p>
+<ul>
+<li>Looking for: <span class="fill-in">when you need to consider combinations from both ends of a sorted array</span></li>
+<li>Movement rule: <span class="fill-in">Start at ends, conditionally move one of the pointers in each iter</span></li>
+<li>Example problems: <span class="fill-in">Two Sum (sorted), Valid Palindrome, Container With Most Water, Trapping Rain Water, 3Sum/4Sum variants</span></li>
+</ul>
+<p><strong>Same direction when:</strong></p>
+<ul>
+<li>Looking for: <span class="fill-in">In-place array modification, partitioning (lomuto)</span></li>
+<li>Movement rule: <span class="fill-in">Read and write pointer. <strong><em>Do a write each iteration</em></strong> but conditionally move pointers</span></li>
+<li>Example problems: <span class="fill-in">Remove Duplicates from Sorted Array, Move Zeroes, Remove Element, Partition Array, Sort Colors (Dutch National Flag)</span></li>
+</ul>
+<p><strong>Different speed when:</strong>
+- Looking for: <span class="fill-in">Linked list structural properties</span>
+- Movement rule: <span class="fill-in">Slow moves 1 step per iteration, fast moves 2 steps</span>
+- Example problems: <span class="fill-in">Linked List Cycle I &amp; II, Find Middle of Linked List, Kth Node From End, Happy Number, Reorder List</span></p>
+<h3 id="your-decision-tree">Your Decision Tree<a class="headerlink" href="#your-decision-tree" title="Permanent link">¶</a></h3>
+<p>Build this after solving practice problems:
+<div class="mermaid">flowchart TD
+    Start[["Two Pointers?"]]
+
+    Start --&gt; Q1{Linked List?}
+    Q1 --&gt;|YES| DiffSpeed([Different Speed&lt;br/&gt;cycle, middle, kth])
+
+    Q1 --&gt;|NO| Q2{Goal?}
+
+    Q2 --&gt;|In-place modify&lt;br/&gt;partition, filter| SameDir([Same Direction&lt;br/&gt;slow/fast write/read])
+
+    Q2 --&gt;|Find pairs&lt;br/&gt;palindrome| Q3{Sorted or&lt;br/&gt;sortable?}
+    Q3 --&gt;|YES| OppDir([Opposite Direction&lt;br/&gt;left++, right--])
+    Q3 --&gt;|NO| Other([Use Hash Table])</div></p>
+</div>
+<hr/>
+<h2 id="practice">Practice<a class="headerlink" href="#practice" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<h3 id="leetcode-problems">LeetCode Problems<a class="headerlink" href="#leetcode-problems" title="Permanent link">¶</a></h3>
+<p><strong>Easy (Complete all 3):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/valid-palindrome/">125. Valid Palindrome</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Which one?]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/remove-duplicates-from-sorted-array/">26. Remove Duplicates from Sorted Array</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Which one?]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/move-zeroes/">283. Move Zeroes</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Which one?]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Medium (Complete 2-3):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/3sum/">15. 3Sum</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Extension of which pattern?]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+<li>Mistake made: <span class="fill-in">[Fill in if any]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/container-with-most-water/">11. Container With Most Water</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Which one?]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/">167. Two Sum II</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Which one?]</span></li>
+<li>Comparison to Two Sum I: <span class="fill-in">[How is it different?]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Hard (Optional):</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/trapping-rain-water/">42. Trapping Rain Water</a><ul>
+<li>Pattern: <span class="fill-in">[Which variant?]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Failure modes:</strong></p>
+<ul>
+<li>What happens if both pointers converge without finding a valid pair — does your loop terminate correctly or does it overshoot and access out-of-bounds indices? <span class="fill-in">[Fill in]</span></li>
+<li>How does your implementation behave when the array has exactly two elements and neither pointer can advance past the other? <span class="fill-in">[Fill in]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="test-your-understanding">Test Your Understanding<a class="headerlink" href="#test-your-understanding" title="Permanent link">¶</a></h2>
+<p>Answer these questions without looking at your notes. Write a sentence or two for each.</p>
+<ol>
+<li>
+<p><strong>You are given an unsorted array and asked to find whether any two elements sum to a target. A colleague suggests two pointers. Is that correct? What must be done first, and what is the total time complexity including that step?</strong></p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) two pointers for pair-sum requires sorted order for the convergence proof to hold — without it, skipping a pointer position is not safe; (2) sorting costs O(n log n), which dominates the O(n) pointer scan, giving a total of O(n log n); (3) a HashSet alternative achieves O(n) time with O(n) space and does not require sorting, so the choice depends on whether extra space is acceptable.</p>
+</details>
+</li>
+<li>
+<p><strong>Explain in your own words why Floyd's cycle detection (slow/fast pointers) is guaranteed to detect a cycle if one exists. What happens to the gap between the pointers inside a cycle?</strong></p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) once both pointers enter the cycle, the fast pointer gains one position on the slow pointer per step (it moves 2, slow moves 1, so the gap closes by 1 each round); (2) because the gap decreases by 1 each step modulo the cycle length, the pointers must eventually occupy the same node — they cannot skip past each other; (3) if there is no cycle, fast reaches null in finite time, terminating the algorithm without a false positive.</p>
+</details>
+</li>
+<li>
+<p><strong>You implement <code>removeDuplicates</code> and get the wrong length back. You print the array and the values look correct. What is the most likely bug, and why does the array look right even though the length is wrong?</strong></p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) the most likely bug is returning <code>slow</code> instead of <code>slow + 1</code> — the slow pointer is an index, and the count of unique elements is always one more than the last index written; (2) the array "looks correct" because the in-place writes are done properly — the bug is purely in the return value, not the element placement; (3) a related bug is advancing slow before writing, which shifts the first unique element, but this produces a visibly wrong array, not just a wrong length.</p>
+</details>
+</li>
+<li>
+<p><strong>A friend says "same-direction pointers are just a slower version of sliding window." What is the key distinction? Give one problem that clearly belongs to same-direction two pointers but not sliding window.</strong></p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) same-direction two pointers track two specific element positions and perform in-place writes between them; sliding window tracks aggregate state (sum, frequency count) across a contiguous subarray; (2) same-direction pointers do not maintain a running window value — the "fast" pointer is a scout, not a window boundary; (3) <code>moveZeroes</code> or <code>partition</code> are canonical same-direction problems — there is no window value to aggregate, only positional logic.</p>
+</details>
+</li>
+<li>
+<p><strong>Trapping Rain Water (LeetCode 42) can be solved with O(n) space using prefix arrays, or with O(1) space using two pointers. Describe the core insight that lets the two-pointer solution avoid the prefix arrays.</strong></p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) the water at any index is bounded by <code>min(maxLeft, maxRight)</code> — the two-pointer solution observes that whichever side has the smaller current max fully determines the water at that pointer without needing the other side's full prefix array; (2) if <code>maxLeft &lt; maxRight</code>, you can safely compute water at <code>left</code> because the right side is guaranteed to be at least as tall, so move left inward; (3) the two pointers maintain running max-left and max-right variables, replacing the O(n) prefix arrays with O(1) accumulators.</p>
+</details>
+</li>
+</ol>
+<hr/>
+<h2 id="connected-topics">Connected Topics<a class="headerlink" href="#connected-topics" title="Permanent link">¶</a></h2>
+<div class="bs-callout bs-callout-info">
+<p><strong>Where this topic connects</strong></p>
+<ul>
+<li><strong>02. Sliding Window</strong> — sliding window is a specialised two-pointer technique where both pointers advance in the same direction to maintain a window → <a href="../02-sliding-window/">02. Sliding Window</a></li>
+<li><strong>04. Linked Lists</strong> — fast/slow pointer (Floyd's cycle detection) is a direct application of the two-pointer pattern to linked structures → <a href="../04-linked-lists/">04. Linked Lists</a></li>
+</ul>
+</div></div>
+</div>
+<footer class="col-md-12 text-center">
+<hr/>
+<p>
+<small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+</p>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../../js/bootstrap-3.0.3.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>var base_url = "../.."</script>
+<script src="../../js/base.js"></script>
+<script src="../../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<button class="close" data-dismiss="modal" type="button">
+<span aria-hidden="true">×</span>
+<span class="sr-only">Close</span>
+</button>
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+</div>
+<div class="modal-body">
+<p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="text"/>
+</div>
+</form>
+<div id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@11.13.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>

@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="A framework for algorithms, systems design, and infrastructure." name="description"/>
+<meta content="Richard" name="author"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>14. Stream Processing - Software Engineering Study Guide</title>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" rel="stylesheet"/>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css" rel="stylesheet"/>
+<link href="//rsms.me/inter/inter.css" rel="stylesheet" type="text/css"/>
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&amp;subset=latin-ext,latin" rel="stylesheet" type="text/css"/>
+<link href="../../css/bootstrap-custom.min.css" rel="stylesheet"/>
+<link href="../../css/base.min.css" rel="stylesheet"/>
+<link href="../../css/cinder.min.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css" rel="stylesheet"/>
+<link href="../../css/custom.css" rel="stylesheet"/>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="container">
+<!-- Collapsed navigation -->
+<div class="navbar-header">
+<!-- Expander button -->
+<button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<!-- Main title -->
+<a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+</div>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li>
+<a href="../..">Home</a>
+</li>
+<li class="dropdown active">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Systems Design <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../01-storage-engines/">01. Storage Engines</a>
+</li>
+<li>
+<a href="../02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+<li>
+<a href="../03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+<li>
+<a href="../04-search-and-indexing/">04. Search &amp; Indexing</a>
+</li>
+<li>
+<a href="../05-caching-patterns/">05. Caching Patterns</a>
+</li>
+<li>
+<a href="../06-api-design/">06. API Design</a>
+</li>
+<li>
+<a href="../07-security-patterns/">07. Security Patterns</a>
+</li>
+<li>
+<a href="../08-rate-limiting/">08. Rate Limiting</a>
+</li>
+<li>
+<a href="../09-load-balancing/">09. Load Balancing</a>
+</li>
+<li>
+<a href="../10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+<li>
+<a href="../11-database-scaling/">11. Database Scaling</a>
+</li>
+<li>
+<a href="../12-message-queues/">12. Message Queues</a>
+</li>
+<li>
+<a href="../13-event-sourcing-cqrs/">13. Event Sourcing &amp; CQRS</a>
+</li>
+<li class="active">
+<a href="./">14. Stream Processing</a>
+</li>
+<li>
+<a href="../15-observability/">15. Observability</a>
+</li>
+<li>
+<a href="../16-resilience-patterns/">16. Resilience Patterns</a>
+</li>
+<li>
+<a href="../17-distributed-transactions/">17. Distributed Transactions</a>
+</li>
+<li>
+<a href="../18-consensus-patterns/">18. Consensus Patterns</a>
+</li>
+<li>
+<a href="../19-microservices-patterns/">19. Microservices Patterns</a>
+</li>
+<li>
+<a href="../20-multi-region/">20. Multi-Region Architecture</a>
+</li>
+</ul>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">DSA <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../dsa/01-two-pointers/">01. Two Pointers</a>
+</li>
+<li>
+<a href="../../dsa/02-sliding-window/">02. Sliding Window</a>
+</li>
+<li>
+<a href="../../dsa/03-hash-tables/">03. Hash Tables</a>
+</li>
+<li>
+<a href="../../dsa/04-linked-lists/">04. Linked Lists</a>
+</li>
+<li>
+<a href="../../dsa/05-stacks--queues/">05. Stacks &amp; Queues</a>
+</li>
+<li>
+<a href="../../dsa/06-trees/">06. Trees</a>
+</li>
+<li>
+<a href="../../dsa/07-binary-search/">07. Binary Search</a>
+</li>
+<li>
+<a href="../../dsa/08-heaps/">08. Heaps</a>
+</li>
+<li>
+<a href="../../dsa/09-union-find/">09. Union-Find</a>
+</li>
+<li>
+<a href="../../dsa/10-graphs/">10. Graphs</a>
+</li>
+<li>
+<a href="../../dsa/11-advanced-graphs/">11. Advanced Graphs</a>
+</li>
+<li>
+<a href="../../dsa/12-backtracking/">12. Backtracking</a>
+</li>
+<li>
+<a href="../../dsa/13-dynamic-programming/">13. Dynamic Programming</a>
+</li>
+<li>
+<a href="../../dsa/14-prefix-sums/">14. Prefix Sums</a>
+</li>
+<li>
+<a href="../../dsa/15-intervals/">15. Intervals</a>
+</li>
+</ul>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Quick Reference <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../reference/when-it-breaks/">When It Breaks</a>
+</li>
+<li>
+<a href="../../reference/back-of-envelope/">Back of the Envelope</a>
+</li>
+<li>
+<a href="../../reference/symptom-pattern/">Symptom → Pattern</a>
+</li>
+<li>
+<a href="../../reference/staff-interview-strategy/">Staff+ Interview Strategy</a>
+</li>
+<li>
+<a href="../../reference/no-new-problems/">No New Problems in CS</a>
+</li>
+<li>
+<a href="../../reference/how-the-machine-works/">How the Machine Actually Works</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+<a data-target="#mkdocs_search_modal" data-toggle="modal" href="#">
+<i class="fas fa-search"></i> Search
+                        </a>
+</li>
+<li>
+<a href="../13-event-sourcing-cqrs/" rel="prev">
+<i class="fas fa-arrow-left"></i> Previous
+                        </a>
+</li>
+<li>
+<a href="../15-observability/" rel="next">
+                            Next <i class="fas fa-arrow-right"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+<ul class="nav bs-sidenav">
+<li class="first-level active"><a href="#stream-processing">Stream Processing</a></li>
+<li class="second-level"><a href="#learning-objectives">Learning Objectives</a></li>
+<li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+<li class="second-level"><a href="#case-studies-stream-processing-in-the-wild">Case Studies: Stream Processing in the Wild</a></li>
+<li class="second-level"><a href="#core-implementation">Core Implementation</a></li>
+<li class="second-level"><a href="#beforeafter-why-stream-processing-matters">Before/After: Why Stream Processing Matters</a></li>
+<li class="second-level"><a href="#common-misconceptions">Common Misconceptions</a></li>
+<li class="second-level"><a href="#decision-framework-choosing-a-stream-processing-approach">Decision Framework: Choosing a Stream Processing Approach</a></li>
+<li class="second-level"><a href="#practice">Practice</a></li>
+<li class="second-level"><a href="#test-your-understanding">Test Your Understanding</a></li>
+<li class="second-level"><a href="#connected-topics">Connected Topics</a></li>
+</ul>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="stream-processing">Stream Processing<a class="headerlink" href="#stream-processing" title="Permanent link">¶</a></h1>
+<blockquote>
+<p>Real-time data processing with windowing</p>
+</blockquote>
+<hr/>
+<h2 id="learning-objectives">Learning Objectives<a class="headerlink" href="#learning-objectives" title="Permanent link">¶</a></h2>
+<p>By the end of this section you should be able to:</p>
+<ul>
+<li>Implement tumbling, sliding, and session windows and explain when each is appropriate</li>
+<li>Debug common stream processing bugs including window boundary errors and duplicate event counting</li>
+</ul>
+<hr/>
+<div class="admonition note">
+<p class="admonition-title">Operational reality</p>
+<p>Stateful stream processing is significantly harder to operate than it appears. Watermarks require careful tuning and still produce late-data surprises; stateful operators accumulate state that must be snapshotted, replayed on restart, and pruned to prevent OOM failures; exactly-once semantics requires both source and sink to support it — one weak link breaks the guarantee. Many teams that adopted Flink or Kafka Streams for complex stateful pipelines quietly replaced specific use cases with scheduled batch jobs when the operational cost became clear.</p>
+<p>This topic covers the concepts needed to reason about real-time data architectures in interviews. The implementation details are for the teams whose job it is to run Flink at scale.</p>
+</div>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After implementing stream processing patterns, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What is stream processing in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">Stream processing is a ___ that handles events ___ as they arrive, instead of ___</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What is a window in stream processing?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">A window is a ___ that groups events by ___ so you can ___</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy for tumbling window:</strong></p>
+<ul>
+<li>Example: "A tumbling window is like counting cars that pass every 5 minutes..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr/>
+<h2 id="case-studies-stream-processing-in-the-wild">Case Studies: Stream Processing in the Wild<a class="headerlink" href="#case-studies-stream-processing-in-the-wild" title="Permanent link">¶</a></h2>
+<h3 id="netflix-real-time-streaming-analytics-with-flink">Netflix: Real-time Streaming Analytics with Flink<a class="headerlink" href="#netflix-real-time-streaming-analytics-with-flink" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> Windowed Aggregations on event streams.</li>
+<li><strong>How it works:</strong> Netflix's infrastructure generates a massive stream of events: every "play," "pause," "buffer,"
+  and "finish" action from millions of viewers is published to Apache Kafka. They use Apache Flink to process this
+  stream in real-time. For example, a Flink job might use a <strong>10-second tumbling window</strong> to count the number of
+  playback errors per region, allowing engineers to spot and react to regional outages instantly.</li>
+<li><strong>Key Takeaway:</strong> Stream processing is essential for real-time operational monitoring at scale. By using windowed
+  aggregations, raw event streams can be transformed into meaningful, actionable metrics for dashboards and alerting
+  systems.</li>
+</ul>
+<h3 id="linkedin-feed-updates-real-time-content-delivery">LinkedIn Feed Updates: Real-time Content Delivery<a class="headerlink" href="#linkedin-feed-updates-real-time-content-delivery" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> Stream-Table Joins.</li>
+<li><strong>How it works:</strong> LinkedIn's feed is a combination of real-time activity and user profile data. When a user you follow
+  shares an article, that's a real-time event on a stream. To render the feed, their stream processing system (Apache
+  Samza) must join this event stream with a table stream containing user profile data (like the user's name and
+  headline). The result is a fully enriched feed item, delivered in near real-time.</li>
+<li><strong>Key Takeaway:</strong> Stream processing isn't just about counting events. It's often about enriching real-time events with
+  static or slow-moving data from tables to provide context and create a complete picture for the end-user.</li>
+</ul>
+<h3 id="cloudflare-ddos-detection-with-sliding-windows">Cloudflare: DDoS Detection with Sliding Windows<a class="headerlink" href="#cloudflare-ddos-detection-with-sliding-windows" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> Sliding Window analysis for anomaly detection.</li>
+<li><strong>How it works:</strong> Cloudflare protects websites from DDoS attacks by analyzing vast streams of network request data. A
+  stream processor might use a <strong>1-minute sliding window</strong>, evaluated every 5 seconds, to track the request count per IP
+  address. If the count for any IP suddenly spikes and crosses a predefined threshold within that window, the system
+  automatically identifies it as a potential attack and can block the IP at the edge.</li>
+<li><strong>Key Takeaway:</strong> Sliding windows are perfect for detecting anomalies in real-time data. By continuously analyzing
+  recent activity, systems can identify and react to security threats or performance issues much faster than traditional
+  batch-based analysis would allow.</li>
+</ul>
+<hr/>
+<h2 id="core-implementation">Core Implementation<a class="headerlink" href="#core-implementation" title="Permanent link">¶</a></h2>
+<h3 id="window-types">Window Types<a class="headerlink" href="#window-types" title="Permanent link">¶</a></h3>
+<p><strong>Tumbling Windows (non-overlapping):</strong> Each event belongs to exactly one fixed-size window.</p>
+<div class="mermaid">flowchart LR
+    E1["Events\n0–5s"]
+    E2["Events\n5–10s"]
+    E3["Events\n10–15s"]
+    W1["Window 1\n[0s, 5s)"]
+    W2["Window 2\n[5s, 10s)"]
+    W3["Window 3\n[10s, 15s)"]
+    A1["Aggregate 1"]
+    A2["Aggregate 2"]
+    A3["Aggregate 3"]
+
+    E1 --&gt; W1 --&gt; A1
+    E2 --&gt; W2 --&gt; A2
+    E3 --&gt; W3 --&gt; A3</div>
+<p><strong>Sliding Windows (overlapping):</strong> Windows advance by a step smaller than window size; events appear in multiple windows.</p>
+<div class="mermaid">flowchart LR
+    Stream["Event Stream\n(continuous)"]
+    W1["Window 1\n[0s, 10s)"]
+    W2["Window 2\n[5s, 15s)"]
+    W3["Window 3\n[10s, 20s)"]
+    A1["Aggregate 1\n(overlaps W2)"]
+    A2["Aggregate 2\n(overlaps W1 + W3)"]
+    A3["Aggregate 3\n(overlaps W2)"]
+
+    Stream --&gt; W1 --&gt; A1
+    Stream --&gt; W2 --&gt; A2
+    Stream --&gt; W3 --&gt; A3
+
+    Note["size=10s, slide=5s\nevents at 6s appear in W1 and W2"]
+    W2 --- Note</div>
+<p><strong>Session Windows (inactivity gap):</strong> Windows close when a gap exceeds a threshold; each event belongs to one session.</p>
+<div class="mermaid">flowchart LR
+    E1["Event @1s"]
+    E2["Event @2s"]
+    E3["Event @3s"]
+    Gap["GAP &gt; 3s\n(no events 3s–7s)"]
+    E4["Event @7s"]
+    E5["Event @8s"]
+    S1["Session 1\n[1s – 3s]"]
+    S2["Session 2\n[7s – 8s]"]
+
+    E1 --&gt; S1
+    E2 --&gt; S1
+    E3 --&gt; S1
+    S1 --&gt; Gap
+    Gap --&gt; S2
+    E4 --&gt; S2
+    E5 --&gt; S2</div>
+<h3 id="pattern-1-windowing-tumbling-sliding-session">Pattern 1: Windowing (Tumbling, Sliding, Session)<a class="headerlink" href="#pattern-1-windowing-tumbling-sliding-session" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Group streaming data into finite chunks for aggregation.</p>
+<p><strong>Use case:</strong> Real-time analytics, metrics aggregation, event counting.</p>
+<pre class="highlight"><code class="language-java">package com.study.systems.streamprocessing;
+
+import java.util.*;
+
+/**
+ * Stream Windowing: Group events into time-based windows
+ *
+ * Window Types:
+ * - Tumbling: Fixed-size, non-overlapping (e.g., every 5 minutes)
+ * - Sliding: Fixed-size, overlapping (e.g., last 5 minutes, updated every 1 minute)
+ * - Session: Dynamic size based on inactivity gaps
+ */
+public class StreamWindow&lt;K, V&gt; {
+
+    static class Event&lt;K, V&gt; {
+        K key;
+        V value;
+        long timestamp; // Event time
+
+        Event(K key, V value, long timestamp) {
+            this.key = key;
+            this.value = value;
+            this.timestamp = timestamp;
+        }
+    }
+
+    static class WindowResult&lt;K&gt; {
+        K key;
+        long windowStart;
+        long windowEnd;
+        long count;
+
+        WindowResult(K key, long windowStart, long windowEnd, long count) {
+            this.key = key;
+            this.windowStart = windowStart;
+            this.windowEnd = windowEnd;
+            this.count = count;
+        }
+
+        @Override
+        public String toString() {
+            return String.format("Window[%d-%d] key=%s count=%d",
+                windowStart, windowEnd, key, count);
+        }
+    }
+
+    /**
+     * Tumbling Window: Fixed, non-overlapping time buckets
+     * Time: O(1) per event, Space: O(W*K) where W=windows, K=keys
+     *
+     * TODO: Implement tumbling window
+     * 1. Determine which window the event belongs to
+     * 2. windowStart = (timestamp / windowSize) * windowSize
+     * 3. Aggregate events in the same window
+     * 4. Emit results when window closes
+     */
+    public static &lt;K, V&gt; Map&lt;Long, Map&lt;K, Long&gt;&gt; tumblingWindow(
+            List&lt;Event&lt;K, V&gt;&gt; events,
+            long windowSizeMs) {
+
+        Map&lt;Long, Map&lt;K, Long&gt;&gt; windows = new TreeMap&lt;&gt;();
+
+        // TODO: Process each event
+        //
+        //     // Get or create window
+        //     Map&lt;K, Long&gt; window = windows.computeIfAbsent(windowStart, k -&gt; new HashMap&lt;&gt;());
+        //
+        //     // Aggregate (count in this case)
+        //     window.merge(event.key, 1L, Long::sum);
+        //   }
+
+        return windows; // Replace
+    }
+
+    /**
+     * Sliding Window: Overlapping windows
+     * Time: O(N) per event where N=num overlapping windows, Space: O(W*K)
+     *
+     * TODO: Implement sliding window
+     * 1. For each event, determine ALL windows it belongs to
+     * 2. An event at time T belongs to windows:
+     *    [T-windowSize+slide, T-windowSize+2*slide, ..., T]
+     * 3. Update all overlapping windows
+     */
+    public static &lt;K, V&gt; Map&lt;Long, Map&lt;K, Long&gt;&gt; slidingWindow(
+            List&lt;Event&lt;K, V&gt;&gt; events,
+            long windowSizeMs,
+            long slideMs) {
+
+        Map&lt;Long, Map&lt;K, Long&gt;&gt; windows = new TreeMap&lt;&gt;();
+
+        // TODO: Process each event
+        //
+        //     // Add event to all overlapping windows
+        //     for (long windowStart = firstWindowStart;
+        //          windowStart &lt;= lastWindowStart;
+        //          windowStart += slideMs) {
+        //       Map&lt;K, Long&gt; window = windows.computeIfAbsent(windowStart, k -&gt; new HashMap&lt;&gt;());
+        //       window.merge(event.key, 1L, Long::sum);
+        //     }
+        //   }
+
+        return windows; // Replace
+    }
+
+    /**
+     * Session Window: Group events with inactivity gap
+     * Time: O(log N) per event, Space: O(S*K) where S=sessions
+     *
+     * TODO: Implement session window
+     * 1. Sort events by key and timestamp
+     * 2. For each key, group events within gap threshold
+     * 3. Start new session if gap &gt; threshold
+     * 4. Merge sessions if events arrive late
+     */
+    public static &lt;K, V&gt; List&lt;WindowResult&lt;K&gt;&gt; sessionWindow(
+            List&lt;Event&lt;K, V&gt;&gt; events,
+            long gapMs) {
+
+        List&lt;WindowResult&lt;K&gt;&gt; results = new ArrayList&lt;&gt;();
+
+        // TODO: Group events by key
+
+        // TODO: Implement iteration/conditional logic
+        //
+        //     // Sort by timestamp
+        //     keyEvents.sort(Comparator.comparingLong(e -&gt; e.timestamp));
+        //
+        //     // Create sessions
+        //     long sessionStart = keyEvents.get(0).timestamp;
+        //     long lastTimestamp = sessionStart;
+        //     long count = 0;
+        //
+        //     for (Event&lt;K, V&gt; event : keyEvents) {
+        //       if (event.timestamp - lastTimestamp &gt; gapMs) {
+        //         // Close current session
+        //         results.add(new WindowResult&lt;&gt;(key, sessionStart, lastTimestamp, count));
+        //
+        //         // Start new session
+        //         sessionStart = event.timestamp;
+        //         count = 0;
+        //       }
+        //
+        //       lastTimestamp = event.timestamp;
+        //       count++;
+        //     }
+        //
+        //     // Close final session
+        //     results.add(new WindowResult&lt;&gt;(key, sessionStart, lastTimestamp, count));
+        //   }
+
+        return results; // Replace
+    }
+
+    /**
+     * Helper: Print window results
+     */
+    public static &lt;K&gt; void printWindows(Map&lt;Long, Map&lt;K, Long&gt;&gt; windows) {
+        for (Map.Entry&lt;Long, Map&lt;K, Long&gt;&gt; entry : windows.entrySet()) {
+            long windowStart = entry.getKey();
+            System.out.println("Window [" + windowStart + "]:");
+            for (Map.Entry&lt;K, Long&gt; keyCount : entry.getValue().entrySet()) {
+                System.out.println("  " + keyCount.getKey() + ": " + keyCount.getValue());
+            }
+        }
+    }
+}
+</code></pre>
+<div class="admonition warning">
+<p class="admonition-title">Debugging Challenge — Window Boundary Off-by-One</p>
+<p>The following <code>tumblingWindow_Buggy</code> method has <strong>2 bugs</strong>. It is supposed to count events per key per window.</p>
+<pre class="highlight"><code class="language-java">public static Map&lt;Long, Map&lt;String, Long&gt;&gt; tumblingWindow_Buggy(
+        List&lt;Event&lt;String, String&gt;&gt; events,
+        long windowSize) {
+
+    Map&lt;Long, Map&lt;String, Long&gt;&gt; windows = new TreeMap&lt;&gt;();
+
+    for (Event&lt;String, String&gt; event : events) {
+        long windowStart = event.timestamp / windowSize;
+
+        Map&lt;String, Long&gt; window = windows.computeIfAbsent(windowStart, k -&gt; new HashMap&lt;&gt;());
+
+        window.put(event.key, 1L);
+    }
+
+    return windows;
+}</code></pre>
+<ul>
+<li>Bug 1: What is wrong with the <code>windowStart</code> calculation?</li>
+<li>Bug 2: What is wrong with how each event is counted?</li>
+</ul>
+<details class="success">
+<summary>Answer</summary>
+<p><strong>Bug 1:</strong> <code>windowStart</code> should be <code>(event.timestamp / windowSize) * windowSize</code> to align to proper window boundaries. Without the multiply, keys are window indices, not actual timestamps — so <code>windowStart = 1500/1000 = 1</code> instead of the correct <code>1000</code>.</p>
+<p><strong>Bug 2:</strong> <code>window.put(event.key, 1L)</code> always <strong>overwrites</strong> the count with 1. It should use <code>window.merge(event.key, 1L, Long::sum)</code> to accumulate counts instead.</p>
+</details>
+</div>
+<hr/>
+<h2 id="beforeafter-why-stream-processing-matters">Before/After: Why Stream Processing Matters<a class="headerlink" href="#beforeafter-why-stream-processing-matters" title="Permanent link">¶</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Key insight</p>
+<p>The critical difference between batch and stream processing is not throughput — it is <strong>when results are available</strong>. Stream processing produces output continuously as windows close, while batch processing waits for the entire dataset to accumulate before computing anything.</p>
+</div>
+<p><strong>Your task:</strong> Compare batch processing vs stream processing to understand the impact.</p>
+<h3 id="example-real-time-analytics">Example: Real-Time Analytics<a class="headerlink" href="#example-real-time-analytics" title="Permanent link">¶</a></h3>
+<p><strong>Problem:</strong> Calculate page views per minute for a website getting 10K events/second.</p>
+<h4 id="approach-1-batch-processing-traditional">Approach 1: Batch Processing (Traditional)<a class="headerlink" href="#approach-1-batch-processing-traditional" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Batch processing - Process accumulated data every minute
+public class BatchAnalytics {
+
+    private List&lt;Event&gt; eventBuffer = new ArrayList&lt;&gt;();
+
+    public void collectEvent(Event event) {
+        eventBuffer.add(event);
+    }
+
+    // Runs every 60 seconds
+    public Map&lt;String, Long&gt; computePageViews() {
+        Map&lt;String, Long&gt; counts = new HashMap&lt;&gt;();
+
+        // Process all accumulated events
+        for (Event event : eventBuffer) {
+            counts.merge(event.page, 1L, Long::sum);
+        }
+
+        // Clear buffer for next batch
+        eventBuffer.clear();
+
+        return counts;
+    }
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li><strong>Latency:</strong> 30-60 seconds average (must wait for batch to complete)</li>
+<li><strong>Memory:</strong> All events in 1 minute = 10K/sec × 60 = 600K events in memory</li>
+<li><strong>Throughput:</strong> High (process all at once)</li>
+<li><strong>Real-time:</strong> No - results delayed by up to 60 seconds</li>
+<li><strong>Use case:</strong> Reports, ETL jobs, historical analysis</li>
+</ul>
+<p><strong>Timeline visualization:</strong></p>
+<pre class="highlight"><code>Events:     |-------- 60 seconds of collection --------|
+Processing:                                              [Compute] → Results at T+60s
+User sees:                                               ↑
+                                                    Results 60s old</code></pre>
+<h4 id="approach-2-stream-processing-real-time">Approach 2: Stream Processing (Real-Time)<a class="headerlink" href="#approach-2-stream-processing-real-time" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-java">// Stream processing - Continuous windowing
+public class StreamAnalytics {
+
+    private Map&lt;Long, Map&lt;String, Long&gt;&gt; windows = new TreeMap&lt;&gt;();
+    private long windowSize = 60_000; // 60 seconds
+
+    public void processEvent(Event event) {
+        // Immediate assignment to window
+        long windowStart = (event.timestamp / windowSize) * windowSize;
+
+        // Update count immediately
+        windows.computeIfAbsent(windowStart, k -&gt; new HashMap&lt;&gt;())
+               .merge(event.page, 1L, Long::sum);
+
+        // Emit results when window closes
+        long currentTime = System.currentTimeMillis();
+        closeCompletedWindows(currentTime);
+    }
+
+    private void closeCompletedWindows(long currentTime) {
+        // Windows that ended more than watermark delay ago
+        long watermark = currentTime - 5000; // 5s delay tolerance
+
+        windows.entrySet().removeIf(entry -&gt; {
+            long windowEnd = entry.getKey() + windowSize;
+            if (windowEnd &lt; watermark) {
+                emitResults(entry.getKey(), entry.getValue());
+                return true; // Remove closed window
+            }
+            return false;
+        });
+    }
+
+    private void emitResults(long windowStart, Map&lt;String, Long&gt; counts) {
+        // Results available immediately when window closes
+        System.out.println("Window [" + windowStart + "]: " + counts);
+    }
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li><strong>Latency:</strong> 5-10 seconds (watermark delay + processing)</li>
+<li><strong>Memory:</strong> Only active windows = ~2 windows × events = ~100K events in memory</li>
+<li><strong>Throughput:</strong> Same (10K events/second)</li>
+<li><strong>Real-time:</strong> Yes - results within seconds</li>
+<li><strong>Use case:</strong> Dashboards, alerting, fraud detection</li>
+</ul>
+<p><strong>Timeline visualization:</strong></p>
+<pre class="highlight"><code>Events:     |--10s--|--10s--|--10s--|--10s--|--10s--|--10s--|
+Windows:    [-------- Window 0-60s --------]
+Processing:                                  ↑
+Results:                                     Results at T+5s
+User sees:                                   ↑
+                                        Results ~5s old</code></pre>
+<h4 id="performance-comparison">Performance Comparison<a class="headerlink" href="#performance-comparison" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Batch (60s)</th>
+<th>Stream (Real-Time)</th>
+<th>Improvement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Latency to see results</strong></td>
+<td>30-60 seconds</td>
+<td>5-10 seconds</td>
+<td><strong>6-10x faster</strong></td>
+</tr>
+<tr>
+<td><strong>Memory (peak)</strong></td>
+<td>600K events</td>
+<td>100K events</td>
+<td><strong>6x less</strong></td>
+</tr>
+<tr>
+<td><strong>Staleness of data</strong></td>
+<td>Up to 60s old</td>
+<td>Up to 5s old</td>
+<td><strong>12x fresher</strong></td>
+</tr>
+<tr>
+<td><strong>Throughput</strong></td>
+<td>10K events/sec</td>
+<td>10K events/sec</td>
+<td>Same</td>
+</tr>
+</tbody>
+</table>
+<h4 id="real-world-impact-fraud-detection-example">Real-World Impact: Fraud Detection Example<a class="headerlink" href="#real-world-impact-fraud-detection-example" title="Permanent link">¶</a></h4>
+<p><strong>Batch approach:</strong></p>
+<pre class="highlight"><code>
+10:00:00 - Fraudulent transaction occurs
+10:00:05 - 3 more suspicious transactions
+
+10:00:45 - 5 more transactions (pattern clear)
+10:01:00 - Batch job runs, detects fraud
+
+10:01:05 - Alert sent, account frozen
+
+Total: 9 fraudulent transactions, $4,500 loss
+Detection delay: 65 seconds</code></pre>
+<p><strong>Stream approach:</strong></p>
+<pre class="highlight"><code>
+10:00:00 - Fraudulent transaction occurs
+10:00:05 - 3 more suspicious transactions
+
+10:00:10 - Pattern detected (window closed at watermark)
+10:00:11 - Alert sent, account frozen
+
+Total: 4 fraudulent transactions, $2,000 loss
+Detection delay: 11 seconds</code></pre>
+<p><strong>Impact:</strong> Stream processing caught fraud <strong>54 seconds faster</strong>, preventing <strong>$2,500 in losses</strong>.</p>
+<h4 id="why-does-stream-processing-win">Why Does Stream Processing Win?<a class="headerlink" href="#why-does-stream-processing-win" title="Permanent link">¶</a></h4>
+<p><strong>Key insight to understand:</strong></p>
+<p>Batch processing treats time in discrete chunks:</p>
+<pre class="highlight"><code>Batch 1: [0s ────────────────── 60s] → Process → Wait
+Batch 2: [60s ──────────────── 120s] → Process → Wait</code></pre>
+<p>Stream processing treats time continuously:</p>
+<pre class="highlight"><code>Events: ─•──•─•───•──•─•──•─•──•─→ (continuous)
+Windows: [─────────] [─────────]
+Results:     ↑            ↑
+         (immediate)  (immediate)</code></pre>
+<p><strong>Your calculation:</strong></p>
+<ul>
+<li>For 1M events/second, batch processing with 5-minute windows needs _____ GB memory</li>
+<li>Stream processing with 1-minute windows needs _____ GB memory</li>
+<li>Memory savings: <span class="fill-in">_____</span> times less</li>
+</ul>
+<h4 id="when-batch-processing-is-still-better">When Batch Processing Is Still Better<a class="headerlink" href="#when-batch-processing-is-still-better" title="Permanent link">¶</a></h4>
+<p><strong>Batch wins when:</strong></p>
+<ol>
+<li><strong>Historical analysis:</strong> Processing months of data</li>
+<li><strong>Complex joins:</strong> Multiple large datasets</li>
+<li><strong>Cost-sensitive:</strong> Pay per compute hour (batch cheaper)</li>
+<li><strong>No urgency:</strong> Daily reports, weekly summaries</li>
+</ol>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>Why does stream processing use less memory? <span class="fill-in">[Your answer]</span></li>
+<li>What's the trade-off between latency and accuracy with watermarks? <span class="fill-in">[Your answer]</span></li>
+<li>When would you still choose batch processing? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="common-misconceptions">Common Misconceptions<a class="headerlink" href="#common-misconceptions" title="Permanent link">¶</a></h2>
+<div class="admonition danger">
+<p class="admonition-title">Misconception 1: A larger watermark delay always gives more accurate results</p>
+<p>A watermark delay controls how long the system waits for late-arriving events before closing a window. A very large delay does reduce data loss from late events, but it also increases the <strong>end-to-end latency</strong> for every window result — including results that had no late data. The right delay is the smallest value that covers the typical skew in your source data, not the maximum possible skew.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Misconception 2: Exactly-once processing means events are never duplicated in the network</p>
+<p>Exactly-once semantics refers to the <strong>effect</strong> on state and output, not to how many times messages physically travel over the wire. The implementation typically sends some messages multiple times (at-least-once delivery) and uses idempotency or deduplication to ensure the state machine transitions exactly once per logical event. If your sink is not idempotent, exactly-once at the processor level does not protect against duplicate output.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Misconception 3: Stateless stream processing has no memory growth</p>
+<p>Stateless operators (map, filter) do not accumulate per-key state, so they have constant memory usage regardless of throughput. However, windowing itself is stateful — each open window stores partial aggregates. A pipeline with many windows, large window sizes, or high key cardinality can still grow memory substantially even if you consider the individual operators "stateless."</p>
+</div>
+<hr/>
+<h2 id="decision-framework-choosing-a-stream-processing-approach">Decision Framework: Choosing a Stream Processing Approach<a class="headerlink" href="#decision-framework-choosing-a-stream-processing-approach" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Fill in the matrix based on the material above.</p>
+<h3 id="trade-off-analysis-matrix">Trade-off Analysis Matrix<a class="headerlink" href="#trade-off-analysis-matrix" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>Latency</th>
+<th>Exactly-once support</th>
+<th>Stateful processing</th>
+<th>Operational complexity</th>
+<th>Key failure mode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Simple Kafka consumer (polling)</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Kafka Streams</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Apache Flink</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Spark Structured Streaming</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+</tbody>
+</table>
+<details class="success">
+<summary>Answers</summary>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>Latency</th>
+<th>Exactly-once support</th>
+<th>Stateful processing</th>
+<th>Operational complexity</th>
+<th>Key failure mode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Simple Kafka consumer (polling)</strong></td>
+<td>Near-real-time (~100ms per poll cycle)</td>
+<td>At-least-once with manual offset commit</td>
+<td>Manual — manage state in an external store (Redis, DB)</td>
+<td>Low — just a library</td>
+<td>Offset committed after processing replays on restart; offset committed before processing loses events — exactly-once requires transactional producers</td>
+</tr>
+<tr>
+<td><strong>Kafka Streams</strong></td>
+<td>Low — milliseconds</td>
+<td>Exactly-once via Kafka transactions</td>
+<td>Built-in — RocksDB-backed state stores, changelogs</td>
+<td>Low — runs inside your application, no separate cluster</td>
+<td>State store exceeding available memory spills to disk, reducing throughput by ~10×; repartitioning required for joins across different topics</td>
+</tr>
+<tr>
+<td><strong>Apache Flink</strong></td>
+<td>Very low — sub-millisecond possible</td>
+<td>Exactly-once via distributed checkpoints and barrier protocol</td>
+<td>Full — managed keyed state, timers, event-time watermarks</td>
+<td>High — separate cluster, JVM tuning, checkpoint configuration</td>
+<td>Checkpoint interval is the effective latency floor for recovery; large state multiplied by checkpoint overhead can exceed disk capacity</td>
+</tr>
+<tr>
+<td><strong>Spark Structured Streaming</strong></td>
+<td>Moderate — micro-batch (default 100ms–1s trigger interval)</td>
+<td>Exactly-once via WAL and idempotent sinks</td>
+<td>Full — maintains state across micro-batches</td>
+<td>Medium — Spark cluster, familiar for teams already on Spark</td>
+<td>Micro-batch model imposes a minimum latency floor; unsuitable for true sub-100ms event-time processing</td>
+</tr>
+</tbody>
+</table>
+</details>
+</div>
+<hr/>
+<div class="admonition warning">
+<p class="admonition-title">When it breaks</p>
+<p>Exactly-once processing breaks at scale: the overhead of distributed transactions (Kafka transactional producers, two-phase commits across state stores) limits throughput to roughly 10–20% of at-least-once throughput. Most high-throughput systems accept at-least-once and make their operations idempotent. Stateful stream processing breaks when state exceeds available memory — Flink and Kafka Streams spill to disk, but this reduces throughput by an order of magnitude. Watermarks break with highly out-of-order data: a watermark delay that accommodates 30-second late arrivals holds all windows open for 30 seconds, doubling memory requirements. Setting the watermark too aggressively drops late events silently.</p>
+</div>
+<h2 id="practice">Practice<a class="headerlink" href="#practice" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<h3 id="scenario-1-real-time-analytics-dashboard">Scenario 1: Real-Time Analytics Dashboard<a class="headerlink" href="#scenario-1-real-time-analytics-dashboard" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>Track page views per minute (updated every 10 seconds)</li>
+<li>Show top pages in last 5 minutes</li>
+<li>Handle 100K events/second</li>
+<li>Mobile apps may sync late data (up to 30s delay)</li>
+<li>Display updated immediately</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<p>Windowing strategy: <span class="fill-in">[Tumbling, Sliding, or Session?]</span></p>
+<p>Reasoning:</p>
+<ul>
+<li>Window type: <span class="fill-in">[Fill in]</span></li>
+<li>Window size: <span class="fill-in">[Fill in]</span></li>
+<li>Slide interval: <span class="fill-in">[Fill in]</span></li>
+<li>Why this choice: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>Failure modes:</strong></p>
+<ul>
+<li>What happens if the Kafka topic that feeds page-view events becomes unavailable for 2 minutes? <span class="fill-in">[Fill in]</span></li>
+<li>How does your design behave when a mobile app delivers a backlog of 30-second-late events after the relevant sliding windows have already closed? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="scenario-2-fraud-detection-system">Scenario 2: Fraud Detection System<a class="headerlink" href="#scenario-2-fraud-detection-system" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>Detect suspicious patterns in real-time</li>
+<li>Multiple failed logins within 1 minute</li>
+<li>Transactions from different countries &lt; 10 minutes apart</li>
+<li>Must detect within 2 seconds of last event</li>
+<li>No false negatives (can't miss fraud)</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<p>Pattern detection: <span class="fill-in">[How to detect patterns across events?]</span></p>
+<ul>
+<li>Windowing: <span class="fill-in">[Fill in]</span></li>
+<li>State needed: <span class="fill-in">[Fill in]</span></li>
+<li>Join strategy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>Failure modes:</strong></p>
+<ul>
+<li>What happens if the stream processor crashes mid-window while accumulating per-user login attempt state? <span class="fill-in">[Fill in]</span></li>
+<li>How does your design behave when the downstream fraud alert sink (e.g. the block-account API) is temporarily unavailable and events continue arriving? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="scenario-3-iot-sensor-aggregation">Scenario 3: IoT Sensor Aggregation<a class="headerlink" href="#scenario-3-iot-sensor-aggregation" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>10K sensors sending readings every 10 seconds</li>
+<li>Compute average, min, max per sensor per minute</li>
+<li>Sensors have unreliable networks (late data common)</li>
+<li>Some sensors offline for hours, then send batch</li>
+<li>Store aggregates in database (no duplicates)</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<p>Windowing: <span class="fill-in">[Which type and why?]</span></p>
+<ul>
+<li>Window type: <span class="fill-in">[Fill in]</span></li>
+<li>Size: <span class="fill-in">[Fill in]</span></li>
+<li>Reasoning: <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>Failure modes:</strong></p>
+<ul>
+<li>What happens if a sensor goes offline for 3 hours and then re-connects, sending all buffered readings at once as a burst? <span class="fill-in">[Fill in]</span></li>
+<li>How does your design behave when the database sink rejects a write due to a constraint violation, risking duplicate aggregates if the window is retried? <span class="fill-in">[Fill in]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="test-your-understanding">Test Your Understanding<a class="headerlink" href="#test-your-understanding" title="Permanent link">¶</a></h2>
+<p>Answer these questions without looking at your implementation. They are designed to probe understanding, not recall.</p>
+<ol>
+<li>
+<p><strong>A session window with a 5-second gap creates 10 sessions for a given user over 1 hour. If you reduce the gap to 2 seconds, will there be more or fewer sessions? Explain why.</strong></p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) a smaller gap threshold causes more pairs of consecutive events to exceed the threshold, so previously merged sessions get split into separate sessions — the count increases; (2) the exact increase depends on the inter-event time distribution: events with inter-arrival times between 2s and 5s that were in the same session now start a new session; (3) reducing the gap to the limit of zero would make every event its own session, while increasing it to infinity would collapse all events into one session.</p>
+</details>
+</li>
+</ol>
+<hr/>
+<h2 id="connected-topics">Connected Topics<a class="headerlink" href="#connected-topics" title="Permanent link">¶</a></h2>
+<div class="bs-callout bs-callout-info">
+<p><strong>Where this topic connects</strong></p>
+<ul>
+<li><strong>12. Message Queues</strong> — stream processors consume from queues; understanding delivery guarantees is prerequisite to windowing correctness → <a href="../12-message-queues/">12. Message Queues</a></li>
+<li><strong>15. Observability</strong> — windowed aggregations are a primary source of real-time metrics; observability pipelines often use stream processing internally → <a href="../15-observability/">15. Observability</a></li>
+</ul>
+</div></div>
+</div>
+<footer class="col-md-12 text-center">
+<hr/>
+<p>
+<small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+</p>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../../js/bootstrap-3.0.3.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>var base_url = "../.."</script>
+<script src="../../js/base.js"></script>
+<script src="../../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<button class="close" data-dismiss="modal" type="button">
+<span aria-hidden="true">×</span>
+<span class="sr-only">Close</span>
+</button>
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+</div>
+<div class="modal-body">
+<p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="text"/>
+</div>
+</form>
+<div id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@11.13.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>

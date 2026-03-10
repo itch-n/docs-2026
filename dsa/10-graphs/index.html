@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A framework for algorithms, systems design, and infrastructure.">
+    <meta name="author" content="Richard">
+    
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+
+    
+    <title>10. Graphs - Software Engineering Study Guide</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../../css/base.min.css" rel="stylesheet">
+    <link href="../../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css">
+        
+    
+    <link href="../../css/custom.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../..">Home</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Systems Design <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../systems/01-storage-engines/">01. Storage Engines</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/04-search-and-indexing/">04. Search & Indexing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/05-caching-patterns/">05. Caching Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/06-api-design/">06. API Design</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/07-security-patterns/">07. Security Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/08-rate-limiting/">08. Rate Limiting</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/09-load-balancing/">09. Load Balancing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/11-database-scaling/">11. Database Scaling</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/12-message-queues/">12. Message Queues</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/13-event-sourcing-cqrs/">13. Event Sourcing & CQRS</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/14-stream-processing/">14. Stream Processing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/15-observability/">15. Observability</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/16-resilience-patterns/">16. Resilience Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/17-distributed-transactions/">17. Distributed Transactions</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/18-consensus-patterns/">18. Consensus Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/19-microservices-patterns/">19. Microservices Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/20-multi-region/">20. Multi-Region Architecture</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">DSA <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../01-two-pointers/">01. Two Pointers</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../02-sliding-window/">02. Sliding Window</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../03-hash-tables/">03. Hash Tables</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../04-linked-lists/">04. Linked Lists</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../05-stacks--queues/">05. Stacks & Queues</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../06-trees/">06. Trees</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../07-binary-search/">07. Binary Search</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../08-heaps/">08. Heaps</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../09-union-find/">09. Union-Find</a>
+</li>
+
+                        
+                            
+<li class="active">
+    <a href="./">10. Graphs</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../11-advanced-graphs/">11. Advanced Graphs</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../12-backtracking/">12. Backtracking</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../13-dynamic-programming/">13. Dynamic Programming</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../14-prefix-sums/">14. Prefix Sums</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../15-intervals/">15. Intervals</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Quick Reference <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../reference/when-it-breaks/">When It Breaks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/back-of-envelope/">Back of the Envelope</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/symptom-pattern/">Symptom → Pattern</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/staff-interview-strategy/">Staff+ Interview Strategy</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/no-new-problems/">No New Problems in CS</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/how-the-machine-works/">How the Machine Actually Works</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../09-union-find/">
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="next" href="../11-advanced-graphs/">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#graphs-traversal-patterns">Graphs: Traversal Patterns</a></li>
+            <li class="second-level"><a href="#learning-objectives">Learning Objectives</a></li>
+                
+            <li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+                
+            <li class="second-level"><a href="#core-implementation">Core Implementation</a></li>
+                
+            <li class="second-level"><a href="#beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters</a></li>
+                
+            <li class="second-level"><a href="#case-studies-graph-traversal-in-the-wild">Case Studies: Graph Traversal in the Wild</a></li>
+                
+            <li class="second-level"><a href="#common-misconceptions">Common Misconceptions</a></li>
+                
+            <li class="second-level"><a href="#decision-framework-choosing-a-graph-algorithm">Decision Framework: Choosing a Graph Algorithm</a></li>
+                
+            <li class="second-level"><a href="#practice">Practice</a></li>
+                
+            <li class="second-level"><a href="#test-your-understanding">Test Your Understanding</a></li>
+                
+            <li class="second-level"><a href="#connected-topics">Connected Topics</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="graphs-traversal-patterns">Graphs: Traversal Patterns<a class="headerlink" href="#graphs-traversal-patterns" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>Master DFS, BFS, and cycle detection - the foundation for all graph problems</p>
+</blockquote>
+<hr />
+<h2 id="learning-objectives">Learning Objectives<a class="headerlink" href="#learning-objectives" title="Permanent link">&para;</a></h2>
+<p>By the end of this topic you will be able to:</p>
+<ul>
+<li>Implement DFS and BFS from memory, including multi-source BFS variants</li>
+<li>Explain why BFS guarantees shortest path in unweighted graphs while DFS does not</li>
+<li>Detect cycles in both directed and undirected graphs using appropriate state-tracking techniques</li>
+<li>Choose between adjacency list and adjacency matrix representations given a graph's density</li>
+<li>Identify the correct traversal pattern (DFS, BFS, or cycle detection) from a problem description</li>
+<li>Compare the time and space complexity trade-offs between DFS and BFS for a given problem</li>
+</ul>
+<hr />
+<div class="admonition note">
+<p class="admonition-title">Operational reality</p>
+<p>Package managers do topological sort on the dependency graph every time you install a package — npm, Maven, Cargo, and pip all solve the same problem. Cyclic dependencies cause the sort to fail, which is why package managers either reject them outright or require special cycle-breaking. Build systems (Bazel, Gradle, Make) model targets and dependencies as a DAG and use topological sort to determine build order and parallelism. The "dependency hell" you experience with npm is a graph problem: the resolver is searching for a consistent version assignment that satisfies all edge constraints simultaneously, which can be NP-hard in the general case.</p>
+</div>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After implementing all patterns, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What is a graph in one sentence?</strong></p>
+<ul>
+<li>A graph is a ___ where ___ are connected by ___</li>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Why/when do we use graphs?</strong></p>
+<ul>
+<li>We use graphs when the problem involves ___ between ___, such as ___</li>
+<li>Your answer: <span class="fill-in">[Fill in after implementation]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy:</strong></p>
+<ul>
+<li>Example: "A graph is like a social network where people are nodes and friendships are edges..."</li>
+<li>Think about how you'd navigate a city map or a subway system.</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What's the difference between DFS and BFS?</strong></p>
+<ul>
+<li>DFS explores ___ before ___, while BFS explores all ___ before moving ___</li>
+<li>Your answer: <span class="fill-in">[Fill in after solving problems]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When should you use DFS vs BFS?</strong></p>
+<ul>
+<li>Use BFS when you need ___ because it guarantees ___; use DFS when you need ___ because it uses less ___</li>
+<li>Your answer: <span class="fill-in">[Fill in after practice]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>How do you detect cycles in graphs?</strong></p>
+<ul>
+<li>Cycles are detected by tracking ___ states. In directed graphs you need ___, in undirected graphs you track ___</li>
+<li>Your answer: <span class="fill-in">[Fill in after learning]</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr />
+<h2 id="core-implementation">Core Implementation<a class="headerlink" href="#core-implementation" title="Permanent link">&para;</a></h2>
+<h3 id="pattern-1-dfs-depth-first-search">Pattern 1: DFS (Depth-First Search)<a class="headerlink" href="#pattern-1-dfs-depth-first-search" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Explore as far as possible along each branch before backtracking.</p>
+<p><strong>Use case:</strong> Detect cycles, find paths, connected components, backtracking problems.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.graphs;
+
+import java.util.*;
+
+public class DFS {
+
+    /**
+     * Problem: Number of islands (connected components)
+     * Time: O(m*n), Space: O(m*n) for recursion stack
+     *
+     * TODO: Implement DFS to count islands
+     */
+    public static int numIslands(char[][] grid) {
+        if (grid == null || grid.length == 0) return 0;
+
+        int count = 0;
+
+        // TODO: Iterate every cell; when you find a '1', increment count and call dfs() to sink the island
+
+        return 0; // Replace with implementation
+    }
+
+    private static void dfs(char[][] grid, int i, int j) {
+        // TODO: Base case: return if i/j are out of bounds or grid[i][j] != '1'
+
+        // TODO: Mark the current cell as visited by overwriting it with '0'
+
+        // TODO: Recursively call dfs() on all 4 neighbors (up, down, left, right)
+    }
+
+    /**
+     * Problem: Has path in graph (adjacency list)
+     * Time: O(V + E), Space: O(V)
+     *
+     * TODO: Implement DFS path finding
+     */
+    public static boolean hasPath(Map&lt;Integer, List&lt;Integer&gt;&gt; graph, int start, int end) {
+        Set&lt;Integer&gt; visited = new HashSet&lt;&gt;();
+
+        // TODO: Call dfsPath with start, end, and the visited set; return its result
+        return false; // Replace
+    }
+
+    private static boolean dfsPath(Map&lt;Integer, List&lt;Integer&gt;&gt; graph,
+                                   int current, int target, Set&lt;Integer&gt; visited) {
+        // TODO: If current == target, return true (base case: found the path)
+
+        // TODO: If current is already in visited, return false (avoid revisiting)
+
+        // TODO: Add current to visited
+
+        // TODO: Recurse on each neighbor; if any recursive call returns true, return true immediately
+
+        // TODO: Return false if no path found
+
+        return false; // Replace
+    }
+}
+</code></pre>
+<hr />
+<div class="admonition warning">
+<p class="admonition-title">Debugging Challenge — Missing Component Counter</p>
+<p>The <code>countComponents_Buggy</code> below has 2 bugs. Find them before reading the answer.</p>
+<pre class="highlight"><code class="language-java">public static int countComponents_Buggy(int n, int[][] edges) {
+    Map&lt;Integer, List&lt;Integer&gt;&gt; graph = new HashMap&lt;&gt;();
+
+    for (int i = 0; i &lt; n; i++) {
+        graph.put(i, new ArrayList&lt;&gt;());
+    }
+    for (int[] edge : edges) {
+        graph.get(edge[0]).add(edge[1]);
+        graph.get(edge[1]).add(edge[0]);
+    }
+
+    boolean[] visited = new boolean[n];
+    int count = 0;
+
+    for (int i = 0; i &lt; n; i++) {
+        if (!visited[i]) {
+            dfs(graph, i, visited);        }
+    }
+
+    return count;}
+
+private static void dfs(Map&lt;Integer, List&lt;Integer&gt;&gt; graph, int node, boolean[] visited) {
+    visited[node] = true;
+
+    for (int neighbor : graph.get(node)) {
+        if (!visited[neighbor]) {
+            dfs(graph, neighbor, visited);
+        }
+    }
+}</code></pre>
+<p>Trace through with: n = 5, edges = [[0,1], [1,2], [3,4]]
+Expected: 2 components. What do you actually get?</p>
+<details class="success">
+<summary>Answer</summary>
+<p><strong>Bug 1 (inside the loop):</strong> After calling <code>dfs()</code>, we never increment <code>count</code>. Should be:</p>
+<pre class="highlight"><code class="language-java">if (!visited[i]) {
+    dfs(graph, i, visited);
+    count++;  // Increment after exploring component
+}</code></pre>
+<p><strong>Bug 2:</strong> The same as Bug 1 — <code>count</code> is initialised but never incremented, so it always returns 0. Both fixes are the same: add <code>count++</code> after the DFS call.</p>
+</details>
+</div>
+<hr />
+<h3 id="pattern-2-bfs-breadth-first-search">Pattern 2: BFS (Breadth-First Search)<a class="headerlink" href="#pattern-2-bfs-breadth-first-search" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Explore all neighbors at current depth before moving deeper.</p>
+<p><strong>Use case:</strong> Shortest path in unweighted graph, level-order traversal, minimum steps.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.graphs;
+
+import java.util.*;
+
+public class BFS {
+
+    /**
+     * Problem: Shortest path in unweighted graph
+     * Time: O(V + E), Space: O(V)
+     *
+     * TODO: Implement BFS shortest path
+     */
+    public static int shortestPath(Map&lt;Integer, List&lt;Integer&gt;&gt; graph, int start, int end) {
+        Queue&lt;Integer&gt; queue = new LinkedList&lt;&gt;();
+        Set&lt;Integer&gt; visited = new HashSet&lt;&gt;();
+        int steps = 0;
+
+        // TODO: Add start to queue and visited
+
+        // TODO: Implement iteration/conditional logic
+
+        return -1; // Not found
+    }
+
+    /**
+     * Problem: Minimum knight moves to reach target
+     * Time: O(n^2), Space: O(n^2)
+     *
+     * TODO: Implement BFS for chess board
+     */
+    public static int minKnightMoves(int targetX, int targetY) {
+        int[][] directions = {{2,1}, {2,-1}, {-2,1}, {-2,-1},
+                              {1,2}, {1,-2}, {-1,2}, {-1,-2}};
+
+        Queue&lt;int[]&gt; queue = new LinkedList&lt;&gt;();
+        Set&lt;String&gt; visited = new HashSet&lt;&gt;();
+
+        // TODO: Start from (0, 0)
+
+        int moves = 0;
+
+        // TODO: Implement iteration/conditional logic
+
+        return -1; // Replace
+    }
+
+    /**
+     * Problem: Rotting oranges (multi-source BFS)
+     * Time: O(m*n), Space: O(m*n)
+     *
+     * TODO: Implement multi-source BFS
+     */
+    public static int orangesRotting(int[][] grid) {
+        Queue&lt;int[]&gt; queue = new LinkedList&lt;&gt;();
+        int fresh = 0;
+        int minutes = 0;
+
+        // TODO: Count fresh oranges and add rotten to queue
+
+        // TODO: BFS to rot adjacent oranges
+
+        // TODO: Return minutes if all fresh rotted, else -1
+
+        return 0; // Replace
+    }
+}
+</code></pre>
+<hr />
+<div class="admonition warning">
+<p class="admonition-title">Debugging Challenge — Broken BFS Level Tracking</p>
+<p>The <code>shortestPath_Buggy</code> below has 2 bugs that cause wrong distances. Find them.</p>
+<pre class="highlight"><code class="language-java">public static int shortestPath_Buggy(Map&lt;Integer, List&lt;Integer&gt;&gt; graph, int start, int end) {
+    Queue&lt;Integer&gt; queue = new LinkedList&lt;&gt;();
+    Set&lt;Integer&gt; visited = new HashSet&lt;&gt;();
+    int distance = 0;
+
+    queue.offer(start);
+
+    while (!queue.isEmpty()) {
+        int node = queue.poll();
+        if (node == end) return distance;
+
+        for (int neighbor : graph.getOrDefault(node, new ArrayList&lt;&gt;())) {
+            if (!visited.contains(neighbor)) {
+                queue.offer(neighbor);
+                visited.add(neighbor);
+            }
+        }
+
+        distance++;
+    }
+
+    return -1;
+}</code></pre>
+<p>Trace with start=0, end=2, graph: 0→1, 1→2. Expected distance: 2.</p>
+<details class="success">
+<summary>Answer</summary>
+<p><strong>Bug 1:</strong> Missing <code>visited.add(start)</code> after adding start to the queue. Without this, the start node may be revisited.</p>
+<p><strong>Bug 2:</strong> Not processing nodes level-by-level. <code>distance++</code> increments for every node polled, not for each complete level. Fix:</p>
+<pre class="highlight"><code class="language-java">while (!queue.isEmpty()) {
+    int size = queue.size();  // Process all nodes at current level
+
+    for (int i = 0; i &lt; size; i++) {
+        int node = queue.poll();
+        if (node == end) return distance;
+
+        for (int neighbor : graph.getOrDefault(node, new ArrayList&lt;&gt;())) {
+            if (!visited.contains(neighbor)) {
+                queue.offer(neighbor);
+                visited.add(neighbor);
+            }
+        }
+    }
+
+    distance++;  // Increment after processing entire level
+}</code></pre>
+</details>
+</div>
+<hr />
+<h3 id="pattern-3-cycle-detection">Pattern 3: Cycle Detection<a class="headerlink" href="#pattern-3-cycle-detection" title="Permanent link">&para;</a></h3>
+<p><strong>Interview Priority: ⭐⭐⭐ CRITICAL</strong> - Cycle detection is essential for many graph problems</p>
+<p><strong>Concept:</strong> Detect if graph contains a cycle.</p>
+<p><strong>Use case:</strong> Validate DAG, detect deadlocks, dependency resolution.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.graphs;
+
+import java.util.Arrays;
+
+import java.util.*;
+
+public class CycleDetection {
+
+    /**
+     * Problem: Detect cycle in directed graph
+     * Time: O(V + E), Space: O(V)
+     *
+     * TODO: Implement using DFS with states
+     */
+    public static boolean hasCycleDirected(int n, int[][] edges) {
+        List&lt;List&lt;Integer&gt;&gt; graph = new ArrayList&lt;&gt;();
+        int[] state = new int[n]; // 0: unvisited, 1: visiting, 2: visited
+
+        // TODO: Build graph
+
+        // TODO: DFS from each unvisited node
+
+        return false; // Replace
+    }
+
+    private static boolean dfsCycleDirected(List&lt;List&lt;Integer&gt;&gt; graph, int node, int[] state) {
+        // TODO: If state[node] == 1, we're revisiting a node in the current DFS path — cycle found, return true
+
+        // TODO: If state[node] == 2, this node is fully processed — no cycle here, return false
+
+        // TODO: Mark state[node] = 1 (currently visiting / on the recursion stack)
+
+        // TODO: Recurse on each neighbor; return true immediately if any neighbor reports a cycle
+
+        // TODO: Mark state[node] = 2 (fully visited) before returning false
+
+        return false; // Replace
+    }
+
+    /**
+     * Problem: Detect cycle in undirected graph
+     * Time: O(V + E), Space: O(V)
+     *
+     * TODO: Implement using DFS with parent tracking
+     */
+    public static boolean hasCycleUndirected(int n, int[][] edges) {
+        List&lt;List&lt;Integer&gt;&gt; graph = new ArrayList&lt;&gt;();
+        boolean[] visited = new boolean[n];
+
+        // TODO: Build graph (both directions for undirected)
+
+        // TODO: DFS from each unvisited component
+
+        return false; // Replace
+    }
+
+    private static boolean dfsCycleUndirected(List&lt;List&lt;Integer&gt;&gt; graph, int node,
+                                             int parent, boolean[] visited) {
+        // TODO: Mark visited[node] = true
+
+        // TODO: For each neighbor: skip the parent (edge we came from); if neighbor is already visited, a cycle exists
+        // TODO: Otherwise recurse; propagate true up if a cycle is detected deeper
+
+        return false; // Replace
+    }
+}
+</code></pre>
+<hr />
+<h2 id="beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters<a class="headerlink" href="#beforeafter-why-this-pattern-matters" title="Permanent link">&para;</a></h2>
+<p><strong>Your task:</strong> Compare naive vs optimized approaches to understand the impact.</p>
+<h3 id="example-1-find-shortest-path">Example 1: Find Shortest Path<a class="headerlink" href="#example-1-find-shortest-path" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Find shortest path between two nodes in an unweighted graph.</p>
+<h4 id="approach-1-dfs-suboptimal">Approach 1: DFS (Suboptimal)<a class="headerlink" href="#approach-1-dfs-suboptimal" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Naive approach - DFS finds A path, not shortest path
+public static int findPath_DFS(Map&lt;Integer, List&lt;Integer&gt;&gt; graph, int start, int end) {
+    Set&lt;Integer&gt; visited = new HashSet&lt;&gt;();
+    return dfsPathLength(graph, start, end, visited, 0);
+}
+
+private static int dfsPathLength(Map&lt;Integer, List&lt;Integer&gt;&gt; graph,
+                                 int current, int end, Set&lt;Integer&gt; visited, int length) {
+    if (current == end) return length;
+    if (visited.contains(current)) return Integer.MAX_VALUE;
+
+    visited.add(current);
+    int minPath = Integer.MAX_VALUE;
+
+    for (int neighbor : graph.getOrDefault(current, new ArrayList&lt;&gt;())) {
+        int pathLen = dfsPathLength(graph, neighbor, end, visited, length + 1);
+        minPath = Math.min(minPath, pathLen);
+    }
+
+    visited.remove(current); // Backtrack
+    return minPath;
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(V!) in worst case - explores all possible paths</li>
+<li>Space: O(V) - recursion stack</li>
+<li>Problem: Explores unnecessary paths, no guarantee of finding shortest first</li>
+</ul>
+<h4 id="approach-2-bfs-optimized">Approach 2: BFS (Optimized)<a class="headerlink" href="#approach-2-bfs-optimized" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Optimized approach - BFS guarantees shortest path
+public static int findPath_BFS(Map&lt;Integer, List&lt;Integer&gt;&gt; graph, int start, int end) {
+    Queue&lt;Integer&gt; queue = new LinkedList&lt;&gt;();
+    Set&lt;Integer&gt; visited = new HashSet&lt;&gt;();
+
+    queue.offer(start);
+    visited.add(start);
+    int length = 0;
+
+    while (!queue.isEmpty()) {
+        int size = queue.size();
+
+        for (int i = 0; i &lt; size; i++) {
+            int node = queue.poll();
+
+            if (node == end) return length;
+
+            for (int neighbor : graph.getOrDefault(node, new ArrayList&lt;&gt;())) {
+                if (!visited.contains(neighbor)) {
+                    queue.offer(neighbor);
+                    visited.add(neighbor);
+                }
+            }
+        }
+        length++;
+    }
+
+    return -1; // Not found
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(V + E) - visits each node and edge once</li>
+<li>Space: O(V) - queue storage</li>
+<li>Benefit: Explores level-by-level, first path found is shortest</li>
+</ul>
+<h4 id="performance-comparison">Performance Comparison<a class="headerlink" href="#performance-comparison" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Graph Size</th>
+<th>DFS (worst case)</th>
+<th>BFS</th>
+<th>Speedup</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>V = 10, E = 20</td>
+<td>~3,628,800 ops (10!)</td>
+<td>30 ops</td>
+<td>~120,000x</td>
+</tr>
+<tr>
+<td>V = 6, E = 10</td>
+<td>~720 ops (6!)</td>
+<td>16 ops</td>
+<td>45x</td>
+</tr>
+<tr>
+<td>V = 100, E = 200</td>
+<td>Intractable</td>
+<td>300 ops</td>
+<td>Infinite</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Your calculation:</strong> For a graph with V = 8 nodes, BFS would be approximately _____ times faster in worst case.</p>
+<h4 id="why-does-bfs-find-shortest-path">Why Does BFS Find Shortest Path?<a class="headerlink" href="#why-does-bfs-find-shortest-path" title="Permanent link">&para;</a></h4>
+<div class="admonition note">
+<p class="admonition-title">Key insight</p>
+<p>BFS explores all nodes at distance k before exploring any node at distance k+1. The first time it reaches the target node is therefore guaranteed to be via the shortest path.</p>
+</div>
+<p>In graph A→B→D, A→C→D looking for path from A to D:</p>
+<pre class="highlight"><code>BFS Level 0: [A]
+BFS Level 1: [B, C]        (distance = 1 from A)
+BFS Level 2: [D, D]        (distance = 2 from A, found first time)</code></pre>
+<p>DFS might go: A → B → D (found) but doesn't know if A → C → D is shorter without exploring everything.</p>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>Why does level-order exploration matter? <span class="fill-in">[Your answer]</span></li>
+<li>When would DFS accidentally find shortest path? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr />
+<h3 id="example-2-graph-representation">Example 2: Graph Representation<a class="headerlink" href="#example-2-graph-representation" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Store graph with 1000 nodes and 5000 edges.</p>
+<h4 id="approach-1-adjacency-matrix">Approach 1: Adjacency Matrix<a class="headerlink" href="#approach-1-adjacency-matrix" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Matrix representation - simple but space-inefficient for sparse graphs
+public class GraphMatrix {
+    private int[][] matrix;
+    private int V;
+
+    public GraphMatrix(int vertices) {
+        this.V = vertices;
+        this.matrix = new int[V][V];
+    }
+
+    public void addEdge(int src, int dst) {
+        matrix[src][dst] = 1;  // O(1) to add
+    }
+
+    public boolean hasEdge(int src, int dst) {
+        return matrix[src][dst] == 1;  // O(1) to check
+    }
+
+    public List&lt;Integer&gt; getNeighbors(int node) {
+        List&lt;Integer&gt; neighbors = new ArrayList&lt;&gt;();
+        for (int i = 0; i &lt; V; i++) {
+            if (matrix[node][i] == 1) {
+                neighbors.add(i);
+            }
+        }
+        return neighbors;  // O(V) to get all neighbors
+    }
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Space: O(V²) = O(1,000,000) for 1000 nodes</li>
+<li>Add edge: O(1)</li>
+<li>Check edge: O(1)</li>
+<li>Get neighbors: O(V)</li>
+<li>Memory usage: 1000 × 1000 = 1,000,000 integers ≈ 4 MB</li>
+</ul>
+<h4 id="approach-2-adjacency-list">Approach 2: Adjacency List<a class="headerlink" href="#approach-2-adjacency-list" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// List representation - space-efficient for sparse graphs
+public class GraphList {
+    private Map&lt;Integer, List&lt;Integer&gt;&gt; adjList;
+
+    public GraphList() {
+        this.adjList = new HashMap&lt;&gt;();
+    }
+
+    public void addEdge(int src, int dst) {
+        adjList.computeIfAbsent(src, k -&gt; new ArrayList&lt;&gt;()).add(dst);  // O(1) average
+    }
+
+    public boolean hasEdge(int src, int dst) {
+        return adjList.getOrDefault(src, new ArrayList&lt;&gt;()).contains(dst);  // O(degree)
+    }
+
+    public List&lt;Integer&gt; getNeighbors(int node) {
+        return adjList.getOrDefault(node, new ArrayList&lt;&gt;());  // O(1) to get list
+    }
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Space: O(V + E) = O(1000 + 5000) = O(6000)</li>
+<li>Add edge: O(1) average</li>
+<li>Check edge: O(degree of node)</li>
+<li>Get neighbors: O(1)</li>
+<li>Memory usage: ~6000 integers ≈ 24 KB</li>
+</ul>
+<h4 id="space-comparison">Space Comparison<a class="headerlink" href="#space-comparison" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Graph Type</th>
+<th>Adjacency Matrix</th>
+<th>Adjacency List</th>
+<th>Better Choice</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dense (V=1000, E=500,000)</td>
+<td>1M ints (4 MB)</td>
+<td>501K ints (2 MB)</td>
+<td>Matrix (similar)</td>
+</tr>
+<tr>
+<td>Sparse (V=1000, E=5000)</td>
+<td>1M ints (4 MB)</td>
+<td>6K ints (24 KB)</td>
+<td><strong>List (167x less)</strong></td>
+</tr>
+<tr>
+<td>Very Sparse (V=1000, E=100)</td>
+<td>1M ints (4 MB)</td>
+<td>1.1K ints (4 KB)</td>
+<td><strong>List (1000x less)</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Your calculation:</strong> For V = 5000 nodes and E = 10,000 edges, adjacency list uses _____ less space than matrix.</p>
+<h4 id="when-to-use-each">When to Use Each?<a class="headerlink" href="#when-to-use-each" title="Permanent link">&para;</a></h4>
+<p><strong>Use Adjacency Matrix when:</strong></p>
+<ul>
+<li>Graph is dense (E ≈ V²)</li>
+<li>Need O(1) edge existence checks frequently</li>
+<li>All operations need to be simple array lookups</li>
+</ul>
+<p><strong>Use Adjacency List when:</strong></p>
+<ul>
+<li>Graph is sparse (E &lt;&lt; V²)</li>
+<li>Need to iterate through neighbors frequently</li>
+<li>Memory is limited</li>
+</ul>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>Why does sparse vs dense matter? <span class="fill-in">[Your answer]</span></li>
+<li>What operations are faster with each representation? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr />
+<h2 id="case-studies-graph-traversal-in-the-wild">Case Studies: Graph Traversal in the Wild<a class="headerlink" href="#case-studies-graph-traversal-in-the-wild" title="Permanent link">&para;</a></h2>
+<h3 id="social-networks-bfs-for-degrees-of-separation">Social Networks: BFS for Degrees of Separation<a class="headerlink" href="#social-networks-bfs-for-degrees-of-separation" title="Permanent link">&para;</a></h3>
+<p>LinkedIn's "2nd connections" feature is a direct BFS implementation. Starting from your profile node, the algorithm runs BFS up to depth 2 and returns all reachable people. The level-by-level guarantee of BFS ensures that a "1st connection" is never mislabelled as a "2nd connection".</p>
+<h3 id="package-managers-dfs-for-dependency-resolution">Package Managers: DFS for Dependency Resolution<a class="headerlink" href="#package-managers-dfs-for-dependency-resolution" title="Permanent link">&para;</a></h3>
+<p>When <code>npm install</code> or <code>pip install</code> resolves a dependency tree, it performs a DFS on the dependency graph. If a cycle is detected during that DFS (package A depends on B, B depends on A), the install fails with a "circular dependency" error. The directed cycle detection pattern is the exact algorithm applied here.</p>
+<h3 id="maps-and-navigation-bfs-for-fewest-transfers">Maps and Navigation: BFS for Fewest Transfers<a class="headerlink" href="#maps-and-navigation-bfs-for-fewest-transfers" title="Permanent link">&para;</a></h3>
+<p>When a transit app calculates the route with the fewest transfers (not the fastest in time), it uses an unweighted BFS on a station graph. Each station is a node, edges connect adjacent stations, and BFS guarantees the minimum number of edges (transfers) in the result path.</p>
+<hr />
+<h2 id="common-misconceptions">Common Misconceptions<a class="headerlink" href="#common-misconceptions" title="Permanent link">&para;</a></h2>
+<div class="admonition danger">
+<p class="admonition-title">DFS finds the shortest path</p>
+<p>DFS finds <em>a</em> path, not necessarily the shortest one. It explores as deep as possible along one branch before backtracking, so it may discover a long path before a shorter one exists in an unexplored branch. BFS, by exploring level by level, guarantees that the first path found is the shortest in an unweighted graph.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">You must mark a node visited before calling DFS on it</p>
+<p>In undirected graphs, if you mark visited <em>after</em> exploring (not before), you risk re-entering the same node from different neighbours before the first DFS call returns. Always add a node to <code>visited</code> the moment you decide to explore it — not after.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Adjacency list is always better than adjacency matrix</p>
+<p>Adjacency list is better <em>for sparse graphs</em>. For dense graphs (E ≈ V²), the overhead of linked structures can make adjacency matrix competitive or better, especially when O(1) edge-existence checks are the dominant operation. The right choice depends on graph density and which operations are most frequent.</p>
+</div>
+<hr />
+<h2 id="decision-framework-choosing-a-graph-algorithm">Decision Framework: Choosing a Graph Algorithm<a class="headerlink" href="#decision-framework-choosing-a-graph-algorithm" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Fill in the matrix after working through the implementations above.</p>
+<h3 id="trade-off-analysis-matrix">Trade-off Analysis Matrix<a class="headerlink" href="#trade-off-analysis-matrix" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Algorithm</th>
+<th>Graph type</th>
+<th>Finds</th>
+<th>Time</th>
+<th>Space</th>
+<th>Key failure</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>BFS</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>DFS</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Dijkstra</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Bellman-Ford</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Topological sort</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+</tbody>
+</table>
+<details class="success">
+<summary>Answers</summary>
+<table>
+<thead>
+<tr>
+<th>Algorithm</th>
+<th>Graph type</th>
+<th>Finds</th>
+<th>Time</th>
+<th>Space</th>
+<th>Key failure</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>BFS</strong></td>
+<td>Unweighted (directed or undirected)</td>
+<td>Shortest path by edge count, connected components</td>
+<td>O(V+E)</td>
+<td>O(V) — queue holds frontier</td>
+<td>High branching factor exhausts memory at the widest level; not for weighted shortest paths</td>
+</tr>
+<tr>
+<td><strong>DFS</strong></td>
+<td>Any</td>
+<td>Connected components, cycle detection, all paths, SCCs</td>
+<td>O(V+E)</td>
+<td>O(V) — recursion stack</td>
+<td>Stack overflow on degenerate/deep graphs; finds a path, not the shortest path</td>
+</tr>
+<tr>
+<td><strong>Dijkstra</strong></td>
+<td>Weighted, non-negative edges only</td>
+<td>Single-source shortest path</td>
+<td>O((V+E) log V) with min-heap</td>
+<td>O(V+E)</td>
+<td>Negative edges — a negative edge can create a shorter path to an already-settled node, violating the greedy invariant</td>
+</tr>
+<tr>
+<td><strong>Bellman-Ford</strong></td>
+<td>Weighted, negative edges allowed (no negative cycles for shortest path)</td>
+<td>Single-source shortest path + negative cycle detection</td>
+<td>O(VE)</td>
+<td>O(V)</td>
+<td>Much slower than Dijkstra; only reach for it when negative edge weights are present</td>
+</tr>
+<tr>
+<td><strong>Topological sort</strong></td>
+<td>DAG (directed acyclic graph) only</td>
+<td>Linear ordering where all edges point forward</td>
+<td>O(V+E)</td>
+<td>O(V)</td>
+<td>Breaks on graphs with cycles — Kahn's algorithm (BFS via in-degree) detects cycles automatically</td>
+</tr>
+</tbody>
+</table>
+</details>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">When it breaks</p>
+<p>BFS breaks in memory-constrained environments for graphs with high branching factor: the frontier queue can grow to O(V) nodes at its widest level. Bidirectional BFS reduces memory by meeting in the middle. DFS breaks for shortest paths in weighted graphs — it finds a path, not the shortest path. Adjacency matrix breaks for sparse graphs: a graph with 1M nodes and 2M edges stored as a matrix requires 1TB of memory; the same graph as an adjacency list requires roughly 16MB. The matrix is only appropriate when the graph is dense (edges ≈ V²).</p>
+</div>
+<hr />
+<h2 id="practice">Practice<a class="headerlink" href="#practice" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<h3 id="leetcode-problems">LeetCode Problems<a class="headerlink" href="#leetcode-problems" title="Permanent link">&para;</a></h3>
+<p><strong>Interview Priority:</strong> Focus on these patterns - they appear in 60% of graph interviews</p>
+<p><strong>Easy (Complete 2-3):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/find-the-town-judge/">997. Find the Town Judge</a> ⭐</p>
+<ul>
+<li>Pattern: <span class="fill-in">[Graph properties]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/find-if-path-exists-in-graph/">1971. Find if Path Exists in Graph</a> ⭐⭐</p>
+<ul>
+<li>Pattern: <span class="fill-in">[DFS/BFS]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Medium (Complete ALL - these are critical):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/number-of-islands/">200. Number of Islands</a> ⭐⭐⭐</p>
+<ul>
+<li>Pattern: <span class="fill-in">[DFS]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/clone-graph/">133. Clone Graph</a> ⭐⭐⭐</p>
+<ul>
+<li>Pattern: <span class="fill-in">[DFS/BFS]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/rotting-oranges/">994. Rotting Oranges</a> ⭐⭐⭐</p>
+<ul>
+<li>Pattern: <span class="fill-in">[Multi-source BFS]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/pacific-atlantic-water-flow/">417. Pacific Atlantic Water Flow</a> ⭐⭐</p>
+<ul>
+<li>Pattern: <span class="fill-in">[DFS/BFS from multiple sources]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/graph-valid-tree/">261. Graph Valid Tree</a> ⭐⭐</p>
+<ul>
+<li>Pattern: <span class="fill-in">[Cycle detection]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Hard (Optional):</strong></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/word-ladder/">127. Word Ladder</a> ⭐⭐<ul>
+<li>Pattern: <span class="fill-in">[BFS]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Next step:</strong> After mastering these, move to "Advanced Graph Algorithms" for Course Schedule, Dijkstra, MST</p>
+<p><strong>Failure modes:</strong></p>
+<ul>
+<li>What happens if the graph has no edges (only isolated nodes) and you run DFS to count connected components — does your algorithm still return the correct count? <span class="fill-in">[Fill in]</span></li>
+<li>How does your BFS shortest-path implementation behave when all nodes in the graph are disconnected components and the target node is unreachable? <span class="fill-in">[Fill in]</span></li>
+</ul>
+</div>
+<hr />
+<h2 id="test-your-understanding">Test Your Understanding<a class="headerlink" href="#test-your-understanding" title="Permanent link">&para;</a></h2>
+<p>Answer these without referring to your notes or implementation.</p>
+<ol>
+<li>
+<p>Why does BFS guarantee the shortest path in an unweighted graph, but DFS does not? Describe the structural reason, not just the rule.</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) BFS's level-order property — it explores all nodes at distance k before any node at distance k+1, so the first time a target node is dequeued its distance is definitionally the minimum; (2) DFS has no such ordering guarantee — it may descend deep into one branch and find a long path before discovering a shorter path in a sibling branch; (3) the structural cause — BFS uses a FIFO queue that enforces breadth-first ordering, while DFS uses a stack (or recursion) that enforces depth-first ordering with no distance guarantee.</p>
+</details>
+</li>
+<li>
+<p>What is the difference between the visited-state arrays needed for directed vs undirected cycle detection? Why does a directed graph require a three-state system?</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) undirected cycle detection uses a boolean visited array and a parent parameter — a back edge to any node other than the immediate parent indicates a cycle; (2) directed cycle detection uses a three-state system: unvisited (0), in current DFS path / "gray" (1), fully explored / "black" (2); (3) why three states are needed — in a directed graph, a back edge to a "gray" node means we've found a cycle on the current path, but a back edge to a "black" node is just a cross-edge and is not a cycle; collapsing these two states would produce false positives (reporting a cycle when the edge is merely a cross-edge to an already-completed DFS subtree).</p>
+</details>
+</li>
+<li>
+<p>A social network has 500 million users and each user averages 200 connections. You need to check if two arbitrary users are connected within 3 hops. Which representation and algorithm do you choose, and what is the approximate cost?</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) representation — adjacency list, because E ≈ 500M × 200 / 2 = 50 billion edges and an adjacency matrix would require 500M² cells (completely infeasible); (2) algorithm — BFS with a depth limit of 3, starting from one user and stopping when the depth exceeds 3 or the target is found; (3) approximate cost — in the worst case BFS explores up to 200³ = 8 million nodes at depth 3 per query; in practice bidirectional BFS (starting from both endpoints) reduces this to roughly 2 × 200^1.5 ≈ 5,600 nodes; (4) practical consideration — distributed graph engines (like Facebook's TAO) shard the graph across machines, so a naive single-machine BFS is not feasible at this scale.</p>
+</details>
+</li>
+<li>
+<p>An adjacency matrix and an adjacency list both store the same graph. Which supports faster "does edge (u,v) exist?" checks, and which supports faster "iterate all neighbours of u" operations?</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) edge existence — adjacency matrix wins with O(1) by direct indexing <code>matrix[u][v]</code>; adjacency list requires O(degree(u)) to scan the neighbour list; (2) iterate all neighbours — adjacency list wins with O(degree(u)) by directly returning the stored list; adjacency matrix requires O(V) to scan the entire row even if the node has only 2 neighbours; (3) the implication — for sparse graphs where most rows in the matrix are nearly empty, the adjacency list dominates; for dense graphs the gap narrows.</p>
+</details>
+</li>
+<li>
+<p>A colleague says "I always use DFS because it uses less memory than BFS." When is this statement wrong, and what is the actual space complexity comparison?</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) when DFS is worse — on a wide, shallow graph (e.g. a star graph with one hub and V-1 leaves), BFS uses O(V) queue space but DFS uses only O(depth) ≈ O(1) stack space, so here DFS is better; but on a long chain graph, DFS uses O(V) recursion stack space while BFS uses O(1) queue space (only a few nodes at each level); (2) the actual complexities — both DFS and BFS are O(V) space in the worst case; (3) the nuance — for very deep graphs, DFS's recursion stack can overflow (Java's default stack is ~500K frames), while BFS's queue is heap-allocated and much safer; so the colleague's rule of thumb can lead to stack overflow bugs on deep graphs.</p>
+</details>
+</li>
+</ol>
+<hr />
+<h2 id="connected-topics">Connected Topics<a class="headerlink" href="#connected-topics" title="Permanent link">&para;</a></h2>
+<div class="bs-callout bs-callout-info">
+<p><strong>Where this topic connects</strong></p>
+<ul>
+<li><strong><a href="../06-trees/">06. Trees</a></strong> — trees are acyclic connected graphs; every tree traversal (DFS/BFS) is a special case of graph traversal with no cycle handling needed → <a href="../06-trees/">06. Trees</a></li>
+<li><strong><a href="../09-union-find/">09. Union-Find</a></strong> — Union-Find detects connectivity and cycles without explicit graph traversal; compare with DFS-based cycle detection → <a href="../09-union-find/">09. Union-Find</a></li>
+<li><strong><a href="../11-advanced-graphs/">11. Advanced Graphs</a></strong> — DFS/BFS are the building blocks; Advanced Graphs adds weighted edges, directed acyclic graphs, and shortest-path guarantees → <a href="../11-advanced-graphs/">11. Advanced Graphs</a></li>
+</ul>
+</div></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = "../.."</script>
+    
+    <script src="../../js/base.js"></script>
+    <script src="../../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

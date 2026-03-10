@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="A framework for algorithms, systems design, and infrastructure." name="description"/>
+<meta content="Richard" name="author"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>How the Machine Actually Works - Software Engineering Study Guide</title>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" rel="stylesheet"/>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css" rel="stylesheet"/>
+<link href="//rsms.me/inter/inter.css" rel="stylesheet" type="text/css"/>
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&amp;subset=latin-ext,latin" rel="stylesheet" type="text/css"/>
+<link href="../../css/bootstrap-custom.min.css" rel="stylesheet"/>
+<link href="../../css/base.min.css" rel="stylesheet"/>
+<link href="../../css/cinder.min.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css" rel="stylesheet"/>
+<link href="../../css/custom.css" rel="stylesheet"/>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="container">
+<!-- Collapsed navigation -->
+<div class="navbar-header">
+<!-- Expander button -->
+<button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<!-- Main title -->
+<a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+</div>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li>
+<a href="../..">Home</a>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Systems Design <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../systems/01-storage-engines/">01. Storage Engines</a>
+</li>
+<li>
+<a href="../../systems/02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+<li>
+<a href="../../systems/03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+<li>
+<a href="../../systems/04-search-and-indexing/">04. Search &amp; Indexing</a>
+</li>
+<li>
+<a href="../../systems/05-caching-patterns/">05. Caching Patterns</a>
+</li>
+<li>
+<a href="../../systems/06-api-design/">06. API Design</a>
+</li>
+<li>
+<a href="../../systems/07-security-patterns/">07. Security Patterns</a>
+</li>
+<li>
+<a href="../../systems/08-rate-limiting/">08. Rate Limiting</a>
+</li>
+<li>
+<a href="../../systems/09-load-balancing/">09. Load Balancing</a>
+</li>
+<li>
+<a href="../../systems/10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+<li>
+<a href="../../systems/11-database-scaling/">11. Database Scaling</a>
+</li>
+<li>
+<a href="../../systems/12-message-queues/">12. Message Queues</a>
+</li>
+<li>
+<a href="../../systems/13-event-sourcing-cqrs/">13. Event Sourcing &amp; CQRS</a>
+</li>
+<li>
+<a href="../../systems/14-stream-processing/">14. Stream Processing</a>
+</li>
+<li>
+<a href="../../systems/15-observability/">15. Observability</a>
+</li>
+<li>
+<a href="../../systems/16-resilience-patterns/">16. Resilience Patterns</a>
+</li>
+<li>
+<a href="../../systems/17-distributed-transactions/">17. Distributed Transactions</a>
+</li>
+<li>
+<a href="../../systems/18-consensus-patterns/">18. Consensus Patterns</a>
+</li>
+<li>
+<a href="../../systems/19-microservices-patterns/">19. Microservices Patterns</a>
+</li>
+<li>
+<a href="../../systems/20-multi-region/">20. Multi-Region Architecture</a>
+</li>
+</ul>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">DSA <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../dsa/01-two-pointers/">01. Two Pointers</a>
+</li>
+<li>
+<a href="../../dsa/02-sliding-window/">02. Sliding Window</a>
+</li>
+<li>
+<a href="../../dsa/03-hash-tables/">03. Hash Tables</a>
+</li>
+<li>
+<a href="../../dsa/04-linked-lists/">04. Linked Lists</a>
+</li>
+<li>
+<a href="../../dsa/05-stacks--queues/">05. Stacks &amp; Queues</a>
+</li>
+<li>
+<a href="../../dsa/06-trees/">06. Trees</a>
+</li>
+<li>
+<a href="../../dsa/07-binary-search/">07. Binary Search</a>
+</li>
+<li>
+<a href="../../dsa/08-heaps/">08. Heaps</a>
+</li>
+<li>
+<a href="../../dsa/09-union-find/">09. Union-Find</a>
+</li>
+<li>
+<a href="../../dsa/10-graphs/">10. Graphs</a>
+</li>
+<li>
+<a href="../../dsa/11-advanced-graphs/">11. Advanced Graphs</a>
+</li>
+<li>
+<a href="../../dsa/12-backtracking/">12. Backtracking</a>
+</li>
+<li>
+<a href="../../dsa/13-dynamic-programming/">13. Dynamic Programming</a>
+</li>
+<li>
+<a href="../../dsa/14-prefix-sums/">14. Prefix Sums</a>
+</li>
+<li>
+<a href="../../dsa/15-intervals/">15. Intervals</a>
+</li>
+</ul>
+</li>
+<li class="dropdown active">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Quick Reference <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../when-it-breaks/">When It Breaks</a>
+</li>
+<li>
+<a href="../back-of-envelope/">Back of the Envelope</a>
+</li>
+<li>
+<a href="../symptom-pattern/">Symptom → Pattern</a>
+</li>
+<li>
+<a href="../staff-interview-strategy/">Staff+ Interview Strategy</a>
+</li>
+<li>
+<a href="../no-new-problems/">No New Problems in CS</a>
+</li>
+<li class="active">
+<a href="./">How the Machine Actually Works</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+<a data-target="#mkdocs_search_modal" data-toggle="modal" href="#">
+<i class="fas fa-search"></i> Search
+                        </a>
+</li>
+<li>
+<a href="../no-new-problems/" rel="prev">
+<i class="fas fa-arrow-left"></i> Previous
+                        </a>
+</li>
+<li class="disabled">
+<a rel="next">
+                            Next <i class="fas fa-arrow-right"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+<ul class="nav bs-sidenav">
+<li class="first-level active"><a href="#how-the-machine-actually-works">How the Machine Actually Works</a></li>
+<li class="second-level"><a href="#1-the-memory-hierarchy">1. The Memory Hierarchy</a></li>
+<li class="second-level"><a href="#2-virtual-memory-mmap">2. Virtual Memory &amp; mmap</a></li>
+<li class="second-level"><a href="#3-user-space-vs-kernel-space">3. User Space vs Kernel Space</a></li>
+<li class="second-level"><a href="#4-the-file-descriptor-model">4. The File Descriptor Model</a></li>
+<li class="second-level"><a href="#5-the-page-cache">5. The Page Cache</a></li>
+<li class="second-level"><a href="#6-how-a-packet-arrives">6. How a Packet Arrives</a></li>
+<li class="second-level"><a href="#7-event-loops-epoll">7. Event Loops &amp; epoll</a></li>
+<li class="second-level"><a href="#interview-anchors">Interview Anchors</a></li>
+</ul>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="how-the-machine-actually-works">How the Machine Actually Works<a class="headerlink" href="#how-the-machine-actually-works" title="Permanent link">¶</a></h1>
+<p class="lead">Seven mental models for the layer below your application code. You do not need to write C to benefit — but every Java performance problem, every "why is this slow" incident, and every systems design question about throughput or latency traces back to one of these.</p>
+<p>Your diagram is officially excellent. By moving the <strong>Interrupt</strong> line from the <strong>TCP Stack</strong> to <strong>epoll (§7)</strong>, you’ve captured the "Push" notification that makes modern servers so fast.</p>
+<p>Here are the step-by-step "traces" for your cheat sheet, following the exact lines you've drawn.</p>
+<hr/>
+<h3 id="life-of-a-network-packet-inbound">Life of a Network Packet (Inbound)<a class="headerlink" href="#life-of-a-network-packet-inbound" title="Permanent link">¶</a></h3>
+<p>Tracing how a "Hello" message gets from the wire to your Java string.</p>
+<ul>
+<li><strong>Step 1: Physical Entry.</strong> Electrical signals hit the <strong>NIC</strong>.</li>
+<li><strong>Step 2: The Silent Write (DMA).</strong> The <strong>NIC</strong> writes the raw bytes directly into <strong>RAM</strong> via <strong>DMA</strong>. The CPU doesn't even know this is happening yet.</li>
+<li><strong>Step 3: The Wake-up Call (Interrupt).</strong> The <strong>NIC</strong> pulls the <strong>Interrupt</strong> line to the <strong>CPU</strong>.</li>
+<li><strong>Step 4: The Logic (TCP Stack).</strong> The <strong>CPU</strong> jumps into the <strong>TCP Stack (§6)</strong>. It reads from <strong>RAM</strong>, verifies the packet, and places it in a <strong>Socket Buffer</strong>.</li>
+<li><strong>Step 5: The Notification.</strong> The <strong>TCP Stack</strong> sends an <strong>Interrupt/Signal</strong> to <strong>epoll (§7)</strong> saying, <em>"Data is ready for the FD associated with this socket!"</em></li>
+<li><strong>Step 6: The Return.</strong> Your Java code, which was stuck at the <strong>System Call Interface</strong> on an <code>epoll_wait()</code>, finally receives a response and resumes execution in <strong>User Space</strong>.</li>
+</ul>
+<h3 id="life-of-a-file-write-outbound">Life of a File Write (Outbound)<a class="headerlink" href="#life-of-a-file-write-outbound" title="Permanent link">¶</a></h3>
+<p>Tracing how <code>file.write("data")</code> actually becomes permanent.</p>
+<ul>
+<li><strong>Step 1: The Request.</strong> <strong>Java code</strong> calls <code>write()</code>, moving through the <strong>JVM</strong> and <strong>libc</strong>.</li>
+<li><strong>Step 2: The Gate.</strong> The request hits the <strong>System Call Interface</strong>. The <strong>CPU</strong> switches to <strong>Ring 0</strong>.</li>
+<li><strong>Step 3: The Desk Work.</strong> The Kernel checks the <strong>fd table (§4)</strong> to find the physical destination.</li>
+<li><strong>Step 4: The Staging Area.</strong> Data is copied into the <strong>Page Cache (§5)</strong> in <strong>RAM</strong>. To the Java app, the write is now "done" (this is why writes feel so fast).</li>
+<li><strong>Step 5: The Physical Write.</strong> Later, the Kernel tells the <strong>SSD / HDD</strong> to grab the data from <strong>RAM</strong> via <strong>DMA</strong>.</li>
+<li><strong>Step 6: The Completion.</strong> The <strong>SSD</strong> sends an <strong>Interrupt</strong> to the <strong>CPU</strong> once the electrons are safely trapped in the drive, marking the page in cache as "clean."</li>
+</ul>
+<p><div class="mxgraph" data-mxgraph='{"toolbar-position": "bottom", "toolbar-nohide": "0", "tooltips": "1", "border": 5, "resize": "1", "edit": "_blank", "lightbox": "1", "toolbar": "pages tags zoom layers lightbox", "xml": "&lt;mxfile host=\"Electron\" agent=\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.7.17 Chrome/128.0.6613.36 Electron/32.0.1 Safari/537.36\" version=\"24.7.17\"&gt;\n  &lt;diagram name=\"machine-diagram\" id=\"0\"&gt;\n    &lt;mxGraphModel dx=\"1194\" dy=\"883\" grid=\"1\" gridSize=\"10\" guides=\"1\" tooltips=\"1\" connect=\"1\" arrows=\"1\" fold=\"1\" page=\"1\" pageScale=\"1\" pageWidth=\"1100\" pageHeight=\"850\" math=\"0\" shadow=\"0\"&gt;\n      &lt;root&gt;\n        &lt;mxCell id=\"0\"/&gt;\n        &lt;mxCell id=\"1\" parent=\"0\"/&gt;\n        &lt;mxCell id=\"band_us\" value=\"USER SPACE \u00b7 Ring 3\" style=\"text;html=1;strokeColor=#6c8ebf;fillColor=#dae8fc;align=left;verticalAlign=bottom;whiteSpace=wrap;rounded=0;fontSize=13;fontStyle=1;spacingLeft=8;spacingTop=6;\" parent=\"1\" vertex=\"1\"&gt;\n          &lt;mxGeometry x=\"20\" y=\"60\" width=\"920\" height=\"100\" as=\"geometry\"/&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"band_ks\" value=\"KERNEL SPACE \u00b7 Ring 0\" style=\"text;html=1;strokeColor=#d6b656;fillColor=#fff2cc;align=left;verticalAlign=bottom;whiteSpace=wrap;rounded=0;fontSize=13;fontStyle=1;spacingLeft=8;spacingTop=6;\" parent=\"1\" vertex=\"1\"&gt;\n          &lt;mxGeometry x=\"20\" y=\"230\" width=\"920\" height=\"150\" as=\"geometry\"/&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"band_hw\" value=\"HARDWARE\" style=\"text;html=1;strokeColor=#9673a6;fillColor=#e1d5e7;align=left;verticalAlign=bottom;whiteSpace=wrap;rounded=0;fontSize=13;fontStyle=1;spacingLeft=8;spacingTop=6;\" parent=\"1\" vertex=\"1\"&gt;\n          &lt;mxGeometry x=\"20\" y=\"400\" width=\"920\" height=\"200\" as=\"geometry\"/&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"java\" value=\"Java code\" style=\"rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;\" parent=\"1\" vertex=\"1\"&gt;\n          &lt;mxGeometry x=\"50\" y=\"80\" width=\"130\" height=\"50\" as=\"geometry\"/&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"jvm\" value=\"JVM&amp;#10;Java stdlib\" style=\"rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;\" parent=\"1\" vertex=\"1\"&gt;\n          &lt;mxGeometry x=\"217\" y=\"80\" width=\"130\" height=\"50\" as=\"geometry\"/&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"libc\" value=\"libc&amp;#10;glibc / libSystem\" style=\"rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;\" parent=\"1\" vertex=\"1\"&gt;\n          &lt;mxGeometry x=\"380\" y=\"80\" width=\"150\" height=\"50\" as=\"geometry\"/&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"fd_table\" value=\"fd table&amp;#10;\u00a74\" style=\"rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;\" parent=\"1\" vertex=\"1\"&gt;\n          &lt;mxGeometry x=\"220\" y=\"265\" width=\"114\" height=\"60\" as=\"geometry\"/&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"vm\" value=\"Virtual Memory&amp;#10;page table \u00a72\" style=\"rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;\" parent=\"1\" vertex=\"1\"&gt;\n          &lt;mxGeometry x=\"378\" y=\"265\" width=\"144\" height=\"60\" as=\"geometry\"/&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"page_cache\" value=\"Page Cache&amp;#10;\u00a75\" style=\"rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;\" parent=\"1\" vertex=\"1\"&gt;\n          &lt;mxGeometry x=\"559\" y=\"265\" width=\"132\" height=\"60\" as=\"geometry\"/&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"tcp\" value=\"TCP Stack&amp;#10;socket buffers \u00a76\" style=\"rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;\" parent=\"1\" vertex=\"1\"&gt;\n          &lt;mxGeometry x=\"734\" y=\"265\" width=\"158\" height=\"60\" as=\"geometry\"/&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"epoll\" value=\"epoll \u00a77&amp;#10;(readiness watcher)\" style=\"rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;dashed=1;dashPattern=8 8;\" parent=\"1\" vertex=\"1\"&gt;\n          &lt;mxGeometry x=\"40\" y=\"265\" width=\"116\" height=\"60\" as=\"geometry\"/&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"cpu\" value=\"CPU&amp;#10;L1 / L2 / L3 cache \u00a71\" style=\"rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;\" parent=\"1\" vertex=\"1\"&gt;\n          &lt;mxGeometry x=\"130\" y=\"475\" width=\"140\" height=\"62\" as=\"geometry\"/&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"ram\" value=\"RAM&amp;#10;physical\" style=\"rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;\" parent=\"1\" vertex=\"1\"&gt;\n          &lt;mxGeometry x=\"390\" y=\"475\" width=\"120\" height=\"62\" as=\"geometry\"/&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"ssd\" value=\"SSD / HDD&amp;#10;durable storage\" style=\"rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;\" parent=\"1\" vertex=\"1\"&gt;\n          &lt;mxGeometry x=\"550\" y=\"470\" width=\"152\" height=\"62\" as=\"geometry\"/&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"nic\" value=\"NIC&amp;#10;network card\" style=\"rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;\" parent=\"1\" vertex=\"1\"&gt;\n          &lt;mxGeometry x=\"748\" y=\"470\" width=\"130\" height=\"62\" as=\"geometry\"/&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"e_java_jvm\" style=\"edgeStyle=orthogonalEdgeStyle;rounded=0;\" parent=\"1\" source=\"java\" target=\"jvm\" edge=\"1\"&gt;\n          &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"e_jvm_libc\" style=\"edgeStyle=orthogonalEdgeStyle;rounded=0;\" parent=\"1\" source=\"jvm\" target=\"libc\" edge=\"1\"&gt;\n          &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"e_libc_fd\" style=\"rounded=0;strokeColor=#336699;edgeStyle=orthogonalEdgeStyle;\" parent=\"1\" source=\"pkCUEB-S_cpDPBgExl2t-8\" target=\"fd_table\" edge=\"1\"&gt;\n          &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n            &lt;mxPoint x=\"277\" y=\"200\" as=\"sourcePoint\"/&gt;\n            &lt;Array as=\"points\"&gt;\n              &lt;mxPoint x=\"277\" y=\"210\"/&gt;\n              &lt;mxPoint x=\"277\" y=\"210\"/&gt;\n            &lt;/Array&gt;\n          &lt;/mxGeometry&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"e_libc_fd_lbl\" value=\"open() read() write() accept()\" style=\"edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;\" parent=\"e_libc_fd\" vertex=\"1\" connectable=\"0\"&gt;\n          &lt;mxGeometry x=\"0.85\" relative=\"1\" as=\"geometry\"&gt;\n            &lt;mxPoint y=\"-21\" as=\"offset\"/&gt;\n          &lt;/mxGeometry&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"e_libc_vm\" style=\"edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#336699;\" parent=\"1\" source=\"pkCUEB-S_cpDPBgExl2t-8\" target=\"vm\" edge=\"1\"&gt;\n          &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n            &lt;Array as=\"points\"&gt;\n              &lt;mxPoint x=\"450\" y=\"260\"/&gt;\n              &lt;mxPoint x=\"450\" y=\"260\"/&gt;\n            &lt;/Array&gt;\n          &lt;/mxGeometry&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"e_libc_vm_lbl\" value=\"mmap()\" style=\"edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;\" parent=\"e_libc_vm\" vertex=\"1\" connectable=\"0\"&gt;\n          &lt;mxGeometry x=\"0.85\" relative=\"1\" as=\"geometry\"&gt;\n            &lt;mxPoint y=\"-21\" as=\"offset\"/&gt;\n          &lt;/mxGeometry&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"e_libc_pc\" style=\"edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#336699;\" parent=\"1\" source=\"pkCUEB-S_cpDPBgExl2t-8\" target=\"page_cache\" edge=\"1\"&gt;\n          &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n            &lt;Array as=\"points\"&gt;\n              &lt;mxPoint x=\"625\" y=\"210\"/&gt;\n              &lt;mxPoint x=\"625\" y=\"210\"/&gt;\n            &lt;/Array&gt;\n          &lt;/mxGeometry&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"e_libc_pc_lbl\" value=\"fsync()\" style=\"edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;\" parent=\"e_libc_pc\" vertex=\"1\" connectable=\"0\"&gt;\n          &lt;mxGeometry x=\"0.85\" relative=\"1\" as=\"geometry\"&gt;\n            &lt;mxPoint x=\"1\" y=\"-21\" as=\"offset\"/&gt;\n          &lt;/mxGeometry&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"e_libc_tcp\" style=\"edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#336699;\" parent=\"1\" source=\"pkCUEB-S_cpDPBgExl2t-8\" target=\"tcp\" edge=\"1\"&gt;\n          &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n            &lt;Array as=\"points\"&gt;\n              &lt;mxPoint x=\"813\" y=\"210\"/&gt;\n              &lt;mxPoint x=\"813\" y=\"210\"/&gt;\n            &lt;/Array&gt;\n          &lt;/mxGeometry&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"e_libc_tcp_lbl\" value=\"socket() connect() bind()\" style=\"edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;\" parent=\"e_libc_tcp\" vertex=\"1\" connectable=\"0\"&gt;\n          &lt;mxGeometry x=\"0.85\" relative=\"1\" as=\"geometry\"&gt;\n            &lt;mxPoint y=\"-21\" as=\"offset\"/&gt;\n          &lt;/mxGeometry&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"e_libc_epoll\" style=\"rounded=0;strokeColor=#336699;edgeStyle=orthogonalEdgeStyle;\" parent=\"1\" source=\"pkCUEB-S_cpDPBgExl2t-8\" target=\"epoll\" edge=\"1\"&gt;\n          &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n            &lt;mxPoint x=\"118\" y=\"190\" as=\"sourcePoint\"/&gt;\n            &lt;Array as=\"points\"&gt;\n              &lt;mxPoint x=\"90\" y=\"250\"/&gt;\n              &lt;mxPoint x=\"90\" y=\"250\"/&gt;\n            &lt;/Array&gt;\n          &lt;/mxGeometry&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"e_libc_epoll_lbl\" value=\"epoll_wait()\" style=\"edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;\" parent=\"e_libc_epoll\" vertex=\"1\" connectable=\"0\"&gt;\n          &lt;mxGeometry x=\"0.85\" relative=\"1\" as=\"geometry\"&gt;\n            &lt;mxPoint y=\"-21\" as=\"offset\"/&gt;\n          &lt;/mxGeometry&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"e_fd_pc\" value=\"file fds\" style=\"edgeStyle=orthogonalEdgeStyle;rounded=0;dashed=1;endArrow=open;endFill=0;strokeColor=#aaaaaa;curved=1;fontSize=9;entryX=0.25;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;\" parent=\"1\" source=\"fd_table\" target=\"page_cache\" edge=\"1\"&gt;\n          &lt;mxGeometry x=\"-0.4746\" y=\"5\" relative=\"1\" as=\"geometry\"&gt;\n            &lt;mxPoint as=\"offset\"/&gt;\n          &lt;/mxGeometry&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"e_fd_tcp\" value=\"socket fds\" style=\"edgeStyle=orthogonalEdgeStyle;rounded=0;dashed=1;endArrow=open;endFill=0;strokeColor=#aaaaaa;curved=1;fontSize=9;entryX=0.25;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;\" parent=\"1\" source=\"fd_table\" target=\"tcp\" edge=\"1\"&gt;\n          &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n            &lt;Array as=\"points\"&gt;\n              &lt;mxPoint x=\"277\" y=\"350\"/&gt;\n              &lt;mxPoint x=\"774\" y=\"350\"/&gt;\n            &lt;/Array&gt;\n          &lt;/mxGeometry&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"e_fd_epoll\" value=\"watch\" style=\"edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=open;endFill=0;strokeColor=#336699;curved=1;fontSize=9;\" parent=\"1\" source=\"epoll\" target=\"fd_table\" edge=\"1\"&gt;\n          &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"e_tlb_ram\" value=\"miss: reads&amp;#10;page table\" style=\"rounded=0;strokeColor=#9673a6;dashed=1;fontSize=9;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;curved=1;edgeStyle=orthogonalEdgeStyle;\" parent=\"1\" source=\"nTORayONtuPFKuSO69a0-1\" target=\"ram\" edge=\"1\"&gt;\n          &lt;mxGeometry x=\"-0.2889\" y=\"-7\" relative=\"1\" as=\"geometry\"&gt;\n            &lt;mxPoint y=\"1\" as=\"offset\"/&gt;\n          &lt;/mxGeometry&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"e_cpu_ram\" style=\"edgeStyle=entityRelationEdgeStyle;rounded=0;startArrow=block;startFill=1;endArrow=block;endFill=1;\" parent=\"1\" source=\"cpu\" target=\"ram\" edge=\"1\"&gt;\n          &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"pkCUEB-S_cpDPBgExl2t-1\" value=\"instructions\" style=\"edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;\" vertex=\"1\" connectable=\"0\" parent=\"e_cpu_ram\"&gt;\n          &lt;mxGeometry x=\"-0.0842\" y=\"-2\" relative=\"1\" as=\"geometry\"&gt;\n            &lt;mxPoint as=\"offset\"/&gt;\n          &lt;/mxGeometry&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"e_nic_ram\" value=\"DMA\" style=\"edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;curved=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;\" parent=\"1\" source=\"nic\" target=\"ram\" edge=\"1\"&gt;\n          &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n            &lt;Array as=\"points\"&gt;\n              &lt;mxPoint x=\"813\" y=\"550\"/&gt;\n              &lt;mxPoint x=\"450\" y=\"550\"/&gt;\n            &lt;/Array&gt;\n          &lt;/mxGeometry&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"e_nic_tcp\" value=\"interrupt\" style=\"edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;curved=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;\" parent=\"1\" source=\"nic\" target=\"cpu\" edge=\"1\"&gt;\n          &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n            &lt;Array as=\"points\"&gt;\n              &lt;mxPoint x=\"813\" y=\"570\"/&gt;\n              &lt;mxPoint x=\"200\" y=\"570\"/&gt;\n            &lt;/Array&gt;\n          &lt;/mxGeometry&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"nTORayONtuPFKuSO69a0-1\" value=\"MMU / TLB&amp;lt;br style=&amp;quot;font-size: 10px;&amp;quot;&amp;gt;(translation cache)\" style=\"shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;strokeColor=#9673A6;fontSize=10;\" parent=\"1\" vertex=\"1\"&gt;\n          &lt;mxGeometry x=\"280\" y=\"410\" width=\"70\" height=\"45\" as=\"geometry\"/&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"nTORayONtuPFKuSO69a0-2\" value=\"address&amp;#10;translation\" style=\"rounded=0;strokeColor=#9673a6;fontSize=9;exitX=0.5;exitY=0;exitDx=0;exitDy=0;edgeStyle=orthogonalEdgeStyle;entryX=0;entryY=0.5;entryDx=0;entryDy=0;curved=1;\" parent=\"1\" source=\"cpu\" target=\"nTORayONtuPFKuSO69a0-1\" edge=\"1\"&gt;\n          &lt;mxGeometry x=\"-0.1429\" y=\"-7\" relative=\"1\" as=\"geometry\"&gt;\n            &lt;Array as=\"points\"&gt;\n              &lt;mxPoint x=\"200\" y=\"433\"/&gt;\n            &lt;/Array&gt;\n            &lt;mxPoint x=\"1\" y=\"1\" as=\"offset\"/&gt;\n          &lt;/mxGeometry&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"pkCUEB-S_cpDPBgExl2t-6\" value=\"\" style=\"edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;\" edge=\"1\" parent=\"1\" source=\"pkCUEB-S_cpDPBgExl2t-4\" target=\"cpu\"&gt;\n          &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"pkCUEB-S_cpDPBgExl2t-7\" value=\"&amp;lt;font style=&amp;quot;font-size: 9px;&amp;quot;&amp;gt;interrupt&amp;lt;/font&amp;gt;\" style=\"edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];\" vertex=\"1\" connectable=\"0\" parent=\"pkCUEB-S_cpDPBgExl2t-6\"&gt;\n          &lt;mxGeometry x=\"-0.0857\" relative=\"1\" as=\"geometry\"&gt;\n            &lt;mxPoint as=\"offset\"/&gt;\n          &lt;/mxGeometry&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"pkCUEB-S_cpDPBgExl2t-4\" value=\"\" style=\"points=[[0.145,0.145,0],[0.5,0,0],[0.855,0.145,0],[1,0.5,0],[0.855,0.855,0],[0.5,1,0],[0.145,0.855,0],[0,0.5,0]];shape=mxgraph.bpmn.event;html=1;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;verticalAlign=top;align=center;perimeter=ellipsePerimeter;outlineConnect=0;aspect=fixed;outline=standard;symbol=timer;\" vertex=\"1\" parent=\"1\"&gt;\n          &lt;mxGeometry x=\"40\" y=\"496\" width=\"20\" height=\"20\" as=\"geometry\"/&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"pkCUEB-S_cpDPBgExl2t-8\" value=\"System Call Interface\" style=\"text;html=1;strokeColor=#d6b656;fillColor=#D6B656;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1;spacingLeft=8;spacingTop=0;\" vertex=\"1\" parent=\"1\"&gt;\n          &lt;mxGeometry x=\"20\" y=\"180\" width=\"920\" height=\"25\" as=\"geometry\"/&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"pkCUEB-S_cpDPBgExl2t-9\" style=\"edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#336699;\" edge=\"1\" parent=\"1\" source=\"libc\" target=\"pkCUEB-S_cpDPBgExl2t-8\"&gt;\n          &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n            &lt;mxPoint x=\"460\" y=\"195\" as=\"sourcePoint\"/&gt;\n            &lt;mxPoint x=\"460\" y=\"275\" as=\"targetPoint\"/&gt;\n            &lt;Array as=\"points\"&gt;\n              &lt;mxPoint x=\"450\" y=\"150\"/&gt;\n              &lt;mxPoint x=\"450\" y=\"150\"/&gt;\n            &lt;/Array&gt;\n          &lt;/mxGeometry&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"pkCUEB-S_cpDPBgExl2t-12\" value=\"interrupt\" style=\"edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;curved=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;\" edge=\"1\" parent=\"1\" source=\"tcp\" target=\"epoll\"&gt;\n          &lt;mxGeometry x=\"-0.5826\" y=\"-10\" relative=\"1\" as=\"geometry\"&gt;\n            &lt;mxPoint x=\"823\" y=\"542\" as=\"sourcePoint\"/&gt;\n            &lt;mxPoint x=\"210\" y=\"547\" as=\"targetPoint\"/&gt;\n            &lt;Array as=\"points\"&gt;\n              &lt;mxPoint x=\"813\" y=\"370\"/&gt;\n              &lt;mxPoint x=\"98\" y=\"370\"/&gt;\n            &lt;/Array&gt;\n            &lt;mxPoint as=\"offset\"/&gt;\n          &lt;/mxGeometry&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"pkCUEB-S_cpDPBgExl2t-13\" value=\"\" style=\"endArrow=none;html=1;rounded=0;jumpStyle=none;strokeColor=none;\" edge=\"1\" parent=\"1\"&gt;\n          &lt;mxGeometry width=\"50\" height=\"50\" relative=\"1\" as=\"geometry\"&gt;\n            &lt;mxPoint x=\"40\" y=\"375\" as=\"sourcePoint\"/&gt;\n            &lt;mxPoint x=\"920\" y=\"362\" as=\"targetPoint\"/&gt;\n          &lt;/mxGeometry&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"e_vm_ram\" value=\"update page table\" style=\"rounded=0;startArrow=none;startFill=0;endArrow=block;endFill=1;fontSize=9;jumpStyle=arc;\" parent=\"1\" source=\"vm\" target=\"ram\" edge=\"1\"&gt;\n          &lt;mxGeometry x=\"0.3548\" relative=\"1\" as=\"geometry\"&gt;\n            &lt;mxPoint as=\"offset\"/&gt;\n          &lt;/mxGeometry&gt;\n        &lt;/mxCell&gt;\n        &lt;mxCell id=\"e_pc_ssd\" value=\"read / writeback / fsync\" style=\"rounded=0;startArrow=none;startFill=0;endArrow=block;endFill=1;fontSize=9;jumpStyle=arc;\" parent=\"1\" source=\"page_cache\" target=\"ssd\" edge=\"1\"&gt;\n          &lt;mxGeometry x=\"0.404\" relative=\"1\" as=\"geometry\"&gt;\n            &lt;mxPoint as=\"offset\"/&gt;\n          &lt;/mxGeometry&gt;\n        &lt;/mxCell&gt;\n      &lt;/root&gt;\n    &lt;/mxGraphModel&gt;\n  &lt;/diagram&gt;\n&lt;/mxfile&gt;"}' style="max-width:100%;border:1px solid transparent;"></div></p>
+<p><strong>How to read this diagram:</strong></p>
+<ul>
+<li><strong>Three bands</strong> = three privilege/ownership zones: your code (top), the OS kernel (middle), hardware (bottom)</li>
+<li><strong>Arrows within user space</strong> = normal function calls, no kernel crossing, no cost</li>
+<li><strong>Syscall fan</strong> = all syscalls originate from libc, pass through a single junction point, then branch to their kernel target — the label on each branch is the syscall name; <code>fsync()</code> is the important one to notice: it goes directly to Page Cache and forces a synchronous flush to disk, which is why database commits are slow</li>
+<li><strong>Page Cache is not a direct syscall target</strong> — file fds in the fd table point into the page cache; the dashed arcs below the kernel boxes show this mapping</li>
+<li><strong>Vertical arrows crossing the lower boundary</strong> = kernel abstractions backed by physical hardware (Virtual Memory page table ↔ MMU/TLB, Page Cache ↔ disk)</li>
+<li><strong>MMU/TLB</strong> (hardware band) = the hardware unit that translates virtual → physical addresses on every memory access; the kernel's "Virtual Memory / page table" box above it is the OS-managed data structure the MMU reads on a TLB miss — the OS writes the table, the MMU executes it</li>
+<li><strong>NIC arrows</strong> = packet arrival: NIC writes directly to RAM (DMA, no CPU), then fires an interrupt so the kernel TCP stack can process the payload</li>
+<li><strong>epoll</strong> (dashed box) = a watcher, not a data store — sits alongside the fd table and delivers readiness events; dashed border signals this distinction</li>
+</ul>
+<p>Each section below zooms into one box or arrow.</p>
+<hr/>
+<h2 id="1-the-memory-hierarchy">1. The Memory Hierarchy<a class="headerlink" href="#1-the-memory-hierarchy" title="Permanent link">¶</a></h2>
+<p>Every read and write hits the fastest available layer and stops there. The latency numbers live in <a href="../back-of-envelope/">Back of the Envelope</a> — the key implication here is <em>how the CPU fetches data</em>.</p>
+<p>The CPU does not read individual variables. It reads <strong>cache lines</strong> — 64-byte chunks. If you read <code>array[0]</code>, the CPU fetches bytes 0–63 into L1. Reading <code>array[1]</code> is free — it is already there.</p>
+<div class="mermaid">---
+title: Cache Miss Cascade
+---
+graph TB
+    A["CPU requests address 0x7fff1000"]
+    B{"In L1?\n~1 ns"}
+    C{"In L2?\n~5 ns"}
+    D{"In L3?\n~20 ns"}
+    E["Fetch from RAM\n~100 ns\nLoad 64-byte cache line"]
+    F["Return value to CPU"]
+
+    A --&gt; B
+    B --&gt;|hit| F
+    B --&gt;|miss| C
+    C --&gt;|hit| F
+    C --&gt;|miss| D
+    D --&gt;|hit| F
+    D --&gt;|miss| E
+    E --&gt; F</div>
+<p><strong>Cache key:</strong> physical memory address, at 64-byte cache-line granularity.</p>
+<p><strong>Eviction:</strong> set-associative LRU — each address maps to a fixed set of cache slots; the least-recently-used line in that set is evicted when the set is full. Hardware-managed, fully automatic.</p>
+<p><strong>Sequential vs random access:</strong></p>
+<p>Sequential access (iterating an array) stays in L1/L2 — each cache line fetch covers 8–16 consecutive elements. Random access (following pointer chains like a linked list or tree) likely lands in a new cache line on every step, causing a miss every time.</p>
+<p>This is the real reason columnar storage beats row storage for analytics: scanning one column reads contiguous bytes. Row storage drags in columns you do not need, evicting useful cache lines with every read.</p>
+<div class="admonition note">
+<p class="admonition-title">Event loops and cache efficiency</p>
+<p>A thread-per-request server context-switches between many thread stacks, evicting L1/L2 state on every switch. An event-loop thread runs continuously — its hot code paths stay warm in cache. The cache argument is real but secondary; the dominant win is avoiding the ~1MB per-thread stack overhead at high concurrency.</p>
+</div>
+<hr/>
+<h2 id="2-virtual-memory-mmap">2. Virtual Memory &amp; mmap<a class="headerlink" href="#2-virtual-memory-mmap" title="Permanent link">¶</a></h2>
+<p>Every process believes it has the entire 64-bit address space to itself. The OS and CPU maintain this illusion together.</p>
+<div class="mermaid">---
+title: Virtual → Physical Address Translation
+---
+graph TB
+    A["Process A\nvirtual addr 0x7fff1000"]
+    B["Process B\nvirtual addr 0x7fff1000"]
+    C["MMU\n(CPU hardware)\npage table lookup"]
+    D["Physical RAM — page 42"]
+    E["Physical RAM — page 99"]
+
+    A --&gt; C
+    B --&gt; C
+    C --&gt;|"Process A maps to"| D
+    C --&gt;|"Process B maps to"| E</div>
+<p>The <strong>MMU</strong> (Memory Management Unit) is CPU hardware that intercepts every memory access and translates virtual → physical addresses using a <strong>page table</strong> the OS maintains per process. Same virtual address in two processes → different physical RAM. This is why processes cannot overwrite each other's memory — the CPU enforces it in hardware.</p>
+<p><strong>Pages and page faults:</strong></p>
+<p>Memory is managed in 4 KB chunks called pages. When your process calls <code>malloc(1 GB)</code>, the OS does not immediately give you 1 GB of RAM. It allocates 1 GB of <em>virtual address space</em> and marks those pages unallocated. When you first touch a page, the CPU raises a <strong>page fault</strong> — the OS handles it, maps a physical page, and resumes your code. You never see this happen.</p>
+<p>This is the same indirection pattern as virtual IPs → physical servers, virtual threads → OS threads: decouple the name from the physical resource so the OS can manage it independently.</p>
+<p><strong>mmap vs malloc:</strong></p>
+<p><code>mmap()</code> is a syscall that maps a region of virtual address space — either backed by a file on disk, or anonymous (just RAM):</p>
+<pre class="highlight"><code class="language-c">// anonymous — backed by RAM
+void *p = mmap(NULL, size, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0);
+
+// file-backed — virtual address space backed by a file
+void *p = mmap(NULL, size, PROT_READ, MAP_PRIVATE, fd, 0);</code></pre>
+<p><code>malloc()</code> is <strong>not</strong> a syscall — it is a libc function managing a pool of memory it already obtained from <code>mmap</code>. It subdivides that pool without going to the kernel on each call. Only when the pool is exhausted does malloc call <code>mmap</code> again.</p>
+<pre class="highlight"><code>malloc(128 bytes) → subdivide existing pool   → no syscall
+malloc(128 bytes) → pool exhausted            → mmap() syscall → kernel allocates virtual pages → return new pool chunk</code></pre>
+<p><code>malloc</code> is to <code>mmap</code> as a connection pool is to opening a raw TCP socket — batch the expensive kernel calls.</p>
+<hr/>
+<h2 id="3-user-space-vs-kernel-space">3. User Space vs Kernel Space<a class="headerlink" href="#3-user-space-vs-kernel-space" title="Permanent link">¶</a></h2>
+<p>The CPU enforces two privilege levels in hardware.</p>
+<div class="mermaid">---
+title: CPU Privilege Rings
+---
+graph TB
+    A["Ring 3 — User Space\nYour code, JVM, libc\nCannot access hardware directly"]
+    B["Ring 0 — Kernel Space\nOS kernel, device drivers\nFull hardware access"]
+
+    A --&gt;|"syscall instruction\n(controlled entry point)"| B
+    B --&gt;|"sysret instruction\n(restores user context)"| A</div>
+<p>A bug in user space cannot corrupt the kernel — the CPU boundary is enforced in hardware. A bug in kernel space can crash the entire machine.</p>
+<p><strong>What happens during a syscall:</strong></p>
+<pre class="highlight"><code>1. libc puts arguments in CPU registers
+2. Executes the 'syscall' CPU instruction
+3. CPU saves current register state
+4. CPU switches to kernel stack
+5. Privilege level → Ring 0
+6. Kernel runs — does the actual work
+7. Kernel puts return value in a register
+8. 'sysret' instruction restores register state
+9. Back in Ring 3, your code continues</code></pre>
+<p><strong>Cost:</strong> ~100 ns–1 µs per crossing — register save/restore, privilege switch, potential cache effects. Cheap individually, but code that issues a syscall per element in a loop pays this on every iteration.</p>
+<p><strong>The full stack from Java to hardware:</strong></p>
+<pre class="highlight"><code>Java code
+    ↓
+Java stdlib  (java.io, java.net, java.nio)
+    ↓
+JVM          (HotSpot — JNI bridge to native code)
+    ↓
+libc         (glibc on Linux, libSystem on macOS)
+    ↓  ── syscall boundary — Ring 3 → Ring 0 ──
+kernel
+    ↓
+device drivers
+    ↓
+hardware</code></pre>
+<p>libc is a regular <code>.so</code> library that wraps the <code>syscall</code> CPU instruction in normal C function signatures. Each OS ships its own libc wrapping its own syscalls — this is why a Linux binary does not run on macOS even when both support <code>read()</code>. Java sidesteps this: the JVM is the portability layer, and the JVM itself is compiled per platform.</p>
+<hr/>
+<h2 id="4-the-file-descriptor-model">4. The File Descriptor Model<a class="headerlink" href="#4-the-file-descriptor-model" title="Permanent link">¶</a></h2>
+<p>When a process opens anything — a file, a socket, a pipe — the kernel returns an <strong>integer</strong>. That integer is the file descriptor.</p>
+<div class="mermaid">---
+title: Process fd Table → Kernel Objects
+---
+graph LR
+    subgraph "Process fd table"
+        F0["fd 0"]
+        F1["fd 1"]
+        F2["fd 2"]
+        F3["fd 3"]
+        F4["fd 4"]
+        F5["fd 17"]
+    end
+
+    subgraph "Kernel objects"
+        K0["stdin  (keyboard)"]
+        K1["stdout (terminal)"]
+        K2["stderr (terminal)"]
+        K3["open file: app.log"]
+        K4["TCP socket — client A"]
+        K5["TCP socket — client B"]
+    end
+
+    F0 --&gt; K0
+    F1 --&gt; K1
+    F2 --&gt; K2
+    F3 --&gt; K3
+    F4 --&gt; K4
+    F5 --&gt; K5</div>
+<p>The process never touches the kernel object directly — it passes the integer back:</p>
+<pre class="highlight"><code class="language-c">read(4, buffer, 1024)   // read from whatever fd 4 points to
+write(1, "hello\n", 6)  // write to stdout (fd 1 is always stdout)
+close(4)                // release fd 4</code></pre>
+<p><strong>The same API works for everything.</strong> A file on disk, a TCP socket, a WebSocket, a pipe, <code>/dev/null</code>, a timer — all <code>read</code>/<code>write</code>/<code>close</code>. This is Unix's "everything is a file" design.</p>
+<p><strong>fd 0, 1, 2 are pre-assigned to every process:</strong></p>
+<table>
+<thead>
+<tr>
+<th>fd</th>
+<th>Name</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>stdin</td>
+<td>keyboard</td>
+</tr>
+<tr>
+<td>1</td>
+<td>stdout</td>
+<td>terminal</td>
+</tr>
+<tr>
+<td>2</td>
+<td>stderr</td>
+<td>terminal</td>
+</tr>
+</tbody>
+</table>
+<p>Shell redirection (<code>&gt; file.txt</code>) works by opening the file, then calling <code>dup2()</code> to copy the new fd onto fd 1. The program writes to fd 1 as usual and never knows it is writing to a file.</p>
+<p><strong>WebSocket server with 1 million connections:</strong></p>
+<p>The server has one listening socket on port 443 — that fd stays open and keeps accepting. Each accepted connection gets its own fd. The port is a service identifier, not a connection slot — TCP connections are tracked by the 4-tuple <code>(client IP, client port, server IP, server port)</code>, not the port alone. The per-process fd limit is configurable via <code>ulimit -n</code>; production servers set it to 1,000,000+.</p>
+<p><strong>Observe your own process's fds:</strong></p>
+<pre class="highlight"><code class="language-bash">ls /proc/$$/fd          # Linux — all fds the shell has open
+lsof -p &lt;pid&gt;           # macOS/Linux — fds + what each points to
+strace -p &lt;pid&gt;         # trace all syscalls including fd operations</code></pre>
+<hr/>
+<h2 id="5-the-page-cache">5. The Page Cache<a class="headerlink" href="#5-the-page-cache" title="Permanent link">¶</a></h2>
+<p>The kernel maintains a <strong>page cache</strong> — a region of RAM used to buffer disk I/O, shared across all processes on the machine.</p>
+<div class="admonition warning">
+<p class="admonition-title">This is not the same as CPU cache</p>
+<p>CPU cache (L1/L2/L3) is on-chip hardware that buffers RAM contents. The page cache is kernel-managed RAM that buffers disk contents. Different layer, different mechanism — both called "cache" because both avoid hitting the slower layer below.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>CPU Cache</th>
+<th>Page Cache</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hardware or software</td>
+<td>Hardware (on CPU die)</td>
+<td>Software (kernel RAM)</td>
+</tr>
+<tr>
+<td>Buffers</td>
+<td>RAM contents</td>
+<td>Disk contents</td>
+</tr>
+<tr>
+<td>Cache key</td>
+<td>Physical address, 64-byte line</td>
+<td>(device, inode, block offset)</td>
+</tr>
+<tr>
+<td>Eviction policy</td>
+<td>Set-associative LRU (hardware)</td>
+<td>Two-list LRU (kernel software)</td>
+</tr>
+<tr>
+<td>Managed by</td>
+<td>CPU automatically</td>
+<td>Kernel</td>
+</tr>
+<tr>
+<td>Visible to you</td>
+<td>No</td>
+<td><code>free</code> command shows it</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Write path:</strong></p>
+<div class="mermaid">---
+title: Write Path — write() to Disk
+---
+graph LR
+    A["write() syscall"]
+    B["Page cache\n(kernel RAM)\npage marked dirty"]
+    C["Disk"]
+
+    A --&gt;|"fast — writes to RAM\nreturns immediately"| B
+    B --&gt;|"async, seconds later\nkernel writeback thread"| C</div>
+<p><code>write()</code> returns after copying bytes into the page cache. Your process continues. The disk write happens later, asynchronously. This is why file writes feel fast — you are writing to RAM.</p>
+<p><strong>The durability trap:</strong> if the machine crashes before writeback, data is lost. Databases avoid this with <code>fsync(fd)</code> — a syscall that blocks until the kernel flushes all dirty pages for that fd to durable storage. This is why database commits are slow (~1 ms on SSD): the bottleneck is <code>fsync</code>, not the write itself. See <a href="../back-of-envelope/">Back of the Envelope</a> for the SSD fsync number.</p>
+<p><strong>Read path:</strong></p>
+<div class="mermaid">---
+title: Read Path — read() from Disk
+---
+graph LR
+    A["read() syscall"]
+    B{"Page in\ncache?"}
+    C["Return bytes from cache\n(fast — RAM speed)"]
+    D["Read from disk\nload page into cache\nthen return"]
+
+    A --&gt; B
+    B --&gt;|hit| C
+    B --&gt;|miss| D</div>
+<p>Reading the same file twice is near-instant on the second read — the kernel already has it in the page cache. This works across processes: two different programs reading the same file share the cached pages.</p>
+<p><strong>Eviction:</strong> two-list LRU (active + inactive lists). Pages accessed once — like a sequential <code>cat bigfile</code> — stay on the inactive list and are evicted before frequently-accessed pages. One large scan cannot blow out the cache for everything else.</p>
+<hr/>
+<h2 id="6-how-a-packet-arrives">6. How a Packet Arrives<a class="headerlink" href="#6-how-a-packet-arrives" title="Permanent link">¶</a></h2>
+<p>From the physical signal to your <code>read()</code> call returning.</p>
+<div class="mermaid">---
+title: Packet Arrival — Wire to read()
+---
+graph TB
+    A["Physical signal\nelectrical on copper / photons on fibre"]
+    B["NIC hardware\ndecodes signal → bits → Ethernet frame → IP → TCP segment"]
+    C["DMA\nNIC writes payload directly to pre-allocated kernel RAM buffer\nno CPU involvement per byte"]
+    D["Hardware interrupt\nNIC signals CPU: packet is ready"]
+    E["Kernel interrupt handler  (Ring 0)\nparses headers, finds matching socket by 4-tuple"]
+    F["Socket receive buffer\n(kernel RAM)\npayload appended"]
+    G["read() syscall\nprocess copies bytes from socket buffer\ninto process memory"]
+
+    A --&gt; B
+    B --&gt; C
+    C --&gt; D
+    D --&gt; E
+    E --&gt; F
+    F --&gt; G</div>
+<p><strong>Physical signal → bits:</strong> the NIC's analog front end decodes electrical voltages (or light pulses) into binary. You are not writing code that ever sees this — it is handled entirely in NIC hardware.</p>
+<p><strong>DMA (Direct Memory Access):</strong> the kernel pre-authorises the NIC to write directly into a ring buffer in RAM. No CPU instruction executes per byte. The NIC transfers the whole packet then fires one interrupt. Without DMA, the CPU would have to copy every byte from the NIC — at 10 Gbps that would saturate a core entirely.</p>
+<p><strong>Interrupts:</strong> a hardware signal that pauses whatever the CPU is currently doing, saves its state, runs a kernel interrupt handler, then resumes. Interrupts are how hardware says "something happened" without the OS polling constantly.</p>
+<p><strong>Socket receive buffer:</strong> each TCP socket has a receive buffer in kernel RAM. Bytes sit there until your application calls <code>read()</code>. If your application reads too slowly, the buffer fills → TCP flow control signals the sender to slow down. This is backpressure at the OS level, before any application-level backpressure mechanism kicks in.</p>
+<p>By the time your <code>read()</code> syscall runs, the bytes are already in kernel memory. The syscall copies them from the socket buffer into your process's buffer — it is not doing the network work, that already happened via interrupts.</p>
+<hr/>
+<h2 id="7-event-loops-epoll">7. Event Loops &amp; epoll<a class="headerlink" href="#7-event-loops-epoll" title="Permanent link">¶</a></h2>
+<p>A server needs to watch many connections simultaneously. Two approaches:</p>
+<p><strong>Thread-per-connection (blocking I/O):</strong></p>
+<pre class="highlight"><code>for each new connection:
+    spawn a thread
+    thread calls read()  →  blocks until data arrives
+    thread handles request
+    thread calls write() →  blocks until sent</code></pre>
+<p>Each blocked thread holds ~1 MB of stack. 10,000 connections = 10 GB of stacks. Context-switching between threads flushes CPU state. Simple to write and debug; degrades badly above a few thousand concurrent connections.</p>
+<p><strong>Event loop (non-blocking I/O):</strong></p>
+<div class="mermaid">---
+title: Event Loop with epoll
+---
+graph TB
+    A["epoll_wait(\n  fd_conn1, fd_conn2, ... fd_connN\n)"]
+    B["Kernel watches all registered fds\nblocks until ≥1 is ready"]
+    C["Returns only the ready fds"]
+    D["Handle each ready fd\nread → process → write"]
+
+    A --&gt; B
+    B --&gt; C
+    C --&gt; D
+    D --&gt;|loop| A</div>
+<p>One thread. Never blocks on I/O. The kernel does the waiting.</p>
+<p><strong>select() vs epoll:</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>select()</th>
+<th>epoll</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>fd registration</td>
+<td>Pass full list on every call</td>
+<td>Register once, persistent</td>
+</tr>
+<tr>
+<td>Kernel work per call</td>
+<td>Scan entire list — O(n)</td>
+<td>Return only ready fds — O(1)</td>
+</tr>
+<tr>
+<td>Max fds</td>
+<td>1024 (hardcoded limit)</td>
+<td>Millions</td>
+</tr>
+<tr>
+<td>Vintage</td>
+<td>POSIX (old, portable)</td>
+<td>Linux 2.5.44, 2002</td>
+</tr>
+</tbody>
+</table>
+<p>With 10,000 connections where 1 has data, <code>select</code> checks all 10,000 on every call. <code>epoll</code> returns exactly the 1 that is ready. macOS equivalent is <code>kqueue</code> — same concept, different API.</p>
+<p><strong>When to use reactive vs blocking:</strong></p>
+<p>Blocking I/O with a thread pool is simpler, produces readable stack traces, and handles thousands of concurrent connections without issue. Most services never exceed this threshold. Reactive/event-loop pays off when connections are numerous but mostly idle: WebSockets, long-polling, real-time feeds, proxies.</p>
+<p>The modern Java answer is <strong>virtual threads</strong> (Project Loom, Java 21+): write blocking-style code, the JVM maps virtual threads onto a small pool of OS threads. A blocked virtual thread parks without holding an OS thread stack. You get blocking simplicity with reactive scalability — which largely removes the case for reactive application frameworks like WebFlux.</p>
+<p>Reactive frameworks (Netty, Node.js core, Nginx) remain the right choice for <em>infrastructure</em> code: proxies, brokers, gateways — where you are building the platform, not the application.</p>
+<hr/>
+<h2 id="interview-anchors">Interview Anchors<a class="headerlink" href="#interview-anchors" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Relevant section</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Why is columnar storage faster for analytics?"</td>
+<td>§1 — cache lines, sequential vs random access</td>
+</tr>
+<tr>
+<td>"How does memory isolation between processes work?"</td>
+<td>§2 — virtual memory, MMU, page tables</td>
+</tr>
+<tr>
+<td>"Why are syscalls expensive? Why batch I/O?"</td>
+<td>§3 — mode switch cost</td>
+</tr>
+<tr>
+<td>"How does a WebSocket server hold 1M connections on one port?"</td>
+<td>§4 — fd model, 4-tuple, ulimit</td>
+</tr>
+<tr>
+<td>"Why do writes feel fast but database commits are slow?"</td>
+<td>§5 — page cache, dirty pages, fsync</td>
+</tr>
+<tr>
+<td>"How does OS-level backpressure work?"</td>
+<td>§6 — socket receive buffer, TCP flow control</td>
+</tr>
+<tr>
+<td>"When would you choose reactive over thread-per-request?"</td>
+<td>§7 — epoll, virtual threads</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<footer class="col-md-12 text-center">
+<hr/>
+<p>
+<small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+</p>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../../js/bootstrap-3.0.3.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>var base_url = "../.."</script>
+<script src="../../js/base.js"></script>
+<script src="../../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<button class="close" data-dismiss="modal" type="button">
+<span aria-hidden="true">×</span>
+<span class="sr-only">Close</span>
+</button>
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+</div>
+<div class="modal-body">
+<p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="text"/>
+</div>
+</form>
+<div id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@11.13.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script><script src="https://viewer.diagrams.net/js/viewer-static.min.js"></script></body>
+</html>

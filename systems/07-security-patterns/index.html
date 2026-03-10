@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A framework for algorithms, systems design, and infrastructure.">
+    <meta name="author" content="Richard">
+    
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+
+    
+    <title>07. Security Patterns - Software Engineering Study Guide</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../../css/base.min.css" rel="stylesheet">
+    <link href="../../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css">
+        
+    
+    <link href="../../css/custom.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../..">Home</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Systems Design <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../01-storage-engines/">01. Storage Engines</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../04-search-and-indexing/">04. Search & Indexing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../05-caching-patterns/">05. Caching Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../06-api-design/">06. API Design</a>
+</li>
+
+                        
+                            
+<li class="active">
+    <a href="./">07. Security Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../08-rate-limiting/">08. Rate Limiting</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../09-load-balancing/">09. Load Balancing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../11-database-scaling/">11. Database Scaling</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../12-message-queues/">12. Message Queues</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../13-event-sourcing-cqrs/">13. Event Sourcing & CQRS</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../14-stream-processing/">14. Stream Processing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../15-observability/">15. Observability</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../16-resilience-patterns/">16. Resilience Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../17-distributed-transactions/">17. Distributed Transactions</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../18-consensus-patterns/">18. Consensus Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../19-microservices-patterns/">19. Microservices Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../20-multi-region/">20. Multi-Region Architecture</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">DSA <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../dsa/01-two-pointers/">01. Two Pointers</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/02-sliding-window/">02. Sliding Window</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/03-hash-tables/">03. Hash Tables</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/04-linked-lists/">04. Linked Lists</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/05-stacks--queues/">05. Stacks & Queues</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/06-trees/">06. Trees</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/07-binary-search/">07. Binary Search</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/08-heaps/">08. Heaps</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/09-union-find/">09. Union-Find</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/10-graphs/">10. Graphs</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/11-advanced-graphs/">11. Advanced Graphs</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/12-backtracking/">12. Backtracking</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/13-dynamic-programming/">13. Dynamic Programming</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/14-prefix-sums/">14. Prefix Sums</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/15-intervals/">15. Intervals</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Quick Reference <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../reference/when-it-breaks/">When It Breaks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/back-of-envelope/">Back of the Envelope</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/symptom-pattern/">Symptom → Pattern</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/staff-interview-strategy/">Staff+ Interview Strategy</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/no-new-problems/">No New Problems in CS</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/how-the-machine-works/">How the Machine Actually Works</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../06-api-design/">
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="next" href="../08-rate-limiting/">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#security-patterns">Security Patterns</a></li>
+            <li class="second-level"><a href="#learning-objectives">Learning Objectives</a></li>
+                
+            <li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+                
+            <li class="second-level"><a href="#case-studies-security-patterns-in-the-wild">Case Studies: Security Patterns in the Wild</a></li>
+                
+            <li class="second-level"><a href="#core-implementation">Core Implementation</a></li>
+                
+            <li class="second-level"><a href="#common-misconceptions">Common Misconceptions</a></li>
+                
+            <li class="second-level"><a href="#decision-framework-choosing-an-authentication-mechanism">Decision Framework: Choosing an Authentication Mechanism</a></li>
+                
+            <li class="second-level"><a href="#practice">Practice</a></li>
+                
+            <li class="second-level"><a href="#test-your-understanding">Test Your Understanding</a></li>
+                
+            <li class="second-level"><a href="#connected-topics">Connected Topics</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="security-patterns">Security Patterns<a class="headerlink" href="#security-patterns" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>Authentication, authorization, and securing distributed systems</p>
+</blockquote>
+<hr />
+<h2 id="learning-objectives">Learning Objectives<a class="headerlink" href="#learning-objectives" title="Permanent link">&para;</a></h2>
+<p>By the end of this topic you will be able to:</p>
+<ul>
+<li>Implement JWT generation and validation including HMAC-SHA256 signature, expiration checks, and proper Base64 encoding</li>
+<li>Explain the difference between authentication (who are you?) and authorization (what can you do?)</li>
+<li>Compare JWT and session-based authentication and choose the appropriate mechanism for a given architecture</li>
+<li>Implement a Role-Based Access Control system with hierarchical permissions and deny-by-default enforcement</li>
+<li>Identify common security vulnerabilities including timing attacks, missing signature validation, and secrets leakage in logs</li>
+<li>Choose between JWT, API keys, and session-based auth given a system's scalability and revocation requirements</li>
+</ul>
+<hr />
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After implementing security patterns, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What is authentication in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">Authentication is a ___ that works by ___</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What is authorization in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">Authorization is a ___ that controls ___ after you are already ___</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy for authentication:</strong></p>
+<ul>
+<li>Example: "Authentication is like showing your ID at the door..."</li>
+<li>Your analogy: <span class="fill-in">Think about how you'd prove your identity when entering a building — what do you show, and who checks it?</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy for authorization:</strong></p>
+<ul>
+<li>Example: "Authorization is like having a key to certain rooms..."</li>
+<li>Your analogy: <span class="fill-in">Think about a hotel key card — once you've checked in, what determines which floors and rooms you can enter?</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What is JWT in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">A JWT is a ___ that lets a server ___ without storing ___</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When should you use JWT vs sessions?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">JWT is preferred when ___ because it avoids the cost of <strong><em>; sessions are better when </em></strong></span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr />
+<h2 id="case-studies-security-patterns-in-the-wild">Case Studies: Security Patterns in the Wild<a class="headerlink" href="#case-studies-security-patterns-in-the-wild" title="Permanent link">&para;</a></h2>
+<h3 id="google-facebook-login-oauth-20-and-openid-connect">Google &amp; Facebook Login: OAuth 2.0 and OpenID Connect<a class="headerlink" href="#google-facebook-login-oauth-20-and-openid-connect" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Pattern:</strong> OAuth 2.0 for delegated authorization and OIDC for authentication.</li>
+<li><strong>How it works:</strong> When you click "Login with Google" on a third-party site (like Stack Overflow), the site (the
+  Client) redirects you to Google (the Authorization Server). You grant permission for Stack Overflow to access your
+  basic profile. Google then redirects you back with an authorization code. Stack Overflow's server exchanges this code
+  for an Access Token (a JWT). It can then use this token to fetch your profile information from Google's API. OIDC
+  provides the identity layer on top of OAuth 2.0, standardizing how profile information is shared.</li>
+<li><strong>Key Takeaway:</strong> OAuth 2.0 is the standard for delegated authorization, allowing users to grant limited access to
+  their data without sharing their passwords. It separates the roles of the user, the client application, and the
+  authorization server.</li>
+</ul>
+<h3 id="aws-google-cloud-apis-api-keys-and-iam">AWS &amp; Google Cloud APIs: API Keys and IAM<a class="headerlink" href="#aws-google-cloud-apis-api-keys-and-iam" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Pattern:</strong> API Keys for programmatic access and IAM for fine-grained authorization.</li>
+<li><strong>How it works:</strong> When a developer wants to use an AWS S3 or Google Maps API from their server, they generate an API
+  Key. This key is a long, unique string that is passed in an HTTP header with each request. The API gateway validates
+  the key to authenticate the calling service. The key is linked to an <strong>IAM (Identity and Access Management)</strong> role,
+  which defines exactly what actions that key is authorized to perform (e.g., <code>s3:GetObject</code> but not <code>s3:DeleteObject</code>).</li>
+<li><strong>Key Takeaway:</strong> API keys are a simple and effective way to authenticate server-to-server communication. However,
+  authentication alone is not enough; it must be paired with a robust authorization system like IAM to enforce the
+  principle of least privilege.</li>
+</ul>
+<h3 id="netflix-microservices-jwt-propagation-for-internal-authorization">Netflix Microservices: JWT Propagation for Internal Authorization<a class="headerlink" href="#netflix-microservices-jwt-propagation-for-internal-authorization" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Pattern:</strong> Passing JWTs between internal services for user context.</li>
+<li><strong>How it works:</strong> When a user streams a movie, their initial request to the Netflix API Gateway includes a JWT that
+  identifies them. As that request fans out to internal microservices (e.g., the Bookmarks service, the Recommendations
+  service, the Playback service), that JWT is passed along with each internal call. Each microservice can independently
+  validate the JWT's signature (using a shared public key) and check its claims (like <code>userId</code> and <code>scopes</code>) to
+  authorize the action without needing to call an external authentication service.</li>
+<li><strong>Key Takeaway:</strong> JWTs are stateless and portable, making them ideal for microservice architectures. Propagating the
+  user's identity allows for decentralized authorization decisions and helps maintain user context for logging and
+  auditing throughout a distributed system.</li>
+</ul>
+<hr />
+<h2 id="core-implementation">Core Implementation<a class="headerlink" href="#core-implementation" title="Permanent link">&para;</a></h2>
+<h3 id="pattern-1-jwt-based-authentication">Pattern 1: JWT-Based Authentication<a class="headerlink" href="#pattern-1-jwt-based-authentication" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Stateless authentication using JSON Web Tokens.</p>
+<p><strong>Use case:</strong> Microservices, API authentication, mobile apps.</p>
+<pre class="highlight"><code class="language-java">package com.study.systems.security;
+
+import java.util.*;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+
+/**
+ * JWT Authentication: Stateless token-based auth
+ *
+ * Token structure: header.payload.signature
+ * - Header: algorithm and token type
+ * - Payload: claims (user data, expiration)
+ * - Signature: HMAC of header+payload with secret
+ */
+public class JWTAuthenticator {
+
+    private final String secret;
+    private final long expirationMs;
+
+    public JWTAuthenticator(String secret, long expirationMs) {
+        this.secret = secret;
+        this.expirationMs = expirationMs;
+    }
+
+    /**
+     * Generate JWT token for user
+     * Time: O(1), Space: O(1)
+     *
+     * TODO: Implement JWT generation
+     * 1. Create header: {"alg": "HS256", "typ": "JWT"}
+     * 2. Create payload: {"sub": userId, "exp": expiration, "iat": issuedAt}
+     * 3. Base64 encode header and payload
+     * 4. Sign with HMAC-SHA256
+     * 5. Return header.payload.signature
+     */
+    public String generateToken(String userId) {
+        // TODO: Build the header JSON string: {"alg":"HS256","typ":"JWT"} and base64UrlEncode it
+
+        // TODO: Build the payload JSON string with "sub", "iat" (System.currentTimeMillis()), and "exp" (iat + expirationMs), then base64UrlEncode it
+
+        // TODO: Compute the signature: hmacSha256(encodedHeader + "." + encodedPayload, secret)
+
+        // TODO: Return encodedHeader + "." + encodedPayload + "." + signature
+
+        return null; // Replace
+    }
+
+    /**
+     * Validate and extract user from JWT
+     * Time: O(1), Space: O(1)
+     *
+     * TODO: Implement JWT validation
+     * 1. Split token into parts
+     * 2. Verify signature
+     * 3. Check expiration
+     * 4. Extract and return user ID
+     */
+    public String validateToken(String token) {
+        // TODO: Split token on "." — expect exactly 3 parts (header, payload, signature); return null if malformed
+
+        // TODO: Recompute expectedSig = hmacSha256(parts[0] + "." + parts[1], secret); return null if it doesn't match parts[2]
+
+        // TODO: Base64-decode parts[1], parse the JSON to extract "exp"; return null if System.currentTimeMillis() &gt; exp
+
+        // TODO: Parse the decoded payload JSON to extract "sub" (the userId) and return it
+        return null; // Replace
+    }
+
+    /**
+     * Helper: Base64 URL-safe encoding
+     *
+     * TODO: Implement base64 URL encoding
+     */
+    private String base64UrlEncode(String input) {
+        // TODO: Use Base64.getEncoder().encodeToString(input.getBytes(StandardCharsets.UTF_8)),
+        //       then replace '+' with '-', '/' with '_', and strip trailing '=' padding
+        return null; // Replace
+    }
+
+    /**
+     * Helper: HMAC-SHA256 signature
+     *
+     * TODO: Implement HMAC signing
+     */
+    private String hmacSha256(String data, String key) {
+        // TODO: Get a Mac instance for "HmacSHA256", init it with new SecretKeySpec(key.getBytes(), "HmacSHA256"),
+        //       call mac.doFinal(data.getBytes()), then base64UrlEncode the resulting byte array
+        return null; // Replace
+    }
+}
+</code></pre>
+<div class="admonition warning">
+<p class="admonition-title">Debugging Challenge — Missing Signature Validation</p>
+<p>The validator below has <strong>3 critical security bugs</strong>. Identify them before running the code.</p>
+<pre class="highlight"><code class="language-java">public class BrokenJWTValidator {
+
+    private final String secret = "my-secret-key";
+
+    public String validateToken_Buggy(String token) {
+        String[] parts = token.split("\\.");
+
+        // Extract payload
+        String payload = parts[1];
+        String decodedPayload = base64Decode(payload);
+
+        // Parse JSON to get user ID
+        String userId = extractUserId(decodedPayload);
+
+        return userId;
+    }
+}</code></pre>
+<p>Trace what happens when an attacker sends a crafted token with a fake <code>userId</code> claim but a completely made-up signature.</p>
+<details class="success">
+<summary>Answer</summary>
+<p><strong>Bug 1 (line 5):</strong> No null/length check on <code>parts</code>. A malformed token like <code>"abc"</code> causes <code>ArrayIndexOutOfBoundsException</code> — a denial-of-service vector.</p>
+<p>Fix: <code>if (token == null || token.split("\\.").length != 3) return null;</code></p>
+<p><strong>Bug 2 (lines 8-12):</strong> Signature is never verified. An attacker can Base64-encode any payload they like, attach a fake signature, and this code will accept it — <strong>complete authentication bypass</strong>.</p>
+<p>Fix: Recompute <code>hmacSha256(parts[0] + "." + parts[1], secret)</code> and compare to <code>parts[2]</code> before reading any claims.</p>
+<p><strong>Bug 3 (line 15):</strong> No expiration check. Once issued, a stolen token is valid forever, defeating rotation and logout.</p>
+<p>Fix: Extract <code>exp</code> from the decoded payload and reject if <code>System.currentTimeMillis() / 1000 &gt; exp</code>.</p>
+</details>
+</div>
+<hr />
+<h3 id="pattern-2-role-based-access-control-rbac">Pattern 2: Role-Based Access Control (RBAC)<a class="headerlink" href="#pattern-2-role-based-access-control-rbac" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Authorization based on user roles and permissions.</p>
+<p><strong>Use case:</strong> Multi-tenant systems, enterprise applications, admin panels.</p>
+<div class="admonition note">
+<p class="admonition-title">Fail-secure design</p>
+<p>RBAC must default to <strong>deny</strong>. If a user has no roles, or if a role has no matching permission, the answer is always "no". Never default to "allow" when something is missing or null.</p>
+</div>
+<pre class="highlight"><code class="language-java">package com.study.systems.security;
+
+import java.util.*;
+
+/**
+ * RBAC: Role-Based Access Control
+ *
+ * Concepts:
+ * - Users have roles (admin, editor, viewer)
+ * - Roles have permissions (read, write, delete)
+ * - Check permission before allowing action
+ */
+public class RBACAuthorizer {
+
+    // Role definitions
+    enum Role {
+        ADMIN, EDITOR, VIEWER
+    }
+
+    enum Permission {
+        READ, WRITE, DELETE, MANAGE_USERS
+    }
+
+    // Role -&gt; Permissions mapping
+    private final Map&lt;Role, Set&lt;Permission&gt;&gt; rolePermissions;
+    // User -&gt; Roles mapping
+    private final Map&lt;String, Set&lt;Role&gt;&gt; userRoles;
+
+    public RBACAuthorizer() {
+        this.rolePermissions = new HashMap&lt;&gt;();
+        this.userRoles = new HashMap&lt;&gt;();
+        initializeRolePermissions();
+    }
+
+    /**
+     * Initialize default role permissions
+     *
+     * TODO: Set up role hierarchies
+     * - ADMIN: all permissions
+     * - EDITOR: read, write
+     * - VIEWER: read only
+     */
+    private void initializeRolePermissions() {
+        // TODO: Define ADMIN permissions
+
+        // TODO: Define EDITOR permissions
+
+        // TODO: Define VIEWER permissions
+    }
+
+    /**
+     * Assign role to user
+     * Time: O(1), Space: O(1)
+     *
+     * TODO: Implement role assignment
+     */
+    public void assignRole(String userId, Role role) {
+        // TODO: Add role to user's role set
+    }
+
+    /**
+     * Check if user has permission
+     * Time: O(R) where R = number of roles, Space: O(1)
+     *
+     * TODO: Implement permission check
+     * 1. Get user's roles
+     * 2. For each role, check if it has the permission
+     * 3. Return true if any role grants permission
+     */
+    public boolean hasPermission(String userId, Permission permission) {
+        // TODO: Get user roles
+
+        // TODO: Check each role's permissions
+
+        return false; // Replace
+    }
+
+    /**
+     * Get all permissions for user
+     * Time: O(R*P), Space: O(P)
+     *
+     * TODO: Implement permission aggregation
+     */
+    public Set&lt;Permission&gt; getUserPermissions(String userId) {
+        Set&lt;Permission&gt; allPermissions = new HashSet&lt;&gt;();
+
+        // TODO: Aggregate permissions from all roles
+
+        return allPermissions; // Replace
+    }
+
+    /**
+     * Remove role from user
+     * Time: O(1), Space: O(1)
+     *
+     * TODO: Implement role revocation
+     */
+    public void revokeRole(String userId, Role role) {
+        // TODO: Remove role from user
+    }
+}
+</code></pre>
+<div class="admonition warning">
+<p class="admonition-title">Debugging Challenge — Authorization Bypass in deleteResource</p>
+<p>The RBAC implementation below has <strong>2 authorization bugs</strong>. The second one is more dangerous than the first.</p>
+<pre class="highlight"><code class="language-java">public class BrokenRBAC {
+
+    private Map&lt;String, Set&lt;Role&gt;&gt; userRoles = new HashMap&lt;&gt;();
+    private Map&lt;Role, Set&lt;Permission&gt;&gt; rolePermissions = new HashMap&lt;&gt;();
+
+    public boolean hasPermission_Buggy(String userId, Permission permission) {
+        Set&lt;Role&gt; roles = userRoles.get(userId);
+
+        for (Role role : roles) {
+            Set&lt;Permission&gt; perms = rolePermissions.get(role);
+            if (perms.contains(permission)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void deleteResource_Buggy(String resourceId, String userId) {
+        database.delete(resourceId);
+        System.out.println("Deleted: " + resourceId);
+    }
+}</code></pre>
+<p>Trace what happens when an attacker with no roles calls <code>deleteResource("admin-data", "attacker")</code>.</p>
+<details class="success">
+<summary>Answer</summary>
+<p><strong>Bug 1 (hasPermission, line 4):</strong> <code>userRoles.get(userId)</code> returns <code>null</code> for a user with no roles. The subsequent <code>for</code> loop throws <code>NullPointerException</code>. Fix: <code>if (roles == null || roles.isEmpty()) return false;</code></p>
+<p><strong>Bug 2 (deleteResource):</strong> No permission check at all before deletion. An attacker calls <code>deleteResource</code> directly, bypassing <code>hasPermission</code> entirely. The resource is deleted despite zero authorization.</p>
+<p>Fix:
+<pre class="highlight"><code class="language-java">public void deleteResource_Buggy(String resourceId, String userId) {
+    if (!hasPermission(userId, Permission.DELETE)) {
+        throw new SecurityException("Insufficient permissions");
+    }
+    database.delete(resourceId);
+    auditLog.log("Deleted: " + resourceId + " by " + userId);
+}</code></pre></p>
+<p><strong>Key lesson:</strong> EVERY sensitive operation must have an explicit authorization check. One missing check is a security hole regardless of how well the rest of the system is built.</p>
+</details>
+</div>
+<hr />
+<h3 id="pattern-3-api-key-authentication">Pattern 3: API Key Authentication<a class="headerlink" href="#pattern-3-api-key-authentication" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Long-lived tokens for service-to-service authentication.</p>
+<p><strong>Use case:</strong> REST APIs, webhooks, third-party integrations.</p>
+<pre class="highlight"><code class="language-java">package com.study.systems.security;
+
+import java.util.*;
+import java.security.SecureRandom;
+
+/**
+ * API Key Authentication
+ *
+ * Key properties:
+ * - Long-lived credentials
+ * - Scoped to specific resources
+ * - Can be rate-limited per key
+ * - Easy to rotate and revoke
+ */
+public class APIKeyAuth {
+
+    static class APIKey {
+        String key;
+        String userId;
+        Set&lt;String&gt; scopes;
+        long createdAt;
+        long lastUsedAt;
+        int usageCount;
+
+        APIKey(String key, String userId, Set&lt;String&gt; scopes) {
+            this.key = key;
+            this.userId = userId;
+            this.scopes = scopes;
+            this.createdAt = System.currentTimeMillis();
+            this.lastUsedAt = createdAt;
+            this.usageCount = 0;
+        }
+    }
+
+    private final Map&lt;String, APIKey&gt; keys;
+    private final SecureRandom random;
+
+    public APIKeyAuth() {
+        this.keys = new HashMap&lt;&gt;();
+        this.random = new SecureRandom();
+    }
+
+    /**
+     * Generate new API key
+     * Time: O(1), Space: O(1)
+     *
+     * TODO: Implement key generation
+     * 1. Generate random key (32-byte hex)
+     * 2. Store with user ID and scopes
+     * 3. Return key
+     */
+    public String generateKey(String userId, Set&lt;String&gt; scopes) {
+        // TODO: Generate secure random key
+
+        // TODO: Store key
+
+        return null; // Replace
+    }
+
+    /**
+     * Validate API key and check scope
+     * Time: O(1), Space: O(1)
+     *
+     * TODO: Implement key validation
+     * 1. Lookup key
+     * 2. Check if scope is allowed
+     * 3. Update usage metrics
+     * 4. Return user ID or null
+     */
+    public String validateKey(String key, String requiredScope) {
+        // TODO: Lookup key
+
+        // TODO: Check scope
+
+        // TODO: Update usage
+
+        return null; // Replace
+    }
+
+    /**
+     * Revoke API key
+     * Time: O(1), Space: O(1)
+     *
+     * TODO: Implement key revocation
+     */
+    public boolean revokeKey(String key) {
+        // TODO: Remove key from storage
+        return false; // Replace
+    }
+
+    /**
+     * Get usage statistics for key
+     * Time: O(1), Space: O(1)
+     *
+     * TODO: Implement usage tracking
+     */
+    public Map&lt;String, Object&gt; getKeyStats(String key) {
+        Map&lt;String, Object&gt; stats = new HashMap&lt;&gt;();
+
+        // TODO: Return key statistics
+
+        return stats; // Replace
+    }
+
+    private String bytesToHex(byte[] bytes) {
+        StringBuilder sb = new StringBuilder();
+        for (byte b : bytes) {
+            sb.append(String.format("%02x", b));
+        }
+        return sb.toString();
+    }
+}
+</code></pre>
+<hr />
+<h3 id="pattern-4-secrets-management">Pattern 4: Secrets Management<a class="headerlink" href="#pattern-4-secrets-management" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Secure storage and rotation of sensitive credentials.</p>
+<p><strong>Use case:</strong> Database passwords, API keys, encryption keys.</p>
+<div class="admonition tip">
+<p class="admonition-title">Why AES/GCM over AES/CBC</p>
+<p>AES/GCM (Galois/Counter Mode) provides <em>authenticated encryption</em> — it simultaneously encrypts and produces an authentication tag that detects tampering. AES/CBC encrypts but does not authenticate, leaving you vulnerable to padding oracle attacks. Always prefer GCM for new code.</p>
+</div>
+<pre class="highlight"><code class="language-java">package com.study.systems.security;
+
+import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+import java.util.*;
+
+/**
+ * Secrets Manager
+ *
+ * Features:
+ * - Encrypted storage
+ * - Versioning for rotation
+ * - Access control per secret
+ * - Audit logging
+ */
+public class SecretsManager {
+
+    static class Secret {
+        String name;
+        byte[] encryptedValue;
+        int version;
+        long createdAt;
+        Set&lt;String&gt; authorizedUsers;
+
+        Secret(String name, byte[] encryptedValue, int version, Set&lt;String&gt; authorizedUsers) {
+            this.name = name;
+            this.encryptedValue = encryptedValue;
+            this.version = version;
+            this.createdAt = System.currentTimeMillis();
+            this.authorizedUsers = authorizedUsers;
+        }
+    }
+
+    private final Map&lt;String, List&lt;Secret&gt;&gt; secrets; // name -&gt; versions
+    private final SecretKey masterKey;
+
+    /**
+     * Initialize secrets manager with master encryption key
+     *
+     * TODO: Set up encryption
+     */
+    public SecretsManager(SecretKey masterKey) {
+        this.secrets = new HashMap&lt;&gt;();
+        this.masterKey = masterKey;
+    }
+
+    /**
+     * Store secret with encryption
+     * Time: O(1), Space: O(1)
+     *
+     * TODO: Implement secret storage
+     * 1. Encrypt value with master key
+     * 2. Store with version number
+     * 3. Set authorized users
+     */
+    public void storeSecret(String name, String value, Set&lt;String&gt; authorizedUsers) {
+        // TODO: Encrypt secret value
+
+        // TODO: Create new version
+    }
+
+    /**
+     * Retrieve secret with authorization check
+     * Time: O(V) where V = versions, Space: O(1)
+     *
+     * TODO: Implement secret retrieval
+     * 1. Check authorization
+     * 2. Get latest version
+     * 3. Decrypt and return
+     */
+    public String getSecret(String name, String userId) {
+        // TODO: Get latest version
+
+        // TODO: Check authorization
+
+        // TODO: Decrypt and return
+
+        return null; // Replace
+    }
+
+    /**
+     * Rotate secret (create new version)
+     * Time: O(1), Space: O(1)
+     *
+     * TODO: Implement secret rotation
+     */
+    public void rotateSecret(String name, String newValue, String userId) {
+        // TODO: Verify authorization to rotate
+        // TODO: Create new version with new value
+        // TODO: Keep old versions for grace period
+    }
+
+    /**
+     * Helper: Encrypt data
+     *
+     * TODO: Implement AES encryption
+     */
+    private byte[] encrypt(byte[] data, SecretKey key) {
+        // TODO: Use AES/GCM for authenticated encryption
+        return null; // Replace
+    }
+
+    /**
+     * Helper: Decrypt data
+     *
+     * TODO: Implement AES decryption
+     */
+    private byte[] decrypt(byte[] encryptedData, SecretKey key) {
+        // TODO: Use AES/GCM for decryption
+        return null; // Replace
+    }
+}
+</code></pre>
+<hr />
+<h2 id="common-misconceptions">Common Misconceptions<a class="headerlink" href="#common-misconceptions" title="Permanent link">&para;</a></h2>
+<div class="admonition danger">
+<p class="admonition-title">JWT tokens are encrypted, so the payload is private</p>
+<p>JWT tokens are Base64-encoded, not encrypted. Anyone who intercepts a JWT can decode the header and payload in seconds — they just cannot forge a valid signature without the secret. Never store sensitive information (passwords, PII, internal system details) inside a JWT payload. If confidentiality is required, use JWE (JSON Web Encryption) instead.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">RBAC eliminates all authorization bugs once roles are set up</p>
+<p>Role assignment solves the coarse-grained problem, but each sensitive operation still requires an explicit <code>hasPermission</code> check at the call site. Developers frequently add new endpoints or methods without wiring in the authorization check, leaving gaps. RBAC is a framework, not a guarantee — the check must be present everywhere it matters.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Rotating API keys or secrets is disruptive and should be avoided</p>
+<p>Modern secrets management supports versioned rotation with a grace period, so old and new credentials are both valid briefly. Zero-downtime rotation is a standard pattern. Not rotating credentials after a suspected leak is far more costly than the short-term operational effort of rotation. Treat infrequent rotation as a risk, not a best practice.</p>
+</div>
+<hr />
+<h2 id="decision-framework-choosing-an-authentication-mechanism">Decision Framework: Choosing an Authentication Mechanism<a class="headerlink" href="#decision-framework-choosing-an-authentication-mechanism" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Fill in the matrix based on the material above.</p>
+<h3 id="trade-off-analysis-matrix">Trade-off Analysis Matrix<a class="headerlink" href="#trade-off-analysis-matrix" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Mechanism</th>
+<th>State location</th>
+<th>Revocation</th>
+<th>Cross-domain support</th>
+<th>Scalability</th>
+<th>Key failure mode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Session token (server-side state)</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>JWT (stateless token)</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>OAuth2 / OIDC (delegated auth)</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+</tbody>
+</table>
+<details class="success">
+<summary>Answers</summary>
+<table>
+<thead>
+<tr>
+<th>Mechanism</th>
+<th>State location</th>
+<th>Revocation</th>
+<th>Cross-domain support</th>
+<th>Scalability</th>
+<th>Key failure mode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Session token (server-side state)</strong></td>
+<td>Server — DB or Redis session store</td>
+<td>Immediate — delete session record</td>
+<td>Requires shared session store across nodes (sticky sessions or Redis)</td>
+<td>Bounded by session store throughput (~100K ops/sec for a single Redis node)</td>
+<td>Session store is a single point of failure; sticky sessions prevent even load distribution</td>
+</tr>
+<tr>
+<td><strong>JWT (stateless token)</strong></td>
+<td>Client — cookie or localStorage</td>
+<td>Difficult — requires denylist (reintroduces server state) or short expiry (&lt;5 min)</td>
+<td>Trivially cross-domain — pass token in Authorization header</td>
+<td>Unlimited — no server state per token</td>
+<td>Token cannot be invalidated before expiry; logout, password change, account suspension all require a denylist</td>
+</tr>
+<tr>
+<td><strong>OAuth2 / OIDC (delegated auth)</strong></td>
+<td>Authorization server + short-lived tokens</td>
+<td>Access token: short-expiry; refresh token: revocable</td>
+<td>Designed for cross-domain delegated access</td>
+<td>Scales if authorization server scales; token introspection adds ~1–2ms per request</td>
+<td>Implicit flow deprecated (XSS risk); refresh token leakage grants long-lived access; PKCE required for public clients</td>
+</tr>
+</tbody>
+</table>
+</details>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">When it breaks</p>
+<p>JWTs break for revocation: a token is valid until its <code>exp</code> claim and there is no standard mechanism to invalidate an issued token. Logout, password change, or account suspension all require either a token denylist (a distributed cache lookup on every request, which negates the stateless benefit) or very short expiry windows. RBAC breaks when roles proliferate — systems typically start with 5 roles and accumulate 50 as individual exceptions are added. The inflection point where RBAC becomes unmanageable is usually when roles are no longer comprehensible to a non-engineer, which happens around 20–30 roles. At that point, attribute-based access control (ABAC) or policy engines like OPA are the alternative.</p>
+</div>
+<hr />
+<h2 id="practice">Practice<a class="headerlink" href="#practice" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<h3 id="scenario-1-e-commerce-api-security">Scenario 1: E-commerce API Security<a class="headerlink" href="#scenario-1-e-commerce-api-security" title="Permanent link">&para;</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>REST API for orders, payments, user data</li>
+<li>Mobile app and web frontend</li>
+<li>Third-party integrations (shipping, payments)</li>
+<li>Must handle 10K requests/sec</li>
+</ul>
+<p><strong>Your security design:</strong></p>
+<ul>
+<li>Auth mechanism: <span class="fill-in">[JWT or API keys? Why?]</span></li>
+<li>Authorization: <span class="fill-in">[RBAC setup for customer, admin, partner roles]</span></li>
+<li>Secrets: <span class="fill-in">[How to manage payment gateway keys?]</span></li>
+<li>Token expiry: <span class="fill-in">[Short-lived or long-lived? Refresh strategy?]</span></li>
+<li>Rate limiting: <span class="fill-in">[Per user? Per API key?]</span></li>
+</ul>
+<p><strong>Failure modes:</strong></p>
+<ul>
+<li>What happens if the JWT signing secret is accidentally committed to a public GitHub repository? <span class="fill-in">[Fill in]</span></li>
+<li>How does your design behave when the token validation service becomes unavailable and 10K users try to authenticate simultaneously? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="scenario-2-multi-tenant-saas-platform">Scenario 2: Multi-Tenant SaaS Platform<a class="headerlink" href="#scenario-2-multi-tenant-saas-platform" title="Permanent link">&para;</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>Tenants: organizations with multiple users</li>
+<li>Data isolation between tenants</li>
+<li>Admin panel for tenant admins</li>
+<li>SSO support for enterprise customers</li>
+</ul>
+<p><strong>Your security design:</strong></p>
+<ul>
+<li>Tenant isolation: <span class="fill-in">[How to ensure data separation?]</span></li>
+<li>User roles: <span class="fill-in">[Super admin, tenant admin, user]</span></li>
+<li>SSO integration: <span class="fill-in">[SAML, OAuth2, or both?]</span></li>
+<li>Token claims: <span class="fill-in">[What to include in JWT?]</span></li>
+<li>Cross-tenant attacks: <span class="fill-in">[How to prevent?]</span></li>
+</ul>
+<p><strong>Failure modes:</strong></p>
+<ul>
+<li>What happens if a misconfigured RBAC rule grants a tenant-admin role access to another tenant's data? <span class="fill-in">[Fill in]</span></li>
+<li>How does your design behave when an SSO provider goes down and enterprise customers cannot authenticate? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="scenario-3-microservices-internal-auth">Scenario 3: Microservices Internal Auth<a class="headerlink" href="#scenario-3-microservices-internal-auth" title="Permanent link">&para;</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>20 microservices</li>
+<li>Services call each other</li>
+<li>Need to track which service made request</li>
+<li>Some services more privileged than others</li>
+</ul>
+<p><strong>Your security design:</strong></p>
+<ul>
+<li>Service-to-service auth: <span class="fill-in">[Mutual TLS? JWT? API keys?]</span></li>
+<li>Service identity: <span class="fill-in">[How to identify calling service?]</span></li>
+<li>Permission model: <span class="fill-in">[Service-level RBAC?]</span></li>
+<li>Secret distribution: <span class="fill-in">[How do services get credentials?]</span></li>
+<li>Rotation: <span class="fill-in">[How to rotate without downtime?]</span></li>
+</ul>
+<p><strong>Failure modes:</strong></p>
+<ul>
+<li>What happens if a service's mTLS certificate expires and is not rotated in time, blocking all inter-service calls? <span class="fill-in">[Fill in]</span></li>
+<li>How does your design behave when the secrets manager is unavailable and services cannot retrieve their credentials on startup? <span class="fill-in">[Fill in]</span></li>
+</ul>
+</div>
+<hr />
+<h2 id="test-your-understanding">Test Your Understanding<a class="headerlink" href="#test-your-understanding" title="Permanent link">&para;</a></h2>
+<p>Answer these without referring to your notes or implementation.</p>
+<ol>
+<li>
+<p>A JWT token arrives with a valid HMAC signature but the <code>exp</code> claim is 10 minutes in the past. Should the request be allowed? Explain what would happen in a high-traffic system if you skipped the expiration check and tokens were never refreshed.</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) the request must be rejected — a valid signature only proves the token was issued by the correct server, not that it is still valid; expiration is a separate and mandatory check, (2) without expiration checks, stolen tokens remain valid forever — a token leaked via a compromised client or log file becomes a permanent backdoor, (3) in a high-traffic system with no expiration, token revocation becomes impossible without a centralized blocklist, defeating the statelessness that makes JWT attractive.</p>
+</details>
+</li>
+<li>
+<p>You are implementing <code>hasPermission(userId, permission)</code> for a user who has three roles. Walk through the algorithm step by step and explain what data structures you would choose and why.</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) step-by-step: look up the user's role set in a HashMap<String, Set\<Role>>, iterate over each role, look up each role's permissions in a HashMap<Role, Set\<Permission>>, return true on first match, (2) HashSet for both roles and permissions gives O(1) contains checks so the overall algorithm is O(R) where R is the number of roles, (3) null-safety: return false immediately if the user has no roles or a role has no permission mapping — never default to allow.</p>
+</details>
+</li>
+<li>
+<p>Your team wants to store the JWT signing secret as an environment variable set at deploy time. Compare this to using a dedicated secrets manager. What are the specific risks of the environment-variable approach that a secrets manager would eliminate?</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) environment variables are often readable by any process on the host and can appear in crash dumps, <code>/proc</code> listings, or CI logs — a secrets manager restricts access to authorised callers only, (2) environment variables have no rotation mechanism; rotating the secret requires a full redeployment, whereas a secrets manager supports versioned rotation with zero downtime, (3) a secrets manager provides audit logs showing who accessed the secret and when, which is impossible with environment variables.</p>
+</details>
+</li>
+<li>
+<p>A colleague proposes using <code>String.equals()</code> to validate an API key submitted by a client. What is the security flaw, and how would you fix it while still keeping the comparison O(n)?</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) <code>String.equals()</code> short-circuits on the first differing character, leaking timing information — an attacker measuring response times can determine the correct key one character at a time (timing attack), (2) the fix is a constant-time comparison that always examines every character regardless of where a mismatch occurs (e.g., <code>MessageDigest.isEqual()</code> or a custom loop with XOR accumulator), (3) constant-time comparison is still O(n) — it processes all n characters every time — it just removes the early-exit that enables timing attacks.</p>
+</details>
+</li>
+<li>
+<p>A colleague says "we don't need RBAC because we only have two user types: admin and regular user." What would you say to convince them that a proper role-permission mapping is worth implementing even now, before the system grows?</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) two hardcoded roles with scattered <code>if (isAdmin)</code> checks become brittle as the system grows — adding a third role (e.g., moderator) requires hunting down every check in the codebase, (2) a role-permission mapping separates the definition of access rules from the enforcement, making it easy to add or modify roles without changing business logic, (3) a proper RBAC foundation also enables audit logging, per-operation permission checks, and future ABAC extensions without a ground-up rewrite.</p>
+</details>
+</li>
+</ol>
+<hr />
+<h2 id="connected-topics">Connected Topics<a class="headerlink" href="#connected-topics" title="Permanent link">&para;</a></h2>
+<div class="bs-callout bs-callout-info">
+<p><strong>Where this topic connects</strong></p>
+<ul>
+<li><strong>06. API Design</strong> — JWTs and API keys are the standard authentication mechanisms for REST APIs; idempotency and versioning affect token refresh and revocation strategies → <a href="../06-api-design/">06. API Design</a></li>
+<li><strong>03. Networking Fundamentals</strong> — TLS provides transport-layer security that makes token-based authentication safe; without it, all tokens are exposed in plaintext → <a href="../03-networking-fundamentals/">03. Networking Fundamentals</a></li>
+</ul>
+</div></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = "../.."</script>
+    
+    <script src="../../js/base.js"></script>
+    <script src="../../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

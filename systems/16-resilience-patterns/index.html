@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="A framework for algorithms, systems design, and infrastructure." name="description"/>
+<meta content="Richard" name="author"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>16. Resilience Patterns - Software Engineering Study Guide</title>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" rel="stylesheet"/>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css" rel="stylesheet"/>
+<link href="//rsms.me/inter/inter.css" rel="stylesheet" type="text/css"/>
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&amp;subset=latin-ext,latin" rel="stylesheet" type="text/css"/>
+<link href="../../css/bootstrap-custom.min.css" rel="stylesheet"/>
+<link href="../../css/base.min.css" rel="stylesheet"/>
+<link href="../../css/cinder.min.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css" rel="stylesheet"/>
+<link href="../../css/custom.css" rel="stylesheet"/>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="container">
+<!-- Collapsed navigation -->
+<div class="navbar-header">
+<!-- Expander button -->
+<button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<!-- Main title -->
+<a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+</div>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li>
+<a href="../..">Home</a>
+</li>
+<li class="dropdown active">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Systems Design <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../01-storage-engines/">01. Storage Engines</a>
+</li>
+<li>
+<a href="../02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+<li>
+<a href="../03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+<li>
+<a href="../04-search-and-indexing/">04. Search &amp; Indexing</a>
+</li>
+<li>
+<a href="../05-caching-patterns/">05. Caching Patterns</a>
+</li>
+<li>
+<a href="../06-api-design/">06. API Design</a>
+</li>
+<li>
+<a href="../07-security-patterns/">07. Security Patterns</a>
+</li>
+<li>
+<a href="../08-rate-limiting/">08. Rate Limiting</a>
+</li>
+<li>
+<a href="../09-load-balancing/">09. Load Balancing</a>
+</li>
+<li>
+<a href="../10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+<li>
+<a href="../11-database-scaling/">11. Database Scaling</a>
+</li>
+<li>
+<a href="../12-message-queues/">12. Message Queues</a>
+</li>
+<li>
+<a href="../13-event-sourcing-cqrs/">13. Event Sourcing &amp; CQRS</a>
+</li>
+<li>
+<a href="../14-stream-processing/">14. Stream Processing</a>
+</li>
+<li>
+<a href="../15-observability/">15. Observability</a>
+</li>
+<li class="active">
+<a href="./">16. Resilience Patterns</a>
+</li>
+<li>
+<a href="../17-distributed-transactions/">17. Distributed Transactions</a>
+</li>
+<li>
+<a href="../18-consensus-patterns/">18. Consensus Patterns</a>
+</li>
+<li>
+<a href="../19-microservices-patterns/">19. Microservices Patterns</a>
+</li>
+<li>
+<a href="../20-multi-region/">20. Multi-Region Architecture</a>
+</li>
+</ul>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">DSA <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../dsa/01-two-pointers/">01. Two Pointers</a>
+</li>
+<li>
+<a href="../../dsa/02-sliding-window/">02. Sliding Window</a>
+</li>
+<li>
+<a href="../../dsa/03-hash-tables/">03. Hash Tables</a>
+</li>
+<li>
+<a href="../../dsa/04-linked-lists/">04. Linked Lists</a>
+</li>
+<li>
+<a href="../../dsa/05-stacks--queues/">05. Stacks &amp; Queues</a>
+</li>
+<li>
+<a href="../../dsa/06-trees/">06. Trees</a>
+</li>
+<li>
+<a href="../../dsa/07-binary-search/">07. Binary Search</a>
+</li>
+<li>
+<a href="../../dsa/08-heaps/">08. Heaps</a>
+</li>
+<li>
+<a href="../../dsa/09-union-find/">09. Union-Find</a>
+</li>
+<li>
+<a href="../../dsa/10-graphs/">10. Graphs</a>
+</li>
+<li>
+<a href="../../dsa/11-advanced-graphs/">11. Advanced Graphs</a>
+</li>
+<li>
+<a href="../../dsa/12-backtracking/">12. Backtracking</a>
+</li>
+<li>
+<a href="../../dsa/13-dynamic-programming/">13. Dynamic Programming</a>
+</li>
+<li>
+<a href="../../dsa/14-prefix-sums/">14. Prefix Sums</a>
+</li>
+<li>
+<a href="../../dsa/15-intervals/">15. Intervals</a>
+</li>
+</ul>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Quick Reference <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../reference/when-it-breaks/">When It Breaks</a>
+</li>
+<li>
+<a href="../../reference/back-of-envelope/">Back of the Envelope</a>
+</li>
+<li>
+<a href="../../reference/symptom-pattern/">Symptom → Pattern</a>
+</li>
+<li>
+<a href="../../reference/staff-interview-strategy/">Staff+ Interview Strategy</a>
+</li>
+<li>
+<a href="../../reference/no-new-problems/">No New Problems in CS</a>
+</li>
+<li>
+<a href="../../reference/how-the-machine-works/">How the Machine Actually Works</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+<a data-target="#mkdocs_search_modal" data-toggle="modal" href="#">
+<i class="fas fa-search"></i> Search
+                        </a>
+</li>
+<li>
+<a href="../15-observability/" rel="prev">
+<i class="fas fa-arrow-left"></i> Previous
+                        </a>
+</li>
+<li>
+<a href="../17-distributed-transactions/" rel="next">
+                            Next <i class="fas fa-arrow-right"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+<ul class="nav bs-sidenav">
+<li class="first-level active"><a href="#resilience-patterns">Resilience Patterns</a></li>
+<li class="second-level"><a href="#learning-objectives">Learning Objectives</a></li>
+<li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+<li class="second-level"><a href="#pattern-1-circuit-breaker">Pattern 1: Circuit Breaker</a></li>
+<li class="second-level"><a href="#pattern-2-bulkhead">Pattern 2: Bulkhead</a></li>
+<li class="second-level"><a href="#pattern-3-retry-with-exponential-backoff">Pattern 3: Retry with Exponential Backoff</a></li>
+<li class="second-level"><a href="#pattern-4-timeout-hierarchy">Pattern 4: Timeout Hierarchy</a></li>
+<li class="second-level"><a href="#pattern-5-graceful-degradation">Pattern 5: Graceful Degradation</a></li>
+<li class="second-level"><a href="#common-misconceptions">Common Misconceptions</a></li>
+<li class="second-level"><a href="#beforeafter-cascade-failure-without-patterns">Before/After: Cascade Failure Without Patterns</a></li>
+<li class="second-level"><a href="#decision-framework-choosing-a-resilience-pattern">Decision Framework: Choosing a Resilience Pattern</a></li>
+<li class="second-level"><a href="#practice-scenarios">Practice Scenarios</a></li>
+<li class="second-level"><a href="#test-your-understanding">Test Your Understanding</a></li>
+<li class="second-level"><a href="#review-checklist">Review Checklist</a></li>
+<li class="second-level"><a href="#connected-topics">Connected Topics</a></li>
+</ul>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="resilience-patterns">Resilience Patterns<a class="headerlink" href="#resilience-patterns" title="Permanent link">¶</a></h1>
+<blockquote>
+<p>Keeping distributed systems alive when the dependencies they depend on are not</p>
+</blockquote>
+<hr/>
+<h2 id="learning-objectives">Learning Objectives<a class="headerlink" href="#learning-objectives" title="Permanent link">¶</a></h2>
+<p>By the end of this topic you will be able to:</p>
+<ul>
+<li>Trace a circuit breaker through CLOSED, OPEN, and HALF_OPEN states and explain what event triggers each transition</li>
+<li>Explain how bulkhead isolation prevents a slow downstream dependency from exhausting the entire thread pool of a calling service</li>
+<li>Derive a retry budget given an SLA deadline, a per-attempt timeout, and a maximum retry count</li>
+<li>Apply jitter to an exponential backoff formula and explain why it prevents the thundering herd</li>
+<li>Design a timeout hierarchy (connect, read, total) and explain how deadline propagation prevents unbounded wait chains</li>
+<li>Identify which resilience pattern to apply first given a specific failure scenario</li>
+</ul>
+<hr/>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After studying the patterns, explain each one in plain English.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What problem do resilience patterns solve?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">Without resilience patterns, one failing service can <strong><em>, which causes ___ to cascade through </em></strong></span></li>
+</ul>
+</li>
+<li>
+<p><strong>Circuit breaker analogy:</strong></p>
+<ul>
+<li>Example: "A circuit breaker is like the fuse box in your house — when too much current flows, the breaker trips and cuts the circuit before the wiring catches fire."</li>
+<li>Your analogy: <span class="fill-in">A circuit breaker in software is like ___ because ___</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Bulkhead analogy:</strong></p>
+<ul>
+<li>Example: "Bulkheads in a ship divide the hull into watertight compartments so that one hole doesn't sink the whole vessel."</li>
+<li>Your analogy: <span class="fill-in">A bulkhead in software is like ___ because ___</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Retry with jitter in one sentence:</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">Jitter solves the thundering herd by <strong><em>, which prevents </em></strong></span></li>
+</ul>
+</li>
+<li>
+<p><strong>Timeout hierarchy in one sentence:</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">A timeout hierarchy matters because without it, a single slow dependency can ___</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Graceful degradation in one sentence:</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">Graceful degradation means returning ___ instead of ___ so that users still ___</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr/>
+<h2 id="pattern-1-circuit-breaker">Pattern 1: Circuit Breaker<a class="headerlink" href="#pattern-1-circuit-breaker" title="Permanent link">¶</a></h2>
+<h3 id="concept">Concept<a class="headerlink" href="#concept" title="Permanent link">¶</a></h3>
+<p>A circuit breaker wraps calls to a remote dependency and tracks failure outcomes. When failures exceed a threshold, the breaker opens and rejects subsequent calls immediately — without waiting for a network timeout. After a configured recovery timeout, it enters a half-open probe state and allows one trial request through. A successful probe closes the circuit; a failed probe reopens it and resets the timeout.</p>
+<p><strong>State machine:</strong></p>
+<div class="mermaid">stateDiagram-v2
+    [*] --&gt; CLOSED
+    CLOSED --&gt; OPEN : failure count &gt;= threshold
+    OPEN --&gt; HALF_OPEN : recovery timeout expires
+    HALF_OPEN --&gt; CLOSED : probe request succeeds
+    HALF_OPEN --&gt; OPEN : probe request fails (reset timer)
+
+    note right of CLOSED
+        All calls forwarded to downstream
+    end note
+    note right of OPEN
+        All calls rejected immediately (fast-fail)
+    end note
+    note right of HALF_OPEN
+        One probe call allowed through
+    end note</div>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>Behaviour</th>
+<th>Transitions out</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CLOSED</td>
+<td>All calls forwarded to downstream</td>
+<td>→ OPEN when failure count ≥ threshold</td>
+</tr>
+<tr>
+<td>OPEN</td>
+<td>All calls rejected immediately (fast-fail)</td>
+<td>→ HALF_OPEN when recovery timeout expires</td>
+</tr>
+<tr>
+<td>HALF_OPEN</td>
+<td>One probe call allowed through</td>
+<td>→ CLOSED on success; → OPEN on failure</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why fast-fail matters:</strong> A thread blocked on a 30-second TCP timeout holds a connection, a thread-pool slot, and any upstream resources waiting for it. Multiplied across hundreds of concurrent requests, a single slow dependency can exhaust the entire thread pool of the caller. A circuit breaker converts a 30-second stall into a sub-millisecond rejection, preserving capacity for requests that can succeed.</p>
+<p><strong>Tuning thresholds:</strong></p>
+<ul>
+<li>Failure threshold too low: spurious opens on transient errors, causing unnecessary degradation</li>
+<li>Failure threshold too high: slow to protect; many requests waste time before the breaker opens</li>
+<li>Recovery timeout too short: the circuit oscillates — opens, probes, fails, reopens in rapid succession</li>
+<li>Recovery timeout too long: the service stays dark long after the dependency recovers</li>
+</ul>
+<p>A common starting point is 5 failures within a 10-second window, with a 30-second recovery timeout. Tune based on observed p99 latency of the dependency and acceptable degradation duration.</p>
+<h3 id="java-implementation-stub">Java Implementation Stub<a class="headerlink" href="#java-implementation-stub" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code class="language-java">package com.study.systems.resilience;
+
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Supplier;
+
+/**
+ * Circuit Breaker — wraps calls to a remote dependency and trips open
+ * when failures exceed a threshold.
+ *
+ * States:
+ *   CLOSED    — normal operation; all calls forwarded
+ *   OPEN      — fast-fail; all calls rejected immediately
+ *   HALF_OPEN — one probe request allowed through to test recovery
+ */
+public class CircuitBreaker {
+
+    public enum State { CLOSED, OPEN, HALF_OPEN }
+
+    private final int failureThreshold;        // failures before opening
+    private final long recoveryTimeoutMs;      // ms to wait before probing
+
+    private final AtomicReference&lt;State&gt; state;
+    private final AtomicInteger failureCount;
+    private final AtomicLong lastFailureTime;  // epoch ms of most recent failure
+
+    /**
+     * @param failureThreshold  consecutive failures that trip the breaker open
+     * @param recoveryTimeoutMs milliseconds to wait in OPEN before entering HALF_OPEN
+     */
+    public CircuitBreaker(int failureThreshold, long recoveryTimeoutMs) {
+        this.failureThreshold = failureThreshold;
+        this.recoveryTimeoutMs = recoveryTimeoutMs;
+        // TODO: initialise state to CLOSED
+        // TODO: initialise failureCount to 0
+        // TODO: initialise lastFailureTime to 0
+        this.state = null; // replace
+        this.failureCount = null; // replace
+        this.lastFailureTime = null; // replace
+    }
+
+    /**
+     * Execute the given supplier if the circuit allows it.
+     *
+     * @param action the remote call to attempt
+     * @param &lt;T&gt;    return type
+     * @return result of action
+     * @throws CircuitOpenException if the circuit is OPEN and the recovery timeout has not elapsed
+     *
+     * TODO: implement the execution guard
+     * 1. Call getState() to get the current (possibly auto-transitioning) state
+     * 2. If OPEN, throw CircuitOpenException
+     * 3. If HALF_OPEN, allow the call through; on success call recordSuccess();
+     *    on failure call recordFailure() and re-throw
+     * 4. If CLOSED, allow the call through; on success call recordSuccess();
+     *    on failure call recordFailure() and re-throw
+     */
+    public &lt;T&gt; T execute(Supplier&lt;T&gt; action) {
+        // TODO: implement
+        throw new UnsupportedOperationException("TODO");
+    }
+
+    /**
+     * Record a successful downstream call.
+     *
+     * TODO: implement
+     * - If state is HALF_OPEN, transition to CLOSED and reset failureCount
+     * - If state is CLOSED, reset failureCount (success clears the failure streak)
+     */
+    public void recordSuccess() {
+        // TODO: implement
+    }
+
+    /**
+     * Record a failed downstream call.
+     *
+     * TODO: implement
+     * - Increment failureCount
+     * - Record lastFailureTime = System.currentTimeMillis()
+     * - If failureCount &gt;= failureThreshold, transition state to OPEN
+     */
+    public void recordFailure() {
+        // TODO: implement
+    }
+
+    /**
+     * Return the current logical state, auto-transitioning OPEN → HALF_OPEN
+     * when the recovery timeout has elapsed.
+     *
+     * TODO: implement
+     * - If current state is OPEN and (now - lastFailureTime) &gt;= recoveryTimeoutMs,
+     *   transition to HALF_OPEN (use compareAndSet to avoid races)
+     * - Return the current state
+     */
+    public State getState() {
+        // TODO: implement
+        return state.get(); // replace with correct logic
+    }
+
+    /** Thrown when a call is rejected because the circuit is open. */
+    public static class CircuitOpenException extends RuntimeException {
+        public CircuitOpenException(String message) {
+            super(message);
+        }
+    }
+}
+</code></pre>
+<div class="admonition warning">
+<p class="admonition-title">Failure counting strategy matters</p>
+<p>The stub above counts consecutive failures. Production circuit breakers (Resilience4j, Hystrix) typically use a sliding-window count or rate: "≥ 50% failure rate in the last 10 calls." Consecutive counting is simpler but overly sensitive to a single transient spike. When tuning, consider whether a momentary blip or a sustained degradation should open the circuit.</p>
+</div>
+<hr/>
+<h2 id="pattern-2-bulkhead">Pattern 2: Bulkhead<a class="headerlink" href="#pattern-2-bulkhead" title="Permanent link">¶</a></h2>
+<h3 id="concept_1">Concept<a class="headerlink" href="#concept_1" title="Permanent link">¶</a></h3>
+<p>A bulkhead isolates thread pool or semaphore capacity by dependency so that saturation in one pool cannot consume resources intended for another. Without isolation, every downstream service shares the same thread pool. A single slow dependency holding 200 threads leaves none for the payment service, the inventory service, or health-check endpoints.</p>
+<p><strong>Two implementation approaches:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>Mechanism</th>
+<th>Overhead</th>
+<th>Use when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Thread pool isolation</td>
+<td>Separate executor per dependency</td>
+<td>Higher (context switch per call)</td>
+<td>Calls involve blocking I/O; pool size directly limits concurrency</td>
+</tr>
+<tr>
+<td>Semaphore isolation</td>
+<td>Counted semaphore on the calling thread</td>
+<td>Lower (no extra thread)</td>
+<td>Calls are fast or non-blocking; thread overhead is unacceptable</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Sizing thread pool bulkheads:</strong></p>
+<pre class="highlight"><code>pool_size = (requests_per_second × p99_latency_seconds) + small_headroom</code></pre>
+<p>Example: 200 req/s to a payment service with 150 ms p99 latency:</p>
+<pre class="highlight"><code>pool_size = 200 × 0.15 + 10 = 40 threads</code></pre>
+<p>Undersizing causes unnecessary rejections; oversizing wastes memory and defeats isolation. Start with Little's Law and adjust based on observed queue depth.</p>
+<p><strong>What bulkheads do NOT solve:</strong> Bulkheads limit the blast radius of a slow dependency but do not make that dependency faster. Pair bulkheads with circuit breakers: the circuit breaker detects the failure and fast-fails requests; the bulkhead limits how many threads were consumed before the breaker opened.</p>
+<p><strong>When bulkheads add overhead without value:</strong></p>
+<ul>
+<li>Services with a single downstream dependency — there is nothing else to isolate from</li>
+<li>Extremely low-latency calls (sub-millisecond in-process) where thread overhead exceeds call cost</li>
+<li>Read-only caches that return immediately — the latency profile does not threaten saturation</li>
+</ul>
+<hr/>
+<h2 id="pattern-3-retry-with-exponential-backoff">Pattern 3: Retry with Exponential Backoff<a class="headerlink" href="#pattern-3-retry-with-exponential-backoff" title="Permanent link">¶</a></h2>
+<h3 id="concept_2">Concept<a class="headerlink" href="#concept_2" title="Permanent link">¶</a></h3>
+<p>Retries recover from transient failures — a momentary network blip, a brief GC pause on a downstream server, a 503 from a rolling deployment. Without retries, these recoverable errors surface as permanent failures to callers.</p>
+<p><strong>Exponential backoff formula:</strong></p>
+<pre class="highlight"><code>wait = base_delay × (2 ^ attempt_number)</code></pre>
+<p>Example with <code>base_delay = 100 ms</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Attempt</th>
+<th>Wait before retry</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>100 ms</td>
+</tr>
+<tr>
+<td>2</td>
+<td>200 ms</td>
+</tr>
+<tr>
+<td>3</td>
+<td>400 ms</td>
+</tr>
+<tr>
+<td>4</td>
+<td>800 ms</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The thundering herd problem:</strong> If 500 instances all fail at the same time and retry on the same schedule, they create coordinated bursts that repeatedly hammer the recovering dependency — often knocking it down again before it can stabilise.</p>
+<p><strong>Jitter breaks the synchrony.</strong> Full jitter replaces the deterministic wait with a uniform random value in <code>[0, computed_backoff]</code>:</p>
+<pre class="highlight"><code>wait = random_uniform(0, base_delay × 2^attempt)</code></pre>
+<p>This spreads retries across the full backoff window, converting a sharp spike into a smooth ramp.</p>
+<p><strong>Retry budget — the critical constraint:</strong></p>
+<p>Every retry attempt consumes time. The retry chain must fit inside the caller's SLA budget:</p>
+<pre class="highlight"><code>total_budget = max_attempts × per_attempt_timeout + overhead</code></pre>
+<p>If the SLA budget is 2 000 ms, the per-attempt timeout is 400 ms, and max retries is 3:</p>
+<pre class="highlight"><code>3 × 400 ms = 1 200 ms  →  fits within 2 000 ms SLA</code></pre>
+<p>With 5 retries:</p>
+<pre class="highlight"><code>5 × 400 ms = 2 000 ms  →  leaves no margin for network overhead or caller processing</code></pre>
+<p><strong>What should be retried:</strong></p>
+<ul>
+<li>Transient errors: network timeouts, 503 Service Unavailable, 429 Too Many Requests (with Retry-After)</li>
+<li>Not retried: 400 Bad Request (client bug), 401/403 (auth failure), 404 Not Found, or any mutation that is not idempotent</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Non-idempotent mutations must not be retried blindly</p>
+<p>Retrying a <code>POST /orders</code> that timed out can create duplicate orders. Either make the operation idempotent (idempotency key in the request), use exactly-once semantics at the infrastructure layer, or limit retries to read operations and idempotent writes.</p>
+</div>
+<hr/>
+<h2 id="pattern-4-timeout-hierarchy">Pattern 4: Timeout Hierarchy<a class="headerlink" href="#pattern-4-timeout-hierarchy" title="Permanent link">¶</a></h2>
+<h3 id="concept_3">Concept<a class="headerlink" href="#concept_3" title="Permanent link">¶</a></h3>
+<p>A timeout hierarchy defines three distinct timeout layers for every remote call, and enforces that the outermost deadline bounds all inner timeouts.</p>
+<table>
+<thead>
+<tr>
+<th>Timeout type</th>
+<th>What it bounds</th>
+<th>Typical values</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Connect timeout</td>
+<td>Time to establish a TCP connection</td>
+<td>1–3 s</td>
+</tr>
+<tr>
+<td>Read timeout</td>
+<td>Time to receive the next byte after the connection is established</td>
+<td>Dependent on p99 of the dependency</td>
+</tr>
+<tr>
+<td>Total timeout (deadline)</td>
+<td>End-to-end wall-clock budget including retries</td>
+<td>Derived from caller's SLA</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why each layer matters:</strong></p>
+<ul>
+<li>Connect timeout without read timeout: the connection establishes quickly, but the server hangs mid-response and the caller waits forever.</li>
+<li>Read timeout without connect timeout: a network partition causes the TCP SYN to hang for the kernel's default timeout (90 seconds on Linux), which is usually far too long.</li>
+<li>Both fine-grained timeouts without a total deadline: three retries × 5 s read timeout = 15 s, far exceeding a 2 s SLA.</li>
+</ul>
+<p><strong>Deadline propagation:</strong> In a chain <code>A → B → C</code>, service A has a 2 000 ms SLA. It calls B with a deadline of 1 800 ms (leaving headroom). B propagates a shorter deadline to C. This prevents C from doing expensive work for a request that A has already given up on.</p>
+<p>Propagate deadlines via HTTP headers (<code>Grpc-Timeout</code>, custom <code>X-Request-Deadline</code>) or RPC metadata. At each hop, subtract elapsed time from the remaining deadline before forwarding. Reject requests that arrive with an already-expired deadline.</p>
+<p><strong>The missing timeout anti-pattern:</strong> Many HTTP client libraries ship with no timeout by default (Java's <code>HttpURLConnection</code>, older OkHttp configurations). In a microservices graph, one unconfigured client can hold a thread indefinitely, causing the bulkhead to fill and the circuit breaker to never get a chance to open.</p>
+<hr/>
+<h2 id="pattern-5-graceful-degradation">Pattern 5: Graceful Degradation<a class="headerlink" href="#pattern-5-graceful-degradation" title="Permanent link">¶</a></h2>
+<h3 id="concept_4">Concept<a class="headerlink" href="#concept_4" title="Permanent link">¶</a></h3>
+<p>Graceful degradation returns a reduced but functional response when a dependency is unavailable, rather than propagating an error to the user. The service continues operating at a lower fidelity — the degraded-mode contract — instead of failing completely.</p>
+<p><strong>Degradation strategies:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Strategy</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cached fallback</td>
+<td>Return the last known-good response</td>
+<td>Serve yesterday's product catalogue from cache</td>
+</tr>
+<tr>
+<td>Default / empty response</td>
+<td>Return a safe default</td>
+<td>Return empty recommendations list instead of error</td>
+</tr>
+<tr>
+<td>Feature flag disable</td>
+<td>Turn off the feature entirely</td>
+<td>Hide "Recommended for you" widget</td>
+</tr>
+<tr>
+<td>Static asset fallback</td>
+<td>Serve a pre-rendered page</td>
+<td>Serve a static maintenance banner</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Designing a degraded-mode contract:</strong> A degraded-mode contract specifies exactly what data the service will return when a dependency is down. It must be agreed between the service and its callers before the outage, not improvised during one. Key questions:</p>
+<ul>
+<li>Is the fallback data stale-safe? (Prices that are hours old may be wrong; product descriptions usually are not.)</li>
+<li>Does the fallback create downstream inconsistency? (Showing a product as "in stock" from cache when inventory is actually zero causes overselling.)</li>
+<li>How does the service signal to callers that it is in degraded mode? (HTTP header, response envelope field, metric label.)</li>
+</ul>
+<p><strong>Feature flags as a manual circuit breaker:</strong> A feature flag on the dependency call lets operators disable a non-critical integration instantly — without a deployment. Pair flags with circuit breakers: the circuit breaker auto-degrades; the flag allows manual override for planned maintenance or prolonged outages.</p>
+<p><strong>Degradation is not free:</strong> A service that falls back to a stale cache must invalidate that cache when the dependency recovers. A service that hides a feature must restore it. Degradation adds operational surface area. Reserve it for features where a degraded experience is genuinely better than an error — and document the recovery procedure.</p>
+<hr/>
+<h2 id="common-misconceptions">Common Misconceptions<a class="headerlink" href="#common-misconceptions" title="Permanent link">¶</a></h2>
+<div class="admonition danger">
+<p class="admonition-title">A circuit breaker is a retry mechanism</p>
+<p>A circuit breaker does the opposite of retrying. Its purpose is to stop sending requests to a failing dependency immediately, rather than letting every request block for a full timeout. Retries and circuit breakers are complementary: retries handle transient single-request failures; the circuit breaker handles sustained dependency outages. Never put retries inside the <code>execute()</code> call of a circuit breaker — if the retried call also fails, it increments the failure counter multiple times per original request, tripping the breaker prematurely.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Adding retries always improves reliability</p>
+<p>Retries improve reliability only for idempotent operations against transient failures. For a non-idempotent mutation, a retry can create duplicate side effects. For a dependency that is overloaded rather than temporarily unavailable, retries amplify load — a service responding with 503 under 100% load will receive 300 requests if every caller retries twice, driving it further into failure. Always pair retries with a circuit breaker; once the breaker opens, retries stop.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Bulkheads require separate microservices</p>
+<p>Bulkheads are a thread pool or semaphore pattern within a single service, not an architectural decomposition. A monolith that calls three external APIs can have three separate <code>ExecutorService</code> instances — one per API — without splitting into microservices. The isolation is achieved in code, not in deployment topology.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Graceful degradation means ignoring errors silently</p>
+<p>Degradation is a contract, not a cover-up. The service must signal to its callers that it is operating in degraded mode (via response headers, envelope fields, or metrics). Silent swallowing of errors hides outages from operators and leaves callers unaware that the data they received is stale or incomplete. Always make degradation observable.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Timeouts guarantee that the downstream call stops</p>
+<p>A read timeout on the client side tells the client to stop waiting, but it does not cancel the in-flight request on the server. The downstream service may continue executing, consuming CPU, locks, and database connections, even after the caller has abandoned the request. True cancellation requires cooperative support: context propagation (Go <code>context.Context</code>, gRPC cancellation) or server-side deadlines. Without it, "timeout" means "caller gave up" — not "work stopped."</p>
+</div>
+<hr/>
+<h2 id="beforeafter-cascade-failure-without-patterns">Before/After: Cascade Failure Without Patterns<a class="headerlink" href="#beforeafter-cascade-failure-without-patterns" title="Permanent link">¶</a></h2>
+<p><strong>Scenario:</strong> A product page service calls a recommendation engine. The recommendation engine develops a memory leak and its p99 latency climbs from 50 ms to 8 000 ms over 10 minutes.</p>
+<h3 id="without-resilience-patterns">Without resilience patterns<a class="headerlink" href="#without-resilience-patterns" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code>Product page service — 200 thread pool
+├── Thread 1: waiting on recommendation engine (8 000 ms)
+├── Thread 2: waiting on recommendation engine (8 000 ms)
+├── ...
+├── Thread 200: waiting on recommendation engine (8 000 ms)
+└── Thread 201 (incoming): rejected — pool exhausted → HTTP 503</code></pre>
+<p>After ~10 seconds at normal traffic (200 req/s × 8 s per request = 1 600 threads needed, but only 200 available), the product page service returns 503 to all users — even those who do not use recommendations.</p>
+<h3 id="with-timeout-circuit-breaker-bulkhead-graceful-degradation">With timeout + circuit breaker + bulkhead + graceful degradation<a class="headerlink" href="#with-timeout-circuit-breaker-bulkhead-graceful-degradation" title="Permanent link">¶</a></h3>
+<pre class="highlight"><code>Product page service
+├── Recommendation bulkhead pool (20 threads, isolated)
+│   ├── Thread 1: waiting, hits 500 ms read timeout → failure
+│   ├── Thread 2: waiting, hits 500 ms read timeout → failure
+│   ├── ... (5 failures within 10 s → circuit OPENS)
+│   └── Thread 6+: circuit open → immediate rejection (&lt; 1 ms)
+├── Main pool (180 threads, unaffected)
+│   ├── Serving product data normally
+│   └── Recommendations fallback: return empty list (graceful degradation)
+└── Users see product pages with "Recommendations unavailable" — no 503</code></pre>
+<p><strong>What each pattern contributed:</strong></p>
+<ul>
+<li>Timeout: capped individual waits at 500 ms, preventing indefinite blocking</li>
+<li>Bulkhead: confined blast radius to the recommendation pool; main pool unaffected</li>
+<li>Circuit breaker: opened after 5 failures, converting future calls to sub-millisecond rejections</li>
+<li>Graceful degradation: returned a usable product page without recommendations</li>
+</ul>
+<p><strong>Your analysis:</strong></p>
+<ul>
+<li>Which pattern had the highest leverage in this scenario? <span class="fill-in">[Fill in with reasoning]</span></li>
+<li>If you could only add one pattern before the incident, which would you choose and why? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<hr/>
+<h2 id="decision-framework-choosing-a-resilience-pattern">Decision Framework: Choosing a Resilience Pattern<a class="headerlink" href="#decision-framework-choosing-a-resilience-pattern" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Fill in the matrix based on the material above.</p>
+<h3 id="trade-off-analysis-matrix">Trade-off Analysis Matrix<a class="headerlink" href="#trade-off-analysis-matrix" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Failure type it handles</th>
+<th>Latency impact</th>
+<th>Requires idempotency</th>
+<th>Configuration complexity</th>
+<th>Key failure mode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Retry with exponential backoff + jitter</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Circuit breaker (Resilience4j)</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Timeout</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Bulkhead</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+</tbody>
+</table>
+<details class="success">
+<summary>Answers</summary>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Failure type it handles</th>
+<th>Latency impact</th>
+<th>Requires idempotency</th>
+<th>Configuration complexity</th>
+<th>Key failure mode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Retry with exponential backoff + jitter</strong></td>
+<td>Transient failures — network blips, brief overload</td>
+<td>Adds latency per retry attempt</td>
+<td>Yes — retrying a non-idempotent operation duplicates side effects (double payment, double email)</td>
+<td>Low</td>
+<td>Without jitter, all callers back off to the same interval and retry simultaneously — a thundering herd exactly when the dependency is recovering</td>
+</tr>
+<tr>
+<td><strong>Circuit breaker (Resilience4j)</strong></td>
+<td>Sustained downstream failure or overload</td>
+<td>Fails fast when open — eliminates wait time on failed calls</td>
+<td>No</td>
+<td>Medium — failure threshold, timeout, half-open probe count</td>
+<td>Threshold too low opens on transient errors and amplifies the outage; threshold too high never opens and provides no protection</td>
+</tr>
+<tr>
+<td><strong>Timeout</strong></td>
+<td>Slow responses that would otherwise hold threads indefinitely</td>
+<td>Bounded by timeout duration</td>
+<td>No</td>
+<td>Low</td>
+<td>Set lower than upstream caller's timeout to preserve the latency budget; timeout too short causes false failures; too long holds threads</td>
+</tr>
+<tr>
+<td><strong>Bulkhead</strong></td>
+<td>Cascading failure via thread-pool exhaustion — one slow dependency blocks all threads</td>
+<td>None if pools are correctly sized</td>
+<td>No</td>
+<td>Medium — pool size per dependency</td>
+<td>Pool too small starves legitimate traffic; pool too large allows one slow dependency to still exhaust a large pool</td>
+</tr>
+</tbody>
+</table>
+</details>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">When it breaks</p>
+<p>Circuit breakers break when threshold tuning is wrong: a threshold set too low opens the circuit on transient errors, amplifying an outage instead of containing it; set too high, it never opens and provides no protection. The half-open probe — sending a single request to test recovery — breaks under high traffic because one success doesn't confirm the dependency has recovered. Retry logic breaks when operations are not idempotent: retrying a payment or an email send is worse than failing once. Exponential backoff without jitter breaks under coordinated retry storms: all callers back off to the same interval and retry simultaneously, producing a spike exactly when the dependency is recovering. Jitter spreads retries across time and is almost always worth adding.</p>
+</div>
+<hr/>
+<h2 id="practice-scenarios">Practice Scenarios<a class="headerlink" href="#practice-scenarios" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<h3 id="scenario-1-resilient-checkout-service">Scenario 1: Resilient Checkout Service<a class="headerlink" href="#scenario-1-resilient-checkout-service" title="Permanent link">¶</a></h3>
+<p><strong>Context:</strong> An e-commerce checkout service calls three downstream services:</p>
+<ul>
+<li>Payment gateway (synchronous, latency-sensitive, 99.9% availability SLA)</li>
+<li>Inventory service (synchronous, must confirm stock before charging)</li>
+<li>Notification service (email/SMS, best-effort, non-critical)</li>
+</ul>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>Checkout SLA: 3 000 ms end-to-end</li>
+<li>A payment gateway outage should not prevent the page from loading (degraded mode: show error to user, do not hang)</li>
+<li>A notification service outage must not affect checkout completion</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<ul>
+<li>Which pattern(s) apply to the payment gateway call? <span class="fill-in">[Fill in]</span></li>
+<li>Which pattern(s) apply to the notification service call? <span class="fill-in">[Fill in]</span></li>
+<li>How would you isolate the notification service thread pool from the payment gateway thread pool? <span class="fill-in">[Fill in]</span></li>
+<li>What is the retry budget for the payment gateway if you allow 2 retries and reserve 300 ms for checkout logic? <span class="fill-in">[Show calculation]</span></li>
+<li>What does the degraded-mode contract look like when the payment gateway circuit is open? <span class="fill-in">[Fill in — what does the user see?]</span></li>
+</ul>
+<p><strong>Failure modes:</strong></p>
+<ul>
+<li>What happens if the inventory service becomes slow (500 ms latency spike) but never times out, and you have no bulkhead on the inventory call? <span class="fill-in">[Fill in — trace the thread exhaustion path]</span></li>
+<li>The payment gateway circuit opens. Your fallback returns a generic "payment unavailable" error. A user retries via the browser, hitting a different checkout instance that has its circuit still CLOSED. What consistency problem does this create, and how would you address it? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="scenario-2-cascade-failure-from-a-down-payment-gateway">Scenario 2: Cascade Failure from a Down Payment Gateway<a class="headerlink" href="#scenario-2-cascade-failure-from-a-down-payment-gateway" title="Permanent link">¶</a></h3>
+<p><strong>Context:</strong> Your platform serves 10 000 requests per second at peak. The payment gateway goes down at 14:00. By 14:02, the entire platform is unavailable — health checks are failing, load balancer is removing instances.</p>
+<p><strong>Post-incident investigation questions:</strong></p>
+<ul>
+<li>Which missing pattern most directly caused thread pool exhaustion across all services? <span class="fill-in">[Fill in]</span></li>
+<li>At 14:00, what should a circuit breaker configured with a 5-failure threshold have done? <span class="fill-in">[Fill in]</span></li>
+<li>At 14:01, with the circuit open, what should the checkout service have returned to users? <span class="fill-in">[Fill in]</span></li>
+<li>At 14:02, services recover after a restart. 10 000 clients immediately retry. What pattern prevents this from immediately taking the system down again? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>Your prevention design:</strong></p>
+<ul>
+<li>Which three patterns (in priority order) would you add to prevent this cascade? <span class="fill-in">[Fill in with brief justification for each]</span></li>
+<li>How would you test that the circuit breaker actually opens under load before deploying to production? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>Failure modes:</strong></p>
+<ul>
+<li>The circuit breaker is configured but its state is stored in-process. You have 50 checkout instances. The payment gateway fails. How many instances open their circuit, and what does total system behaviour look like during the transition? <span class="fill-in">[Fill in — consider instances that have not yet hit their threshold]</span></li>
+<li>Retries are added with exponential backoff but no jitter. The payment gateway recovers at 14:05. Describe what the traffic pattern looks like in the first 10 seconds after recovery. <span class="fill-in">[Fill in]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="test-your-understanding">Test Your Understanding<a class="headerlink" href="#test-your-understanding" title="Permanent link">¶</a></h2>
+<p>Answer these without referring to your notes.</p>
+<ol>
+<li>
+<p>A circuit breaker has <code>failureThreshold = 5</code> and <code>recoveryTimeoutMs = 30 000</code>. At T=0 the circuit is CLOSED. At T=10 s, 5 consecutive failures occur and the circuit opens. At T=40 s, a probe request is sent and succeeds. Trace the state at T=0, T=10 s (after the 5th failure), T=40 s (before the probe), T=40 s (after the probe succeeds), and T=40 s + 1 request. What state is the circuit in at each point?</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) T=0: CLOSED — normal operation, (2) T=10 s after 5th failure: OPEN — all subsequent calls fast-fail, (3) T=40 s before probe: the recovery timeout (30 s) has elapsed since last failure at T=10 s, so getState() auto-transitions to HALF_OPEN, (4) T=40 s after probe succeeds: recordSuccess() transitions to CLOSED and resets the failure counter, (5) T=40 s + 1 request: CLOSED — the request is forwarded normally. The key insight is that the OPEN → HALF_OPEN transition is time-driven (triggered by getState() checking elapsed time), while HALF_OPEN → CLOSED and HALF_OPEN → OPEN are outcome-driven.</p>
+</details>
+</li>
+<li>
+<p>Your service has a 2 000 ms SLA. You want to add retry logic to a downstream call with a p99 latency of 300 ms. You configure <code>maxRetries = 4</code> and <code>perAttemptTimeout = 500 ms</code>. Calculate whether this fits in the SLA budget, assuming 50 ms of processing overhead outside the retry loop. If it does not fit, propose a configuration that does.</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) total retry budget = 4 × 500 ms = 2 000 ms; adding 50 ms overhead = 2 050 ms, which exceeds the 2 000 ms SLA, (2) a valid fix is <code>maxRetries = 3</code>: 3 × 500 ms + 50 ms = 1 550 ms, well within budget; alternatively reduce <code>perAttemptTimeout</code> to 400 ms: 4 × 400 ms + 50 ms = 1 650 ms, (3) the candidate should note that the formula <code>max_attempts × timeout + overhead ≤ SLA_budget</code> must hold, and that backoff delays between attempts further consume the budget if not accounted for — jittered backoff should use remaining deadline to cap the wait, not a fixed formula.</p>
+</details>
+</li>
+<li>
+<p>You have a service that calls four downstream dependencies: search index, recommendation engine, user profile store, and audit logger. All share one thread pool of 200 threads. The recommendation engine occasionally takes 10 seconds to respond. Explain how to apply the bulkhead pattern to prevent the recommendation engine from starving the other three dependencies, and how to size each pool.</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) create four separate thread pools (or semaphore limits), one per dependency, so that the recommendation engine's 10-second responses can only consume its own pool, (2) sizing via Little's Law: pool_size = requests_per_second × p99_latency + headroom; for the recommendation engine with high latency this pool will be large; for the audit logger (fire-and-forget) it can be small, (3) the total thread count across all pools will likely exceed the original 200 — this is intentional; the old shared pool was undersized for isolation; the new pools size to each dependency's actual latency profile, (4) semaphore-based isolation is a lighter alternative that avoids extra context-switch overhead if the calls are non-blocking or very fast.</p>
+</details>
+</li>
+<li>
+<p>A service calls a third-party SMS provider to send order confirmations. The provider goes down for 20 minutes. Describe a graceful degradation strategy and specify the degraded-mode contract: what the service returns to callers, how it signals degraded mode, and how it recovers when the provider comes back.</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) degraded-mode behaviour: the service accepts the confirmation request, writes it to a durable queue (or local database), and returns HTTP 202 Accepted with a header such as <code>X-Notification-Mode: queued</code> — the order is still confirmed, only the SMS is deferred, (2) the degraded-mode contract must be agreed with callers: 202 means "confirmation recorded, SMS delivery pending," not "SMS sent", (3) a circuit breaker on the SMS provider call trips after repeated timeouts and routes to the queue path automatically, (4) recovery: when the circuit closes, a background job drains the queue in order; rate-limit the drain to avoid hammering the provider; deduplicate to avoid sending duplicate SMSs if the provider was partially accepting requests during the outage.</p>
+</details>
+</li>
+<li>
+<p>Describe the full sequence of events that causes a thundering herd after a 5-minute outage, without jitter, in a system with 300 service instances each configured to retry up to 3 times with 1 s, 2 s, 4 s backoffs. When do the retry spikes occur relative to recovery time T=0? How does full jitter change this picture?</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) without jitter, all 300 instances retry at exactly T=1 s, T=3 s (1+2), T=7 s (1+2+4) — each spike is 300 simultaneous requests, potentially overwhelming the freshly recovered service, (2) the recovering service is most fragile at T=0 (caches cold, connections re-establishing, JVM warming up); the first coordinated spike at T=1 s can kill it again before it stabilises, (3) with full jitter, each instance picks a random wait in [0, computed_backoff]: the first retry window is spread across [0, 1 s], the second across [0, 2 s], the third across [0, 4 s], converting three sharp spikes into three smooth ramps, (4) the candidate should note that jitter alone is not enough if the retry budget itself is too large; cap max retries to avoid prolonged storms.</p>
+</details>
+</li>
+</ol>
+<hr/>
+<h2 id="review-checklist">Review Checklist<a class="headerlink" href="#review-checklist" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p>Complete this checklist after studying and implementing the patterns.</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can trace a circuit breaker through all three states and name the event that triggers each transition</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can derive a retry budget given SLA deadline, per-attempt timeout, and max retry count, and verify it fits</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can apply the jitter formula and explain why it prevents thundering herd after a mass recovery</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can size a bulkhead thread pool using Little's Law given request rate and p99 latency</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can identify which timeout layer (connect, read, total) is missing from a given client configuration and explain the failure mode</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can specify a degraded-mode contract for a real scenario: what is returned, how mode is signalled, how recovery works</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can describe the order in which patterns should be layered and justify the ordering</li>
+</ul>
+</div>
+<hr/>
+<h2 id="connected-topics">Connected Topics<a class="headerlink" href="#connected-topics" title="Permanent link">¶</a></h2>
+<div class="bs-callout bs-callout-info">
+<p><strong>Where this topic connects</strong></p>
+<ul>
+<li><strong><a href="../09-load-balancing/">09. Load Balancing</a></strong> — load balancers surface circuit-breaker-equivalent behaviour at the infrastructure layer (health checks, passive outlier detection); understanding service-level circuit breakers clarifies what the load balancer cannot do for you → <a href="../09-load-balancing/">09. Load Balancing</a></li>
+<li><strong><a href="../15-observability/">15. Observability</a></strong> — circuit breaker state changes (CLOSED → OPEN, OPEN → HALF_OPEN) must be emitted as metrics and events; without observability you cannot tell whether breakers are tripping spuriously or whether recovery timeouts are correctly tuned → <a href="../15-observability/">15. Observability</a></li>
+<li><strong><a href="../17-distributed-transactions/">17. Distributed Transactions</a></strong> — saga compensating transactions depend on retries and timeouts to guarantee progress; resilience patterns determine whether the saga coordinator can reliably reach each participant or must invoke compensation → <a href="../17-distributed-transactions/">17. Distributed Transactions</a></li>
+</ul>
+</div></div>
+</div>
+<footer class="col-md-12 text-center">
+<hr/>
+<p>
+<small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+</p>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../../js/bootstrap-3.0.3.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>var base_url = "../.."</script>
+<script src="../../js/base.js"></script>
+<script src="../../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<button class="close" data-dismiss="modal" type="button">
+<span aria-hidden="true">×</span>
+<span class="sr-only">Close</span>
+</button>
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+</div>
+<div class="modal-body">
+<p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="text"/>
+</div>
+</form>
+<div id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@11.13.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>

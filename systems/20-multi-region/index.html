@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A framework for algorithms, systems design, and infrastructure.">
+    <meta name="author" content="Richard">
+    
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+
+    
+    <title>20. Multi-Region Architecture - Software Engineering Study Guide</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../../css/base.min.css" rel="stylesheet">
+    <link href="../../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css">
+        
+    
+    <link href="../../css/custom.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../..">Home</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Systems Design <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../01-storage-engines/">01. Storage Engines</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../04-search-and-indexing/">04. Search & Indexing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../05-caching-patterns/">05. Caching Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../06-api-design/">06. API Design</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../07-security-patterns/">07. Security Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../08-rate-limiting/">08. Rate Limiting</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../09-load-balancing/">09. Load Balancing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../11-database-scaling/">11. Database Scaling</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../12-message-queues/">12. Message Queues</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../13-event-sourcing-cqrs/">13. Event Sourcing & CQRS</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../14-stream-processing/">14. Stream Processing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../15-observability/">15. Observability</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../16-resilience-patterns/">16. Resilience Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../17-distributed-transactions/">17. Distributed Transactions</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../18-consensus-patterns/">18. Consensus Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../19-microservices-patterns/">19. Microservices Patterns</a>
+</li>
+
+                        
+                            
+<li class="active">
+    <a href="./">20. Multi-Region Architecture</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">DSA <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../dsa/01-two-pointers/">01. Two Pointers</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/02-sliding-window/">02. Sliding Window</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/03-hash-tables/">03. Hash Tables</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/04-linked-lists/">04. Linked Lists</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/05-stacks--queues/">05. Stacks & Queues</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/06-trees/">06. Trees</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/07-binary-search/">07. Binary Search</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/08-heaps/">08. Heaps</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/09-union-find/">09. Union-Find</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/10-graphs/">10. Graphs</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/11-advanced-graphs/">11. Advanced Graphs</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/12-backtracking/">12. Backtracking</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/13-dynamic-programming/">13. Dynamic Programming</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/14-prefix-sums/">14. Prefix Sums</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/15-intervals/">15. Intervals</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Quick Reference <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../reference/when-it-breaks/">When It Breaks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/back-of-envelope/">Back of the Envelope</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/symptom-pattern/">Symptom → Pattern</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/staff-interview-strategy/">Staff+ Interview Strategy</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/no-new-problems/">No New Problems in CS</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/how-the-machine-works/">How the Machine Actually Works</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../19-microservices-patterns/">
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="next" href="../../dsa/01-two-pointers/">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#multi-region-architecture">Multi-Region Architecture</a></li>
+            <li class="second-level"><a href="#learning-objectives">Learning Objectives</a></li>
+                
+            <li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+                
+            <li class="second-level"><a href="#core-concepts">Core Concepts</a></li>
+                
+            <li class="second-level"><a href="#implementation">Implementation</a></li>
+                
+            <li class="second-level"><a href="#common-misconceptions">Common Misconceptions</a></li>
+                
+            <li class="second-level"><a href="#decision-framework-choosing-a-multi-region-topology">Decision Framework: Choosing a Multi-Region Topology</a></li>
+                
+            <li class="second-level"><a href="#practice-scenarios">Practice Scenarios</a></li>
+                
+            <li class="second-level"><a href="#test-your-understanding">Test Your Understanding</a></li>
+                
+            <li class="second-level"><a href="#review-checklist">Review Checklist</a></li>
+                
+            <li class="second-level"><a href="#connected-topics">Connected Topics</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="multi-region-architecture">Multi-Region Architecture<a class="headerlink" href="#multi-region-architecture" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>Spreading data and compute across geographic boundaries to reduce latency, survive regional failures, and satisfy data-residency regulations</p>
+</blockquote>
+<hr />
+<h2 id="learning-objectives">Learning Objectives<a class="headerlink" href="#learning-objectives" title="Permanent link">&para;</a></h2>
+<p>By the end of this topic you will be able to:</p>
+<ul>
+<li>Distinguish active-active from active-passive deployments and articulate the write-routing and conflict implications of each</li>
+<li>Define RPO and RTO precisely and map them to synchronous versus asynchronous replication choices</li>
+<li>Explain last-write-wins, vector clocks, and CRDTs and identify which is appropriate given conflict frequency and merge semantics</li>
+<li>Describe latency-based routing, anycast, and region affinity and explain how each affects user experience and operational complexity</li>
+<li>Apply partition-by-region patterns to satisfy GDPR data-residency requirements and reason about the cross-region query limitations that result</li>
+</ul>
+<hr />
+<div class="admonition note">
+<p class="admonition-title">Operational reality</p>
+<p>Multi-region is a prestige architecture. It signals scale and seriousness, but the majority of systems that adopt it did not need it.</p>
+<p>To understand why, it helps to know what cloud providers actually offer. A single region (e.g. AWS <code>us-east-1</code>) is already split into multiple physically separate data centres called Availability Zones (AZs) — <code>us-east-1a</code>, <code>us-east-1b</code>, <code>us-east-1c</code> — each with independent power, cooling, and networking, connected by ~1ms links. Running across multiple AZs within one region protects against a data centre fire, a power failure, a networking fault in one facility. This is <strong>multi-AZ</strong>, and it is largely automatic with managed services (RDS Multi-AZ, ECS across AZs). It achieves 99.99% availability with almost no added complexity.</p>
+<p><strong>Multi-region</strong> means deploying across geographically separate regions (<code>us-east-1</code> + <code>eu-west-1</code> + <code>ap-southeast-1</code>), hundreds to thousands of miles apart, with 80–200ms latency between them. A full AWS region going down is extremely rare — maybe once every few years, and usually partially. When teams say "we need multi-region for availability," they are usually solving for AZ failures, which multi-AZ already handles.</p>
+<p>The three scenarios that genuinely justify multi-region are: (1) <strong>latency</strong> — serving users globally where a Tokyo user hitting a Virginia server adds 150ms to every request; (2) <strong>data residency</strong> — GDPR and similar regulations requiring that EU user data physically stays in the EU; (3) <strong>extreme availability SLAs</strong> — financial or infrastructure systems where a full regional outage is contractually unacceptable.</p>
+<p>Active-active multi-region is also more common in press releases than in production. Many systems described as "active-active" are actually active-passive with a short failover time. True active-active with conflict resolution is an unsolved problem for most data models: last-write-wins silently loses updates, vector clocks add per-record overhead, and CRDTs fit only specific data structures. Study this topic for the interview scenarios where it is the right answer — not as a default scaling strategy.</p>
+</div>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After studying multi-region architecture, explain the core ideas simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What problem does multi-region architecture solve?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">Running your service in one data centre is like ___ — multi-region is like ___</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Active-active vs active-passive in one sentence each:</strong></p>
+<ul>
+<li>Active-active: <span class="fill-in">Active-active means ___ so that ___</span></li>
+<li>Active-passive: <span class="fill-in">Active-passive means ___ so that ___</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy for replication lag:</strong></p>
+<ul>
+<li>Example: "Replication lag is like a photocopier that..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Why does conflict resolution matter?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">When two regions accept writes to the same record simultaneously, ___</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What is data sovereignty in plain language?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">Data sovereignty laws say that <strong><em>, which forces architects to </em></strong></span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr />
+<h2 id="core-concepts">Core Concepts<a class="headerlink" href="#core-concepts" title="Permanent link">&para;</a></h2>
+<h3 id="active-active-vs-active-passive">Active-Active vs Active-Passive<a class="headerlink" href="#active-active-vs-active-passive" title="Permanent link">&para;</a></h3>
+<p>In an <strong>active-passive</strong> deployment, one region (primary) accepts all reads and writes. One or more passive regions maintain replicas and stand ready to take over. Failover is manual or automated: when the primary becomes unavailable, a passive region is promoted to primary.</p>
+<p>Key characteristics of active-passive:</p>
+<ul>
+<li>All writes flow to a single region — no write conflicts by design</li>
+<li>Reads can be served locally from passive replicas if slight staleness is acceptable</li>
+<li>Failover time (RTO) ranges from seconds (automated, pre-warmed) to minutes (cold standbys)</li>
+<li>Users in passive regions pay cross-region latency on writes</li>
+<li>Simpler to reason about: at any moment there is exactly one authoritative copy</li>
+</ul>
+<p>In an <strong>active-active</strong> deployment, every region accepts both reads and writes simultaneously. A routing layer directs users to their nearest or lowest-latency region.</p>
+<p>Key characteristics of active-active:</p>
+<ul>
+<li>Write latency is local for users everywhere — the primary benefit</li>
+<li>Writes in different regions to the same record can conflict — this is the central challenge</li>
+<li>Replication carries writes between regions; conflicts must be detected and resolved</li>
+<li>Higher throughput: write capacity scales with the number of regions</li>
+<li>No "failover" to trigger — traffic is simply redistributed when a region degrades</li>
+</ul>
+<p>The fundamental trade-off is <strong>write latency versus conflict complexity</strong>. Active-active achieves low write latency globally but requires a conflict resolution strategy. Active-passive avoids conflicts entirely but forces non-primary regions to route writes across the globe.</p>
+<p><strong>When to choose active-passive:</strong></p>
+<ul>
+<li>Writes are infrequent or tolerance for cross-region write latency exists</li>
+<li>Data model cannot express a meaningful merge (e.g., financial ledgers)</li>
+<li>Team capacity to operate conflict resolution is limited</li>
+<li>RPO = 0 is a hard requirement (synchronous replication to one primary is simpler to guarantee)</li>
+</ul>
+<p><strong>When to choose active-active:</strong></p>
+<ul>
+<li>Write latency is a user-facing requirement in multiple geographies</li>
+<li>Writes are frequent enough that cross-region routing costs are significant</li>
+<li>Workload is naturally partitioned by user (shopping carts, user profiles) — minimising actual conflict rate</li>
+<li>High availability with minimal RTO is paramount</li>
+</ul>
+<hr />
+<h3 id="replication-strategies">Replication Strategies<a class="headerlink" href="#replication-strategies" title="Permanent link">&para;</a></h3>
+<p>Replication moves writes from the region that accepted them to all other regions. The timing of that movement defines the reliability and performance properties of the system.</p>
+<p><strong>Synchronous replication</strong> requires the primary to receive acknowledgement from one or more replicas before returning success to the client.</p>
+<pre class="highlight"><code>Client → Primary → [write local]
+                 → [send to Replica A] ← wait for ACK
+                 → [send to Replica B] ← wait for ACK (optional)
+         Primary → [return success to client]</code></pre>
+<ul>
+<li>RPO: 0 — acknowledged writes are guaranteed to be present on replicas</li>
+<li>Write latency: primary latency + cross-region round trip (often 50–200 ms for intercontinental)</li>
+<li>Throughput: bounded by the slowest replica acknowledgement path</li>
+<li>A replica crash or network partition blocks writes (unless a quorum model is used)</li>
+</ul>
+<p><strong>Asynchronous replication</strong> allows the primary to return success to the client before replicas have acknowledged. Replication proceeds in the background.</p>
+<pre class="highlight"><code>Client → Primary → [write local]
+         Primary → [return success to client immediately]
+                 → [send to replicas, best-effort]</code></pre>
+<ul>
+<li>RPO: non-zero — unacknowledged lag means recent writes can be lost if the primary crashes</li>
+<li>Write latency: local only — no cross-region wait</li>
+<li>Throughput: not bounded by replica acknowledgement</li>
+<li>Replicas may be seconds or minutes behind depending on load and network conditions</li>
+</ul>
+<p><strong>Semi-synchronous replication</strong> is a common middle ground: require acknowledgement from exactly one replica (often in the same region or an adjacent one) before returning success, and replicate to remaining regions asynchronously. This limits RPO to the lag of the asynchronous replicas while containing the latency impact.</p>
+<p><strong>Replication lag</strong> is the delay between a write being committed on the primary and becoming visible on a replica. It is not a fixed number — it spikes under load, network contention, and schema changes. Applications must reason about lag explicitly:</p>
+<ul>
+<li>A user who writes then immediately reads via a replica may not see their own write</li>
+<li>Read-your-own-writes consistency requires either routing reads to the primary or tracking a replication watermark per session</li>
+<li>Monitoring replication lag as a first-class metric is essential; an unexpectedly growing lag is an early warning of replication pipeline problems</li>
+</ul>
+<p><strong>RPO and RTO definitions:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Full name</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RPO</td>
+<td>Recovery Point Objective</td>
+<td>Maximum tolerable data loss measured in time — how old can the most recent surviving write be?</td>
+</tr>
+<tr>
+<td>RTO</td>
+<td>Recovery Time Objective</td>
+<td>Maximum tolerable downtime — how long can the service be unavailable after a failure?</td>
+</tr>
+</tbody>
+</table>
+<p>Synchronous replication achieves RPO = 0 at the cost of write latency. Asynchronous replication minimises write latency at the cost of non-zero RPO. Neither choice affects RTO directly — RTO is determined by how quickly failover executes.</p>
+<hr />
+<h3 id="conflict-resolution">Conflict Resolution<a class="headerlink" href="#conflict-resolution" title="Permanent link">&para;</a></h3>
+<p>A conflict occurs when two regions accept concurrent writes to the same logical record and those writes are incompatible. Conflicts are rare in naturally user-partitioned workloads (each user writes only from their region) but unavoidable in others (global counters, shared documents, inventory).</p>
+<p><strong>Last-Write-Wins (LWW)</strong></p>
+<p>Each write carries a timestamp. When two conflicting versions are reconciled, the one with the later timestamp is retained and the other is discarded.</p>
+<ul>
+<li>Simple to implement; no application logic required</li>
+<li>Requires clock synchronisation across regions — NTP drift or leap-second bugs cause incorrect ordering</li>
+<li>Silently discards writes that arrive slightly out of order — data loss is possible and invisible</li>
+<li>Appropriate for: user profile updates where the user updates from one device at a time, cache values where stale eviction is acceptable</li>
+</ul>
+<p><strong>Vector Clocks</strong></p>
+<p>A vector clock is a map from node ID to logical counter. Each node increments its own entry on every write. Comparing two vector clocks determines causality:</p>
+<ul>
+<li>If <code>v1[i] &lt;= v2[i]</code> for all nodes <code>i</code>, then <code>v1</code> happened-before <code>v2</code> (or they are equal)</li>
+<li>If neither vector clock dominates the other, the writes are concurrent and a conflict exists</li>
+</ul>
+<p>Vector clocks allow the system to detect conflicts precisely — no false positives. They do not resolve conflicts; they identify them and surface both versions to application code or a merge function.</p>
+<ul>
+<li>Storage overhead: one integer per node per record version</li>
+<li>Appropriate for: shopping carts, collaborative editing — any case where both concurrent writes should be visible or merged rather than dropped</li>
+</ul>
+<p><strong>CRDTs (Conflict-free Replicated Data Types)</strong></p>
+<p>CRDTs are data structures whose merge operation is associative, commutative, and idempotent — meaning any order of merging any subset of updates produces the same result. No coordination is required.</p>
+<p>Common examples:</p>
+<ul>
+<li>G-Counter: a per-node count that is merged by taking the max of each node's value</li>
+<li>OR-Set (Observed-Remove Set): supports add and remove operations with well-defined concurrent semantics</li>
+<li>LWW-Element-Set: elements carry timestamps; concurrent add and remove resolves in favour of add or remove consistently</li>
+</ul>
+<p>CRDTs eliminate conflict resolution code entirely for supported operations at the cost of restricting the data model. Not all operations can be expressed as CRDTs (arbitrary updates to a balance, for example).</p>
+<p><strong>Application-level merge</strong></p>
+<p>For conflicts that cannot be expressed as a CRDT and where LWW is too lossy, the application implements a merge function. Both conflicting versions are stored (often called siblings), and the next read triggers merge logic.</p>
+<ul>
+<li>Maximum flexibility — can implement domain semantics (e.g., merge shopping carts by union)</li>
+<li>Increases read-path complexity; merge bugs are subtle</li>
+<li>Appropriate for: document stores, rich data models where business rules govern conflict semantics</li>
+</ul>
+<hr />
+<h3 id="geo-routing">Geo-Routing<a class="headerlink" href="#geo-routing" title="Permanent link">&para;</a></h3>
+<p>Geo-routing directs each user request to the optimal region. "Optimal" typically means lowest latency, but can also incorporate health, capacity, and compliance constraints.</p>
+<p><strong>Latency-based routing</strong> measures or estimates the network round-trip time between a client's IP address and each region's endpoint. DNS or a global load balancer returns the address of the lowest-latency region. AWS Route 53 latency routing and Google Cloud's global load balancer both operate this way.</p>
+<ul>
+<li>Routing decisions update as latency measurements change</li>
+<li>A degraded region may still receive traffic if it nominally has the lowest latency; health checks must be combined with latency routing</li>
+</ul>
+<p><strong>Anycast</strong> assigns the same IP address to servers in multiple regions. The internet's BGP routing protocol naturally directs packets to the topologically nearest instance of that IP. Cloudflare and many CDNs use anycast for their edge network.</p>
+<ul>
+<li>No DNS TTL delay — routing adjusts at the packet level</li>
+<li>Region selection is transparent to the client; no explicit routing layer needed</li>
+<li>Failure handling depends on BGP convergence time (seconds to minutes)</li>
+<li>Primarily used for stateless services and DDoS scrubbing; less common for stateful databases</li>
+</ul>
+<p><strong>Region affinity</strong> routes all requests from a given user or session to the same region for the duration of a session or longer. This avoids the read-your-own-writes anomaly common in active-active deployments.</p>
+<ul>
+<li>Implemented via sticky cookies, JWT claims encoding a home region, or consistent hashing on user ID</li>
+<li>A user whose home region degrades must be re-routed; their new region may be behind on replication</li>
+<li>Affinity and compliance requirements often align: a European user can be pinned to an EU region both for latency and for GDPR reasons</li>
+</ul>
+<p><strong>Sticky sessions across regions</strong> present an additional complication: session state must either follow the user (replicated) or be regenerated (re-authentication). Stateless session tokens (JWTs) that encode region affinity simplify failover because any region can validate them without a cross-region session lookup.</p>
+<hr />
+<h3 id="data-sovereignty-and-compliance">Data Sovereignty and Compliance<a class="headerlink" href="#data-sovereignty-and-compliance" title="Permanent link">&para;</a></h3>
+<p>Data sovereignty refers to the principle that data is subject to the laws of the country in which it resides or was collected. For engineering, this primarily manifests as data-residency requirements: certain categories of personal data must be stored on hardware physically located within a specific jurisdiction and must not leave it.</p>
+<p><strong>GDPR (General Data Protection Regulation)</strong> is the primary example. GDPR imposes obligations on any organisation processing the personal data of EU residents, regardless of where the organisation is headquartered. Relevant engineering implications:</p>
+<ul>
+<li>Personal data of EU residents must not be transferred to countries outside the EU/EEA without adequate safeguards (an adequacy decision, Standard Contractual Clauses, or Binding Corporate Rules)</li>
+<li>Data subjects have the right to erasure — deleting a user's data must propagate to all regions where it is stored</li>
+<li>Breach notification obligations require knowing exactly where data lives</li>
+</ul>
+<p><strong>Partition-by-region</strong> is the standard architectural response. User data is assigned to a home region based on the user's jurisdiction at registration. All writes for that user go to their home region; reads from other regions must either query cross-region or cache non-personal data only.</p>
+<p>Partition-by-region introduces several engineering challenges:</p>
+<ul>
+<li><strong>Cross-region queries are expensive or impossible.</strong> Analytics that aggregate over all users must either accept latency (federated query across regions) or replicate anonymised/aggregated data to a global analytics store.</li>
+<li><strong>User relocation is difficult.</strong> A user who moves from the EU to the US has a home region that no longer reflects their residency. Migrating their data requires a careful hand-off procedure.</li>
+<li><strong>Operational tooling must be region-aware.</strong> Monitoring dashboards, support tooling, and incident response runbooks must all route to the correct shard.</li>
+</ul>
+<p><strong>Compliance beyond GDPR:</strong> Similar requirements exist in China (PIPL), Russia (Federal Law No. 242-FZ), and India (DPDP Act). A globally deployed service may require a distinct data partition for each major jurisdiction, with explicit controls preventing data from flowing across partition boundaries.</p>
+<p><strong>Pseudonymisation and tokenisation</strong> can reduce the scope of data-residency obligations. If personally identifiable fields are replaced by tokens and the token mapping is stored in the home region, derivative data (event logs, recommendation models) may be eligible to live globally. The legal analysis of whether this satisfies a specific regulation is jurisdiction-dependent.</p>
+<hr />
+<h2 id="implementation">Implementation<a class="headerlink" href="#implementation" title="Permanent link">&para;</a></h2>
+<pre class="highlight"><code class="language-java">package com.study.systems.multiregion;
+
+import java.util.*;
+import java.util.concurrent.*;
+
+public class ReplicationManager {
+
+    private final String localRegion;
+    private final List&lt;String&gt; remoteRegions;
+    private final ConflictResolver conflictResolver;
+
+    // Local store: key → versioned value
+    private final ConcurrentHashMap&lt;String, VersionedValue&gt; store;
+
+    /**
+     * @param localRegion     identifier for this region (e.g. "us-east-1")
+     * @param remoteRegions   list of peer region identifiers
+     * @param conflictResolver strategy for resolving concurrent writes
+     *
+     * TODO: Initialise the local store and stash the constructor parameters
+     */
+    public ReplicationManager(String localRegion,
+                               List&lt;String&gt; remoteRegions,
+                               ConflictResolver conflictResolver) {
+        // TODO: assign localRegion, remoteRegions, conflictResolver
+        // TODO: initialise store as a new ConcurrentHashMap
+        this.localRegion = null;      // replace
+        this.remoteRegions = null;    // replace
+        this.conflictResolver = null; // replace
+        this.store = null;            // replace
+    }
+
+    /**
+     * Accept a write from the local application and propagate it
+     * to all remote regions asynchronously.
+     *
+     * @param key    the record key
+     * @param value  the new value
+     * @param region the region originating this write (usually localRegion)
+     *
+     * TODO:
+     *  1. Create a VersionedValue with the current VectorClock for this key,
+     *     incremented for localRegion
+     *  2. Store it locally (putIfAbsent or compare-and-swap to detect conflicts)
+     *  3. Enqueue an async replication task for each remote region
+     *  4. On replication, call receiveRemoteWrite on the remote manager
+     */
+    public void write(String key, String value, String region) {
+        // TODO: retrieve or initialise the VectorClock for this key
+        // TODO: increment the clock for the originating region
+        // TODO: wrap value + clock into a VersionedValue
+        // TODO: store locally, checking for concurrent writes
+        // TODO: for each remote region, submit async replication
+    }
+
+    /**
+     * Handle an inbound replicated write from another region.
+     * Detects conflicts using VectorClock comparison and delegates
+     * to the ConflictResolver when writes are concurrent.
+     *
+     * @param key     the record key
+     * @param incoming the versioned value received from a remote region
+     *
+     * TODO:
+     *  1. Look up the current local version for this key (may be absent)
+     *  2. If absent, store incoming directly
+     *  3. If incoming.clock happensBefore local.clock, discard (we're ahead)
+     *  4. If local.clock happensBefore incoming.clock, replace with incoming
+     *  5. Otherwise the writes are concurrent — call resolveConflict
+     */
+    public void receiveRemoteWrite(String key, VersionedValue incoming) {
+        // TODO: look up existing value
+        // TODO: handle absent case
+        // TODO: compare vector clocks and branch accordingly
+        // TODO: on concurrent writes, delegate to resolveConflict
+    }
+
+    /**
+     * Resolve a conflict between two concurrent VersionedValues.
+     * Stores the winner returned by the ConflictResolver.
+     *
+     * @param key    the record key
+     * @param v1     one concurrent version
+     * @param v2     another concurrent version
+     *
+     * TODO:
+     *  1. Call conflictResolver.resolve(v1, v2)
+     *  2. Store the returned winner in the local store
+     *  3. Propagate the resolved value to remote regions so they converge
+     */
+    public void resolveConflict(String key, VersionedValue v1, VersionedValue v2) {
+        // TODO: invoke conflictResolver.resolve(v1, v2)
+        // TODO: store winner locally
+        // TODO: propagate winner to remote regions (async)
+    }
+
+    /**
+     * Read a value from the local store.
+     * Note: caller may observe stale data if replication is lagging.
+     *
+     * @param key the record key
+     * @return the current local VersionedValue, or empty if not present
+     */
+    public Optional&lt;VersionedValue&gt; read(String key) {
+        // TODO: return value from local store
+        return Optional.empty(); // replace
+    }
+}
+</code></pre>
+<hr />
+<hr />
+<h2 id="common-misconceptions">Common Misconceptions<a class="headerlink" href="#common-misconceptions" title="Permanent link">&para;</a></h2>
+<div class="admonition danger">
+<p class="admonition-title">Misconception 1: Active-active guarantees RPO = 0</p>
+<p>Active-active with <strong>asynchronous</strong> replication has a non-zero RPO. If Region A accepts a write and crashes before it replicates to Region B, that write is lost. The active-active topology eliminates the <em>failover ceremony</em> but does not eliminate <em>replication lag</em>. RPO = 0 requires synchronous replication to at least one other region before acknowledging the client — which adds cross-region round-trip latency (typically 50–200 ms intercontinentally) to every write.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Misconception 2: Conflicts only happen with truly simultaneous writes</p>
+<p>Conflicts arise from replication lag, not just concurrency. Two writes to the same record from two different regions, seconds apart, can arrive at each other's region out of order. A write at T=100ms in Region A arrives at Region B at T=250ms; a write at T=200ms in Region B arrives at Region A at T=350ms. Neither writer was aware of the other — both thought they were writing to the latest version. The conflict window is as wide as the replication lag, not just the microsecond window of true simultaneity.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Misconception 3: Multi-region deployment automatically provides high availability</p>
+<p>Deploying to multiple regions and <em>automatically failing over between them</em> are separate capabilities. Without automated health checks, traffic rerouting, and runbook validation, a second region is a warm standby you must manually activate under pressure — exactly when mistakes happen. High availability at the multi-region level requires: health monitoring that detects regional degradation, a routing layer that can redirect traffic (Route 53 health checks, anycast, etc.), and regular failover drills that validate the process actually works.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Misconception 4: Last-write-wins is a safe default for conflict resolution</p>
+<p>LWW silently discards data. Two users concurrently incrementing a counter (+1 from Region A, +1 from Region B) resolve to +1 under LWW, not +2. Two users editing different fields of the same record lose one user's changes entirely. LWW is only safe for workloads where exactly one of the conflicting writes is logically authoritative — for example, user profile updates where the user's most recent intent should win. For any commutative or accumulative operation, use CRDTs; for any record where both writes carry valid information, use application-level merge logic.</p>
+</div>
+<hr />
+<h2 id="decision-framework-choosing-a-multi-region-topology">Decision Framework: Choosing a Multi-Region Topology<a class="headerlink" href="#decision-framework-choosing-a-multi-region-topology" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Fill in the matrix based on the material above.</p>
+<h3 id="trade-off-analysis-matrix">Trade-off Analysis Matrix<a class="headerlink" href="#trade-off-analysis-matrix" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Topology</th>
+<th>Write availability under region failure</th>
+<th>Read latency</th>
+<th>Conflict handling</th>
+<th>RPO (data loss on failure)</th>
+<th>Key failure mode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Active-passive</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Active-active (multi-write)</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Multi-region read replicas</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+</tbody>
+</table>
+<details class="success">
+<summary>Answers</summary>
+<table>
+<thead>
+<tr>
+<th>Topology</th>
+<th>Write availability under region failure</th>
+<th>Read latency</th>
+<th>Conflict handling</th>
+<th>RPO (data loss on failure)</th>
+<th>Key failure mode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Active-passive</strong></td>
+<td>None — writes fail in passive regions</td>
+<td>Low for local reads in primary; high cross-region reads</td>
+<td>None needed — single writer</td>
+<td>Replication lag (seconds to minutes)</td>
+<td>DNS failover takes 30–120 seconds — this is an outage, not transparent; requires health check + automated DNS update</td>
+</tr>
+<tr>
+<td><strong>Active-active (multi-write)</strong></td>
+<td>Full — any region accepts writes</td>
+<td>Low — writes are local</td>
+<td>Required — concurrent writes to same record create conflicts</td>
+<td>Near-zero with synchronous replication; higher with async</td>
+<td>Last-write-wins loses data silently; CRDTs solve specific structures (counters, sets) but not arbitrary business logic</td>
+</tr>
+<tr>
+<td><strong>Multi-region read replicas</strong></td>
+<td>None — writes route to primary region only</td>
+<td>Low for reads from replica regions</td>
+<td>None needed — reads only</td>
+<td>Same as active-passive — replication lag</td>
+<td>Primary region failure takes down all writes globally; stale reads from lagging replicas cause read-your-own-writes failures</td>
+</tr>
+</tbody>
+</table>
+</details>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">When it breaks</p>
+<p>Active-active breaks when conflict resolution is non-trivial: concurrent writes to the same record in two regions produce a conflict, and "last write wins" loses data. CRDTs (conflict-free replicated data types) solve this for specific data structures (counters, sets) but not for arbitrary business logic. Active-passive breaks with failover time: DNS TTL-based failover typically takes 30–120 seconds, which is an outage, not transparent failover. Cross-region replication breaks at very low latency requirements: the speed of light between US East and US West is ~70ms round trip, making synchronous replication physically incompatible with sub-100ms write SLOs.</p>
+</div>
+<hr />
+<h2 id="practice-scenarios">Practice Scenarios<a class="headerlink" href="#practice-scenarios" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<h3 id="scenario-1-globally-distributed-chat-application">Scenario 1: Globally Distributed Chat Application<a class="headerlink" href="#scenario-1-globally-distributed-chat-application" title="Permanent link">&para;</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>Users in the US, EU, and Asia-Pacific send messages in group chats</li>
+<li>Message ordering must be consistent within a channel — all users see messages in the same order</li>
+<li>The service must tolerate a full regional failure without losing messages</li>
+<li>Write latency: users expect messages to appear within 200 ms of sending</li>
+<li>RPO: no message loss after acknowledgement to the sender</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<ul>
+<li>Active-active or active-passive for message writes? <span class="fill-in">[Fill in]</span></li>
+<li>How do you achieve consistent ordering across regions? <span class="fill-in">[Fill in — consider sequence numbers, a global sequencer, or causal ordering]</span></li>
+<li>Replication mode for acknowledged messages? <span class="fill-in">[Fill in — sync or async, and to how many regions?]</span></li>
+<li>How do you handle a user in the EU sending a message to a US-only group? <span class="fill-in">[Fill in — routing and latency implications]</span></li>
+<li>What conflict resolution strategy applies to message ordering? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>Failure modes:</strong></p>
+<ul>
+<li>What happens when the US region loses connectivity mid-conversation? Users in the EU and Asia-Pacific continue writing. When connectivity is restored, how do you reconcile the two divergent message histories? <span class="fill-in">[Fill in]</span></li>
+<li>A global sequencer that assigns message IDs becomes a single point of failure. If it is unavailable for 10 seconds during peak load, what is the user-visible impact and how would you mitigate it? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="scenario-2-user-profile-service-with-gdpr-data-residency">Scenario 2: User Profile Service with GDPR Data Residency<a class="headerlink" href="#scenario-2-user-profile-service-with-gdpr-data-residency" title="Permanent link">&para;</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>50 million users, roughly 60% EU residents and 40% US residents</li>
+<li>EU user PII (name, email, address) must be stored exclusively on EU infrastructure</li>
+<li>Non-PII attributes (preferences, feature flags) may be stored globally for low-latency reads</li>
+<li>Users have the right to erasure — deletion must complete within 30 days across all systems</li>
+<li>The product team wants a single global API endpoint that returns a full profile for any user</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<ul>
+<li>Partition strategy: how do you assign a user to a home region? <span class="fill-in">[Fill in — registration-time signal, explicit flag, or inferred from IP?]</span></li>
+<li>How does the global API resolve a request for an EU user's profile arriving at the US edge? <span class="fill-in">[Fill in — proxy, redirect, or cached non-PII?]</span></li>
+<li>How do you separate PII from non-PII in the data model to minimise cross-region calls? <span class="fill-in">[Fill in]</span></li>
+<li>How do you implement the right to erasure across all regions, including async replication queues and backup snapshots? <span class="fill-in">[Fill in]</span></li>
+<li>What happens if a user moves from the EU to the US and requests that their data be moved to the US region? <span class="fill-in">[Fill in — migration procedure and compliance implications]</span></li>
+</ul>
+<p><strong>Failure modes:</strong></p>
+<ul>
+<li>An EU user's profile write is acknowledged but the async replication to the EU analytics pipeline fails silently. The next erasure request therefore does not propagate to that pipeline. What monitoring and operational procedure prevents this gap? <span class="fill-in">[Fill in]</span></li>
+<li>A misconfigured CDN edge node caches full EU user PII in a US point-of-presence for 24 hours. What controls at the API layer would have prevented this? <span class="fill-in">[Fill in]</span></li>
+</ul>
+</div>
+<hr />
+<h2 id="test-your-understanding">Test Your Understanding<a class="headerlink" href="#test-your-understanding" title="Permanent link">&para;</a></h2>
+<p>Answer these without referring to your notes.</p>
+<ol>
+<li>
+<p>A payment service uses asynchronous replication with an average lag of 150 ms. The primary region loses power. The RPO is configured as "5 seconds." Is this RPO satisfied? Explain what data is at risk and how you would reduce the RPO without switching entirely to synchronous replication.</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) RPO of 5 seconds means up to 5 seconds of writes can be lost on primary failure — 150 ms average lag is well within that budget under normal conditions, but lag spikes under load can violate it; (2) the specific data at risk is every write acknowledged by the primary but not yet replicated at the moment of failure — a 150 ms window on average but potentially larger; (3) a semi-synchronous approach (require acknowledgement from one synchronous replica in the same region, replicate to others async) limits RPO to the sync replica's guaranteed lag while keeping cross-region writes asynchronous and fast.</p>
+</details>
+</li>
+<li>
+<p>Two regions concurrently update <code>cart:user-99</code> — the US adds <code>item:A</code> and the EU adds <code>item:B</code>. Explain how vector clocks detect this as a conflict rather than as a causal sequence, and describe what a shopping-cart merge function should do with the two versions.</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) before the concurrent writes, both regions hold the same clock, e.g. <code>{us: 1, eu: 1}</code>; the US write produces <code>{us: 2, eu: 1}</code> and the EU write produces <code>{us: 1, eu: 2}</code> — neither dominates the other so they are declared concurrent; (2) when the US replicates to the EU, <code>{us: 2, eu: 1}</code> and <code>{us: 1, eu: 2}</code> are compared — <code>happensBefore</code> returns false in both directions; (3) the shopping-cart merge should union the item sets (add both <code>item:A</code> and <code>item:B</code>), which is the correct domain semantics — discarding either item would be a data-loss bug; OR-Set CRDT encodes this merge automatically.</p>
+</details>
+</li>
+<li>
+<p>Describe two real-world failure modes of Last-Write-Wins conflict resolution. For each, state the type of system where it is an acceptable trade-off and where it would be dangerous.</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) clock skew — if two servers' clocks differ by 200 ms, a causally later write with a slightly earlier wall-clock timestamp is discarded; this is acceptable for cache values where approximate freshness suffices, dangerous for user account settings or financial records; (2) concurrent write loss — two clients update the same field within the same millisecond (or within NTP resolution); the write with the marginally smaller timestamp is silently dropped; acceptable for social-media "like" counts where approximate accuracy is fine, dangerous for inventory counters or seat-reservation systems where each write represents a real-world commitment.</p>
+</details>
+</li>
+<li>
+<p>A service architect proposes active-active across three regions for a global bank's account balance service. Identify the specific conflict resolution challenge that makes this dangerous and propose an alternative architecture that achieves low write latency globally without risking double-spend.</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) the core problem — two regions can each approve a debit simultaneously, spending the same funds twice before replication synchronises; LWW discards one write silently (dangerous), vector clocks detect the conflict but there is no safe merge for conflicting balance updates; (2) CRDTs do not model arbitrary balance updates (a balance can go negative under CRDT semantics); (3) a workable alternative is active-passive with the primary owning the account balance, combined with local read replicas for balance queries — users accept cross-region write latency for debits but see low-latency balance reads; or use a per-user partition where each user's account is owned by exactly one region, routing all writes for that account to its home region.</p>
+</details>
+</li>
+<li>
+<p>A US user enrolled in your service 3 years ago. The service expands to the EU and must comply with GDPR for all EU residents. The user relocates to Germany. They request that their data be governed under GDPR. Describe the data migration procedure and the two hardest engineering problems you must solve.</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) the migration must copy all PII to EU infrastructure, verify completeness, then delete the US copy — a dual-write window during migration risks inconsistency and must be kept short; (2) hard problem one — identifying the complete data footprint: the user's records may exist in the primary database, async replication queues, event logs, analytics warehouses, and backup snapshots; each must be inventoried and migrated or scrubbed; (3) hard problem two — atomic home-region reassignment: during migration, writes must not split between US and EU; a migration lock or a routing change that atomically flips the user's home region must be implemented without causing a visible outage or write loss.</p>
+</details>
+</li>
+</ol>
+<hr />
+<h2 id="review-checklist">Review Checklist<a class="headerlink" href="#review-checklist" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<p>Complete this checklist after implementing and studying multi-region architecture.</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Can define RPO and RTO precisely and map each to a replication mode</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Can explain why active-active requires conflict resolution and active-passive does not</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Can trace a vector clock comparison and correctly identify happened-before vs concurrent writes</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Can describe at least two failure modes of Last-Write-Wins and state when each is acceptable</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Can design a partition-by-region data model for a GDPR-constrained service</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Can articulate the cross-region query trade-off introduced by partition-by-region and name one mitigation</li>
+</ul>
+</div>
+<hr />
+<h2 id="connected-topics">Connected Topics<a class="headerlink" href="#connected-topics" title="Permanent link">&para;</a></h2>
+<div class="bs-callout bs-callout-info">
+<p><strong>Where this topic connects</strong></p>
+<ul>
+<li><strong><a href="../11-database-scaling/">11. Database Scaling</a></strong> — read replicas, write sharding, and replication lag management are the foundational database mechanics that multi-region deployments extend to geographic scale → <a href="../11-database-scaling/">11. Database Scaling</a></li>
+<li><strong><a href="../18-consensus-patterns/">18. Consensus Patterns</a></strong> — leader election across regions is the hardest part of active-active; Raft and Paxos underpin the coordination layer that decides which region is authoritative when network partitions occur → <a href="../18-consensus-patterns/">18. Consensus Patterns</a></li>
+<li><strong><a href="../03-networking-fundamentals/">03. Networking Fundamentals</a></strong> — geo-routing and replication lag are direct consequences of physical network topology; understanding BGP, anycast, and intercontinental RTT is necessary to reason about feasible RPO targets → <a href="../03-networking-fundamentals/">03. Networking Fundamentals</a></li>
+</ul>
+</div></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = "../.."</script>
+    
+    <script src="../../js/base.js"></script>
+    <script src="../../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

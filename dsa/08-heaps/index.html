@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A framework for algorithms, systems design, and infrastructure.">
+    <meta name="author" content="Richard">
+    
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+
+    
+    <title>08. Heaps - Software Engineering Study Guide</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../../css/base.min.css" rel="stylesheet">
+    <link href="../../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css">
+        
+    
+    <link href="../../css/custom.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../..">Home</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Systems Design <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../systems/01-storage-engines/">01. Storage Engines</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/04-search-and-indexing/">04. Search & Indexing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/05-caching-patterns/">05. Caching Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/06-api-design/">06. API Design</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/07-security-patterns/">07. Security Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/08-rate-limiting/">08. Rate Limiting</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/09-load-balancing/">09. Load Balancing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/11-database-scaling/">11. Database Scaling</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/12-message-queues/">12. Message Queues</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/13-event-sourcing-cqrs/">13. Event Sourcing & CQRS</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/14-stream-processing/">14. Stream Processing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/15-observability/">15. Observability</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/16-resilience-patterns/">16. Resilience Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/17-distributed-transactions/">17. Distributed Transactions</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/18-consensus-patterns/">18. Consensus Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/19-microservices-patterns/">19. Microservices Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/20-multi-region/">20. Multi-Region Architecture</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">DSA <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../01-two-pointers/">01. Two Pointers</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../02-sliding-window/">02. Sliding Window</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../03-hash-tables/">03. Hash Tables</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../04-linked-lists/">04. Linked Lists</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../05-stacks--queues/">05. Stacks & Queues</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../06-trees/">06. Trees</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../07-binary-search/">07. Binary Search</a>
+</li>
+
+                        
+                            
+<li class="active">
+    <a href="./">08. Heaps</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../09-union-find/">09. Union-Find</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../10-graphs/">10. Graphs</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../11-advanced-graphs/">11. Advanced Graphs</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../12-backtracking/">12. Backtracking</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../13-dynamic-programming/">13. Dynamic Programming</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../14-prefix-sums/">14. Prefix Sums</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../15-intervals/">15. Intervals</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Quick Reference <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../reference/when-it-breaks/">When It Breaks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/back-of-envelope/">Back of the Envelope</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/symptom-pattern/">Symptom → Pattern</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/staff-interview-strategy/">Staff+ Interview Strategy</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/no-new-problems/">No New Problems in CS</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/how-the-machine-works/">How the Machine Actually Works</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../07-binary-search/">
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="next" href="../09-union-find/">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#heaps-priority-queues">Heaps (Priority Queues)</a></li>
+            <li class="second-level"><a href="#learning-objectives">Learning Objectives</a></li>
+                
+            <li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+                
+            <li class="second-level"><a href="#core-implementation">Core Implementation</a></li>
+                
+            <li class="second-level"><a href="#beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters</a></li>
+                
+            <li class="second-level"><a href="#common-misconceptions">Common Misconceptions</a></li>
+                
+            <li class="second-level"><a href="#decision-framework-choosing-a-heap-configuration">Decision Framework: Choosing a Heap Configuration</a></li>
+                
+            <li class="second-level"><a href="#practice">Practice</a></li>
+                
+            <li class="second-level"><a href="#test-your-understanding">Test Your Understanding</a></li>
+                
+            <li class="second-level"><a href="#connected-topics">Connected Topics</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="heaps-priority-queues">Heaps (Priority Queues)<a class="headerlink" href="#heaps-priority-queues" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>O(log n) insert/delete with O(1) access to min/max element</p>
+</blockquote>
+<hr />
+<h2 id="learning-objectives">Learning Objectives<a class="headerlink" href="#learning-objectives" title="Permanent link">&para;</a></h2>
+<p>By the end of this section you should be able to:</p>
+<ul>
+<li>Explain the heap property, state the O(log n) insert/delete and O(1) peek complexities, and give the correct 0-indexed parent/child index formulas</li>
+<li>Implement the four core patterns: basic heap operations (Kth largest), merge K sorted sequences, top-K frequent elements, and two-heap running median</li>
+<li>Explain the counterintuitive rule: use a <strong>min-heap</strong> to find the K <strong>largest</strong> values and a <strong>max-heap</strong> to find the K <strong>smallest</strong> values — and give the reasoning from first principles</li>
+<li>Describe the two-heap median invariant (maxHeap holds the smaller half, minHeap holds the larger half, size difference at most 1) and trace the rebalancing logic for a concrete stream</li>
+<li>Diagnose the three most common heap bugs: using max-heap instead of min-heap for Kth largest, missing rebalancing in the two-heap median finder, and using 1-indexed parent/child formulas in a 0-indexed array</li>
+<li>Compare heap vs sort vs QuickSelect for Kth largest and state when each is preferred</li>
+</ul>
+<hr />
+<div class="admonition note">
+<p class="admonition-title">Operational reality</p>
+<p>Most standard library priority queues — Python's <code>heapq</code>, C++'s <code>priority_queue</code> — deliberately omit <code>decreaseKey</code>, so production Dijkstra implementations universally use lazy deletion: re-insert with the updated priority and skip stale entries on pop. Kubernetes' scheduler maintains a priority queue over pods waiting for placement. Elasticsearch and Splunk compute top-K results across shards using a distributed heap merge — each shard returns its local top-K and the coordinator merges them, which is exactly the merge-K-sorted-sequences pattern. Operating system process schedulers use priority queues to determine which runnable process gets the CPU next.</p>
+</div>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After implementing all patterns, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What is a heap in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[A heap is a tree-based data structure stored as an array where every parent is ___ than its children (min-heap) or ___ than its children (max-heap), guaranteeing that the root is always the global ___ and can be accessed in O(1)]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Why is it called a priority queue?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[It is called a priority queue because items are retrieved not in insertion order but in priority order — the item with the ___ priority (min or max depending on configuration) is always at the front, so the most urgent item is always served ___ regardless of when it arrived]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy:</strong></p>
+<ul>
+<li>Example: "A heap is like a hospital emergency room where patients are seen by urgency..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When does this pattern work?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Heaps work whenever you need repeated access to the minimum or maximum of a changing set — for example finding the Kth largest in a stream (where you cannot sort first), merging K sorted sequences (where you need to pick the ___ element from K candidates at each step), or finding the running median (where you need the ___ of an unsorted stream)]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What's the difference between min-heap and max-heap?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[In a min-heap every parent is smaller than its children so the ___ element is at the root; in a max-heap every parent is larger so the ___ element is at the root. Java's PriorityQueue is a min-heap by default; to get a max-heap you pass ___ as the comparator]</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr />
+<h2 id="core-implementation">Core Implementation<a class="headerlink" href="#core-implementation" title="Permanent link">&para;</a></h2>
+<h3 id="pattern-1-basic-heap-operations">Pattern 1: Basic Heap Operations<a class="headerlink" href="#pattern-1-basic-heap-operations" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Maintain heap property through insert and extract operations.</p>
+<p><strong>Use case:</strong> Find kth largest/smallest, top K elements.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.heaps;
+
+import java.util.*;
+
+public class BasicHeapOperations {
+
+    /**
+     * Problem: Find Kth largest element in array
+     * Time: O(n log k), Space: O(k)
+     *
+     * TODO: Implement using min-heap of size k
+     */
+    public static int findKthLargest(int[] nums, int k) {
+        // TODO: Create PriorityQueue (min-heap) of size k
+        // TODO: Implement iteration/conditional logic
+        // TODO: Return heap.peek() (kth largest)
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Find K largest elements
+     * Time: O(n log k), Space: O(k)
+     *
+     * TODO: Implement K largest elements
+     */
+    public static List&lt;Integer&gt; kLargest(int[] nums, int k) {
+        // TODO: Use min-heap of size k
+        // TODO: Maintain k largest elements
+        // TODO: Return heap as list
+
+        return new ArrayList&lt;&gt;(); // Replace with implementation
+    }
+
+    /**
+     * Problem: Sort array using heap
+     * Time: O(n log n), Space: O(n)
+     *
+     * TODO: Implement heap sort
+     */
+    public static int[] heapSort(int[] nums) {
+        // TODO: Add all elements to max-heap
+        // TODO: Extract max repeatedly to get sorted array
+
+        return new int[0]; // Replace with implementation
+    }
+}
+</code></pre>
+<div class="admonition warning">
+<p class="admonition-title">Debugging Challenge — Max-Heap Used Where Min-Heap Is Required</p>
+<pre class="highlight"><code class="language-java">/**
+ * This code is supposed to find the Kth largest element.
+ * It has 2 BUGS. Find them!
+ */
+public static int findKthLargest_Buggy(int[] nums, int k) {
+    PriorityQueue&lt;Integer&gt; maxHeap = new PriorityQueue&lt;&gt;(
+        Collections.reverseOrder()    );
+
+    for (int num : nums) {
+        maxHeap.offer(num);
+        if (maxHeap.size() &gt; k) {
+            maxHeap.poll();        }
+    }
+
+    return maxHeap.peek();
+}</code></pre>
+<ul>
+<li>Bug 1: <span class="fill-in">[What's the bug?]</span></li>
+<li><strong>Bug 2 location:</strong> <span class="fill-in">[Which line?]</span></li>
+<li><strong>Bug 2 explanation:</strong> <span class="fill-in">[What gets removed? Is this what we want?]</span></li>
+</ul>
+</div>
+<details class="success">
+<summary>Answer</summary>
+<p><strong>Bug 1:</strong> The code uses a <strong>max-heap</strong> (<code>Collections.reverseOrder()</code>), but a <strong>min-heap</strong> is required. For Kth largest
+we want to keep the K largest elements and evict the smallest intruder when the heap exceeds size K. A max-heap evicts
+the largest element, which is exactly what we want to keep — so we end up throwing away the K largest values and
+keeping small ones.</p>
+<p><strong>Bug 2:</strong> <code>maxHeap.poll()</code> removes the <strong>largest</strong> element (the root of a max-heap). We want to remove the <strong>smallest</strong>
+among the K candidates so that the K <strong>largest</strong> remain. The correct data structure is a min-heap (no comparator needed
+in Java's <code>PriorityQueue</code>), and then <code>poll()</code> removes the smallest element, which is what we want to evict.</p>
+<p><strong>Fixed code:</strong>
+<pre class="highlight"><code class="language-java">PriorityQueue&lt;Integer&gt; minHeap = new PriorityQueue&lt;&gt;();  // min-heap
+
+for (int num : nums) {
+    minHeap.offer(num);
+    if (minHeap.size() &gt; k) {
+        minHeap.poll();  // Remove smallest — keeps K largest
+    }
+}
+return minHeap.peek();  // Smallest of the K largest = Kth largest</code></pre></p>
+</details>
+<hr />
+<h3 id="pattern-2-merge-k-sorted-listsarrays">Pattern 2: Merge K Sorted Lists/Arrays<a class="headerlink" href="#pattern-2-merge-k-sorted-listsarrays" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Use min-heap to merge multiple sorted sequences efficiently.</p>
+<p><strong>Use case:</strong> Merge K sorted lists, merge K sorted arrays.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.heaps;
+
+import java.util.*;
+
+public class MergeKSorted {
+
+    static class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode(int val) {
+            this.val = val;
+        }
+    }
+
+    /**
+     * Problem: Merge K sorted linked lists
+     * Time: O(n log k), Space: O(k) where n = total nodes, k = lists
+     *
+     * TODO: Implement using min-heap
+     */
+    public static ListNode mergeKLists(ListNode[] lists) {
+        // TODO: Create min-heap with comparator on node.val
+        // TODO: Add first node from each list to heap
+        // TODO: Implement iteration/conditional logic
+
+        return null; // Replace with implementation
+    }
+
+    /**
+     * Problem: Merge K sorted arrays
+     * Time: O(n log k), Space: O(k)
+     *
+     * TODO: Implement using min-heap with array indices
+     */
+    public static List&lt;Integer&gt; mergeKArrays(int[][] arrays) {
+        // TODO: Create heap with [value, arrayIndex, elementIndex]
+        // TODO: Add first element from each array
+        // TODO: Extract min and add next from same array
+
+        return new ArrayList&lt;&gt;(); // Replace with implementation
+    }
+
+    /**
+     * Problem: Find smallest range covering elements from K lists
+     * Time: O(n log k), Space: O(k)
+     *
+     * TODO: Implement using heap tracking max
+     */
+    public static int[] smallestRange(List&lt;List&lt;Integer&gt;&gt; nums) {
+        // TODO: Use min-heap, track current max
+        // TODO: Range = [heap.peek(), currentMax]
+        // TODO: Minimize range size
+
+        return new int[]{0, 0}; // Replace with implementation
+    }
+
+    // Helper: Create linked list from array
+    static ListNode createList(int[] values) {
+        if (values.length == 0) return null;
+        ListNode head = new ListNode(values[0]);
+        ListNode current = head;
+        for (int i = 1; i &lt; values.length; i++) {
+            current.next = new ListNode(values[i]);
+            current = current.next;
+        }
+        return head;
+    }
+
+    // Helper: Print linked list
+    static void printList(ListNode head) {
+        ListNode current = head;
+        while (current != null) {
+            System.out.print(current.val);
+            if (current.next != null) System.out.print(" -&gt; ");
+            current = current.next;
+        }
+        System.out.println();
+    }
+}
+</code></pre>
+<hr />
+<h3 id="pattern-3-top-k-frequent-elements">Pattern 3: Top K Frequent Elements<a class="headerlink" href="#pattern-3-top-k-frequent-elements" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Use heap to find most/least frequent elements.</p>
+<p><strong>Use case:</strong> Top K frequent elements, sort by frequency.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.heaps;
+
+import java.util.*;
+
+public class TopKFrequent {
+
+    /**
+     * Problem: Find K most frequent elements
+     * Time: O(n log k), Space: O(n)
+     *
+     * TODO: Implement using frequency map + min-heap
+     */
+    public static List&lt;Integer&gt; topKFrequent(int[] nums, int k) {
+        // TODO: Count frequencies with HashMap
+        // TODO: Create min-heap of size k, ordered by frequency
+        // TODO: Implement iteration/conditional logic
+        // TODO: Return heap contents
+
+        return new ArrayList&lt;&gt;(); // Replace with implementation
+    }
+
+    /**
+     * Problem: Sort array by frequency
+     * Time: O(n log n), Space: O(n)
+     *
+     * TODO: Implement frequency sort
+     */
+    public static int[] frequencySort(int[] nums) {
+        // TODO: Count frequencies
+        // TODO: Sort by frequency (descending), then by value (ascending)
+
+        return new int[0]; // Replace with implementation
+    }
+
+    /**
+     * Problem: K closest points to origin
+     * Time: O(n log k), Space: O(k)
+     *
+     * TODO: Implement using max-heap of size k
+     */
+    public static int[][] kClosest(int[][] points, int k) {
+        // TODO: Create max-heap ordered by distance
+        // TODO: Maintain k closest points
+        // TODO: Distance = x^2 + y^2 (no need for sqrt)
+
+        return new int[0][0]; // Replace with implementation
+    }
+}
+</code></pre>
+<hr />
+<h3 id="pattern-4-two-heaps-find-median">Pattern 4: Two Heaps (Find Median)<a class="headerlink" href="#pattern-4-two-heaps-find-median" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Use two heaps to maintain running median.</p>
+<p><strong>Use case:</strong> Find median from data stream, sliding window median.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.heaps;
+
+import java.util.*;
+
+public class TwoHeaps {
+
+    /**
+     * MedianFinder: Maintain running median
+     * Time: O(log n) insert, O(1) find median
+     * Space: O(n)
+     *
+     * TODO: Implement using two heaps
+     */
+    static class MedianFinder {
+        // TODO: maxHeap stores smaller half (max at top)
+        // TODO: minHeap stores larger half (min at top)
+        // TODO: Keep heaps balanced: |size difference| &lt;= 1
+
+        public MedianFinder() {
+            // TODO: Initialize PriorityQueue for max-heap (reverse order)
+            // TODO: Initialize PriorityQueue for min-heap (natural order)
+        }
+
+        public void addNum(int num) {
+            // TODO: Add to appropriate heap
+            // TODO: Balance heaps if needed
+            // Hint: Always add to maxHeap first, then move to minHeap if needed
+        }
+
+        public double findMedian() {
+            // TODO: Implement iteration/conditional logic
+            // TODO: Implement iteration/conditional logic
+            return 0.0; // Replace with implementation
+        }
+    }
+
+    /**
+     * Problem: Sliding window median
+     * Time: O(n * k), Space: O(k)
+     *
+     * TODO: Implement sliding window median
+     */
+    public static double[] medianSlidingWindow(int[] nums, int k) {
+        // TODO: Use two heaps approach
+        // TODO: Handle removal from window
+        // Note: This is complex - use TreeMap or simpler approach
+
+        return new double[0]; // Replace with implementation
+    }
+}
+</code></pre>
+<hr />
+<h2 id="beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters<a class="headerlink" href="#beforeafter-why-this-pattern-matters" title="Permanent link">&para;</a></h2>
+<p><strong>Your task:</strong> Compare naive vs optimized approaches to understand the impact.</p>
+<h3 id="example-1-find-kth-largest-element">Example 1: Find Kth Largest Element<a class="headerlink" href="#example-1-find-kth-largest-element" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Find the Kth largest element in an unsorted array.</p>
+<h4 id="approach-1-sorting-simple-but-inefficient">Approach 1: Sorting (Simple but Inefficient)<a class="headerlink" href="#approach-1-sorting-simple-but-inefficient" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Naive approach - Sort entire array
+public static int findKthLargest_Sorting(int[] nums, int k) {
+    Arrays.sort(nums);  // Sort ascending
+    return nums[nums.length - k];  // Kth largest
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n log n) - Must sort all n elements</li>
+<li>Space: O(1) or O(log n) depending on sort algorithm</li>
+<li>For n = 100,000: ~1,600,000 operations</li>
+</ul>
+<h4 id="approach-2-min-heap-of-size-k-optimized">Approach 2: Min-Heap of Size K (Optimized)<a class="headerlink" href="#approach-2-min-heap-of-size-k-optimized" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Optimized approach - Maintain heap of K largest elements
+public static int findKthLargest_Heap(int[] nums, int k) {
+    PriorityQueue&lt;Integer&gt; minHeap = new PriorityQueue&lt;&gt;();
+
+    for (int num : nums) {
+        minHeap.offer(num);
+        if (minHeap.size() &gt; k) {
+            minHeap.poll();  // Remove smallest
+        }
+    }
+
+    return minHeap.peek();  // Kth largest at top
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n log k) - n insertions, each log k operations</li>
+<li>Space: O(k) - Only store K elements</li>
+<li>For n = 100,000, k = 10: ~166,000 operations</li>
+</ul>
+<h4 id="performance-comparison">Performance Comparison<a class="headerlink" href="#performance-comparison" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Array Size (n)</th>
+<th>k</th>
+<th>Sorting (O(n log n))</th>
+<th>Heap (O(n log k))</th>
+<th>Speedup</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n = 1,000</td>
+<td>10</td>
+<td>~10,000 ops</td>
+<td>~3,000 ops</td>
+<td>3x</td>
+</tr>
+<tr>
+<td>n = 10,000</td>
+<td>10</td>
+<td>~130,000 ops</td>
+<td>~33,000 ops</td>
+<td>4x</td>
+</tr>
+<tr>
+<td>n = 100,000</td>
+<td>100</td>
+<td>~1,600,000 ops</td>
+<td>~660,000 ops</td>
+<td>2.4x</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Your calculation:</strong> For n = 50,000 and k = 50, the speedup is approximately _____ times faster.</p>
+<h4 id="why-does-min-heap-work-for-kth-largest">Why Does Min-Heap Work for Kth LARGEST?<a class="headerlink" href="#why-does-min-heap-work-for-kth-largest" title="Permanent link">&para;</a></h4>
+<div class="admonition note">
+<p class="admonition-title">The counterintuitive min-heap rule for K largest</p>
+<p>For K <strong>largest</strong> values, use a <strong>min</strong>-heap of size K. The logic: we want to keep the K largest elements seen so
+far. When a new element arrives and the heap exceeds size K, we evict the smallest element (the root of the min-heap)
+— that element is not in the top K. At the end, the heap contains exactly the K largest elements, and the root is the
+smallest of them, which is the Kth largest overall. A max-heap would evict the largest element — exactly the one we
+want to keep — which is wrong.</p>
+</div>
+<p>In array <code>[3, 2, 1, 5, 6, 4]</code> looking for k=2 (2nd largest):</p>
+<pre class="highlight"><code>Step 1: Add 3 → Heap: [3]
+Step 2: Add 2 → Heap: [2, 3] (size=2)
+Step 3: Add 1 → Heap: [2, 3], size &gt; k → remove min → Heap: [3]
+Step 4: Add 5 → Heap: [3, 5]
+Step 5: Add 6 → Heap: [3, 5], size &gt; k → remove min → Heap: [5, 6]
+Step 6: Add 4 → Heap: [4, 5, 6], remove min → Heap: [5, 6]
+
+Answer: heap.peek() = 5 (2nd largest)</code></pre>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>Why does removing the minimum preserve the K largest elements? <span class="fill-in">[Your answer]</span></li>
+<li>What would happen with a max-heap instead? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr />
+<h3 id="example-2-finding-running-median">Example 2: Finding Running Median<a class="headerlink" href="#example-2-finding-running-median" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Maintain the median as numbers are added one by one.</p>
+<h4 id="approach-1-sort-every-time-inefficient">Approach 1: Sort Every Time (Inefficient)<a class="headerlink" href="#approach-1-sort-every-time-inefficient" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Naive approach - Re-sort after each insertion
+public static class MedianFinder_Sorting {
+    private List&lt;Integer&gt; list = new ArrayList&lt;&gt;();
+
+    public void addNum(int num) {
+        list.add(num);
+        Collections.sort(list);  // Re-sort entire list!
+    }
+
+    public double findMedian() {
+        int n = list.size();
+        if (n % 2 == 1) {
+            return list.get(n / 2);
+        } else {
+            return (list.get(n / 2 - 1) + list.get(n / 2)) / 2.0;
+        }
+    }
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n log n) per insertion due to sorting</li>
+<li>Space: O(n)</li>
+<li>For 10,000 insertions: ~100,000,000 total operations</li>
+</ul>
+<h4 id="approach-2-two-heaps-optimized">Approach 2: Two Heaps (Optimized)<a class="headerlink" href="#approach-2-two-heaps-optimized" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Optimized approach - Two heaps maintain balance
+public static class MedianFinder_TwoHeaps {
+    private PriorityQueue&lt;Integer&gt; maxHeap;  // Smaller half
+    private PriorityQueue&lt;Integer&gt; minHeap;  // Larger half
+
+    public MedianFinder_TwoHeaps() {
+        maxHeap = new PriorityQueue&lt;&gt;(Collections.reverseOrder());
+        minHeap = new PriorityQueue&lt;&gt;();
+    }
+
+    public void addNum(int num) {
+        maxHeap.offer(num);
+        minHeap.offer(maxHeap.poll());
+
+        if (maxHeap.size() &lt; minHeap.size()) {
+            maxHeap.offer(minHeap.poll());
+        }
+    }
+
+    public double findMedian() {
+        if (maxHeap.size() &gt; minHeap.size()) {
+            return maxHeap.peek();
+        }
+        return (maxHeap.peek() + minHeap.peek()) / 2.0;
+    }
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(log n) per insertion</li>
+<li>Space: O(n)</li>
+<li>For 10,000 insertions: ~130,000 total operations</li>
+</ul>
+<h4 id="performance-comparison_1">Performance Comparison<a class="headerlink" href="#performance-comparison_1" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Number of Elements</th>
+<th>Sorting (O(n²log n) total)</th>
+<th>Two Heaps (O(n log n) total)</th>
+<th>Speedup</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n = 100</td>
+<td>~66,000 ops</td>
+<td>~700 ops</td>
+<td>94x</td>
+</tr>
+<tr>
+<td>n = 1,000</td>
+<td>~10,000,000 ops</td>
+<td>~10,000 ops</td>
+<td>1,000x</td>
+</tr>
+<tr>
+<td>n = 10,000</td>
+<td>~1,300,000,000 ops</td>
+<td>~130,000 ops</td>
+<td>10,000x</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Your calculation:</strong> For n = 5,000 elements, the speedup is approximately _____ times faster.</p>
+<h4 id="why-do-two-heaps-work">Why Do Two Heaps Work?<a class="headerlink" href="#why-do-two-heaps-work" title="Permanent link">&para;</a></h4>
+<p><strong>Key insight:</strong></p>
+<pre class="highlight"><code>Stream: [5, 15, 1, 3]
+
+Add 5:  maxHeap=[5], minHeap=[] → Median = 5
+Add 15: maxHeap=[5], minHeap=[15] → Median = (5+15)/2 = 10
+Add 1:  maxHeap=[5,1], minHeap=[15] → Median = 5
+Add 3:  maxHeap=[5,3,1], minHeap=[15] → rebalance → maxHeap=[5,3], minHeap=[15]
+        → Median = (5+15)/2 = 10</code></pre>
+<p><strong>Invariant maintained:</strong></p>
+<ul>
+<li>maxHeap contains smaller half (max element on top)</li>
+<li>minHeap contains larger half (min element on top)</li>
+<li>Size difference ≤ 1</li>
+<li>Median is at the top(s)!</li>
+</ul>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>Why do we need both heaps instead of just sorting? <span class="fill-in">[Your answer]</span></li>
+<li>How does keeping them balanced help find median quickly? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr />
+<h2 id="common-misconceptions">Common Misconceptions<a class="headerlink" href="#common-misconceptions" title="Permanent link">&para;</a></h2>
+<div class="admonition danger">
+<p class="admonition-title">Misconception 1: Use max-heap to find the K largest elements</p>
+<p>This is backwards. For K <strong>largest</strong>, use a <strong>min</strong>-heap of size K. The min-heap evicts the smallest candidate when it
+overflows, preserving the K largest. A max-heap evicts the largest candidate, which destroys the very elements you are
+trying to keep. The rule generalises: for K smallest, use a max-heap of size K (evict the largest intruder, preserve
+the K smallest). The pattern is always "evict the one that doesn't belong, keep the K that do."</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Misconception 2: The two-heap median finder does not need rebalancing</p>
+<p>If you add numbers without rebalancing, one heap can grow arbitrarily larger than the other. When the sizes diverge by
+more than 1, the median calculation is wrong. The rebalancing logic (<code>if (maxHeap.size() &gt; minHeap.size() + 1)
+minHeap.offer(maxHeap.poll())</code>) must run after every insertion. A common shortcut — always add to maxHeap first and
+then move the root to minHeap — handles most cases, but still requires checking that maxHeap stays at least as large
+as minHeap.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Misconception 3: 0-indexed and 1-indexed heap formulas are interchangeable</p>
+<p>The two sets of formulas differ by exactly 1, and mixing them causes subtle off-by-one bugs that may not surface until
+edge cases. For a <strong>0-indexed</strong> array: <code>parent(i) = (i - 1) / 2</code>, <code>leftChild(i) = 2*i + 1</code>, <code>rightChild(i) = 2*i + 2</code>.
+For a <strong>1-indexed</strong> array: <code>parent(i) = i / 2</code>, <code>leftChild(i) = 2*i</code>, <code>rightChild(i) = 2*i + 1</code>. Java's
+<code>PriorityQueue</code> handles indexing internally so you rarely write these formulas directly — but if you implement a heap
+manually, decide on the indexing scheme first and use it consistently throughout.</p>
+</div>
+<hr />
+<h2 id="decision-framework-choosing-a-heap-configuration">Decision Framework: Choosing a Heap Configuration<a class="headerlink" href="#decision-framework-choosing-a-heap-configuration" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Fill in the matrix after working through the implementations above.</p>
+<h3 id="trade-off-analysis-matrix">Trade-off Analysis Matrix<a class="headerlink" href="#trade-off-analysis-matrix" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Configuration</th>
+<th>Gives</th>
+<th>Push/pop time</th>
+<th>Non-root access</th>
+<th>Deletion support</th>
+<th>Example problems</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Min-heap</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Max-heap</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Two-heap split</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Lazy deletion heap</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+</tbody>
+</table>
+<details class="success">
+<summary>Answers</summary>
+<table>
+<thead>
+<tr>
+<th>Configuration</th>
+<th>Gives</th>
+<th>Push/pop time</th>
+<th>Non-root access</th>
+<th>Deletion support</th>
+<th>Example problems</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Min-heap</strong></td>
+<td>Minimum element in O(1)</td>
+<td>O(log n)</td>
+<td>No — O(n) find</td>
+<td>Root only</td>
+<td>Kth largest (push all; if size &gt; k pop min), merge k sorted lists, Dijkstra</td>
+</tr>
+<tr>
+<td><strong>Max-heap</strong></td>
+<td>Maximum element in O(1)</td>
+<td>O(log n)</td>
+<td>No — O(n) find</td>
+<td>Root only</td>
+<td>Kth largest (max-heap of size n, pop k times), sliding window max (use deque — faster)</td>
+</tr>
+<tr>
+<td><strong>Two-heap split</strong></td>
+<td>Median in O(1) via max-heap of lower half + min-heap of upper half</td>
+<td>O(log n) — push then rebalance</td>
+<td>No</td>
+<td>No</td>
+<td>Find median from data stream; balance invariant: size difference ≤ 1</td>
+</tr>
+<tr>
+<td><strong>Lazy deletion heap</strong></td>
+<td>Top element ignoring logically deleted entries</td>
+<td>O(log n) amortised — skip stale entries on pop</td>
+<td>No</td>
+<td>Yes — mark deleted, skip on pop</td>
+<td>Priority updates (Dijkstra with re-inserted nodes); heap grows without bound if deletions dominate pushes</td>
+</tr>
+</tbody>
+</table>
+</details>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">When it breaks</p>
+<p>Heaps break for arbitrary deletion: removing an element that isn't the root requires finding it first, which is O(n). When your algorithm requires frequent priority updates, lazy deletion (re-insert with new priority, skip stale entries on pop) is the standard workaround, but it allows the heap to grow without bound if deletions dominate. The two-heap median finder breaks when elements are deleted from the stream — maintaining the balance invariant during deletion requires O(n) find-and-remove. For dynamic median with deletions, an order-statistics tree is the correct structure.</p>
+</div>
+<hr />
+<h2 id="practice">Practice<a class="headerlink" href="#practice" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<h3 id="leetcode-problems">LeetCode Problems<a class="headerlink" href="#leetcode-problems" title="Permanent link">&para;</a></h3>
+<p><strong>Easy (Complete all 3):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/kth-largest-element-in-a-stream/">703. Kth Largest Element in a Stream</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Min-heap of size K]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/last-stone-weight/">1046. Last Stone Weight</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Max-heap simulation]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/the-k-weakest-rows-in-a-matrix/">1337. The K Weakest Rows in a Matrix</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Heap with custom comparator]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Medium (Complete 3-4):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/kth-largest-element-in-an-array/">215. Kth Largest Element in an Array</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Min-heap approach]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/top-k-frequent-elements/">347. Top K Frequent Elements</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Frequency + heap]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/k-closest-points-to-origin/">973. K Closest Points to Origin</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Max-heap of size K]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/find-median-from-data-stream/">295. Find Median from Data Stream</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Two heaps]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Hard (Optional):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/merge-k-sorted-lists/">23. Merge k Sorted Lists</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Min-heap with K nodes]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/sliding-window-median/">480. Sliding Window Median</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Two heaps with removal]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Failure modes:</strong></p>
+<ul>
+<li>What happens if all elements in the array are equal and you run the Kth largest algorithm — does the min-heap of size K still return the correct answer? <span class="fill-in">[Fill in]</span></li>
+<li>How does your implementation behave when k &gt; n (k is larger than the total number of elements) in a top-K problem? <span class="fill-in">[Fill in]</span></li>
+</ul>
+</div>
+<hr />
+<h2 id="test-your-understanding">Test Your Understanding<a class="headerlink" href="#test-your-understanding" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>The min-heap-for-K-largest rule feels counterintuitive. Prove it is correct from first principles: state what invariant the heap maintains after each element is processed, show that the invariant holds after processing element i+1 given that it held after element i, and explain why <code>heap.peek()</code> at the end of the loop is exactly the Kth largest element.</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) the invariant — after processing each element, the min-heap of size K contains exactly the K largest elements seen so far, with the smallest of those K at the root; (2) the inductive step — when a new element arrives, if it is larger than the root (heap's current minimum), it replaces the root via poll+offer, maintaining the invariant; if it is smaller or equal, it is discarded by the overflow eviction, also maintaining the invariant; (3) at the end, the root is the smallest of the K largest elements seen, which by definition is the Kth largest overall.</p>
+</details>
+</li>
+<li>
+<p>The two-heap median algorithm uses this insertion strategy: always add to maxHeap first, then move the root to minHeap; then if maxHeap is smaller than minHeap, move the root of minHeap back. Trace this algorithm on the stream <code>[5, 15, 1, 3]</code> step by step, showing the state of both heaps and the median after each insertion. Then explain what invariant guarantees that <code>findMedian()</code> is always correct.</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) the traced states — add 5: maxHeap=[5], minHeap=[], median=5.0; add 15: maxHeap=[5], minHeap=[15], median=10.0; add 1: maxHeap=[5,1], minHeap=[15], median=5.0; add 3: maxHeap=[5,3,1], minHeap=[15], rebalance → maxHeap=[5,3], minHeap=[15] does NOT match — correct trace shows maxHeap=[5,3], minHeap=[15] is still unbalanced, so move 5 to minHeap, giving maxHeap=[3], minHeap=[5,15], then rebalance back to maxHeap=[5,3], minHeap=[15]; (2) the invariant — all elements in maxHeap ≤ all elements in minHeap, and |maxHeap.size() - minHeap.size()| ≤ 1; (3) why this guarantees correctness — when sizes are equal the median is the average of the two roots; when maxHeap is larger by 1 it holds the middle element.</p>
+</details>
+</li>
+<li>
+<p><code>mergeKLists</code> achieves O(n log k) time by using a min-heap of size K. Explain why merging K sorted lists by repeatedly merging two lists at a time (K-1 merge operations) gives O(nK) time in the worst case, and confirm that the heap approach is strictly better when K is large relative to n.</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) the naive analysis — the first merge combines two lists of size n/K each (O(n/K)), the second merge combines the result with the next list (O(2n/K)), and so on; summing gives O(n/K + 2n/K + ... + n) = O(nK/2) = O(nK); (2) the heap analysis — each of the n total elements is inserted into and extracted from the heap once, each operation costing O(log k), giving O(n log k) total; (3) the comparison — O(n log k) &lt; O(nK) when log k &lt; K, which is true for all K ≥ 2, so the heap is always better or equal, and dramatically better as K grows.</p>
+</details>
+</li>
+<li>
+<p>The 0-indexed heap formulas are <code>parent(i) = (i-1)/2</code>, <code>leftChild(i) = 2*i+1</code>, <code>rightChild(i) = 2*i+2</code>. Verify these formulas for the first 7 positions (indices 0–6) by drawing the heap tree and confirming that each formula gives the correct index. Then show what happens if you accidentally use the 1-indexed formula <code>parent(i) = i/2</code> on a 0-indexed array (what incorrect parent does node 2 compute?).</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) verification for indices 0–6 — index 0 is root (no parent), children are 1 and 2; index 1's parent is (1-1)/2=0, children are 3 and 4; index 2's parent is (2-1)/2=0, children are 5 and 6; (2) the bug — with the 1-indexed formula on a 0-indexed array, node at index 2 computes parent as 2/2=1, but the actual parent is at index 0; this means sift-up operations compare against the wrong node and the heap property may be violated without any error being thrown; (3) the root cause — 1-indexed arrays waste index 0, enabling the clean division-by-2 formula, but 0-indexed arrays shift all indices down by 1, requiring the subtract-1 adjustment.</p>
+</details>
+</li>
+<li>
+<p>For "K closest points to origin" we use a max-heap (evict the farthest point when size exceeds K). Apply the same logic to a different problem: "find the K strings with the shortest length from a stream." State which heap type to use, what the comparator compares, and what the invariant maintained by the heap is. Then explain how this generalises to any "K smallest by some metric" problem.</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) the heap type — a max-heap ordered by string length (longest string at root), size capped at K; (2) the comparator — <code>(a, b) -&gt; b.length() - a.length()</code> (or <code>Comparator.comparingInt(String::length).reversed()</code>); (3) the invariant — after each insertion, the heap holds exactly the K shortest strings seen so far, with the longest of them at the root; when a new string arrives, if its length is less than the root's length, the root is evicted and the new string is added; (4) the generalisation — "K smallest by metric M" always uses a max-heap ordered by M; the root is the largest-M element among the K candidates and is the one most eligible for eviction when a better (smaller-M) element arrives.</p>
+</details>
+</li>
+</ol>
+<hr />
+<h2 id="connected-topics">Connected Topics<a class="headerlink" href="#connected-topics" title="Permanent link">&para;</a></h2>
+<div class="bs-callout bs-callout-info">
+<p><strong>Where this topic connects</strong></p>
+<ul>
+<li><strong><a href="../06-trees/">06. Trees</a></strong> — a binary heap is a complete binary tree stored as an array; sift-up and sift-down use the same parent/child index arithmetic as tree traversal → <a href="../06-trees/">06. Trees</a></li>
+<li><strong><a href="../11-advanced-graphs/">11. Advanced Graphs</a></strong> — Dijkstra's shortest-path algorithm requires a min-heap (priority queue) as its core data structure → <a href="../11-advanced-graphs/">11. Advanced Graphs</a></li>
+</ul>
+</div></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = "../.."</script>
+    
+    <script src="../../js/base.js"></script>
+    <script src="../../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

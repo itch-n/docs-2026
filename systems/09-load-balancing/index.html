@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="A framework for algorithms, systems design, and infrastructure." name="description"/>
+<meta content="Richard" name="author"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>09. Load Balancing - Software Engineering Study Guide</title>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" rel="stylesheet"/>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css" rel="stylesheet"/>
+<link href="//rsms.me/inter/inter.css" rel="stylesheet" type="text/css"/>
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&amp;subset=latin-ext,latin" rel="stylesheet" type="text/css"/>
+<link href="../../css/bootstrap-custom.min.css" rel="stylesheet"/>
+<link href="../../css/base.min.css" rel="stylesheet"/>
+<link href="../../css/cinder.min.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css" rel="stylesheet"/>
+<link href="../../css/custom.css" rel="stylesheet"/>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="container">
+<!-- Collapsed navigation -->
+<div class="navbar-header">
+<!-- Expander button -->
+<button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<!-- Main title -->
+<a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+</div>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li>
+<a href="../..">Home</a>
+</li>
+<li class="dropdown active">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Systems Design <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../01-storage-engines/">01. Storage Engines</a>
+</li>
+<li>
+<a href="../02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+<li>
+<a href="../03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+<li>
+<a href="../04-search-and-indexing/">04. Search &amp; Indexing</a>
+</li>
+<li>
+<a href="../05-caching-patterns/">05. Caching Patterns</a>
+</li>
+<li>
+<a href="../06-api-design/">06. API Design</a>
+</li>
+<li>
+<a href="../07-security-patterns/">07. Security Patterns</a>
+</li>
+<li>
+<a href="../08-rate-limiting/">08. Rate Limiting</a>
+</li>
+<li class="active">
+<a href="./">09. Load Balancing</a>
+</li>
+<li>
+<a href="../10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+<li>
+<a href="../11-database-scaling/">11. Database Scaling</a>
+</li>
+<li>
+<a href="../12-message-queues/">12. Message Queues</a>
+</li>
+<li>
+<a href="../13-event-sourcing-cqrs/">13. Event Sourcing &amp; CQRS</a>
+</li>
+<li>
+<a href="../14-stream-processing/">14. Stream Processing</a>
+</li>
+<li>
+<a href="../15-observability/">15. Observability</a>
+</li>
+<li>
+<a href="../16-resilience-patterns/">16. Resilience Patterns</a>
+</li>
+<li>
+<a href="../17-distributed-transactions/">17. Distributed Transactions</a>
+</li>
+<li>
+<a href="../18-consensus-patterns/">18. Consensus Patterns</a>
+</li>
+<li>
+<a href="../19-microservices-patterns/">19. Microservices Patterns</a>
+</li>
+<li>
+<a href="../20-multi-region/">20. Multi-Region Architecture</a>
+</li>
+</ul>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">DSA <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../dsa/01-two-pointers/">01. Two Pointers</a>
+</li>
+<li>
+<a href="../../dsa/02-sliding-window/">02. Sliding Window</a>
+</li>
+<li>
+<a href="../../dsa/03-hash-tables/">03. Hash Tables</a>
+</li>
+<li>
+<a href="../../dsa/04-linked-lists/">04. Linked Lists</a>
+</li>
+<li>
+<a href="../../dsa/05-stacks--queues/">05. Stacks &amp; Queues</a>
+</li>
+<li>
+<a href="../../dsa/06-trees/">06. Trees</a>
+</li>
+<li>
+<a href="../../dsa/07-binary-search/">07. Binary Search</a>
+</li>
+<li>
+<a href="../../dsa/08-heaps/">08. Heaps</a>
+</li>
+<li>
+<a href="../../dsa/09-union-find/">09. Union-Find</a>
+</li>
+<li>
+<a href="../../dsa/10-graphs/">10. Graphs</a>
+</li>
+<li>
+<a href="../../dsa/11-advanced-graphs/">11. Advanced Graphs</a>
+</li>
+<li>
+<a href="../../dsa/12-backtracking/">12. Backtracking</a>
+</li>
+<li>
+<a href="../../dsa/13-dynamic-programming/">13. Dynamic Programming</a>
+</li>
+<li>
+<a href="../../dsa/14-prefix-sums/">14. Prefix Sums</a>
+</li>
+<li>
+<a href="../../dsa/15-intervals/">15. Intervals</a>
+</li>
+</ul>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Quick Reference <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../reference/when-it-breaks/">When It Breaks</a>
+</li>
+<li>
+<a href="../../reference/back-of-envelope/">Back of the Envelope</a>
+</li>
+<li>
+<a href="../../reference/symptom-pattern/">Symptom → Pattern</a>
+</li>
+<li>
+<a href="../../reference/staff-interview-strategy/">Staff+ Interview Strategy</a>
+</li>
+<li>
+<a href="../../reference/no-new-problems/">No New Problems in CS</a>
+</li>
+<li>
+<a href="../../reference/how-the-machine-works/">How the Machine Actually Works</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+<a data-target="#mkdocs_search_modal" data-toggle="modal" href="#">
+<i class="fas fa-search"></i> Search
+                        </a>
+</li>
+<li>
+<a href="../08-rate-limiting/" rel="prev">
+<i class="fas fa-arrow-left"></i> Previous
+                        </a>
+</li>
+<li>
+<a href="../10-concurrency-patterns/" rel="next">
+                            Next <i class="fas fa-arrow-right"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+<ul class="nav bs-sidenav">
+<li class="first-level active"><a href="#load-balancing">Load Balancing</a></li>
+<li class="second-level"><a href="#learning-objectives">Learning Objectives</a></li>
+<li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+<li class="second-level"><a href="#case-studies-load-balancing-in-the-wild">Case Studies: Load Balancing in the Wild</a></li>
+<li class="second-level"><a href="#core-implementation">Core Implementation</a></li>
+<li class="second-level"><a href="#layer-4-vs-layer-7">Layer 4 vs Layer 7</a></li>
+<li class="second-level"><a href="#common-misconceptions">Common Misconceptions</a></li>
+<li class="second-level"><a href="#decision-framework-choosing-a-load-balancing-algorithm">Decision Framework: Choosing a Load Balancing Algorithm</a></li>
+<li class="second-level"><a href="#practice">Practice</a></li>
+<li class="second-level"><a href="#test-your-understanding">Test Your Understanding</a></li>
+<li class="second-level"><a href="#connected-topics">Connected Topics</a></li>
+</ul>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="load-balancing">Load Balancing<a class="headerlink" href="#load-balancing" title="Permanent link">¶</a></h1>
+<blockquote>
+<p>Distributing traffic across multiple servers for availability and performance</p>
+</blockquote>
+<hr/>
+<h2 id="learning-objectives">Learning Objectives<a class="headerlink" href="#learning-objectives" title="Permanent link">¶</a></h2>
+<p>By the end of this topic you will be able to:</p>
+<ul>
+<li>Implement round robin, least connections, weighted round robin, consistent hashing, and IP hash algorithms from scratch</li>
+<li>Explain why consistent hashing minimises key redistribution when servers are added or removed compared to simple modulo hashing</li>
+<li>Compare the five algorithms across their handling of heterogeneous servers, stateful sessions, and server failures</li>
+<li>Identify thread-safety bugs in load balancer implementations including missing synchronisation and race conditions on the healthy-server list</li>
+<li>Choose the appropriate algorithm given requirements for session persistence, capacity difference, or cache-key locality</li>
+<li>Design virtual-node placement for consistent hashing and explain the trade-off between node count and distribution uniformity</li>
+</ul>
+<hr/>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After implementing load balancing algorithms, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What is load balancing in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">Load balancing is a ___ that works by ___</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Why do we need load balancing?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">Without load balancing, a single server would <strong><em>, which causes </em></strong></span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy for round robin:</strong></p>
+<ul>
+<li>Example: "Round robin is like a teacher calling on students in order..."</li>
+<li>Your analogy: <span class="fill-in">Think about how a checkout manager would assign customers to available cashiers one at a time — what rule would make it fair?</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy for least connections:</strong></p>
+<ul>
+<li>Example: "Least connections is like a bank choosing the shortest queue..."</li>
+<li>Your analogy: <span class="fill-in">Think about how a supermarket manager watching multiple checkout lines would decide where to direct the next customer in line...</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Why is consistent hashing useful?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">Consistent hashing is preferred when ___ because it avoids the cost of ___</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What problem does IP hash solve that round robin can't?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">IP hash ensures ___ by <strong><em>, which round robin cannot guarantee because </em></strong></span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr/>
+<h2 id="case-studies-load-balancing-in-the-wild">Case Studies: Load Balancing in the Wild<a class="headerlink" href="#case-studies-load-balancing-in-the-wild" title="Permanent link">¶</a></h2>
+<h3 id="netflix-consistent-hashing-for-cdn-content-routing">Netflix: Consistent Hashing for CDN Content Routing<a class="headerlink" href="#netflix-consistent-hashing-for-cdn-content-routing" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> Consistent hashing for routing video content requests.</li>
+<li><strong>How it works:</strong> Netflix's CDN must serve video chunks to millions of concurrent viewers. Each video chunk is
+  identified by a key. Using consistent hashing, a request for a specific chunk is always routed to the same CDN
+  server, maximizing cache hits. When a server is added or removed (e.g., during scaling or a failure), consistent
+  hashing ensures that only a small fraction of keys (~1/N) need to be remapped, dramatically reducing cache misses
+  compared to a naive <code>key % N</code> approach.</li>
+<li><strong>Key Takeaway:</strong> For caching systems where cache-hit rate is critical, consistent hashing is the standard choice.
+  The virtual node technique further smooths the distribution across physical servers.</li>
+</ul>
+<h3 id="aws-elastic-load-balancer-least-outstanding-requests">AWS Elastic Load Balancer: Least Outstanding Requests<a class="headerlink" href="#aws-elastic-load-balancer-least-outstanding-requests" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> A variant of least connections called Least Outstanding Requests.</li>
+<li><strong>How it works:</strong> AWS ELB's Application Load Balancer uses a "least outstanding requests" algorithm by default. This
+  is similar to least connections but counts in-flight requests rather than total connections, making it more accurate
+  for HTTP/2 connections that multiplex many requests. Each target's request count is tracked, and new requests are
+  sent to the target with the fewest outstanding requests. This naturally handles heterogeneous workloads where some
+  requests take much longer than others.</li>
+<li><strong>Key Takeaway:</strong> For modern HTTP workloads with variable request duration, least-connections-style algorithms
+  significantly outperform round robin. They are especially powerful when some requests are 10x or 100x slower than
+  the average, as they prevent slow servers from accumulating a backlog.</li>
+</ul>
+<h3 id="memcached-redis-clusters-client-side-consistent-hashing">Memcached / Redis Clusters: Client-Side Consistent Hashing<a class="headerlink" href="#memcached-redis-clusters-client-side-consistent-hashing" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> Client-side consistent hashing for cache key distribution.</li>
+<li><strong>How it works:</strong> In a Memcached or Redis cluster, clients (not a central proxy) implement consistent hashing to
+  decide which server to contact for a given cache key. The client library maintains the hash ring in memory and
+  performs the lookup locally, eliminating the central load balancer as a bottleneck or single point of failure.
+  Libraries like Jedis (Java), ioredis (Node.js), and pylibmc (Python) implement this transparently.</li>
+<li><strong>Key Takeaway:</strong> For high-throughput caching systems, client-side load balancing eliminates the latency and
+  availability risk of a centralized load balancer. The trade-off is increased client complexity and the need to
+  propagate cluster topology changes to all clients.</li>
+</ul>
+<hr/>
+<h2 id="core-implementation">Core Implementation<a class="headerlink" href="#core-implementation" title="Permanent link">¶</a></h2>
+<h3 id="round-robin-flow">Round Robin Flow<a class="headerlink" href="#round-robin-flow" title="Permanent link">¶</a></h3>
+<div class="mermaid">flowchart LR
+    LB["Load Balancer\n(Round Robin)"]
+    R1["Request 1"]
+    R2["Request 2"]
+    R3["Request 3"]
+    R4["Request 4"]
+    S1["Server 1"]
+    S2["Server 2"]
+    S3["Server 3"]
+
+    R1 --&gt; LB --&gt; S1
+    R2 --&gt; LB --&gt; S2
+    R3 --&gt; LB --&gt; S3
+    R4 --&gt; LB --&gt; S1</div>
+<h3 id="part-1-round-robin-load-balancer">Part 1: Round Robin Load Balancer<a class="headerlink" href="#part-1-round-robin-load-balancer" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement round robin algorithm for equal traffic distribution.</p>
+<pre class="highlight"><code class="language-java">package com.study.systems.loadbalancing;
+
+import java.util.*;
+/**
+ * Round Robin: Rotate through servers in order
+ *
+ * Key principles:
+ * - Circular iteration through servers
+ * - Simple and fair distribution
+ * - Doesn't consider server load
+ * - Works well for similar servers
+ */
+
+public class RoundRobinLoadBalancer {
+
+    private final List&lt;Server&gt; servers;
+    private int currentIndex;
+
+    /**
+     * Initialize round robin load balancer
+     *
+     * @param servers List of backend servers
+     *
+     * TODO: Initialize balancer
+     * - Store server list
+     * - Start index at 0
+     */
+    public RoundRobinLoadBalancer(List&lt;Server&gt; servers) {
+        // TODO: Store servers (defensive copy)
+
+        // TODO: Initialize currentIndex to 0
+
+        this.servers = null; // Replace
+        this.currentIndex = 0;
+    }
+
+    /**
+     * Select next server using round robin
+     *
+     * @return Next server in rotation
+     *
+     * TODO: Implement round robin selection
+     * 1. Get server at current index
+     * 2. Increment index (with wraparound)
+     * 3. Return server
+     *
+     * Hint: Use modulo for wraparound
+     */
+    public synchronized Server getNextServer() {
+        // TODO: Check if servers list is empty
+
+        // TODO: Get server at currentIndex
+
+        // TODO: Increment currentIndex with wraparound
+        // currentIndex = (currentIndex + 1) % servers.size()
+
+        // TODO: Return selected server
+
+        return null; // Replace
+    }
+
+    /**
+     * Add server to pool
+     */
+    public synchronized void addServer(Server server) {
+        // TODO: Add server to list
+    }
+
+    /**
+     * Remove server from pool
+     */
+    public synchronized void removeServer(Server server) {
+        // TODO: Remove server from list
+        // TODO: Adjust currentIndex if needed
+    }
+
+    static class Server {
+        String id;
+        String host;
+        int port;
+
+        public Server(String id, String host, int port) {
+            this.id = id;
+            this.host = host;
+            this.port = port;
+        }
+
+        @Override
+        public String toString() {
+            return id + " (" + host + ":" + port + ")";
+        }
+    }
+}
+</code></pre>
+<div class="admonition warning">
+<p class="admonition-title">Debugging Challenge — Missing Wraparound in Round Robin</p>
+<p>The implementation below works for the first N requests, then throws an exception. Find the bug.</p>
+<pre class="highlight"><code class="language-java">public synchronized Server getNextServer_Buggy() {
+    if (servers.isEmpty()) {
+        throw new IllegalStateException("No servers available");
+    }
+
+    Server server = servers.get(currentIndex);
+    currentIndex = currentIndex + 1;
+    return server;
+}</code></pre>
+<p>Trace what happens on request N+1 when <code>servers.size() == 3</code> and <code>currentIndex == 3</code>.</p>
+<details class="success">
+<summary>Answer</summary>
+<p><strong>Bug:</strong> <code>currentIndex</code> increments without wrapping around. After the third request, <code>currentIndex = 3</code>, and <code>servers.get(3)</code> throws <code>IndexOutOfBoundsException</code> on a list of size 3.</p>
+<p><strong>Fix:</strong>
+<pre class="highlight"><code class="language-java">currentIndex = (currentIndex + 1) % servers.size();</code></pre></p>
+<p>The modulo ensures the index wraps to 0 after reaching the end, creating circular iteration. This is one of the most common bugs in round-robin implementations.</p>
+</details>
+</div>
+<hr/>
+<h3 id="part-2-least-connections-load-balancer">Part 2: Least Connections Load Balancer<a class="headerlink" href="#part-2-least-connections-load-balancer" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement least connections algorithm.</p>
+<pre class="highlight"><code class="language-java">package com.study.systems.loadbalancing;
+
+import java.util.*;
+/**
+ * Least Connections: Route to server with fewest active connections
+ *
+ * Key principles:
+ * - Track active connections per server
+ * - Select server with minimum load
+ * - Better for varying request durations
+ * - More overhead than round robin
+ */
+
+public class LeastConnectionsLoadBalancer {
+
+    private final List&lt;ServerWithStats&gt; servers;
+
+    /**
+     * Initialize least connections load balancer
+     *
+     * @param servers List of backend servers
+     *
+     * TODO: Initialize balancer
+     * - Create ServerWithStats for each server
+     * - Initialize connection counters to 0
+     */
+    public LeastConnectionsLoadBalancer(List&lt;RoundRobinLoadBalancer.Server&gt; servers) {
+        // TODO: Wrap each server with connection counter
+
+        this.servers = null; // Replace
+    }
+
+    /**
+     * Select server with fewest connections
+     *
+     * @return Server with minimum active connections
+     *
+     * TODO: Implement least connections selection
+     * 1. Find server with minimum connections
+     * 2. Increment its connection count
+     * 3. Return server
+     *
+     * Hint: Break ties by choosing first found
+     */
+    public synchronized RoundRobinLoadBalancer.Server getNextServer() {
+        // TODO: Check if servers list is empty
+
+        // TODO: Find server with minimum connections
+
+        // TODO: Increment connection count for selected server
+
+        // TODO: Return selected server
+
+        return null; // Replace
+    }
+
+    /**
+     * Release connection when request completes
+     *
+     * @param server Server to release connection from
+     *
+     * TODO: Decrement connection count
+     * - Find server in list
+     * - Decrement activeConnections
+     * - Ensure doesn't go below 0
+     */
+    public synchronized void releaseConnection(RoundRobinLoadBalancer.Server server) {
+        // TODO: Find ServerWithStats for given server
+
+        // TODO: Decrement activeConnections (min 0)
+    }
+
+    /**
+     * Get server statistics
+     */
+    public synchronized Map&lt;String, Integer&gt; getStats() {
+        Map&lt;String, Integer&gt; stats = new HashMap&lt;&gt;();
+        for (ServerWithStats s : servers) {
+            stats.put(s.server.id, s.activeConnections);
+        }
+        return stats;
+    }
+
+    static class ServerWithStats {
+        RoundRobinLoadBalancer.Server server;
+        int activeConnections;
+
+        public ServerWithStats(RoundRobinLoadBalancer.Server server) {
+            this.server = server;
+            this.activeConnections = 0;
+        }
+    }
+}
+</code></pre>
+<h3 id="part-3-weighted-round-robin">Part 3: Weighted Round Robin<a class="headerlink" href="#part-3-weighted-round-robin" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement weighted round robin for heterogeneous servers.</p>
+<pre class="highlight"><code class="language-java">package com.study.systems.loadbalancing;
+
+import java.util.*;
+/**
+ * Weighted Round Robin: Distribute based on server capacity
+ *
+ * Key principles:
+ * - Servers have different weights (capacity)
+ * - Higher weight = more requests
+ * - Smooth distribution using GCD algorithm
+ * - Good for heterogeneous servers
+ */
+
+public class WeightedRoundRobinLoadBalancer {
+
+    private final List&lt;WeightedServer&gt; servers;
+    private int currentIndex;
+    private int currentWeight;
+    private int maxWeight;
+    private int gcd; // Greatest common divisor of weights
+
+    /**
+     * Initialize weighted round robin
+     *
+     * @param servers List of servers with weights
+     *
+     * TODO: Initialize balancer
+     * - Store servers
+     * - Calculate max weight and GCD
+     * - Initialize currentWeight to max
+     */
+    public WeightedRoundRobinLoadBalancer(List&lt;WeightedServer&gt; servers) {
+        // TODO: Store servers
+
+        // TODO: Calculate maxWeight (max of all weights)
+
+        // TODO: Calculate GCD of all weights
+
+        // TODO: Initialize currentIndex to -1
+
+        // TODO: Initialize currentWeight to 0
+
+        this.servers = null; // Replace
+    }
+
+    /**
+     * Select next server using weighted round robin
+     *
+     * @return Next server based on weight
+     *
+     * TODO: Implement weighted selection
+     * 1. Loop until finding server with weight &gt;= currentWeight
+     * 2. When loop completes, decrease currentWeight by GCD
+     * 3. Return selected server
+     *
+     * Hint: This ensures smooth distribution
+     */
+    public synchronized RoundRobinLoadBalancer.Server getNextServer() {
+        // TODO: Loop through servers
+        // TODO: Move to next index (wraparound)
+        // currentIndex = (currentIndex + 1) % servers.size()
+        // TODO: Return server whose weight &gt;= currentWeight; decrease currentWeight by GCD when loop wraps
+        throw new UnsupportedOperationException("TODO: implement getNextServer");
+    }
+
+    /**
+     * Calculate GCD of all weights
+     */
+    private int calculateGCD() {
+        // TODO: Calculate GCD of all server weights
+        // Hint: Use Euclidean algorithm
+        return 1; // Replace
+    }
+
+    /**
+     * Calculate GCD of two numbers
+     */
+    private int gcd(int a, int b) {
+        // TODO: Implement Euclidean algorithm
+        return 0; // Replace
+    }
+
+    static class WeightedServer {
+        RoundRobinLoadBalancer.Server server;
+        int weight; // Capacity/power of server
+
+        public WeightedServer(RoundRobinLoadBalancer.Server server, int weight) {
+            this.server = server;
+            this.weight = weight;
+        }
+    }
+}
+</code></pre>
+<h3 id="part-4-consistent-hashing">Part 4: Consistent Hashing<a class="headerlink" href="#part-4-consistent-hashing" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement consistent hashing for distributed caching.</p>
+<div class="admonition tip">
+<p class="admonition-title">Why virtual nodes matter</p>
+<p>Without virtual nodes, each physical server occupies only one point on the ring. With an unlucky placement, one server could end up responsible for 80% of the key space. Virtual nodes (placing each server at N positions) smooth the distribution: with 100–150 virtual nodes per server, distribution error typically falls below 5%.</p>
+</div>
+<div class="mermaid">graph TD
+    Ring(["Hash Ring (0–360°)"])
+
+    NodeA["Node A\n@ position 60"]
+    NodeB["Node B\n@ position 150"]
+    NodeC["Node C\n@ position 270"]
+
+    Key1["Key 'user:42'\nhash=80 → Node B"]
+    Key2["Key 'session:x'\nhash=200 → Node C"]
+    Key3["Key 'order:7'\nhash=310 → Node A\n(wraps around)"]
+
+    Ring --&gt; NodeA
+    Ring --&gt; NodeB
+    Ring --&gt; NodeC
+    NodeB --&gt; Key1
+    NodeC --&gt; Key2
+    NodeA --&gt; Key3
+
+    Note1["Virtual nodes: each physical\nserver occupies N ring positions\nfor even distribution"]
+    Ring --&gt; Note1</div>
+<pre class="highlight"><code class="language-java">package com.study.systems.loadbalancing;
+
+import java.util.*;
+/**
+ * Consistent Hashing: Map requests to servers using hash ring
+ *
+ * Key principles:
+ * - Servers placed on virtual ring
+ * - Request hashed to position on ring
+ * - Clockwise walk to find server
+ * - Minimal redistribution when servers change
+ */
+
+public class ConsistentHashingLoadBalancer {
+
+    private final TreeMap&lt;Integer, RoundRobinLoadBalancer.Server&gt; ring;
+    private final int virtualNodesPerServer;
+
+    /**
+     * Initialize consistent hashing
+     *
+     * @param servers List of servers
+     * @param virtualNodesPerServer Number of virtual nodes per physical server
+     *
+     * TODO: Initialize hash ring
+     * - Create TreeMap for ring
+     * - Add each server with virtual nodes
+     */
+    public ConsistentHashingLoadBalancer(List&lt;RoundRobinLoadBalancer.Server&gt; servers, int virtualNodesPerServer) {
+        // TODO: Initialize a new TreeMap&lt;Integer, Server&gt;() and assign to this.ring
+
+        // TODO: Assign the virtualNodesPerServer parameter to the field
+
+        // TODO: For each server in the list, call addServer(server)
+
+        this.ring = null; // Replace
+        this.virtualNodesPerServer = 0;
+    }
+
+    /**
+     * Get server for a given key
+     *
+     * @param key Request key (e.g., user ID, session ID)
+     * @return Server to handle this key
+     *
+     * TODO: Implement consistent hashing lookup
+     * 1. Hash the key to integer
+     * 2. Find next server clockwise on ring
+     * 3. If no server found, wrap to first server
+     */
+    public RoundRobinLoadBalancer.Server getServer(String key) {
+        // TODO: Return null (or throw) if ring.isEmpty()
+
+        // TODO: Compute hash(key) to get an integer position on the ring
+
+        // TODO: Use ring.ceilingEntry(position) to find the next clockwise node; if null, wrap with ring.firstEntry()
+
+        // TODO: Return the server from the found map entry
+
+        return null; // Replace
+    }
+
+    /**
+     * Add server to hash ring
+     *
+     * TODO: Add server with virtual nodes
+     * - For each virtual node:
+     *   - Hash "serverId-virtualNodeIndex"
+     *   - Place on ring
+     */
+    public void addServer(RoundRobinLoadBalancer.Server server) {
+        // TODO: Loop i from 0 to virtualNodesPerServer; hash the string (server.id + "-" + i); put into ring
+    }
+
+    /**
+     * Remove server from hash ring
+     *
+     * TODO: Remove all virtual nodes for this server
+     */
+    public void removeServer(RoundRobinLoadBalancer.Server server) {
+        // TODO: Loop i from 0 to virtualNodesPerServer; compute hash(server.id + "-" + i); remove that key from ring
+    }
+
+    /**
+     * Hash function
+     *
+     * TODO: Implement simple hash function
+     * - Use string hashCode()
+     * - Ensure positive value
+     */
+    private int hash(String key) {
+        // TODO: Hash key to integer
+        // Hint: key.hashCode() &amp; 0x7FFFFFFF strips the sign bit to guarantee a non-negative ring position
+        return 0; // Replace
+    }
+
+    /**
+     * Get ring statistics
+     */
+    public int getRingSize() {
+        return ring.size();
+    }
+}
+</code></pre>
+<h3 id="part-5-ip-hash-load-balancer">Part 5: IP Hash Load Balancer<a class="headerlink" href="#part-5-ip-hash-load-balancer" title="Permanent link">¶</a></h3>
+<p><strong>Your task:</strong> Implement IP hash for session persistence.</p>
+<pre class="highlight"><code class="language-java">package com.study.systems.loadbalancing;
+
+import java.util.*;
+/**
+ * IP Hash: Route client to same server based on IP
+ *
+ * Key principles:
+ * - Hash client IP to select server
+ * - Ensures session persistence
+ * - Client always hits same server
+ * - Issues when server pool changes
+ */
+
+public class IPHashLoadBalancer {
+
+    private final List&lt;RoundRobinLoadBalancer.Server&gt; servers;
+
+    /**
+     * Initialize IP hash load balancer
+     *
+     * @param servers List of backend servers
+     */
+    public IPHashLoadBalancer(List&lt;RoundRobinLoadBalancer.Server&gt; servers) {
+        // TODO: Store servers
+        this.servers = null; // Replace
+    }
+
+    /**
+     * Select server based on client IP
+     *
+     * @param clientIP Client IP address
+     * @return Server for this client
+     *
+     * TODO: Implement IP hash selection
+     * 1. Hash the client IP
+     * 2. Modulo by server count
+     * 3. Return server at that index
+     */
+    public synchronized RoundRobinLoadBalancer.Server getServer(String clientIP) {
+        // TODO: Check if servers list is empty
+
+        // TODO: Hash clientIP to integer
+
+        // TODO: Get index using modulo
+        // index = abs(hash) % servers.size()
+
+        // TODO: Return server at index
+
+        return null; // Replace
+    }
+
+    /**
+     * Hash IP address
+     */
+    private int hash(String ip) {
+        // TODO: Hash IP string
+        // Hint: ip.hashCode()
+        return 0; // Replace
+    }
+
+    /**
+     * Add server (warning: disrupts session persistence)
+     */
+    public synchronized void addServer(RoundRobinLoadBalancer.Server server) {
+        // TODO: Add server
+        // Note: This will change hash distribution
+    }
+
+    /**
+     * Remove server (warning: disrupts session persistence)
+     */
+    public synchronized void removeServer(RoundRobinLoadBalancer.Server server) {
+        // TODO: Remove server
+        // Note: This will change hash distribution
+    }
+}
+</code></pre>
+<hr/>
+<h2 id="layer-4-vs-layer-7">Layer 4 vs Layer 7<a class="headerlink" href="#layer-4-vs-layer-7" title="Permanent link">¶</a></h2>
+<p>The five algorithms above answer <em>how</em> requests are distributed. A separate question is <em>where</em> in the network stack the load balancer sits.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>L4 — Transport layer</th>
+<th>L7 — Application layer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Sees</strong></td>
+<td>IP address, port, protocol</td>
+<td>HTTP headers, URL path, cookies</td>
+</tr>
+<tr>
+<td><strong>SSL termination</strong></td>
+<td>No — TLS passes through opaque</td>
+<td>Yes — LB decrypts, inspects, re-encrypts</td>
+</tr>
+<tr>
+<td><strong>Routing basis</strong></td>
+<td>IP + port only</td>
+<td>URL path, hostname, header values, cookies</td>
+</tr>
+<tr>
+<td><strong>Overhead</strong></td>
+<td>Low — no protocol parsing</td>
+<td>Higher — full HTTP parsing per request</td>
+</tr>
+<tr>
+<td><strong>Typical use</strong></td>
+<td>Raw TCP, non-HTTP protocols</td>
+<td>HTTP/HTTPS, microservices, API gateways</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Choose L4 when</strong> you need minimum overhead, are balancing non-HTTP protocols (game servers, MQTT, raw gRPC), or don't need to inspect request content.</p>
+<p><strong>Choose L7 when</strong> you need URL-based routing (e.g., <code>/api/*</code> → service-A, <code>/static/*</code> → CDN), SSL termination at the load balancer, cookie-based sticky sessions, or canary/A-B deployments.</p>
+<div class="admonition warning">
+<p class="admonition-title">L7 doesn't replace algorithm choice — it stacks on top of it</p>
+<p>Choosing L7 determines what information the load balancer can use. You still need to choose <em>which algorithm</em> routes those requests. An L7 load balancer commonly runs round robin or least connections across the backend pool, while using URL path or headers to decide <em>which pool</em> to send to at all.</p>
+</div>
+<hr/>
+<h2 id="common-misconceptions">Common Misconceptions<a class="headerlink" href="#common-misconceptions" title="Permanent link">¶</a></h2>
+<div class="admonition danger">
+<p class="admonition-title">Least connections always outperforms round robin</p>
+<p>Least connections is better when request duration varies widely (some requests take 10ms, others 2 seconds). For truly uniform request durations, round robin is equivalent in outcome and has lower overhead — it needs no per-server connection counter updates on every request start and end. Use least connections when request duration variance is high; use round robin when servers are homogeneous and requests are similar in cost.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Consistent hashing eliminates all redistribution when servers change</p>
+<p>Consistent hashing minimises redistribution: adding one server to a ring of N causes only ~1/(N+1) of keys to move, compared to ~N/(N+1) with simple modulo hashing. It does not eliminate redistribution. If you need truly zero redistribution for a specific key, you need a manually managed key-to-server mapping table, which comes with its own operational cost.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">IP hash provides reliable session persistence at scale</p>
+<p>IP hash breaks when clients are behind a NAT gateway (many users share one IP) or when users are behind a proxy (IP changes between requests). It also breaks session persistence whenever the server list changes, since all hashes shift. For robust session persistence, prefer consistent hashing with the session ID as the key, or externalise session state to a shared store (Redis) so any server can serve the session.</p>
+</div>
+<hr/>
+<h2 id="decision-framework-choosing-a-load-balancing-algorithm">Decision Framework: Choosing a Load Balancing Algorithm<a class="headerlink" href="#decision-framework-choosing-a-load-balancing-algorithm" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Fill in the matrix based on the material above.</p>
+<h3 id="trade-off-analysis-matrix">Trade-off Analysis Matrix<a class="headerlink" href="#trade-off-analysis-matrix" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Algorithm</th>
+<th>Session affinity</th>
+<th>Distribution under uneven load</th>
+<th>Rebalances on node change?</th>
+<th>Best for</th>
+<th>Key failure mode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Round robin</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Least connections</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>IP hash</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Consistent hashing</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+</tbody>
+</table>
+<details class="success">
+<summary>Answers</summary>
+<table>
+<thead>
+<tr>
+<th>Algorithm</th>
+<th>Session affinity</th>
+<th>Distribution under uneven load</th>
+<th>Rebalances on node change?</th>
+<th>Best for</th>
+<th>Key failure mode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Round robin</strong></td>
+<td>No — sessions scattered across all nodes</td>
+<td>Poor — ignores request cost; long requests and short requests go to the same next node</td>
+<td>Yes — next request goes to next node</td>
+<td>Stateless services with uniform-cost requests</td>
+<td>Stateful services lose sessions when a node is removed</td>
+</tr>
+<tr>
+<td><strong>Least connections</strong></td>
+<td>No</td>
+<td>Good — routes to the least-loaded server</td>
+<td>Yes</td>
+<td>Variable-cost requests (DB queries, file uploads)</td>
+<td>Requires per-connection tracking overhead; breaks if latency (not count) is the right load signal</td>
+</tr>
+<tr>
+<td><strong>IP hash</strong></td>
+<td>Yes — same IP maps to same server</td>
+<td>Poor — single heavy client monopolises its backend because all its requests go to one node</td>
+<td>No — all hashes shift on pool change</td>
+<td>Stateful services with IP-stable clients</td>
+<td>NAT gateways: millions of users share one IP and overload one backend; consistent hashing mitigates rehash cost</td>
+</tr>
+<tr>
+<td><strong>Consistent hashing</strong></td>
+<td>Yes — same key maps to same node</td>
+<td>Even — only K/N keys reassign when a node is added or removed</td>
+<td>Graceful — minimal disruption</td>
+<td>Distributed caches, stateful sharding, session stores</td>
+<td>Too few virtual nodes per server causes uneven distribution; 150–300 virtual nodes per server is the typical tuning target</td>
+</tr>
+</tbody>
+</table>
+</details>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">When it breaks</p>
+<p>Round robin breaks for stateful services when sessions are pinned to a server — a rolling deployment that removes a node drops all sessions on that node. Sticky sessions (cookie or IP hash) fix this but create uneven load when a small number of clients generate disproportionate traffic: IP hash distributes by client address, not by request weight, so one heavy client maps to one backend indefinitely. L7 load balancing breaks at very high connection rates: TLS termination is CPU-intensive because each new connection requires a full handshake including asymmetric-key operations; a single L7 load balancer typically saturates around 100,000 TLS connections/second. Connection draining — waiting for in-flight requests to complete before removing a node — is correct but adds deployment latency; a 30-second drain across 50 nodes serialised is 25 minutes of rolling restart.</p>
+</div>
+<hr/>
+<h2 id="practice">Practice<a class="headerlink" href="#practice" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<h3 id="scenario-1-load-balance-web-application">Scenario 1: Load balance web application<a class="headerlink" href="#scenario-1-load-balance-web-application" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>5 web servers of equal capacity</li>
+<li>Stateless application</li>
+<li>Want even distribution</li>
+<li>Simple to understand</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<ul>
+<li>Which algorithm would you choose? <span class="fill-in">[Fill in]</span></li>
+<li>Why? <span class="fill-in">[Fill in]</span></li>
+<li>How to handle server failures? <span class="fill-in">[Fill in]</span></li>
+<li>Health check strategy? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>Failure modes:</strong></p>
+<ul>
+<li>What happens if one of the 5 web servers becomes unavailable mid-rotation? <span class="fill-in">[Fill in]</span></li>
+<li>How does your design behave when all 5 servers are overloaded simultaneously and new requests arrive? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="scenario-2-load-balance-with-session-state">Scenario 2: Load balance with session state<a class="headerlink" href="#scenario-2-load-balance-with-session-state" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>Users have shopping carts</li>
+<li>Cart stored in server memory</li>
+<li>10 application servers</li>
+<li>Need session persistence</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<ul>
+<li>Which algorithm would you choose? <span class="fill-in">[Fill in]</span></li>
+<li>Why? <span class="fill-in">[Fill in]</span></li>
+<li>How to handle server additions? <span class="fill-in">[Fill in]</span></li>
+<li>Alternative to sticky sessions? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>Failure modes:</strong></p>
+<ul>
+<li>What happens if the server holding a user's in-memory cart goes down? <span class="fill-in">[Fill in]</span></li>
+<li>How does your design behave when a server is removed from the pool while users have active sessions mapped to it? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="scenario-3-distributed-cache-cluster">Scenario 3: Distributed cache cluster<a class="headerlink" href="#scenario-3-distributed-cache-cluster" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>Cache cluster with 20 nodes</li>
+<li>Frequently add/remove nodes</li>
+<li>Want to minimize cache misses</li>
+<li>Keys should stay on same node</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<ul>
+<li>Which algorithm would you choose? <span class="fill-in">[Fill in]</span></li>
+<li>Why? <span class="fill-in">[Fill in]</span></li>
+<li>How many virtual nodes? <span class="fill-in">[Fill in]</span></li>
+<li>Replication strategy? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<p><strong>Failure modes:</strong></p>
+<ul>
+<li>What happens if a cache node is removed suddenly and the hash ring is not updated immediately? <span class="fill-in">[Fill in]</span></li>
+<li>How does your design behave when a hot key causes a single node to receive a disproportionate share of requests? <span class="fill-in">[Fill in]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="test-your-understanding">Test Your Understanding<a class="headerlink" href="#test-your-understanding" title="Permanent link">¶</a></h2>
+<p>Answer these without referring to your notes or implementation.</p>
+<ol>
+<li>
+<p>You have a cluster of 10 cache servers using simple modulo hashing (<code>key % 10</code>). You add one more server, making it 11. Approximately what percentage of cached keys will need to move? Now explain how consistent hashing reduces this. Show the math for both.</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) with modulo hashing, ~10/11 ≈ 91% of keys map to a different server when N changes from 10 to 11, (2) with consistent hashing, only ~1/11 ≈ 9% of keys move because only the keys between the new node and its predecessor on the ring are affected, (3) the derivation: modulo redistributes nearly everything; consistent hashing bounds redistribution to the fraction of the ring the new node occupies.</p>
+</details>
+</li>
+<li>
+<p>Your least-connections load balancer is supposed to be thread-safe because every method is <code>synchronized</code>. A colleague points out a race condition in <code>releaseConnection</code>. Describe a scenario with two threads that produces an incorrect connection count despite <code>synchronized</code> methods.</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) the race window: two threads each call <code>releaseConnection</code> for the same server near-simultaneously — each reads count=1, each decrements to 0, result is 0 not -1 but the decrement may produce a negative value if not guarded, (2) <code>synchronized</code> prevents interleaved execution within a single method call but does not prevent a thread from reading a stale value if the method re-reads the field after another thread's decrement has been committed, (3) the correct fix is to guard against going below zero and confirm the atomicity of read-modify-write within the synchronized block.</p>
+</details>
+</li>
+<li>
+<p>A user complains their shopping cart disappears randomly. Your load balancer uses round robin. Explain precisely why this happens and describe two solutions — one that keeps round robin and one that does not.</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) round robin sends successive requests from the same user to different servers; in-memory cart is only on the server that first received the add-to-cart request, (2) solution keeping round robin: externalise session state to a shared store (Redis/Memcached) so any server can read the cart regardless of which one is chosen, (3) solution replacing round robin: use IP hash or consistent hashing by session ID to ensure the same user always routes to the same server (with the caveats about what happens on server changes).</p>
+</details>
+</li>
+<li>
+<p>You are configuring consistent hashing for a cache cluster. The documentation says to use 150 virtual nodes per server. Your manager asks why not just 1, since that's simpler. Give a concrete explanation with an example showing what goes wrong with 1 virtual node and why 150 fixes it.</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) with 1 virtual node per server, the physical placement on the ring is random; if three servers happen to land at hash positions 10, 12, and 900 on a 1000-point ring, the third server owns 898/1000 of the key space — extremely uneven, (2) with 150 virtual nodes per server, each physical server occupies 150 positions scattered across the ring, averaging out placement variance so each server ends up owning close to 1/N of the key space, (3) the trade-off is memory for the ring data structure, which is negligible in practice.</p>
+</details>
+</li>
+<li>
+<p>A colleague says "IP hash is strictly better than round robin for any application that has user sessions, because it keeps users on the same server." What is wrong with this claim? Describe at least two real-world scenarios where IP hash would give worse results than round robin plus externalised sessions.</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) NAT: many users behind a corporate gateway or mobile carrier share one public IP, so all those users hash to the same server — creating a hot server while others sit idle, (2) server pool change: adding or removing a server reshuffles all IP-to-server mappings because modulo arithmetic changes, breaking session persistence for every user simultaneously, (3) IP instability: mobile users or users on DHCP change IPs between requests, so IP hash provides no persistence guarantee for these clients.</p>
+</details>
+</li>
+<li>
+<p>Your team needs to route <code>/api/*</code> requests to a backend service cluster and <code>/static/*</code> requests to an object-storage CDN, while also terminating TLS at the load balancer. Should this be an L4 or L7 load balancer? What specifically breaks if you use the other layer instead?</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) L7 is required because URL path inspection (<code>/api/*</code> vs <code>/static/*</code>) requires parsing the HTTP request, which is only available at the application layer, (2) TLS termination is also an L7 concern — L4 passes opaque TLS bytes through without decrypting, so the load balancer cannot read the URL path at all, (3) an L4 balancer sees only IP address and port; it cannot distinguish request types or terminate TLS, making both URL-based routing and SSL offloading impossible.</p>
+</details>
+</li>
+</ol>
+<hr/>
+<h2 id="connected-topics">Connected Topics<a class="headerlink" href="#connected-topics" title="Permanent link">¶</a></h2>
+<div class="bs-callout bs-callout-info">
+<p><strong>Where this topic connects</strong></p>
+<ul>
+<li><strong>05. Caching Patterns</strong> — consistent hashing was developed for distributed caching; load balancing reuses the same algorithm to minimise key redistribution when servers change → <a href="../05-caching-patterns/">05. Caching Patterns</a></li>
+<li><strong>11. Database Scaling</strong> — read replicas use load balancing to distribute query traffic; round robin and least-connections apply directly to database proxy routing → <a href="../11-database-scaling/">11. Database Scaling</a></li>
+<li><strong>03. Networking Fundamentals</strong> — the L4/L7 distinction (transport vs application layer) determines what information the load balancer can use for routing decisions → <a href="../03-networking-fundamentals/">03. Networking Fundamentals</a></li>
+</ul>
+</div></div>
+</div>
+<footer class="col-md-12 text-center">
+<hr/>
+<p>
+<small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+</p>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../../js/bootstrap-3.0.3.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>var base_url = "../.."</script>
+<script src="../../js/base.js"></script>
+<script src="../../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<button class="close" data-dismiss="modal" type="button">
+<span aria-hidden="true">×</span>
+<span class="sr-only">Close</span>
+</button>
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+</div>
+<div class="modal-body">
+<p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="text"/>
+</div>
+</form>
+<div id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@11.13.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>

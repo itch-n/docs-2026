@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="A framework for algorithms, systems design, and infrastructure." name="description"/>
+<meta content="Richard" name="author"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>Back of the Envelope - Software Engineering Study Guide</title>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" rel="stylesheet"/>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css" rel="stylesheet"/>
+<link href="//rsms.me/inter/inter.css" rel="stylesheet" type="text/css"/>
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&amp;subset=latin-ext,latin" rel="stylesheet" type="text/css"/>
+<link href="../../css/bootstrap-custom.min.css" rel="stylesheet"/>
+<link href="../../css/base.min.css" rel="stylesheet"/>
+<link href="../../css/cinder.min.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css" rel="stylesheet"/>
+<link href="../../css/custom.css" rel="stylesheet"/>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="container">
+<!-- Collapsed navigation -->
+<div class="navbar-header">
+<!-- Expander button -->
+<button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<!-- Main title -->
+<a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+</div>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li>
+<a href="../..">Home</a>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Systems Design <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../systems/01-storage-engines/">01. Storage Engines</a>
+</li>
+<li>
+<a href="../../systems/02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+<li>
+<a href="../../systems/03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+<li>
+<a href="../../systems/04-search-and-indexing/">04. Search &amp; Indexing</a>
+</li>
+<li>
+<a href="../../systems/05-caching-patterns/">05. Caching Patterns</a>
+</li>
+<li>
+<a href="../../systems/06-api-design/">06. API Design</a>
+</li>
+<li>
+<a href="../../systems/07-security-patterns/">07. Security Patterns</a>
+</li>
+<li>
+<a href="../../systems/08-rate-limiting/">08. Rate Limiting</a>
+</li>
+<li>
+<a href="../../systems/09-load-balancing/">09. Load Balancing</a>
+</li>
+<li>
+<a href="../../systems/10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+<li>
+<a href="../../systems/11-database-scaling/">11. Database Scaling</a>
+</li>
+<li>
+<a href="../../systems/12-message-queues/">12. Message Queues</a>
+</li>
+<li>
+<a href="../../systems/13-event-sourcing-cqrs/">13. Event Sourcing &amp; CQRS</a>
+</li>
+<li>
+<a href="../../systems/14-stream-processing/">14. Stream Processing</a>
+</li>
+<li>
+<a href="../../systems/15-observability/">15. Observability</a>
+</li>
+<li>
+<a href="../../systems/16-resilience-patterns/">16. Resilience Patterns</a>
+</li>
+<li>
+<a href="../../systems/17-distributed-transactions/">17. Distributed Transactions</a>
+</li>
+<li>
+<a href="../../systems/18-consensus-patterns/">18. Consensus Patterns</a>
+</li>
+<li>
+<a href="../../systems/19-microservices-patterns/">19. Microservices Patterns</a>
+</li>
+<li>
+<a href="../../systems/20-multi-region/">20. Multi-Region Architecture</a>
+</li>
+</ul>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">DSA <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../dsa/01-two-pointers/">01. Two Pointers</a>
+</li>
+<li>
+<a href="../../dsa/02-sliding-window/">02. Sliding Window</a>
+</li>
+<li>
+<a href="../../dsa/03-hash-tables/">03. Hash Tables</a>
+</li>
+<li>
+<a href="../../dsa/04-linked-lists/">04. Linked Lists</a>
+</li>
+<li>
+<a href="../../dsa/05-stacks--queues/">05. Stacks &amp; Queues</a>
+</li>
+<li>
+<a href="../../dsa/06-trees/">06. Trees</a>
+</li>
+<li>
+<a href="../../dsa/07-binary-search/">07. Binary Search</a>
+</li>
+<li>
+<a href="../../dsa/08-heaps/">08. Heaps</a>
+</li>
+<li>
+<a href="../../dsa/09-union-find/">09. Union-Find</a>
+</li>
+<li>
+<a href="../../dsa/10-graphs/">10. Graphs</a>
+</li>
+<li>
+<a href="../../dsa/11-advanced-graphs/">11. Advanced Graphs</a>
+</li>
+<li>
+<a href="../../dsa/12-backtracking/">12. Backtracking</a>
+</li>
+<li>
+<a href="../../dsa/13-dynamic-programming/">13. Dynamic Programming</a>
+</li>
+<li>
+<a href="../../dsa/14-prefix-sums/">14. Prefix Sums</a>
+</li>
+<li>
+<a href="../../dsa/15-intervals/">15. Intervals</a>
+</li>
+</ul>
+</li>
+<li class="dropdown active">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Quick Reference <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../when-it-breaks/">When It Breaks</a>
+</li>
+<li class="active">
+<a href="./">Back of the Envelope</a>
+</li>
+<li>
+<a href="../symptom-pattern/">Symptom → Pattern</a>
+</li>
+<li>
+<a href="../staff-interview-strategy/">Staff+ Interview Strategy</a>
+</li>
+<li>
+<a href="../no-new-problems/">No New Problems in CS</a>
+</li>
+<li>
+<a href="../how-the-machine-works/">How the Machine Actually Works</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+<a data-target="#mkdocs_search_modal" data-toggle="modal" href="#">
+<i class="fas fa-search"></i> Search
+                        </a>
+</li>
+<li>
+<a href="../when-it-breaks/" rel="prev">
+<i class="fas fa-arrow-left"></i> Previous
+                        </a>
+</li>
+<li>
+<a href="../symptom-pattern/" rel="next">
+                            Next <i class="fas fa-arrow-right"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+<ul class="nav bs-sidenav">
+<li class="first-level active"><a href="#back-of-the-envelope">Back of the Envelope</a></li>
+<li class="second-level"><a href="#the-latency-hierarchy">The Latency Hierarchy</a></li>
+<li class="second-level"><a href="#the-derivation-pattern">The Derivation Pattern</a></li>
+<li class="second-level"><a href="#worked-derivations">Worked Derivations</a></li>
+<li class="second-level"><a href="#scale-in-context">Scale in Context</a></li>
+<li class="second-level"><a href="#quick-formula-reference">Quick Formula Reference</a></li>
+</ul>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="back-of-the-envelope">Back of the Envelope<a class="headerlink" href="#back-of-the-envelope" title="Permanent link">¶</a></h1>
+<p class="lead">Most performance limits are not arbitrary — they fall out of hardware physics and simple arithmetic. Know ~10 primitives and you can derive the numbers that come up in systems design interviews rather than memorising them.</p>
+<p>The goal is a mental model that lets you <em>derive</em> an unfamiliar limit on the spot and recognise when a quoted number is physically plausible.</p>
+<hr/>
+<h2 id="the-latency-hierarchy">The Latency Hierarchy<a class="headerlink" href="#the-latency-hierarchy" title="Permanent link">¶</a></h2>
+<p>Two chains dominate most estimates. Every boundary crossing costs at least an order of magnitude.</p>
+<p><strong>Storage chain</strong> — each level roughly 10–1,000× slower than the one above it:</p>
+<div class="mermaid">---
+title: Storage Latency Chain
+---
+graph TB
+    A["CPU instruction — 0.3 ns"]
+    B["L1 cache — ~1 ns"]
+    C["RAM random access — ~100 ns"]
+    D["SSD random read — ~100 µs"]
+    E["SSD fsync — ~1 ms"]
+    F["HDD seek — ~10 ms"]
+
+    A --&gt;|"~3×"| B
+    B --&gt;|"~100×"| C
+    C --&gt;|"~1,000×"| D
+    D --&gt;|"~10×"| E
+    E --&gt;|"~10×"| F</div>
+<p><strong>Network chain</strong> — latency is bounded by the speed of light, not software:</p>
+<div class="mermaid">---
+title: Network Latency Chain
+---
+graph TB
+    G["RAM random access — ~100 ns"]
+    H["Same-datacenter round trip — ~500 µs"]
+    I["Cross-country US E↔W — ~70 ms"]
+    J["Cross-continent US↔EU — ~150 ms"]
+
+    G --&gt;|"~5,000×"| H
+    H --&gt;|"~140×"| I
+    I --&gt;|"~2×"| J</div>
+<h3 id="the-10-primitives">The 10 primitives<a class="headerlink" href="#the-10-primitives" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Cost</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CPU instruction</td>
+<td>~0.3 ns</td>
+<td>One cycle at 3 GHz</td>
+</tr>
+<tr>
+<td>L1 cache access</td>
+<td>~1 ns</td>
+<td>On-chip</td>
+</tr>
+<tr>
+<td>RAM random access</td>
+<td>~100 ns</td>
+<td>~100× slower than L1</td>
+</tr>
+<tr>
+<td>SSD random read</td>
+<td>~100 µs</td>
+<td>~1,000× slower than RAM</td>
+</tr>
+<tr>
+<td>SSD fsync (flush to durable storage)</td>
+<td>~1 ms</td>
+<td>The write bottleneck</td>
+</tr>
+<tr>
+<td>HDD seek</td>
+<td>~10 ms</td>
+<td>~10× slower than SSD fsync</td>
+</tr>
+<tr>
+<td>Same-datacenter round trip</td>
+<td>~500 µs</td>
+<td>Within one AWS AZ</td>
+</tr>
+<tr>
+<td>Cross-country round trip (US E↔W)</td>
+<td>~70 ms</td>
+<td>Speed of light + routing</td>
+</tr>
+<tr>
+<td>Cross-continent round trip (US↔EU)</td>
+<td>~150 ms</td>
+<td>Speed of light + routing</td>
+</tr>
+<tr>
+<td>SSD sequential throughput</td>
+<td>~500 MB/s</td>
+<td>Sequential &gt;&gt; random</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">The boundary rule</p>
+<p>Every time you cross a storage or network boundary, expect at least one order of magnitude in latency. RAM→SSD is 1,000×. SSD→network is 5×. Same-DC→cross-country is 140×. If someone quotes a number that requires crossing two boundaries in the time it takes to cross one, it is physically implausible.</p>
+</div>
+<hr/>
+<h2 id="the-derivation-pattern">The Derivation Pattern<a class="headerlink" href="#the-derivation-pattern" title="Permanent link">¶</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Three questions for any unfamiliar limit</p>
+<ol>
+<li><strong>What resource is this system bounded by?</strong> (CPU, memory, disk I/O, network I/O, or human cognition)</li>
+<li><strong>How much of that resource does one operation consume?</strong> (Look up the relevant primitive above)</li>
+<li><strong>What is the total capacity of that resource?</strong> (Single core, single disk, single NIC)</li>
+</ol>
+<p>Divide 3 by 2. Adjust for batching, parallelism, and overhead. You will land within an order of magnitude — which is all a design interview requires.</p>
+</div>
+<hr/>
+<h2 id="worked-derivations">Worked Derivations<a class="headerlink" href="#worked-derivations" title="Permanent link">¶</a></h2>
+<p>Each derivation leads with the result. Expand to see the arithmetic.</p>
+<hr/>
+<h3 id="redis-100k300k-opssec">Redis: ~100k–300k ops/sec<a class="headerlink" href="#redis-100k300k-opssec" title="Permanent link">¶</a></h3>
+<p><strong>Bottleneck:</strong> CPU — Redis is single-threaded
+<strong>Primitive:</strong> ~1 µs per RAM operation</p>
+<details class="note">
+<summary>Derivation</summary>
+<ul>
+<li>Per-command cost: ~1 µs (RAM lookup + parse + serialise response)</li>
+<li>One CPU core: 1,000,000 µs/sec</li>
+<li>Theoretical ceiling: 1,000,000 / 1 = <strong>1M ops/sec</strong></li>
+<li>Practical ceiling: ~100k–300k — network interrupt handling and TCP/IP stack processing steal the remaining CPU cycles at high request rates</li>
+</ul>
+<p>A single Redis node saturates around 100k ops/sec under real workloads. This is where clustering or pipelining becomes necessary.</p>
+</details>
+<hr/>
+<h3 id="postgresql-10k20k-writessec">PostgreSQL: ~10k–20k writes/sec<a class="headerlink" href="#postgresql-10k20k-writessec" title="Permanent link">¶</a></h3>
+<p><strong>Bottleneck:</strong> SSD fsync — every committed transaction must flush to durable storage
+<strong>Primitive:</strong> ~1 ms per fsync</p>
+<details class="note">
+<summary>Derivation</summary>
+<ul>
+<li>Fsync cost: ~1 ms → theoretical ceiling without batching: 1,000 commits/sec</li>
+<li>PostgreSQL group commit: batches ~10–20 concurrent transactions per fsync</li>
+<li>Practical ceiling: 1,000 × 10–20 = <strong>10,000–20,000 writes/sec</strong></li>
+</ul>
+<p>This is the ceiling for a single primary on SSD under mixed OLTP load. Above it, you need write sharding, a different storage engine, or a buffer layer (Kafka → batch inserts).</p>
+<p><em>Pinterest's MySQL was at this range when they began sharding. Discord's MongoDB message store was here when they migrated to Cassandra.</em></p>
+</details>
+<hr/>
+<h3 id="tls-handshake-100150-ms-intercontinentally">TLS handshake: ~100–150 ms intercontinentally<a class="headerlink" href="#tls-handshake-100150-ms-intercontinentally" title="Permanent link">¶</a></h3>
+<p><strong>Bottleneck:</strong> Network round trips — TLS 1.3 requires 1 round trip before data flows
+<strong>Primitive:</strong> ~150 ms US↔EU round trip</p>
+<details class="note">
+<summary>Derivation</summary>
+<ul>
+<li>TLS 1.3: 1 network round trip before the first application byte</li>
+<li>US East ↔ Europe: ~150 ms round trip</li>
+<li>Per cold connection cost: 1 × 150 ms = <strong>~150 ms before any data</strong></li>
+<li>At 10 API calls per page load on cold connections: 1.5 seconds of pure handshake</li>
+<li>TLS 1.2: 2 round trips = ~300 ms — this is why TLS 1.3 was a meaningful improvement</li>
+</ul>
+<p>Session resumption (0-RTT or 1-RTT) eliminates this for returning clients. Without it, TLS overhead dominates latency for any mobile or cross-continent API.</p>
+</details>
+<hr/>
+<h3 id="btree-writes-degrades-on-hdd-above-1k-writessec">B+Tree writes: degrades on HDD above ~1k writes/sec<a class="headerlink" href="#btree-writes-degrades-on-hdd-above-1k-writessec" title="Permanent link">¶</a></h3>
+<p><strong>Bottleneck:</strong> HDD seek — random writes require physical head movement
+<strong>Primitive:</strong> ~10 ms per seek</p>
+<details class="note">
+<summary>Derivation</summary>
+<ul>
+<li>HDD seek: ~10 ms</li>
+<li>Theoretical ceiling: 1,000 ms / 10 ms = <strong>100 random writes/sec per disk</strong></li>
+<li>A B+Tree page split touches 2–3 pages = 20–30 ms per split</li>
+<li>With OS write buffering and batching: reaches ~1k writes/sec before visible degradation</li>
+<li>On SSD (100 µs seek): same logic gives ~10k random writes/sec — a 10× improvement</li>
+</ul>
+<p>This is why SSDs changed database economics so dramatically. The same B+Tree design went from a 1k to a 10k write/sec ceiling simply from switching storage. LSM trees (Cassandra, RocksDB) sidestep this by converting random writes to sequential appends.</p>
+</details>
+<hr/>
+<h3 id="kafka-500-mbsec-producer-throughput-per-broker">Kafka: ~500 MB/sec producer throughput per broker<a class="headerlink" href="#kafka-500-mbsec-producer-throughput-per-broker" title="Permanent link">¶</a></h3>
+<p><strong>Bottleneck:</strong> Network NIC — sequential disk I/O is fast enough that the network becomes the limit
+<strong>Primitives:</strong> SSD sequential ~500 MB/s; 1 Gbps NIC = ~125 MB/s</p>
+<details class="note">
+<summary>Derivation</summary>
+<ul>
+<li>SSD sequential write: ~500 MB/s (Kafka appends to log segments)</li>
+<li>1 Gbps NIC: 1,000 Mbps / 8 = ~125 MB/s of data</li>
+<li>Replication factor 3: each producer message is written to 3 brokers → effective new-data rate = 125 / 3 ≈ <strong>40 MB/s per broker</strong></li>
+<li>With compression (JSON compresses ~5–10×): effective throughput rises to ~200–400 MB/s</li>
+<li>Multiple partitions across brokers: throughput scales linearly with broker count</li>
+</ul>
+<p>Kafka's design specifically exploits sequential I/O — page cache + sequential writes means the OS can sustain near-disk-bandwidth throughput. The NIC, not the disk, is almost always the bottleneck on modern SSDs.</p>
+</details>
+<hr/>
+<h3 id="thread-pool-sizing-littles-law">Thread pool sizing: Little's Law<a class="headerlink" href="#thread-pool-sizing-littles-law" title="Permanent link">¶</a></h3>
+<p><strong>Bottleneck:</strong> Thread availability — blocked threads cannot serve new requests
+<strong>Formula:</strong> threads needed = target QPS × average latency (seconds)</p>
+<details class="note">
+<summary>Derivation</summary>
+<p>Little's Law: <strong>L = λW</strong> (items in system = arrival rate × time in system)</p>
+<p>Applied to thread pools:</p>
+<ul>
+<li>Want to handle: 1,000 req/sec (λ)</li>
+<li>Each request makes one DB call: 100 ms latency (W)</li>
+<li>Threads needed: 1,000 × 0.1 = <strong>100 threads</strong></li>
+</ul>
+<p>If each request makes 3 serial DB calls (300 ms total): 1,000 × 0.3 = <strong>300 threads</strong></p>
+<p><strong>CPU-bound work:</strong> threads = CPU cores (adding more causes context-switch overhead)
+<strong>I/O-bound work:</strong> threads = QPS × latency_in_seconds (can far exceed core count)</p>
+<p>Virtual threads (Java 21) and goroutines (Go) change this: blocking I/O parks the virtual thread without occupying a carrier thread, so you can have millions of "threads" without the memory or scheduling overhead.</p>
+</details>
+<hr/>
+<h3 id="database-connection-pool-costs">Database connection pool costs<a class="headerlink" href="#database-connection-pool-costs" title="Permanent link">¶</a></h3>
+<p><strong>Bottleneck:</strong> Memory — each PostgreSQL connection is a full OS process
+<strong>Primitive:</strong> ~5–10 MB RAM per connection on the database server</p>
+<details class="note">
+<summary>Derivation</summary>
+<ul>
+<li>PostgreSQL backend process per connection: ~5–10 MB (process overhead + private memory)</li>
+<li>At <code>max_connections = 100</code> (PostgreSQL default): ~500 MB – 1 GB just for connections</li>
+<li>A 64 GB database server: practical raw connection limit ~500–1,000 before memory pressure</li>
+<li>Typical microservices deployment: each of 50 services × 20 connections per pod × 5 pods = <strong>5,000 connections</strong> — 25–50 GB just for connection overhead, which crashes most databases</li>
+</ul>
+<p><strong>PgBouncer in transaction mode:</strong> 5,000 app-level connections → ~20–50 actual PostgreSQL connections. The pool multiplier is often 100–200×.</p>
+<p>This is why connection poolers exist — not for performance, but because the database runs out of memory before it runs out of CPU.</p>
+</details>
+<hr/>
+<h3 id="cache-hit-rate-the-non-linear-value">Cache hit rate: the non-linear value<a class="headerlink" href="#cache-hit-rate-the-non-linear-value" title="Permanent link">¶</a></h3>
+<p><strong>Bottleneck:</strong> Database — cache misses bypass the cache and hit the DB directly
+<strong>Formula:</strong> DB QPS = total QPS × (1 − hit rate)</p>
+<details class="note">
+<summary>Derivation</summary>
+<p>At 10,000 total QPS:</p>
+<table>
+<thead>
+<tr>
+<th>Hit rate</th>
+<th>DB sees</th>
+<th>Change vs previous</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>90%</td>
+<td>1,000 QPS</td>
+<td>baseline</td>
+</tr>
+<tr>
+<td>95%</td>
+<td>500 QPS</td>
+<td>2× reduction</td>
+</tr>
+<tr>
+<td>99%</td>
+<td>100 QPS</td>
+<td>5× reduction</td>
+</tr>
+<tr>
+<td>99.9%</td>
+<td>10 QPS</td>
+<td>10× reduction</td>
+</tr>
+</tbody>
+</table>
+<p>Going from 95% → 99% (a 4% improvement) reduces DB load by 5×. Going from 99% → 99.9% (a 0.9% improvement) reduces it another 10×. Hit rate improvements near 100% have super-linear impact because you are shrinking the denominator of <code>1 / (1 − hit_rate)</code>.</p>
+<p>At 10k+ QPS, 99% hit rate is the target, not a stretch goal. A thundering herd on a popular key can drop hit rate from 99% to 90% for a few seconds — instantly 10× the database load.</p>
+</details>
+<hr/>
+<h3 id="nic-saturation-bandwidth-limits-throughput-regardless-of-cpu">NIC saturation: bandwidth limits throughput regardless of CPU<a class="headerlink" href="#nic-saturation-bandwidth-limits-throughput-regardless-of-cpu" title="Permanent link">¶</a></h3>
+<p><strong>Bottleneck:</strong> Network interface card — bytes are bytes, regardless of application speed
+<strong>Primitive:</strong> 1 Gbps NIC = 125 MB/s; 10 Gbps = 1,250 MB/s</p>
+<details class="note">
+<summary>Derivation</summary>
+<p>Max QPS = NIC bandwidth / average response size</p>
+<table>
+<thead>
+<tr>
+<th>NIC</th>
+<th>100 B payload</th>
+<th>1 KB payload</th>
+<th>100 KB payload</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 Gbps</td>
+<td>~1.25M req/sec</td>
+<td>~125k req/sec</td>
+<td>~1,250 req/sec</td>
+</tr>
+<tr>
+<td>10 Gbps</td>
+<td>~12.5M req/sec</td>
+<td>~1.25M req/sec</td>
+<td>~12,500 req/sec</td>
+</tr>
+</tbody>
+</table>
+<p>A CDN edge node or load balancer handling image thumbnails (100 KB) saturates its 1 Gbps NIC at ~1,250 req/sec — regardless of how fast the CPU processes them. This is often the surprise: the bottleneck is not where engineers look first.</p>
+<p>At scale, engineers move to 10/25/100 Gbps NICs, or shard traffic across more hosts, specifically to push this ceiling.</p>
+</details>
+<hr/>
+<h3 id="prometheus-cardinality-memory-explosion">Prometheus cardinality: memory explosion<a class="headerlink" href="#prometheus-cardinality-memory-explosion" title="Permanent link">¶</a></h3>
+<p><strong>Bottleneck:</strong> RAM — Prometheus stores all active time series in memory
+<strong>Primitive:</strong> ~3–5 KB per time series</p>
+<details class="note">
+<summary>Derivation</summary>
+<ul>
+<li>Per time series cost: ~4 KB (samples + label set + inverted index entry)</li>
+<li>1M time series: 1M × 4 KB = <strong>~4 GB</strong> — manageable</li>
+<li>Adding a label with 1,000 distinct values to 1M existing series: creates 1B combinations → <strong>~4 TB</strong> — not manageable</li>
+<li>A single <code>user_id</code> label with 10M users: 10M × existing_series_count new series</li>
+</ul>
+<p>The cardinality explosion is multiplicative, not additive. Every new high-cardinality label multiplies the existing series count. The rule of thumb — no label with more than a few hundred distinct values — exists because 100 values × 1M series = 100M series × 4 KB = 400 GB.</p>
+</details>
+<hr/>
+<h3 id="event-sourcing-replay-why-snapshots-are-not-optional">Event sourcing replay: why snapshots are not optional<a class="headerlink" href="#event-sourcing-replay-why-snapshots-are-not-optional" title="Permanent link">¶</a></h3>
+<p><strong>Bottleneck:</strong> Time — replaying a large event log has a hard floor set by read throughput
+<strong>Primitive:</strong> SSD sequential read ~500 MB/s</p>
+<details class="note">
+<summary>Derivation</summary>
+<ul>
+<li>Production event rate: 10,000 events/sec = 864M events/day</li>
+<li>Replay throughput (sequential Kafka/S3 read): ~100k–1M events/sec</li>
+<li>Time to replay one day at 100k events/sec: 864M / 100k = <strong>8,640 sec ≈ 2.4 hours</strong></li>
+<li>Time to replay one year: 2.4h × 365 = <strong>876 hours ≈ 36 days</strong></li>
+<li>With daily snapshots: maximum replay = <strong>2.4 hours</strong> regardless of total log age</li>
+</ul>
+<p>Snapshots are not an optimisation — they are what makes event sourcing operationally viable at any meaningful scale. Without them, cold start time for a new consumer or a recovered service grows linearly with system age.</p>
+</details>
+<hr/>
+<h3 id="cross-region-synchronous-replication-physics-as-the-constraint">Cross-region synchronous replication: physics as the constraint<a class="headerlink" href="#cross-region-synchronous-replication-physics-as-the-constraint" title="Permanent link">¶</a></h3>
+<p><strong>Bottleneck:</strong> Speed of light — this cannot be engineered away
+<strong>Primitive:</strong> US East ↔ US West ~70 ms round trip</p>
+<details class="note">
+<summary>Derivation</summary>
+<ul>
+<li>US East ↔ US West: ~70 ms round trip (speed of light ~300,000 km/s, routing adds overhead)</li>
+<li>Every synchronous cross-region write adds ≥70 ms to write latency</li>
+<li>At 100 writes/sec, each waiting for cross-region acknowledgement:<ul>
+<li>100 writes × 70 ms = 7,000 ms of latency per second of wall time</li>
+<li>The system produces latency faster than time passes — it cannot keep up</li>
+</ul>
+</li>
+<li>Sub-100ms write SLO + synchronous cross-region replication = physically impossible</li>
+</ul>
+<p>Any architecture requiring cross-region write agreement (synchronous 2PC, synchronous Raft across regions) has a write latency floor of ~70–150 ms before any application logic runs. Active-active with synchronous replication is not a configuration choice; it is a physics violation.</p>
+</details>
+<hr/>
+<h2 id="scale-in-context">Scale in Context<a class="headerlink" href="#scale-in-context" title="Permanent link">¶</a></h2>
+<h3 id="throughput-qps">Throughput (QPS)<a class="headerlink" href="#throughput-qps" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>QPS</th>
+<th>What it looks like</th>
+<th>Surprising reference points</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1–100</td>
+<td>Prototype, developer API, cron job</td>
+<td>Many internal enterprise services live here permanently</td>
+</tr>
+<tr>
+<td>100–1k</td>
+<td>Real product with real users; one database instance is comfortable</td>
+<td>A mid-size B2B SaaS; most API services at companies under 100 engineers</td>
+</tr>
+<tr>
+<td>1k–10k</td>
+<td>Infrastructure decisions start to matter; single DB under moderate pressure</td>
+<td>GitHub's early MySQL; early Discord; a successful consumer app's core API</td>
+</tr>
+<tr>
+<td><strong>10k–20k</strong></td>
+<td><strong>Significant scale.</strong> PostgreSQL primary near its write ceiling. ~1B requests/day.</td>
+<td>Pinterest at first shard; Discord pre-Cassandra; Instagram at acquisition (13 employees, Django monolith)</td>
+</tr>
+<tr>
+<td>20k–100k</td>
+<td>Major consumer product; distributed architecture required</td>
+<td>Shopify peak Black Friday (~80k req/sec); Twitter API gateway pre-2012</td>
+</tr>
+<tr>
+<td>100k–1M</td>
+<td>Single Redis node, a CDN PoP, a major platform's core service</td>
+<td>Netflix playback per region; WhatsApp at 450M users (32 engineers, ~80 servers)</td>
+</tr>
+<tr>
+<td>1M+</td>
+<td>Hyperscaler; speed of light appears in architecture diagrams</td>
+<td>Google Search (~100k searches/sec); Cloudflare (~25M HTTP req/sec globally)</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Why 10k–20k doesn't feel big</p>
+<p>Systems design content tends to jump from "add a cache" straight to Google-scale. The 1k–100k range is where most senior engineers actually work and where real architectural decisions get made. 10k–20k QPS is ~1 billion requests per day — that is a real product with real users. It does not feel big because the framing in most content is wrong.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Surprisingly lean systems</p>
+<p>Some of the most-referenced engineering organisations run on far less infrastructure than their reputation implies:</p>
+<ul>
+<li><strong>Stack Overflow</strong> serves ~1.5B page views/month on ~9 web servers and one SQL Server primary. Their team writes about raw query performance because they actually hit database limits.</li>
+<li><strong>WhatsApp at Facebook acquisition (2014):</strong> 450M users, 54B messages/day (~625k msg/sec), 32 engineers, ~80 servers. Erlang's lightweight processes made this possible.</li>
+<li><strong>Instagram at Facebook acquisition (2012):</strong> 30M users, 13 employees, a Django monolith on EC2 with a handful of PostgreSQL instances.</li>
+<li><strong>Basecamp:</strong> Millions of paying customers, ~60 employees, a small number of servers. DHH has written extensively about "the boring stack" being sufficient.</li>
+</ul>
+<p>The pattern: a narrow feature set, a cacheable workload, or a runtime built for concurrency (Erlang, Go) can sustain surprising scale without distributed complexity.</p>
+</div>
+<hr/>
+<h3 id="data-storage">Data storage<a class="headerlink" href="#data-storage" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Volume</th>
+<th>What it means</th>
+<th>Reference points</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&lt; 1 GB</td>
+<td>Fits in RAM on any server; SQLite is viable</td>
+<td>A prototype, a local app, a single microservice's state</td>
+</tr>
+<tr>
+<td>1–100 GB</td>
+<td>A healthy production PostgreSQL instance; indexes fit in RAM</td>
+<td>Most SaaS products; a mature startup's primary database</td>
+</tr>
+<tr>
+<td>100 GB – 1 TB</td>
+<td>Approaching single-instance limits; full index may not fit in RAM</td>
+<td>A busy OLTP database; a product with years of history</td>
+</tr>
+<tr>
+<td>1–10 TB</td>
+<td>Archiving, partitioning, or read replicas necessary; backup windows matter</td>
+<td>GitHub's early MySQL; a large e-commerce product catalogue + order history</td>
+</tr>
+<tr>
+<td>10–100 TB</td>
+<td>Data warehouse territory; columnar storage (Redshift, BigQuery, ClickHouse) pays off</td>
+<td>Enterprise analytics; a mid-size social platform's event history</td>
+</tr>
+<tr>
+<td>100 TB – 1 PB</td>
+<td>Distributed storage required; object store (S3, GCS) for cold data</td>
+<td>Facebook photo storage was ~1 PB in 2009; a major video platform's content</td>
+</tr>
+<tr>
+<td>1 PB+</td>
+<td>Hyperscaler object storage or distributed file systems</td>
+<td>Google's web index; AWS S3 as a platform (multiple exabytes)</td>
+</tr>
+</tbody>
+</table>
+<hr/>
+<h3 id="database-write-volume">Database write volume<a class="headerlink" href="#database-write-volume" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Writes/sec</th>
+<th>What it means</th>
+<th>Reference points</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&lt; 1k</td>
+<td>Comfortable for any SQL database on SSD</td>
+<td>Most applications</td>
+</tr>
+<tr>
+<td>1k–10k</td>
+<td>PostgreSQL healthy; approaching fsync ceiling under high concurrency</td>
+<td>A busy OLTP system</td>
+</tr>
+<tr>
+<td>10k–20k</td>
+<td>Near the single-primary PostgreSQL ceiling</td>
+<td>Pinterest at first shard; Discord pre-Cassandra</td>
+</tr>
+<tr>
+<td>20k–100k</td>
+<td>Sharding or NoSQL required; single-node SQL not viable</td>
+<td>Cassandra, DynamoDB, CockroachDB territory</td>
+</tr>
+<tr>
+<td>100k–1M</td>
+<td>Distributed write path; Kafka as a write buffer in front of storage</td>
+<td>Uber's trip events; Twitter's write firehose</td>
+</tr>
+<tr>
+<td>1M+</td>
+<td>Kafka/Pulsar directly; batch materialisation into storage</td>
+<td>LinkedIn's Kafka origin story (~1B events/day); WhatsApp message persistence</td>
+</tr>
+</tbody>
+</table>
+<hr/>
+<h3 id="event-and-message-volume">Event and message volume<a class="headerlink" href="#event-and-message-volume" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Events/day</th>
+<th>Events/sec (avg)</th>
+<th>What this implies</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1M</td>
+<td>~12/sec</td>
+<td>In-process queue or a single Kafka partition</td>
+</tr>
+<tr>
+<td>10M</td>
+<td>~115/sec</td>
+<td>Single Kafka topic; event sourcing replay in minutes</td>
+</tr>
+<tr>
+<td>100M</td>
+<td>~1,150/sec</td>
+<td>Kafka with a few partitions; event sourcing replay in hours</td>
+</tr>
+<tr>
+<td>1B</td>
+<td>~11,500/sec</td>
+<td>LinkedIn's original Kafka scale; serious infrastructure needed</td>
+</tr>
+<tr>
+<td>10B</td>
+<td>~115,000/sec</td>
+<td>Multiple Kafka clusters; consumer lag monitoring is critical</td>
+</tr>
+<tr>
+<td>1T</td>
+<td>~11.5M/sec</td>
+<td>Hyperscaler: Cloudflare DNS, major ad platforms</td>
+</tr>
+</tbody>
+</table>
+<hr/>
+<h2 id="quick-formula-reference">Quick Formula Reference<a class="headerlink" href="#quick-formula-reference" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th>System</th>
+<th>Bottleneck</th>
+<th>Formula</th>
+<th>Typical limit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>In-memory cache (Redis)</td>
+<td>CPU (single-threaded)</td>
+<td>ops/sec ≈ 1M / µs_per_op</td>
+<td>~100–300k ops/sec</td>
+</tr>
+<tr>
+<td>SQL database writes</td>
+<td>SSD fsync</td>
+<td>writes/sec ≈ group_commit_size / fsync_ms</td>
+<td>~10–20k writes/sec</td>
+</tr>
+<tr>
+<td>SQL read replicas</td>
+<td>Replication lag</td>
+<td>lag ∝ write_rate / replica_throughput</td>
+<td>Visible above ~5k writes/sec</td>
+</tr>
+<tr>
+<td>Thread pool (I/O bound)</td>
+<td>Thread count</td>
+<td>threads = QPS × latency_sec</td>
+<td>Depends on workload</td>
+</tr>
+<tr>
+<td>DB connections</td>
+<td>Server RAM</td>
+<td>max_conns ≈ RAM_GB × 100</td>
+<td>~100–500 without pooler</td>
+</tr>
+<tr>
+<td>Cache effectiveness</td>
+<td>Hit rate</td>
+<td>DB_QPS = total_QPS × (1 − hit_rate)</td>
+<td>99%+ target above 10k QPS</td>
+</tr>
+<tr>
+<td>NIC throughput</td>
+<td>Bandwidth</td>
+<td>max_QPS = NIC_MB_per_sec / avg_payload_KB</td>
+<td>125k (1Gbps, 1KB payload)</td>
+</tr>
+<tr>
+<td>Cross-region write SLO</td>
+<td>Speed of light</td>
+<td>min_latency = round_trip_ms</td>
+<td>≥70 ms US E↔W</td>
+</tr>
+<tr>
+<td>Kafka producer</td>
+<td>NIC (not disk)</td>
+<td>throughput ≈ NIC / replication_factor</td>
+<td>~40–125 MB/sec per broker</td>
+</tr>
+<tr>
+<td>Event sourcing cold replay</td>
+<td>Sequential read</td>
+<td>replay_time = events / replay_rate</td>
+<td>Hours to days without snapshots</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<footer class="col-md-12 text-center">
+<hr/>
+<p>
+<small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+</p>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../../js/bootstrap-3.0.3.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>var base_url = "../.."</script>
+<script src="../../js/base.js"></script>
+<script src="../../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<button class="close" data-dismiss="modal" type="button">
+<span aria-hidden="true">×</span>
+<span class="sr-only">Close</span>
+</button>
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+</div>
+<div class="modal-body">
+<p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="text"/>
+</div>
+</form>
+<div id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@11.13.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>

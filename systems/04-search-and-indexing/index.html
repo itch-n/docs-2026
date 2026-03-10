@@ -1,0 +1,1695 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="A framework for algorithms, systems design, and infrastructure." name="description"/>
+<meta content="Richard" name="author"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>04. Search &amp; Indexing - Software Engineering Study Guide</title>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" rel="stylesheet"/>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css" rel="stylesheet"/>
+<link href="//rsms.me/inter/inter.css" rel="stylesheet" type="text/css"/>
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&amp;subset=latin-ext,latin" rel="stylesheet" type="text/css"/>
+<link href="../../css/bootstrap-custom.min.css" rel="stylesheet"/>
+<link href="../../css/base.min.css" rel="stylesheet"/>
+<link href="../../css/cinder.min.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css" rel="stylesheet"/>
+<link href="../../css/custom.css" rel="stylesheet"/>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="container">
+<!-- Collapsed navigation -->
+<div class="navbar-header">
+<!-- Expander button -->
+<button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<!-- Main title -->
+<a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+</div>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li>
+<a href="../..">Home</a>
+</li>
+<li class="dropdown active">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Systems Design <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../01-storage-engines/">01. Storage Engines</a>
+</li>
+<li>
+<a href="../02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+<li>
+<a href="../03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+<li class="active">
+<a href="./">04. Search &amp; Indexing</a>
+</li>
+<li>
+<a href="../05-caching-patterns/">05. Caching Patterns</a>
+</li>
+<li>
+<a href="../06-api-design/">06. API Design</a>
+</li>
+<li>
+<a href="../07-security-patterns/">07. Security Patterns</a>
+</li>
+<li>
+<a href="../08-rate-limiting/">08. Rate Limiting</a>
+</li>
+<li>
+<a href="../09-load-balancing/">09. Load Balancing</a>
+</li>
+<li>
+<a href="../10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+<li>
+<a href="../11-database-scaling/">11. Database Scaling</a>
+</li>
+<li>
+<a href="../12-message-queues/">12. Message Queues</a>
+</li>
+<li>
+<a href="../13-event-sourcing-cqrs/">13. Event Sourcing &amp; CQRS</a>
+</li>
+<li>
+<a href="../14-stream-processing/">14. Stream Processing</a>
+</li>
+<li>
+<a href="../15-observability/">15. Observability</a>
+</li>
+<li>
+<a href="../16-resilience-patterns/">16. Resilience Patterns</a>
+</li>
+<li>
+<a href="../17-distributed-transactions/">17. Distributed Transactions</a>
+</li>
+<li>
+<a href="../18-consensus-patterns/">18. Consensus Patterns</a>
+</li>
+<li>
+<a href="../19-microservices-patterns/">19. Microservices Patterns</a>
+</li>
+<li>
+<a href="../20-multi-region/">20. Multi-Region Architecture</a>
+</li>
+</ul>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">DSA <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../dsa/01-two-pointers/">01. Two Pointers</a>
+</li>
+<li>
+<a href="../../dsa/02-sliding-window/">02. Sliding Window</a>
+</li>
+<li>
+<a href="../../dsa/03-hash-tables/">03. Hash Tables</a>
+</li>
+<li>
+<a href="../../dsa/04-linked-lists/">04. Linked Lists</a>
+</li>
+<li>
+<a href="../../dsa/05-stacks--queues/">05. Stacks &amp; Queues</a>
+</li>
+<li>
+<a href="../../dsa/06-trees/">06. Trees</a>
+</li>
+<li>
+<a href="../../dsa/07-binary-search/">07. Binary Search</a>
+</li>
+<li>
+<a href="../../dsa/08-heaps/">08. Heaps</a>
+</li>
+<li>
+<a href="../../dsa/09-union-find/">09. Union-Find</a>
+</li>
+<li>
+<a href="../../dsa/10-graphs/">10. Graphs</a>
+</li>
+<li>
+<a href="../../dsa/11-advanced-graphs/">11. Advanced Graphs</a>
+</li>
+<li>
+<a href="../../dsa/12-backtracking/">12. Backtracking</a>
+</li>
+<li>
+<a href="../../dsa/13-dynamic-programming/">13. Dynamic Programming</a>
+</li>
+<li>
+<a href="../../dsa/14-prefix-sums/">14. Prefix Sums</a>
+</li>
+<li>
+<a href="../../dsa/15-intervals/">15. Intervals</a>
+</li>
+</ul>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Quick Reference <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../reference/when-it-breaks/">When It Breaks</a>
+</li>
+<li>
+<a href="../../reference/back-of-envelope/">Back of the Envelope</a>
+</li>
+<li>
+<a href="../../reference/symptom-pattern/">Symptom → Pattern</a>
+</li>
+<li>
+<a href="../../reference/staff-interview-strategy/">Staff+ Interview Strategy</a>
+</li>
+<li>
+<a href="../../reference/no-new-problems/">No New Problems in CS</a>
+</li>
+<li>
+<a href="../../reference/how-the-machine-works/">How the Machine Actually Works</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+<a data-target="#mkdocs_search_modal" data-toggle="modal" href="#">
+<i class="fas fa-search"></i> Search
+                        </a>
+</li>
+<li>
+<a href="../03-networking-fundamentals/" rel="prev">
+<i class="fas fa-arrow-left"></i> Previous
+                        </a>
+</li>
+<li>
+<a href="../05-caching-patterns/" rel="next">
+                            Next <i class="fas fa-arrow-right"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+<ul class="nav bs-sidenav">
+<li class="first-level active"><a href="#search-indexing">Search &amp; Indexing</a></li>
+<li class="second-level"><a href="#learning-objectives">Learning Objectives</a></li>
+<li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+<li class="second-level"><a href="#core-concepts">Core Concepts</a></li>
+<li class="second-level"><a href="#benchmark-linear-scan-vs-inverted-index">Benchmark: Linear Scan vs Inverted Index</a></li>
+<li class="second-level"><a href="#beforeafter-why-search-indexing-matters">Before/After: Why Search Indexing Matters</a></li>
+<li class="second-level"><a href="#case-studies-search-indexing-in-the-wild">Case Studies: Search &amp; Indexing in the Wild</a></li>
+<li class="second-level"><a href="#common-misconceptions">Common Misconceptions</a></li>
+<li class="second-level"><a href="#decision-framework-choosing-a-search-technology">Decision Framework: Choosing a Search Technology</a></li>
+<li class="second-level"><a href="#practice-scenarios">Practice Scenarios</a></li>
+<li class="second-level"><a href="#test-your-understanding">Test Your Understanding</a></li>
+<li class="second-level"><a href="#review-checklist">Review Checklist</a></li>
+</ul>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="search-indexing">Search &amp; Indexing<a class="headerlink" href="#search-indexing" title="Permanent link">¶</a></h1>
+<blockquote>
+<p>Inverted indexes, full-text search, ranking algorithms, and distributed search systems</p>
+</blockquote>
+<hr/>
+<h2 id="learning-objectives">Learning Objectives<a class="headerlink" href="#learning-objectives" title="Permanent link">¶</a></h2>
+<p>By the end of this topic you will be able to:</p>
+<ul>
+<li>Explain the structure of an inverted index and why it enables sub-second search over millions of documents</li>
+<li>Implement a basic inverted index with tokenisation, normalisation, and boolean query intersection</li>
+<li>Compare TF-IDF and BM25 scoring and explain why BM25 produces better ranking for varied document lengths</li>
+<li>Identify which text analysis technique (stemming, n-grams, fuzzy matching) is appropriate for a given search requirement</li>
+<li>Design a sharding and replication strategy for a distributed search cluster given throughput and availability requirements</li>
+<li>Choose between trie-based and edge-n-gram autocomplete given performance and storage constraints</li>
+</ul>
+<hr/>
+<div class="admonition note">
+<p class="admonition-title">Operational reality</p>
+<p>Elasticsearch is significantly over-adopted. Postgres full-text search (<code>tsvector</code>, <code>GIN</code> indexes, <code>ts_rank</code>) handles the majority of "we need search" use cases without taking on a new distributed system to operate. Elasticsearch's practical issues are non-trivial: heap sizing is fiddly and getting it wrong causes OOM failures; mapping explosions (too many dynamic fields) degrade performance silently; reindexing a live index requires building a parallel index and swapping an alias — there is no in-place schema migration. Older clusters had split-brain failure modes that were a rite of passage for many backend teams.</p>
+<p>Reach for Elasticsearch (or OpenSearch, Typesense, Meilisearch) when you need relevance ranking, faceted search, or query complexity that genuinely exceeds what Postgres can express. For "search this table by name or description," check Postgres first.</p>
+</div>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After learning search and indexing, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What is an inverted index in one sentence?</strong></p>
+<ul>
+<li>An inverted index is a data structure that maps each ___ to the list of <span class="fill-in">[<strong><em> that contain it, so a search query only needs to look up ___ rather than scanning every </em></strong>]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Why can't we just search through all documents linearly?</strong></p>
+<ul>
+<li>Linear search is impractical because <span class="fill-in">[with N documents each of size M, every query costs O(___), which at 1M documents means ___ comparisons per search — roughly ___ ms per query]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy for inverted index:</strong></p>
+<ul>
+<li>Example: "An inverted index is like a book's index where..."</li>
+<li>Think about how a book's back-of-page index lists each topic and then the page numbers where it appears — rather than you reading every page to find a topic.</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What makes search results "relevant"?</strong></p>
+<ul>
+<li>Relevance is determined by <span class="fill-in">[how ___ a term appears in a document (<strong><em>), balanced against how ___ the term is across all documents (</em></strong>), so common words like "the" get ___ weight]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy for search ranking:</strong></p>
+<ul>
+<li>Example: "TF-IDF is like voting where..."</li>
+<li>Think about how a reference appearing many times in a single thesis (high TF) but rarely in any other thesis (high IDF) signals a very specific and important topic.</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Why do we need sharding for search?</strong></p>
+<ul>
+<li>Sharding is needed when <span class="fill-in">[the index is too large to fit on ___ machine, so it is split across ___ shards that each search ___ of the data in <strong><em>, with results merged by </em></strong>]</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr/>
+<h2 id="core-concepts">Core Concepts<a class="headerlink" href="#core-concepts" title="Permanent link">¶</a></h2>
+<h3 id="topic-1-inverted-index">Topic 1: Inverted Index<a class="headerlink" href="#topic-1-inverted-index" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Data structure that maps terms to documents, enabling fast full-text search.</p>
+<p><strong>How It Works:</strong></p>
+<p><strong>Forward Index (Document → Terms):</strong>
+<pre class="highlight"><code>doc1: "the quick brown fox"
+doc2: "the lazy dog"
+doc3: "quick brown dog"
+
+Not efficient for search!
+To find "quick", must scan all documents.</code></pre></p>
+<p><strong>Inverted Index (Term → Documents):</strong>
+<pre class="highlight"><code>"the"     → [doc1, doc2]
+"quick"   → [doc1, doc3]
+"brown"   → [doc1, doc3]
+"fox"     → [doc1]
+"lazy"    → [doc2]
+"dog"     → [doc2, doc3]
+
+Search "quick" → O(1) lookup → [doc1, doc3]</code></pre></p>
+<p><strong>With Positional Information:</strong>
+<pre class="highlight"><code>"quick" → [
+  doc1: [positions: 1],
+  doc3: [positions: 0]
+]
+
+"brown" → [
+  doc1: [positions: 2],
+  doc3: [positions: 1]
+]</code></pre></p>
+<p><strong>Phrase search "quick brown":</strong></p>
+<ul>
+<li>Find docs with both terms</li>
+<li>Check if positions are adjacent</li>
+<li>doc1: positions 1,2 → ✓ Match!</li>
+<li>doc3: positions 0,1 → ✓ Match!</li>
+</ul>
+<p><strong>Building an Inverted Index:</strong></p>
+<div class="mermaid">flowchart LR
+    Raw["Raw Text\n'Machine Learning Basics'"]
+    Tokenize["Tokenise\n['Machine', 'Learning', 'Basics']"]
+    Normalise["Normalise\n(lowercase)\n['machine', 'learning', 'basics']"]
+    Stem["Stem\n['machin', 'learn', 'basic']"]
+    Index["Inverted Index\nmachin → [doc1, doc3]\nlearn → [doc1, doc2, doc3]"]
+
+    Raw --&gt; Tokenize --&gt; Normalise --&gt; Stem --&gt; Index</div>
+<p><strong>Inverted Index Data Structure (Simplified):</strong></p>
+<pre class="highlight"><code class="language-java">package com.study.systems.searchindexing;
+
+import java.util.*;
+class InvertedIndex {
+    // Term → Posting List
+    Map&lt;String, PostingList&gt; index;
+
+    class PostingList {
+        List&lt;Posting&gt; postings;
+        int documentFrequency; // How many docs contain this term
+    }
+
+    class Posting {
+        int documentId;
+        int termFrequency;     // How many times in this doc
+        List&lt;Integer&gt; positions; // Where in doc
+    }
+
+    // Search for term
+    PostingList search(String term) {
+        return index.get(normalize(term));
+    }
+
+    // Boolean AND query: term1 AND term2
+    List&lt;Integer&gt; intersect(String term1, String term2) {
+        PostingList p1 = search(term1);
+        PostingList p2 = search(term2);
+
+        // Merge postings lists (efficient with sorted lists)
+        return mergeSortedLists(p1, p2);
+    }
+
+    // Merge posting lists for boolean AND query (returns matching document IDs)
+    private List&lt;Integer&gt; mergeSortedLists(PostingList p1, PostingList p2) {
+        // TODO: implement sorted-list intersection
+        return new ArrayList&lt;&gt;();
+    }
+
+    // Normalize a query term (lowercase, strip punctuation, etc.)
+    private String normalize(String term) {
+        return term.toLowerCase();
+    }
+}
+</code></pre>
+<div class="admonition warning">
+<p class="admonition-title">Debugging Challenge — Off-by-One in Posting List Intersection</p>
+<p>The intersection below silently misses matching documents when the two posting lists have equal document IDs at a boundary. Find the bug.</p>
+<pre class="highlight"><code class="language-java">List&lt;Integer&gt; intersect(List&lt;Integer&gt; list1, List&lt;Integer&gt; list2) {
+    List&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+    int i = 0, j = 0;
+
+    while (i &lt; list1.size() &amp;&amp; j &lt; list2.size()) {
+        if (list1.get(i) &lt; list2.get(j)) {
+            i++;
+        } else if (list1.get(i) &gt; list2.get(j)) {
+            j++;
+        } else {
+            result.add(list1.get(i));
+            i++;
+            // Missing advance of j!
+        }
+    }
+    return result;
+}</code></pre>
+<p>Trace with <code>list1 = [1, 3, 5]</code> and <code>list2 = [1, 1, 3]</code>.</p>
+<details class="success">
+<summary>Answer</summary>
+<p><strong>Bug:</strong> When a match is found and <code>i</code> is incremented, <code>j</code> is not advanced. On the next iteration <code>list1.get(i)</code> has moved past <code>1</code> but <code>list2.get(j)</code> still points at the second <code>1</code>, causing the algorithm to miss the match for doc <code>3</code> in some configurations and potentially loop forever if the same ID appears twice in <code>list2</code>.</p>
+<p><strong>Fix:</strong> Advance both pointers on a match:
+<pre class="highlight"><code class="language-java">result.add(list1.get(i));
+i++;
+j++;</code></pre></p>
+</details>
+</div>
+<p><strong>Time Complexity:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Complexity</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Single term lookup</td>
+<td>O(1) or O(log V)</td>
+<td>V = vocabulary size</td>
+</tr>
+<tr>
+<td>Boolean AND (2 terms)</td>
+<td>O(n₁ + n₂)</td>
+<td>n = posting list sizes</td>
+</tr>
+<tr>
+<td>Boolean OR</td>
+<td>O(n₁ + n₂)</td>
+<td>Merge lists</td>
+</tr>
+<tr>
+<td>Phrase query</td>
+<td>O(n × k)</td>
+<td>k = terms in phrase</td>
+</tr>
+<tr>
+<td>Index construction</td>
+<td>O(N × M)</td>
+<td>N = docs, M = avg size</td>
+</tr>
+</tbody>
+</table>
+<hr/>
+<h3 id="topic-2-text-analysis-tokenization">Topic 2: Text Analysis &amp; Tokenization<a class="headerlink" href="#topic-2-text-analysis-tokenization" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Process of converting raw text into searchable terms.</p>
+<p><strong>Text Analysis Pipeline:</strong></p>
+<pre class="highlight"><code>Input: "The Quick Brown Fox's 2024 Adventure!"
+
+Step 1: Character Filtering
+→ "The Quick Brown Fox's 2024 Adventure"
+(Remove special characters)
+
+Step 2: Tokenization
+→ ["The", "Quick", "Brown", "Fox's", "2024", "Adventure"]
+(Split into words)
+
+Step 3: Lowercase Filter
+→ ["the", "quick", "brown", "fox's", "2024", "adventure"]
+
+Step 4: Stop Word Removal (optional)
+→ ["quick", "brown", "fox's", "2024", "adventure"]
+(Remove "the")
+
+Step 5: Stemming/Lemmatization
+→ ["quick", "brown", "fox", "2024", "adventur"]
+(fox's → fox, adventure → adventur)
+
+Step 6: N-gram Generation (optional)
+→ ["quick", "brown", "fox", "quick brown", "brown fox"]</code></pre>
+<p><strong>Tokenization Strategies:</strong></p>
+<p><strong>Word-based tokenization:</strong>
+<pre class="highlight"><code>Input: "I'm learning Elasticsearch 8.0!"
+
+Whitespace tokenizer:
+→ ["I'm", "learning", "Elasticsearch", "8.0!"]
+
+Standard tokenizer (Unicode-aware):
+→ ["I'm", "learning", "Elasticsearch", "8", "0"]
+
+Letter tokenizer (only letters):
+→ ["I", "m", "learning", "Elasticsearch"]</code></pre></p>
+<p><strong>N-gram tokenization (for autocomplete, fuzzy search):</strong>
+<pre class="highlight"><code>Input: "search"
+
+Unigrams: ["s", "e", "a", "r", "c", "h"]
+Bigrams: ["se", "ea", "ar", "rc", "ch"]
+Trigrams: ["sea", "ear", "arc", "rch"]</code></pre></p>
+<p><strong>Use case: Fuzzy search</strong> — Query "serch" (typo):</p>
+<ul>
+<li>Trigrams: <code>["ser", "erc", "rch"]</code></li>
+<li>"search" trigrams: <code>["sea", "ear", "arc", "rch"]</code></li>
+<li>Overlap: <code>["erc", "rch"]</code> → Possible match!</li>
+</ul>
+<p><strong>Stemming vs Lemmatization:</strong></p>
+<pre class="highlight"><code>Stemming (rule-based, faster, less accurate):
+running → run
+runs → run
+runner → runner (different stem!)
+better → better (no change)
+
+Lemmatization (dictionary-based, slower, accurate):
+running → run
+runs → run
+runner → runner
+better → good (finds lemma!)
+
+Trade-off:
+Stemming: Fast, simple, handles unknown words
+Lemmatization: Accurate, context-aware, slower</code></pre>
+<hr/>
+<h3 id="topic-3-ranking-algorithms">Topic 3: Ranking Algorithms<a class="headerlink" href="#topic-3-ranking-algorithms" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Algorithms to score and rank search results by relevance.</p>
+<p><strong>TF-IDF (Term Frequency-Inverse Document Frequency):</strong></p>
+<p><strong>Formula:</strong>
+<pre class="highlight"><code>TF-IDF(term, doc) = TF(term, doc) × IDF(term)
+
+TF(term, doc) = (count of term in doc) / (total terms in doc)
+
+IDF(term) = log(total documents / documents containing term)</code></pre></p>
+<p><strong>Example:</strong></p>
+<pre class="highlight"><code>Documents:
+doc1: "cat dog cat"
+doc2: "dog bird"
+doc3: "cat bird fish"
+doc4: "fish"
+
+Query: "cat dog"
+
+For "cat" in doc1:
+TF = 2/3 = 0.67 (appears 2 times in 3 words)
+IDF = log(4/2) = log(2) = 0.30 (in 2 out of 4 docs)
+TF-IDF = 0.67 × 0.30 = 0.20
+
+For "dog" in doc1:
+TF = 1/3 = 0.33
+IDF = log(4/2) = 0.30
+TF-IDF = 0.33 × 0.30 = 0.10
+
+doc1 score = 0.20 + 0.10 = 0.30
+doc2 score = [calculate similarly]
+doc3 score = [calculate similarly]
+
+Ranked results:
+
+1. doc1 (0.30) ← Both terms, high frequency
+2. doc2 (0.15) ← Has "dog" only
+3. doc3 (0.10) ← Has "cat" only</code></pre>
+<p><strong>BM25 (Best Match 25) - Modern Improvement:</strong></p>
+<pre class="highlight"><code>BM25 advantages over TF-IDF:
+
+1. Diminishing returns for term frequency
+   (10 occurrences not 10x better than 1)
+2. Document length normalization
+   (Shorter docs don't get unfair advantage)
+3. Tunable parameters (k₁, b)
+
+Formula (simplified):
+score = IDF × (TF × (k₁ + 1)) / (TF + k₁ × (1 - b + b × docLen/avgDocLen))
+
+Where:
+k₁ = term frequency saturation (default: 1.2)
+b = length normalization (default: 0.75)</code></pre>
+<div class="admonition note">
+<p class="admonition-title">Why BM25 replaced TF-IDF in production systems</p>
+<p>TF-IDF scores grow linearly with term frequency — a document mentioning "java" 100 times scores 100x higher than one mentioning it once, even if the first document is just repetitive filler. BM25's saturation parameter <code>k₁</code> caps this growth so that additional occurrences provide diminishing returns. Elasticsearch switched to BM25 as its default scorer in version 5.0 for exactly this reason.</p>
+</div>
+<p><strong>Practical Example (Elasticsearch):</strong></p>
+<pre class="highlight"><code>Query: "machine learning tutorial"
+
+BM25 scoring:
+doc1: "Machine Learning Tutorial for Beginners"
+  - All 3 terms present ✓
+  - Terms in title (boosted) ✓
+  - Short document ✓
+  Score: 12.5
+
+doc2: "Introduction to Machine Learning: A Complete Tutorial Guide..."
+  - All 3 terms present ✓
+  - "machine learning" together (phrase bonus) ✓
+  - Long document ✗
+  Score: 10.2
+
+doc3: "Python Tutorial"
+  - 1 term present ("tutorial")
+  - Common term (lower IDF) ✗
+  Score: 2.1
+
+Ranking: doc1 &gt; doc2 &gt; doc3</code></pre>
+<p><strong>Field Boosting:</strong></p>
+<pre class="highlight"><code>{
+  "query": {
+    "multi_match": {
+      "query": "elasticsearch",
+      "fields": [
+        "title^3",        // 3x weight
+        "category^2",     // 2x weight
+        "content^1"       // 1x weight (default)
+      ]
+    }
+  }
+}</code></pre>
+<p><strong>Effect:</strong>
+- Match in title = 3x more important than content
+- Prioritizes documents with query terms in prominent fields</p>
+<hr/>
+<h3 id="topic-4-advanced-search-features">Topic 4: Advanced Search Features<a class="headerlink" href="#topic-4-advanced-search-features" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Techniques for fuzzy matching, autocomplete, and query optimization.</p>
+<p><strong>Fuzzy Search (Edit Distance):</strong></p>
+<pre class="highlight"><code>Levenshtein Distance: minimum edits to transform one string into another
+
+Example: "quick" → "quik"
+Operations:
+
+1. Delete 'c' → "quik"
+Distance = 1
+
+Query: "elasticsarch" (typo)
+Fuzzy search with distance 2:</code></pre>
+<ul>
+<li>"elasticsearch" (distance 1: insert 'e')</li>
+<li>"elasticcache" (too far, distance 3)</li>
+</ul>
+<p><strong>Implementation:</strong></p>
+<pre class="highlight"><code>query: {
+  "fuzzy": {
+    "name": {
+      "value": "elasticsarch",
+      "fuzziness": "AUTO"  // 0,1,2 based on term length
+    }
+  }
+}</code></pre>
+<p><strong>Autocomplete with Tries:</strong></p>
+<pre class="highlight"><code>Trie structure for autocomplete:
+         root
+        /   \
+       s     c
+      / \     \
+     e   t     a
+    /     \     \
+   a       o     t
+  /         \
+ r           p
+/
+c
+h
+
+Words: "search", "stop", "cat"
+
+Autocomplete "se":
+
+1. Traverse: root → s → e
+2. Find all descendants: "search"
+3. Return top 10 by frequency
+
+Time: O(k) where k = prefix length
+Space: O(N × M) where N = words, M = avg length</code></pre>
+<p><strong>Autocomplete with Edge N-grams:</strong></p>
+<pre class="highlight"><code>Term: "search"
+
+Edge n-grams (prefix-based):
+s
+se
+sea
+sear
+searc
+search
+
+Index these as tokens:
+"s" → [search, ...]
+"se" → [search, set, ...]
+"sea" → [search, season, ...]
+
+Query "sea":
+→ Instant lookup → [search, season, ...]
+
+Advantage: O(1) lookup vs Trie traversal
+Disadvantage: Higher storage cost</code></pre>
+<p><strong>Highlighting:</strong></p>
+<pre class="highlight"><code>Query: "machine learning"
+Result: "Introduction to Machine Learning algorithms..."
+
+Highlighted:
+"Introduction to &lt;em&gt;Machine&lt;/em&gt; &lt;em&gt;Learning&lt;/em&gt; algorithms..."
+
+Implementation:
+
+1. Find term positions from inverted index
+2. Extract surrounding context (±50 chars)
+3. Insert highlight tags
+4. Return fragments
+
+Advanced: Multi-field highlighting
+Show snippets from title, description, and content
+Rank snippets by relevance</code></pre>
+<hr/>
+<h3 id="topic-5-distributed-search-elasticsearch-architecture">Topic 5: Distributed Search (Elasticsearch Architecture)<a class="headerlink" href="#topic-5-distributed-search-elasticsearch-architecture" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Scale search across multiple nodes for performance and reliability.</p>
+<p><strong>Sharding:</strong></p>
+<div class="mermaid">flowchart TD
+    Client["Client Query"]
+    Coord["Coordinator Node"]
+    S0["Shard 0\ndocs 0–2M"]
+    S1["Shard 1\ndocs 2M–4M"]
+    S2["Shard 2\ndocs 4M–6M"]
+    S3["Shard 3\ndocs 6M–8M"]
+    S4["Shard 4\ndocs 8M–10M"]
+    Merge["Coordinator merges\ntop 10 from each shard"]
+    Result["Final top 10 results"]
+
+    Client --&gt; Coord
+    Coord --&gt; S0
+    Coord --&gt; S1
+    Coord --&gt; S2
+    Coord --&gt; S3
+    Coord --&gt; S4
+    S0 --&gt; Merge
+    S1 --&gt; Merge
+    S2 --&gt; Merge
+    S3 --&gt; Merge
+    S4 --&gt; Merge
+    Merge --&gt; Result</div>
+<p><strong>Replication:</strong></p>
+<pre class="highlight"><code>Cluster: 3 nodes
+Index: 2 primary shards, 1 replica
+
+Distribution:
+Node 1: Primary 0, Replica 1
+Node 2: Primary 1, Replica 0
+Node 3: Replica 0, Replica 1</code></pre>
+<p><strong>Availability:</strong></p>
+<ul>
+<li>Node 1 fails → Node 2 has Primary 1 and Replica 0</li>
+<li>All data still accessible</li>
+<li>Automatic promotion of replicas</li>
+</ul>
+<p><strong>Performance:</strong></p>
+<ul>
+<li>Reads can use replicas (load balancing)</li>
+<li>Writes go to primary, then replicated</li>
+</ul>
+<p><strong>Query Execution Flow:</strong></p>
+<p>The Coordinating Node handles: parse query → determine target shards → broadcast to all shards → collect results → merge and rank → return to client. See the sharding diagram above for the full flow.</p>
+<p><strong>Routing:</strong></p>
+<pre class="highlight"><code>Document ID → Shard assignment
+
+Hash-based routing:
+shard = hash(document_id) % num_shards
+
+Custom routing (co-locate related docs):
+PUT /users/_doc/user123?routing=tenant_A
+→ All tenant_A docs in same shard
+→ Faster tenant-scoped queries</code></pre>
+<p><strong>Trade-off:</strong></p>
+<ul>
+<li>Better locality</li>
+<li>Risk of unbalanced shards</li>
+</ul>
+<hr/>
+<h3 id="topic-6-search-optimization">Topic 6: Search Optimization<a class="headerlink" href="#topic-6-search-optimization" title="Permanent link">¶</a></h3>
+<p><strong>Concept:</strong> Techniques to improve search performance and relevance.</p>
+<p><strong>Index-Time Optimizations:</strong></p>
+<p><strong>1. Selective Indexing:</strong>
+<pre class="highlight"><code>{
+  "mappings": {
+    "properties": {
+      "id": {
+        "type": "keyword",
+        "index": false  // Don't index, only store
+      },
+      "title": {
+        "type": "text",
+        "analyzer": "english"  // Full-text search
+      },
+      "created_at": {
+        "type": "date",
+        "index": true  // For filtering/sorting
+      }
+    }
+  }
+}</code></pre></p>
+<p><strong>Effect:</strong></p>
+<ul>
+<li>Smaller index size</li>
+<li>Faster indexing</li>
+<li>Reduced memory usage</li>
+</ul>
+<p><strong>2. Doc Values (Column Store):</strong>
+<pre class="highlight"><code>Traditional (row-oriented):
+doc1: {name: "Alice", age: 30, city: "NYC"}
+doc2: {name: "Bob", age: 25, city: "LA"}
+
+Doc values (column-oriented):
+name: ["Alice", "Bob"]
+age: [30, 25]
+city: ["NYC", "LA"]
+
+Use case: Aggregations, sorting
+Query: "Average age by city"
+→ Scan age and city columns only
+→ Much faster than loading full docs</code></pre></p>
+<p><strong>Query-Time Optimizations:</strong></p>
+<p><strong>1. Filter Context vs Query Context:</strong>
+<pre class="highlight"><code>// Query context (scored):
+{
+  "query": {
+    "match": {
+      "content": "elasticsearch"  // Score by relevance
+    }
+  }
+}
+
+// Filter context (not scored, cacheable):
+{
+  "query": {
+    "bool": {
+      "must": {
+        "match": { "content": "elasticsearch" }
+      },
+      "filter": {
+        "term": { "status": "published" }  // Binary: yes/no
+      }
+    }
+  }
+}</code></pre></p>
+<p><strong>Filter benefits:</strong></p>
+<ul>
+<li>Cached (reused across queries)</li>
+<li>Faster (no scoring)</li>
+<li>Use for: dates, categories, flags</li>
+</ul>
+<p><strong>2. Query Caching:</strong>
+<pre class="highlight"><code>Request cache (entire query result):
+{
+  "size": 0,  // Only aggregations, no docs
+  "aggs": { ... }
+}
+→ Cached for 1 minute
+→ Subsequent identical queries instant</code></pre></p>
+<p><strong>Shard request cache:</strong></p>
+<ul>
+<li>Caches query results per shard</li>
+<li>Invalidated on shard changes</li>
+<li>Shared across all queries hitting shard</li>
+</ul>
+<p><strong>3. Pagination:</strong>
+<pre class="highlight"><code>Deep pagination problem:
+GET /products?from=10000&amp;size=10
+
+Process:
+
+1. Each shard returns top 10,010 results
+2. Coordinator merges (5 shards × 10,010 = 50,050 docs)
+3. Sorts all 50,050
+4. Returns results 10,000-10,010
+
+Memory intensive! CPU intensive!
+
+Solution 1: Search After (cursor-based)
+GET /products?search_after=[value]
+→ Continue from last result
+→ No offset limit
+
+Solution 2: Scroll API (for exports)
+GET /products?scroll=1m
+→ Snapshot of results
+→ Iterate through batches</code></pre></p>
+<div class="admonition tip">
+<p class="admonition-title">Use filter context for structured criteria</p>
+<p>Any condition that is a binary yes/no — status flags, date ranges, category IDs — should go in <code>filter</code> context rather than <code>must</code>/<code>should</code>. Filters are not scored, which makes them faster, and Elasticsearch caches filter results at the shard level. This is one of the highest-leverage query optimisations available.</p>
+</div>
+<hr/>
+<h2 id="benchmark-linear-scan-vs-inverted-index">Benchmark: Linear Scan vs Inverted Index<a class="headerlink" href="#benchmark-linear-scan-vs-inverted-index" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Run the benchmark and record your numbers.</p>
+<pre class="highlight"><code class="language-java">package com.study.systems.searchindexing;
+
+import java.util.*;
+
+/**
+ * Benchmarks linear scan vs inverted index across growing corpus sizes.
+ *
+ * Both strategies search the same document set for the same queries.
+ * Results show how query latency scales with corpus size under each approach:
+ *
+ *   Linear scan:     O(N × W) per query  — re-reads every document every time
+ *   Inverted index:  O(1) per query      — one hash lookup after a one-time build
+ *
+ * Corpus: 500-word vocabulary, 100 words per document, seeded for reproducibility.
+ */
+public class SearchIndexBenchmark {
+
+    static final int   VOCAB_SIZE    = 500;
+    static final int   WORDS_PER_DOC = 100;
+    static final int   NUM_QUERIES   = 500;
+    static final int[] CORPUS_SIZES  = {100, 1_000, 10_000};
+    static final long  SEED          = 42L;
+
+    private static final String[] VOCAB;
+
+    static {
+        VOCAB = new String[VOCAB_SIZE];
+        for (int i = 0; i &lt; VOCAB_SIZE; i++) VOCAB[i] = "word" + i;
+    }
+
+    public static void main(String[] args) {
+        System.out.println("=== Search / Indexing Benchmark ===\n");
+        warmup();
+        benchmarkIndexBuildCost();
+        System.out.println();
+        benchmarkSingleTermQuery();
+        System.out.println();
+        benchmarkAndQuery();
+    }
+
+    // -------------------------------------------------------------------------
+    // Benchmarks
+    // -------------------------------------------------------------------------
+
+    static void warmup() {
+        // Drive JIT compilation before measurement
+        List&lt;Document&gt; corpus = buildCorpus(1_000, SEED);
+        String[] queries = randomTerms(200, SEED + 99);
+        LinearScanner scanner = new LinearScanner(corpus);
+        SearchIndex index = new SearchIndex();
+        for (Document doc : corpus) index.add(doc);
+        for (String q : queries) { scanner.search(q); index.search(q); }
+    }
+
+    static void benchmarkIndexBuildCost() {
+        System.out.println("--- Index Build Cost (10,000 documents) ---");
+        int numDocs = 10_000;
+        List&lt;Document&gt; corpus = buildCorpus(numDocs, SEED);
+
+        // Linear scan has no build phase
+        System.out.printf("  Linear Scan:       0 ms   (no index to build)%n");
+
+        long start = System.nanoTime();
+        SearchIndex index = new SearchIndex();
+        for (Document doc : corpus) index.add(doc);
+        long buildMs = msElapsed(start);
+
+        System.out.printf("  Inverted Index:  %3d ms   (index %,d docs × %d words/doc)%n",
+                buildMs, numDocs, WORDS_PER_DOC);
+        System.out.printf("  Build is a one-time cost paid once at startup%n");
+    }
+
+    static void benchmarkSingleTermQuery() {
+        System.out.println("--- Single-Term Query (" + NUM_QUERIES + " queries) ---");
+        String[] queries = randomTerms(NUM_QUERIES, SEED + 1);
+        System.out.printf("  %-20s  %8s  %8s  %s%n", "Corpus size", "Linear", "Index", "Speedup");
+
+        for (int numDocs : CORPUS_SIZES) {
+            List&lt;Document&gt; corpus = buildCorpus(numDocs, SEED);
+            LinearScanner scanner = new LinearScanner(corpus);
+            SearchIndex index = new SearchIndex();
+            for (Document doc : corpus) index.add(doc);
+
+            long start = System.nanoTime();
+            for (String q : queries) scanner.search(q);
+            long scanMs = msElapsed(start);
+
+            start = System.nanoTime();
+            for (String q : queries) index.search(q);
+            long indexMs = msElapsed(start);
+
+            System.out.printf("  %,6d docs          %4d ms    %4d ms   %s%n",
+                    numDocs, scanMs, indexMs, speedup(scanMs, indexMs));
+        }
+    }
+
+    static void benchmarkAndQuery() {
+        System.out.println("--- AND Query: term1 AND term2 (" + NUM_QUERIES + " queries) ---");
+        String[] terms1 = randomTerms(NUM_QUERIES, SEED + 2);
+        String[] terms2 = randomTerms(NUM_QUERIES, SEED + 3);
+        System.out.printf("  %-20s  %8s  %8s  %s%n", "Corpus size", "Linear", "Index", "Speedup");
+
+        for (int numDocs : CORPUS_SIZES) {
+            List&lt;Document&gt; corpus = buildCorpus(numDocs, SEED);
+            LinearScanner scanner = new LinearScanner(corpus);
+            SearchIndex index = new SearchIndex();
+            for (Document doc : corpus) index.add(doc);
+
+            long start = System.nanoTime();
+            for (int i = 0; i &lt; NUM_QUERIES; i++) scanner.searchAnd(terms1[i], terms2[i]);
+            long scanMs = msElapsed(start);
+
+            start = System.nanoTime();
+            for (int i = 0; i &lt; NUM_QUERIES; i++) index.searchAnd(terms1[i], terms2[i]);
+            long indexMs = msElapsed(start);
+
+            System.out.printf("  %,6d docs          %4d ms    %4d ms   %s%n",
+                    numDocs, scanMs, indexMs, speedup(scanMs, indexMs));
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // Implementations (inner classes)
+    // -------------------------------------------------------------------------
+
+    /**
+     * Brute-force: scans every document for every query.
+     * O(N × W) per query where N = corpus size, W = words per document.
+     */
+    static class LinearScanner {
+        private final List&lt;Document&gt; docs;
+
+        LinearScanner(List&lt;Document&gt; docs) { this.docs = docs; }
+
+        List&lt;Integer&gt; search(String term) {
+            List&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+            for (Document doc : docs) {
+                if (doc.words.contains(term)) result.add(doc.id);
+            }
+            return result;
+        }
+
+        List&lt;Integer&gt; searchAnd(String term1, String term2) {
+            List&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+            for (Document doc : docs) {
+                if (doc.words.contains(term1) &amp;&amp; doc.words.contains(term2)) result.add(doc.id);
+            }
+            return result;
+        }
+    }
+
+    /**
+     * Inverted index: term → sorted posting list of document IDs.
+     *
+     * Build: O(N × W) one time.
+     * Single-term query: O(1) hash lookup.
+     * AND query: O(|p1| + |p2|) sorted-list merge (same algorithm as merge sort).
+     */
+    static class SearchIndex {
+        private final Map&lt;String, List&lt;Integer&gt;&gt; index = new HashMap&lt;&gt;();
+
+        void add(Document doc) {
+            // Deduplicate terms per document before inserting into posting lists
+            Set&lt;String&gt; seen = new HashSet&lt;&gt;(doc.words);
+            for (String term : seen) {
+                index.computeIfAbsent(term, k -&gt; new ArrayList&lt;&gt;()).add(doc.id);
+            }
+            // Posting lists stay sorted because documents are added in ID order
+        }
+
+        List&lt;Integer&gt; search(String term) {
+            return index.getOrDefault(term, Collections.emptyList());
+        }
+
+        /** Merges two sorted posting lists to find documents matching both terms. */
+        List&lt;Integer&gt; searchAnd(String term1, String term2) {
+            List&lt;Integer&gt; p1 = search(term1);
+            List&lt;Integer&gt; p2 = search(term2);
+            List&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+            int i = 0, j = 0;
+            while (i &lt; p1.size() &amp;&amp; j &lt; p2.size()) {
+                int a = p1.get(i), b = p2.get(j);
+                if      (a == b) { result.add(a); i++; j++; }
+                else if (a &lt;  b) { i++; }
+                else             { j++; }
+            }
+            return result;
+        }
+    }
+
+    static class Document {
+        final int id;
+        final List&lt;String&gt; words;
+
+        Document(int id, List&lt;String&gt; words) { this.id = id; this.words = words; }
+    }
+
+    // -------------------------------------------------------------------------
+    // Helpers
+    // -------------------------------------------------------------------------
+
+    static List&lt;Document&gt; buildCorpus(int numDocs, long seed) {
+        Random rand = new Random(seed);
+        List&lt;Document&gt; corpus = new ArrayList&lt;&gt;(numDocs);
+        for (int id = 0; id &lt; numDocs; id++) {
+            List&lt;String&gt; words = new ArrayList&lt;&gt;(WORDS_PER_DOC);
+            for (int w = 0; w &lt; WORDS_PER_DOC; w++) words.add(VOCAB[rand.nextInt(VOCAB_SIZE)]);
+            corpus.add(new Document(id, words));
+        }
+        return corpus;
+    }
+
+    static String[] randomTerms(int n, long seed) {
+        Random rand = new Random(seed);
+        String[] terms = new String[n];
+        for (int i = 0; i &lt; n; i++) terms[i] = VOCAB[rand.nextInt(VOCAB_SIZE)];
+        return terms;
+    }
+
+    private static String speedup(long slowMs, long fastMs) {
+        if (fastMs &lt;= 0) return "(index &lt;1 ms)";
+        return String.format("%.0fx faster", (double) slowMs / fastMs);
+    }
+
+    private static long msElapsed(long startNs) {
+        return (System.nanoTime() - startNs) / 1_000_000L;
+    }
+}
+</code></pre>
+<pre class="highlight"><code class="language-bash">./gradlew run -PmainClass=com.study.systems.searchindexing.SearchIndexBenchmark</code></pre>
+<p><strong>Index build cost:</strong></p>
+<table class="benchmark-table">
+<thead>
+<tr>
+<th>Approach</th>
+<th>Build time</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Linear Scan</td>
+<td class="blank">___ ms</td>
+<td>No upfront cost</td>
+</tr>
+<tr>
+<td>Inverted Index (10,000 docs)</td>
+<td class="blank">___ ms</td>
+<td>Paid once at startup</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Single-term query (500 queries):</strong></p>
+<table class="benchmark-table">
+<thead>
+<tr>
+<th>Corpus size</th>
+<th>Linear scan</th>
+<th>Inverted index</th>
+<th>Speedup</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>100 docs</td>
+<td class="blank">___ ms</td>
+<td class="blank">___ ms</td>
+<td class="blank">___x</td>
+</tr>
+<tr>
+<td>1,000 docs</td>
+<td class="blank">___ ms</td>
+<td class="blank">___ ms</td>
+<td class="blank">___x</td>
+</tr>
+<tr>
+<td>10,000 docs</td>
+<td class="blank">___ ms</td>
+<td class="blank">___ ms</td>
+<td class="blank">___x</td>
+</tr>
+</tbody>
+</table>
+<p><strong>AND query: term1 AND term2 (500 queries):</strong></p>
+<table class="benchmark-table">
+<thead>
+<tr>
+<th>Corpus size</th>
+<th>Linear scan</th>
+<th>Inverted index</th>
+<th>Speedup</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>100 docs</td>
+<td class="blank">___ ms</td>
+<td class="blank">___ ms</td>
+<td class="blank">___x</td>
+</tr>
+<tr>
+<td>1,000 docs</td>
+<td class="blank">___ ms</td>
+<td class="blank">___ ms</td>
+<td class="blank">___x</td>
+</tr>
+<tr>
+<td>10,000 docs</td>
+<td class="blank">___ ms</td>
+<td class="blank">___ ms</td>
+<td class="blank">___x</td>
+</tr>
+</tbody>
+</table>
+<div class="learner-section">
+<p><strong>What do you observe as corpus size grows?</strong></p>
+<ul>
+<li>Linear scan time: <span class="fill-in">[grows <strong><em>-fold when corpus 100x larger — O(</em></strong>)]</span></li>
+<li>Inverted index query time: <span class="fill-in">[stays <strong><em>, regardless of corpus size — O(</em></strong>)]</span></li>
+<li>AND query index time (vs single-term): <span class="fill-in">[slower because <strong><em>, but still O(</em></strong>)]</span></li>
+<li>The one-time build cost of ___ ms is offset after ___ queries.</li>
+</ul>
+</div>
+<hr/>
+<h2 id="beforeafter-why-search-indexing-matters">Before/After: Why Search Indexing Matters<a class="headerlink" href="#beforeafter-why-search-indexing-matters" title="Permanent link">¶</a></h2>
+<p><strong>Your task:</strong> Compare naive search vs indexed search to understand the impact.</p>
+<h3 id="example-product-search-on-e-commerce-site">Example: Product Search on E-Commerce Site<a class="headerlink" href="#example-product-search-on-e-commerce-site" title="Permanent link">¶</a></h3>
+<p><strong>Problem:</strong> Search for "wireless headphones" across 10 million products</p>
+<h4 id="approach-1-naive-linear-search">Approach 1: Naive Linear Search<a class="headerlink" href="#approach-1-naive-linear-search" title="Permanent link">¶</a></h4>
+<pre class="highlight"><code class="language-sql">SELECT * FROM products
+WHERE
+  LOWER(name) LIKE '%wireless%'
+  AND LOWER(name) LIKE '%headphones%'
+OR
+  LOWER(description) LIKE '%wireless%'
+  AND LOWER(description) LIKE '%headphones%';</code></pre>
+<p><strong>What happens:</strong>
+<pre class="highlight"><code>Database scans all 10M rows:
+Row 1: Check name, check description → No match
+Row 2: Check name, check description → No match
+...
+Row 45,234: Check name → MATCH! (add to results)
+...
+Row 10,000,000: Check name, check description → No match
+
+Time: ~10-30 seconds
+Database CPU: 100%
+User experience: Loading spinner... user leaves</code></pre></p>
+<p><strong>Problems:</strong></p>
+<ul>
+<li>O(N × M) where N = documents, M = avg document size</li>
+<li>No ranking (random order)</li>
+<li>No fuzzy matching ("wireles" returns nothing)</li>
+<li>Kills database under load</li>
+</ul>
+<h4 id="approach-2-inverted-index-search">Approach 2: Inverted Index Search<a class="headerlink" href="#approach-2-inverted-index-search" title="Permanent link">¶</a></h4>
+<p><strong>Index structure:</strong>
+<pre class="highlight"><code>Inverted Index:
+"wireless" → [doc45234, doc89123, doc234556, ...]
+"headphones" → [doc12345, doc45234, doc67890, ...]
+
+Intersection: [doc45234] ← Both terms present
+
+Ranking (TF-IDF):
+doc45234: score = 8.7 (both in title, high frequency)
+doc89123: score = 6.2 (both in description)
+doc12345: score = 4.1 (only "headphones" in title)</code></pre></p>
+<p><strong>Query execution:</strong>
+<pre class="highlight"><code>
+1. Look up "wireless" → [45234, 89123, 234556, ...] (1ms)
+2. Look up "headphones" → [12345, 45234, 67890, ...] (1ms)
+3. Intersect lists → [45234, ...] (5ms)
+4. Rank by score → sorted results (10ms)
+5. Return top 20 results (1ms)
+
+Total: ~20ms
+Database CPU: 5%
+User experience: Instant results ✓</code></pre></p>
+<p><strong>Performance comparison:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Linear Search</th>
+<th>Inverted Index</th>
+<th>Improvement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Time</td>
+<td>10-30s</td>
+<td>20ms</td>
+<td>500-1500x faster</td>
+</tr>
+<tr>
+<td>CPU usage</td>
+<td>100%</td>
+<td>5%</td>
+<td>20x less</td>
+</tr>
+<tr>
+<td>Scalability</td>
+<td>O(N)</td>
+<td>O(log N)</td>
+<td>Sublinear</td>
+</tr>
+<tr>
+<td>Ranking</td>
+<td>No</td>
+<td>Yes (TF-IDF)</td>
+<td>Better UX</td>
+</tr>
+<tr>
+<td>Fuzzy match</td>
+<td>Hard</td>
+<td>Easy</td>
+<td>More results</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Real-world impact:</strong></p>
+<ul>
+<li>Without indexing: 80% bounce rate (users leave)</li>
+<li>With indexing: 5% bounce rate, 10x more conversions</li>
+<li>Cost: $100K/month in extra servers vs $10K/month with proper indexing</li>
+</ul>
+<p><strong>Your calculation:</strong> For 100M documents:</p>
+<ul>
+<li>Linear search time: <span class="fill-in">_____</span> seconds</li>
+<li>Indexed search time: <span class="fill-in">_____</span> ms</li>
+<li>Users served per second: Linear <span class="fill-in"><strong><em>_</em></strong></span> vs Indexed <span class="fill-in">___</span></li>
+</ul>
+<hr/>
+<h2 id="case-studies-search-indexing-in-the-wild">Case Studies: Search &amp; Indexing in the Wild<a class="headerlink" href="#case-studies-search-indexing-in-the-wild" title="Permanent link">¶</a></h2>
+<h3 id="google-search-pagerank-and-the-inverted-index">Google Search: PageRank and the Inverted Index<a class="headerlink" href="#google-search-pagerank-and-the-inverted-index" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> Distributed Inverted Index combined with the PageRank ranking algorithm.</li>
+<li><strong>How it works:</strong> Google's crawlers build a massive inverted index of the web. When you search, your query terms are
+  used to retrieve a list of matching documents. The magic is in the ranking: PageRank analyzes the web's link
+  structure, treating a link from page A to page B as a "vote" for page B. It ranks pages higher if they are linked to
+  by many other high-ranking pages.</li>
+<li><strong>Key Takeaway:</strong> A fast inverted index is only half the battle. The relevance of search results is determined by
+  sophisticated ranking algorithms. PageRank revolutionized search by using the collective intelligence of the web
+  itself to determine authority and importance.</li>
+</ul>
+<h3 id="elasticsearch-powering-enterprise-search">Elasticsearch: Powering Enterprise Search<a class="headerlink" href="#elasticsearch-powering-enterprise-search" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> Distributed, Sharded Inverted Index (using Apache Lucene).</li>
+<li><strong>How it works:</strong> Companies like <strong>Uber</strong> (for searching trips), <strong>Stack Overflow</strong> (for finding questions), and
+  <strong>Netflix</strong> (for catalog search) use Elasticsearch. It automatically builds an inverted index on JSON documents. To
+  scale, it partitions the index into multiple <strong>shards</strong>, and replicates them for fault tolerance. A query is sent to
+  all shards in parallel, and the results are aggregated by a coordinating node.</li>
+<li><strong>Key Takeaway:</strong> Elasticsearch democratized high-quality search. It packages the complex concepts of inverted
+  indexes, text analysis, and distributed systems into a scalable, easy-to-use product, making it the de-facto standard
+  for adding search capabilities to applications.</li>
+</ul>
+<h3 id="algolia-search-as-a-service-for-speed">Algolia: Search-as-a-Service for Speed<a class="headerlink" href="#algolia-search-as-a-service-for-speed" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Pattern:</strong> In-Memory, Prefix-based Trie/Index Hybrid.</li>
+<li><strong>How it works:</strong> Algolia is designed for "instant search" and autocomplete experiences. They store their indices
+  entirely in RAM and distribute them across multiple data centers for low latency. Their ranking is often based on a
+  tie-breaking algorithm that can be heavily customized with business metrics (e.g., for an e-commerce site, rank
+  products with more sales higher).</li>
+<li><strong>Key Takeaway:</strong> For user-facing search where speed is paramount, in-memory indices and pre-computed ranking can
+  provide a superior user experience. The trade-off is higher cost and a focus on prefix-matching rather than complex
+  full-text relevance ranking.</li>
+</ul>
+<hr/>
+<h2 id="common-misconceptions">Common Misconceptions<a class="headerlink" href="#common-misconceptions" title="Permanent link">¶</a></h2>
+<div class="admonition danger">
+<p class="admonition-title">More shards always means faster search</p>
+<p>Each shard adds coordination overhead. A query must be sent to every shard, results collected from all of them, and then merged and re-ranked by the coordinator. With 50 small shards on a 3-node cluster, the coordination overhead can outweigh the parallelism benefit. The Elasticsearch recommendation is to keep shard sizes between 10–50 GB. Fewer, larger shards often outperform many tiny ones.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Stop-word removal is always a good idea</p>
+<p>Removing common words like "the", "a", "in" reduces index size and speeds up queries — but it can break phrase searches. A user searching for "The Who" (the band) or "to be or not to be" relies on those stop words being in the index. Modern systems prefer using IDF naturally to down-weight common terms rather than removing them entirely.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">TF-IDF and BM25 measure semantic meaning</p>
+<p>Both algorithms are purely statistical — they measure how often terms appear and how rare they are across documents. They have no understanding of meaning. "Bank" (financial institution) and "bank" (river bank) receive identical scores. Semantic search (using dense vector embeddings) is a separate technique that explicitly models meaning, and it complements rather than replaces inverted index search.</p>
+</div>
+<hr/>
+<h2 id="decision-framework-choosing-a-search-technology">Decision Framework: Choosing a Search Technology<a class="headerlink" href="#decision-framework-choosing-a-search-technology" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Fill in the matrix based on the material above.</p>
+<h3 id="trade-off-analysis-matrix">Trade-off Analysis Matrix<a class="headerlink" href="#trade-off-analysis-matrix" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Technology</th>
+<th>Query complexity</th>
+<th>Write throughput</th>
+<th>Consistency</th>
+<th>Operational overhead</th>
+<th>Key failure mode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Relational full-text search (PostgreSQL)</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Distributed search engine (Elasticsearch)</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Lightweight search server (Typesense / Meilisearch)</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Vector / semantic search (pgvector / Qdrant)</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+</tbody>
+</table>
+<details class="success">
+<summary>Answers</summary>
+<table>
+<thead>
+<tr>
+<th>Technology</th>
+<th>Query complexity</th>
+<th>Write throughput</th>
+<th>Consistency</th>
+<th>Operational overhead</th>
+<th>Key failure mode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Relational full-text search (PostgreSQL)</strong></td>
+<td>Moderate — tsvector/tsquery, limited ranking and fuzzy</td>
+<td>High — same write path as OLTP</td>
+<td>Strong — ACID</td>
+<td>None — already in your database</td>
+<td>Adequate for millions of rows; at billion-document scale, index maintenance becomes a bottleneck</td>
+</tr>
+<tr>
+<td><strong>Distributed search engine (Elasticsearch)</strong></td>
+<td>High — full DSL, aggregations, fuzzy, geo, nested</td>
+<td>Moderate — 1-second refresh interval introduces visibility lag</td>
+<td>Eventual — a just-written document may not appear in search for ~1s</td>
+<td>High — JVM heap tuning, shard count, field mapping management</td>
+<td>Heap exhaustion from field data cache; high-cardinality keyword fields loaded for aggregations exhaust JVM heap and trigger circuit breakers</td>
+</tr>
+<tr>
+<td><strong>Lightweight search server (Typesense / Meilisearch)</strong></td>
+<td>Moderate — full-text with typo tolerance; limited complex aggregations</td>
+<td>High — real-time indexing</td>
+<td>Strong</td>
+<td>Low — single binary, no JVM</td>
+<td>Missing features at scale (complex aggregations, large corpora); optimal under ~1M–10M documents</td>
+</tr>
+<tr>
+<td><strong>Vector / semantic search (pgvector / Qdrant)</strong></td>
+<td>Semantic similarity via ANN — not keyword matching</td>
+<td>Moderate — embedding generation is CPU/GPU-bound</td>
+<td>Strong (pgvector) / Eventual (Qdrant)</td>
+<td>Low–medium</td>
+<td>ANN recall degrades with very high dimensionality; index build time and memory grow with corpus size</td>
+</tr>
+</tbody>
+</table>
+</details>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">When it breaks</p>
+<p>Elasticsearch breaks when the heap is undersized for the field data cache — loading a high-cardinality keyword field into memory for aggregations can exhaust the JVM heap and trigger circuit breakers. The practical rule: field data and on-heap caches should not exceed 50% of JVM heap. At index write rates above ~10,000 docs/second, the default 1-second refresh interval becomes a bottleneck; teams commonly raise it to 30s or disable it during bulk ingestion. Elasticsearch also breaks for exact-match transactional queries: it is eventually consistent by design — a document written may not be visible in search for up to 1 second.</p>
+</div>
+<hr/>
+<h2 id="practice-scenarios">Practice Scenarios<a class="headerlink" href="#practice-scenarios" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<h3 id="scenario-1-e-commerce-product-search">Scenario 1: E-Commerce Product Search<a class="headerlink" href="#scenario-1-e-commerce-product-search" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>10M products</li>
+<li>Autocomplete (&lt; 50ms)</li>
+<li>Fuzzy matching for typos</li>
+<li>Category filters</li>
+<li>Price range filters</li>
+<li>Rank by relevance + popularity</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<p>Index structure:</p>
+<ul>
+<li>Shards: <span class="fill-in">[How many?]</span></li>
+<li>Replicas: <span class="fill-in">[How many for HA?]</span></li>
+<li>Mapping: <span class="fill-in">[Which fields indexed?]</span></li>
+</ul>
+<p>Query strategy:</p>
+<ul>
+<li>Autocomplete: <span class="fill-in">[Trie? Edge n-grams?]</span></li>
+<li>Fuzzy: <span class="fill-in">[Levenshtein distance?]</span></li>
+<li>Ranking: <span class="fill-in">[BM25 + custom boost?]</span></li>
+</ul>
+<p><strong>Failure modes:</strong></p>
+<ul>
+<li>What happens if the primary shard for a heavily-queried product category becomes unavailable during a peak shopping period? <span class="fill-in">[Fill in]</span></li>
+<li>How does your design behave when the autocomplete index becomes stale because real-time indexing falls behind a burst of 10,000 new product listings? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="scenario-2-log-search-observability">Scenario 2: Log Search (Observability)<a class="headerlink" href="#scenario-2-log-search-observability" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>1B log entries/day</li>
+<li>Time-range queries</li>
+<li>Full-text search on messages</li>
+<li>Retention: 30 days</li>
+<li>Real-time ingestion</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<p>Index strategy:</p>
+<ul>
+<li>Time-based indices: <span class="fill-in">[Daily? Hourly?]</span></li>
+<li>Rollover policy: <span class="fill-in">[When?]</span></li>
+<li>Deletion: <span class="fill-in">[How to handle retention?]</span></li>
+</ul>
+<p>Query optimization:</p>
+<ul>
+<li>Filter by time: <span class="fill-in">[Use filter context?]</span></li>
+<li>Aggregations: <span class="fill-in">[Doc values?]</span></li>
+<li>Pagination: <span class="fill-in">[Scroll API?]</span></li>
+</ul>
+<p><strong>Failure modes:</strong></p>
+<ul>
+<li>What happens if the log ingestion pipeline falls behind during an incident, causing a 30-minute gap in the time-based indices when an on-call engineer is searching for error patterns? <span class="fill-in">[Fill in]</span></li>
+<li>How does your design behave when the 30-day retention policy deletion job runs and accidentally removes an entire index alias rather than just the expired daily index? <span class="fill-in">[Fill in]</span></li>
+</ul>
+<h3 id="scenario-3-knowledge-base-search">Scenario 3: Knowledge Base Search<a class="headerlink" href="#scenario-3-knowledge-base-search" title="Permanent link">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>100K articles</li>
+<li>Multi-language support</li>
+<li>Highlight search terms</li>
+<li>"Did you mean?" suggestions</li>
+<li>Related articles</li>
+</ul>
+<p><strong>Your design:</strong></p>
+<p>Text analysis:</p>
+<ul>
+<li>Language detection: <span class="fill-in">[How?]</span></li>
+<li>Stemming: <span class="fill-in">[Language-specific?]</span></li>
+<li>Synonyms: <span class="fill-in">[How to implement?]</span></li>
+</ul>
+<p>Features:</p>
+<ul>
+<li>Highlighting: <span class="fill-in">[Unified? Plain?]</span></li>
+<li>Suggestions: <span class="fill-in">[Fuzzy + frequency?]</span></li>
+<li>Related: <span class="fill-in">[More Like This query?]</span></li>
+</ul>
+<p><strong>Failure modes:</strong></p>
+<ul>
+<li>What happens if the language detection service becomes unavailable and all new articles are indexed with the wrong analyzer, corrupting stemming and synonym expansion for one language? <span class="fill-in">[Fill in]</span></li>
+<li>How does your design behave when a full re-index of 100K articles is triggered and the in-progress index swap causes a period where search returns zero results for all queries? <span class="fill-in">[Fill in]</span></li>
+</ul>
+</div>
+<hr/>
+<h2 id="test-your-understanding">Test Your Understanding<a class="headerlink" href="#test-your-understanding" title="Permanent link">¶</a></h2>
+<p>Answer these without referring to your notes or implementation.</p>
+<ol>
+<li>
+<p>A term appears 10 times in document A (500 words) and 10 times in document B (5,000 words). Which document receives a higher TF score for that term, and why does this matter for ranking quality?</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) raw TF treats both documents equally (10 occurrences each), but normalised TF (term count divided by document length) gives document A a score 10× higher because the term density is much greater in the shorter document, (2) BM25 applies length normalisation to prevent long documents from being artificially inflated simply by mentioning a term many times, and (3) without length normalisation, a 10,000-word article mentioning "price" 10 times would unfairly outrank a 100-word product title that also mentions "price" 10 times.</p>
+</details>
+</li>
+<li>
+<p>You have an Elasticsearch cluster with 5 shards. A query must return the top 10 results globally. Explain exactly how many documents are transferred between shards and the coordinator, and why deep pagination (page 1000) is expensive.</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) each of the 5 shards returns its local top 10 candidates to the coordinator, so 50 documents are transferred for a single "top 10" query, (2) for deep pagination to page 1000 with 10 results per page, each shard must return its top 10,010 candidates — 50,050 documents transferred and re-ranked by the coordinator, and (3) this grows linearly with page depth, making the Scroll API or search_after the correct solution for deep or iterative result retrieval.</p>
+</details>
+</li>
+<li>
+<p>A product search returns zero results when a user types "wireles headphone" (two typos). What text analysis or query configuration change would fix this, and what is the performance trade-off?</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) enabling fuzzy matching (e.g., <code>fuzziness: AUTO</code> in Elasticsearch) allows matches within an edit distance of 1–2 characters, catching both "wireles" and "headphone" as matches for the correct terms, (2) alternatively, edge n-gram indexing at ingest time pre-generates partial token variants so lookups remain exact-match speed at query time, and (3) the performance trade-off is that fuzzy matching increases query time and CPU usage because the engine must evaluate many candidate tokens, while n-gram indexing trades query speed for significantly increased index size.</p>
+</details>
+</li>
+<li>
+<p>Your team wants to add a filter for <code>status = "published"</code> to every search query. Should this go in <code>must</code> (query context) or <code>filter</code> (filter context)? Explain the difference in how Elasticsearch handles each.</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) <code>status = "published"</code> should go in filter context because it is a binary yes/no condition with no meaningful relevance score contribution, (2) query context (<code>must</code>) calculates a relevance score for each matching document, which is wasted CPU for a boolean filter — filter context skips scoring entirely, and (3) filter context results are cached by Elasticsearch at the shard level using a bitset, so the same status filter used repeatedly across queries is served from cache after the first execution, dramatically reducing repeated query cost.</p>
+</details>
+</li>
+<li>
+<p>A colleague says "Our index has 200 shards across 5 nodes — more shards means more parallelism and faster queries." What is wrong with this reasoning, and what is the actual recommended guidance?</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) each query is sent to all 200 shards, and the coordinator must collect and merge 200 sets of results — the coordination overhead grows with shard count and can easily dominate the parallelism benefit for small shards, (2) with 200 shards on 5 nodes each node handles 40 shard threads per query, competing for CPU and memory, and (3) Elasticsearch's guidance is to keep individual shard sizes between 10–50 GB and avoid having many shards smaller than a few GB; fewer, appropriately-sized shards typically outperform a large number of tiny ones.</p>
+</details>
+</li>
+</ol>
+<hr/>
+<h2 id="review-checklist">Review Checklist<a class="headerlink" href="#review-checklist" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p>Complete this checklist after implementing and studying search and indexing.</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can explain how an inverted index is built and why it enables fast full-text search</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can describe TF-IDF scoring and explain why IDF prevents common words from dominating results</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can explain how Elasticsearch distributes a query across shards and coordinates the results</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can describe fuzzy matching and articulate its accuracy/performance trade-off</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can explain the difference between query context and filter context, and when to use each</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can design a text analysis pipeline: tokenization, normalization, stemming, synonym expansion</li>
+</ul>
+</div></div>
+</div>
+<footer class="col-md-12 text-center">
+<hr/>
+<p>
+<small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+</p>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../../js/bootstrap-3.0.3.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>var base_url = "../.."</script>
+<script src="../../js/base.js"></script>
+<script src="../../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<button class="close" data-dismiss="modal" type="button">
+<span aria-hidden="true">×</span>
+<span class="sr-only">Close</span>
+</button>
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+</div>
+<div class="modal-body">
+<p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="text"/>
+</div>
+</form>
+<div id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@11.13.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>

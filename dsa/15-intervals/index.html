@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A framework for algorithms, systems design, and infrastructure.">
+    <meta name="author" content="Richard">
+    
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+
+    
+    <title>15. Intervals - Software Engineering Study Guide</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../../css/base.min.css" rel="stylesheet">
+    <link href="../../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css">
+        
+    
+    <link href="../../css/custom.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../..">Home</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Systems Design <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../systems/01-storage-engines/">01. Storage Engines</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/04-search-and-indexing/">04. Search & Indexing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/05-caching-patterns/">05. Caching Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/06-api-design/">06. API Design</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/07-security-patterns/">07. Security Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/08-rate-limiting/">08. Rate Limiting</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/09-load-balancing/">09. Load Balancing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/11-database-scaling/">11. Database Scaling</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/12-message-queues/">12. Message Queues</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/13-event-sourcing-cqrs/">13. Event Sourcing & CQRS</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/14-stream-processing/">14. Stream Processing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/15-observability/">15. Observability</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/16-resilience-patterns/">16. Resilience Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/17-distributed-transactions/">17. Distributed Transactions</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/18-consensus-patterns/">18. Consensus Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/19-microservices-patterns/">19. Microservices Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/20-multi-region/">20. Multi-Region Architecture</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">DSA <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../01-two-pointers/">01. Two Pointers</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../02-sliding-window/">02. Sliding Window</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../03-hash-tables/">03. Hash Tables</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../04-linked-lists/">04. Linked Lists</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../05-stacks--queues/">05. Stacks & Queues</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../06-trees/">06. Trees</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../07-binary-search/">07. Binary Search</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../08-heaps/">08. Heaps</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../09-union-find/">09. Union-Find</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../10-graphs/">10. Graphs</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../11-advanced-graphs/">11. Advanced Graphs</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../12-backtracking/">12. Backtracking</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../13-dynamic-programming/">13. Dynamic Programming</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../14-prefix-sums/">14. Prefix Sums</a>
+</li>
+
+                        
+                            
+<li class="active">
+    <a href="./">15. Intervals</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Quick Reference <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../reference/when-it-breaks/">When It Breaks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/back-of-envelope/">Back of the Envelope</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/symptom-pattern/">Symptom → Pattern</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/staff-interview-strategy/">Staff+ Interview Strategy</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/no-new-problems/">No New Problems in CS</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/how-the-machine-works/">How the Machine Actually Works</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../14-prefix-sums/">
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="next" href="../../reference/when-it-breaks/">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#intervals">Intervals</a></li>
+            <li class="second-level"><a href="#learning-objectives">Learning Objectives</a></li>
+                
+            <li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+                
+            <li class="second-level"><a href="#core-implementation">Core Implementation</a></li>
+                
+            <li class="second-level"><a href="#beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters</a></li>
+                
+            <li class="second-level"><a href="#common-misconceptions">Common Misconceptions</a></li>
+                
+            <li class="second-level"><a href="#decision-framework-choosing-an-interval-algorithm">Decision Framework: Choosing an Interval Algorithm</a></li>
+                
+            <li class="second-level"><a href="#practice">Practice</a></li>
+                
+            <li class="second-level"><a href="#test-your-understanding">Test Your Understanding</a></li>
+                
+            <li class="second-level"><a href="#connected-topics">Connected Topics</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="intervals">Intervals<a class="headerlink" href="#intervals" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>Merge, insert, and query overlapping ranges efficiently</p>
+</blockquote>
+<hr />
+<h2 id="learning-objectives">Learning Objectives<a class="headerlink" href="#learning-objectives" title="Permanent link">&para;</a></h2>
+<p>By the end of this topic you will be able to:</p>
+<ul>
+<li>Explain why sorting by start time enables a single-pass merge of overlapping intervals</li>
+<li>Implement merge intervals in O(n log n) and state why <code>Math.max</code> is required on the end boundary</li>
+<li>Insert a new interval into a sorted list and handle the three phases: before, overlapping, and after</li>
+<li>Find the intersection of two sorted interval lists using two pointers in O(m + n)</li>
+<li>Solve Meeting Rooms I (can all fit?) and Meeting Rooms II (minimum rooms needed) and state how each differs</li>
+<li>Choose the correct sort key for each interval problem: start ascending for merge/insert, end ascending for greedy removal</li>
+</ul>
+<hr />
+<div class="admonition note">
+<p class="admonition-title">Operational reality</p>
+<p>PostgreSQL's MVCC (Multi-Version Concurrency Control) is fundamentally an interval overlap problem: every transaction has a <code>[xmin, xmax)</code> visibility range and every row read checks whether the reading transaction's snapshot overlaps the row's version interval. Calendar conflict detection (Google Calendar, Outlook scheduling) is interval merge and intersection. Network firewall rule engines evaluate packet port ranges against interval sets. Code coverage tools track which line ranges have been executed — merging coverage reports from parallel test runs is interval union across files.</p>
+</div>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After implementing all patterns, explain them simply.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What is the key insight that makes interval problems tractable?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[After sorting by ___, overlapping intervals are always ___ in the list, so you only need to compare each interval with ___ instead of all others]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Merge intervals in one sentence:</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Sort by start, then walk the list and extend the current interval's end whenever the next interval's start is ___ the current end]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy:</strong></p>
+<ul>
+<li>Example: "Intervals are like calendar appointments — merging them is like combining any back-to-back or overlapping meetings into one block."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When does this pattern work?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after solving problems]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What's the hardest edge case?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in — think about fully-contained intervals like [2,3] inside [1,4]]</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr />
+<h2 id="core-implementation">Core Implementation<a class="headerlink" href="#core-implementation" title="Permanent link">&para;</a></h2>
+<h3 id="pattern-1-merge-intervals">Pattern 1: Merge Intervals<a class="headerlink" href="#pattern-1-merge-intervals" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Sort by start time, then walk the list merging any overlapping interval into the current one.</p>
+<p><strong>Use case:</strong> Combine overlapping calendar events, merge DNS lookup ranges.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.intervals;
+
+import java.util.*;
+
+public class Intervals {
+
+    /**
+     * Problem: Merge overlapping intervals
+     * Time: O(n log n), Space: O(n)
+     *
+     * TODO: Implement merge intervals
+     * Step 1: Sort by start time
+     * Step 2: Walk the list; if next.start &lt;= current.end, merge
+     *         using current.end = Math.max(current.end, next.end)
+     * Step 3: Otherwise, push current to result and move on
+     * Step 4: Don't forget to add the final current to result
+     */
+    public static int[][] merge(int[][] intervals) {
+        // TODO: Sort by start time
+        // TODO: Iterate and merge overlapping intervals
+
+        return new int[0][0]; // Replace with implementation
+    }
+}
+</code></pre>
+<div class="admonition warning">
+<p class="admonition-title">Debugging Challenge — Missing Math.max and Missing Final Interval</p>
+<p>This implementation has 2 bugs. Trace through <code>[[1,4], [2,3]]</code> (a fully-contained interval) and <code>[[1,3], [2,6]]</code> before checking the answer.</p>
+<pre class="highlight"><code class="language-java">public static int[][] merge_Buggy(int[][] intervals) {
+    Arrays.sort(intervals, (a, b) -&gt; a[0] - b[0]);
+
+    List&lt;int[]&gt; merged = new ArrayList&lt;&gt;();
+    int[] current = intervals[0];
+
+    for (int i = 1; i &lt; intervals.length; i++) {
+        if (intervals[i][0] &lt;= current[1]) {
+            current[1] = intervals[i][1];              // Bug 1
+        } else {
+            merged.add(current);
+            current = intervals[i];
+        }
+    }
+                                                       // Bug 2
+    return merged.toArray(new int[0][]);
+}</code></pre>
+<ul>
+<li>Bug 1: <span class="fill-in">[What's wrong with the merge line? What input reveals it?]</span></li>
+<li>Bug 2: <span class="fill-in">[What is never added to the result?]</span></li>
+</ul>
+<details class="success">
+<summary>Answer</summary>
+<p><strong>Bug 1:</strong> <code>current[1] = intervals[i][1]</code> should be <code>current[1] = Math.max(current[1], intervals[i][1])</code>. Without <code>Math.max</code>, a fully-contained interval like <code>[2,3]</code> inside <code>[1,4]</code> shrinks the merged interval to <code>[1,3]</code> instead of keeping <code>[1,4]</code>.</p>
+<p><strong>Bug 2:</strong> The final value of <code>current</code> is never added to <code>merged</code>. After the loop ends, the last merged group is still in <code>current</code> but never appended. Add <code>merged.add(current)</code> after the loop.</p>
+<p><strong>Correct ending:</strong>
+<pre class="highlight"><code class="language-java">merged.add(current);  // Don't forget the last interval
+return merged.toArray(new int[0][]);</code></pre></p>
+</details>
+</div>
+<hr />
+<h3 id="pattern-2-insert-interval">Pattern 2: Insert Interval<a class="headerlink" href="#pattern-2-insert-interval" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Given a sorted, non-overlapping list, insert a new interval and merge any overlaps — without re-sorting.</p>
+<p><strong>Use case:</strong> Calendar event insertion, dynamic interval sets.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.intervals;
+
+import java.util.*;
+
+public class InsertInterval {
+
+    /**
+     * Problem: Insert interval into sorted non-overlapping list
+     * Time: O(n), Space: O(n)
+     *
+     * TODO: Implement three-phase scan
+     * Phase 1: Add all intervals that END before newInterval starts
+     *          (no overlap: intervals[i][1] &lt; newInterval[0])
+     * Phase 2: Merge all intervals that overlap with newInterval
+     *          (overlap condition: intervals[i][0] &lt;= newInterval[1])
+     *          Expand newInterval: start = min(both starts), end = max(both ends)
+     * Phase 3: Add all remaining intervals
+     */
+    public static int[][] insert(int[][] intervals, int[] newInterval) {
+        List&lt;int[]&gt; result = new ArrayList&lt;&gt;();
+        int i = 0, n = intervals.length;
+
+        // TODO: Phase 1 — add all intervals ending before newInterval starts
+
+        // TODO: Phase 2 — merge all overlapping intervals into newInterval
+
+        // TODO: Add merged newInterval
+
+        // TODO: Phase 3 — add all remaining intervals
+
+        return result.toArray(new int[0][]);
+    }
+}
+</code></pre>
+<hr />
+<h3 id="pattern-3-interval-intersection">Pattern 3: Interval Intersection<a class="headerlink" href="#pattern-3-interval-intersection" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Find all overlapping pairs between two sorted interval lists using two pointers.</p>
+<p><strong>Use case:</strong> Calendar availability overlap, API rate limit intersection.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.intervals;
+
+import java.util.*;
+
+public class IntervalIntersection {
+
+    /**
+     * Problem: Interval list intersection
+     * Time: O(m + n), Space: O(min(m,n))
+     *
+     * TODO: Implement two-pointer intersection
+     * An intersection exists when max(start1,start2) &lt;= min(end1,end2)
+     * Advance the pointer whose interval ends first
+     */
+    public static int[][] intervalIntersection(int[][] firstList, int[][] secondList) {
+        List&lt;int[]&gt; result = new ArrayList&lt;&gt;();
+        int i = 0, j = 0;
+
+        // TODO: Advance both pointers, check for intersection each step
+        // TODO: Move pointer of interval that ends first
+
+        return result.toArray(new int[0][]);
+    }
+}
+</code></pre>
+<hr />
+<h3 id="pattern-4-meeting-rooms">Pattern 4: Meeting Rooms<a class="headerlink" href="#pattern-4-meeting-rooms" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Determine whether meetings conflict, or find the minimum number of rooms needed.</p>
+<p><strong>Use case:</strong> Conference room scheduling, resource allocation.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.intervals;
+
+import java.util.*;
+
+public class MeetingRooms {
+
+    /**
+     * Problem: Meeting Rooms I — can one person attend all?
+     * Time: O(n log n), Space: O(1)
+     *
+     * TODO: Sort by start time, check if any consecutive pair overlaps
+     * Overlap condition: intervals[i][0] &lt; intervals[i-1][1]
+     */
+    public static boolean canAttendMeetings(int[][] intervals) {
+        // TODO: Sort and check consecutive pairs
+
+        return true; // Replace with implementation
+    }
+
+    /**
+     * Problem: Meeting Rooms II — minimum rooms needed
+     * Time: O(n log n), Space: O(n)
+     *
+     * TODO: Method 1 (min-heap): sort by start time; use heap of end times
+     * If heap.peek() &lt;= current start, reuse that room (poll + offer)
+     * Otherwise add a new room (just offer)
+     * Answer: heap.size() at the end
+     *
+     * TODO: Method 2 (two sorted arrays): sort starts and ends separately
+     * Two pointers: if starts[i] &lt; ends[j], need a new room; else free one
+     */
+    public static int minMeetingRooms(int[][] intervals) {
+        // TODO: Implement either method
+
+        return 0; // Replace with implementation
+    }
+}
+</code></pre>
+<div class="admonition warning">
+<p class="admonition-title">Debugging Challenge — Wrong Overlap Condition in Meeting Rooms I</p>
+<p>The code below uses <code>&lt;=</code> instead of <code>&lt;</code> in the overlap check. It incorrectly rejects back-to-back (non-overlapping) meetings.</p>
+<pre class="highlight"><code class="language-java">public static boolean canAttendMeetings_Buggy(int[][] intervals) {
+    Arrays.sort(intervals, (a, b) -&gt; a[0] - b[0]);
+
+    for (int i = 1; i &lt; intervals.length; i++) {
+        if (intervals[i][0] &lt;= intervals[i-1][1]) {  // Bug: &lt;= should be &lt;
+            return false;
+        }
+    }
+    return true;
+}</code></pre>
+<ul>
+<li>Bug: <span class="fill-in">[Why does <code>&lt;=</code> reject a valid schedule? Give a test case.]</span></li>
+</ul>
+<details class="success">
+<summary>Answer</summary>
+<p><strong>Bug:</strong> Two meetings <code>[0,5]</code> and <code>[5,10]</code> are back-to-back (not overlapping). The first ends exactly when the second begins. The condition <code>intervals[i][0] &lt;= intervals[i-1][1]</code> evaluates <code>5 &lt;= 5 = true</code> and incorrectly returns <code>false</code>.</p>
+<p>The correct condition is <code>intervals[i][0] &lt; intervals[i-1][1]</code> (strict less-than). A meeting starting at the exact end time of the previous one does not overlap.</p>
+</details>
+</div>
+<hr />
+<h2 id="beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters<a class="headerlink" href="#beforeafter-why-this-pattern-matters" title="Permanent link">&para;</a></h2>
+<p><strong>Your task:</strong> Compare naive vs optimized approaches to understand the impact.</p>
+<h3 id="example-merge-intervals">Example: Merge Intervals<a class="headerlink" href="#example-merge-intervals" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Merge all overlapping intervals in <code>[[1,3], [2,6], [8,10], [15,18]]</code>.</p>
+<h4 id="approach-1-nested-loops-naive">Approach 1: Nested Loops (Naive)<a class="headerlink" href="#approach-1-nested-loops-naive" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Naive: compare all pairs, repeat until stable
+public static int[][] merge_BruteForce(int[][] intervals) {
+    List&lt;int[]&gt; list = new ArrayList&lt;&gt;(Arrays.asList(intervals));
+    boolean changed = true;
+
+    while (changed) {
+        changed = false;
+        for (int i = 0; i &lt; list.size(); i++) {
+            for (int j = i + 1; j &lt; list.size(); j++) {
+                int[] a = list.get(i), b = list.get(j);
+                // Check overlap
+                if (a[0] &lt;= b[1] &amp;&amp; b[0] &lt;= a[1]) {
+                    list.set(i, new int[]{Math.min(a[0],b[0]), Math.max(a[1],b[1])});
+                    list.remove(j);
+                    changed = true;
+                    break;
+                }
+            }
+            if (changed) break;
+        }
+    }
+
+    return list.toArray(new int[0][]);
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n²) per pass, multiple passes needed — overall O(n³) worst case</li>
+<li>Space: O(n)</li>
+<li>For n = 1,000: potentially millions of comparisons</li>
+</ul>
+<h4 id="approach-2-sort-single-pass-optimized">Approach 2: Sort + Single Pass (Optimized)<a class="headerlink" href="#approach-2-sort-single-pass-optimized" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Optimized: sort once, merge in one linear pass
+public static int[][] merge_Optimized(int[][] intervals) {
+    Arrays.sort(intervals, (a, b) -&gt; a[0] - b[0]);
+
+    List&lt;int[]&gt; result = new ArrayList&lt;&gt;();
+    int[] current = intervals[0];
+
+    for (int i = 1; i &lt; intervals.length; i++) {
+        if (intervals[i][0] &lt;= current[1]) {
+            current[1] = Math.max(current[1], intervals[i][1]);
+        } else {
+            result.add(current);
+            current = intervals[i];
+        }
+    }
+
+    result.add(current);
+    return result.toArray(new int[0][]);
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n log n) — sorting dominates; the merge pass is O(n)</li>
+<li>Space: O(n) — result list</li>
+<li>For n = 1,000: ~10,000 operations (sort) + 1,000 (merge pass)</li>
+</ul>
+<h4 id="performance-comparison">Performance Comparison<a class="headerlink" href="#performance-comparison" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Input Size</th>
+<th>Brute Force</th>
+<th>Sort + Merge</th>
+<th>Speedup</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n = 100</td>
+<td>~100,000 ops</td>
+<td>~700 ops</td>
+<td>~143x</td>
+</tr>
+<tr>
+<td>n = 1,000</td>
+<td>~10,000,000 ops</td>
+<td>~10,000 ops</td>
+<td>~1,000x</td>
+</tr>
+<tr>
+<td>n = 10,000</td>
+<td>~1,000,000,000 ops</td>
+<td>~130,000 ops</td>
+<td>~7,700x</td>
+</tr>
+</tbody>
+</table>
+<h4 id="why-does-sorting-help">Why Does Sorting Help?<a class="headerlink" href="#why-does-sorting-help" title="Permanent link">&para;</a></h4>
+<p>After sorting by start time, overlapping intervals are always adjacent. You only need to compare each interval with its immediate predecessor:</p>
+<pre class="highlight"><code>Unsorted: [[8,10], [1,3], [15,18], [2,6]]
+Sorted:   [[1,3], [2,6], [8,10], [15,18]]
+
+[1,3] + [2,6]: 2 &lt;= 3 → merge to [1,6]
+[1,6] + [8,10]: 8 &gt; 6 → no overlap, save [1,6]
+[8,10] + [15,18]: 15 &gt; 10 → no overlap, save [8,10]
+Final: [[1,6], [8,10], [15,18]]</code></pre>
+<div class="admonition note">
+<p class="admonition-title">The sort key insight</p>
+<p>Sorting by start time guarantees that if interval B could overlap interval A (i.e., B.start &lt;= A.end), then B appears immediately after A in the sorted list. You never need to look backwards. This is the property that makes a single linear pass sufficient.</p>
+</div>
+<div class="learner-section">
+<ul>
+<li>Why is the sort key <code>start</code> and not <code>end</code>? <span class="fill-in">[Your answer]</span></li>
+<li>Why does Meeting Rooms II sort by <code>end</code> instead? <span class="fill-in">[Your answer — think about what "reuse a room" means]</span></li>
+<li>What is the overlap condition between two sorted intervals A and B? <span class="fill-in">[B.start &lt;= A.end]</span></li>
+</ul>
+</div>
+<hr />
+<h2 id="common-misconceptions">Common Misconceptions<a class="headerlink" href="#common-misconceptions" title="Permanent link">&para;</a></h2>
+<div class="admonition danger">
+<p class="admonition-title">Misconception: intervals must always be sorted by start time</p>
+<p>Sorting by start time is correct for merge and insert problems. For <strong>non-overlapping intervals</strong> (minimum removals), sort by <strong>end time</strong> — the greedy argument is to always keep the interval that ends earliest, maximising room for future intervals. For <strong>remove covered intervals</strong>, sort ascending by start then descending by end (so a wide interval with the same start comes before a narrow one). Applying the wrong sort produces subtly wrong answers that pass most test cases.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Misconception: back-to-back intervals [1,5] and [5,10] overlap</p>
+<p>They are adjacent, not overlapping. The overlap condition is <code>B.start &lt; A.end</code> (strict), not <code>&lt;=</code>. Two meetings where one ends exactly when the other begins do not conflict — the room is free the instant the first meeting ends. This is the source of the off-by-one bug in Meeting Rooms I.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Misconception: the insert interval problem requires re-sorting</p>
+<p>The input is guaranteed to be sorted and non-overlapping. You exploit that structure directly with a three-phase O(n) scan — no sort needed. Re-sorting after insertion wastes the O(n log n) budget unnecessarily.</p>
+</div>
+<hr />
+<h2 id="decision-framework-choosing-an-interval-algorithm">Decision Framework: Choosing an Interval Algorithm<a class="headerlink" href="#decision-framework-choosing-an-interval-algorithm" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Fill in the matrix after working through the implementations above.</p>
+<h3 id="trade-off-analysis-matrix">Trade-off Analysis Matrix<a class="headerlink" href="#trade-off-analysis-matrix" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Algorithm</th>
+<th>Problem type</th>
+<th>Time</th>
+<th>Space</th>
+<th>Handles updates?</th>
+<th>Key failure</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Sort + greedy merge</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Event sweep line</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Min-heap (meeting rooms II)</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Interval tree</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+</tbody>
+</table>
+<details class="success">
+<summary>Answers</summary>
+<table>
+<thead>
+<tr>
+<th>Algorithm</th>
+<th>Problem type</th>
+<th>Time</th>
+<th>Space</th>
+<th>Handles updates?</th>
+<th>Key failure</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Sort + greedy merge</strong></td>
+<td>Merge overlapping intervals, insert interval</td>
+<td>O(n log n)</td>
+<td>O(n)</td>
+<td>No — offline algorithm</td>
+<td>2D rectangles require a sweep line; sort+merge only works for 1D intervals</td>
+</tr>
+<tr>
+<td><strong>Event sweep line</strong></td>
+<td>Count maximum overlap, calendar conflict detection</td>
+<td>O(n log n)</td>
+<td>O(n)</td>
+<td>No — offline algorithm</td>
+<td>Tie-breaking at the same timestamp — a start and end at the same value may or may not overlap depending on problem semantics (check constraints)</td>
+</tr>
+<tr>
+<td><strong>Min-heap (meeting rooms II)</strong></td>
+<td>Minimum resources for non-overlapping intervals</td>
+<td>O(n log n)</td>
+<td>O(k) — k = answer</td>
+<td>No — offline algorithm</td>
+<td>Returns the count, not the assignment — to know which interval gets which resource, track assignments separately</td>
+</tr>
+<tr>
+<td><strong>Interval tree</strong></td>
+<td>Point stabbing query, overlap query</td>
+<td>O(n log n) build, O(log n + k) query</td>
+<td>O(n)</td>
+<td>Yes</td>
+<td>Overkill for offline problems — only reach for it when queries arrive online (dynamic insertions with overlap queries)</td>
+</tr>
+</tbody>
+</table>
+</details>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">When it breaks</p>
+<p>Interval merge breaks for 2D rectangles — merging overlapping rectangles requires a sweep line algorithm, not sort-and-scan. The standard merge algorithm also breaks when intervals need to be merged on different sort keys for different queries. Meeting Rooms II (minimum rooms count) breaks when you need to identify which events conflict, not just the count — the greedy heap approach gives the count but not the assignment. Dynamic interval problems (frequent insertions and deletions with overlap queries) require an interval tree, which supports O(log n) insert, delete, and overlap query.</p>
+</div>
+<hr />
+<h2 id="practice">Practice<a class="headerlink" href="#practice" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<h3 id="leetcode-problems">LeetCode Problems<a class="headerlink" href="#leetcode-problems" title="Permanent link">&para;</a></h3>
+<p><strong>Easy (Complete all 2):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/meeting-rooms/">252. Meeting Rooms</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Sort by start, check consecutive overlap]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/summary-ranges/">228. Summary Ranges</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Linear scan, extend range while consecutive]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Medium (Complete 3-4):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/merge-intervals/">56. Merge Intervals</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Sort by start, single-pass merge]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+<li>Mistake made: <span class="fill-in">[Fill in if any]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/insert-interval/">57. Insert Interval</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Three-phase linear scan]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/non-overlapping-intervals/">435. Non-overlapping Intervals</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Sort by end, greedy]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/meeting-rooms-ii/">253. Meeting Rooms II</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Sort by start, min-heap of end times]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Hard (Optional):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/data-stream-as-disjoint-intervals/">352. Data Stream as Disjoint Intervals</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Dynamic interval merge with TreeMap]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/employee-free-time/">759. Employee Free Time</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Merge all intervals, find gaps]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Failure modes:</strong></p>
+<ul>
+<li>What happens if two intervals share only a single endpoint, like <code>[1,5]</code> and <code>[5,8]</code> — does your merge implementation treat them as overlapping and merge them into <code>[1,8]</code>, or correctly keep them separate? <span class="fill-in">[Fill in]</span></li>
+<li>How does your merge implementation behave when the input array is not sorted by start time — does it silently produce a wrong result or does it handle unsorted input? <span class="fill-in">[Fill in]</span></li>
+</ul>
+</div>
+<hr />
+<h2 id="test-your-understanding">Test Your Understanding<a class="headerlink" href="#test-your-understanding" title="Permanent link">&para;</a></h2>
+<p>Answer these questions without looking at your notes. Write a sentence or two for each.</p>
+<ol>
+<li>
+<p><strong>Trace through merging <code>[[3,5],[1,4],[6,8]]</code>. Show the state of the result list after sorting and after each iteration of the merge pass. What is the final output?</strong></p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) after sorting by start: [[1,4],[3,5],[6,8]]; (2) iteration 1: current=[1,4]; process [3,5]: 3 &lt;= 4, overlap → current[1] = max(4,5) = 5, current=[1,5]; (3) iteration 2: process [6,8]: 6 &gt; 5, no overlap → add [1,5] to result, current=[6,8]; (4) after loop: add current=[6,8] to result; (5) final output: [[1,5],[6,8]]; (6) the key step to note — the Math.max ensures [3,5] extends current to [1,5] instead of incorrectly shrinking it to [1,4] or [3,5].</p>
+</details>
+</li>
+<li>
+<p><strong>Explain why the merge line must use <code>Math.max(current[1], next[1])</code> rather than a plain assignment <code>current[1] = next[1]</code>. Give a concrete interval pair where the plain assignment produces the wrong answer.</strong></p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) the reason — when a new interval is fully contained within the current one (e.g., current=[1,10], next=[3,5]), next[1]=5 &lt; current[1]=10; a plain assignment shrinks the current interval incorrectly from [1,10] to [1,5], losing coverage of [6,10]; (2) the concrete example — intervals=[1,10],[3,5]; sorted (already): current=[1,10]; process [3,5]: 3 &lt;= 10, overlap → plain assignment gives [1,5] (WRONG); Math.max gives [1,10] (correct); (3) the general rule — Math.max is required because intervals can be partially or fully overlapping in either direction, and you always want to keep the furthest-right endpoint.</p>
+</details>
+</li>
+<li>
+<p><strong>In Meeting Rooms II, you sort meetings by start time and maintain a min-heap of end times. Walk through <code>[[0,30],[5,10],[15,20]]</code> step by step, showing heap state after each meeting. Why is the answer <code>heap.size()</code> at the end?</strong></p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) after sorting: [[0,30],[5,10],[15,20]]; (2) process [0,30]: heap empty, add 30; heap=[30]; rooms=1; (3) process [5,10]: heap.peek()=30 &gt; 5 (start), cannot reuse; add 10; heap=[10,30]; rooms=2; (4) process [15,20]: heap.peek()=10 &lt;= 15 (start), reuse that room; poll 10, offer 20; heap=[20,30]; rooms stays 2; (5) why heap.size() — each entry in the heap represents one room currently in use; rooms whose meeting has ended and been reused are replaced but not removed; the size is the high-water mark of concurrently occupied rooms, which equals the minimum rooms needed.</p>
+</details>
+</li>
+<li>
+<p><strong>The non-overlapping intervals problem asks for the minimum number of intervals to remove so the rest are non-overlapping. Why does sorting by end time and greedily keeping the interval with the earliest end time give the optimal answer? What goes wrong if you sort by start time instead?</strong></p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) the greedy argument — by keeping the interval that ends earliest, we leave the maximum possible space for future intervals; any other choice (keeping a later-ending interval) can only make future conflicts more likely; formally, an exchange argument shows that swapping a later-ending interval for an earlier-ending one at the same position never produces a worse solution; (2) what fails with start-time sort — consider [[1,100],[2,3],[3,4]]; sorted by start: keep [1,100] first (early start), then both [2,3] and [3,4] conflict with it; you'd remove 2; sorted by end: keep [2,3] first (early end), then [3,4] doesn't conflict, then [1,100] conflicts with both; keep [2,3] and [3,4], remove only [1,100]; total 1 removal — better; (3) the minimum removals equals n minus the maximum number of non-overlapping intervals you can keep.</p>
+</details>
+</li>
+<li>
+<p><strong>You are given two sorted interval lists and want their intersection. Explain the two-pointer approach: what is the intersection condition, and which pointer do you advance at each step and why?</strong></p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) the intersection condition — two intervals [s1,e1] and [s2,e2] intersect when max(s1,s2) &lt;= min(e1,e2); if this holds, the intersection is [max(s1,s2), min(e1,e2)]; (2) the pointer advancement rule — advance the pointer whose interval ends first (i.e., if e1 &lt; e2, advance i; else advance j); the reasoning is that the interval with the smaller end time cannot intersect any future interval in the other list (future intervals start no earlier than the current one), so it is safe to discard; (3) why two pointers work — both lists are sorted, so at each step we compare the "most promising" pair (the pair with the smallest end times); the pointer that would create no future intersections is discarded; total time is O(m+n).</p>
+</details>
+</li>
+</ol>
+<hr />
+<h2 id="connected-topics">Connected Topics<a class="headerlink" href="#connected-topics" title="Permanent link">&para;</a></h2>
+<div class="bs-callout bs-callout-info">
+<p><strong>Where this topic connects</strong></p>
+<ul>
+<li><strong><a href="../01-two-pointers/">01. Two Pointers</a></strong> — interval merge uses a pointer advancing through sorted intervals; meeting rooms II uses the two-pointer technique on start/end time arrays → <a href="../01-two-pointers/">01. Two Pointers</a></li>
+</ul>
+</div></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = "../.."</script>
+    
+    <script src="../../js/base.js"></script>
+    <script src="../../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

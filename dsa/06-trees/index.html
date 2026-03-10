@@ -1,0 +1,2040 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A framework for algorithms, systems design, and infrastructure.">
+    <meta name="author" content="Richard">
+    
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+
+    
+    <title>06. Trees - Software Engineering Study Guide</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../../css/base.min.css" rel="stylesheet">
+    <link href="../../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css">
+        
+    
+    <link href="../../css/custom.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../..">Home</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Systems Design <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../systems/01-storage-engines/">01. Storage Engines</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/04-search-and-indexing/">04. Search & Indexing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/05-caching-patterns/">05. Caching Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/06-api-design/">06. API Design</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/07-security-patterns/">07. Security Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/08-rate-limiting/">08. Rate Limiting</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/09-load-balancing/">09. Load Balancing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/11-database-scaling/">11. Database Scaling</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/12-message-queues/">12. Message Queues</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/13-event-sourcing-cqrs/">13. Event Sourcing & CQRS</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/14-stream-processing/">14. Stream Processing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/15-observability/">15. Observability</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/16-resilience-patterns/">16. Resilience Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/17-distributed-transactions/">17. Distributed Transactions</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/18-consensus-patterns/">18. Consensus Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/19-microservices-patterns/">19. Microservices Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/20-multi-region/">20. Multi-Region Architecture</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">DSA <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../01-two-pointers/">01. Two Pointers</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../02-sliding-window/">02. Sliding Window</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../03-hash-tables/">03. Hash Tables</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../04-linked-lists/">04. Linked Lists</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../05-stacks--queues/">05. Stacks & Queues</a>
+</li>
+
+                        
+                            
+<li class="active">
+    <a href="./">06. Trees</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../07-binary-search/">07. Binary Search</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../08-heaps/">08. Heaps</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../09-union-find/">09. Union-Find</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../10-graphs/">10. Graphs</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../11-advanced-graphs/">11. Advanced Graphs</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../12-backtracking/">12. Backtracking</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../13-dynamic-programming/">13. Dynamic Programming</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../14-prefix-sums/">14. Prefix Sums</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../15-intervals/">15. Intervals</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Quick Reference <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../reference/when-it-breaks/">When It Breaks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/back-of-envelope/">Back of the Envelope</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/symptom-pattern/">Symptom → Pattern</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/staff-interview-strategy/">Staff+ Interview Strategy</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/no-new-problems/">No New Problems in CS</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../reference/how-the-machine-works/">How the Machine Actually Works</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../05-stacks--queues/">
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="next" href="../07-binary-search/">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#trees">Trees</a></li>
+            <li class="second-level"><a href="#learning-objectives">Learning Objectives</a></li>
+                
+            <li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+                
+            <li class="second-level"><a href="#core-implementation">Core Implementation</a></li>
+                
+            <li class="second-level"><a href="#beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters</a></li>
+                
+            <li class="second-level"><a href="#common-misconceptions">Common Misconceptions</a></li>
+                
+            <li class="second-level"><a href="#decision-framework-choosing-a-tree-traversal">Decision Framework: Choosing a Tree Traversal</a></li>
+                
+            <li class="second-level"><a href="#practice">Practice</a></li>
+                
+            <li class="second-level"><a href="#test-your-understanding">Test Your Understanding</a></li>
+                
+            <li class="second-level"><a href="#review-checklist">Review Checklist</a></li>
+                
+            <li class="second-level"><a href="#connected-topics">Connected Topics</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="trees">Trees<a class="headerlink" href="#trees" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>Master tree traversals and recursive tree patterns</p>
+</blockquote>
+<hr />
+<h2 id="learning-objectives">Learning Objectives<a class="headerlink" href="#learning-objectives" title="Permanent link">&para;</a></h2>
+<p>By the end of this section you should be able to:</p>
+<ul>
+<li>Name the four standard traversal orders and state the visit sequence each uses (Left-Root-Right, Root-Left-Right, Left-Right-Root, level by level)</li>
+<li>Explain why inorder traversal of a BST produces values in sorted order</li>
+<li>Implement both recursive and iterative versions of inorder traversal and state the key difference between the loop condition <code>curr != null</code> and the full condition <code>curr != null || !stack.isEmpty()</code></li>
+<li>Describe what Morris traversal achieves, what thread it temporarily creates, and why it must remove that thread before moving on</li>
+<li>Choose the correct traversal for a given task: sorted extraction (inorder), tree copy or serialisation (preorder), safe deletion (postorder), shortest path or level-wise processing (level-order)</li>
+<li>Diagnose common traversal bugs: wrong loop condition in iterative inorder, processing all nodes in one pass in level-order, and using a stack instead of a queue for BFS</li>
+<li>Explain why trees are naturally recursive structures and state the two-part definition: a tree is either null or a root node with a left subtree and a right subtree</li>
+<li>Implement height, balanced-check, minimum-depth, diameter, path-sum, and LCA recursively — each with the correct base case</li>
+<li>Identify when to return a single value up the call stack, when to use a helper that threads extra state (an array or a class), and when to use backtracking</li>
+<li>Explain why the O(n²) diameter algorithm recomputes heights, and rewrite it as an O(n) single-pass algorithm using the combine-height-and-diameter trick</li>
+<li>Diagnose the five most common tree-recursion bugs: missing base case, missing +1, using <code>||</code> instead of <code>&amp;&amp;</code> in leaf check, using <code>&amp;&amp;</code> instead of <code>||</code> in path search, and missing <code>root == p || root == q</code> in LCA</li>
+<li>Choose between recursive and iterative implementations based on tree depth and stack-overflow risk</li>
+</ul>
+<hr />
+<div class="admonition note">
+<p class="admonition-title">Operational reality</p>
+<p>The DOM (Document Object Model) is a tree, and every browser's layout engine traverses it with the same DFS and BFS patterns from these exercises. Git's object model stores each directory snapshot as a tree object — a commit points to a tree, which points to subtrees and blobs, forming a Merkle tree where each node's hash covers its children. SQL query planners represent execution plans as trees; the optimiser rewrites the tree by applying transformation rules, which is tree traversal and mutation at the core. Trie (prefix tree) structures power autocomplete in search engines, IP routing tables (longest prefix match in BGP and OSPF), and spell checkers.</p>
+</div>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Trees are naturally recursive structures — a tree is either empty, or a root node whose children are themselves trees. That recursive definition shapes everything: both how you <em>visit</em> nodes (traversals, Patterns 1–4) and what you <em>compute</em> at each visit (recursive patterns, Patterns 5–8). Work through all eight patterns, then come back and fill in all ten prompts below.</p>
+<p><strong>Traversals (Patterns 1–4):</strong></p>
+<ol>
+<li>
+<p><strong>What are tree traversals in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Tree traversals are systematic ways to visit every node in a tree exactly once, where the only difference between them is ___ — the order in which you visit the root relative to its left and right subtrees]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Why do we need different traversal orders?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Different orders expose different relationships: inorder gives ___ for a BST, preorder gives the root before its children which is useful for <strong><em>, and postorder processes children before the parent which is required when </em></strong>]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy:</strong></p>
+<ul>
+<li>Example: "Tree traversals are like different ways to read a family tree..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When does each traversal order matter?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after solving problems]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What's the difference between iterative and recursive?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Recursive traversal uses the call stack implicitly, so it has O(h) space from recursion frames; iterative traversal uses an explicit ___ data structure and avoids ___ overflow risk for very deep trees, though both have the same O(h) worst-case space]</span></li>
+</ul>
+</li>
+</ol>
+<p><strong>Recursive patterns (Patterns 5–8):</strong></p>
+<ol>
+<li>
+<p><strong>What is tree recursion in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Tree recursion is the technique of solving a tree problem by breaking it into the same problem on smaller trees, where the base case handles ___ nodes and every other case combines the results from the ___ and ___ subtrees]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Why is recursion natural for trees?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[A tree is literally defined recursively: it is either empty or a root with two subtrees that are themselves trees. This means any algorithm that matches the structure of the definition — handle the null case, then combine left and right results — is already ___]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy:</strong></p>
+<ul>
+<li>Example: "Tree recursion is like solving a puzzle by breaking it into smaller identical puzzles..."</li>
+<li>Your analogy: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When does recursion work well for trees?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Fill in after solving problems]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>What's the base case pattern for tree recursion?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">[Almost every tree recursion starts with <code>if (root == null) return ___</code>, where the return value represents the correct answer for an empty tree — for height that is <strong><em>, for path sum that is </em></strong>, and for LCA that is ___]</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr />
+<h2 id="core-implementation">Core Implementation<a class="headerlink" href="#core-implementation" title="Permanent link">&para;</a></h2>
+<h3 id="pattern-1-inorder-traversal-left-root-right">Pattern 1: Inorder Traversal (Left, Root, Right)<a class="headerlink" href="#pattern-1-inorder-traversal-left-root-right" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Visit left subtree, then root, then right subtree.</p>
+<p><strong>Use case:</strong> Get sorted order from BST, expression evaluation.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.trees;
+
+import java.util.*;
+
+public class InorderTraversal {
+
+    static class TreeNode {
+        int val;
+        TreeNode left, right;
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+    }
+
+    /**
+     * Problem: Inorder traversal recursively
+     * Time: O(n), Space: O(h) where h = height for recursion stack
+     *
+     * TODO: Implement recursive inorder
+     */
+    public static List&lt;Integer&gt; inorderRecursive(TreeNode root) {
+        List&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+
+        // TODO: Handle base case
+
+        // TODO: Recursively traverse left subtree
+        // TODO: Visit root (add to result)
+        // TODO: Recursively traverse right subtree
+
+        return result; // Replace with implementation
+    }
+
+    /**
+     * Problem: Inorder traversal iteratively using stack
+     * Time: O(n), Space: O(h)
+     *
+     * TODO: Implement iterative inorder
+     */
+    public static List&lt;Integer&gt; inorderIterative(TreeNode root) {
+        List&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+        // TODO: Create Stack&lt;TreeNode&gt;
+
+        // TODO: curr = root
+        // TODO: Implement iteration/conditional logic
+
+        return result; // Replace with implementation
+    }
+
+    /**
+     * Problem: Inorder traversal with Morris (no extra space)
+     * Time: O(n), Space: O(1)
+     *
+     * TODO: Implement Morris traversal
+     */
+    public static List&lt;Integer&gt; inorderMorris(TreeNode root) {
+        List&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+
+        // TODO: curr = root
+        // TODO: Implement iteration/conditional logic
+
+        return result; // Replace with implementation
+    }
+}
+</code></pre>
+<div class="admonition warning">
+<p class="admonition-title">Debugging Challenge — Wrong Loop Condition in Iterative Inorder</p>
+<pre class="highlight"><code class="language-java">/**
+ * Iterative inorder with stack.
+ * This has 2 CRITICAL BUGS with stack logic.
+ */
+public static List&lt;Integer&gt; inorderIterative_Buggy(TreeNode root) {
+    List&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+    Stack&lt;TreeNode&gt; stack = new Stack&lt;&gt;();
+    TreeNode curr = root;
+
+    while (!stack.isEmpty()) {        while (curr != null) {
+            stack.push(curr);
+            curr = curr.left;
+        }
+
+        TreeNode node = stack.pop();
+        result.add(node.val);
+        curr = curr.left;    }
+
+    return result;
+}</code></pre>
+<ul>
+<li><strong>Bug 1:</strong> <span class="fill-in">[What's wrong with the outer while condition?]</span></li>
+<li><strong>Bug 2:</strong> <span class="fill-in">[Which direction should curr move after visiting a node?]</span></li>
+</ul>
+</div>
+<details class="success">
+<summary>Answer</summary>
+<p><strong>Bug 1:</strong> The outer condition <code>while (!stack.isEmpty())</code> is wrong. At the very start the stack is empty, so the loop
+never executes even when root is non-null. The correct condition is <code>while (curr != null || !stack.isEmpty())</code>.
+This keeps the loop alive as long as either there are nodes yet to push (curr != null) or nodes already pushed that
+have not been visited yet (!stack.isEmpty()).</p>
+<p><strong>Bug 2:</strong> After popping and visiting a node, <code>curr</code> should be set to <code>node.right</code>, not <code>curr.left</code>. After visiting a
+node we need to explore its <strong>right</strong> subtree. Using <code>curr.left</code> causes an infinite loop or NullPointerException.</p>
+<p><strong>Correct code:</strong>
+<pre class="highlight"><code class="language-java">while (curr != null || !stack.isEmpty()) {
+    while (curr != null) {
+        stack.push(curr);
+        curr = curr.left;
+    }
+    TreeNode node = stack.pop();
+    result.add(node.val);
+    curr = node.right;  // Go right after visiting
+}</code></pre></p>
+</details>
+<hr />
+<h3 id="pattern-2-preorder-traversal-root-left-right">Pattern 2: Preorder Traversal (Root, Left, Right)<a class="headerlink" href="#pattern-2-preorder-traversal-root-left-right" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Visit root first, then left subtree, then right subtree.</p>
+<p><strong>Use case:</strong> Create copy of tree, prefix expression, serialize tree.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.trees;
+
+import java.util.*;
+
+public class PreorderTraversal {
+
+    static class TreeNode {
+        int val;
+        TreeNode left, right;
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+    }
+
+    /**
+     * Problem: Preorder traversal recursively
+     * Time: O(n), Space: O(h)
+     *
+     * TODO: Implement recursive preorder
+     */
+    public static List&lt;Integer&gt; preorderRecursive(TreeNode root) {
+        List&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+
+        // TODO: Handle base case
+
+        // TODO: Visit root (add to result)
+        // TODO: Recursively traverse left subtree
+        // TODO: Recursively traverse right subtree
+
+        return result; // Replace with implementation
+    }
+
+    /**
+     * Problem: Preorder traversal iteratively using stack
+     * Time: O(n), Space: O(h)
+     *
+     * TODO: Implement iterative preorder
+     */
+    public static List&lt;Integer&gt; preorderIterative(TreeNode root) {
+        List&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+
+        // TODO: Implement iteration/conditional logic
+        // TODO: Create Stack&lt;TreeNode&gt;, push root
+
+        // TODO: Implement iteration/conditional logic
+
+        return result; // Replace with implementation
+    }
+}
+</code></pre>
+<hr />
+<h3 id="pattern-3-postorder-traversal-left-right-root">Pattern 3: Postorder Traversal (Left, Right, Root)<a class="headerlink" href="#pattern-3-postorder-traversal-left-right-root" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Visit left subtree, then right subtree, then root.</p>
+<p><strong>Use case:</strong> Delete tree, calculate directory size, postfix expression.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.trees;
+
+import java.util.*;
+
+public class PostorderTraversal {
+
+    static class TreeNode {
+        int val;
+        TreeNode left, right;
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+    }
+
+    /**
+     * Problem: Postorder traversal recursively
+     * Time: O(n), Space: O(h)
+     *
+     * TODO: Implement recursive postorder
+     */
+    public static List&lt;Integer&gt; postorderRecursive(TreeNode root) {
+        List&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+
+        // TODO: Handle base case
+
+        // TODO: Recursively traverse left subtree
+        // TODO: Recursively traverse right subtree
+        // TODO: Visit root (add to result)
+
+        return result; // Replace with implementation
+    }
+
+    /**
+     * Problem: Postorder traversal iteratively using two stacks
+     * Time: O(n), Space: O(h)
+     *
+     * TODO: Implement iterative postorder
+     */
+    public static List&lt;Integer&gt; postorderIterative(TreeNode root) {
+        List&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+
+        // TODO: Implement iteration/conditional logic
+        // TODO: Create two stacks: stack1 and stack2
+        // TODO: Push root to stack1
+
+        // TODO: Implement iteration/conditional logic
+
+        // TODO: Pop all from stack2 to result
+
+        return result; // Replace with implementation
+    }
+}
+</code></pre>
+<hr />
+<h3 id="pattern-4-level-order-traversal-bfs">Pattern 4: Level-Order Traversal (BFS)<a class="headerlink" href="#pattern-4-level-order-traversal-bfs" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Visit nodes level by level, left to right.</p>
+<p><strong>Use case:</strong> Find shortest path, serialize by level, level-wise processing.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.trees;
+
+import java.util.*;
+
+public class LevelOrderTraversal {
+
+    static class TreeNode {
+        int val;
+        TreeNode left, right;
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+    }
+
+    /**
+     * Problem: Level-order traversal using queue
+     * Time: O(n), Space: O(w) where w = max width
+     *
+     * TODO: Implement BFS using queue
+     */
+    public static List&lt;List&lt;Integer&gt;&gt; levelOrder(TreeNode root) {
+        List&lt;List&lt;Integer&gt;&gt; result = new ArrayList&lt;&gt;();
+
+        // TODO: Implement iteration/conditional logic
+        // TODO: Create Queue&lt;TreeNode&gt;, add root
+
+        // TODO: Implement iteration/conditional logic
+
+        return result; // Replace with implementation
+    }
+
+    /**
+     * Problem: Level-order traversal in zigzag pattern
+     * Time: O(n), Space: O(w)
+     *
+     * TODO: Implement zigzag traversal
+     */
+    public static List&lt;List&lt;Integer&gt;&gt; zigzagLevelOrder(TreeNode root) {
+        List&lt;List&lt;Integer&gt;&gt; result = new ArrayList&lt;&gt;();
+
+        // TODO: Similar to levelOrder but alternate direction
+        // TODO: Use boolean flag to track left-to-right vs right-to-left
+        // TODO: Reverse level list when going right-to-left
+
+        return result; // Replace with implementation
+    }
+
+    /**
+     * Problem: Right side view of tree
+     * Time: O(n), Space: O(w)
+     *
+     * TODO: Implement right side view
+     */
+    public static List&lt;Integer&gt; rightSideView(TreeNode root) {
+        List&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+
+        // TODO: Use level-order traversal
+        // TODO: Add last node of each level to result
+
+        return result; // Replace with implementation
+    }
+}
+</code></pre>
+<hr />
+<p>You can now visit every node in any order. The next question is <em>what to compute at each visit</em>. Because a tree is defined recursively — either null, or a root with two tree children — any algorithm that says "handle null, solve left, solve right, combine" already has the right shape. The four patterns that follow build on exactly that template.</p>
+<hr />
+<h3 id="pattern-5-height-and-depth">Pattern 5: Height and Depth<a class="headerlink" href="#pattern-5-height-and-depth" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Calculate tree metrics recursively.</p>
+<p><strong>Use case:</strong> Tree height, depth, balanced tree check.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.trees;
+
+public class TreeHeightDepth {
+
+    static class TreeNode {
+        int val;
+        TreeNode left, right;
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+    }
+
+    /**
+     * Problem: Calculate height of tree
+     * Time: O(n), Space: O(h) for recursion stack
+     *
+     * TODO: Implement recursive height calculation
+     */
+    public static int height(TreeNode root) {
+        // TODO: Handle base case
+
+        // TODO: Recursively get left height
+        // TODO: Recursively get right height
+        // TODO: Return 1 + max(leftHeight, rightHeight)
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Check if tree is balanced
+     * Time: O(n), Space: O(h)
+     *
+     * TODO: Implement balanced tree check
+     */
+    public static boolean isBalanced(TreeNode root) {
+        // TODO: Tree is balanced if:
+
+        // TODO: Return checkBalance(root) != -1
+        return false; // Replace with implementation
+    }
+
+    private static int checkBalance(TreeNode root) {
+        // TODO: Base case: null returns 0
+
+        // TODO: Check left subtree balance
+        // TODO: Implement iteration/conditional logic
+
+        // TODO: Check right subtree balance
+        // TODO: Implement iteration/conditional logic
+
+        // TODO: Implement iteration/conditional logic
+        // TODO: Otherwise return 1 + max(left, right)
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Calculate minimum depth (shortest path to leaf)
+     * Time: O(n), Space: O(h)
+     *
+     * TODO: Implement minimum depth
+     */
+    public static int minDepth(TreeNode root) {
+        // TODO: Handle base case
+
+        // TODO: Implement iteration/conditional logic
+        // TODO: Implement iteration/conditional logic
+
+        // TODO: Both children exist: return 1 + min(left, right)
+
+        return 0; // Replace with implementation
+    }
+}
+</code></pre>
+<div class="admonition warning">
+<p class="admonition-title">Debugging Challenge — Missing Base Case and Missing +1</p>
+<pre class="highlight"><code class="language-java">/**
+ * Calculate height of binary tree.
+ * This has 2 BUGS. Find them!
+ */
+public static int height_Buggy(TreeNode root) {
+
+    int leftHeight = height_Buggy(root.left);
+    int rightHeight = height_Buggy(root.right);
+
+    return Math.max(leftHeight, rightHeight);}</code></pre>
+<ul>
+<li>Bug 1: <span class="fill-in">[What's the bug?]</span></li>
+<li>Bug 2: <span class="fill-in">[What's the bug?]</span></li>
+</ul>
+</div>
+<details class="success">
+<summary>Answer</summary>
+<p><strong>Bug 1:</strong> Missing base case. The function calls <code>height_Buggy(root.left)</code> without first checking <code>if (root == null)</code>.
+When the recursion reaches a null child (leaf's child), it throws a <code>NullPointerException</code>. Fix: add
+<code>if (root == null) return 0;</code> as the very first line.</p>
+<p><strong>Bug 2:</strong> The return statement is <code>Math.max(leftHeight, rightHeight)</code> but it should be
+<code>1 + Math.max(leftHeight, rightHeight)</code>. The "+1" counts the current node. Without it, a single-node tree returns 0
+instead of 1, and every height is off by the number of levels.</p>
+<p><strong>Fixed code:</strong>
+<pre class="highlight"><code class="language-java">public static int height(TreeNode root) {
+    if (root == null) return 0;
+
+    int leftHeight = height(root.left);
+    int rightHeight = height(root.right);
+
+    return 1 + Math.max(leftHeight, rightHeight);
+}</code></pre></p>
+</details>
+<hr />
+<h3 id="pattern-6-diameter-and-paths">Pattern 6: Diameter and Paths<a class="headerlink" href="#pattern-6-diameter-and-paths" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Find longest paths in tree.</p>
+<p><strong>Use case:</strong> Tree diameter, max path sum, all paths.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.trees;
+
+import java.util.*;
+
+public class TreeDiameterPaths {
+
+    static class TreeNode {
+        int val;
+        TreeNode left, right;
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+    }
+
+    /**
+     * Problem: Calculate diameter (longest path between any two nodes)
+     * Time: O(n), Space: O(h)
+     *
+     * TODO: Implement diameter calculation
+     */
+    public static int diameter(TreeNode root) {
+        int[] maxDiameter = new int[1];
+
+        // TODO: Helper function to calculate height and update diameter
+        // TODO: Implement iteration/conditional logic
+        // TODO: Track maximum diameter seen
+
+        calculateHeight(root, maxDiameter);
+        return maxDiameter[0];
+    }
+
+    private static int calculateHeight(TreeNode root, int[] maxDiameter) {
+        // TODO: Base case: null returns 0
+
+        // TODO: Get left and right heights
+        // TODO: Update maxDiameter: max(current, left + right)
+        // TODO: Return 1 + max(left, right)
+
+        return 0; // Replace with implementation
+    }
+
+    /**
+     * Problem: Check if path exists with given sum
+     * Time: O(n), Space: O(h)
+     *
+     * TODO: Implement path sum check
+     */
+    public static boolean hasPathSum(TreeNode root, int targetSum) {
+        // TODO: Handle base case
+
+        // TODO: Implement iteration/conditional logic
+
+        // TODO: Recursively check left and right subtrees
+        // TODO: with targetSum - root.val
+
+        return false; // Replace with implementation
+    }
+
+    /**
+     * Problem: Find all root-to-leaf paths with given sum
+     * Time: O(n), Space: O(h)
+     *
+     * TODO: Implement path sum II with backtracking
+     */
+    public static List&lt;List&lt;Integer&gt;&gt; pathSum(TreeNode root, int targetSum) {
+        List&lt;List&lt;Integer&gt;&gt; result = new ArrayList&lt;&gt;();
+
+        // TODO: Use backtracking to explore all paths
+        // TODO: Add node to path, recurse, remove node (backtrack)
+
+        return result; // Replace with implementation
+    }
+}
+</code></pre>
+<div class="admonition warning">
+<p class="admonition-title">Debugging Challenge — Leaf Check Uses Wrong Logical Operator</p>
+<pre class="highlight"><code class="language-java">/**
+ * Check if any root-to-leaf path sums to target.
+ * This has 2 SUBTLE BUGS.
+ */
+public static boolean hasPathSum_Buggy(TreeNode root, int targetSum) {
+    if (root == null) return false;
+
+    if (root.left == null || root.right == null) {
+        return root.val == targetSum;
+    }
+
+    int remaining = targetSum - root.val;
+
+    return hasPathSum_Buggy(root.left, remaining) &amp;&amp;
+           hasPathSum_Buggy(root.right, remaining);
+}</code></pre>
+<ul>
+<li><strong>Bug 1:</strong> <span class="fill-in">[What's wrong with the leaf check?]</span></li>
+<li><strong>Bug 2:</strong> <span class="fill-in">[Should we use &amp;&amp; or ||? Why?]</span></li>
+</ul>
+</div>
+<details class="success">
+<summary>Answer</summary>
+<p><strong>Bug 1:</strong> The leaf check uses <code>||</code> (OR) but should use <code>&amp;&amp;</code> (AND). A leaf has BOTH children null. The condition
+<code>root.left == null || root.right == null</code> is true for any node that is missing at least one child — including a node
+with only a left child. That node is not a leaf, but the buggy code treats it as one and stops descending, potentially
+returning the wrong answer.</p>
+<p><strong>Bug 2:</strong> The recursive return uses <code>&amp;&amp;</code> (AND) but should use <code>||</code> (OR). We need to find <strong>any</strong> root-to-leaf path
+that sums to target, not every path. Using <code>&amp;&amp;</code> requires BOTH subtrees to contain a valid path, which is almost always
+false.</p>
+<p><strong>Fixed code:</strong>
+<pre class="highlight"><code class="language-java">if (root.left == null &amp;&amp; root.right == null) {   // leaf check: both null
+    return root.val == targetSum;
+}
+int remaining = targetSum - root.val;
+return hasPathSum(root.left, remaining) ||        // any path works
+       hasPathSum(root.right, remaining);</code></pre></p>
+</details>
+<hr />
+<h3 id="pattern-7-lowest-common-ancestor-lca">Pattern 7: Lowest Common Ancestor (LCA)<a class="headerlink" href="#pattern-7-lowest-common-ancestor-lca" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Find common ancestor of two nodes.</p>
+<p><strong>Use case:</strong> LCA in binary tree, LCA in BST, distance between nodes.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.trees;
+
+public class LowestCommonAncestor {
+
+    static class TreeNode {
+        int val;
+        TreeNode left, right;
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+    }
+
+    /**
+     * Problem: Find LCA in binary tree
+     * Time: O(n), Space: O(h)
+     *
+     * TODO: Implement LCA for binary tree
+     */
+    public static TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        // TODO: Handle base case
+
+        // TODO: Recursively search in left and right subtrees
+
+        // TODO: Implement iteration/conditional logic
+        // TODO: Implement iteration/conditional logic
+        // TODO: Implement iteration/conditional logic
+
+        return null; // Replace with implementation
+    }
+
+    /**
+     * Problem: Find LCA in BST (optimized)
+     * Time: O(h), Space: O(h)
+     *
+     * TODO: Implement LCA for BST
+     */
+    public static TreeNode lowestCommonAncestorBST(TreeNode root, TreeNode p, TreeNode q) {
+        // TODO: Implement iteration/conditional logic
+        // TODO: Implement iteration/conditional logic
+        // TODO: Otherwise, root is LCA
+
+        return null; // Replace with implementation
+    }
+}
+</code></pre>
+<hr />
+<h3 id="pattern-8-tree-construction">Pattern 8: Tree Construction<a class="headerlink" href="#pattern-8-tree-construction" title="Permanent link">&para;</a></h3>
+<p><strong>Concept:</strong> Build tree from traversal arrays.</p>
+<p><strong>Use case:</strong> Construct from inorder/preorder, inorder/postorder.</p>
+<pre class="highlight"><code class="language-java">package com.study.dsa.trees;
+
+import java.util.*;
+
+public class TreeConstruction {
+
+    static class TreeNode {
+        int val;
+        TreeNode left, right;
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+    }
+
+    /**
+     * Problem: Build tree from preorder and inorder traversals
+     * Time: O(n), Space: O(n)
+     *
+     * TODO: Implement tree construction
+     */
+    public static TreeNode buildTreePreIn(int[] preorder, int[] inorder) {
+        // TODO: Create map of inorder indices for O(1) lookup
+        // TODO: Use helper with preorder index pointer
+        // TODO: Implement iteration/conditional logic
+
+        return null; // Replace with implementation
+    }
+
+    /**
+     * Problem: Build tree from postorder and inorder traversals
+     * Time: O(n), Space: O(n)
+     *
+     * TODO: Implement tree construction
+     */
+    public static TreeNode buildTreePostIn(int[] postorder, int[] inorder) {
+        // TODO: Similar to preorder approach
+        // TODO: But process postorder from right to left
+        // TODO: Build right subtree before left
+
+        return null; // Replace with implementation
+    }
+
+    // Helper: Print tree inorder
+    static void printInorder(TreeNode root) {
+        if (root == null) return;
+        printInorder(root.left);
+        System.out.print(root.val + " ");
+        printInorder(root.right);
+    }
+}
+</code></pre>
+<hr />
+<h2 id="beforeafter-why-this-pattern-matters">Before/After: Why This Pattern Matters<a class="headerlink" href="#beforeafter-why-this-pattern-matters" title="Permanent link">&para;</a></h2>
+<p><strong>Your task:</strong> Compare naive vs optimized approaches to understand the impact.</p>
+<h3 id="example-1-collecting-tree-values">Example 1: Collecting Tree Values<a class="headerlink" href="#example-1-collecting-tree-values" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Get all values from a tree in sorted order (BST).</p>
+<h4 id="approach-1-collect-all-then-sort">Approach 1: Collect All, Then Sort<a class="headerlink" href="#approach-1-collect-all-then-sort" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Naive approach - Collect values in any order, then sort
+public static List&lt;Integer&gt; getTreeValues_BruteForce(TreeNode root) {
+    List&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+
+    // Collect values using preorder (any order)
+    collectValues(root, result);
+
+    // Sort the collected values
+    Collections.sort(result);
+
+    return result;
+}
+
+private static void collectValues(TreeNode node, List&lt;Integer&gt; result) {
+    if (node == null) return;
+    result.add(node.val);
+    collectValues(node.left, result);
+    collectValues(node.right, result);
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n log n) - O(n) to collect + O(n log n) to sort</li>
+<li>Space: O(n) for list + O(log n) for recursion stack</li>
+<li>For n = 10,000: ~140,000 operations</li>
+</ul>
+<h4 id="approach-2-inorder-traversal-optimized">Approach 2: Inorder Traversal (Optimized)<a class="headerlink" href="#approach-2-inorder-traversal-optimized" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Optimized approach - Use inorder traversal for BST
+public static List&lt;Integer&gt; getTreeValues_Inorder(TreeNode root) {
+    List&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+
+    inorderHelper(root, result);
+
+    return result; // Already sorted!
+}
+
+private static void inorderHelper(TreeNode node, List&lt;Integer&gt; result) {
+    if (node == null) return;
+
+    inorderHelper(node.left, result);   // Visit left subtree
+    result.add(node.val);                // Visit root
+    inorderHelper(node.right, result);   // Visit right subtree
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n) - Visit each node exactly once</li>
+<li>Space: O(n) for list + O(h) for recursion stack (h = height)</li>
+<li>For n = 10,000: ~10,000 operations</li>
+</ul>
+<h4 id="performance-comparison">Performance Comparison<a class="headerlink" href="#performance-comparison" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Tree Size</th>
+<th>Collect + Sort (O(n log n))</th>
+<th>Inorder (O(n))</th>
+<th>Speedup</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n = 100</td>
+<td>~664 ops</td>
+<td>100 ops</td>
+<td>6.6x</td>
+</tr>
+<tr>
+<td>n = 1,000</td>
+<td>~9,966 ops</td>
+<td>1,000 ops</td>
+<td>10x</td>
+</tr>
+<tr>
+<td>n = 10,000</td>
+<td>~132,877 ops</td>
+<td>10,000 ops</td>
+<td>13x</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Your calculation:</strong> For n = 5,000, the speedup is approximately _____ times faster.</p>
+<h4 id="recursive-vs-iterative-stack-space">Recursive vs Iterative: Stack Space<a class="headerlink" href="#recursive-vs-iterative-stack-space" title="Permanent link">&para;</a></h4>
+<p><strong>Problem:</strong> Inorder traversal of a deeply nested tree.</p>
+<p><strong>Approach 1: Recursive</strong></p>
+<pre class="highlight"><code class="language-java">public static void inorderRecursive(TreeNode root) {
+    if (root == null) return;
+
+    inorderRecursive(root.left);
+    System.out.print(root.val + " ");
+    inorderRecursive(root.right);
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Space: O(h) where h = tree height</li>
+<li>For balanced tree: h = log n (good!)</li>
+<li>For skewed tree: h = n (danger of stack overflow!)</li>
+<li>Example: Tree with 100,000 nodes in a line = 100,000 recursive calls</li>
+</ul>
+<p><strong>Approach 2: Iterative with Explicit Stack</strong></p>
+<pre class="highlight"><code class="language-java">public static void inorderIterative(TreeNode root) {
+    Stack&lt;TreeNode&gt; stack = new Stack&lt;&gt;();
+    TreeNode curr = root;
+
+    while (curr != null || !stack.isEmpty()) {
+        while (curr != null) {
+            stack.push(curr);
+            curr = curr.left;
+        }
+        curr = stack.pop();
+        System.out.print(curr.val + " ");
+        curr = curr.right;
+    }
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Space: O(h) - same as recursive, but explicit stack</li>
+<li>No stack overflow risk - heap memory is larger</li>
+<li>More control over the process</li>
+<li>Production-safe for deep trees</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Why the iterative version is safer for production</p>
+<p>The JVM's call stack is typically limited to a few thousand frames (configurable but small). A skewed tree with 100,000 nodes will overflow that stack recursively but NOT with the iterative version — because the <code>Stack&lt;TreeNode&gt;</code> on the heap can grow as large as available memory. Both approaches are O(h) in theory, but in practice the iterative version handles the worst case far more reliably.</p>
+</div>
+<h4 id="why-does-traversal-order-matter">Why Does Traversal Order Matter?<a class="headerlink" href="#why-does-traversal-order-matter" title="Permanent link">&para;</a></h4>
+<p><strong>Key insight to understand:</strong></p>
+<p>For this tree:</p>
+<pre class="highlight"><code>       4
+      / \
+     2   6
+    / \
+   1   3</code></pre>
+<p><strong>Inorder (Left, Root, Right):</strong> 1, 2, 3, 4, 6</p>
+<ul>
+<li>Visits left child before parent</li>
+<li><strong>Use case:</strong> Get sorted values from BST</li>
+</ul>
+<p><strong>Preorder (Root, Left, Right):</strong> 4, 2, 1, 3, 6</p>
+<ul>
+<li>Visits parent before children</li>
+<li><strong>Use case:</strong> Copy tree structure, serialize tree</li>
+</ul>
+<p><strong>Postorder (Left, Right, Root):</strong> 1, 3, 2, 6, 4</p>
+<ul>
+<li>Visits children before parent</li>
+<li><strong>Use case:</strong> Delete tree (delete children first!)</li>
+</ul>
+<p><strong>Level-order (BFS):</strong> [[4], [2, 6], [1, 3]]</p>
+<ul>
+<li>Visits level by level</li>
+<li><strong>Use case:</strong> Find shortest path, level-wise processing</li>
+</ul>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>Why does postorder make sense for tree deletion? <span class="fill-in">[Your answer]</span></li>
+<li>Why does preorder make sense for copying a tree? <span class="fill-in">[Your answer]</span></li>
+<li>When would level-order be preferred over depth-first? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr />
+<h3 id="example-2-tree-height">Example 2: Tree Height<a class="headerlink" href="#example-2-tree-height" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Calculate the height of a binary tree.</p>
+<h4 id="approach-1-iterative-level-order-traversal">Approach 1: Iterative (Level-Order Traversal)<a class="headerlink" href="#approach-1-iterative-level-order-traversal" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Iterative approach - Use queue for level-order traversal
+public static int height_Iterative(TreeNode root) {
+    if (root == null) return 0;
+
+    Queue&lt;TreeNode&gt; queue = new LinkedList&lt;&gt;();
+    queue.offer(root);
+    int height = 0;
+
+    while (!queue.isEmpty()) {
+        int levelSize = queue.size();
+        height++;
+
+        for (int i = 0; i &lt; levelSize; i++) {
+            TreeNode node = queue.poll();
+            if (node.left != null) queue.offer(node.left);
+            if (node.right != null) queue.offer(node.right);
+        }
+    }
+
+    return height;
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n) - Visit every node once</li>
+<li>Space: O(w) - Queue holds max width of tree (could be n/2 for balanced tree)</li>
+<li>Lines of code: ~15</li>
+<li>Complexity: Need to track levels explicitly with queue size</li>
+</ul>
+<h4 id="approach-2-recursive-divide-and-conquer">Approach 2: Recursive (Divide-and-Conquer)<a class="headerlink" href="#approach-2-recursive-divide-and-conquer" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Recursive approach - Natural tree structure
+public static int height_Recursive(TreeNode root) {
+    if (root == null) return 0;
+
+    int leftHeight = height_Recursive(root.left);
+    int rightHeight = height_Recursive(root.right);
+
+    return 1 + Math.max(leftHeight, rightHeight);
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n) - Visit every node once</li>
+<li>Space: O(h) - Recursion stack depth equals tree height</li>
+<li>Lines of code: ~5</li>
+<li>Complexity: Natural, elegant, follows tree structure</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Why recursion matches the tree's own structure</p>
+<p>A tree is defined as: empty, OR root node + left subtree + right subtree. The recursive height function mirrors this
+exactly: base case for empty, then combine the left-subtree height and right-subtree height with <code>1 + max(...)</code>. When
+your code's structure matches the data structure's definition, both the logic and the proof of correctness become
+immediately obvious.</p>
+</div>
+<h4 id="why-does-recursion-work-better">Why Does Recursion Work Better?<a class="headerlink" href="#why-does-recursion-work-better" title="Permanent link">&para;</a></h4>
+<p><strong>Key insight to understand:</strong></p>
+<p>Trees are inherently recursive structures:</p>
+<ul>
+<li>A tree is either empty (null) OR</li>
+<li>A root node with left subtree and right subtree</li>
+</ul>
+<p>This natural recursion makes problems like height trivial:</p>
+<ol>
+<li>Height of empty tree = 0 (base case)</li>
+<li>Height of tree = 1 + max(left height, right height)</li>
+</ol>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>Why is recursion more natural for trees? <span class="fill-in">[Your answer]</span></li>
+<li>When would iterative be better? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr />
+<h3 id="example-3-tree-diameter">Example 3: Tree Diameter<a class="headerlink" href="#example-3-tree-diameter" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Find the longest path between any two nodes.</p>
+<h4 id="approach-1-brute-force-calculate-height-at-every-node">Approach 1: Brute Force (Calculate height at every node)<a class="headerlink" href="#approach-1-brute-force-calculate-height-at-every-node" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Naive approach - Calculate height at every node separately
+public static int diameter_BruteForce(TreeNode root) {
+    if (root == null) return 0;
+
+    // Option 1: Diameter passes through root
+    int leftHeight = height(root.left);
+    int rightHeight = height(root.right);
+    int diameterThroughRoot = leftHeight + rightHeight;
+
+    // Option 2: Diameter is in left subtree
+    int diameterLeft = diameter_BruteForce(root.left);
+
+    // Option 3: Diameter is in right subtree
+    int diameterRight = diameter_BruteForce(root.right);
+
+    return Math.max(diameterThroughRoot,
+                    Math.max(diameterLeft, diameterRight));
+}
+
+private static int height(TreeNode root) {
+    if (root == null) return 0;
+    return 1 + Math.max(height(root.left), height(root.right));
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n²) - For each node, calculate height (which visits subtree)</li>
+<li>Space: O(h) - Recursion stack</li>
+<li>Problem: Recalculates height multiple times</li>
+</ul>
+<h4 id="approach-2-optimized-recursion-calculate-both-at-once">Approach 2: Optimized Recursion (Calculate both at once)<a class="headerlink" href="#approach-2-optimized-recursion-calculate-both-at-once" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Optimized approach - Calculate height and update diameter in one pass
+public static int diameter_Optimized(TreeNode root) {
+    int[] maxDiameter = new int[1];
+    calculateHeight(root, maxDiameter);
+    return maxDiameter[0];
+}
+
+private static int calculateHeight(TreeNode root, int[] maxDiameter) {
+    if (root == null) return 0;
+
+    int leftHeight = calculateHeight(root.left, maxDiameter);
+    int rightHeight = calculateHeight(root.right, maxDiameter);
+
+    // Update diameter while calculating height
+    maxDiameter[0] = Math.max(maxDiameter[0], leftHeight + rightHeight);
+
+    return 1 + Math.max(leftHeight, rightHeight);
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n) - Visit every node exactly once</li>
+<li>Space: O(h) - Recursion stack</li>
+<li>Key insight: Combine height calculation with diameter tracking</li>
+</ul>
+<h4 id="performance-comparison_1">Performance Comparison<a class="headerlink" href="#performance-comparison_1" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Tree Size</th>
+<th>Brute Force (O(n²))</th>
+<th>Optimized (O(n))</th>
+<th>Speedup</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n = 100</td>
+<td>~10,000 ops</td>
+<td>100 ops</td>
+<td>100x</td>
+</tr>
+<tr>
+<td>n = 1,000</td>
+<td>~1,000,000 ops</td>
+<td>1,000 ops</td>
+<td>1,000x</td>
+</tr>
+<tr>
+<td>n = 10,000</td>
+<td>~100,000,000 ops</td>
+<td>10,000 ops</td>
+<td>10,000x</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Your calculation:</strong> For n = 5,000, the speedup is approximately _____ times faster.</p>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>Why does the optimized version avoid recalculation? <span class="fill-in">[Your answer]</span></li>
+<li>What pattern do you see in combining calculations? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr />
+<h3 id="example-4-path-sum">Example 4: Path Sum<a class="headerlink" href="#example-4-path-sum" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Check if a root-to-leaf path exists with a given sum.</p>
+<h4 id="approach-1-collect-all-paths-then-check">Approach 1: Collect All Paths, Then Check<a class="headerlink" href="#approach-1-collect-all-paths-then-check" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Less efficient - Build all paths, then check
+public static boolean hasPathSum_Naive(TreeNode root, int targetSum) {
+    List&lt;List&lt;Integer&gt;&gt; allPaths = new ArrayList&lt;&gt;();
+    collectPaths(root, new ArrayList&lt;&gt;(), allPaths);
+
+    for (List&lt;Integer&gt; path : allPaths) {
+        int sum = 0;
+        for (int val : path) sum += val;
+        if (sum == targetSum) return true;
+    }
+
+    return false;
+}
+
+private static void collectPaths(TreeNode root, List&lt;Integer&gt; current,
+                                 List&lt;List&lt;Integer&gt;&gt; allPaths) {
+    if (root == null) return;
+
+    current.add(root.val);
+
+    if (root.left == null &amp;&amp; root.right == null) {
+        allPaths.add(new ArrayList&lt;&gt;(current));
+    } else {
+        collectPaths(root.left, current, allPaths);
+        collectPaths(root.right, current, allPaths);
+    }
+
+    current.remove(current.size() - 1);
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n) to collect + O(n) to check = O(n)</li>
+<li>Space: O(n) - Store all paths</li>
+<li>Problem: Unnecessary space usage</li>
+</ul>
+<h4 id="approach-2-check-while-traversing">Approach 2: Check While Traversing<a class="headerlink" href="#approach-2-check-while-traversing" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-java">// Efficient - Check sum during traversal
+public static boolean hasPathSum_Optimized(TreeNode root, int targetSum) {
+    if (root == null) return false;
+
+    // At leaf: check if remaining sum equals node value
+    if (root.left == null &amp;&amp; root.right == null) {
+        return root.val == targetSum;
+    }
+
+    // Recursively check left and right with reduced sum
+    int remaining = targetSum - root.val;
+    return hasPathSum_Optimized(root.left, remaining) ||
+           hasPathSum_Optimized(root.right, remaining);
+}</code></pre>
+<p><strong>Analysis:</strong></p>
+<ul>
+<li>Time: O(n) - May terminate early</li>
+<li>Space: O(h) - Only recursion stack</li>
+<li>Key insight: Check condition while traversing, not after</li>
+</ul>
+<p><strong>Why is the second approach better?</strong></p>
+<ul>
+<li>Early termination: Returns as soon as a path is found</li>
+<li>Less space: No need to store all paths</li>
+<li>Clearer logic: Directly expresses the problem</li>
+</ul>
+<p><strong>After implementing, explain in your own words:</strong></p>
+<div class="learner-section">
+<ul>
+<li>When should you check conditions during recursion vs after? <span class="fill-in">[Your answer]</span></li>
+<li>What's the benefit of reducing the target while recursing? <span class="fill-in">[Your answer]</span></li>
+</ul>
+</div>
+<hr />
+<h2 id="common-misconceptions">Common Misconceptions<a class="headerlink" href="#common-misconceptions" title="Permanent link">&para;</a></h2>
+<div class="admonition danger">
+<p class="admonition-title">Misconception 1: Stack (LIFO) and Queue (FIFO) give the same traversal order</p>
+<p>Using a stack gives DFS (depth-first), which processes the deepest nodes first. Using a queue gives BFS (breadth-first),
+which processes the shallowest nodes first. They are fundamentally different traversals. A common mistake is writing
+<code>Stack&lt;TreeNode&gt;</code> when the problem asks for level-order — the code compiles and produces <em>some</em> output, but it is
+DFS preorder, not level-order. Always use a <code>Queue</code> for level-order traversal.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Misconception 2: The inner loop in level-order should run until the queue is empty</p>
+<p>Level-order groups nodes by level. The inner loop must process exactly the nodes that belong to the <strong>current</strong> level,
+not all nodes currently in the queue. The correct pattern is to capture <code>int levelSize = queue.size()</code> before the
+inner loop and iterate exactly <code>levelSize</code> times. Running until <code>queue.isEmpty()</code> collapses all levels into one list.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Misconception 3: Inorder of any binary tree gives sorted output</p>
+<p>Inorder traversal gives sorted output <strong>only for a Binary Search Tree (BST)</strong> — a tree where every node's left
+subtree contains only smaller values and right subtree contains only larger values. For a general binary tree with
+arbitrary values, inorder traversal just visits nodes in Left-Root-Right order with no guarantee of sorted output.
+Always confirm the tree is a BST before relying on inorder for sorted results.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Misconception 4: The diameter always passes through the root</p>
+<p>A very common mistake is to compute <code>leftHeight + rightHeight</code> at the root and return that as the diameter. The
+diameter is the longest path between <strong>any</strong> two nodes and may be entirely within a subtree. Consider a deeply
+unbalanced tree where the left subtree is a long chain — the longest path is inside that chain and never touches the
+root. The correct implementation must check every node as a potential "bend point" of the path, which is why the
+O(n) algorithm threads a <code>maxDiameter</code> array through the height calculation.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Misconception 5: Recursive tree algorithms have O(n) space because of n nodes</p>
+<p>Recursive tree algorithms use O(h) stack space where h is the <strong>height</strong>, not O(n). For a balanced tree h = O(log n),
+so the stack depth is logarithmic. For a completely skewed tree (like a linked list), h = n, so the stack depth is
+linear. Always state the space complexity in terms of h and then clarify whether the tree is balanced or not. Saying
+"O(n) space" without qualification is imprecise and misleading for balanced trees.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Misconception 6: LCA requires finding p and q before searching</p>
+<p>A common brute-force approach finds the paths from root to p and root to q separately, then compares them. The
+recursive LCA algorithm is cleaner: if we find p or q at the current node we return it immediately, and the first
+node where both left and right subtrees return non-null is the LCA. This works in a single O(n) pass without storing
+paths. The key base case that is frequently forgotten is <code>if (root == null || root == p || root == q) return root</code> —
+omitting <code>root == p || root == q</code> causes the algorithm to continue searching past the target nodes.</p>
+</div>
+<hr />
+<h2 id="decision-framework-choosing-a-tree-traversal">Decision Framework: Choosing a Tree Traversal<a class="headerlink" href="#decision-framework-choosing-a-tree-traversal" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Fill in the matrix after working through the traversal implementations above.</p>
+<h3 id="trade-off-analysis-matrix">Trade-off Analysis Matrix<a class="headerlink" href="#trade-off-analysis-matrix" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Traversal</th>
+<th>Visit order</th>
+<th>Typical use</th>
+<th>Iterative structure</th>
+<th>Space</th>
+<th>Key gotcha</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>In-order DFS</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Pre-order DFS</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Post-order DFS</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>BFS (level-order)</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+</tbody>
+</table>
+<details class="success">
+<summary>Answers</summary>
+<table>
+<thead>
+<tr>
+<th>Traversal</th>
+<th>Visit order</th>
+<th>Typical use</th>
+<th>Iterative structure</th>
+<th>Space</th>
+<th>Key gotcha</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>In-order DFS</strong></td>
+<td>Left → root → right</td>
+<td>BST sorted output, kth smallest, validate BST</td>
+<td>Stack</td>
+<td>O(h)</td>
+<td>Only gives sorted output in a BST — not meaningful for general trees</td>
+</tr>
+<tr>
+<td><strong>Pre-order DFS</strong></td>
+<td>Root → left → right</td>
+<td>Serialize/clone tree, path from root, prefix expressions</td>
+<td>Stack (push right then left)</td>
+<td>O(h)</td>
+<td>Root is processed before its children — good for building a copy of the tree</td>
+</tr>
+<tr>
+<td><strong>Post-order DFS</strong></td>
+<td>Left → right → root</td>
+<td>Subtree aggregation (height, diameter, sum), delete tree</td>
+<td>Stack or reverse of pre-order</td>
+<td>O(h)</td>
+<td>Children must be processed before parent — use when result depends on child results (e.g., height = 1 + max(left, right))</td>
+</tr>
+<tr>
+<td><strong>BFS (level-order)</strong></td>
+<td>Level by level, left to right</td>
+<td>Level-order output, zigzag traversal, right side view, minimum depth</td>
+<td>Queue</td>
+<td>O(w) — up to O(n/2) for last level of complete tree</td>
+<td>Queue holds an entire level at peak; memory spikes for wide balanced trees</td>
+</tr>
+</tbody>
+</table>
+</details>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">When it breaks</p>
+<p>Recursive tree algorithms break at depth: most JVM and Python runtimes have a default stack depth of ~500–1000 frames, so a degenerate tree (effectively a linked list) of 10,000 nodes causes a stack overflow. Iterative implementations with an explicit stack eliminate this risk. BST operations break when the tree is unbalanced: a sorted-input insertion order degenerates to O(n) search, which is why production BST usage always involves self-balancing variants (AVL, red-black). Diameter and path-sum algorithms that call height as a sub-function break at O(n²) for unbalanced trees — the single-pass combination trick is required.</p>
+</div>
+<hr />
+<h2 id="practice">Practice<a class="headerlink" href="#practice" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<h3 id="leetcode-problems">LeetCode Problems<a class="headerlink" href="#leetcode-problems" title="Permanent link">&para;</a></h3>
+<p><strong>Easy (Complete all 8):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/binary-tree-inorder-traversal/">94. Binary Tree Inorder Traversal</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Inorder - recursive/iterative/Morris]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/binary-tree-preorder-traversal/">144. Binary Tree Preorder Traversal</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Preorder]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/binary-tree-postorder-traversal/">145. Binary Tree Postorder Traversal</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Postorder]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/binary-tree-level-order-traversal/">102. Binary Tree Level Order Traversal</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Level-order BFS]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/maximum-depth-of-binary-tree/">104. Maximum Depth of Binary Tree</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Height calculation]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/balanced-binary-tree/">110. Balanced Binary Tree</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Balance check]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/minimum-depth-of-binary-tree/">111. Minimum Depth of Binary Tree</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Min depth]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/path-sum/">112. Path Sum</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Path recursion]</span></li>
+<li>Your solution time: <span class="fill-in">___</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Medium (Complete 5-6):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/">103. Binary Tree Zigzag Level Order Traversal</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Level-order with direction alternation]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/binary-tree-right-side-view/">199. Binary Tree Right Side View</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Level-order, track rightmost]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/binary-tree-level-order-traversal-ii/">107. Binary Tree Level Order Traversal II</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Level-order bottom-up]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/kth-smallest-element-in-a-bst/">230. Kth Smallest Element in a BST</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Inorder with counter]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/diameter-of-binary-tree/">543. Diameter of Binary Tree</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Diameter calculation]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/">236. Lowest Common Ancestor of a Binary Tree</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[LCA]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/">105. Construct Binary Tree from Preorder and Inorder Traversal</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Tree construction]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/path-sum-ii/">113. Path Sum II</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Backtracking paths]</span></li>
+<li>Difficulty: <span class="fill-in">[Rate 1-10]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Hard (Optional):</strong></p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/binary-tree-maximum-path-sum/">124. Binary Tree Maximum Path Sum</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Global max tracking]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/serialize-and-deserialize-binary-tree/">297. Serialize and Deserialize Binary Tree</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Preorder or level-order / construction/serialization]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <a href="https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree/">987. Vertical Order Traversal of a Binary Tree</a></p>
+<ul>
+<li>Pattern: <span class="fill-in">[Custom traversal with coordinates]</span></li>
+<li>Key insight: <span class="fill-in">[Fill in after solving]</span></li>
+</ul>
+</li>
+</ul>
+<p><strong>Failure modes:</strong></p>
+<ul>
+<li>What happens if your recursive tree function does not handle null children before recursing — which specific runtime error occurs, and on which operation on a null <code>TreeNode</code>? <span class="fill-in">[Fill in]</span></li>
+<li>How does your diameter or path-sum implementation behave on a single-node tree (no children) — does it return 0, 1, or the node's value, and is that the correct answer for each problem? <span class="fill-in">[Fill in]</span></li>
+</ul>
+</div>
+<hr />
+<h2 id="test-your-understanding">Test Your Understanding<a class="headerlink" href="#test-your-understanding" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>The iterative inorder traversal uses the condition <code>while (curr != null || !stack.isEmpty())</code>. Explain precisely what each part of this condition guards against. Then show what happens if you use only <code>while (!stack.isEmpty())</code> by tracing the execution on a two-node tree (root with only a left child).</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) <code>curr != null</code> keeps the loop running while there are still unvisited nodes reachable via <code>curr</code> — at the start, the stack is empty but <code>curr = root</code> is non-null, so this part handles the initial descent; (2) <code>!stack.isEmpty()</code> keeps the loop running after <code>curr</code> becomes null but there are still nodes on the stack waiting to be visited and their right subtrees explored; (3) tracing a root-with-left-child-only tree: with only <code>!stack.isEmpty()</code>, the first iteration pushes <code>root</code> and goes left to <code>leftChild</code>, pushes it, goes left to null — now <code>curr = null</code> and stack = <code>[root, leftChild]</code>; then pops <code>leftChild</code>, visits it, sets <code>curr = leftChild.right = null</code> — loop condition <code>!stack.isEmpty()</code> is still true, pops <code>root</code>, visits it, sets <code>curr = root.right = null</code> — loop ends correctly here by coincidence; but if root also had no right child and the stack were empty at some intermediate point while curr was still non-null, the loop would terminate prematurely.</p>
+</details>
+</li>
+<li>
+<p>Morris traversal achieves O(1) space by temporarily modifying the tree. Describe the thread it creates, when it removes it, and why failing to remove the thread causes an infinite loop. Then explain why Morris traversal is rarely used in production despite its space advantage.</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) Morris traversal finds the inorder predecessor of <code>curr</code> (the rightmost node in <code>curr</code>'s left subtree) and sets that node's <code>right</code> pointer to <code>curr</code> — this is the "thread"; (2) the thread is removed when Morris traversal encounters it a second time (detected by <code>predecessor.right == curr</code>) — it restores <code>predecessor.right = null</code> before visiting <code>curr</code>; (3) without removal, the traversal would revisit <code>curr</code> again after following the thread back, and the predecessor's right would still point to <code>curr</code>, creating an infinite loop; (4) production code avoids Morris traversal because it temporarily corrupts the tree structure — if an exception or concurrent read occurs mid-traversal, the tree is left with dangling pointers.</p>
+</details>
+</li>
+<li>
+<p>The level-order implementation must capture <code>int levelSize = queue.size()</code> <strong>before</strong> the inner loop. Explain what goes wrong if you instead write <code>while (!queue.isEmpty())</code> as the inner loop condition. Trace the execution on a three-level tree to demonstrate.</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) if the inner loop condition is <code>while (!queue.isEmpty())</code>, the loop keeps running as long as there are any nodes in the queue — including nodes that were added by children enqueued during this same level's processing; (2) tracing a three-level tree (root, two children, four grandchildren): after processing root and enqueuing its two children, the inner loop does not stop — it immediately processes both children and enqueues all four grandchildren, all within the same "level"; (3) the result is a single-element list <code>[[root, leftChild, rightChild, ...all grandchildren]]</code> instead of three separate level lists; (4) <code>levelSize = queue.size()</code> freezes the count of nodes at the current level before any children are added, allowing the inner loop to process exactly that many nodes.</p>
+</details>
+</li>
+<li>
+<p>The brute-force diameter algorithm is O(n²) because it calls <code>height()</code> at every node. Prove this claim: write out the recurrence for the number of nodes visited and show it is quadratic for a balanced binary tree. Then explain exactly why threading <code>maxDiameter</code> through <code>calculateHeight</code> reduces this to O(n).</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) in a balanced tree, <code>diameter(node)</code> calls <code>height(node.left)</code> and <code>height(node.right)</code>, each of which visits O(n/2) nodes, then recurses into the left and right children — the recurrence is T(n) = 2T(n/2) + O(n), which by Master theorem gives O(n log n), or O(n²) for a skewed tree; (2) the single-pass fix computes both the height to return AND updates <code>maxDiameter</code> as a side effect inside the same postorder traversal — <code>maxDiameter = Math.max(maxDiameter, leftHeight + rightHeight)</code> at each node; (3) since height is computed once per node and the diameter update is O(1) per node, the total work is O(n) — the height of every subtree is available as the return value of the recursive call without re-traversal.</p>
+</details>
+</li>
+<li>
+<p>The LCA base case is <code>if (root == null || root == p || root == q) return root</code>. Consider the scenario where p is an ancestor of q. Trace through the LCA algorithm to show that it still returns the correct answer (p) without needing to continue searching inside p's subtree.</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) when the recursion reaches node <code>p</code>, the base case <code>root == p</code> fires and returns <code>p</code> immediately — the algorithm does NOT recurse into <code>p</code>'s subtrees; (2) this is correct because <code>q</code> is somewhere inside <code>p</code>'s subtree — since we found <code>p</code> first, <code>p</code> is by definition the lowest ancestor that contains both <code>p</code> and <code>q</code>; (3) at the level above <code>p</code>, one recursive call returns <code>p</code> (non-null) and the other returns either <code>null</code> (if <code>q</code> is in <code>p</code>'s subtree, which was not explored) or a non-null node; since only one side returns non-null, the LCA function returns <code>p</code> — the correct answer without needing to verify that <code>q</code> is actually below <code>p</code>.</p>
+</details>
+</li>
+<li>
+<p>The <code>minDepth</code> function must handle single-child nodes as a special case. Explain precisely why <code>1 + Math.min(leftDepth, rightDepth)</code> gives the wrong answer when a node has only one child, and write the corrected version. Then explain why the same special case does not affect <code>maxDepth</code> (height).</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) when a node has only a left child (right is null), <code>minDepth(right) = 0</code> — <code>Math.min(leftDepth, 0)</code> always returns 0, so the formula gives <code>1 + 0 = 1</code> regardless of left subtree depth; this is wrong because minDepth must follow the only existing path, not a non-existent null path; (2) the corrected version: if <code>left == null</code> return <code>1 + minDepth(right)</code>; if <code>right == null</code> return <code>1 + minDepth(left)</code>; otherwise return <code>1 + Math.min(minDepth(left), minDepth(right))</code>; (3) <code>maxDepth</code> is unaffected because <code>Math.max(leftDepth, 0) = leftDepth</code> when right is null — taking the maximum naturally ignores the null side and follows the real path, so no special case is needed.</p>
+</details>
+</li>
+</ol>
+<hr />
+<h2 id="review-checklist">Review Checklist<a class="headerlink" href="#review-checklist" title="Permanent link">&para;</a></h2>
+<div class="learner-section">
+<p>Complete this checklist after implementing and studying both traversal and recursive tree patterns.</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Can implement inorder traversal recursively, iteratively, and with Morris O(1) space</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Can implement level-order traversal and explain why levelSize must be captured before the inner loop</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Can calculate tree height, diameter, and check balance in O(n) using a single-pass helper</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Can implement LCA for both general binary trees and BSTs</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Can trace the recursive call stack for a path-sum problem on a 4-level tree</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Can choose between recursive and iterative implementations based on tree depth and stack-overflow risk</li>
+</ul>
+</div>
+<hr />
+<h2 id="connected-topics">Connected Topics<a class="headerlink" href="#connected-topics" title="Permanent link">&para;</a></h2>
+<div class="bs-callout bs-callout-info">
+<p><strong>Where this topic connects</strong></p>
+<ul>
+<li><strong>08. Heaps</strong> — a binary heap is a complete binary tree stored as an array; tree height reasoning applies directly to heap operations → <a href="../08-heaps/">08. Heaps</a></li>
+<li><strong>10. Graphs</strong> — trees are acyclic connected graphs; tree traversals (DFS/BFS) generalise directly to graph traversals → <a href="../10-graphs/">10. Graphs</a></li>
+<li><strong>13. Dynamic Programming</strong> — many tree DP problems (diameter, path sum, LCA) use post-order traversal to propagate subproblem results up the tree → <a href="../13-dynamic-programming/">13. Dynamic Programming</a></li>
+</ul>
+</div></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = "../.."</script>
+    
+    <script src="../../js/base.js"></script>
+    <script src="../../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

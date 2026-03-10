@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="A framework for algorithms, systems design, and infrastructure." name="description"/>
+<meta content="Richard" name="author"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>19. Microservices Patterns - Software Engineering Study Guide</title>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" rel="stylesheet"/>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css" rel="stylesheet"/>
+<link href="//rsms.me/inter/inter.css" rel="stylesheet" type="text/css"/>
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&amp;subset=latin-ext,latin" rel="stylesheet" type="text/css"/>
+<link href="../../css/bootstrap-custom.min.css" rel="stylesheet"/>
+<link href="../../css/base.min.css" rel="stylesheet"/>
+<link href="../../css/cinder.min.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css" rel="stylesheet"/>
+<link href="../../css/custom.css" rel="stylesheet"/>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="container">
+<!-- Collapsed navigation -->
+<div class="navbar-header">
+<!-- Expander button -->
+<button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<!-- Main title -->
+<a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+</div>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li>
+<a href="../..">Home</a>
+</li>
+<li class="dropdown active">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Systems Design <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../01-storage-engines/">01. Storage Engines</a>
+</li>
+<li>
+<a href="../02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+<li>
+<a href="../03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+<li>
+<a href="../04-search-and-indexing/">04. Search &amp; Indexing</a>
+</li>
+<li>
+<a href="../05-caching-patterns/">05. Caching Patterns</a>
+</li>
+<li>
+<a href="../06-api-design/">06. API Design</a>
+</li>
+<li>
+<a href="../07-security-patterns/">07. Security Patterns</a>
+</li>
+<li>
+<a href="../08-rate-limiting/">08. Rate Limiting</a>
+</li>
+<li>
+<a href="../09-load-balancing/">09. Load Balancing</a>
+</li>
+<li>
+<a href="../10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+<li>
+<a href="../11-database-scaling/">11. Database Scaling</a>
+</li>
+<li>
+<a href="../12-message-queues/">12. Message Queues</a>
+</li>
+<li>
+<a href="../13-event-sourcing-cqrs/">13. Event Sourcing &amp; CQRS</a>
+</li>
+<li>
+<a href="../14-stream-processing/">14. Stream Processing</a>
+</li>
+<li>
+<a href="../15-observability/">15. Observability</a>
+</li>
+<li>
+<a href="../16-resilience-patterns/">16. Resilience Patterns</a>
+</li>
+<li>
+<a href="../17-distributed-transactions/">17. Distributed Transactions</a>
+</li>
+<li>
+<a href="../18-consensus-patterns/">18. Consensus Patterns</a>
+</li>
+<li class="active">
+<a href="./">19. Microservices Patterns</a>
+</li>
+<li>
+<a href="../20-multi-region/">20. Multi-Region Architecture</a>
+</li>
+</ul>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">DSA <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../dsa/01-two-pointers/">01. Two Pointers</a>
+</li>
+<li>
+<a href="../../dsa/02-sliding-window/">02. Sliding Window</a>
+</li>
+<li>
+<a href="../../dsa/03-hash-tables/">03. Hash Tables</a>
+</li>
+<li>
+<a href="../../dsa/04-linked-lists/">04. Linked Lists</a>
+</li>
+<li>
+<a href="../../dsa/05-stacks--queues/">05. Stacks &amp; Queues</a>
+</li>
+<li>
+<a href="../../dsa/06-trees/">06. Trees</a>
+</li>
+<li>
+<a href="../../dsa/07-binary-search/">07. Binary Search</a>
+</li>
+<li>
+<a href="../../dsa/08-heaps/">08. Heaps</a>
+</li>
+<li>
+<a href="../../dsa/09-union-find/">09. Union-Find</a>
+</li>
+<li>
+<a href="../../dsa/10-graphs/">10. Graphs</a>
+</li>
+<li>
+<a href="../../dsa/11-advanced-graphs/">11. Advanced Graphs</a>
+</li>
+<li>
+<a href="../../dsa/12-backtracking/">12. Backtracking</a>
+</li>
+<li>
+<a href="../../dsa/13-dynamic-programming/">13. Dynamic Programming</a>
+</li>
+<li>
+<a href="../../dsa/14-prefix-sums/">14. Prefix Sums</a>
+</li>
+<li>
+<a href="../../dsa/15-intervals/">15. Intervals</a>
+</li>
+</ul>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Quick Reference <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../reference/when-it-breaks/">When It Breaks</a>
+</li>
+<li>
+<a href="../../reference/back-of-envelope/">Back of the Envelope</a>
+</li>
+<li>
+<a href="../../reference/symptom-pattern/">Symptom → Pattern</a>
+</li>
+<li>
+<a href="../../reference/staff-interview-strategy/">Staff+ Interview Strategy</a>
+</li>
+<li>
+<a href="../../reference/no-new-problems/">No New Problems in CS</a>
+</li>
+<li>
+<a href="../../reference/how-the-machine-works/">How the Machine Actually Works</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+<a data-target="#mkdocs_search_modal" data-toggle="modal" href="#">
+<i class="fas fa-search"></i> Search
+                        </a>
+</li>
+<li>
+<a href="../18-consensus-patterns/" rel="prev">
+<i class="fas fa-arrow-left"></i> Previous
+                        </a>
+</li>
+<li>
+<a href="../20-multi-region/" rel="next">
+                            Next <i class="fas fa-arrow-right"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+<ul class="nav bs-sidenav">
+<li class="first-level active"><a href="#microservices-patterns">Microservices Patterns</a></li>
+<li class="second-level"><a href="#learning-objectives">Learning Objectives</a></li>
+<li class="second-level"><a href="#eli5-explain-like-im-5">ELI5: Explain Like I'm 5</a></li>
+<li class="second-level"><a href="#pattern-1-api-gateway">Pattern 1: API Gateway</a></li>
+<li class="second-level"><a href="#pattern-2-service-discovery">Pattern 2: Service Discovery</a></li>
+<li class="second-level"><a href="#pattern-3-sidecar-service-mesh">Pattern 3: Sidecar / Service Mesh</a></li>
+<li class="second-level"><a href="#pattern-4-sync-vs-async-communication">Pattern 4: Sync vs Async Communication</a></li>
+<li class="second-level"><a href="#pattern-5-decomposition-strategies">Pattern 5: Decomposition Strategies</a></li>
+<li class="second-level"><a href="#implementation">Implementation</a></li>
+<li class="second-level"><a href="#common-misconceptions">Common Misconceptions</a></li>
+<li class="second-level"><a href="#decision-framework-choosing-a-service-communication-pattern">Decision Framework: Choosing a Service Communication Pattern</a></li>
+<li class="second-level"><a href="#practice-scenarios">Practice Scenarios</a></li>
+<li class="second-level"><a href="#test-your-understanding">Test Your Understanding</a></li>
+<li class="second-level"><a href="#review-checklist">Review Checklist</a></li>
+<li class="second-level"><a href="#connected-topics">Connected Topics</a></li>
+</ul>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="microservices-patterns">Microservices Patterns<a class="headerlink" href="#microservices-patterns" title="Permanent link">¶</a></h1>
+<blockquote>
+<p>Decomposing monoliths into independently deployable services — and managing the complexity that follows</p>
+</blockquote>
+<hr/>
+<h2 id="learning-objectives">Learning Objectives<a class="headerlink" href="#learning-objectives" title="Permanent link">¶</a></h2>
+<p>By the end of this topic you will be able to:</p>
+<ul>
+<li>Explain what an API Gateway does, including request routing, auth offloading, rate limiting at the edge, and response aggregation, and describe the BFF variant</li>
+<li>Distinguish client-side from server-side service discovery and explain how stale registry entries cause failures</li>
+<li>Describe the sidecar / service mesh architecture, the roles of control plane and data plane, and when the overhead is justified</li>
+<li>Choose between synchronous (REST/gRPC) and asynchronous (events/queues) communication and articulate the dual-write problem</li>
+<li>Apply business capability and bounded-context decomposition strategies and describe the strangler fig pattern for incremental migration</li>
+<li>Make the monolith-vs-microservices decision using team size, deployment independence, and data isolation as driving factors</li>
+</ul>
+<hr/>
+<div class="admonition note">
+<p class="admonition-title">Operational reality</p>
+<p>Conway's Law cuts both ways: teams tend to build services that mirror their org chart rather than their domain. The operational cost — distributed tracing, independent deployments, N×M service communication matrices, service mesh configuration — frequently exceeds the benefit for organisations under ~100 engineers. "Microservices regret" is documented enough to have spawned the modular monolith movement and the selective-extraction pattern.</p>
+<p>The staff-level answer is knowing <em>when not to decompose</em>, not just how. Interviewers at this level expect tradeoff reasoning, not pattern advocacy.</p>
+</div>
+<h2 id="eli5-explain-like-im-5">ELI5: Explain Like I'm 5<a class="headerlink" href="#eli5-explain-like-im-5" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> After working through the patterns, explain the core ideas in plain language.</p>
+<p><strong>Prompts to guide you:</strong></p>
+<ol>
+<li>
+<p><strong>What problem do microservices solve?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">Microservices exist because <strong><em>, and a monolith struggles when </em></strong></span></li>
+</ul>
+</li>
+<li>
+<p><strong>Real-world analogy for an API Gateway:</strong></p>
+<ul>
+<li>Example: "An API gateway is like a hotel concierge who..."</li>
+<li>Your analogy: <span class="fill-in">Think about how a hotel front desk routes every guest request to the right department — you never deal directly with housekeeping or room service...</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Why does service discovery exist?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">Without service discovery, a service would need to <strong><em>, which breaks when </em></strong></span></li>
+</ul>
+</li>
+<li>
+<p><strong>What is a sidecar in one sentence?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">A sidecar is a ___ that runs alongside each service so the service itself does not have to ___</span></li>
+</ul>
+</li>
+<li>
+<p><strong>When should you NOT split a monolith?</strong></p>
+<ul>
+<li>Your answer: <span class="fill-in">You should stay with a monolith when ___ because splitting would ___</span></li>
+</ul>
+</li>
+</ol>
+</div>
+<hr/>
+<h2 id="pattern-1-api-gateway">Pattern 1: API Gateway<a class="headerlink" href="#pattern-1-api-gateway" title="Permanent link">¶</a></h2>
+<p>An API gateway is a reverse proxy that sits at the entry point of a microservices system. All external client traffic passes through it before reaching any backend service.</p>
+<h3 id="core-responsibilities">Core responsibilities<a class="headerlink" href="#core-responsibilities" title="Permanent link">¶</a></h3>
+<p><strong>Request routing</strong> — the gateway maps inbound paths and methods to the correct backend service. A call to <code>GET /orders/123</code> is forwarded to the Order Service; <code>POST /payments</code> goes to the Payment Service. Routing rules can include path rewriting, header-based routing, and version management.</p>
+<p><strong>Auth offloading</strong> — rather than every service implementing JWT validation or API key checks, the gateway handles authentication centrally. It verifies the token once and passes a validated identity header downstream. This removes duplicated security code and ensures consistent enforcement.</p>
+<p><strong>Rate limiting at the edge</strong> — applying rate limits in the gateway protects all downstream services simultaneously. A single throttle policy prevents a misbehaving client from overwhelming any service regardless of which endpoint is called.</p>
+<p><strong>Response aggregation</strong> — the gateway can fan out one client request to multiple services and merge the responses into a single payload. A mobile app loading a profile page needs user data, recent orders, and notifications; the gateway calls all three in parallel and returns one response, saving the client three round trips.</p>
+<h3 id="backend-for-frontend-bff">Backend for Frontend (BFF)<a class="headerlink" href="#backend-for-frontend-bff" title="Permanent link">¶</a></h3>
+<p>The BFF variant creates a separate gateway instance per client type — one for the web app, one for mobile, one for third-party API consumers. Each BFF is tailored to the data shape and latency requirements of its specific consumer. A mobile BFF can return smaller payloads and do additional caching; a web BFF can handle richer aggregation.</p>
+<p><strong>Trade-offs to know at the interview level:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Concern</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Single point of failure</td>
+<td>Every request passes through the gateway; if it goes down, all external traffic stops. Mitigate with redundant instances and circuit breakers.</td>
+</tr>
+<tr>
+<td>Bottleneck</td>
+<td>At very high traffic, the gateway becomes a throughput ceiling. Horizontal scaling helps, but every hop adds latency (~1–2 ms typical).</td>
+</tr>
+<tr>
+<td>Coupling</td>
+<td>Business logic that creeps into the gateway (conditional routing based on order status, for example) creates a deployment coupling between the gateway and domain services. Keep the gateway dumb.</td>
+</tr>
+<tr>
+<td>Observability anchor</td>
+<td>The gateway is the natural place to inject trace IDs, log request/response metadata, and emit per-route metrics.</td>
+</tr>
+</tbody>
+</table>
+<div class="mermaid">flowchart TD
+    Client["External Client\n(browser / mobile)"]
+    GW["API Gateway\n(auth, rate-limit, routing)"]
+    US["User Service\n/users/*"]
+    OS["Order Service\n/orders/*"]
+    PS["Payment Service\n/payments/*"]
+    NS["Notification Service\n/notify/*"]
+
+    Client --&gt; GW
+    GW --&gt;|"GET /users/42"| US
+    GW --&gt;|"POST /orders"| OS
+    GW --&gt;|"POST /payments"| PS
+    GW --&gt;|"response aggregation"| NS</div>
+<hr/>
+<h2 id="pattern-2-service-discovery">Pattern 2: Service Discovery<a class="headerlink" href="#pattern-2-service-discovery" title="Permanent link">¶</a></h2>
+<p>In a microservices deployment, service instances start and stop dynamically. Kubernetes pods are replaced; auto-scaling adds instances; blue-green deployments swap pools. No static <code>/etc/hosts</code> entry can keep up. Service discovery solves this by maintaining a live registry of available instances.</p>
+<h3 id="client-side-discovery-eureka-ribbon-pattern">Client-side discovery (Eureka / Ribbon pattern)<a class="headerlink" href="#client-side-discovery-eureka-ribbon-pattern" title="Permanent link">¶</a></h3>
+<p>Each service registers itself with a registry on startup and deregisters on shutdown. A calling service (the client) queries the registry directly to get a list of healthy instances, then applies its own load-balancing logic (round-robin, least-connections) to choose one.</p>
+<p><strong>Pros:</strong> no extra network hop; client controls load-balancing strategy.
+<strong>Cons:</strong> every service must embed registry client code; language diversity becomes painful; registry query adds latency.</p>
+<h3 id="server-side-discovery-load-balancer-queries-registry">Server-side discovery (load balancer queries registry)<a class="headerlink" href="#server-side-discovery-load-balancer-queries-registry" title="Permanent link">¶</a></h3>
+<p>The client sends its request to a load balancer (or the API gateway). The load balancer queries the registry and forwards to a healthy instance. The client knows nothing about the registry.</p>
+<p><strong>Pros:</strong> client code is simple; works across languages; easier to swap discovery mechanisms.
+<strong>Cons:</strong> extra network hop; load balancer must be highly available; potential bottleneck.</p>
+<div class="mermaid">flowchart TD
+    subgraph ClientSide["Client-Side Discovery"]
+        CS_Client["Service A"]
+        Registry1["Service Registry"]
+        CS_Target["Order Service\n10.0.1.5:8080"]
+        CS_Client --&gt;|"lookup('order-service')"| Registry1
+        Registry1 --&gt;|"[10.0.1.5, 10.0.1.6]"| CS_Client
+        CS_Client --&gt;|"direct call (LB in client)"| CS_Target
+    end
+
+    subgraph ServerSide["Server-Side Discovery"]
+        SS_Client["Service A"]
+        LB["Load Balancer"]
+        Registry2["Service Registry"]
+        SS_Target["Order Service\n10.0.1.5:8080"]
+        SS_Client --&gt;|"request"| LB
+        LB --&gt;|"lookup('order-service')"| Registry2
+        Registry2 --&gt; LB
+        LB --&gt;|"forward"| SS_Target
+    end</div>
+<h3 id="health-check-registration">Health check registration<a class="headerlink" href="#health-check-registration" title="Permanent link">¶</a></h3>
+<p>Registries are only useful if they reflect reality. Services register with a health-check endpoint (<code>/health</code> or <code>/actuator/health</code>). The registry polls this endpoint at a configured interval (e.g., every 10 seconds). If the service fails to respond within a threshold, it is marked unhealthy and removed from the pool.</p>
+<h3 id="stale-registry-entries">Stale registry entries<a class="headerlink" href="#stale-registry-entries" title="Permanent link">¶</a></h3>
+<p>A common failure mode: a service instance dies abruptly (OOM kill, power loss) without deregistering. The registry still lists it as healthy until the next health-check poll fails and propagates. During that window (up to tens of seconds), callers get connections routed to a dead instance. The mitigation is aggressive health-check intervals, short TTLs, and caller-side retry logic with exponential backoff.</p>
+<hr/>
+<h2 id="pattern-3-sidecar-service-mesh">Pattern 3: Sidecar / Service Mesh<a class="headerlink" href="#pattern-3-sidecar-service-mesh" title="Permanent link">¶</a></h2>
+<h3 id="the-sidecar-proxy">The sidecar proxy<a class="headerlink" href="#the-sidecar-proxy" title="Permanent link">¶</a></h3>
+<p>A sidecar is a separate process co-deployed with each service instance — typically in the same Kubernetes pod as a second container. The sidecar intercepts all inbound and outbound network traffic for the service. The canonical implementation is Envoy Proxy.</p>
+<p>Because the sidecar handles networking, the service itself is relieved of several cross-cutting concerns:</p>
+<ul>
+<li>Mutual TLS (mTLS) between every pair of services</li>
+<li>Circuit breaking and retries</li>
+<li>Distributed tracing header propagation</li>
+<li>Traffic shaping and canary routing</li>
+</ul>
+<h3 id="control-plane-vs-data-plane">Control plane vs data plane<a class="headerlink" href="#control-plane-vs-data-plane" title="Permanent link">¶</a></h3>
+<p>A service mesh has two distinct planes:</p>
+<p><strong>Data plane</strong> — the collection of all sidecar proxies. Proxies forward actual traffic. They make per-request decisions based on configuration they receive from the control plane.</p>
+<p><strong>Data plane examples:</strong> Envoy (used by Istio), Linkerd proxy, Consul Connect.</p>
+<p><strong>Control plane</strong> — the management layer that configures all proxies consistently. It distributes routing rules, certificate rotation, and policy without touching the services themselves.</p>
+<p><strong>Control plane examples:</strong> Istio's Istiod, Linkerd's control plane, Consul.</p>
+<h3 id="mtls-injection">mTLS injection<a class="headerlink" href="#mtls-injection" title="Permanent link">¶</a></h3>
+<p>Without a mesh, services typically trust the network: if a request arrives on port 8080, it is processed. With mTLS, every service-to-service connection is mutually authenticated using certificates managed by the control plane. A compromised internal service cannot impersonate another service because it lacks a valid certificate. The mesh rotates certificates automatically, typically on a short cycle (hours, not months).</p>
+<h3 id="when-the-overhead-is-worth-it">When the overhead is worth it<a class="headerlink" href="#when-the-overhead-is-worth-it" title="Permanent link">¶</a></h3>
+<p>The sidecar adds latency (typically 0.5–5 ms per hop depending on configuration) and resource consumption (additional CPU and memory per pod). This overhead is justified when:</p>
+<ul>
+<li>The organisation operates many services across multiple teams and needs consistent policy enforcement without relying on each team to implement it correctly</li>
+<li>Regulatory requirements mandate encrypted east-west traffic (mTLS)</li>
+<li>Observability across service boundaries (distributed traces, per-route latency histograms) is a hard requirement</li>
+<li>Traffic management (canary releases, traffic mirroring, fault injection for chaos testing) is actively used</li>
+</ul>
+<p>For a small team operating five to ten services, the operational complexity of running a service mesh typically outweighs the benefits. A simpler approach — shared libraries for retries and tracing, TLS at the load balancer — is often sufficient.</p>
+<hr/>
+<h2 id="pattern-4-sync-vs-async-communication">Pattern 4: Sync vs Async Communication<a class="headerlink" href="#pattern-4-sync-vs-async-communication" title="Permanent link">¶</a></h2>
+<h3 id="synchronous-rest-and-grpc">Synchronous: REST and gRPC<a class="headerlink" href="#synchronous-rest-and-grpc" title="Permanent link">¶</a></h3>
+<p>In synchronous communication the caller blocks until the callee responds. The operation is bounded in time (connection timeout + read timeout) and the result is immediately available to the caller.</p>
+<p><strong>REST over HTTP/JSON</strong> is the default choice for synchronous inter-service calls. It is human-readable, easy to debug, and compatible with any language. The trade-off is verbosity and the overhead of JSON serialisation at high throughput.</p>
+<p><strong>gRPC over HTTP/2 with Protocol Buffers</strong> is preferred when:</p>
+<ul>
+<li>Latency is critical (binary serialisation is 5–10x faster than JSON for the same payload)</li>
+<li>Contracts between services need to be strictly enforced (protobuf schema generates typed clients and servers)</li>
+<li>Bidirectional streaming is required (gRPC supports server-streaming, client-streaming, and bidirectional streaming natively)</li>
+<li>Internal service-to-service calls where human-readability is not a concern</li>
+</ul>
+<p><strong>When sync creates tight coupling:</strong></p>
+<p>A chain of synchronous calls — checkout → payment → inventory → notification — means all four services must be available for checkout to succeed. If inventory is slow, checkout is slow. This is temporal coupling: the availability and latency of one service is directly felt by every upstream caller. Sync call chains also amplify failure: a 1% error rate in each of five services cascades to a ~5% checkout failure rate.</p>
+<h3 id="asynchronous-events-and-queues">Asynchronous: events and queues<a class="headerlink" href="#asynchronous-events-and-queues" title="Permanent link">¶</a></h3>
+<p>In asynchronous communication the caller publishes a message to a broker (Kafka, SQS, RabbitMQ) and returns immediately. The callee consumes the message at its own pace.</p>
+<p><strong>When to use async:</strong></p>
+<ul>
+<li>The calling service does not need an immediate response (order confirmation email, inventory reservation)</li>
+<li>The downstream service can tolerate delay (analytics, audit logging, search index updates)</li>
+<li>You want to decouple the availability of two services so that a downstream outage does not block upstream work</li>
+<li>Processing load needs to be smoothed: a spike of 10,000 orders per second can be queued and processed at 1,000 per second by the consumer</li>
+</ul>
+<p><strong>When async does not fit:</strong></p>
+<ul>
+<li>The caller needs the result synchronously (payment authorisation: the user is waiting for approval)</li>
+<li>Strong consistency is required across services (reserving the last seat on a flight cannot be deferred)</li>
+<li>Debugging complexity is already a concern: async flows are harder to trace and reason about than synchronous chains</li>
+</ul>
+<p>!!! tip "When NOT to go event-driven"
+    When you adopt async communication broadly across services you are building an event-driven architecture (EDA): services react to events rather than calling each other directly. The appeal is loose coupling. The cost arrives later: no service owns the business process end-to-end, so debugging a failed order requires reconstructing a transaction from events scattered across six Kafka topics. At-least-once delivery means every consumer must be idempotent. Fan-out amplifies unexpectedly — one <code>OrderPlaced</code> event triggers inventory, payments, notifications, and analytics consumers, each of which may emit further events. Schema changes to a shared event type require auditing every consumer before deploying.</p>
+<pre class="codehilite"><code>EDA makes sense when producers genuinely cannot or should not know their consumers: public event streams, cross-team boundaries, audit pipelines. For workflows owned by a single team or within a bounded context, a synchronous call or job queue is easier to trace, test, and own — and much easier to debug at 3am.
+</code></pre>
+<h3 id="the-dual-write-problem">The dual-write problem<a class="headerlink" href="#the-dual-write-problem" title="Permanent link">¶</a></h3>
+<p>A common bug in async systems: a service writes to its own database and then publishes an event.</p>
+<pre class="highlight"><code>1. Write order to database  ✓
+2. Publish "OrderCreated" to Kafka  ✗  (broker unavailable)</code></pre>
+<p>The database has the order; the queue does not. Downstream consumers never see the event. This is a dual-write problem — two systems that must stay consistent are updated in two separate operations with no atomicity guarantee.</p>
+<p><strong>Standard solutions:</strong></p>
+<ul>
+<li><strong>Transactional outbox pattern</strong> — write the event to an <code>outbox</code> table in the same database transaction as the domain write. A separate relay process reads the outbox table and publishes to the broker. The database transaction guarantees the outbox row exists if the domain write succeeds.</li>
+<li><strong>Change data capture (CDC)</strong> — stream database write-ahead log changes (via Debezium + Kafka Connect) and treat log entries as events. The log write is already atomic with the domain write.</li>
+</ul>
+<hr/>
+<h2 id="pattern-5-decomposition-strategies">Pattern 5: Decomposition Strategies<a class="headerlink" href="#pattern-5-decomposition-strategies" title="Permanent link">¶</a></h2>
+<h3 id="decompose-by-business-capability">Decompose by business capability<a class="headerlink" href="#decompose-by-business-capability" title="Permanent link">¶</a></h3>
+<p>A business capability is something the organisation does — Order Management, Customer Identity, Payment Processing, Inventory, Notifications. Each capability maps to one service boundary. Service boundaries aligned to capabilities are stable: the business capabilities themselves rarely change, even as implementations evolve.</p>
+<p>This works best when the domain is well-understood up front and team ownership is clear. The risk is that capability boundaries may not align with data access patterns, leading to chatty cross-service calls.</p>
+<h3 id="decompose-by-subdomain-ddd-bounded-contexts">Decompose by subdomain (DDD bounded contexts)<a class="headerlink" href="#decompose-by-subdomain-ddd-bounded-contexts" title="Permanent link">¶</a></h3>
+<p>Domain-Driven Design introduces the concept of a bounded context: a semantic boundary within which a specific domain model is internally consistent. The word "Order" means something different inside the Fulfilment context (a physical shipment) than inside the Billing context (a financial record). Treating them as the same entity creates a model that serves neither context well.</p>
+<p>Bounded-context decomposition acknowledges that different parts of the business have different models for the same real-world thing. Each bounded context becomes a service (or a small cluster of services). Communication across context boundaries uses anti-corruption layers or well-defined events to translate between models.</p>
+<p><strong>Heuristics for service boundaries:</strong></p>
+<ul>
+<li>A service owns its data: no other service queries its database directly</li>
+<li>A service can be deployed independently without coordinating with other teams</li>
+<li>A service is small enough that a single team can own it end-to-end</li>
+<li>A service does not share a mutable database table with any other service</li>
+</ul>
+<h3 id="strangler-fig-pattern">Strangler fig pattern<a class="headerlink" href="#strangler-fig-pattern" title="Permanent link">¶</a></h3>
+<p>The strangler fig (named after a vine that grows around a tree) is the standard approach for migrating a monolith incrementally without a big-bang rewrite.</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Route all traffic through a facade (often the existing API gateway or a new proxy layer) in front of the monolith</li>
+<li>Identify the first capability to extract — choose one with clear boundaries, low coupling, and high deployment friction in the monolith</li>
+<li>Build the new microservice alongside the monolith</li>
+<li>Route the specific traffic for that capability to the new service via the facade</li>
+<li>Remove the corresponding code from the monolith</li>
+<li>Repeat for the next capability</li>
+</ol>
+<p>At any point in this process, the system is functional: the facade routes to the new service for extracted capabilities and falls back to the monolith for everything else. There is no downtime window. The monolith is incrementally "strangled" until it no longer exists — or until the remaining core is small enough that it becomes acceptable to keep.</p>
+<p><strong>Rollback strategy:</strong> because the facade still routes to the monolith code path for un-migrated capabilities, rolling back a specific service means updating one routing rule in the facade. The monolith code is not deleted until confidence is high.</p>
+<hr/>
+<h2 id="implementation">Implementation<a class="headerlink" href="#implementation" title="Permanent link">¶</a></h2>
+<pre class="highlight"><code class="language-java">package com.study.systems.microservices;
+
+import java.util.*;
+import java.util.List;
+import java.util.Optional;
+
+public class ApiGateway {
+
+    private final ServiceRegistry registry;
+    private final List&lt;RoutingRule&gt; routingRules;
+
+    public ApiGateway(ServiceRegistry registry, List&lt;RoutingRule&gt; routingRules) {
+        this.registry = registry;
+        this.routingRules = routingRules;
+    }
+
+    /**
+     * Route an inbound HTTP request to a backend service instance.
+     *
+     * @param request the inbound request from an external client
+     * @return the address of the backend instance to forward to,
+     *         or empty if no matching rule or no healthy instance exists
+     *
+     * TODO: Step 1 — Authenticate / authorise the request.
+     *   Check a JWT or API key before routing. Reject with 401/403 if invalid.
+     *   (In production this would call an auth service or validate locally.)
+     *
+     * TODO: Step 2 — Apply rate limiting.
+     *   Check a per-client counter before forwarding.
+     *   Return 429 Too Many Requests if the client is over quota.
+     *
+     * TODO: Step 3 — Find a matching routing rule.
+     *   Iterate routingRules and find the first rule whose pathPrefix
+     *   is a prefix of request.getPath().
+     *
+     * TODO: Step 4 — Look up healthy instances via the registry.
+     *   Call registry.lookup(matchedRule.getServiceName()).
+     *   If the list is empty, return empty (no healthy instances).
+     *
+     * TODO: Step 5 — Select an instance (load balancing).
+     *   Implement round-robin or random selection over the instance list.
+     *
+     * TODO: Step 6 — Return the selected instance address.
+     *   Return Optional.of(selectedInstance.getAddress()).
+     */
+    public Optional&lt;String&gt; route(HttpRequest request) {
+        // TODO: implement steps above
+        return Optional.empty(); // Replace
+    }
+}
+</code></pre>
+<hr/>
+<hr/>
+<h2 id="common-misconceptions">Common Misconceptions<a class="headerlink" href="#common-misconceptions" title="Permanent link">¶</a></h2>
+<div class="admonition danger">
+<p class="admonition-title">Misconception 1: Business logic belongs in the API gateway</p>
+<p>The gateway should be a dumb router. Auth offloading, rate limiting, and request routing are appropriate gateway concerns because they apply uniformly to all traffic. Business logic — "route this request differently if the order is in state X" — creates coupling between the gateway and domain services. Any domain rule change now requires a gateway deployment. This creep is one of the most common ways a microservices architecture re-centralises complexity and re-creates a deployment bottleneck.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Misconception 2: Microservices are always faster than a monolith</p>
+<p>Microservices trade intra-process function calls for network round trips. A monolith serving a request from a hot in-process cache can complete in microseconds; the same operation across three microservices with serialisation, TLS, and network hops takes 5–50 ms. The benefit of microservices is independent deployability, fault isolation, and team autonomy — not raw throughput. For latency-critical paths, monolithic or co-located components are often faster.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Misconception 3: Kubernetes DNS replaces service discovery</p>
+<p>Kubernetes DNS resolves a Service name to a ClusterIP and provides basic round-robin across pod IPs. It does not provide: health-check-gated instance lists with configurable failure thresholds, fine-grained traffic splitting for canary deployments, cross-cluster or multi-datacenter discovery, or per-instance metadata (zone, version, weight). Consul, Eureka, and service mesh control planes add these capabilities. For simple single-cluster deployments, Kubernetes DNS is sufficient; for anything more complex, a dedicated registry or service mesh is warranted.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Misconception 4: A service mesh is just a smarter load balancer</p>
+<p>A load balancer routes traffic at L4 (TCP) or L7 (HTTP). A service mesh (sidecar proxies + control plane) adds: mutual TLS automatically between every service pair, distributed tracing propagation, per-route circuit breaking and retry policies, fine-grained traffic splitting (canary, A/B, blue-green at the service level), and centralised policy enforcement without code changes in services. The sidecar model means all this is transparent to application code. The cost is operational complexity: every pod carries an extra container; the control plane is another distributed system to operate.</p>
+</div>
+<hr/>
+<h2 id="decision-framework-choosing-a-service-communication-pattern">Decision Framework: Choosing a Service Communication Pattern<a class="headerlink" href="#decision-framework-choosing-a-service-communication-pattern" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p><strong>Your task:</strong> Fill in the matrix based on the material above.</p>
+<h3 id="trade-off-analysis-matrix">Trade-off Analysis Matrix<a class="headerlink" href="#trade-off-analysis-matrix" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Coupling</th>
+<th>Observability built-in</th>
+<th>Failure isolation</th>
+<th>Operational overhead</th>
+<th>Key failure mode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Direct HTTP / gRPC (point-to-point)</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>API gateway</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Service mesh (Istio / Linkerd)</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+<tr>
+<td><strong>Async message bus (Kafka / SQS)</strong></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+<td><span class="fill-in">[Fill in]</span></td>
+</tr>
+</tbody>
+</table>
+<details class="success">
+<summary>Answers</summary>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Coupling</th>
+<th>Observability built-in</th>
+<th>Failure isolation</th>
+<th>Operational overhead</th>
+<th>Key failure mode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Direct HTTP / gRPC (point-to-point)</strong></td>
+<td>Tight — caller knows callee address; service discovery required</td>
+<td>None — manual instrumentation</td>
+<td>None — callee failure propagates directly to caller</td>
+<td>None</td>
+<td>No circuit breaking or retry by default; cascading failure when a shared dependency degrades</td>
+</tr>
+<tr>
+<td><strong>API gateway</strong></td>
+<td>Loose (external clients) / tight (internal routing)</td>
+<td>Partial — request/response logging at the edge</td>
+<td>Edge only — gateway absorbs external failures; internal failures still propagate</td>
+<td>Low–medium — single shared gateway</td>
+<td>Gateway is a shared single point of failure; a misconfigured route or gateway bug affects all services simultaneously</td>
+</tr>
+<tr>
+<td><strong>Service mesh (Istio / Linkerd)</strong></td>
+<td>Loose — mesh handles routing, retries, mTLS transparently</td>
+<td>Full — automatic distributed tracing, per-service-pair metrics</td>
+<td>Yes — mesh provides circuit breaking per service</td>
+<td>High — control plane CPU and memory grow super-linearly above ~50 services</td>
+<td>Control plane instability affects all services; certificate rotation failure breaks all mTLS connections simultaneously</td>
+</tr>
+<tr>
+<td><strong>Async message bus (Kafka / SQS)</strong></td>
+<td>Very loose — producers unaware of consumers</td>
+<td>Partial — requires correlation IDs for message-level tracing</td>
+<td>High — producer continues if consumer is down</td>
+<td>Medium — message broker is a new operational dependency</td>
+<td>At-least-once delivery without idempotent consumers causes duplicate side effects; no backpressure means a fast producer can overwhelm a slow consumer</td>
+</tr>
+</tbody>
+</table>
+</details>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">When it breaks</p>
+<p>Service meshes (Istio, Linkerd) break under large service counts: control plane overhead for managing certificates, routing rules, and telemetry grows super-linearly with service count. Teams with more than ~50 services start seeing control plane latency and memory issues that require dedicated platform engineering. Service discovery breaks when registration/deregistration is too frequent — health check churn from rapidly scaling services can overwhelm the registry. The API gateway breaks when it becomes a shared single point of failure: every team's services route through one gateway, and a misconfigured route or gateway bug takes down everything simultaneously.</p>
+</div>
+<hr/>
+<h2 id="practice-scenarios">Practice Scenarios<a class="headerlink" href="#practice-scenarios" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<h3 id="scenario-1-e-commerce-platform-architecture">Scenario 1: E-Commerce Platform Architecture<a class="headerlink" href="#scenario-1-e-commerce-platform-architecture" title="Permanent link">¶</a></h3>
+<p><strong>Context:</strong> You are the staff engineer responsible for the architecture of a new e-commerce platform. The business capabilities are: product catalogue, customer identity, cart, checkout, payments, inventory, order management, fulfilment, and notifications. The team has 40 engineers split into 6 squads.</p>
+<p><strong>Your design tasks:</strong></p>
+<ol>
+<li>
+<p><strong>Service decomposition:</strong> Which capabilities become services and which might be grouped together initially?</p>
+<ul>
+<li>Your answer: <span class="fill-in">[Identify at least 5 service boundaries and explain each grouping decision]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Communication patterns:</strong> For each of these flows, choose sync or async and justify:</p>
+<ul>
+<li>Customer adds item to cart → cart service updates → inventory service checks availability<ul>
+<li>Pattern: <span class="fill-in">[Sync / Async]</span></li>
+<li>Why: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>Checkout completes → notifications service sends confirmation email<ul>
+<li>Pattern: <span class="fill-in">[Sync / Async]</span></li>
+<li>Why: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+<li>Payment authorisation during checkout<ul>
+<li>Pattern: <span class="fill-in">[Sync / Async]</span></li>
+<li>Why: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>API Gateway design:</strong> What should the gateway handle vs what should live in each service?</p>
+<ul>
+<li>Gateway responsibilities: <span class="fill-in">[Fill in: at least 3 concerns]</span></li>
+<li>Service responsibilities: <span class="fill-in">[Fill in: what should NOT be in the gateway]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Service discovery approach:</strong> Given a Kubernetes deployment, which discovery model do you use?</p>
+<ul>
+<li>Your choice: <span class="fill-in">[Client-side / Server-side / Kubernetes native]</span></li>
+<li>Reasoning: <span class="fill-in">[Fill in]</span></li>
+</ul>
+</li>
+</ol>
+<p><strong>Failure modes:</strong></p>
+<ul>
+<li>What happens when the API Gateway becomes the single point of failure and goes down during peak Black Friday traffic?<ul>
+<li>Your answer: <span class="fill-in">[Describe the blast radius and at least two mitigations]</span></li>
+</ul>
+</li>
+<li>How does your design behave when the inventory service registry entries go stale and checkout routes requests to dead instances for 30 seconds?<ul>
+<li>Your answer: <span class="fill-in">[Describe the user-facing impact and what retry/fallback strategy prevents cascading failure]</span></li>
+</ul>
+</li>
+</ul>
+<h3 id="scenario-2-migrating-payments-from-monolith-to-microservices">Scenario 2: Migrating Payments from Monolith to Microservices<a class="headerlink" href="#scenario-2-migrating-payments-from-monolith-to-microservices" title="Permanent link">¶</a></h3>
+<p><strong>Context:</strong> A large fintech company runs a monolith that handles payments, user accounts, transaction history, fraud detection, and reporting. The payments module is tightly coupled: it reads the user table directly, writes to the same transaction table as reporting, and calls the fraud engine synchronously inline. The business requirement is zero downtime during migration and no data loss.</p>
+<p><strong>Your design tasks:</strong></p>
+<ol>
+<li>
+<p><strong>Strangler fig plan:</strong> Design the step-by-step migration sequence.</p>
+<ul>
+<li>Step 1 — What do you introduce first? <span class="fill-in">[Facade / gateway / proxy layer — describe its role]</span></li>
+<li>Step 2 — Which capability do you extract first and why? <span class="fill-in">[Fill in — which has lowest coupling?]</span></li>
+<li>Step 3 — How do you handle the shared transaction table? <span class="fill-in">[Fill in — separate schema, CDC, or dual write?]</span></li>
+<li>Step 4 — When do you cut over? <span class="fill-in">[Fill in — what confidence signals trigger the switch?]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Data isolation strategy:</strong> The payments service currently reads <code>users.credit_limit</code> directly from the user table.</p>
+<ul>
+<li>How do you break this dependency? <span class="fill-in">[API call to user service / event-sourced local copy / ___]</span></li>
+<li>Trade-off: <span class="fill-in">[Consistency vs availability — what do you lose with each approach?]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Dual-write risk:</strong> During migration, writes must go to both the monolith database and the new payments service database.</p>
+<ul>
+<li>How do you prevent inconsistency? <span class="fill-in">[Describe transactional outbox or CDC approach]</span></li>
+<li>How do you verify the two databases stay in sync? <span class="fill-in">[Fill in — reconciliation job, checksums, ___]</span></li>
+</ul>
+</li>
+<li>
+<p><strong>Rollback trigger:</strong> At what point do you roll back to the monolith, and how?</p>
+<ul>
+<li>Trigger signals: <span class="fill-in">[Error rate threshold / latency SLO breach / ___]</span></li>
+<li>Rollback mechanism: <span class="fill-in">[One routing rule change in the facade — describe the specific operation]</span></li>
+</ul>
+</li>
+</ol>
+<p><strong>Failure modes:</strong></p>
+<ul>
+<li>What happens if the new payments microservice is deployed but the facade routing rule is never updated, so 100% of traffic still hits the monolith?<ul>
+<li>Your answer: <span class="fill-in">[Describe the operational/monitoring gap this creates and how you detect it]</span></li>
+</ul>
+</li>
+<li>How does your design behave when the fraud detection service (called synchronously during payment) starts timing out at 5 seconds per call, blocking the payment flow entirely?<ul>
+<li>Your answer: <span class="fill-in">[Describe the cascading failure path and whether circuit breaking, async fallback, or a timeout budget resolves it]</span></li>
+</ul>
+</li>
+</ul>
+</div>
+<hr/>
+<h2 id="test-your-understanding">Test Your Understanding<a class="headerlink" href="#test-your-understanding" title="Permanent link">¶</a></h2>
+<p>Answer these without referring to your notes.</p>
+<ol>
+<li>
+<p>Your API gateway is processing 50,000 requests per second and is deployed as a single instance. An interviewer asks: "What happens when the gateway goes down?" Describe the failure blast radius and give three concrete mitigations, ranked by implementation complexity.</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) the blast radius is total external unavailability — no client can reach any backend service because every request passes through the gateway; internal service-to-service traffic is unaffected if it bypasses the gateway, (2) mitigation 1 (low complexity): run multiple gateway instances behind a cloud load balancer with health checks so failures trigger automatic instance replacement, (3) mitigation 2 (medium complexity): deploy the gateway across multiple availability zones so a zone failure does not take all instances offline simultaneously, (4) mitigation 3 (high complexity): implement a fallback that lets critical clients (e.g., mobile apps) call a small set of backend services directly if gateway health checks report unhealthy, accepting reduced feature set; this requires clients to know both the gateway address and fallback addresses.</p>
+</details>
+</li>
+<li>
+<p>A service registry shows three healthy instances of the cart service. One instance silently died 20 seconds ago but the health-check poll interval is 30 seconds. During those 20 seconds, approximately what fraction of requests to the cart service will fail, and what two mechanisms in the caller can reduce user-visible errors?</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) with round-robin distribution across three instances and one dead, approximately 1/3 of calls (33%) will be routed to the dead instance and fail during the stale window, (2) mechanism 1: retry with a fresh instance selection — if the caller catches a connection error and retries once (excluding the failed instance), the success rate recovers to nearly 100% at the cost of one extra hop latency, (3) mechanism 2: client-side circuit breaking (Hystrix / Resilience4j pattern) — after N consecutive failures to a specific instance address, the caller stops routing to it locally without waiting for the registry to update, effectively acting as a fast-path for stale entry detection.</p>
+</details>
+</li>
+<li>
+<p>A colleague proposes using synchronous gRPC calls from checkout → payment → inventory → notification in a chain. Explain specifically how temporal coupling manifests in this design and propose an alternative communication topology that eliminates it without sacrificing payment correctness.</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) temporal coupling: checkout blocks until payment responds, which blocks until inventory responds, which blocks until notification responds; if notification has a 2-second P99 latency, every checkout request waits at least 2 seconds regardless of payment/inventory speed, (2) compounding failure: a 1% error rate in each of four services produces approximately 4% end-to-end error rate (1 - 0.99^4 ≈ 3.9%); a 5-second outage in notification causes 5 seconds of checkout failures, (3) correct alternative: keep checkout → payment synchronous (caller needs authorisation result immediately) and decouple payment → inventory and payment → notification via an event ("PaymentAuthorised" on a Kafka topic); inventory and notification consume independently; checkout completes as soon as payment authorises, and inventory/notification proceed asynchronously without blocking the user.</p>
+</details>
+</li>
+<li>
+<p>You implement the transactional outbox pattern to solve the dual-write problem. A junior engineer asks: "Why not just write to the database, then publish to Kafka, and catch exceptions?" Explain precisely why exception catching alone does not solve the problem, and describe how the outbox guarantees consistency.</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) exception catching fails because the failure modes include the process crashing after the database commit but before the Kafka publish — no exception is thrown in-process; the OS kills the JVM, the network drops, or the Kafka broker is unreachable without timing out before the process exits; (2) additionally, Kafka publish success does not guarantee delivery: "fire and forget" producers can lose messages if the ack setting is insufficient; (3) the outbox guarantees consistency because the event row is written in the same database transaction as the domain row — if the transaction commits, both the domain change and the outbox row are durable together; a separate relay process reads undelivered outbox rows and publishes them, retrying until the broker acknowledges; the relay is idempotent-safe by including an event ID that consumers deduplicate.</p>
+</details>
+</li>
+<li>
+<p>An engineering manager proposes migrating the monolith using a strangler fig pattern. A senior engineer objects: "If something goes wrong in the new service, how do we roll back without losing data that was written to the new service's database?" Describe a concrete rollback strategy that answers this objection.</p>
+<details class="success">
+<summary>Rubric</summary>
+<p>A complete answer addresses: (1) the rollback mechanism is a single routing rule change in the facade — redirect the extracted service's path prefix back to the monolith; this can be executed in seconds without code deployment, (2) the data concern is real: writes that landed in the new service's database after cutover but before rollback are not in the monolith's database; the solution is to run the new service in shadow mode first — receiving traffic, writing to its own database, but the facade still returns the monolith's response; divergence is detectable before full cutover, (3) for the rollback window after full cutover: use CDC or a reconciliation job to stream new-service writes back to the monolith database as a safety net during the confidence-building period; only drop the reconciliation job after the service has been stable for a defined period (e.g., one full business cycle); this ensures rollback never loses writes.</p>
+</details>
+</li>
+</ol>
+<hr/>
+<h2 id="review-checklist">Review Checklist<a class="headerlink" href="#review-checklist" title="Permanent link">¶</a></h2>
+<div class="learner-section">
+<p>Complete this checklist after studying all five patterns.</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can explain what an API gateway does and list four core responsibilities</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can describe the BFF pattern and give a concrete example of when a dedicated BFF is justified</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can distinguish client-side from server-side service discovery and explain the stale entry failure mode</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can describe the sidecar architecture and articulate when a service mesh adds more value than cost</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can explain the dual-write problem and describe the transactional outbox pattern as a solution</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can choose between synchronous and asynchronous communication for a given scenario and justify the choice</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can apply the strangler fig pattern to an incremental migration and describe a concrete rollback strategy</li>
+<li class="task-list-item"><label class="task-list-control"><input disabled="" type="checkbox"/><span class="task-list-indicator"></span></label> Can make the monolith-vs-microservices decision using team size, deployment independence, and data isolation</li>
+</ul>
+</div>
+<hr/>
+<h2 id="connected-topics">Connected Topics<a class="headerlink" href="#connected-topics" title="Permanent link">¶</a></h2>
+<div class="bs-callout bs-callout-info">
+<p><strong>Where this topic connects</strong></p>
+<ul>
+<li><strong><a href="../09-load-balancing/">09. Load Balancing</a></strong> — service discovery feeds the load balancer's backend pool; client-side discovery replicates load-balancing logic in each service while server-side discovery centralises it in the load balancer layer → <a href="../09-load-balancing/">09. Load Balancing</a></li>
+<li><strong><a href="../12-message-queues/">12. Message Queues</a></strong> — async inter-service communication uses message queues as the broker; the dual-write problem and transactional outbox pattern are queue-specific concerns covered in depth there → <a href="../12-message-queues/">12. Message Queues</a></li>
+<li><strong><a href="../15-observability/">15. Observability</a></strong> — distributed tracing is essential in microservices to follow a request across service boundaries; the service mesh injects trace IDs automatically, and the observability topic covers how to correlate spans across services → <a href="../15-observability/">15. Observability</a></li>
+</ul>
+</div></div>
+</div>
+<footer class="col-md-12 text-center">
+<hr/>
+<p>
+<small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+</p>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../../js/bootstrap-3.0.3.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>var base_url = "../.."</script>
+<script src="../../js/base.js"></script>
+<script src="../../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<button class="close" data-dismiss="modal" type="button">
+<span aria-hidden="true">×</span>
+<span class="sr-only">Close</span>
+</button>
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+</div>
+<div class="modal-body">
+<p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="text"/>
+</div>
+</form>
+<div id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@11.13.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>

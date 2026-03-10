@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A framework for algorithms, systems design, and infrastructure.">
+    <meta name="author" content="Richard">
+    
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+
+    
+    <title>When It Breaks - Software Engineering Study Guide</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../../css/base.min.css" rel="stylesheet">
+    <link href="../../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css">
+        
+    
+    <link href="../../css/custom.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../..">Home</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Systems Design <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../systems/01-storage-engines/">01. Storage Engines</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/04-search-and-indexing/">04. Search & Indexing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/05-caching-patterns/">05. Caching Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/06-api-design/">06. API Design</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/07-security-patterns/">07. Security Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/08-rate-limiting/">08. Rate Limiting</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/09-load-balancing/">09. Load Balancing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/11-database-scaling/">11. Database Scaling</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/12-message-queues/">12. Message Queues</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/13-event-sourcing-cqrs/">13. Event Sourcing & CQRS</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/14-stream-processing/">14. Stream Processing</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/15-observability/">15. Observability</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/16-resilience-patterns/">16. Resilience Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/17-distributed-transactions/">17. Distributed Transactions</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/18-consensus-patterns/">18. Consensus Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/19-microservices-patterns/">19. Microservices Patterns</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../systems/20-multi-region/">20. Multi-Region Architecture</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">DSA <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../dsa/01-two-pointers/">01. Two Pointers</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/02-sliding-window/">02. Sliding Window</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/03-hash-tables/">03. Hash Tables</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/04-linked-lists/">04. Linked Lists</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/05-stacks--queues/">05. Stacks & Queues</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/06-trees/">06. Trees</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/07-binary-search/">07. Binary Search</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/08-heaps/">08. Heaps</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/09-union-find/">09. Union-Find</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/10-graphs/">10. Graphs</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/11-advanced-graphs/">11. Advanced Graphs</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/12-backtracking/">12. Backtracking</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/13-dynamic-programming/">13. Dynamic Programming</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/14-prefix-sums/">14. Prefix Sums</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../dsa/15-intervals/">15. Intervals</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Quick Reference <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li class="active">
+    <a href="./">When It Breaks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../back-of-envelope/">Back of the Envelope</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../symptom-pattern/">Symptom → Pattern</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../staff-interview-strategy/">Staff+ Interview Strategy</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../no-new-problems/">No New Problems in CS</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../how-the-machine-works/">How the Machine Actually Works</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../../dsa/15-intervals/">
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="next" href="../back-of-envelope/">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#when-it-breaks">When It Breaks</a></li>
+            <li class="second-level"><a href="#systems-design">Systems Design</a></li>
+                
+            <li class="second-level"><a href="#dsa">DSA</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="when-it-breaks">When It Breaks<a class="headerlink" href="#when-it-breaks" title="Permanent link">&para;</a></h1>
+<p class="lead">Pre-interview reference. One-liner thresholds and failure conditions for every topic. Each entry links to the full explanation in the topic page.</p>
+
+<p>This is a review sheet — not a substitute for doing the work. The numbers and conditions here will only stick if you've already worked through the implementations.</p>
+<hr />
+<h2 id="systems-design">Systems Design<a class="headerlink" href="#systems-design" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Topic</th>
+<th>Breaks when...</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../systems/01-storage-engines/">Storage Engines</a></td>
+<td><strong>B+Tree:</strong> page splits cascade at ~10k writes/sec on spinning disk. <strong>LSM:</strong> write rate exceeds compaction throughput — RocksDB slowdown trigger at 20 L0 files, stop at 36.</td>
+</tr>
+<tr>
+<td><a href="../../systems/02-row-vs-column-storage/">Row vs Column Storage</a></td>
+<td><strong>Row:</strong> full table scan reads all columns even for a 3-of-200 column query; cliff around 10M+ rows for aggregation workloads. <strong>Column:</strong> point updates touch every column file — expensive for OLTP.</td>
+</tr>
+<tr>
+<td><a href="../../systems/03-networking-fundamentals/">Networking Fundamentals</a></td>
+<td><strong>TCP:</strong> 0.1% packet loss → 200ms p99 spike (RTO floor). <strong>HTTP/1.1:</strong> 6-connection browser limit. <strong>DNS:</strong> wrong TTL during deploys (too low = query flood; too high = stale failover). <strong>TLS:</strong> ~100ms handshake intercontinentally without session resumption.</td>
+</tr>
+<tr>
+<td><a href="../../systems/04-search-and-indexing/">Search &amp; Indexing</a></td>
+<td><strong>Elasticsearch:</strong> field data cache &gt;50% JVM heap → circuit breaker. Write rate &gt;10k docs/sec saturates the 1s refresh interval. Eventually consistent by design — written docs invisible for up to 1s.</td>
+</tr>
+<tr>
+<td><a href="../../systems/05-caching-patterns/">Caching Patterns</a></td>
+<td><strong>Per-instance:</strong> breaks at 2+ servers (no invalidation propagation). <strong>Redis single node:</strong> ~100k ops/sec. <strong>Thundering herd:</strong> popular TTL expiry under high concurrency overwhelms the database.</td>
+</tr>
+<tr>
+<td><a href="../../systems/06-api-design/">API Design</a></td>
+<td><strong>Offset pagination:</strong> O(n) scan at deep pages (<code>OFFSET 1,000,000</code> scans 1M rows). <strong>GraphQL:</strong> unrestricted depth is a DoS vector — N+1 queries behind one request. <strong>REST versioning:</strong> &gt;2–3 active versions is operationally unsustainable.</td>
+</tr>
+<tr>
+<td><a href="../../systems/07-security-patterns/">Security Patterns</a></td>
+<td><strong>JWT:</strong> no revocation mechanism — logout requires a denylist (which negates statelessness) or short expiry. <strong>RBAC:</strong> unmanageable at ~20–30 roles; role proliferation is the norm, not the exception.</td>
+</tr>
+<tr>
+<td><a href="../../systems/08-rate-limiting/">Rate Limiting</a></td>
+<td><strong>Per-node:</strong> N nodes = N× the intended limit. <strong>Redis-backed:</strong> bottleneck at ~50k req/s. <strong>Fixed window:</strong> double-rate attack at window boundary — 2× limit for a brief window.</td>
+</tr>
+<tr>
+<td><a href="../../systems/09-load-balancing/">Load Balancing</a></td>
+<td><strong>Round robin + stateful services:</strong> node removal drops all its sessions. <strong>L7 TLS termination:</strong> saturates at ~100k connections/sec. <strong>Connection draining:</strong> 30s drain × 50 nodes = 25 minutes for a rolling restart.</td>
+</tr>
+<tr>
+<td><a href="../../systems/10-concurrency-patterns/">Concurrency Patterns</a></td>
+<td><strong><code>synchronized</code> under contention:</strong> throughput declines as threads are added (opposite of expected). <strong>CAS:</strong> silent wrong results under ABA. <strong>Thread pools:</strong> I/O blocking exhausts all threads; new tasks queue indefinitely.</td>
+</tr>
+<tr>
+<td><a href="../../systems/11-database-scaling/">Database Scaling</a></td>
+<td><strong>Read replicas:</strong> replication lag causes stale reads (write then immediately read returns nothing). <strong>Sharding:</strong> cross-shard JOINs require scatter-gather. <strong>Single PostgreSQL primary:</strong> ~10–20k writes/sec ceiling. <strong>Connection pool:</strong> &gt;max_connections (default 100) OOMs the DB server.</td>
+</tr>
+<tr>
+<td><a href="../../systems/12-message-queues/">Message Queues</a></td>
+<td><strong>At-least-once delivery:</strong> breaks idempotency assumptions silently (duplicate payments, emails, decrements). <strong>Multiple consumers:</strong> breaks ordering. <strong>Dead letter queue:</strong> poison pills fill it silently while the system appears healthy.</td>
+</tr>
+<tr>
+<td><a href="../../systems/13-event-sourcing-cqrs/">Event Sourcing &amp; CQRS</a></td>
+<td><strong>Event log size:</strong> 10k events/sec = 864M events/day; cold replay becomes impractical. <strong>Schema evolution:</strong> can't migrate historical events in place. <strong>CQRS:</strong> dual-store synchronisation failures create consistency windows teams underestimate.</td>
+</tr>
+<tr>
+<td><a href="../../systems/14-stream-processing/">Stream Processing</a></td>
+<td><strong>Exactly-once:</strong> 10–20% throughput vs at-least-once. <strong>State &gt; memory:</strong> disk spill reduces throughput ~10×. <strong>Watermarks:</strong> too aggressive drops late events silently; too generous doubles memory requirements.</td>
+</tr>
+<tr>
+<td><a href="../../systems/15-observability/">Observability</a></td>
+<td><strong>High-cardinality labels</strong> (user ID, request ID) explode Prometheus time series — limit labels to &lt;~100 distinct values. <strong>Low sampling rate:</strong> 1% sampling misses a bug affecting 0.5% of requests. <strong>Missing context propagation:</strong> trace appears to terminate mid-chain.</td>
+</tr>
+<tr>
+<td><a href="../../systems/16-resilience-patterns/">Resilience Patterns</a></td>
+<td><strong>Circuit breaker threshold too low:</strong> opens on transient errors, amplifying outages. <strong>Backoff without jitter:</strong> all callers retry simultaneously, spiking load exactly during recovery. <strong>Non-idempotent retry:</strong> retrying a payment or email send is worse than failing once.</td>
+</tr>
+<tr>
+<td><a href="../../systems/17-distributed-transactions/">Distributed Transactions</a></td>
+<td><strong>2PC:</strong> coordinator crash after "prepare" holds all participant locks indefinitely — lock duration bounded only by coordinator recovery time. <strong>Saga compensation:</strong> impossible for some operations (email sent, notification published).</td>
+</tr>
+<tr>
+<td><a href="../../systems/18-consensus-patterns/">Consensus Patterns</a></td>
+<td><strong>Quorum unavailable:</strong> 3-node cluster loses 2 nodes → writes halt entirely (correct but surprising). <strong>Clock skew &gt; election timeout:</strong> cluster enters repeated election cycles. etcd/ZooKeeper documented thundering herd on leader loss requires tuned heartbeat parameters.</td>
+</tr>
+<tr>
+<td><a href="../../systems/19-microservices-patterns/">Microservices Patterns</a></td>
+<td><strong>Service mesh:</strong> control plane degrades super-linearly at ~50+ services. <strong>API gateway as shared SPOF:</strong> one misconfiguration takes down all services. <strong>Service discovery:</strong> high registration churn floods the registry.</td>
+</tr>
+<tr>
+<td><a href="../../systems/20-multi-region/">Multi-Region Architecture</a></td>
+<td><strong>Active-active:</strong> concurrent writes produce conflicts; last-write-wins loses data. <strong>Active-passive:</strong> DNS TTL-based failover = 30–120s outage. <strong>Synchronous cross-region writes:</strong> speed of light between US-East and US-West is ~70ms — incompatible with &lt;100ms write SLOs.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="dsa">DSA<a class="headerlink" href="#dsa" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Topic</th>
+<th>Breaks when...</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../dsa/01-two-pointers/">Two Pointers</a></td>
+<td><strong>Opposite-direction:</strong> requires sorted input; silent wrong results on unsorted arrays. <strong>Duplicates:</strong> pointer advance without skipping all matches produces duplicate result pairs.</td>
+</tr>
+<tr>
+<td><a href="../../dsa/02-sliding-window/">Sliding Window</a></td>
+<td><strong>Non-monotonic shrink condition:</strong> e.g. "max minus min ≤ k" — shrinking can restore validity, making the standard loop wrong. <strong>Non-contiguous problems:</strong> two-sum / k-sum need a hash map, not a window.</td>
+</tr>
+<tr>
+<td><a href="../../dsa/03-hash-tables/">Hash Tables</a></td>
+<td><strong>Adversarial inputs</strong> without hash randomisation collapse O(1) to O(n). <strong>&lt;~10 keys:</strong> array linear scan is often faster (cache locality). <strong>Two Sum:</strong> same-index reuse check (<code>index != i</code>) is easy to omit.</td>
+</tr>
+<tr>
+<td><a href="../../dsa/04-linked-lists/">Linked Lists</a></td>
+<td><strong>Random access:</strong> O(n) — wrong for index-based lookup or binary search. <strong>Cache:</strong> pointer chasing causes cache misses; arrays with O(n) insert are often faster in practice. Floyd's algorithm requires the second phase to find the cycle entry node.</td>
+</tr>
+<tr>
+<td><a href="../../dsa/05-stacks--queues/">Stacks &amp; Queues</a></td>
+<td><strong>Monotonic stack:</strong> storing values instead of indices produces silent wrong answers with duplicates. <strong>Two-stack queue:</strong> peek is O(n), not O(1). <strong>Dual extremes:</strong> tracking both max and minimum simultaneously requires two separate deques.</td>
+</tr>
+<tr>
+<td><a href="../../dsa/06-trees/">Trees</a></td>
+<td><strong>Deep recursion:</strong> stack overflow at ~500–1000 frames (degenerate tree of 10k nodes). <strong>Unbalanced BST:</strong> sorted insertions degrade to O(n); always use AVL/red-black in production. <strong>Diameter without single-pass trick:</strong> O(n²) on unbalanced trees.</td>
+</tr>
+<tr>
+<td><a href="../../dsa/07-binary-search/">Binary Search</a></td>
+<td><strong>Non-monotonic predicate:</strong> algorithm skips the answer or loops. <strong>Float convergence condition:</strong> loops indefinitely due to precision — use fixed iteration count (50–100). <strong>Expensive <code>canAchieve()</code>:</strong> multiplied by O(log range) may be impractical.</td>
+</tr>
+<tr>
+<td><a href="../../dsa/08-heaps/">Heaps</a></td>
+<td><strong>Arbitrary deletion:</strong> O(n) find required. <strong>Lazy deletion:</strong> heap grows unbounded if deletions dominate inserts. <strong>Two-heap median with deletions:</strong> O(n) balance maintenance — use an order-statistics tree instead.</td>
+</tr>
+<tr>
+<td><a href="../../dsa/09-union-find/">Union-Find</a></td>
+<td><strong>Directed graphs:</strong> edge direction ignored, wrong connectivity. <strong>Deletions:</strong> union is one-way; splits are not supported. <strong>Persistent snapshots:</strong> path compression mutates on read, making rollback impossible.</td>
+</tr>
+<tr>
+<td><a href="../../dsa/10-graphs/">Graphs</a></td>
+<td><strong>BFS memory:</strong> frontier grows to O(V) for high-branching graphs — use bidirectional BFS. <strong>DFS ≠ shortest path.</strong> <strong>Adjacency matrix:</strong> 1M nodes = 1TB memory; only appropriate when edges ≈ V².</td>
+</tr>
+<tr>
+<td><a href="../../dsa/11-advanced-graphs/">Advanced Graphs</a></td>
+<td><strong>Dijkstra:</strong> fails with negative edge weights (use Bellman-Ford). <strong>Topological sort:</strong> undefined on graphs with cycles. <strong>Kruskal's MST:</strong> undirected graphs only — directed equivalent requires Edmonds' algorithm.</td>
+</tr>
+<tr>
+<td><a href="../../dsa/12-backtracking/">Backtracking</a></td>
+<td><strong>No pruning:</strong> O(n!) or O(k^n) — a few extra elements turns milliseconds into minutes. <strong>Overlapping subproblems:</strong> same <code>(start, state)</code> in multiple branches = redundant work → memoize → DP.</td>
+</tr>
+<tr>
+<td><a href="../../dsa/13-dynamic-programming/">Dynamic Programming</a></td>
+<td><strong>State space too large:</strong> 3D table over n=1000 needs 10⁹ cells. <strong>No overlapping subproblems:</strong> memoization adds overhead with no benefit. <strong><code>Integer.MAX_VALUE + 1</code>:</strong> overflows silently on addition — use <code>MAX_VALUE / 2</code> as sentinel.</td>
+</tr>
+<tr>
+<td><a href="../../dsa/14-prefix-sums/">Prefix Sums</a></td>
+<td><strong>Array mutation:</strong> prefix array is stale after any update — use a Fenwick tree or segment tree. <strong>Max/min subarray sum:</strong> prefix + HashMap is for counting; use Kadane's for optimisation. <strong>2D formula:</strong> four off-by-one failure points in inclusion-exclusion.</td>
+</tr>
+<tr>
+<td><a href="../../dsa/15-intervals/">Intervals</a></td>
+<td><strong>2D rectangles:</strong> need a sweep line algorithm, not sort-and-scan. <strong>Meeting Rooms II:</strong> greedy heap gives the count, not which events conflict. <strong>Dynamic insert/delete:</strong> static sort breaks — use an interval tree (O(log n) per operation).</td>
+</tr>
+</tbody>
+</table></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = "../.."</script>
+    
+    <script src="../../js/base.js"></script>
+    <script src="../../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

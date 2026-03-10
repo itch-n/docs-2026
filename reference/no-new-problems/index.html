@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="A framework for algorithms, systems design, and infrastructure." name="description"/>
+<meta content="Richard" name="author"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>No New Problems in CS - Software Engineering Study Guide</title>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" rel="stylesheet"/>
+<link href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css" rel="stylesheet"/>
+<link href="//rsms.me/inter/inter.css" rel="stylesheet" type="text/css"/>
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&amp;subset=latin-ext,latin" rel="stylesheet" type="text/css"/>
+<link href="../../css/bootstrap-custom.min.css" rel="stylesheet"/>
+<link href="../../css/base.min.css" rel="stylesheet"/>
+<link href="../../css/cinder.min.css" rel="stylesheet"/>
+<link href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css" rel="stylesheet"/>
+<link href="../../css/custom.css" rel="stylesheet"/>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="container">
+<!-- Collapsed navigation -->
+<div class="navbar-header">
+<!-- Expander button -->
+<button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<!-- Main title -->
+<a class="navbar-brand" href="../..">Software Engineering Study Guide</a>
+</div>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li>
+<a href="../..">Home</a>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Systems Design <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../systems/01-storage-engines/">01. Storage Engines</a>
+</li>
+<li>
+<a href="../../systems/02-row-vs-column-storage/">02. Row vs Column Storage</a>
+</li>
+<li>
+<a href="../../systems/03-networking-fundamentals/">03. Networking Fundamentals</a>
+</li>
+<li>
+<a href="../../systems/04-search-and-indexing/">04. Search &amp; Indexing</a>
+</li>
+<li>
+<a href="../../systems/05-caching-patterns/">05. Caching Patterns</a>
+</li>
+<li>
+<a href="../../systems/06-api-design/">06. API Design</a>
+</li>
+<li>
+<a href="../../systems/07-security-patterns/">07. Security Patterns</a>
+</li>
+<li>
+<a href="../../systems/08-rate-limiting/">08. Rate Limiting</a>
+</li>
+<li>
+<a href="../../systems/09-load-balancing/">09. Load Balancing</a>
+</li>
+<li>
+<a href="../../systems/10-concurrency-patterns/">10. Concurrency Patterns</a>
+</li>
+<li>
+<a href="../../systems/11-database-scaling/">11. Database Scaling</a>
+</li>
+<li>
+<a href="../../systems/12-message-queues/">12. Message Queues</a>
+</li>
+<li>
+<a href="../../systems/13-event-sourcing-cqrs/">13. Event Sourcing &amp; CQRS</a>
+</li>
+<li>
+<a href="../../systems/14-stream-processing/">14. Stream Processing</a>
+</li>
+<li>
+<a href="../../systems/15-observability/">15. Observability</a>
+</li>
+<li>
+<a href="../../systems/16-resilience-patterns/">16. Resilience Patterns</a>
+</li>
+<li>
+<a href="../../systems/17-distributed-transactions/">17. Distributed Transactions</a>
+</li>
+<li>
+<a href="../../systems/18-consensus-patterns/">18. Consensus Patterns</a>
+</li>
+<li>
+<a href="../../systems/19-microservices-patterns/">19. Microservices Patterns</a>
+</li>
+<li>
+<a href="../../systems/20-multi-region/">20. Multi-Region Architecture</a>
+</li>
+</ul>
+</li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">DSA <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../../dsa/01-two-pointers/">01. Two Pointers</a>
+</li>
+<li>
+<a href="../../dsa/02-sliding-window/">02. Sliding Window</a>
+</li>
+<li>
+<a href="../../dsa/03-hash-tables/">03. Hash Tables</a>
+</li>
+<li>
+<a href="../../dsa/04-linked-lists/">04. Linked Lists</a>
+</li>
+<li>
+<a href="../../dsa/05-stacks--queues/">05. Stacks &amp; Queues</a>
+</li>
+<li>
+<a href="../../dsa/06-trees/">06. Trees</a>
+</li>
+<li>
+<a href="../../dsa/07-binary-search/">07. Binary Search</a>
+</li>
+<li>
+<a href="../../dsa/08-heaps/">08. Heaps</a>
+</li>
+<li>
+<a href="../../dsa/09-union-find/">09. Union-Find</a>
+</li>
+<li>
+<a href="../../dsa/10-graphs/">10. Graphs</a>
+</li>
+<li>
+<a href="../../dsa/11-advanced-graphs/">11. Advanced Graphs</a>
+</li>
+<li>
+<a href="../../dsa/12-backtracking/">12. Backtracking</a>
+</li>
+<li>
+<a href="../../dsa/13-dynamic-programming/">13. Dynamic Programming</a>
+</li>
+<li>
+<a href="../../dsa/14-prefix-sums/">14. Prefix Sums</a>
+</li>
+<li>
+<a href="../../dsa/15-intervals/">15. Intervals</a>
+</li>
+</ul>
+</li>
+<li class="dropdown active">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">Quick Reference <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a href="../when-it-breaks/">When It Breaks</a>
+</li>
+<li>
+<a href="../back-of-envelope/">Back of the Envelope</a>
+</li>
+<li>
+<a href="../symptom-pattern/">Symptom → Pattern</a>
+</li>
+<li>
+<a href="../staff-interview-strategy/">Staff+ Interview Strategy</a>
+</li>
+<li class="active">
+<a href="./">No New Problems in CS</a>
+</li>
+<li>
+<a href="../how-the-machine-works/">How the Machine Actually Works</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+<a data-target="#mkdocs_search_modal" data-toggle="modal" href="#">
+<i class="fas fa-search"></i> Search
+                        </a>
+</li>
+<li>
+<a href="../staff-interview-strategy/" rel="prev">
+<i class="fas fa-arrow-left"></i> Previous
+                        </a>
+</li>
+<li>
+<a href="../how-the-machine-works/" rel="next">
+                            Next <i class="fas fa-arrow-right"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+<ul class="nav bs-sidenav">
+<li class="first-level active"><a href="#no-new-problems-in-cs">No New Problems in CS</a></li>
+<li class="second-level"><a href="#ordering-and-concurrency">Ordering and Concurrency</a></li>
+<li class="second-level"><a href="#storage-and-retrieval">Storage and Retrieval</a></li>
+<li class="second-level"><a href="#distribution-and-replication">Distribution and Replication</a></li>
+<li class="second-level"><a href="#system-design-tradeoffs">System Design Tradeoffs</a></li>
+</ul>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="no-new-problems-in-cs">No New Problems in CS<a class="headerlink" href="#no-new-problems-in-cs" title="Permanent link">¶</a></h1>
+<p class="lead">Problems that keep reappearing at every layer of the stack — from CPU microarchitecture to distributed systems to algorithms. Recognising the pattern lets you reason about an unfamiliar system by analogy.</p>
+<p>Each entry names the core tension, lists where the pattern appears across the stack, and states the invariant that makes it self-similar.</p>
+<hr/>
+<h2 id="ordering-and-concurrency">Ordering and Concurrency<a class="headerlink" href="#ordering-and-concurrency" title="Permanent link">¶</a></h2>
+<h3 id="1-head-of-line-blocking">1. Head-of-line blocking<a class="headerlink" href="#1-head-of-line-blocking" title="Permanent link">¶</a></h3>
+<p>A single ordered channel creates a bottleneck at gaps. Slow or lost entries stall everything behind them, even entries that are independent.</p>
+<ul>
+<li><strong>TCP</strong> — a lost segment stalls delivery of all bytes that arrived after it, across all HTTP/2 streams on that connection</li>
+<li><strong>HTTP/2</strong> — eliminates application-level HOL blocking but inherits TCP's transport-level version</li>
+<li><strong>QUIC / HTTP/3</strong> — fixes transport-level HOL by giving each stream independent packet numbering</li>
+<li><strong>Kafka partitions</strong> — ordering guaranteed within a partition; a stalled consumer blocks that partition only. More partitions = more independent ordered lanes</li>
+<li><strong>CPU reorder buffer</strong> — instructions execute out of order but the ROB commits in-order; a stalled instruction at the head blocks all commit behind it</li>
+<li><strong>Database WAL replay</strong> — log entries applied in sequence; a gap stalls recovery</li>
+</ul>
+<p><strong>The pattern:</strong> a single ordered channel is simple to reason about but creates a bottleneck at gaps. The fix is always the same — push the ordering constraint up a level so gaps in one lane don't block others.</p>
+<hr/>
+<h3 id="2-monotonic-counters-as-ordering-primitives">2. Monotonic counters as ordering primitives<a class="headerlink" href="#2-monotonic-counters-as-ordering-primitives" title="Permanent link">¶</a></h3>
+<p>When you need a total order across distributed or concurrent events, a globally (or locally) increasing number is the simplest primitive that works.</p>
+<ul>
+<li><strong>TCP sequence numbers</strong> — every byte has a position; retransmission and reordering are detected by gaps</li>
+<li><strong>Kafka offsets</strong> — consumers track position in a partition; replay is free</li>
+<li><strong>Raft term numbers</strong> — higher term = more recent leader; stale leaders are rejected</li>
+<li><strong>MVCC transaction IDs</strong> — each transaction gets an ID; snapshot isolation is "visible if committed before your ID"</li>
+<li><strong>ZooKeeper zxid</strong> — every write gets a monotonically increasing transaction ID; clients can assert "I need state at least as fresh as zxid N"</li>
+<li><strong>Lamport timestamps</strong> — logical clocks give partial ordering without synchronized clocks</li>
+<li><strong>Git commit graph</strong> — commits form a DAG; ancestry is the ordering relation</li>
+</ul>
+<p><strong>The pattern:</strong> a counter is cheap to generate and compare. Once you have a total order, you can detect gaps, detect stale state, and replay from any point.</p>
+<hr/>
+<h3 id="3-optimistic-vs-pessimistic-concurrency">3. Optimistic vs pessimistic concurrency<a class="headerlink" href="#3-optimistic-vs-pessimistic-concurrency" title="Permanent link">¶</a></h3>
+<p>Either assume conflict is rare (read freely, detect at commit) or assume conflict is common (lock before reading). The right choice depends on contention and the cost of rollback.</p>
+<ul>
+<li><strong>Database 2PL</strong> — pessimistic: hold locks for the duration of the transaction</li>
+<li><strong>MVCC</strong> — optimistic: readers never block writers; conflict detected at commit by comparing read set against concurrent writes</li>
+<li><strong>Git merge</strong> — optimistic: work independently, resolve conflicts at merge time</li>
+<li><strong>HTTP ETags / conditional PUT</strong> — optimistic: <code>If-Match: &lt;etag&gt;</code> fails if the resource changed since you read it</li>
+<li><strong>CAS (compare-and-swap)</strong> — optimistic at the hardware level: the write only succeeds if the value hasn't changed</li>
+<li><strong>Lock-based version control (Perforce locks)</strong> — pessimistic: check out = exclusive lock</li>
+</ul>
+<p><strong>The pattern:</strong> optimistic wins when conflicts are rare (reads dominate); pessimistic wins when conflicts are common (contention is high). The crossover point is determined by the cost of rollback vs the cost of waiting for a lock.</p>
+<p><strong>Pitfall:</strong> Applying optimistic concurrency to a resource with known high contention (e.g., a global counter for a popular item). The high rate of conflicts will cause constant transaction rollbacks, leading to worse performance and throughput than a simple pessimistic lock.</p>
+<hr/>
+<h3 id="4-two-phase-pattern-prepare-then-commit">4. Two-phase pattern (prepare, then commit)<a class="headerlink" href="#4-two-phase-pattern-prepare-then-commit" title="Permanent link">¶</a></h3>
+<p>Separate "reserve/prepare" from "commit/execute." This gives you a checkpoint to verify preconditions before side effects are permanent, and a rollback point if something goes wrong.</p>
+<ul>
+<li><strong>Two-phase commit (2PC)</strong> — prepare: all participants vote yes/no. Commit: coordinator sends commit only if all voted yes</li>
+<li><strong>Two-phase locking (2PL)</strong> — growing phase: acquire locks. Shrinking phase: release. No new locks after first release</li>
+<li><strong>TCP handshake</strong> — SYN reserves a slot; SYN-ACK confirms; ACK completes. Neither side commits until both have confirmed</li>
+<li><strong>Git staging area</strong> — <code>git add</code> is prepare; <code>git commit</code> is commit. Lets you inspect exactly what will be committed</li>
+<li><strong>Database WAL</strong> — write to log (prepare); apply to data pages (commit). The log is the durable record; the pages are the materialized view</li>
+<li><strong>Optimistic concurrency validation</strong> — read phase (no locks); commit phase (validate + write)</li>
+</ul>
+<div class="mermaid">---
+title: Two-Phase Pattern
+---
+graph TB
+    A["Phase 1 — Prepare\nreserve · validate · vote"]
+    B{"all ready?"}
+    C["Phase 2 — Commit\napply · execute · confirm"]
+    D["Abort\nrollback · release"]
+    A --&gt; B
+    B --&gt;|"yes"| C
+    B --&gt;|"no"| D</div>
+<p><strong>The pattern:</strong> doing work in two phases lets you fail cheap (during prepare) before doing anything irreversible (during commit). The cost is latency — you pay at least two round trips.</p>
+<hr/>
+<h3 id="5-the-coordinator-bottleneck">5. The coordinator bottleneck<a class="headerlink" href="#5-the-coordinator-bottleneck" title="Permanent link">¶</a></h3>
+<p>Centralized coordination is simple to reason about but becomes a throughput bottleneck or single point of failure as the system scales.</p>
+<ul>
+<li><strong>Kafka controller</strong> — one broker coordinates partition leadership. At scale, controller becomes a bottleneck; KRaft (Kafka's Raft) distributes this</li>
+<li><strong>ZooKeeper leader</strong> — all writes go through the leader; reads can be served by any follower but may be stale</li>
+<li><strong>Database primary</strong> — all writes to one node; read replicas lag behind</li>
+<li><strong>Git central repo</strong> — every push/pull goes through origin; DVCS makes every clone a full copy but coordination still converges on one remote</li>
+<li><strong>Raft leader</strong> — all log entries flow through the leader; leader is bottleneck for write throughput</li>
+</ul>
+<p><strong>The fix is always one of:</strong> partition leadership across multiple coordinators (Kafka partition leaders), make coordination leaderless via quorum writes (Dynamo, Cassandra), or eliminate global coordination by scoping it to a smaller domain.</p>
+<hr/>
+<h2 id="storage-and-retrieval">Storage and Retrieval<a class="headerlink" href="#storage-and-retrieval" title="Permanent link">¶</a></h2>
+<h3 id="6-append-only-writes-compaction">6. Append-only writes + compaction<a class="headerlink" href="#6-append-only-writes-compaction" title="Permanent link">¶</a></h3>
+<p>Writing is always an append; the data structure grows monotonically. Reads eventually suffer from scattered versions. Periodic compaction reorganizes data for read efficiency.</p>
+<ul>
+<li><strong>LSM trees</strong> — writes go to memtable → SSTables; compaction merges SSTables and discards obsolete versions</li>
+<li><strong>Kafka log</strong> — messages always appended; log compaction removes superseded keys, keeping only the latest value per key</li>
+<li><strong>Git pack files</strong> — loose objects accumulate; <code>git gc</code> packs them and delta-compresses similar objects</li>
+<li><strong>JVM garbage collection</strong> — objects allocated in eden; GC compacts survivors into old gen, freeing fragmented space</li>
+<li><strong>Copy-on-write filesystems (ZFS, Btrfs)</strong> — writes never overwrite; old blocks become garbage until GC</li>
+</ul>
+<p><strong>The pattern:</strong> append-only makes writes fast and crash-safe (no partial overwrites). Compaction is the mandatory tax — skip it and reads degrade, space grows unbounded.</p>
+<p><strong>Pitfall:</strong> Using an LSM-tree-based system for a workload with a high rate of in-place updates or deletes. This generates excessive "garbage" (obsolete records or tombstones) that leads to high write amplification and wastes CPU/IO on compaction.</p>
+<hr/>
+<h3 id="7-tombstones-soft-delete">7. Tombstones / soft delete<a class="headerlink" href="#7-tombstones-soft-delete" title="Permanent link">¶</a></h3>
+<p>In an append-only system, deletion is itself a write — a marker that records the absence of a key. The tombstone travels through the system until compaction can safely discard both it and the original value.</p>
+<ul>
+<li><strong>LSM tree deletes</strong> — a delete writes a tombstone; compaction sees tombstone + original and drops both</li>
+<li><strong>Kafka log compaction</strong> — a null-value message is a tombstone; compaction removes all earlier messages for that key</li>
+<li><strong>Cassandra</strong> — deletes write a tombstone with a timestamp; GC grace period ensures all replicas receive it before compaction</li>
+<li><strong>DNS negative cache (NXDOMAIN TTL)</strong> — "this name does not exist" is cached, preventing repeated lookups for a missing record</li>
+<li><strong>Git</strong> — deleted files persist in history; you deleted a reference, not the object</li>
+</ul>
+<p><strong>The pattern:</strong> you can't mark something as gone in a system that only appends. The tombstone travels downstream until the system is sure every reader has seen it.</p>
+<p><strong>Pitfall:</strong> Tombstone accumulation causes read amplification and storage bloat if compaction can't keep up — a well-known operational hazard in Cassandra when a key is updated or deleted at high frequency.</p>
+<hr/>
+<h3 id="8-indirection-enables-remapping">8. Indirection enables remapping<a class="headerlink" href="#8-indirection-enables-remapping" title="Permanent link">¶</a></h3>
+<p>Never store the physical location of data directly; store a pointer to it. Moving or reorganizing data becomes updating a pointer, not copying data.</p>
+<ul>
+<li><strong>B-tree heap pointers</strong> — leaf nodes store row IDs (heap pointers), not physical offsets; VACUUM can move rows without updating the index</li>
+<li><strong>Inode table</strong> — a filename → inode mapping; the inode holds block addresses. Hard links are multiple names pointing to one inode</li>
+<li><strong>Virtual memory page table</strong> — virtual address → physical frame; the OS can swap pages, remap, or copy-on-write without the process knowing</li>
+<li><strong>Consistent hashing virtual nodes</strong> — each physical node owns multiple virtual nodes; rebalancing moves virtual nodes, not data</li>
+<li><strong>Git refs</strong> — <code>HEAD</code>, branch names, and tags are text files containing a SHA. Moving a branch is updating a 40-byte file</li>
+</ul>
+<p><strong>The pattern:</strong> one level of indirection is almost free. Two levels (pointer to pointer) is how you get copy-on-write, snapshotting, and live migration.</p>
+<hr/>
+<h3 id="9-spacetime-tradeoff">9. Space–time tradeoff<a class="headerlink" href="#9-spacetime-tradeoff" title="Permanent link">¶</a></h3>
+<p>You can always trade memory for speed (precompute and store) or speed for memory (compute on demand). Every cache, index, and precomputed aggregate is this tradeoff.</p>
+<ul>
+<li><strong>Hash tables</strong> — O(1) lookup by storing keys in a precomputed bucket; O(n) extra space</li>
+<li><strong>Database indexes</strong> — precomputed sort order or hash; reads are faster, writes pay maintenance cost</li>
+<li><strong>Memoization / DP table</strong> — store subproblem results to avoid recomputation; classic space-for-time</li>
+<li><strong>Bloom filters</strong> — O(1) probabilistic membership test with a small fixed bit array; trades accuracy for space</li>
+<li><strong>Precomputed aggregates (materialized views, OLAP cubes)</strong> — compute rollups at write time so reads are instant</li>
+<li><strong>CPU branch predictor</strong> — uses history table to predict branches; misprediction flushes pipeline (time cost) vs larger history table (space cost)</li>
+</ul>
+<p><strong>The pattern:</strong> nothing is free. Every speed improvement you get from storage is paid for at write time or in memory. The tradeoff is worthwhile only if reads dominate writes.</p>
+<hr/>
+<h3 id="10-compression-via-shared-context">10. Compression via shared context<a class="headerlink" href="#10-compression-via-shared-context" title="Permanent link">¶</a></h3>
+<p>If sender and receiver share state, you can transmit diffs instead of full values. The more state they share, the better the compression.</p>
+<ul>
+<li><strong>HPACK (HTTP/2 header compression)</strong> — client and server maintain a shared header table; repeated headers become 1–2 byte indices</li>
+<li><strong>Git delta compression</strong> — pack files store similar objects as base + delta; <code>git clone</code> sends a pack, not individual objects</li>
+<li><strong>Video codecs (P-frames)</strong> — I-frames (keyframes) are full images; P-frames encode only the diff from the previous frame</li>
+<li><strong>Database WAL replication</strong> — replica applies the same log as primary; only the log (not the full page) is transmitted</li>
+<li><strong>SSH compression</strong> — shared session state enables LZ77 compression of the stream</li>
+</ul>
+<p><strong>The pattern:</strong> the compression ratio is bounded by how much shared context exists. The risk is context corruption — if one side loses state, both sides must resync from scratch (HPACK header table reset, keyframe resync in video).</p>
+<hr/>
+<h3 id="11-partitioning-via-hashing">11. Partitioning via hashing<a class="headerlink" href="#11-partitioning-via-hashing" title="Permanent link">¶</a></h3>
+<p>Distribute data across buckets, partitions, or nodes using a hash of the key. The hash function determines evenness of distribution; the number of buckets determines parallelism. The hard problem is what happens when the number of buckets changes.</p>
+<ul>
+<li><strong>Hash map</strong> — the canonical single-node case: key → bucket via hash. Resize doubles capacity and rehashes everything rather than adding one bucket at a time, because <code>key % N</code> remaps almost every key when N changes</li>
+<li><strong>Kafka partition keys</strong> — a key's hash determines which partition it lands on; all messages for a key arrive in order on the same partition</li>
+<li><strong>DynamoDB / Cassandra partition keys</strong> — the partition key is hashed to find which node(s) in the ring own that data</li>
+<li><strong>Consistent hashing</strong> — places both keys and nodes on a ring so that adding/removing a node only remaps keys in the adjacent segment, not the whole dataset</li>
+<li><strong>Sharded SQL databases</strong> — shard key hashed to a database instance; schema migrations and resharding are the painful operational cost</li>
+</ul>
+<p><strong>The pattern:</strong> a hash function maps a key to exactly one owner. The quality of the hash determines distribution evenness — a bad hash creates hot spots. The cost of changing the number of buckets is what motivates consistent hashing: naive modulo remaps <code>(N-1)/N</code> keys on every resize; consistent hashing remaps only <code>K/N</code> keys.</p>
+<p><strong>Pitfall:</strong> choosing naive modulo hashing for a system that needs elastic scaling. Adding one node reshuffles ~all keys, causing a thundering herd of cache misses or data migrations. Consistent hashing or fixed-partition-count schemes (Kafka, Redis Cluster) are the standard mitigations.</p>
+<hr/>
+<h2 id="distribution-and-replication">Distribution and Replication<a class="headerlink" href="#distribution-and-replication" title="Permanent link">¶</a></h2>
+<h3 id="12-write-ahead-before-acknowledging">12. Write-ahead before acknowledging<a class="headerlink" href="#12-write-ahead-before-acknowledging" title="Permanent link">¶</a></h3>
+<p>Don't tell the caller an operation succeeded until you have written proof of it to durable storage. The log entry is the durable record; everything else is a materialized view of the log.</p>
+<ul>
+<li><strong>Database WAL</strong> — the transaction is durable once its log record is fsynced; the data pages can be written lazily</li>
+<li><strong>Kafka <code>acks=all</code></strong> — producer waits for all in-sync replicas to write before considering the message committed</li>
+<li><strong>ZooKeeper</strong> — every write is committed to the transaction log on a quorum of nodes before the client receives an OK</li>
+<li><strong>Redis AOF</strong> — <code>appendfsync always</code> fsyncs on every write; <code>appendfsync everysec</code> risks one second of data</li>
+<li><strong>Git</strong> — <code>git commit</code> writes the commit object to <code>.git/objects</code> before updating the ref; a crashed commit leaves no ref, so no data loss</li>
+</ul>
+<p><strong>The pattern:</strong> the log is the ground truth. Everything downstream (indexes, caches, read replicas) can be rebuilt from it. Losing the log = losing the data.</p>
+<hr/>
+<h3 id="13-fan-out-on-write-vs-fan-out-on-read">13. Fan-out on write vs fan-out on read<a class="headerlink" href="#13-fan-out-on-write-vs-fan-out-on-read" title="Permanent link">¶</a></h3>
+<p>When data must reach many consumers, you can push at write time (compute the fan-out eagerly) or pull at read time (compute it lazily when someone asks).</p>
+<ul>
+<li><strong>Twitter timeline fan-out</strong> — for most users: write to each follower's feed at tweet time (fan-out on write). For celebrities with millions of followers: compute the merged feed at read time (fan-out on read). The crossover point is follower count</li>
+<li><strong>Database normalization vs denormalization</strong> — normalized = fan-out on read (join at query time). Denormalized = fan-out on write (replicate data into each consumer's table)</li>
+<li><strong>Kafka consumer groups</strong> — the broker retains one log; each consumer group reads independently (fan-out on read). No write amplification</li>
+<li><strong>CDN push vs pull</strong> — push: origin pushes content to all edge nodes at publish time. Pull: edge fetches from origin on first miss, then caches</li>
+</ul>
+<div class="mermaid">---
+title: Fan-out on Write vs Fan-out on Read
+---
+graph TB
+    subgraph fow ["Fan-out on Write (eager)"]
+        W1[write] --&gt; FA[copy: user A]
+        W1 --&gt; FB[copy: user B]
+        W1 --&gt; FC[copy: user C]
+    end
+    subgraph ror ["Fan-out on Read (lazy)"]
+        W2[write] --&gt; LOG[one copy]
+        RA[read: user A] --&gt; LOG
+        RB[read: user B] --&gt; LOG
+    end</div>
+<p><strong>The pattern:</strong> fan-out on write is fast to read but expensive to write and hard to keep consistent. Fan-out on read is cheap to write but adds latency to reads. The right choice depends on read/write ratio and how many consumers exist.</p>
+<hr/>
+<h3 id="14-heartbeat-presence-silence-failure">14. Heartbeat = presence; silence = failure<a class="headerlink" href="#14-heartbeat-presence-silence-failure" title="Permanent link">¶</a></h3>
+<p>You cannot distinguish "slow" from "dead" without a timeout. Any resource held by a node (a lock, a partition lease, a session) must be renewed on an interval or it expires.</p>
+<ul>
+<li><strong>ZooKeeper sessions</strong> — ephemeral nodes disappear when the session expires; failure detection is automatic</li>
+<li><strong>Kafka consumer group</strong> — a consumer that stops sending heartbeats is removed from the group; its partitions are rebalanced to others</li>
+<li><strong>TCP keepalive</strong> — sends zero-length probes on idle connections; if no response, the connection is declared dead</li>
+<li><strong>Kubernetes liveness probe</strong> — kubelet kills and restarts a container if the probe fails N consecutive times</li>
+<li><strong>Distributed lock TTL (Redis Redlock)</strong> — the lock expires if the holder doesn't renew it; prevents a crashed holder from blocking forever</li>
+<li><strong>Raft leader lease</strong> — the leader steps down if it doesn't receive heartbeat acks from a quorum within the election timeout</li>
+</ul>
+<p><strong>The pattern:</strong> leases and heartbeats are the only mechanism for failure detection in an asynchronous network. Setting the timeout too short causes false positives (flapping); too long causes slow recovery.</p>
+<hr/>
+<h3 id="15-you-cant-guarantee-both-sides-agree-two-generals">15. You can't guarantee both sides agree (Two Generals)<a class="headerlink" href="#15-you-cant-guarantee-both-sides-agree-two-generals" title="Permanent link">¶</a></h3>
+<p>In the presence of network partitions, it is impossible to guarantee that two parties both know the outcome of an action. Every protocol that claims "exactly once" either relies on assumptions that can be violated, or pushes the uncertainty somewhere else.</p>
+<ul>
+<li><strong>TCP 3-way handshake</strong> — the initiator can never be certain the final ACK arrived; the protocol accepts this and uses timeouts</li>
+<li><strong>Two-phase commit</strong> — if the coordinator crashes after "prepare" but before "commit," participants are blocked indefinitely waiting for a decision</li>
+<li><strong>Raft leader election</strong> — split votes require another round; there is no bound on the number of rounds, only probabilistic convergence</li>
+<li><strong>At-least-once vs exactly-once delivery</strong> — Kafka exactly-once is "at-least-once + idempotent consumer + transactional producer." The guarantee is built on top of a weaker guarantee, not derived from first principles</li>
+</ul>
+<p><strong>The pattern:</strong> acknowledge the impossibility and design around it. Use idempotency to make at-least-once safe. Use consensus (Raft, Paxos) to bound the uncertainty to a known failure model. Never assume the other side received your last message.</p>
+<hr/>
+<h3 id="16-gossip-epidemic-spread">16. Gossip / epidemic spread<a class="headerlink" href="#16-gossip-epidemic-spread" title="Permanent link">¶</a></h3>
+<p>Rather than a central broadcast (which creates a coordinator bottleneck), each node tells a random subset of its neighbors. Information spreads probabilistically but without a central authority.</p>
+<ul>
+<li><strong>Cassandra ring membership</strong> — nodes gossip state to 3 random peers every second; every node eventually knows the full ring topology</li>
+<li><strong>Bitcoin block propagation</strong> — a node that receives a new block announces it to its peers; propagation is O(log N) hops</li>
+<li><strong>Dynamo/Cassandra failure detection</strong> — Phi accrual failure detector uses gossip to estimate node liveness</li>
+<li><strong>Epidemic algorithms</strong> — the math is identical to SIR disease models; convergence time is O(log N) gossip rounds</li>
+</ul>
+<p><strong>The pattern:</strong> gossip trades consistency for availability. Every node's view converges eventually, but at any point two nodes may disagree. This is the right tradeoff for membership and topology state, but not for financial transactions.</p>
+<hr/>
+<h2 id="system-design-tradeoffs">System Design Tradeoffs<a class="headerlink" href="#system-design-tradeoffs" title="Permanent link">¶</a></h2>
+<h3 id="17-back-pressure">17. Back-pressure<a class="headerlink" href="#17-back-pressure" title="Permanent link">¶</a></h3>
+<p>A fast producer will eventually overwhelm a slow consumer. Back-pressure is the mechanism by which a consumer signals "slow down" to its upstream producer.</p>
+<ul>
+<li><strong>TCP sliding window</strong> — receiver advertises how many bytes it can buffer; sender cannot exceed this window</li>
+<li><strong>Kafka consumer lag</strong> — lag is the back-pressure signal; if lag grows, the consumer is too slow and needs more partitions or instances</li>
+<li><strong>Reactive streams (Project Reactor, RxJava)</strong> — <code>request(n)</code> is explicit back-pressure; the subscriber controls the flow rate</li>
+<li><strong>OS pipe buffer</strong> — <code>write()</code> blocks when the pipe buffer is full; the writing process is suspended until the reader drains it</li>
+<li><strong>Rate limiting</strong> — back-pressure expressed as policy: "you may not produce faster than N/s"</li>
+</ul>
+<div class="mermaid">---
+title: Backpressure — the Feedback Loop
+---
+graph LR
+    P[Producer] --&gt;|data| B[Buffer]
+    B --&gt;|data| C[Consumer]
+    C --&gt;|"slow down"| P
+    B --&gt;|"full → drop / block"| X[loss / stall]</div>
+<p><strong>The pattern:</strong> without back-pressure, the system buffers until memory is exhausted, then drops. Back-pressure moves the slow-down signal upstream to the source — the only place it can be acted on.</p>
+<hr/>
+<h3 id="18-the-thundering-herd">18. The thundering herd<a class="headerlink" href="#18-the-thundering-herd" title="Permanent link">¶</a></h3>
+<p>Many actors simultaneously converge on one resource after a shared trigger: a lock expires, a cache entry is evicted, a server restarts. The resulting spike often exceeds the system's capacity.</p>
+<ul>
+<li><strong>Cache stampede</strong> — a popular cache entry expires; hundreds of requests simultaneously miss and all query the database</li>
+<li><strong>All consumers reconnecting after broker restart</strong> — every Kafka consumer reconnects at the same moment; the broker is overwhelmed by simultaneous session setups</li>
+<li><strong>TCP SYN flood on server restart</strong> — clients that were connected all attempt to reconnect simultaneously</li>
+<li><strong>Birthday problem in hash tables</strong> — many keys hash to the same bucket when the hash function has poor distribution</li>
+</ul>
+<p><strong>The fix is always one of:</strong> jitter (add random delay to spread the spike), probabilistic early expiry (one node refreshes before the entry expires), or circuit breakers (refuse new requests until recovery).</p>
+<hr/>
+<h3 id="19-idempotency-as-the-escape-hatch-for-exactly-once">19. Idempotency as the escape hatch for exactly-once<a class="headerlink" href="#19-idempotency-as-the-escape-hatch-for-exactly-once" title="Permanent link">¶</a></h3>
+<p>Exactly-once delivery is either impossible or very expensive. The practical alternative is at-least-once delivery with idempotent operations — you may receive a message twice, but applying it twice has the same effect as applying it once.</p>
+<ul>
+<li><strong>HTTP PUT and DELETE</strong> — idempotent by definition; a duplicate PUT replaces the same resource with the same value</li>
+<li><strong>Kafka idempotent producer</strong> — the broker deduplicates retried produces using a sequence number; at-least-once network semantics, exactly-once effect</li>
+<li><strong>TCP retransmission</strong> — duplicate segments are detected via sequence numbers and discarded</li>
+<li><strong>Stripe/Braintree idempotency keys</strong> — sending the same payment request twice with the same key charges once</li>
+<li><strong>Database upserts</strong> — <code>INSERT ... ON CONFLICT DO UPDATE</code> is idempotent; running it twice leaves the same row</li>
+</ul>
+<p><strong>The pattern:</strong> design every state mutation to be safe to retry. Then at-least-once delivery is sufficient. This is almost always cheaper than building a true exactly-once protocol.</p>
+<hr/>
+<h3 id="24-translation-caching">24. Translation caching<a class="headerlink" href="#24-translation-caching" title="Permanent link">¶</a></h3>
+<p>You work with a logical name — a virtual address, a hostname, an IP. The authoritative mapping to the physical resource lives somewhere slow: a page table in RAM, a DNS resolver across the network, an ARP broadcast on the local segment. Cache recent translations so the fast path never pays the authoritative lookup cost.</p>
+<ul>
+<li><strong>TLB (Translation Lookaside Buffer)</strong> — caches virtual address → physical address translations from the page table; a TLB hit costs ~1 ns; a miss requires a page table walk in RAM at ~100 ns</li>
+<li><strong>DNS resolver cache</strong> — caches hostname → IP; without it every TCP connection requires a recursive DNS query across the network (~10–100 ms)</li>
+<li><strong>ARP cache</strong> — caches IP → MAC address; without it every packet to a new host on the local segment requires an ARP broadcast</li>
+<li><strong>Linux dentry / inode cache</strong> — caches filesystem path → inode; <code>open("a/b/c")</code> requires multiple disk reads per path component without it</li>
+<li><strong>CPU L1/L2/L3 cache</strong> — caches memory address → data; the same pattern applied one layer lower, with RAM as the authoritative source</li>
+</ul>
+<div class="mermaid">---
+title: Translation Cache — Hit vs Miss
+---
+graph TB
+    A[request virtual address]
+    B{"in cache?"}
+    C["return physical address\n~1 ns"]
+    D["look up authoritative source\n~100 ns – 100 ms"]
+    E[store result in cache]
+    F[return physical address]
+    A --&gt; B
+    B --&gt;|hit| C
+    B --&gt;|miss| D
+    D --&gt; E
+    E --&gt; F</div>
+<p><strong>The pattern:</strong> #8 (Indirection enables remapping) explains <em>why</em> the indirection exists — decoupling name from physical resource. This pattern explains <em>how</em> to make it fast — cache recent translations because the authoritative lookup is orders of magnitude slower than a cached hit. The cache is only valid while the mapping is stable; invalidation, not the hit path, is where the complexity lives.</p>
+<p><strong>Pitfall:</strong> Stale translations after a mapping changes. TLB shootdown — invalidating TLB entries across all CPU cores when a page table entry changes — is a measurable source of overhead in multi-core systems with shared memory. DNS TTL set too long delays propagation after an IP address change. ARP cache poisoning exploits the lack of authentication in ARP responses to redirect traffic.</p>
+<hr/>
+<h3 id="20-push-vs-pull">20. Push vs pull<a class="headerlink" href="#20-push-vs-pull" title="Permanent link">¶</a></h3>
+<p>Either the producer pushes data to consumers (low latency, tight coupling), or consumers pull from a durable log (natural back-pressure, replay, decoupling). The tradeoff is latency vs flexibility.</p>
+<ul>
+<li><strong>SSE / WebSockets vs polling</strong> — push gives ~RTT latency; pull lets the consumer control rate</li>
+<li><strong>Kafka consumer model</strong> — pull-based: consumers fetch at their own pace, enabling replay and independent lag management. Traditional message queues (RabbitMQ) are push-based: the broker delivers to consumers</li>
+<li><strong>CDN push vs pull</strong> — push: origin pre-populates edge nodes at publish time (low first-request latency, storage cost). Pull: edge fetches on first miss (zero pre-work, cold start penalty)</li>
+<li><strong>Database replication</strong> — streaming replication pushes WAL from primary to replica (low replication lag). Logical replication can be pull-based</li>
+<li><strong>Email vs webhooks vs polling APIs</strong> — the same spectrum at the API layer</li>
+</ul>
+<p><strong>The pattern:</strong> push optimizes for latency and simplicity. Pull optimizes for resilience (consumer controls rate), replay (re-read from offset 0), and decoupling (consumer and producer don't need to be up simultaneously). This is the consumer-side view of the fan-out on write vs. read pattern (#13).</p>
+<hr/>
+<h3 id="21-the-log-as-the-source-of-truth">21. The log as the source of truth<a class="headerlink" href="#21-the-log-as-the-source-of-truth" title="Permanent link">¶</a></h3>
+<p>State is derived from a sequence of events. Replay the log and you reconstruct state. This makes the log the only thing you need to persist durably — everything else is a cache.</p>
+<ul>
+<li><strong>Database WAL</strong> — the pages on disk are a cache of what the log says the state should be; WAL replay reconstructs them</li>
+<li><strong>Kafka</strong> — the log is the system. Consumer offsets, topic state, and compacted views are all derived from the log</li>
+<li><strong>Event Sourcing</strong> — application state is a fold over an event log; projections are materialized views, not the source of truth</li>
+<li><strong>Git commit history</strong> — the working tree is a materialized view of the commit log; <code>git checkout</code> replays history to a point</li>
+<li><strong>Redis AOF</strong> — the append-only file is the log; the in-memory state is rebuilt on restart by replaying it</li>
+<li><strong>ZooKeeper transaction log</strong> — every state change is a log entry; the in-memory tree is derived from it</li>
+</ul>
+<p><strong>The pattern:</strong> if the log is durable, nothing else needs to be. Every other representation (indexes, caches, read replicas, projections) is a performance optimization that can be rebuilt. The log is the only irreplaceable artifact. This is the architectural principle enabled by append-only writes (#6) and write-ahead before acknowledging (#12).</p>
+<p><strong>Pitfall:</strong> Schema evolution in the event log is painful — you can't migrate historical events in place. Every consumer must handle multiple event versions simultaneously, which compounds over time.</p>
+<hr/>
+<h3 id="22-amortization">22. Amortization<a class="headerlink" href="#22-amortization" title="Permanent link">¶</a></h3>
+<p>A fixed setup cost is too high to pay per operation. Pay it once and spread it across many operations. The efficiency gain is only realized if the amortized operations outnumber the setup.</p>
+<ul>
+<li><strong>TCP connection reuse (HTTP keep-alive)</strong> — the 3-way handshake + TLS handshake cost ~2 RTT; paying it per request kills throughput</li>
+<li><strong>HPACK header compression</strong> — the header table is built once per connection; subsequent requests send diffs</li>
+<li><strong>JIT compilation</strong> — the JVM interprets bytecode until a method is "hot," then pays the compilation cost once for many subsequent calls</li>
+<li><strong>Database connection pooling</strong> — connection setup costs ~5–50ms; a pool of 20 connections serves thousands of requests/second</li>
+<li><strong>B-tree page reads</strong> — reading a 16KB page to find one row is expensive; buffer pool caches pages so subsequent lookups are free</li>
+<li><strong>Kafka producer batching</strong> — accumulate messages for 5ms before sending; the per-batch overhead (headers, network round trip) is amortized over many messages</li>
+</ul>
+<p><strong>The pattern:</strong> amortization is only a win if the reuse rate is high enough. Connection pools that are too large waste connections; pools too small under-amortize. The optimal size is a function of request rate and setup cost.</p>
+<hr/>
+<h3 id="23-tail-latency-and-the-slowest-participant">23. Tail latency and the slowest participant<a class="headerlink" href="#23-tail-latency-and-the-slowest-participant" title="Permanent link">¶</a></h3>
+<p>When a request fans out to N participants, the caller must wait for all N. The response time distribution is dominated by the maximum, not the mean. At large N, tail latency is almost certain to be hit.</p>
+<ul>
+<li><strong>Scatter-gather database queries</strong> — a query that fans out to 100 shards must wait for the slowest shard; p99 of 100 independent p99s is much worse than a single p99</li>
+<li><strong>Microservice fan-out</strong> — a synchronous call chain through 5 services compounds latency; one slow service stalls the entire request</li>
+<li><strong>MapReduce</strong> — the reduce phase cannot start until all map tasks finish; one slow mapper (a "straggler") delays the job</li>
+<li><strong>Kafka consumer group at partition rebalance</strong> — all consumers pause while the group coordinator reassigns partitions</li>
+<li><strong>DNS resolution</strong> — a page load makes 10–20 DNS lookups; one slow resolver delays the whole page</li>
+</ul>
+<p><strong>The fix is always one of:</strong> speculative execution (send the request to two nodes, take the first response), hedged requests (resend after a timeout without cancelling the first), or reducing fan-out (fewer, larger shards).</p>
+<p><strong>The pattern:</strong> the mean latency of N independent requests is bounded; the maximum is not. Design for p99 of N, not mean of N. At N=100, even a 1% tail latency event is near-certain to be hit.</p>
+<p><strong>Pitfall:</strong> Failing to propagate deadlines and cancellation signals downstream in a scatter-gather system. Without it, the system continues to do useless work for requests that have already timed out upstream, wasting resources and potentially causing cascading failures.</p></div>
+</div>
+<footer class="col-md-12 text-center">
+<hr/>
+<p>
+<small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+</p>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../../js/bootstrap-3.0.3.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/java.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/python.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>var base_url = "../.."</script>
+<script src="../../js/base.js"></script>
+<script src="../../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<button class="close" data-dismiss="modal" type="button">
+<span aria-hidden="true">×</span>
+<span class="sr-only">Close</span>
+</button>
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+</div>
+<div class="modal-body">
+<p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="text"/>
+</div>
+</form>
+<div id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@11.13.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>
